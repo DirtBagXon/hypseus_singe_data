@@ -27,7 +27,7 @@ function readConfig()
 	local hsName = ""
 	local hsScore = ""
 	local k = 0
-	local h1 = io.input(MYDIR.."singe/titanae/game.cfg")	
+	local h1 = io.input("singe/titanae/game.cfg")	
 
 	if (dip_Debug) then debugPrint ("Entering readConfig()") end
 
@@ -183,7 +183,7 @@ function writeConfig()
 	local sNewLine = "\n"
 	local s1 = ""
 
-	local h1 = io.output(MYDIR.."singe/titanae/game.cfg")
+	local h1 = io.output("singe/titanae/game.cfg")
 	
 	io.write("dip_Difficulty = " .. dip_Difficulty .. sNewLine)
 	io.write("dip_GameType = " .. dip_GameType .. sNewLine)
@@ -1093,7 +1093,7 @@ function readSave()
 	local l15 = ""
 	local l16 = ""
 	local k = 0
-	local h1 = io.input(MYDIR.."singe/titanae/save.cfg")	
+	local h1 = io.input("singe/titanae/save.cfg")	
 
 	slotsave = nil; slotsave = {}
 	path1=""
@@ -1469,7 +1469,7 @@ function writeSave(thisSlot)
 	local k = 0
 	local sNewLine = "\n"
 	local s1 = ""
-	local h1 = io.output(MYDIR.."singe/titanae/save.cfg")
+	local h1 = io.output("singe/titanae/save.cfg")
 		
 	for k=1,4 do
 						
@@ -1508,7 +1508,7 @@ function loadSave(thisSlot)
 	local i = 0
 	local j = 0
 	local k = 0
-	local h1 = io.input(MYDIR.."singe/titanae/save.cfg")	
+	local h1 = io.input("singe/titanae/save.cfg")	
 
 	for k=1,4 do
 		s1 = io.read("*line")
