@@ -14,6 +14,37 @@ Recode Singe 2 video files for Singe 1
 
 * maddog
 
+
+### Resize overlay
+
+Find the **OVLW** and **OVLH** definitions.
+
+Usually in *main.singe*, comment existing and hardcode Singe 320x240 overlay:
+
+    --[[
+    OVLW = vldpGetWidth()
+    OVLH = vldpGetHeight()
+    ]]--
+
+    OVLW = 320
+    OVLH = 240
+
+### Resize PNG's
+
+    sudo apt-get install imagemagick
+
+Copy original images to subdirectory *'original'*
+
+    mkdir original
+    cp *.png original
+    cd original
+
+Run **convert_png.sh** script within *'original'* subdirectory.
+
+    ./convert_png.sh
+    
+Alter *scale* in script for preference.    
+
 ### Convert .singe files (for reference only)
 
     #!/bin/bash
@@ -40,3 +71,5 @@ Recode Singe 2 video files for Singe 1
     perl -p -i -e 's/MYDIR\.\."\/Fonts/\"singe\/'$GAME'/g' *.singe
     perl -p -i -e 's/MYDIR\.\."\/Sounds/\"singe\/'$GAME'/g' *.singe
     perl -p -i -e 's/MYDIR\.\."\/Overlays/\"singe\/'$GAME'/g' *.singe
+
+
