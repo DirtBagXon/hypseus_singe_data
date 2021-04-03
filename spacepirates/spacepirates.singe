@@ -1,0 +1,5398 @@
+--[[
+
+PROGRAM NAME:	SPACE PIRATES (SINGE EDITION)
+AUTHOR:			RDG2010
+CONVERTED FOR SINGE 2: POIU2020
+This file is part of SPACE PIRATES (SINGE EDITION)
+
+    SPACE PIRATES (SINGE EDITION) is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation.
+
+    SPACE PIRATES (SINGE EDITION) is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+    Read COPYING.TXT for more info.
+
+
+]]--
+
+
+
+
+dofile("singe/spacepirates/globals.singe")
+dofile("singe/spacepirates/setuplevel.singe")
+dofile("singe/spacepirates/hscore.singe")
+dofile("singe/spacepirates/service.singe")
+dofile("singe/spacepirates/toolbox.singe")
+dofile("singe/spacepirates/hitbox-band.singe")
+dofile("singe/spacepirates/hitbox-door1.singe")
+dofile("singe/spacepirates/hitbox-door2b.singe")
+dofile("singe/spacepirates/hitbox-door3.singe")
+dofile("singe/spacepirates/hitbox-fellina.singe")
+dofile("singe/spacepirates/hitbox-fellinapuzzle.singe")
+dofile("singe/spacepirates/hitbox-mountain.singe")
+dofile("singe/spacepirates/hitbox-reaper.singe")
+dofile("singe/spacepirates/hitbox-scrapyard.singe")
+dofile("singe/spacepirates/hitbox-scrapyard2.singe")
+dofile("singe/spacepirates/hitbox-socketpuzzle.singe")
+dofile("singe/spacepirates/hitbox-tallon2.singe")
+dofile("singe/spacepirates/hitbox-practice.singe")
+dofile("singe/spacepirates/hitbox-firepractice.singe")
+dofile("singe/spacepirates/hitbox-ship.singe")
+dofile("singe/spacepirates/shipbattle.singe")
+
+
+function bandHit(thisBand)
+
+	local k = 0
+	local x1 = 0
+	local x2 = 0
+	local yy = 0
+	local arrayMax = 0
+	local bResult = false
+	local bFound = true
+	
+	bResult = false
+	
+	if (thisBand == BAND_BLUE) then
+		
+		arrayMax = 111
+	
+	elseif (thisBand == BAND_YELLOW) then
+		
+		arrayMax = 128
+	
+	else
+		
+		bFound = false		
+	
+	end
+	
+	if bFound then
+		
+	
+		for k=1, arrayMax do
+			
+			x1 = band[thisBand][k][lineStartX]
+			x2 = band[thisBand][k][lineEndX]
+			yy = band[thisBand][k][lineY]
+			
+			if (mousey == yy) then
+			
+				if (mousex >= x1 and mousex <= x2) then
+					
+					if bDebug then debugPrint("BAND HIT!") end
+					bResult = true
+					break
+				end
+				
+			elseif (mousey < yy) then -- Cursor is not near the vinicity for sure. Skip checking and save some cpu cycles.
+			
+				break
+			
+			end		
+		
+		end
+		
+	end
+	
+	return bResult
+
+
+end
+
+function civillianHit(thisFrame)
+
+	local k = 0
+	local f1 = 0
+	local f2 = 0
+	local x1 = 0
+	local x2 = 0
+	local y1 = 0
+	local y2 = 0
+	local bResult = false
+	local bFound = false
+	
+	bResult = false
+	
+	for k=1,hitmapTotal do
+		
+		if (hitmap[k][hitmapFrame] == thisFrame) then	
+			
+			f1 = hitmap[k][hitmapCivStart]
+			f2 = f1 + (hitmap[k][hitmapCivCount]-1)
+			
+			bFound = true 
+			break
+		end	
+
+	end
+	
+	if bFound == true then
+
+		for k=f1,f2 do
+			
+			x1 = civillian[k][bbx1]
+			y1 = civillian[k][bby1]
+			x2 = civillian[k][bbx2]
+			y2 = civillian[k][bby2]
+			
+			if (mousex >= x1 and mousex <= x2) and (mousey >= y1 and mousey <= y2) then	-- Player hit!
+			
+				if bDebug then debugPrint ("PLAYER KILLED A CIVILLIAN!") end
+				bResult = true
+				break
+			
+			end
+			
+		end
+		
+	end
+	
+	return bResult
+
+end
+
+function fellinaHit(thisObject)
+
+	local k = 0
+	local x1 = 0
+	local x2 = 0
+	local yy = 0
+	local arrayMax = 0
+	local bResult = false
+	local bFound = true
+	
+	bResult = false
+	
+	if (thisObject == FELLINA_GOLD) then
+		
+		arrayMax = 40
+	
+	elseif (thisObject == FELLINA_SILVER) then
+		
+		arrayMax = 41
+		
+	elseif (thisObject == FELLINA_RIGHT) then
+	
+		arrayMax = 62
+		
+	elseif (thisObject == FELLINA_LEFT) then
+	
+		arrayMax = 65
+		
+	else
+		
+		bFound = false		
+	
+	end
+	
+	if bFound then
+		
+		for k=1, arrayMax do
+			
+			x1 = thingie[thisObject][k][lineStartX]
+			x2 = thingie[thisObject][k][lineEndX]
+			yy = thingie[thisObject][k][lineY]
+			
+			if (mousey == yy) then
+			
+				if (mousex >= x1 and mousex <= x2) then
+					
+					if bDebug then debugPrint("FELLINA HIT!") end
+					bResult = true
+					break
+				end
+				
+			elseif (mousey < yy) then -- Cursor is not near the vinicity for sure. Skip checking and save some cpu cycles.
+			
+				break
+			
+			end		
+		
+		end
+		
+	end
+	
+	return bResult
+
+end
+
+function shooterHit(thisFrame, thisMove)
+
+	local k = 0
+	local f1 = 0
+	local f2 = 0
+	local x1 = 0
+	local x2 = 0
+	local y1 = 0
+	local y2 = 0	
+	local bResult = false
+	local bFound = false
+	local loopStart = move[thisMove][hitboxStart]
+	local loopEnd = move[thisMove][hitboxEnd]
+	
+	bResult = false
+	
+	for k=loopStart,loopEnd do
+		
+		if (hitmap[k][hitmapFrame] == thisFrame) then
+			
+			f1 = hitmap[k][hitmapIndex]
+			f2 = f1 + (hitmap[k][hitmapCount]-1)
+			bFound = true		
+			
+			break
+		end	
+
+	end
+	
+	if bFound then
+		
+		for k=f1,f2 do
+			
+			x1 = hitbox[k][bbx1]
+			y1 = hitbox[k][bby1]
+			x2 = hitbox[k][bbx2]
+			y2 = hitbox[k][bby2]
+			
+			if (mousex >= x1 and mousex <= x2) and (mousey >= y1 and mousey <= y2) then	-- Player hit!
+				
+				if k == f1 then
+				
+					if not (f1 == f2) then  -- headshot
+					
+						iScore = iScore + (SCORE_BADGUY * 0.25)
+						
+					end
+				
+				end
+				
+				if bDebug then debugPrint ("BAD GUY HIT!") end
+				bResult = true
+				break
+			
+			end			
+			
+		end
+		
+	end
+
+	return bResult
+
+end
+
+function socketHit(thisObject)
+
+	local k = 0
+	local x1 = 0
+	local x2 = 0
+	local yy = 0
+	local arrayMax = 0
+	local bResult = false
+	local bFound = true
+	
+	bResult = false
+	
+	if (thisObject == SOCKET_RED) then
+		
+		arrayMax = 20
+	
+	elseif (thisObject == SOCKET_GREEN) then
+		
+		arrayMax = 26
+		
+	elseif (thisObject == SOCKET_BLUE) then
+	
+		arrayMax = 25
+		
+	else
+		
+		bFound = false		
+	
+	end
+	
+	if bFound then
+		
+		for k=1, arrayMax do
+			
+			x1 = hole[thisObject][k][lineStartX]
+			x2 = hole[thisObject][k][lineEndX]
+			yy = hole[thisObject][k][lineY]
+			
+			if (mousey == yy) then
+			
+				if (mousex >= x1 and mousex <= x2) then
+					
+					if bDebug then debugPrint("SOCKET HIT!") end
+					bResult = true
+					break
+				end
+				
+			elseif (mousey < yy) then -- Cursor is not near the vinicity for sure. Skip checking and save some cpu cycles.
+			
+				break
+			
+			end		
+		
+		end
+		
+	end
+	
+	return bResult
+
+end
+
+function ursulaHit(thisFrame)
+
+
+	ursie = nil; ursie = {}
+	ursie[1] = {}; ursie[1] = {152, 137, 210, 238}
+	ursie[2] = {}; ursie[2] = {161, 86, 179, 107}
+	
+	
+	local k = 0
+	local b1 = WRONG_COLOR
+	local x1 = 0
+	local x2 = 0
+	local y1 = 0 
+	local y2 = 0
+	
+	for k=1,2 do
+	
+		x1 = ursie[k][1]
+		y1 = ursie[k][2]
+		x2 = ursie[k][3]		
+		y2 = ursie[k][4]
+		
+		if (mousex >= x1 and mousex <= x2) and (mousey >= y1 and mousey <= y2) then
+		
+			if thisFrame >= 2242 and thisFrame <= 2306 then
+			
+				if (iUrsulaColor == COLOR_RED) then 
+					b1 = RIGHT_COLOR 
+					iFrameStart = thisOffset + 2552
+					iFrameEnd = thisOffset + 2719
+					
+				end
+			
+			elseif thisFrame >= 2310 and thisFrame <= 2375 then
+			
+				if (iUrsulaColor == COLOR_GREEN) then 
+					b1 = RIGHT_COLOR
+					iFrameStart = thisOffset + 2720
+					iFrameEnd = thisOffset + 2887
+					
+				end
+			
+			else
+			
+				if (iUrsulaColor == COLOR_BLUE) then 
+					b1 = RIGHT_COLOR 
+					iFrameStart = thisOffset + 2888
+					iFrameEnd = thisOffset + 3055
+					
+				end
+			
+			end	
+			
+		end
+	
+	end
+	
+	return b1
+
+end
+
+function doContinue()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint ("Entering doContinue()") end
+	
+		bShowScore = false		
+		bShowCredits = true
+		bReloadDisabled = true
+		iBullets = 0
+		
+		levelFrameStart = offsetMenus + 3
+		levelFrameEnd = offsetMenus + 302		
+		discSkipToFrame(levelFrameStart)
+		
+		bShowMouse = false		
+		lvlState = lvlPlayClip1
+	
+	elseif (lvlState == lvlPlayClip1) then
+	
+		if (currentFrame == levelFrameEnd) then
+			lvlState = lvlEnd
+			
+		else
+		
+			if (p1START1) then
+
+				if (iCredits > 0 or dip_CoinsPerCredit == DOPT_FREEPLAY) then
+			
+					p1START1 = false
+					if iCredits > 0 then iCredits = iCredits - 1 end
+					lvlState = lvlSetup					-- Set state for said level
+					iLives = dip_LivesPerCredit			-- Reset lives for new game 
+					iBullets = dip_MaxBullets					
+					bShowCredits = false
+					bShowScore = true
+					bShowMouse = true	
+					bShowDown = true
+					bReloadDisabled = false
+					iScore = 0		
+					
+					-- Except for certain levels, 
+					-- return player to the menu screen.
+					
+					local b1 = false
+					
+					b1 = (tempLevel == levelDoor1)
+					b1 = b1 or (tempLevel == levelDoor2)
+					b1 = b1 or (tempLevel == levelDoor3)					
+					b1 = b1 or (tempLevel == levelShipBattle)
+					b1 = b1 or (tempLevel == levelTallon)
+					
+					if b1 then
+						currentLevel = tempLevel
+					else
+						currentLevel = levelMenu
+					end
+					
+				end
+				
+			elseif (bResetContinue) then
+			
+				bResetContinue = false
+				discSkipToFrame(levelFrameStart)
+				
+			end
+		
+		end
+	
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		if newScore(iScore) == true then
+		
+			currentLevel = levelHighScore
+			
+		else
+		
+			currentLevel = levelGameOver
+			
+		end
+		if bDebug then debugPrint ("Leaving doContinue()") end
+	
+	end
+
+end
+
+function doGameOver()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint ("Entering doGameOver()") end
+		
+		bShowCredits = true
+		bShowScore = false
+		bReloadDisabled = true
+		iBullets = 0
+		levelFrameStart = offsetMenus + 303
+		levelFrameEnd = offsetMenus + 452
+		
+		discSkipToFrame(levelFrameStart)
+		lvlState = lvlPlayClip1
+	
+	elseif (lvlState == lvlPlayClip1) then
+	
+		if (currentFrame == levelFrameEnd) then
+			lvlState = lvlEnd
+		
+		end
+	
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		currentLevel = levelIntro
+		if bDebug then debugPrint ("Leaving doGameOver()") end
+	
+	end
+
+end
+
+function doIntro()
+
+	if (lvlState == lvlSetup) then
+	
+		bPlaySound = true
+		bReloadDisabled = true
+		bShowMouse = false
+		bShowScore = false
+		bShowCredits = true
+		lvlState = lvlPlayClip5	
+		discSkipToFrame(offsetMenus + 2380)
+		bState = true
+	
+	elseif (lvlState == lvlPlayClip1) then
+	
+		if (currentFrame == 5328 or p1BUTTON3) then
+		
+			p1BUTTON3 = false
+			discSkipToFrame(offsetMenus)		
+			discPause()
+			timerON(9)
+			lvlState = lvlPlayClip2
+			
+		end		
+		
+	elseif (lvlState == lvlPlayClip2) then
+	
+		if timerDue() then
+		
+			if bState then
+		
+				setupClip(58980, 59359)
+				lvlState = lvlPlayClip3
+				
+			else
+				lvlState = lvlPlayClip5
+			
+			end
+			bState = not bState
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip3) then
+	
+		if (currentFrame == 59359) then
+		
+			timerON(9)
+			discSkipToFrame(offsetMenus + 489)
+			discPause()			
+			bShowCredits = false
+			lvlState = lvlPlayClip4
+			
+		end
+		
+	elseif (lvlState == lvlPlayClip4) then
+	
+		if timerDue() then		
+			
+			bShowCredits = true
+			setupClip(offsetMenus + 5900, offsetMenus + 6145)
+			lvlState = lvlPlayClip9
+			
+		else
+			drawHStable()
+		end
+		
+	elseif (lvlState == lvlPlayClip5) then
+	
+		setupClip(offsetMenus + 2380, offsetMenus + 2725)
+		lvlState = lvlPlayClip6 
+		
+	elseif (lvlState == lvlPlayClip6) then
+	
+		if currentFrame == iFrameEnd then
+		
+			setupClip(1, 895)
+			bShowCredits = true
+			lvlState = lvlPlayClip7
+		
+		end
+	
+	elseif (lvlState == lvlPlayClip7) then
+	
+		if currentFrame == iFrameEnd or p1BUTTON3 then
+		
+			p1BUTTON3 = false		
+			setupClip(offsetMenus + 5200, offsetMenus + 5878)
+			lvlState = lvlPlayClip8
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip8) then
+	
+		if currentFrame == iFrameEnd then
+		
+			discSkipToFrame(1316)
+			lvlState = lvlPlayClip1
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip9) then
+	
+		if currentFrame == iFrameEnd then
+		
+			p1BUTTON3 = false
+			discSkipToFrame(offsetMenus)		
+			discPause()
+			timerON(9)
+			lvlState = lvlPlayClip2
+			
+		
+		end
+	
+	elseif (lvlState == lvlEnd) then
+	
+		-- No end for this routine. Play indefinitely until player starts game or exits game.
+	
+	end
+
+end
+
+function doLevelCrystalBuild()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint("Entering doLevelCrystalBuild()") end
+		
+		GetArrayPanel()		
+		bLevelComplete = false
+		setupClip(37448, 37523)
+		lvlState = lvlPlayClip4 -- Plays blue warp sequence
+		
+		
+	elseif (lvlState == lvlPlayClip1) then
+	
+		if (currentFrame == iFrameEnd or (currentFrame >= (iFrameStart + 30) and p1BUTTON3)) then
+		
+			p1BUTTON3 = false
+			setupClip(offsetMenus + 468, offsetMenus + 815)
+			lvlState = lvlPlayClip2
+		
+		end	
+	
+	elseif (lvlState == lvlPlayClip2) then
+	
+		if (currentFrame == iFrameEnd or (currentFrame >= (iFrameStart + 30) and p1BUTTON3)) then
+		
+			p1BUTTON3 = false			
+			
+			iSocketHits = 0
+			socket = nil; socket = {false, false, false}
+			sorder = nil; sorder = {0, 0, 0}
+		
+			discSkipToFrame(doLevelCrystalClip())
+			discPause()
+
+			playMe(sndTick)	
+			clockSecs = 0		
+			timerON(10)
+			lvlState = lvlRunning
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip3) then
+	
+		if (currentFrame == iFrameEnd or (currentFrame >= (iFrameStart + 30) and p1BUTTON3)) then
+		
+			p1BUTTON3 = false
+			bLevelComplete = true
+			lvlState = lvlEnd
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip4) then
+	
+		if (currentFrame == iFrameEnd) then
+		
+			setupClip(23964, 24159) -- Plays Zeller saying "Let's Blow Tallon Out of The Heavens!"
+			lvlState = lvlPlayClip1		
+		
+		end
+	
+	elseif (lvlState == lvlRunning) then
+	
+		if timerDue() then -- Death to player!
+		
+			setupClip(17241, 17449)
+			lvlState = lvlPlayDeath
+		
+		else			
+		
+			local q = 0
+			local w = 0
+			q, w = math.modf(iSecs)
+			
+			if q - clockSecs >= 1 then
+			
+				clockSecs = q
+				if bFlip then 
+					playMe(sndTick)
+				else
+					playMe(sndTock)
+				end
+				bFlip = not bFlip			
+			
+			end
+		
+			if (p1BUTTON3 and iBullets > 0) then
+			
+				p1BUTTON3 = false
+				
+				if socketHit(SOCKET_RED) then
+				
+					iSocketHits = iSocketHits + 1 
+					sorder[iSocketHits] = SOCKET_RED				
+					socket[SOCKET_RED] = true
+					
+					discSkipToFrame(doLevelCrystalClip())
+					discPause()
+					
+				elseif socketHit(SOCKET_GREEN) then
+				
+					iSocketHits = iSocketHits + 1 
+					sorder[iSocketHits] = SOCKET_GREEN				
+					socket[SOCKET_GREEN] = true
+					
+					discSkipToFrame(doLevelCrystalClip())
+					discPause()
+					
+				elseif socketHit(SOCKET_BLUE) then
+				
+					iSocketHits = iSocketHits + 1 
+					sorder[iSocketHits] = SOCKET_BLUE				
+					socket[SOCKET_BLUE] = true
+					
+					discSkipToFrame(doLevelCrystalClip())
+					discPause()
+					
+				end
+				
+				if (iSocketHits == 3) then
+				
+					if doLevelCrystalOrder(iCrystalOrder) == ORDER_CORRECT then
+					
+						playMe(sndCoin)
+						setupClip(24159, 24439) -- Play crystal assembly clip
+						lvlState = lvlPlayClip3						
+						
+					else
+					
+						iSocketHits = 0
+						playMe(sndWrong)
+						socket = nil; socket = {false, false, false}
+						sorder = nil; sorder = {0, 0, 0}
+						discSkipToFrame(doLevelCrystalClip())
+						discPause()
+					
+					end
+				
+				
+				end
+				
+			end
+			
+		end		
+		
+	elseif (lvlState == lvlPlayDeath) then
+	
+		if (currentFrame == iFrameEnd) then
+	
+			getDeathFrames(TALLON_NEXTTIMERANGER)
+			discSkipToFrame(undertkrFrmStart)
+			lvlState = lvlPlayNag
+			
+		end
+
+	elseif (lvlState == lvlPlayNag) then
+	
+		if (currentFrame == undertkrFrmEnd or p1BUTTON3) then
+		
+			p1BUTTON3 = false
+			lvlState = lvlEnd
+		
+		end	
+	
+	elseif (lvlState == lvlEnd) then
+		
+		lvlState = lvlSetup
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft			
+			
+		else
+			
+			if bLevelComplete then
+				
+				currentLevel = levelMenu
+				stage[levelCrystalBuild] = true
+			
+			end
+			
+		end	
+	
+		if bDebug then debugPrint("Leaving doLevelCrystalBuild()") end
+	
+	end
+
+end
+
+function doLevelCrystalClip()
+
+	local thisFrame = 0 
+
+	if bDebug then debugPrint("Entring doLevelCrystalClip()") end
+	
+	if socket[SOCKET_RED] == false and socket[SOCKET_GREEN] == false and socket[SOCKET_BLUE] == false then
+		
+		thisFrame = offsetMenus + 818	
+		
+	elseif socket[SOCKET_RED] == true and socket[SOCKET_GREEN] == false and socket[SOCKET_BLUE] == false then
+	
+		thisFrame = offsetMenus + 820	
+	
+	elseif socket[SOCKET_RED] == false and socket[SOCKET_GREEN] == true and socket[SOCKET_BLUE] == false then
+	
+		thisFrame = offsetMenus + 822
+	
+	elseif socket[SOCKET_RED] == false and socket[SOCKET_GREEN] == false and socket[SOCKET_BLUE] == true then
+	
+		thisFrame = offsetMenus + 824
+	
+	elseif socket[SOCKET_RED] == false and socket[SOCKET_GREEN] == true and socket[SOCKET_BLUE] == true then
+	
+		thisFrame = offsetMenus + 826
+	
+	elseif socket[SOCKET_RED] == true and socket[SOCKET_GREEN] == true and socket[SOCKET_BLUE] == false then
+	
+		thisFrame = offsetMenus + 828
+	
+	elseif socket[SOCKET_RED] == true and socket[SOCKET_GREEN] == false and socket[SOCKET_BLUE] == true then
+	
+		thisFrame = offsetMenus + 830
+	
+	elseif socket[SOCKET_RED] == true and socket[SOCKET_GREEN] == true and socket[SOCKET_BLUE] == true then
+	
+		thisFrame = offsetMenus + 832
+	
+	end
+	
+	if bDebug then debugPrint("Leaving doLevelCrystalClip()") end
+	
+	return thisFrame
+	
+
+end
+
+function doLevelCrystalOrder(thisOrder)
+
+	if thisOrder == ORDER_RGB then
+	
+		if sorder[1] == SOCKET_RED and sorder[2] == SOCKET_GREEN and sorder[3] == SOCKET_BLUE then bResult = ORDER_CORRECT end	
+	
+	elseif thisOrder == ORDER_GBR then
+	
+		if sorder[1] == SOCKET_GREEN and sorder[2] == SOCKET_BLUE and sorder[3] == SOCKET_RED then bResult = ORDER_CORRECT end		
+	
+	elseif thisOrder == ORDER_BRG then
+	
+		if sorder[1] == SOCKET_BLUE and sorder[2] == SOCKET_RED and sorder[3] == SOCKET_GREEN then bResult = ORDER_CORRECT end		
+	
+	end
+	
+	return bResult
+
+end
+
+function doLevelDoor1()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint("Entering doLevelDoor1()") end
+	
+		setupLevel(levelDoor1)
+		bLevelComplete = false
+		levelFrameStart = thisOffset
+		levelFrameEnd   = thisOffset + 3496
+		
+		if bSection01Reached and not bSection02Reached then
+		
+			currentMove = 5
+			discSkipToFrame(move[currentMove][rndMoveStart])
+			lvlState = lvlRunning		
+		
+		elseif bSection02Reached and not bSection03Reached then
+		
+			currentMove = 11
+			discSkipToFrame(move[currentMove][rndMoveStart])
+			lvlState = lvlRunning
+			
+		elseif bSection03Reached and not bSection04Reached then
+		
+			currentMove = 14
+			discSkipToFrame(move[currentMove][rndMoveStart])
+			lvlState = lvlRunning
+		
+		elseif bSection04Reached then
+		
+			currentMove = 21
+			discSkipToFrame(move[currentMove][rndMoveStart])
+			lvlState = lvlRunning		
+		
+		else		
+		
+			currentMove = 1		
+			setupClip(12958, 13016)
+			lvlState = lvlPlayClip1
+			
+		end
+		
+	elseif (lvlState == lvlPlayClip1) then
+	
+		if (currentFrame == iFrameEnd) then
+		
+			discSkipToFrame(move[currentMove][rndMoveStart])
+			lvlState = lvlRunning
+		
+		end	
+		
+	elseif (lvlState == lvlPlayClip2) then
+	
+		if (currentFrame == move[currentMove][rndMoveEnd]) then
+		
+			currentMove = currentMove + 1
+			if (currentMove <= totalMoves) then
+			
+				discSkipToFrame(move[currentMove][rndMoveStart])
+				
+			else
+			
+				discSkipToFrame(thisOffset + 3493)
+				
+			end	
+			lvlState = lvlRunning
+			
+			if currentMove == 5  then bSection01Reached = true end
+			if currentMove == 11 then bSection02Reached = true end
+			if currentMove == 14 then bSection03Reached = true end
+			if currentMove == 21 then bSection04Reached = true end
+		
+		end	
+		
+	elseif (lvlState == lvlPause) then
+	
+		if timerDue() then
+		
+			getDeathFrames(TALLON_RANDOM)
+			discSkipToFrame(move[currentMove][deathFrameStart])				
+			lvlState = lvlPlayDeath
+		
+		else
+	
+			if (p1BUTTON3) then
+				p1BUTTON3 = false
+				if (iBullets > 0) then
+				
+					if (shooterHit((currentFrame - thisOffset), currentMove) == true) then  -- Player Hit!
+						
+						iScore = iScore + SCORE_BADGUY
+						if (currentMove == 21) then
+							
+							discSkipToFrame(thisOffset + 3130)
+						
+						else
+						
+							discSkipToFrame(move[currentMove][moveFrameEnd]+1)							
+						end
+						lvlState = lvlPlayClip2						
+					
+					end			
+					
+				end
+			
+			end
+			
+		end
+	
+	elseif (lvlState == lvlRunning) then
+		
+		if (currentMove > totalMoves) then
+		
+			if (currentFrame == levelFrameEnd) then
+				
+				bLevelComplete = true
+				lvlState = lvlEnd
+				
+			end
+		
+		elseif (currentFrame > move[currentMove][moveFrameEnd]) then -- Death to player!
+		
+			if (move[currentMove][rndMoveType] == GOODGUY) then
+
+				lvlState = lvlPlayClip2
+			
+			else
+			
+				lvlState = lvlPause
+				discSkipToFrame(move[currentMove][moveFrameEnd])
+				discPause()
+				timerON(iDelay)					
+				
+			end
+			
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+			
+			if (p1BUTTON3) then
+				p1BUTTON3 = false
+				if (iBullets > 0) then
+				
+					if (shooterHit((currentFrame - thisOffset), currentMove) == true) then  -- Player Hit!
+						
+							iScore = iScore + SCORE_BADGUY
+							
+							if (currentMove == 21) then
+							
+								discSkipToFrame(thisOffset + 3130)
+							
+							else
+							
+								discSkipToFrame(move[currentMove][moveFrameEnd]+1)							
+							end
+							lvlState = lvlPlayClip2
+							
+					elseif (civillianHit((currentFrame - thisOffset)) == true) then	-- Colonist shot!
+						
+						getDeathFrames(COLONIST_SHOT)
+						discSkipToFrame(move[currentMove][deathFrameStart])				
+						lvlState = lvlPlayDeath
+					
+					end			
+					
+				end
+			
+			end
+		
+		end
+
+	elseif (lvlState == lvlPlayDeath) then
+	
+		if (currentFrame == move[currentMove][deathFrameEnd]) then
+			
+			discSkipToFrame(undertkrFrmStart)
+			lvlState = lvlPlayNag			
+		
+		end
+		
+	elseif (lvlState == lvlPlayNag) then
+	
+		if (currentFrame == undertkrFrmEnd or p1BUTTON3) then
+		
+			p1BUTTON3 = false
+			lvlState = lvlEnd
+		
+		end	
+	
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft			
+			
+		else
+			
+			if bLevelComplete then
+				
+				currentLevel = levelDoor2
+				bSection01Reached = false
+				bSection02Reached = false
+				bSection03Reached = false
+			
+			end
+			
+		end
+		
+		if bDebug then debugPrint("Leaving doLevelDoor1()") end
+	
+	end
+
+
+end
+
+function doLevelDoor2()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint("Entering doLevelDoor2()") end
+	
+		setupLevel(levelDoor2)
+		bLevelComplete = false
+		levelFrameEnd = thisOffset + 4283		
+		
+		if bSection01Reached and not bSection02Reached then		
+			
+			currentMove = 13
+			discSkipToFrame(move[currentMove][rndMoveStart])
+			lvlState = lvlRunning
+			
+		elseif bSection02Reached then
+		
+			currentMove = 15
+			discSkipToFrame(move[currentMove][rndMoveStart])
+			lvlState = lvlRunning
+		
+		else
+		
+			levelFrameStart = thisOffset + 120	
+			lvlState = lvlRunning			
+			discSkipToFrame (levelFrameStart)
+			currentMove = 1
+		end
+	
+	elseif (lvlState == lvlPlayClip2) then
+	
+		if (currentFrame == move[currentMove][rndMoveEnd]) then
+			
+			currentMove = currentMove + 1
+			
+			if (currentMove <= totalMoves) then
+			
+				discSkipToFrame(move[currentMove][rndMoveStart])
+			end
+			
+			if (currentMove == 12) then			
+			
+				lvlState = lvlPlayClip4
+			
+			else
+			
+				lvlState = lvlRunning			
+				
+			end			
+			
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip3) then
+	
+		if (currentFrame == iFrameEnd) then
+		
+			lvlState = lvlPlayClip5
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip4) then
+	
+		if (currentFrame >= bandFrameStart and currentFrame < bandFrameEnd) then
+	
+			if (p1BUTTON3) then
+			
+				p1BUTTON3 = false
+				if (iBullets > 0) then
+					
+					if (bandHit(iBand) == true) then						
+						
+						iScore = iScore + SCORE_OBJECT
+						
+						if iBand == BAND_YELLOW then
+						
+							setupClip(thisOffset + 1416, thisOffset + 1765)
+							
+						elseif iBand == BAND_BLUE then
+						
+							setupClip(thisOffset + 2099, thisOffset + 2459)
+						
+						end
+						
+						lvlState = lvlPlayClip7
+						
+					elseif (bandHit(iWrongBand) == true) then
+					
+						move[currentMove][deathFrameStart] = 17241
+						move[currentMove][deathFrameEnd] = 17449
+						discSkipToFrame(move[currentMove][deathFrameStart])					
+						getDeathFrames(TALLON_RANDOM)				
+						lvlState = lvlPlayDeath
+						
+					elseif (civillianHit((currentFrame - thisOffset)) == true) then	-- Colonist shot!
+						
+						undertkrFrmStart = 8140
+						undertkrFrmEnd = 8262
+						discSkipToFrame(undertkrFrmStart)
+						lvlState = lvlPlayNag
+						
+					end
+
+				end
+				
+			end
+				
+		elseif currentFrame == bandFrameEnd then
+			
+			move[currentMove][deathFrameStart] = 17241
+			move[currentMove][deathFrameEnd] = 17449
+			discSkipToFrame(move[currentMove][deathFrameStart])					
+			getDeathFrames(TALLON_RANDOM)				
+			lvlState = lvlPlayDeath
+
+		end
+		
+	elseif (lvlState == lvlPlayClip5) then
+	
+		if (currentFrame == iFrameEnd) then -- Show Ursula color hint.
+		
+			if (iUrsulaColor == COLOR_RED) then
+			
+				iFrameStart = thisOffset + 3223
+				iFrameEnd   = thisOffset + 3426
+				
+			elseif (iUrsulaColor == COLOR_GREEN) then
+			
+				iFrameStart = thisOffset + 3427
+				iFrameEnd   = thisOffset + 3610
+				
+			else
+			
+				iFrameStart = thisOffset + 3611
+				iFrameEnd   = thisOffset + 3807		
+			
+			end			
+			
+			bSection02Reached = true
+			discSkipToFrame(iFrameStart)
+			lvlState = lvlPlayClip6
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip6) then
+	
+		if (currentFrame == iFrameEnd) then
+		
+			currentMove = 15
+			bSection02Reached = true
+			discSkipToFrame(move[currentMove][rndMoveStart])
+			lvlState = lvlRunning		
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip7) then
+	
+		if (currentFrame == iFrameEnd) then
+		
+			currentMove = 13
+			bSection01Reached = true
+			discSkipToFrame(move[currentMove][rndMoveStart])
+			lvlState = lvlRunning
+		
+		end
+		
+	elseif (lvlState == lvlPause) then
+	
+		if timerDue() then
+	
+			discSkipToFrame(move[currentMove][deathFrameStart])					
+			getDeathFrames(TALLON_RANDOM)				
+			lvlState = lvlPlayDeath
+
+		else
+		
+			if (p1BUTTON3) then
+				p1BUTTON3 = false
+				if (iBullets > 0) then
+				
+					if (shooterHit((currentFrame - thisOffset), currentMove) == true) then  -- Player Hit!
+						
+						iScore = iScore + SCORE_BADGUY
+						
+						if (currentMove == 13) then
+						
+							setupClip(thisOffset + 3030, thisOffset + 3222)
+							lvlState = lvlPlayClip3
+						
+						else
+						
+							discSkipToFrame(move[currentMove][moveFrameEnd]+1)
+							lvlState = lvlPlayClip2							
+						end
+						
+					
+					end			
+					
+				end
+
+			end
+		
+		end
+	
+	elseif (lvlState == lvlRunning) then
+		
+		if (currentMove > totalMoves) then
+		
+			if (currentFrame == levelFrameEnd) then
+				
+				bLevelComplete = true
+				lvlState = lvlEnd
+				
+			end
+		
+		elseif (currentFrame > move[currentMove][moveFrameEnd]) then -- Death to player!		
+		
+			if (move[currentMove][rndMoveType] == GOODGUY) then
+			
+				lvlState = lvlPlayClip2
+				
+			elseif (currentMove == 13) then			
+				
+				lvlState = lvlPlayClip2
+				
+			else
+				
+				discSkipToFrame(move[currentMove][moveFrameEnd])
+				discPause()
+				timerON(iDelay)
+				lvlState = lvlPause
+				
+			end
+			
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+			
+			if (p1BUTTON3) then
+				p1BUTTON3 = false
+				if (iBullets > 0) then
+				
+					if (shooterHit((currentFrame - thisOffset), currentMove) == true) then  -- Player Hit!
+						
+						iScore = iScore + SCORE_BADGUY
+						
+						if (currentMove == 13) then
+						
+							setupClip(thisOffset + 3030, thisOffset + 3222)
+							lvlState = lvlPlayClip3
+						
+						else
+						
+							discSkipToFrame(move[currentMove][moveFrameEnd]+1)
+							lvlState = lvlPlayClip2							
+						end
+						
+					elseif (civillianHit((currentFrame - thisOffset)) == true) then	-- Colonist shot!						
+						
+						undertkrFrmStart = 8140
+						undertkrFrmEnd = 8262
+						discSkipToFrame(undertkrFrmStart)
+						lvlState = lvlPlayNag
+					
+					end			
+					
+				end
+			
+			end			
+		
+		end
+
+	elseif (lvlState == lvlPlayDeath) then
+	
+		if (currentFrame == move[currentMove][deathFrameEnd]) then
+			
+			discSkipToFrame(undertkrFrmStart)
+			lvlState = lvlPlayNag			
+			
+		end
+		
+	elseif (lvlState == lvlPlayNag) then		
+		
+		if (currentFrame == undertkrFrmEnd or p1BUTTON3) then
+		
+			p1BUTTON3 = false
+			lvlState = lvlEnd
+		
+		end	
+	
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft			
+			
+		else
+			
+			if bLevelComplete then
+				
+				currentLevel = levelDoor3
+				bSection01Reached = false
+				bSection02Reached = false								
+			
+			end
+			
+		end
+		
+		if bDebug then debugPrint("Leaving doLevelDoor2()") end
+	
+	end
+
+
+end
+
+function doLevelDoor3()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint("Entering doLevelDoor3()") end
+
+		setupLevel(levelDoor3)
+		bLevelComplete = false
+		levelFrameEnd = thisOffset + 5480	
+		levelFrameStart = thisOffset
+		
+		if bSection01Reached and not bSection02Reached then
+		
+			currentMove = 8
+			lvlState = lvlRunning
+			discSkipToFrame (move[currentMove][rndMoveStart])
+			
+		elseif bSection02Reached then
+		
+			currentMove = 15
+			lvlState = lvlRunning
+			discSkipToFrame (move[currentMove][rndMoveStart])
+			
+		else		
+		
+			currentMove = 1
+			lvlState = lvlPlayClip1
+			setupClip(12958, 13016)
+			
+		end		
+
+	elseif (lvlState == lvlPlayClip1) then	 -- Play doors opening
+	
+		if (currentFrame == iFrameEnd or p1BUTTON3) then
+			
+			p1BUTTON3 = false
+			lvlState = lvlPlayClip9
+			setupClip(thisOffset, thisOffset + 389)			
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip9) then -- Play level intro
+	
+		if (currentFrame == iFrameEnd or p1BUTTON3) then
+			
+			p1BUTTON3 = false
+			lvlState = lvlRunning
+			discSkipToFrame (move[currentMove][rndMoveStart])			
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip2) then -- Play reminder of current move
+	
+		if (currentFrame == move[currentMove][rndMoveEnd]) then
+		
+			currentMove = currentMove + 1			
+			if (currentMove == 15) then
+			
+				lvlState = lvlPlayClip3 -- Play "Save the Commander!" sequence				
+			
+			elseif (currentMove <= totalMoves) then
+			
+				discSkipToFrame(move[currentMove][rndMoveStart])
+				lvlState = lvlRunning
+			
+			else
+			
+				lvlState = lvlRunning
+			end
+			
+			if currentMove == 8 then bSection01Reached = true end
+			
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip3) then -- Play "Save the Commander"
+
+		if (currentFrame >= thisOffset + 2243 and currentFrame < thisOffset + 2440) then
+
+			if (p1BUTTON3 and iBullets > 0) then
+				p1BUTTON3 = false
+				if ursulaHit(currentFrame - thisOffset) == RIGHT_COLOR then
+				
+					iScore = iScore + SCORE_URSULA
+					discSkipToFrame(iFrameStart)
+					lvlState = lvlPlayClip8
+					
+				else				
+
+					discSkipToFrame(thisOffset + 2440)
+					
+				end			
+			
+			end
+			
+		elseif (currentFrame >= thisOffset + 2440) then  -- Player failed. Show death clip.
+
+			if (currentFrame == thisOffset + 2549) then
+
+				getDeathFrames(TALLON_RANDOM)				
+				discSkipToFrame(undertkrFrmStart)
+				lvlState = lvlPlayNag			
+			
+			end		
+		
+		end		
+		
+	elseif (lvlState == lvlPlayClip8) then -- Play Ursula's "Nice work ranger!"
+	
+		if (currentFrame == iFrameEnd) then
+		
+			discSkipToFrame(move[currentMove][rndMoveStart])
+			lvlState = lvlRunning
+			bSection02Reached = true
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip4) then	 -- Play crystal order clip.
+
+		if (currentFrame == iFrameEnd or (currentFrame >= (iFrameStart + 30) and p1BUTTON3)) then
+		
+			p1BUTTON3 = false
+			if iCrystalOrder == ORDER_RGB then
+			
+				setupClip(thisOffset + 4601, thisOffset + 4760)
+				
+			elseif iCrystalOrder == ORDER_GBR then
+			
+				setupClip(thisOffset + 4761, thisOffset + 4908)
+				
+			elseif iCrystalOrder == ORDER_BRG then
+			
+				setupClip(thisOffset + 4909, thisOffset + 5056)
+			
+			end
+			lvlState = lvlPlayClip5
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip5) then -- Play game explanation
+	
+		if (currentFrame == iFrameEnd) then
+		
+			discSkipToFrame(thisOffset + 5057)
+			lvlState = lvlPlayClip6
+			
+		end
+		
+	elseif (lvlState == lvlPlayClip6) then -- Play ending clip
+	
+		if ((currentFrame == (thisOffset + 5420)) or p1BUTTON3) then
+		
+			p1BUTTON3 = false
+			discSkipToFrame(thisOffset + 5420)
+			lvlState = lvlPlayClip7		
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip7) then -- Level ended. Re-direct program flow.
+	
+		if (currentFrame == levelFrameEnd) then
+		
+			bLevelComplete = true
+			lvlState = lvlEnd
+		
+		end
+		
+	elseif (lvlState == lvlPause) then
+	
+		if timerDue() then
+	
+			discSkipToFrame(move[currentMove][deathFrameStart])					
+			getDeathFrames(TALLON_RANDOM)				
+			lvlState = lvlPlayDeath
+			
+		else
+		
+			if (p1BUTTON3) then
+				p1BUTTON3 = false
+				if (iBullets > 0) then
+				
+					if (shooterHit((currentFrame - thisOffset), currentMove) == true) then  -- Player Hit!
+						
+						iScore = iScore + SCORE_BADGUY
+						
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)							
+						lvlState = lvlPlayClip2
+					
+					end			
+					
+				end
+			
+			end		
+		
+		end		
+	
+	elseif (lvlState == lvlRunning) then
+		
+		if (currentMove > totalMoves) then
+			
+			setupClip(thisOffset + 3483, thisOffset + 4600)
+			lvlState = lvlPlayClip4
+			
+		elseif (currentFrame > move[currentMove][moveFrameEnd]) then -- Death to player!
+		
+			if (move[currentMove][rndMoveType] == GOODGUY) then
+				
+				lvlState = lvlPlayClip2
+				
+			else				
+				
+				discSkipToFrame(move[currentMove][moveFrameEnd])
+				discPause()
+				timerON(iDelay)
+				lvlState = lvlPause
+				
+			end
+			
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+			
+			if (p1BUTTON3) then
+				p1BUTTON3 = false
+				if (iBullets > 0) then
+				
+					if (shooterHit((currentFrame - thisOffset), currentMove) == true) then  -- Player Hit!
+						
+						iScore = iScore + SCORE_BADGUY
+						
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)
+						lvlState = lvlPlayClip2
+						
+					elseif (civillianHit((currentFrame - thisOffset)) == true) then	-- Colonist shot!
+						
+						getDeathFrames(COLONIST_SHOT)
+						if (move[currentMove][rndMoveType] == GOODGUY) then						
+							
+							discSkipToFrame(move[currentMove][deathFrameStart])				
+							lvlState = lvlPlayDeath
+							
+						else  -- Player shot Ursula.
+						
+							discSkipToFrame(undertkrFrmStart)
+							lvlState = lvlPlayNag			
+						
+						end
+					
+					end			
+					
+				end
+			
+			end
+			
+		end
+
+	elseif (lvlState == lvlPlayDeath) then
+	
+		if (currentFrame == move[currentMove][deathFrameEnd]) then
+			
+			discSkipToFrame(undertkrFrmStart)
+			lvlState = lvlPlayNag			
+		
+		end
+		
+	elseif (lvlState == lvlPlayNag) then
+	
+		if (currentFrame == undertkrFrmEnd or p1BUTTON3) then
+		
+			p1BUTTON3 = false
+			lvlState = lvlEnd
+		
+		end	
+	
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft			
+			
+		else
+			
+			if bLevelComplete then
+				
+				currentLevel = levelMenu
+				bSection01Reached = false
+				bSection02Reached = false
+				bSection03Reached = false					
+			
+			end
+			
+		end
+		
+		if bDebug then debugPrint("Leaving doLevelDoor3()") end
+	
+	end
+
+end
+
+function doLevelFellina1()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint ("Entering doLevelFellina1()") end
+		
+		setupLevel(levelFellina1)		
+		bLevelComplete = false
+		
+		if bSection01Reached and not bSection02Reached then
+		
+			levelFrameStart = thisOffset + 80 --310
+			lvlState = lvlPlayClip1
+			currentMove = 1
+			
+		elseif bSection02Reached and not bSection03Reached then
+		
+			levelFrameStart = thisOffset + 1173
+			lvlState = lvlRunning
+			currentMove = 6
+			
+		elseif bSection03Reached then
+		
+			levelFrameStart = iFrameStart
+			lvlState = lvlPlayPuzzle1
+			currentMove = 10
+		
+		else
+		
+			levelFrameStart = thisOffset
+			lvlState = lvlPlayClip1
+			currentMove = 1
+		end
+		
+		levelFrameEnd = thisOffset + 5120	
+		discSkipToFrame(levelFrameStart)
+		totalMoves = 9
+		
+		
+	elseif (lvlState == lvlPlayClip1) then
+	
+		if (currentFrame == thisOffset + 314) then
+		
+			discSkipToFrame(move[currentMove][rndMoveStart])
+			bSection01Reached = true			
+			lvlState = lvlRunning			
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip2) then
+	
+		if (currentFrame == move[currentMove][rndMoveEnd]) then
+		
+			currentMove = currentMove + 1
+			
+			if (currentMove <= totalMoves) then
+			
+				discSkipToFrame(move[currentMove][rndMoveStart])				
+				
+			end
+			
+			lvlState = lvlRunning
+			
+		end
+		
+	elseif (lvlState == lvlPlayClip3) then
+	
+		if doShowCrystal() == true then
+		
+			bLevelComplete = true
+			lvlState = lvlEnd	
+			
+		end
+		
+	elseif (lvlState == lvlPlayClip4) then
+	
+		if (currentFrame == 43090) then
+			
+			lvlState = lvlEnd
+			
+		end
+		
+	elseif (lvlState == lvlPlayClip5) then
+	
+		if (currentFrame == (thisOffset + 1630)) then
+		
+			discSkipToFrame(iFrameStart)
+			bSection03Reached = true
+			lvlState = lvlPlayPuzzle1
+			iBullets = dip_MaxBullets
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip6) then
+	
+		if (iLevelWithCannon == STAGE_FELLINA) then
+		
+			bLevelComplete = true
+			stage[levelFellina1] = true			
+			stage[levelFellina2] = true
+			panel[STAGE_FELLINA] = true
+			bSection01Reached = false
+			bSection02Reached = false				
+			bSection03Reached = false
+			currentLevel = levelFirePractice
+			lvlState = lvlSetup
+		
+		else
+		
+			discSkipToFrame(thisOffset + 1600)
+			lvlState = lvlPlayClip5					
+		
+		end
+		
+	elseif (lvlState == lvlPlayPuzzle1) then
+	
+		if (currentFrame == iFrameEnd) then -- Death to player
+		
+			timerON(5)
+			discSkipToFrame(offsetMenus + 455)
+			discPause()
+			lvlState = lvlPlayPuzzle3
+			
+		else
+		
+			if (currentFrame >= iSkullStart and currentFrame < iFrameEnd) then
+			
+				if (p1BUTTON3 and iBullets > 0) then
+				
+					p1BUTTON3 = false
+					local silver = fellinaHit(FELLINA_SILVER)
+					local gold = fellinaHit(FELLINA_GOLD)
+					
+					if (iFellinaSkull == FELLINA_SILVER and silver == true) or (iFellinaSkull == FELLINA_GOLD and gold == true) then
+						
+						playMe(sndCoin)
+						timerON(5)
+						discSkipToFrame(offsetMenus + 455)
+						discPause()
+						lvlState = lvlPlayPuzzle2
+					
+					else  -- Death to player
+					
+						if (iFellinaSkull == FELLINA_SILVER and gold == true) or (iFellinaSkull == FELLINA_GOLD and silver == true) then						
+					
+							iFrameStart = 43091
+							iFrameEnd   = 43298
+							discSkipToFrame(iFrameStart)
+							lvlState = lvlPlayPuzzle3
+							
+						end					
+					
+					end				
+				
+				end
+			
+			end
+		
+		end
+		
+	elseif (lvlState == lvlPlayPuzzle2) then
+	
+		if timerDue() then	 -- Death to player
+		
+			iFrameStart = 43091
+			iFrameEnd   = 43298
+			discSkipToFrame(iFrameStart)
+			lvlState = lvlPlayPuzzle3
+			
+		else
+		
+			if (p1BUTTON3 and iBullets > 0) then	
+			
+				p1BUTTON3 = false
+				local rightarrow = fellinaHit(FELLINA_RIGHT)
+				local leftarrow = fellinaHit(FELLINA_LEFT)
+				
+				if (iFellinaArrow == FELLINA_RIGHT and rightarrow == true) or (iFellinaArrow == FELLINA_LEFT and leftarrow == true) then
+				
+					playMe(sndCoin)
+					crystalState = crystalSetup 
+					lvlState = lvlPlayClip3					
+				
+				elseif (iFellinaArrow == FELLINA_RIGHT and rightarrow == false) or (iFellinaArrow == FELLINA_LEFT and leftarrow == false) then
+				
+					iFrameStart = 43091
+					iFrameEnd   = 43298
+					discSkipToFrame(iFrameStart)
+					lvlState = lvlPlayPuzzle3				
+				
+				end			
+			
+			end		
+		
+		end
+		
+	elseif (lvlState == lvlPlayPuzzle3) then
+	
+		if (currentFrame == iFrameEnd) then
+		
+			iLives = iLives - 1			
+			lvlState = lvlEnd
+			
+		end
+		
+	elseif (lvlState == lvlPause) then
+	
+		if timerDue() then
+		
+			getDeathFrames(TALLON_RANDOM)
+			discSkipToFrame(move[currentMove][deathFrameStart])				
+			lvlState = lvlPlayDeath
+			
+		else
+		
+			if (p1BUTTON3) then
+				p1BUTTON3 = false
+				if (iBullets > 0) then
+					
+					if (shooterHit((currentFrame - thisOffset), currentMove) == true) then  -- Player Hit!
+					
+						iScore = iScore + SCORE_BADGUY	
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)
+						lvlState = lvlPlayClip2
+						
+						if (move[currentMove][deathFrameStart] == 38365) then  -- Special case. Skip to right frame for this move.
+							bSection02Reached = true
+							discSkipToFrame(thisOffset + 1080)
+						end
+						
+					elseif (civillianHit((currentFrame - thisOffset)) == true) then	-- Colonist shot!
+						
+						getDeathFrames(COLONIST_SHOT)
+						discSkipToFrame(move[currentMove][deathFrameStart])				
+						lvlState = lvlPlayDeath
+					
+					end			
+					
+				end
+			
+			end		
+		
+		end
+	
+	elseif (lvlState == lvlRunning) then
+	
+		if (currentMove > totalMoves) then
+		
+			lvlState = lvlPlayClip6
+		
+		elseif (currentFrame > move[currentMove][moveFrameEnd]) then -- Death to player!
+			
+			if (move[currentMove][rndMoveType] == GOODGUY) then
+			
+				lvlState = lvlPlayClip2
+				
+			else		
+				
+				discSkipToFrame(move[currentMove][moveFrameEnd])
+				discPause()
+				timerON(iDelay)
+				lvlState = lvlPause	
+			
+			end
+			
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+			
+			if (p1BUTTON3) then
+				p1BUTTON3 = false
+				if (iBullets > 0) then
+					
+					if (shooterHit((currentFrame - thisOffset), currentMove) == true) then  -- Player Hit!
+					
+						iScore = iScore + SCORE_BADGUY	
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)
+						lvlState = lvlPlayClip2
+						
+						if (move[currentMove][deathFrameStart] == 38365) then  -- Special case. Skip to right frame for this move.
+							bSection02Reached = true
+							discSkipToFrame(thisOffset + 1080)
+						end
+						
+					elseif (civillianHit((currentFrame - thisOffset)) == true) then	-- Colonist shot!
+						
+						getDeathFrames(COLONIST_SHOT)
+						discSkipToFrame(move[currentMove][deathFrameStart])				
+						lvlState = lvlPlayDeath
+					
+					end			
+					
+				end
+			
+			end
+			
+		end
+		
+	elseif (lvlState == lvlPlayDeath) then
+		
+		if (currentFrame == move[currentMove][deathFrameEnd]) then
+			
+			if (move[currentMove][deathFrameEnd] == 42622) then
+			
+				discSkipToFrame(42764)
+				lvlState = lvlPlayClip4
+				
+			else
+			
+				discSkipToFrame(undertkrFrmStart)
+				lvlState = lvlPlayNag
+				
+			end
+		
+		end
+		
+	elseif (lvlState == lvlPlayNag) then
+		
+		if (currentFrame == undertkrFrmEnd or p1BUTTON3) then
+		
+			p1BUTTON3 = false
+			lvlState = lvlEnd
+		
+		end	
+	
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft			
+			
+		else
+			
+			if bLevelComplete then
+				
+				stage[levelFellina1] = true
+				currentLevel = levelFellina2
+				bSection01Reached = false
+				bSection02Reached = false				
+				bSection03Reached = false
+				
+			else
+			
+				currentLevel = levelMenu
+			
+			end
+			
+		end
+		
+		if bDebug then debugPrint("Leaving doLevelFellina1()") end
+	
+	end
+	
+end
+
+function doLevelFellina2()
+
+if (lvlState == lvlSetup) then
+	
+	if bDebug then debugPrint ("Entering doLevelFellina2()") end
+	
+		setupLevel(levelFellina1)
+		
+		bLevelComplete = false
+		
+		levelFrameStart = thisOffset + 4011
+		levelFrameEnd = thisOffset + 5120	
+		lvlState = lvlPlayClip1
+		currentMove = 10
+		discSkipToFrame(levelFrameStart)
+		
+	elseif (lvlState == lvlPlayClip1) then
+	
+		if (currentFrame == thisOffset + 4285) then
+		
+			discSkipToFrame (move[currentMove][rndMoveStart])
+			lvlState = lvlRunning		
+			
+		else
+		
+			if (p1BUTTON3) then
+			
+				p1BUTTON3 = false
+				discSkipToFrame (move[currentMove][rndMoveStart])
+				lvlState = lvlRunning		
+			end
+		end
+	
+	elseif (lvlState == lvlPlayClip2) then
+	
+		if (currentFrame >= levelFrameEnd) then
+		
+			bLevelComplete = true
+			lvlState = lvlEnd
+			
+		end
+		
+	elseif (lvlState == lvlPlayClip3) then
+	
+		if (currentFrame == move[currentMove][rndMoveEnd]) then
+		
+			currentMove = currentMove + 1
+			if (currentMove <= totalMoves) then			
+				discSkipToFrame (move[currentMove][rndMoveStart])
+			
+			end
+			lvlState = lvlRunning
+			
+		end
+		
+	elseif (lvlState == lvlPlayClip4) then
+	
+		if (currentFrame == iFrameEnd) then
+		
+			currentMove = currentMove + 1
+			if (currentMove <= totalMoves) then
+				discSkipToFrame (move[currentMove][rndMoveStart])
+				
+			end
+			lvlState = lvlRunning
+			
+		end
+	
+	elseif (lvlState == lvlRunning) then
+	
+		if (currentMove > totalMoves) then
+		
+			discSkipToFrame(thisOffset + 5060)
+			lvlState = lvlPlayClip2
+			
+		elseif (currentFrame > move[currentMove][moveFrameEnd]) then -- Show 'you missed' comments			
+			
+			lvlState = lvlPlayClip3			
+			
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+		
+			if (p1BUTTON3 and iBullets > 0) then
+				p1BUTTON3 = false
+				if (shooterHit((currentFrame - thisOffset), currentMove) == true) then -- Player hit! Show explosion
+
+					iScore = iScore + SCORE_OBJECT
+					
+					iFrameStart = 43299
+					iFrameEnd = 43349
+					discSkipToFrame(iFrameStart)
+					lvlState = lvlPlayClip4
+				
+				end			
+			
+			end
+		
+		end	
+	
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft			
+			
+		else
+			
+			if bLevelComplete then
+				
+				stage[levelFellina2] = true
+				panel[STAGE_FELLINA] = true				
+			
+			end
+			currentLevel = levelMenu
+			
+		end
+		
+		if bDebug then debugPrint("Leaving doLevelFellina2()") end		
+	
+	end
+
+end
+
+function doLevelMountain1()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint("Entering dolevelMountain1()") end
+		
+		setupLevel(levelMountain1)
+		bLevelComplete = false
+		totalMoves = 8
+		levelFrameEnd = thisOffset + 3137
+		
+		if (bSection01Reached == true) and (bSection02Reached == false) then
+		
+			levelFrameStart = thisOffset + 139
+			discSkipToFrame(levelFrameStart)
+			currentMove = 1
+			lvlState = lvlRunning
+		
+		elseif (bSection02Reached == true) then
+		
+			levelFrameStart = thisOffset + 1651
+			setupClip(thisOffset + 1651, thisOffset + 1992)			
+			currentMove = 8			
+			lvlState = lvlPlayClip3
+		
+		else
+		
+			levelFrameStart = thisOffset			
+			lvlState = lvlPlayClip1
+			currentMove = 1
+			discSkipToFrame(levelFrameStart)
+		
+		end	
+		
+	elseif (lvlState == lvlPlayClip1) then
+	
+		if (currentFrame == thisOffset + 104) then
+		
+			bSection01Reached = true
+			lvlState = lvlRunning
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip2) then
+	
+		if (currentFrame == move[currentMove][rndMoveEnd]) then
+		
+			currentMove = currentMove + 1			
+			
+			if (currentMove == 7 and iLevelWithCannon == STAGE_MOUNTAIN) then
+			
+				discSkipToFrame(thisOffset + 1172) -- Skips Crystal Hint
+				lvlState = lvlRunning
+			
+			elseif (currentMove == 8) then			
+			
+				if (iLevelWithCannon == STAGE_MOUNTAIN) then
+				
+					bLevelComplete = true
+					currentLevel = levelFirePractice
+					stage[levelMountain1] = true
+					stage[levelMountain2] = true			
+					panel[STAGE_MOUNTAIN] = true
+					bSection01Reached = false
+					bSection02Reached = false				
+					bSection03Reached = false
+					lvlState = lvlSetup			
+				
+				
+				else			
+			
+					bSection02Reached = true
+					setupClip(thisOffset + 1651, thisOffset + 1992)
+					lvlState = lvlPlayClip3
+					
+				end
+				
+			elseif (currentMove <= totalMoves) then
+			
+				discSkipToFrame(move[currentMove][rndMoveStart])
+				lvlState = lvlRunning
+				
+			else
+			
+				crystalState = crystalSetup							
+				lvlState = lvlPlayClip4
+				
+			end
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip3) then
+	
+		if (currentFrame == iFrameEnd or p1BUTTON3) then
+		
+			p1BUTTON3 = false		
+			discSkipToFrame(move[currentMove][rndMoveStart])
+			lvlState = lvlRunning
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip4) then
+	
+		if doShowCrystal() == true then		
+			
+			bLevelComplete = true
+			lvlState = lvlEnd
+		
+		end
+		
+	elseif (lvlState == lvlPause) then
+	
+		if timerDue() then
+		
+			getDeathFrames(TALLON_RANDOM)
+			discSkipToFrame(move[currentMove][deathFrameStart])
+			lvlState = lvlPlayDeath
+			
+		else		
+		
+			if (p1BUTTON3) then
+			
+				p1BUTTON3 = false
+				if (iBullets > 0) then
+					
+					if (shooterHit((currentFrame - thisOffset), currentMove) == true) then  -- Player Hit!
+					
+						iScore = iScore + SCORE_BADGUY						
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)						
+						lvlState = lvlPlayClip2
+						
+					end			
+					
+				end
+			
+			end		
+		
+		end
+		
+	elseif (lvlState == lvlRunning) then
+		
+		if (currentMove > totalMoves) then
+		
+			-- nothing is done here.
+			
+		elseif (currentFrame > move[currentMove][moveFrameEnd]) then -- Death to player!
+			
+			timerON(iDelay)
+			discSkipToFrame(move[currentMove][moveFrameEnd])
+			discPause()
+			lvlState = lvlPause			
+			
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+			
+			if (p1BUTTON3) then
+				
+				p1BUTTON3 = false
+				if (iBullets > 0) then
+					
+					if (shooterHit((currentFrame - thisOffset), currentMove) == true) then  -- Player Hit!
+						
+						iScore = iScore + SCORE_BADGUY						
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)						
+						lvlState = lvlPlayClip2						
+						
+					end			
+					
+				end
+			
+			end
+			
+		end
+		
+	elseif (lvlState == lvlPlayDeath) then
+		
+		if (currentFrame == move[currentMove][deathFrameEnd]) then			
+			
+			discSkipToFrame(undertkrFrmStart)
+			lvlState = lvlPlayNag
+		
+		end
+		
+	elseif (lvlState == lvlPlayNag) then
+		
+		if (currentFrame == undertkrFrmEnd or p1BUTTON3) then
+		
+			p1BUTTON3 = false
+			lvlState = lvlEnd
+		
+		end	
+	
+	elseif (lvlState == lvlEnd) then
+
+		lvlState = lvlSetup
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft			
+			
+		else
+			
+			if bLevelComplete then
+				
+				currentLevel = levelMountain2
+				stage[levelMountain1] = true
+				bSection01Reached = false
+				bSection02Reached = false				
+				bSection03Reached = false				
+			
+			else
+			
+				currentLevel = levelMenu
+			end
+			
+			
+		end
+		
+		if bDebug then debugPrint("Leaving dolevelMountain1()") end
+	
+	end
+
+end
+
+function doLevelMountain2()
+
+if (lvlState == lvlSetup) then
+	
+	if bDebug then debugPrint ("Entering doLevelMountain2()") end
+	
+		setupLevel(levelMountain1)
+		
+		bLevelComplete = false
+		
+		levelFrameStart = thisOffset + 2555
+		levelFrameEnd = thisOffset + 3136			
+		currentMove = 10
+		discSkipToFrame(levelFrameStart)
+		lvlState = lvlRunning
+	
+	elseif (lvlState == lvlPlayClip2) then
+	
+		if (currentFrame >= levelFrameEnd) then
+		
+			bLevelComplete = true
+			lvlState = lvlEnd
+			
+		end
+		
+	elseif (lvlState == lvlPlayClip3) then
+	
+		if (currentFrame == move[currentMove][rndMoveEnd]) then
+		
+			currentMove = currentMove + 1
+			if (currentMove <= totalMoves) then			
+				discSkipToFrame (move[currentMove][rndMoveStart])
+			
+			end
+			lvlState = lvlRunning
+			
+		end
+		
+	elseif (lvlState == lvlPlayClip4) then
+	
+		if (currentFrame == iFrameEnd) then
+		
+			currentMove = currentMove + 1
+			if (currentMove <= totalMoves) then
+				discSkipToFrame (move[currentMove][rndMoveStart])
+			
+			else
+				
+				discSkipToFrame(thisOffset + 3058)
+			end
+			lvlState = lvlRunning
+			
+		end
+	
+	elseif (lvlState == lvlRunning) then
+	
+		if (currentMove > totalMoves) then
+		
+			discSkipToFrame(thisOffset + 3058)
+			lvlState = lvlPlayClip2
+			
+		elseif (currentFrame > move[currentMove][moveFrameEnd]) then -- Show 'you missed' comments			
+			
+			lvlState = lvlPlayClip3			
+			
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+		
+			if (p1BUTTON3 and iBullets > 0) then
+				p1BUTTON3 = false
+				if (shooterHit((currentFrame - thisOffset), currentMove) == true) then -- Player hit! Show explosion				
+					
+					iScore = iScore + SCORE_OBJECT
+					iFrameStart = 46352
+					iFrameEnd = 46406
+					discSkipToFrame(iFrameStart)
+					lvlState = lvlPlayClip4
+				
+				end			
+			
+			end
+		
+		end	
+	
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft			
+			
+		else
+			
+			if bLevelComplete then
+				
+				stage[levelMountain2] = true
+				panel[STAGE_MOUNTAIN] = true				
+				
+			end			
+			currentLevel = levelMenu
+			
+		end
+		
+		if bDebug then debugPrint("Leaving doLevelMountain2()") end		
+	
+	end
+
+end
+
+function doLevelPractice()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint("Entering doLevelPractice()") end
+	
+		setupLevel(levelPractice)
+		bLevelComplete = false
+		currentMove = 1
+		
+		levelFrameStart = thisOffset
+		levelFrameEnd = thisOffset + 799
+		
+		discSkipToFrame (levelFrameStart)		
+		lvlState = lvlPlayClip3
+		
+	elseif (lvlState == lvlPlayClip3) then
+		
+		if (currentFrame == (thisOffset + 285) or p1BUTTON3) then
+			
+			discSkipToFrame(move[currentMove][rndMoveStart])
+			lvlState = lvlRunning
+			
+		end
+		
+	elseif (lvlState == lvlPlayClip1) then
+	
+		if (currentFrame == iFrameEnd) then
+			
+			currentMove = currentMove + 1
+			if currentMove <= totalMoves then
+				
+				discSkipToFrame(move[currentMove][rndMoveStart])
+				
+			end
+			
+			lvlState = lvlRunning
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip2) then
+		
+		if (currentFrame == move[currentMove][rndMoveEnd]) then
+			
+			currentMove = currentMove + 1
+			if (currentMove <= totalMoves) then
+				
+				discSkipToFrame(move[currentMove][rndMoveStart])
+				
+			end
+			
+			lvlState = lvlRunning
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip4) then
+	
+		if (currentFrame == levelFrameEnd) then
+		
+			bLevelComplete = true
+			lvlState = lvlEnd
+	
+		end
+	
+	elseif (lvlState == lvlRunning) then
+		
+		if (currentMove > totalMoves) then
+			
+			discSkipToFrame(thisOffset + 740) 
+			lvlState = lvlPlayClip4
+			
+		elseif (currentFrame > move[currentMove][moveFrameEnd]) then -- Player Missed Asteroid!
+			
+			playMe(sndMiss)
+			lvlState = lvlPlayClip2			
+			
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+			
+			if (p1BUTTON3) and (iBullets > 0) then
+				p1BUTTON3 = false
+				
+				if (shooterHit((currentFrame - thisOffset), currentMove) == true) then  -- Player Hit!
+					
+					iScore = iScore + SCORE_OBJECT
+					iFrameStart = move[currentMove][deathFrameStart]
+					iFrameEnd = move[currentMove][deathFrameEnd]
+					discSkipToFrame(iFrameStart)
+					lvlState = lvlPlayClip1
+				
+				end
+			
+			end
+		
+		end	
+	
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		currentLevel = levelDoor1
+		
+		if bDebug then debugPrint("Leaving doLevelPractice()") end
+	
+	end
+
+
+end
+
+function doLevelReaper1()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint("Entering doLevelReaper1()") end
+	
+		setupLevel(levelReaper1)
+		bLevelComplete = false
+		levelFrameEnd = thisOffset + 4103		
+		
+		if bSection01Reached and not bSection02Reached then
+
+			currentMove = 1		
+			levelFrameStart = thisOffset + 94	
+			lvlState = lvlPlayClip1
+			discSkipToFrame(levelFrameStart)
+		
+		elseif bSection02Reached then
+		
+		
+		else
+		
+			currentMove = 1		
+			levelFrameStart = thisOffset
+			lvlState = lvlPlayClip1
+			discSkipToFrame(levelFrameStart)
+		end
+		
+	elseif (lvlState == lvlPlayClip1) then
+
+		if (currentFrame == thisOffset + 95) then
+			
+			bSection01Reached = true		
+			discSkipToFrame(move[currentMove][rndMoveStart])
+			lvlState = lvlRunning
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip2) then
+
+		if (currentFrame == move[currentMove][rndMoveEnd]) then		
+			
+			if (currentMove == 6) then
+			
+				currentMove = 8
+				
+			elseif (currentMove == 7 and iSkullshots > 0) then
+			
+				currentMove = iSkullshots
+				discSkipToFrame(move[currentMove][rndMoveStart])
+			
+			else
+		
+				currentMove = currentMove + 1
+				if (currentMove < totalMoves) then
+					
+					discSkipToFrame(move[currentMove][rndMoveStart])
+					
+				end
+				
+			end
+			lvlState = lvlRunning		
+		end	
+		
+	elseif (lvlState == lvlPause) then
+	
+		if timerDue() then
+			
+			getDeathFrames(TALLON_RANDOM)
+			discSkipToFrame(move[currentMove][deathFrameStart])
+			lvlState = lvlPlayDeath
+		
+		else
+		
+			if (p1BUTTON3) then			
+				p1BUTTON3 = false
+				if (iBullets > 0) then
+					
+					if (shooterHit((currentFrame - thisOffset), currentMove) == true) then  -- Player Hit!
+						
+						iScore = iScore + SCORE_BADGUY
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)
+						lvlState = lvlPlayClip2
+					
+					elseif (civillianHit((currentFrame - thisOffset)) == true) then	-- Colonist shot!
+						
+						getDeathFrames(COLONIST_SHOT)
+						discSkipToFrame(move[currentMove][deathFrameStart])				
+						lvlState = lvlPlayDeath					
+					
+					end
+					
+				end
+				
+			end		
+		
+		end
+		
+	elseif (lvlState == lvlRunning) then
+
+		if (currentMove > totalMoves) then
+		
+			if (iLevelWithCannon == STAGE_REAPER) then
+			
+				bLevelComplete = true
+				currentLevel = levelFirePractice
+				lvlState = lvlSetup
+				stage[levelReaper1] = true
+				stage[levelReaper2] = true
+				stage[levelReaper3] = true
+				panel[STAGE_REAPER] = true
+				bSection01Reached = false
+				bSection02Reached = false
+				bSection03Reached = false
+			
+			else
+
+				bLevelComplete = true
+				lvlState = lvlEnd
+				
+			end
+			
+		elseif (currentFrame > move[currentMove][moveFrameEnd]) then -- Death to player!
+			
+			if (move[currentMove][rndMoveType] == GOODGUY) then
+				
+				lvlState = lvlPlayClip2
+				
+			else
+				
+				discSkipToFrame(move[currentMove][moveFrameEnd])
+				discPause()
+				timerON(iDelay)
+				lvlState = lvlPause
+				
+			end
+			
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+			
+			if (p1BUTTON3) then			
+				p1BUTTON3 = false
+				if (iBullets > 0) then
+					
+					if (shooterHit((currentFrame - thisOffset), currentMove) == true) then  -- Player Hit!
+						
+						iScore = iScore + SCORE_BADGUY
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)
+						lvlState = lvlPlayClip2
+					
+					elseif (civillianHit((currentFrame - thisOffset)) == true) then	-- Colonist shot!
+						
+						getDeathFrames(COLONIST_SHOT)
+						discSkipToFrame(move[currentMove][deathFrameStart])				
+						lvlState = lvlPlayDeath					
+						
+					elseif (move[currentMove][rndMoveType] == GOODGUY) then
+					
+						if (mousex >= 93 and mousex <= 112) and (mousey >= 170 and mousey <= 195) then -- Easter egg					
+							
+							if iSkullshots == 0 then -- Show mad dog!
+							
+								iSkullshots = currentMove
+								currentMove = 7
+								discSkipToFrame(move[currentMove][rndMoveStart])							
+							
+							end					
+							
+						end
+					
+					end
+					
+				end
+				
+			end
+
+		end	
+		
+	elseif (lvlState == lvlPlayDeath) then
+		
+		if (currentFrame == move[currentMove][deathFrameEnd]) then			
+			
+			discSkipToFrame(undertkrFrmStart)
+			lvlState = lvlPlayNag
+		
+		end
+		
+	elseif (lvlState == lvlPlayNag) then
+		
+		if (currentFrame == undertkrFrmEnd or p1BUTTON3) then
+		
+			p1BUTTON3 = false
+			lvlState = lvlEnd
+		
+		end	
+	
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft			
+			
+		else
+			
+			if bLevelComplete then
+				
+				currentLevel = levelReaper2
+				stage[levelReaper1] = true
+				bSection01Reached = false
+
+			else
+			
+				currentLevel = levelMenu
+			
+			end
+			
+		end	
+	
+		if bDebug then debugPrint("Leaving doLevelReaper1()") end
+	
+	end	
+
+end
+
+function doLevelReaper2()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint("Entering doLevelReaper2()") end
+	
+		setupLevel(levelReaper2)
+		bLevelComplete = false
+		iReaperHits = 0
+		levelFrameEnd = thisOffset + 5063
+		
+		currentMove = 1		
+		levelFrameStart = thisOffset + 2463			
+		GetReaperLaughs()
+		discSkipToFrame(iFrameStart) -- iFrameStart and End are setup in GetReaperLaughs()
+		lvlState = lvlPlayClip1
+		
+	elseif (lvlState == lvlPlayClip1) then
+		
+		if (currentFrame == iFrameEnd) then			
+					
+			discSkipToFrame(levelFrameStart)
+			lvlState = lvlRunning
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip2) then
+	
+		if (currentFrame == move[currentMove][rndMoveEnd]) then
+			
+			currentMove = currentMove + 1			
+			if (currentMove <= totalMoves) then				
+				
+				discSkipToFrame(move[currentMove][rndMoveStart])
+				
+			end
+			lvlState = lvlRunning
+		
+		end		
+		
+	elseif (lvlState == lvlPlayClip3) then
+		
+		if (currentFrame == 37082) then 
+			discSkipToFrame(undertkrFrmStart)
+			lvlState = lvlPlayNag
+		end
+		
+	elseif (lvlState == lvlPlayClip4) then
+	
+		if doShowCrystal() == true then
+		
+			bLevelComplete = true
+			lvlState = lvlEnd	
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip5) then
+	
+		if (currentFrame == move[currentMove][rndMoveEnd]) then
+		
+			getDeathFrames(TALLON_RANDOM)
+			discSkipToFrame(move[currentMove][deathFrameStart])
+			lvlState = lvlPlayDeath						
+		
+		end
+		
+	elseif (lvlState == lvlRunning) then
+		
+		if (currentMove > totalMoves) then			
+			
+			if iReaperHits == iReaperLaughs then -- Puzzle complete!				
+				
+				crystalState = crystalSetup
+				lvlState = lvlPlayClip4
+				playMe(sndCoin)
+				
+			else	-- Death to player!
+			
+				getDeathFrames(TALLON_RANDOM)
+				discSkipToFrame(36561)
+				lvlState = lvlPlayClip3			
+				
+			end
+			
+		elseif (currentFrame > move[currentMove][moveFrameEnd]) then  -- Death to player!
+			
+			if currentMove == 1 then			
+				
+				getDeathFrames(TALLON_RANDOM)
+				discSkipToFrame(move[currentMove][deathFrameStart])
+				lvlState = lvlPlayDeath
+				
+			else
+			
+				if iReaperHits == iReaperLaughs then -- Puzzle complete!				
+				
+					crystalState = crystalSetup
+					lvlState = lvlPlayClip4
+					playMe(sndCoin)
+
+				else	-- Reaper laughs doesn't match Reaper hits. Death to player!
+				
+					lvlState = lvlPlayClip5					
+				
+				end			
+			
+			end
+			
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+			
+			if (p1BUTTON3) then			
+				p1BUTTON3 = false
+				if (iBullets > 0) then
+					
+					if (shooterHit((currentFrame - thisOffset), currentMove) == true) then  -- Player Hit!						
+						
+						iScore = iScore + SCORE_BADGUY
+						
+						if currentMove == 1 then
+						
+							discSkipToFrame(move[currentMove][moveFrameEnd]+1)						
+							lvlState = lvlPlayClip2
+							
+						else
+						
+							currentMove = currentMove + 1
+							if iReaperHits < 8 then iReaperHits = iReaperHits + 1 end
+							if (currentMove <= totalMoves) then							
+								
+								discSkipToFrame(move[currentMove][rndMoveStart])
+							
+							end
+						
+						end
+						
+					elseif (civillianHit((currentFrame - thisOffset)) == true) then	-- Colonist shot!
+						
+						getDeathFrames(COLONIST_SHOT)
+						discSkipToFrame(move[currentMove][deathFrameStart])				
+						lvlState = lvlPlayDeath					
+					
+					end
+					
+				end
+				
+			end
+		
+		end	
+
+	elseif (lvlState == lvlPlayDeath) then
+		
+		if (currentFrame == move[currentMove][deathFrameEnd]) then			
+			
+			discSkipToFrame(undertkrFrmStart)
+			lvlState = lvlPlayNag
+		
+		end
+		
+	elseif (lvlState == lvlPlayNag) then
+		
+		if (currentFrame == undertkrFrmEnd or p1BUTTON3) then
+		
+			p1BUTTON3 = false
+			lvlState = lvlEnd
+		
+		end	
+	
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft			
+			
+		else
+			
+			if bLevelComplete then
+				
+				currentLevel = levelReaper3
+				stage[levelReaper2] = true
+
+			else
+			
+				currentLevel = levelMenu
+			
+			end
+			
+		end	
+	
+		if bDebug then debugPrint("Leaving doLevelReaper2()") end
+	
+	end	
+
+end
+
+function doLevelReaper3()
+
+if (lvlState == lvlSetup) then
+	
+	if bDebug then debugPrint ("Entering doLevelReaper3()") end
+	
+		setupLevel(levelReaper3)
+		
+		bLevelComplete = false
+		
+		levelFrameStart = thisOffset + 3820
+		levelFrameEnd = thisOffset + 5083	
+		lvlState = lvlPlayClip1
+		currentMove = 1
+		discSkipToFrame(levelFrameStart)
+		
+	elseif (lvlState == lvlPlayClip1) then
+	
+		if (currentFrame == thisOffset + 4103) then
+		
+			discSkipToFrame(move[currentMove][rndMoveStart])
+			lvlState = lvlRunning
+		
+		end
+	
+	elseif (lvlState == lvlPlayClip2) then
+	
+		if (currentFrame >= levelFrameEnd) then
+		
+			bLevelComplete = true
+			lvlState = lvlEnd
+			
+		end
+		
+	elseif (lvlState == lvlPlayClip3) then
+	
+		if (currentFrame == iFrameEnd) then
+		
+			currentMove = currentMove + 1
+			if (currentMove < totalMoves) then
+				discSkipToFrame (move[currentMove][rndMoveStart])			
+			else
+				
+				discSkipToFrame(thisOffset + 5025)
+			end
+			lvlState = lvlRunning
+		
+					
+		end	
+		
+	elseif (lvlState == lvlPlayClip4) then
+	
+		if (currentFrame == thisOffset + 4242) then
+		
+			discSkipToFrame(thisOffset + 5025)
+			lvlState = lvlPlayClip2
+			
+		end	
+	
+	elseif (lvlState == lvlRunning) then
+	
+		if (currentMove > totalMoves) then
+		
+			discSkipToFrame(thisOffset + 4103)
+			lvlState = lvlPlayClip4		
+			
+			
+		elseif (currentFrame > move[currentMove][moveFrameEnd]) then -- Show 'you missed' comments			
+			
+			currentMove = currentMove + 1
+			if (currentMove < totalMoves) then
+			
+				discSkipToFrame (move[currentMove][rndMoveStart])
+			
+			end
+			
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+		
+			if (p1BUTTON3 and iBullets > 0) then
+				p1BUTTON3 = false
+				if (shooterHit((currentFrame - thisOffset), currentMove) == true) then -- Player hit! Show explosion				
+					
+					iScore = iScore + SCORE_OBJECT
+					iFrameStart = 37377
+					iFrameEnd = 37447
+					discSkipToFrame(iFrameStart)
+					lvlState = lvlPlayClip3
+				
+				end			
+			
+			end
+		
+		end	
+	
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft			
+			
+		else
+			
+			if bLevelComplete then
+				
+				stage[levelReaper3] = true
+				panel[STAGE_REAPER] = true				
+				bSection01Reached = false
+				bSection02Reached = false				
+				bSection03Reached = false
+				
+			end			
+			currentLevel = levelMenu
+			
+		end
+		
+		if bDebug then debugPrint("Leaving doLevelReaper3()") end		
+	
+	end
+
+end
+
+function doLevelScrapyard1()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint("Entering doLevelScrapyard1()") end
+	
+		setupLevel(levelScrapyard1)
+		bLevelComplete = false
+		levelFrameEnd = thisOffset + 1665		
+		
+		currentMove = 1		
+		levelFrameStart = thisOffset
+		
+		setupClip(37448, 37522)
+		lvlState = lvlPlayClip1
+		
+	elseif (lvlState == lvlPlayClip1) then
+	
+		if currentFrame == iFrameEnd then
+		
+			discSkipToFrame(levelFrameStart)
+			lvlState = lvlRunning
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip2) then
+		
+		if (currentFrame == move[currentMove][rndMoveEnd]) then
+			
+			currentMove = currentMove + 1
+			
+			if ((currentMove == 8) and (iLevelWithCannon ~= STAGE_SCRAPYARD)) then 	-- Special Case. Insert hint clip for this level. (But only if stage has a crystal)
+			
+				setupClip(thisOffset + 870, thisOffset + 1148)
+				lvlState = lvlPlayClip3				
+			
+			elseif (currentMove <= totalMoves) then				
+				
+				discSkipToFrame(move[currentMove][rndMoveStart])
+				lvlState = lvlRunning
+				
+			else
+			
+				lvlState = lvlRunning
+				
+			end			
+			
+			
+		end	
+		
+	elseif (lvlState == lvlPlayClip3) then
+	
+		if (currentFrame == iFrameEnd or ((currentFrame >= (iFrameStart + 30)) and p1BUTTON3)) then
+		
+			p1BUTTON3 = false
+			discSkipToFrame(move[currentMove][rndMoveStart])
+			lvlState = lvlRunning		
+		
+		end
+		
+	elseif (lvlState == lvlPause) then
+	
+		if timerDue() then
+		
+			getDeathFrames(TALLON_RANDOM)
+			discSkipToFrame(move[currentMove][deathFrameStart])
+			lvlState = lvlPlayDeath		
+		
+		else
+		
+			if (p1BUTTON3) then			
+				p1BUTTON3 = false
+				if (iBullets > 0) then
+					
+					if (shooterHit((currentFrame - thisOffset), currentMove) == true) then  -- Player Hit!
+					
+						iScore = iScore + SCORE_BADGUY
+						
+						if (move[currentMove][deathFrameStart] == 51729) then  -- Special case. Move video to appropriate start of death clip.
+						
+							discSkipToFrame(thisOffset + 1412)
+							
+						else						
+						
+							discSkipToFrame(move[currentMove][moveFrameEnd]+1)						
+							
+						end
+						
+						lvlState = lvlPlayClip2
+						
+					elseif (civillianHit((currentFrame - thisOffset)) == true) then	-- Colonist shot!
+						
+						getDeathFrames(COLONIST_SHOT)
+						discSkipToFrame(move[currentMove][deathFrameStart])				
+						lvlState = lvlPlayDeath					
+					
+					end
+					
+				end
+				
+			end		
+		
+		end
+		
+	elseif (lvlState == lvlRunning) then
+		
+		if (currentMove > totalMoves) then
+			
+			if currentFrame >= levelFrameEnd then
+			
+				if (iLevelWithCannon == STAGE_SCRAPYARD) then
+				
+					stage[levelScrapyard1] = true
+					stage[levelScrapyard2] = true
+					stage[levelScrapyard3] = true
+					panel[STAGE_SCRAPYARD] = true
+					bSection01Reached = false
+					bSection02Reached = false
+					bSection03Reached = false
+					currentLevel = levelFirePractice
+					lvlState = lvlSetup
+				
+				else
+			
+					bLevelComplete = true
+					lvlState = lvlEnd
+					
+				end
+				
+			end
+			
+		elseif (currentFrame > move[currentMove][moveFrameEnd]) then  -- Death to player!
+			
+			if (move[currentMove][rndMoveType] == GOODGUY) then
+			
+				lvlState = lvlPlayClip2
+			else
+			
+				discSkipToFrame(move[currentMove][moveFrameEnd])
+				discPause()
+				timerON(iDelay)
+				lvlState = lvlPause
+			end
+		
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+			
+			if (p1BUTTON3) then			
+				p1BUTTON3 = false
+				if (iBullets > 0) then
+					
+					if (shooterHit((currentFrame - thisOffset), currentMove) == true) then  -- Player Hit!
+					
+						iScore = iScore + SCORE_BADGUY
+						
+						if (move[currentMove][deathFrameStart] == 51414) then  -- Special case. Move video to appropriate start of death clip.
+						
+							discSkipToFrame(thisOffset + 1412)
+							
+						else						
+						
+							discSkipToFrame(move[currentMove][moveFrameEnd]+1)						
+							
+						end
+						
+						lvlState = lvlPlayClip2
+						
+					elseif (civillianHit((currentFrame - thisOffset)) == true) then	-- Colonist shot!
+						
+						getDeathFrames(COLONIST_SHOT)
+						discSkipToFrame(move[currentMove][deathFrameStart])				
+						lvlState = lvlPlayDeath					
+					
+					end
+					
+				end
+				
+			end
+		
+		end	
+		
+	elseif (lvlState == lvlPlayDeath) then
+		
+		if (currentFrame == move[currentMove][deathFrameEnd]) then			
+			
+			discSkipToFrame(undertkrFrmStart)
+			lvlState = lvlPlayNag
+		
+		end
+		
+	elseif (lvlState == lvlPlayNag) then
+		
+		if (currentFrame == undertkrFrmEnd or p1BUTTON3) then
+		
+			p1BUTTON3 = false
+			lvlState = lvlEnd
+		
+		end	
+	
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft			
+			
+		else
+			
+			if bLevelComplete then
+				
+				currentLevel = levelScrapyard2
+				stage[levelScrapyard1] = true
+				bSection01Reached = false
+
+			else
+			
+				currentLevel = levelMenu
+			
+			end
+			
+		end	
+	
+		if bDebug then debugPrint("Leaving doLevelScrapyard1()") end
+	
+	end	
+
+end
+
+function doLevelScrapyard2()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint("Entering doLevelScrapyard2()") end
+	
+		setupLevel(levelScrapyard2)
+		bLevelComplete = false
+		
+		levelFrameStart = thisOffset + 870
+		levelFrameEnd = thisOffset + 3670		
+		
+		currentMove = 1		
+		
+		discSkipToFrame(move[currentMove][rndMoveStart])
+		lvlState = lvlRunning
+		
+	elseif (lvlState == lvlPlayClip2) then
+		
+		if (currentFrame == move[currentMove][rndMoveEnd]) then
+		
+			currentMove = currentMove + 1		
+			if (currentMove <= totalMoves) then				
+				
+				discSkipToFrame(move[currentMove][rndMoveStart])
+				
+			end			
+			lvlState = lvlRunning		
+			
+		end	
+		
+	elseif (lvlState == lvlPlayClip3) then
+
+		if (currentFrame == 51979) then
+		
+			lvlState = lvlEnd	
+		
+		end	
+		
+	elseif (lvlState == lvlPlayClip4) then
+	
+		if doShowCrystal() == true then
+		
+			bLevelComplete = true
+			lvlState = lvlEnd		
+		end
+		
+	elseif (lvlState == lvlPause) then
+	
+		if timerDue() then
+		
+			getDeathFrames(TALLON_RANDOM)
+			discSkipToFrame(move[currentMove][deathFrameStart])
+			lvlState = lvlPlayDeath	
+		else
+		
+			if (p1BUTTON3) then			
+				p1BUTTON3 = false
+				if (iBullets > 0) then
+					
+					if (shooterHit((currentFrame - thisOffset), currentMove) == true) then  -- Player Hit!
+					
+						if (currentMove == 6) then
+						
+							getDeathFrames(BZ_DONTSHOOTFIRST)
+							discSkipToFrame(move[currentMove][deathFrameStart])
+							lvlState = lvlPlayDeath							
+							
+						else
+						
+							iScore = iScore + SCORE_BADGUY
+							discSkipToFrame(move[currentMove][moveFrameEnd])						
+							lvlState = lvlPlayClip2
+							
+						end						
+					
+					end
+					
+				end
+				
+			end
+		
+		end
+		
+	elseif (lvlState == lvlRunning) then
+		
+		if (currentMove > totalMoves) then
+			
+			crystalState = crystalSetup
+			lvlState = lvlPlayClip4
+			
+		elseif (currentFrame > move[currentMove][moveFrameEnd]) then  -- Death to player!
+			
+			if (move[currentMove][rndMoveType] == GOODGUY) then
+			
+				lvlState = lvlPlayClip2
+			else
+			
+				discSkipToFrame(move[currentMove][moveFrameEnd])
+				discPause()
+				timerON(iDelay)
+				lvlState = lvlPause
+			end
+		
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+			
+			if (p1BUTTON3) then			
+				p1BUTTON3 = false
+				if (iBullets > 0) then
+					
+					if (shooterHit((currentFrame - thisOffset), currentMove) == true) then  -- Player Hit!
+					
+						if (currentMove == 6) then
+						
+							getDeathFrames(BZ_DONTSHOOTFIRST)
+							discSkipToFrame(move[currentMove][deathFrameStart])
+							lvlState = lvlPlayDeath							
+							
+						
+						else
+						
+							iScore = iScore + SCORE_BADGUY
+							discSkipToFrame(move[currentMove][moveFrameEnd])						
+							lvlState = lvlPlayClip2
+							
+						end						
+					
+					end
+					
+				end
+				
+			end
+		
+		end	
+		
+	elseif (lvlState == lvlPlayDeath) then
+		
+		if (currentFrame == move[currentMove][deathFrameEnd]) then			
+			
+			if (currentMove < 6) then
+			
+				discSkipToFrame(51890)
+				lvlState = lvlPlayClip3
+				
+			else
+			
+				discSkipToFrame(undertkrFrmStart)
+				lvlState = lvlPlayNag
+				
+			end
+		
+		end
+		
+	elseif (lvlState == lvlPlayNag) then
+		
+		if (currentFrame == undertkrFrmEnd or p1BUTTON3) then
+		
+			p1BUTTON3 = false
+			lvlState = lvlEnd
+		
+		end	
+	
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft			
+			
+		else
+			
+			if bLevelComplete then
+				
+				currentLevel = levelScrapyard3
+				stage[levelScrapyard2] = true
+				bSection01Reached = false
+
+			else
+			
+				currentLevel = levelMenu
+			
+			end
+			
+		end	
+	
+		if bDebug then debugPrint("Leaving doLevelScrapyard2()") end
+	
+	end	
+
+end
+
+function doLevelScrapyard3()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint("Entering doLevelScrapyard3()") end
+	
+		setupLevel(levelScrapyard3)
+		bLevelComplete = false
+		
+		levelFrameStart = thisOffset + 4756
+		levelFrameEnd   = thisOffset + 5484		
+		
+		currentMove = 1		
+		discSkipToFrame(50325)
+		lvlState = lvlPlayClip1
+		
+	elseif (lvlState == lvlPlayClip1) then
+	
+		if (currentFrame == 50516 or (currentFrame >= 50550 and p1BUTTON3)) then
+		
+			p1BUTTON3 = false
+			discSkipToFrame(move[currentMove][rndMoveStart])
+			lvlState = lvlRunning
+		end
+		
+	elseif (lvlState == lvlPlayClip2) then
+		
+		if (currentFrame == move[currentMove][rndMoveEnd]) then
+			
+			currentMove = currentMove + 1		
+			if (currentMove <= totalMoves) then
+				
+				discSkipToFrame(move[currentMove][rndMoveStart])
+				
+			end			
+			lvlState = lvlRunning		
+			
+		end	
+		
+	elseif (lvlState == lvlPlayClip3) then
+
+		if (currentFrame == levelFrameEnd) then
+		
+			bLevelComplete = true
+			lvlState = lvlEnd		
+		end	
+		
+	elseif (lvlState == lvlRunning) then
+		
+		if (currentMove > totalMoves) then
+			
+			discSkipToFrame(thisOffset + 5410)			
+			lvlState = lvlPlayClip3
+			
+		elseif (currentFrame > move[currentMove][moveFrameEnd]) then  -- Death to player!
+			
+			currentMove = currentMove + 1
+			if (currentMove <= totalMoves) then			
+				
+				discSkipToFrame(move[currentMove][rndMoveStart])			
+			
+			end
+		
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+			
+			if (p1BUTTON3) then			
+				p1BUTTON3 = false
+				if (iBullets > 0) then
+					
+					if (shooterHit((currentFrame - thisOffset), currentMove) == true) then  -- Player Hit!
+					
+						iScore = iScore + SCORE_BADGUY
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)						
+						lvlState = lvlPlayClip2
+					
+					end
+					
+				end
+				
+			end
+		
+		end	
+	
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft			
+			
+		else
+			
+			if bLevelComplete then			
+				
+				stage[levelScrapyard3] = true
+				panel[STAGE_SCRAPYARD] = true
+
+			end
+			currentLevel = levelMenu
+		end	
+	
+		if bDebug then debugPrint("Leaving doLevelScrapyard3()") end
+	
+	end	
+
+end
+
+function doLevelTallon()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint("Entering doLevelTallon()") end
+		
+		bLevelComplete = false
+		setupLevel(levelTallon)
+		currentMove = 1
+		levelFrameStart = thisOffset + 2712
+		levelFrameEnd = thisOffset + 4823
+		
+		discSkipToFrame(levelFrameStart)
+		lvlState = lvlPlayClip1
+		
+	elseif (lvlState == lvlPlayClip1) then
+	
+		if (currentFrame == (thisOffset + 3089) or (currentFrame > (levelFrameStart + 30) and p1BUTTON3)) then
+		
+			p1BUTTON3 = false
+			discSkipToFrame(thisOffset + 3089)
+			lvlState = lvlRunning
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip2) then
+	
+		if (currentFrame == move[currentMove][rndMoveEnd]) then
+		
+			currentMove = currentMove + 1
+			if (currentMove <= totalMoves) then
+			
+				discSkipToFrame(move[currentMove][rndMoveStart])
+				lvlState = lvlRunning
+				
+			else
+			
+				setupClip(thisOffset + 3900, thisOffset + 4822)
+				lvlState = lvlPlayClip3				
+				
+			end
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip3) then
+	
+		if (currentFrame == iFrameEnd) then
+		
+			bLevelComplete = true
+			lvlState = lvlEnd
+		
+		end
+		
+	elseif (lvlState == lvlPause) then
+	
+		if timerDue() then
+		
+			getDeathFrames(TALLON_NEXTTIMERANGER)
+			discSkipToFrame(move[currentMove][deathFrameStart])
+			lvlState = lvlPlayDeath
+		else
+		
+			
+			
+			if p1BUTTON3 then
+			
+				p1BUTTON3 = false
+				
+				if (shooterHit((currentFrame - thisOffset), currentMove) == true) then  -- Player Hit!
+			
+					if (currentMove == 9) then
+					
+						iScore = iScore + SCORE_TALLON
+						
+					else
+					
+						iScore = iScore + SCORE_BADGUY
+						
+					end					
+					discPlay()
+					lvlState = lvlPlayClip2
+					
+				end
+				
+			end		
+		
+		end
+	
+	elseif (lvlState == lvlRunning) then
+	
+		if (currentMove > totalMoves) then
+		
+			-- nothing is done in this branch.
+			
+		elseif (currentFrame == thisOffset + 1073) then
+			
+			bSection01Reached = true
+			
+		elseif (currentFrame > move[currentMove][moveFrameEnd]) then  -- Death to player!
+		
+			discSkipToFrame(move[currentMove][moveFrameEnd])
+			discPause()
+			timerON(iDelay)
+			lvlState = lvlPause
+		
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame <= move[currentMove][moveFrameEnd]) then
+		
+			if p1BUTTON3 then
+			
+				p1BUTTON3 = false
+		
+				if (shooterHit((currentFrame - thisOffset), currentMove) == true) then  -- Player Hit!
+			
+					if (currentMove == 9) then
+					
+						iScore = iScore + SCORE_TALLON
+						
+					else
+					
+						iScore = iScore + SCORE_BADGUY
+						
+					end
+					
+					lvlState = lvlPlayClip2
+					
+				end
+				
+			end
+			
+		end
+		
+	elseif (lvlState == lvlPlayDeath) then
+	
+		if (currentFrame == move[currentMove][deathFrameEnd]) then			
+		
+			discSkipToFrame(undertkrFrmStart)
+			lvlState = lvlPlayNag
+		
+		end	
+	
+	elseif (lvlState == lvlPlayNag) then
+	
+		if (currentFrame == undertkrFrmEnd or p1BUTTON3) then
+		
+			p1BUTTON3 = false
+			lvlState = lvlEnd
+		
+		end		
+	
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft			
+			
+		else
+			
+			if bLevelComplete then
+				
+				if newScore(iScore) == false then
+				
+					currentLevel = levelGameOver
+					
+				else				
+				
+					currentLevel = levelHighScore
+					
+				end						
+
+			else
+			
+				currentLevel = levelTallon				
+			
+			end
+			
+		end	
+	
+		if bDebug then debugPrint("Leaving doLevelTallon()") end
+	
+	end
+
+end
+
+function doLivesLeft()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint ("Entering doLivesLeft()") end
+	
+		bShowMouse = false
+		bReloadDisabled = true
+		iBullets = 0
+		bPlaySound = false
+		bShowScore = false
+	
+		timerON(3)
+		discPause()
+		discSearch(offsetMenus + 457 + ((iLives-1) * 2))	
+		lvlState = lvlPlayClip1			
+		
+
+	elseif (lvlState == lvlPlayClip1) then
+	
+		if timerDue() then		
+			
+			lvlState = lvlEnd
+		
+		end
+	
+	elseif (lvlState == lvlEnd) then
+	
+		bShowMouse = true
+		bReloadDisabled = false
+		bPlaySound = true
+		bShowScore = true
+
+		lvlState = lvlSetup
+		
+		if (tempLevel == levelDoor1 or tempLevel == levelDoor2 or tempLevel == levelDoor3 or tempLevel == levelTallon) then
+		
+			currentLevel = tempLevel
+		else
+			currentLevel = levelMenu
+		end 
+		
+		if bDebug then debugPrint ("Leaving doLivesLeft()") end
+	
+	end
+
+
+end
+
+function doMenu()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint ("Entering doMenu()") end
+		
+		if panel[STAGE_SCRAPYARD] and panel[STAGE_FELLINA] and panel[STAGE_REAPER] and panel[STAGE_MOUNTAIN] then
+		
+			if ((crystal[1] and crystal[2] and crystal[3] and stage[levelFirePractice]) and (not stage[levelCrystalBuild])) then
+		
+				iChoice = levelCrystalBuild
+				lvlState = lvlEnd
+			
+			else			
+			
+				iChoice = levelShipBattle
+				lvlState = lvlEnd		
+				
+			end
+			
+		elseif ((crystal[1] and crystal[2] and crystal[3] and stage[levelFirePractice]) and (not stage[levelCrystalBuild])) then
+		
+			iChoice = levelCrystalBuild
+			lvlState = lvlEnd
+		
+		else
+
+			doMenuSelectClip()
+			discSkipToFrame(iFrameStart)			
+			iChoice = 0
+			lvlState = lvlRunning
+			
+		end
+		
+	elseif (lvlState == lvlRunning) then
+
+		if (currentFrame == iFrameEnd) then
+		
+			if (panel[STAGE_FELLINA] == false) then
+					
+				if stage[levelFellina1] == false then
+				
+					iChoice = levelFellina1					
+					
+				else
+				
+					iChoice = levelFellina2
+					
+				end				
+			
+			elseif (panel[STAGE_REAPER] == false) then
+					
+				if stage[levelReaper1] == false then
+					
+					iChoice = levelReaper1
+					
+				elseif stage[levelReaper2] == false then
+					
+					iChoice = levelReaper2
+					
+				elseif stage[levelReaper3] == false then
+					
+					iChoice = levelReaper3
+					
+				end				
+				
+			elseif (panel[STAGE_SCRAPYARD] == false) then
+					
+				if stage[levelScrapyard1] == false then
+			
+					iChoice = levelScrapyard1
+					
+				elseif stage[levelScrapyard2] == false then
+				
+					iChoice = levelScrapyard2
+				
+				elseif stage[levelScrapyard3] == false then
+				
+					iChoice = levelScrapyard3
+				
+				end				
+				
+			elseif (panel[STAGE_MOUNTAIN] == false) then
+				
+				iChoice = levelMountain1
+				
+			end
+
+			lvlState = lvlEnd
+			
+		else
+		
+			if (p1BUTTON3) then
+			
+				p1BUTTON3 = false
+
+				if (mousex >= 200 and mousex <= 315 and mousey >= 126 and mousey <= 204) then
+				
+					if (panel[STAGE_FELLINA] == false) then
+					
+						if stage[levelFellina1] == false then
+						
+							iChoice = levelFellina1							
+						else
+						
+							iChoice = levelFellina2							
+						end
+						lvlState = lvlEnd
+					
+					end
+				
+				elseif (mousex >= 67 and mousex <= 181 and mousey >= 125 and mousey <= 204) then
+				
+					if (panel[STAGE_REAPER] == false) then
+						
+						if stage[levelReaper1] == false then
+							
+							iChoice = levelReaper1
+							
+						elseif stage[levelReaper2] == false then
+							
+							iChoice = levelReaper2
+							
+						elseif stage[levelReaper3] == false then
+							
+							iChoice = levelReaper3
+							
+						end
+						lvlState = lvlEnd
+						
+					end
+					
+				
+				elseif (mousex >= 200 and mousex <= 315 and mousey >= 25 and mousey <= 103) then
+				
+					if (panel[STAGE_SCRAPYARD] == false) then
+					
+						if stage[levelScrapyard1] == false then
+					
+							iChoice = levelScrapyard1
+							
+						elseif stage[levelScrapyard2] == false then
+						
+							iChoice = levelScrapyard2
+						
+						elseif stage[levelScrapyard3] == false then
+						
+							iChoice = levelScrapyard3
+						
+						end
+						lvlState = lvlEnd
+					end
+					
+				
+				elseif (mousex >= 67 and mousex <= 181 and mousey >= 24 and mousey <= 101) then
+				
+					if (panel[STAGE_MOUNTAIN] == false) then
+						
+						iChoice = levelMountain1
+						lvlState = lvlEnd						
+					end					
+				
+				end
+			
+			end
+		
+		end	
+	
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		
+		if not (iChoice == tempLevel) then
+		
+			bSection01Reached = false
+			bSection02Reached = false
+			bSection03Reached = false
+			
+		end		
+		currentLevel = iChoice	
+		tempLevel = iChoice
+	
+		if bDebug then debugPrint ("Leaving doMenu()") end
+	
+	end
+
+end
+
+function doMenuSelectClip()
+
+	local q = 52659
+	
+	if (panel[STAGE_FELLINA] == false and panel[STAGE_REAPER] == true and panel[STAGE_MOUNTAIN] == true and panel[STAGE_SCRAPYARD] == true) then
+	
+		iFrameStart = q
+		iFrameEnd   = q + 297
+		
+	elseif (panel[STAGE_FELLINA] == true and panel[STAGE_REAPER] == false and panel[STAGE_MOUNTAIN] == true and panel[STAGE_SCRAPYARD] == true) then
+	
+		iFrameStart = q + 298
+		iFrameEnd   = q + 594
+		
+	elseif (panel[STAGE_FELLINA] == true and panel[STAGE_REAPER] == true and panel[STAGE_MOUNTAIN] == false and panel[STAGE_SCRAPYARD] == true) then
+	
+		iFrameStart = q + 595
+		iFrameEnd   = q + 891
+		
+	elseif (panel[STAGE_FELLINA] == true and panel[STAGE_REAPER] == true and panel[STAGE_MOUNTAIN] == true and panel[STAGE_SCRAPYARD] == false) then
+	
+		iFrameStart = q + 892
+		iFrameEnd   = q + 1188
+		
+	elseif (panel[STAGE_FELLINA] == true and panel[STAGE_REAPER] == false and panel[STAGE_MOUNTAIN] == false and panel[STAGE_SCRAPYARD] == false) then
+	
+		iFrameStart = q + 1189
+		iFrameEnd   = q + 1485
+		
+	elseif (panel[STAGE_FELLINA] == false and panel[STAGE_REAPER] == false and panel[STAGE_MOUNTAIN] == false and panel[STAGE_SCRAPYARD] == true) then
+	
+		iFrameStart = q + 1486
+		iFrameEnd   = q + 1782
+		
+	elseif (panel[STAGE_FELLINA] == false and panel[STAGE_REAPER] == true and panel[STAGE_MOUNTAIN] == false and panel[STAGE_SCRAPYARD] == true) then
+	
+		iFrameStart = q + 1783
+		iFrameEnd   = q + 2080
+		
+	elseif (panel[STAGE_FELLINA] == true and panel[STAGE_REAPER] == false and panel[STAGE_MOUNTAIN] == false and panel[STAGE_SCRAPYARD] == true) then
+	
+		iFrameStart = q + 2081
+		iFrameEnd   = q + 2377
+		
+	elseif (panel[STAGE_FELLINA] == false and panel[STAGE_REAPER] == false and panel[STAGE_MOUNTAIN] == true and panel[STAGE_SCRAPYARD] == false) then
+	
+		iFrameStart = q + 2378
+		iFrameEnd   = q + 2674
+		
+	elseif (panel[STAGE_FELLINA] == false and panel[STAGE_REAPER] == false and panel[STAGE_MOUNTAIN] == true and panel[STAGE_SCRAPYARD] == true) then
+	
+		iFrameStart = q + 2675
+		iFrameEnd   = q + 2971
+		
+	elseif (panel[STAGE_FELLINA] == true and panel[STAGE_REAPER] == false and panel[STAGE_MOUNTAIN] == true and panel[STAGE_SCRAPYARD] == false) then
+	
+		iFrameStart = q + 2972
+		iFrameEnd   = q + 3268
+		
+	elseif (panel[STAGE_FELLINA] == false and panel[STAGE_REAPER] == true and panel[STAGE_MOUNTAIN] == false and panel[STAGE_SCRAPYARD] == false) then
+	
+		iFrameStart = q + 3269
+		iFrameEnd   = q + 3565
+	
+	elseif (panel[STAGE_FELLINA] == true and panel[STAGE_REAPER] == true and panel[STAGE_MOUNTAIN] == false and panel[STAGE_SCRAPYARD] == false) then
+	
+		iFrameStart = q + 3566
+		iFrameEnd   = q + 3862
+		
+	elseif (panel[STAGE_FELLINA] == false and panel[STAGE_REAPER] == true and panel[STAGE_MOUNTAIN] == true and panel[STAGE_SCRAPYARD] == false) then
+	
+		iFrameStart = q + 3863
+		iFrameEnd   = q + 4160
+		
+	elseif (panel[STAGE_FELLINA] == false and panel[STAGE_REAPER] == true and panel[STAGE_MOUNTAIN] == false and panel[STAGE_SCRAPYARD] == true) then
+	
+		iFrameStart = q + 4161
+		iFrameEnd   = q + 4465	
+		
+	else
+	
+		iFrameStart = q + 4466
+		iFrameEnd   = q + 4760		
+		
+	end
+
+end
+
+function doShowCrystal()
+
+	local bDone = false
+	local b1 = true
+	local q = 0
+
+	if (crystalState == crystalSetup) then
+	
+		if bDebug then debugPrint("Entering doShowCrystal()") end
+
+			while b1 do
+			
+				--q = clockRnd()
+				q = math.random(1,10)
+				if q < 4 then -- Red Crystal
+				
+					q = 1
+				
+				elseif q >= 4 and q < 7 then -- Green Crystal
+				
+					q = 2
+				
+				else	-- Blue Crystal
+					
+					q = 3
+				
+				end
+				
+				if crystal[q] == false then 
+					crystal[q] = true
+					b1 = false
+				end
+			
+			end
+			
+			if currentLevel == levelFellina1 then		
+				
+				if q == 1 then -- Red Crystal
+				
+					crystalFrameStart = thisOffset + 3465
+					crystalFrameEnd  = thisOffset + 3640
+				
+				elseif q == 2 then -- Green Crystal
+				
+					crystalFrameStart = thisOffset + 3648
+					crystalFrameEnd  = thisOffset + 3823
+				
+				else	-- Blue Crystal
+					crystalFrameStart = thisOffset + 3830
+					crystalFrameEnd  = thisOffset + 4008
+				
+				end		
+			
+			elseif currentLevel == levelMountain1 then
+			
+				if q == 1 then
+				
+					crystalFrameStart = thisOffset + 2035
+					crystalFrameEnd  = thisOffset + 2202
+				
+				elseif q == 2 then
+				
+					crystalFrameStart = thisOffset + 2385
+					crystalFrameEnd  = thisOffset + 2555
+				
+				else
+					crystalFrameStart = thisOffset + 2206
+					crystalFrameEnd  = thisOffset + 2379
+				
+				end		
+			
+			elseif currentLevel == levelReaper2 then
+			
+				if q == 1 then
+				
+					crystalFrameStart = thisOffset + 3279
+					crystalFrameEnd  = thisOffset + 3455
+				
+				elseif q == 2 then
+				
+					crystalFrameStart = thisOffset + 3638
+					crystalFrameEnd  = thisOffset + 3820
+				
+				else
+					crystalFrameStart = thisOffset + 3456
+					crystalFrameEnd  = thisOffset + 3637
+				
+				end		
+			
+			elseif currentLevel == levelScrapyard2 then
+			
+				if q == 1 then
+				
+					crystalFrameStart = thisOffset + 2380
+					crystalFrameEnd  = thisOffset + 2564
+				
+				elseif q == 2 then
+				
+					crystalFrameStart = thisOffset + 2754
+					crystalFrameEnd  = thisOffset + 2930
+				
+				else
+					crystalFrameStart = thisOffset + 2570
+					crystalFrameEnd  = thisOffset + 2748
+				
+				end		
+			
+			end
+			
+			discSkipToFrame(crystalFrameStart)
+			crystalState = crystalRunning
+		
+	
+	elseif (crystalState == crystalRunning) then
+	
+		if (currentFrame == crystalFrameEnd) then
+		
+			crystalState = crystalEnd
+		
+		end
+		
+	elseif (crystalState == lvlPlayClip1) then	
+	
+		if doCannonPractice() == true then
+		
+			crystalState = crystalEnd
+			
+		end
+	
+	elseif (crystalState == crystalEnd) then	
+	
+		bDone = true
+		
+		if bDebug then debugPrint("Leaving doShowCrystal()") end
+	
+	end
+	
+	return bDone
+
+end
+
+function drawBullets()
+
+	local gunx = 198
+	local guny = 209	
+	local k = 0	
+	
+	local h = iBullets
+	if (h > 12) then
+		h = 12
+		iBullets = 12
+	end
+	
+	if bRelAnim then
+	
+		if not (rLastFrame == currentFrame) then
+			
+			rLastFrame = currentFrame
+			relIndex = relIndex + 1
+			if relIndex == 12 then 
+				relIndex = 1
+				bRelAnim = false
+			end
+			
+		end
+		
+		for k=1,relIndex do
+
+			if k <= 6 then
+				guny = 209
+				
+			elseif k == 7 then
+				guny = 220
+				gunx = 198
+			else
+				guny = 220
+			end
+			
+			spriteDraw(gunx, guny, sprCharge)
+			gunx = gunx + 8
+		
+		end
+
+	else
+	
+		for k=1,h do
+
+			if k <= 6 then
+				guny = 209
+				
+			elseif k == 7 then
+				guny = 220
+				gunx = 198
+			else
+				guny = 220
+			end
+			
+			spriteDraw(gunx, guny, sprCharge)
+			gunx = gunx + 8
+		
+		end
+	end
+	
+end
+
+function drawCredits()
+
+	blinkTimer(1)
+	
+	if heartbeat then
+	
+		colorForeground(0, 255, 0)				
+		fontSelect(fontCA14pt)
+		
+		if (dip_CoinsPerCredit == DOPT_FREEPLAY) then
+		
+			spriteDraw(crx, cry, sprFreePlay)
+		
+		else
+		
+			if (iCredits > 0) then
+				
+				fontPrint(tx,ty, string.format('CREDITS: %d',iCredits))
+				
+			end
+			
+		end
+
+	end
+
+end
+
+function drawLives()
+
+
+	local livex = 176
+	local livey = 208
+	
+	if iLives <= 3 then	
+	
+		if iLives == 3 then
+			spriteDraw(livex, 208, sprLifebarGreen)
+			spriteDraw(livex, 215, sprLifebarYellow)
+			spriteDraw(livex, 222, sprLifebarRed)
+			
+		elseif iLives == 2 then
+			spriteDraw(livex, 208, sprLifebarEmpty)
+			spriteDraw(livex, 215, sprLifebarYellow)
+			spriteDraw(livex, 222, sprLifebarRed)
+			
+		elseif iLives == 1 then
+			spriteDraw(livex, 208, sprLifebarEmpty)
+			spriteDraw(livex, 215, sprLifebarEmpty)
+			spriteDraw(livex, 222, sprLifebarRed)
+			
+		end
+	
+	else
+	
+		if iLives >= 6 then
+			spriteDraw(livex, 208, sprLifebarSBlue)
+			spriteDraw(livex, 212, sprLifebarSGreen)
+			spriteDraw(livex, 216, sprLifebarSYellow)
+			spriteDraw(livex, 220, sprLifebarSYellow)
+			spriteDraw(livex, 224, sprLifebarSRed)
+			
+		elseif iLives == 5 then
+			spriteDraw(livex, 208, sprLifebarSGreen)
+			spriteDraw(livex, 212, sprLifebarSGreen)
+			spriteDraw(livex, 216, sprLifebarSYellow)
+			spriteDraw(livex, 220, sprLifebarSYellow)
+			spriteDraw(livex, 224, sprLifebarSRed)
+			
+		elseif iLives == 4 then
+			spriteDraw(livex, 208, sprLifebarSEmpty)
+			spriteDraw(livex, 212, sprLifebarSGreen)
+			spriteDraw(livex, 216, sprLifebarSYellow)
+			spriteDraw(livex, 220, sprLifebarSYellow)
+			spriteDraw(livex, 224, sprLifebarSRed)			
+			
+		end
+	
+	end
+
+end
+
+function drawScore()
+
+	local j = 0
+	local k = 0
+	local w = 0
+	local s1 = ""
+	
+	if iScore > 99999 then iScore = 99999 end
+	
+	s1 = math.floor(iScore)	
+	j = string.len(s1)
+	
+	if (j == 1) then 
+		k=5
+		s1 = ("0000" .. s1) 
+		
+	elseif (j == 2) then
+		k=4
+		s1 = ("000" .. s1) 
+		
+	elseif (j == 3) then
+		k=3
+		s1 = ("00" .. s1) 	
+	
+	elseif (j == 4) then
+		k=2
+		s1 = ("0" .. s1) 
+		
+	else 
+		k=1
+		
+	end
+	
+		spriteDraw(112, 204, sprPanel)
+		
+	for w=k,5 do
+	
+		j = tonumber(string.sub(s1,w,w))	
+		spriteDraw(scrx[w], sy, sprNUM[j])
+	
+	end
+	
+
+end
+
+function getDeathFrames(thisCase)
+
+
+	if bDebug then debugPrint ("Entering getDeathFrames()") end
+
+	local q = 0
+	local w = 0
+	local b1 = false
+	
+	iLives = iLives - 1
+	if iLives < 0 then iLives = 0 end
+	
+	if dip_Undertaker then
+	
+		if (thisCase == TALLON_NEXTTIMERANGER and iLives > 0) then
+		
+			undertkrFrmStart = 6790
+			undertkrFrmEnd = 6940
+			
+		elseif (thisCase == BZ_DONTSHOOTFIRST and iLives > 0) then
+		
+			undertkrFrmStart = 8396
+			undertkrFrmEnd = 8614
+		
+		elseif (iLives == 3) then
+		
+			undertkrFrmStart = 5623
+			undertkrFrmEnd = 5763
+		
+		elseif (iLives == 2) then
+		
+			undertkrFrmStart = 5466
+			undertkrFrmEnd = 5622
+		
+		elseif (iLives == 1) then
+		
+			undertkrFrmStart = 5328
+			undertkrFrmEnd = 5465
+			
+		elseif (iLives == 0) then
+		
+			local q = math.random(1,10) --clockRnd()
+			bShowScore = false
+			
+			if q < 4 then
+			
+				undertkrFrmStart = 5764
+				undertkrFrmEnd = 6037
+				
+			elseif q >= 4 and q < 7 then
+			
+				undertkrFrmStart = 6210
+				undertkrFrmEnd = 6368
+			
+			else
+			
+				undertkrFrmStart = 7846
+				undertkrFrmEnd = 7994
+			
+			end
+		
+		elseif (thisCase == COLONIST_SHOT) then
+			
+			--singeRandomize()			
+			
+			if colonist[1] == true and colonist[2] == true and colonist[3] == true then
+			
+				colonist[1] = false
+				colonist[2] = false
+				colonist[3] = false
+			
+			end
+			
+			b1 = true
+			
+			while b1 do
+			
+				--q, w = math.modf(math.random(10000,49999)/10000)
+				q = math.random(0,10)
+				
+				if q >= 0 and q < 4 then
+
+					w = 1
+				
+				elseif q >= 4 and q < 7 then
+				
+					w = 2
+				
+				else
+				
+					w = 3
+				
+				end	
+				
+				if colonist[w] == false then
+					colonist[w] = true
+					b1 = false
+				end
+
+				
+			end
+			
+			if w == 1 then
+
+				undertkrFrmStart = 7995
+				undertkrFrmEnd = 8139
+				
+			elseif w == 2 then
+			
+				undertkrFrmStart = 8140
+				undertkrFrmEnd = 8262
+			
+			else
+			
+				undertkrFrmStart = 8263
+				undertkrFrmEnd = 8395
+			
+			end	
+			
+			
+		elseif (thisCase == TALLON_RANDOM) then
+		
+			if tallonClip[1] == true and tallonClip[2] == true and tallonClip[3] == true then
+			
+				tallonClip[1] = false
+				tallonClip[2] = false
+				tallonClip[3] = false
+			
+			end
+			
+			b1 = true
+			
+			while b1 do
+			
+				q = math.random(1,10) --clockRnd()
+				
+				if q >= 0 and q < 4 then
+
+					w = 1
+				
+				elseif q >= 4 and q < 7 then
+				
+					w = 2
+				
+				else
+				
+					w = 3
+				
+				end	
+				
+				if tallonClip[w] == false then
+					tallonClip[w] = true
+					b1 = false
+				end
+
+				
+			end
+			
+			if w == 1 then
+
+				undertkrFrmStart = 6038
+				undertkrFrmEnd = 6209
+				
+			elseif w == 2 then
+			
+				undertkrFrmStart = 6369
+				undertkrFrmEnd = 6533			
+			
+			else
+			
+				undertkrFrmStart = 6534
+				undertkrFrmEnd = 6789			
+			
+			end	
+			
+		end
+		
+	else
+	
+		undertkrFrmStart = offsetMenus
+		undertkrFrmEnd = offsetMenus + 2
+		
+	end
+	
+	if bDebug then debugPrint ("Leaving getDeathFrames()") end	
+
+end
+
+function initJob()
+
+	readConfig()
+	iCoins = 0
+	
+	sprCursor = nil
+	if (dip_Crosshair == 1) then
+
+		sprCursor  = spriteLoad("singe/spacepirates/crosshaira.png")
+		cursoroffsetx = 3; cursoroffsety = 3
+		
+	elseif (dip_Crosshair == 2) then
+	
+		sprCursor  = spriteLoad("singe/spacepirates/crosshairb.png")
+		cursoroffsetx = 6; cursoroffsety = 6
+		
+	elseif (dip_Crosshair == 3) then
+	
+		sprCursor  = spriteLoad("singe/spacepirates/crosshairc.png")
+		cursoroffsetx = 0; cursoroffsety = 0
+		
+	elseif (dip_Crosshair == 4) then
+	
+		sprCursor  = spriteLoad("singe/spacepirates/crosshaird.png")
+		cursoroffsetx = 6; cursoroffsety = 6
+		
+	elseif (dip_Crosshair == 5) then
+	
+		sprCursor  = spriteLoad("singe/spacepirates/crosshaire.png")
+		cursoroffsetx = 0; cursoroffsety = 0
+		
+	end
+	
+	if (dip_Difficulty == DOPT_EASY) then
+	
+		iDelay = 0.8
+		SCORE_BADGUY = 100
+		SCORE_OBJECT = 50
+		SCORE_TALLON = 500
+		SCORE_URSULA = 500		
+		LINE_SPEED = 10
+	
+	elseif (dip_Difficulty == DOPT_MEDIUM) then
+		
+		iDelay = 0.6		
+		SCORE_BADGUY = 200
+		SCORE_OBJECT = 100
+		SCORE_TALLON = 1000
+		SCORE_URSULA = 600
+		LINE_SPEED = 8
+		
+	elseif (dip_Difficulty == DOPT_HARD) then
+	
+		iDelay = 0.3
+		SCORE_BADGUY = 250
+		SCORE_OBJECT = 200
+		SCORE_TALLON = 1750
+		SCORE_URSULA = 750
+		LINE_SPEED = 6
+		
+	elseif (dip_Difficulty == DOPT_EXTREME) then
+	
+		iDelay = 0.150
+		SCORE_BADGUY = 300
+		SCORE_OBJECT = 250
+		SCORE_TALLON = 1850
+		SCORE_URSULA = 850
+		LINE_SPEED = 5
+	
+	end
+
+	tx=0;ty=x;sx=0;sy=0;crx=0;cry=0
+	colorForeground(0, 255, 0)
+	
+	
+	scrx = nil; scrx = {119, 129, 139, 149, 159}; sy = 210
+	
+	fontSelect(fontCA14pt)
+	sprCredits = nil
+	sprCredits = fontToSprite(string.format('CREDITS: %d',iCredits))
+	
+	tx = (overlayGetWidth()  * 0.5) - (spriteGetWidth(sprCredits) * 0.5)
+	ty = (overlayGetHeight() * 0.85) - (spriteGetHeight(sprCredits) * 0.5)
+	
+	
+	sprFreePlay = nil
+	sprFreePlay = fontToSprite(string.format('FREE PLAY'))
+	crx = (overlayGetWidth()  * 0.5) - (spriteGetWidth(sprFreePlay) * 0.5)
+	cry = (overlayGetHeight() * 0.85) - (spriteGetHeight(sprFreePlay) * 0.5)
+	
+	sprShot = nil; sprShot = {}
+	
+	sprShot[1] = spriteLoad("singe/spacepirates/d01.png")
+	sprShot[2] = spriteLoad("singe/spacepirates/d02.png")
+	sprShot[3] = spriteLoad("singe/spacepirates/d03.png")
+	sprShot[4] = spriteLoad("singe/spacepirates/d04.png")
+	sprShot[5] = spriteLoad("singe/spacepirates/d05.png")
+	sprShot[6] = spriteLoad("singe/spacepirates/d06.png")
+	sprShot[7] = spriteLoad("singe/spacepirates/d07.png")
+	sprShot[8] = spriteLoad("singe/spacepirates/d08.png")
+	sprShot[9] = spriteLoad("singe/spacepirates/d09.png")
+	sprShot[10] = spriteLoad("singe/spacepirates/d10.png")
+	
+	sprNUM = nil; sprNUM = {}
+	
+	sprNUM[0] = spriteLoad("singe/spacepirates/f00.png")
+	sprNUM[1] = spriteLoad("singe/spacepirates/f01.png")
+	sprNUM[2] = spriteLoad("singe/spacepirates/f02.png")
+	sprNUM[3] = spriteLoad("singe/spacepirates/f03.png")
+	sprNUM[4] = spriteLoad("singe/spacepirates/f04.png")
+	sprNUM[5] = spriteLoad("singe/spacepirates/f05.png")
+	sprNUM[6] = spriteLoad("singe/spacepirates/f06.png")
+	sprNUM[7] = spriteLoad("singe/spacepirates/f07.png")
+	sprNUM[8] = spriteLoad("singe/spacepirates/f08.png")
+	sprNUM[9] = spriteLoad("singe/spacepirates/f09.png")
+	
+	rndegg = math.random
+
+
+end
+
+function initVLDP()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint("Entering initVLDP()" .. offsetMenus) end
+	
+	    singeSetGameName("Space Pirates singe 2")
+		playMe(sndCoin)		
+		discSkipToFrame (offsetMenus + 1215)
+		lvlState = lvlRunning
+		
+		bShowMouse = false
+		bReloadDisabled = true		
+		bPlaySound = false
+		bShowScore = false
+	
+	elseif (lvlState == lvlRunning) then
+		
+		if currentFrame == (offsetMenus + 1300) then
+		
+			discPause()
+			lvlState = lvlEnd
+		
+		end
+	
+	elseif (lvlState == lvlEnd) then	
+		
+		lvlState = lvlSetup
+		gameflow = stateStartup
+		
+		if bDebug then debugPrint("Leaving initVLDP()") end
+	
+	end
+
+end
+
+function onInputPressed(intWhat)	
+	
+	if not bPause then
+	
+		if (intWhat == SWITCH_BUTTON3) then
+
+			p1BUTTON3 = true
+			
+		elseif (intWhat == SWITCH_BUTTON1) then
+
+			p1BUTTON1 = true
+			
+		elseif (intWhat == SWITCH_SERVICE) then
+			
+			p1SERVICE = true
+			
+		elseif (intWhat == SWITCH_START1) then
+			
+			p1START1 = true
+			
+		elseif (intWhat == SWITCH_COIN1) then
+			
+			p1COIN1 = true
+			
+		elseif (intWhat == SWITCH_COIN2) then
+			
+			p1COIN2 = true		
+			
+		end
+		
+	end
+	
+	return true
+
+end
+
+function onInputReleased(intWhat)
+
+	if (intWhat == SWITCH_PAUSE) then		
+		
+		bPause = not bPause 
+		if not (currentLevel == levelIntro or currentLevel == levelService) then bShowMouse = not bPause end		
+		
+	elseif (intWhat == SWITCH_QUIT) then	-- if user pressed ESC then quit program.
+			gameflow = stateQuit
+			
+	elseif (bPause == false) and (currentLevel ~= levelInit) then
+	
+		if (intWhat == SWITCH_START1) then
+		
+			-- If user presses 1up on their cab then start a new game.	
+			p1START1 = false
+			
+			if (currentLevel == levelIntro) then
+			
+				if (iCredits > 0 or dip_CoinsPerCredit == DOPT_FREEPLAY) then 
+			
+					iBullets = dip_MaxBullets
+					iCredits = iCredits - 1				
+					iScore = 0
+					iLives = dip_LivesPerCredit
+					iSkullshots = 0										
+					selectCrystalOrder() 
+					selectUrsulaColor()  	
+					
+					currentLevel = levelPractice
+					tempLevel = currentLevel
+					lvlState = lvlSetup
+					bLevelComplete = false
+					bPlaySound = true
+					bReloadDisabled = false
+					bSection01Reached = false
+					bSection02Reached = false
+					bSection03Reached = false
+					bSection04Reached = false
+					bSection05Reached = false					
+					bResetContinue = false
+					bFirstTimeAround = true				
+					bShowMouse = true
+					bShowScore = true
+					bShowCredits = false
+					tallonOrder = 0
+					panel = nil; panel = {false, false, false}
+					tallonClip = nil; tallonClip = {false, false, false}
+					colonist = nil; colonist = {false, false, false}
+					panel = nil; panel = {false, false, false, false}					
+					stage = nil; stage = {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}
+					crystal = nil; crystal = {false, false, false}
+					rndegg = math.random				
+				
+				end
+				
+			end
+			
+		elseif (intWhat == SWITCH_BUTTON3) then	
+			
+			p1BUTTON3 = false
+			
+			if (iBullets > 0 and not (currentLevel == levelShipBattle or currentLevel == levelFirePractice or currentLevel == levelMenu or currentLevel == levelIntro or currentLevel == levelService)) then
+			
+				iBullets = iBullets - 1
+				if dip_Crosshair == 5 then blinkRev() end
+				playMe(sndGunshot)
+			
+			else
+			
+				if not (currentLevel == levelShipBattle or currentLevel == levelFirePractice or currentLevel == levelIntro or currentLevel == levelService or currentLevel == levelContinue or currentLevel == levelGameOver or currentLevel == levelLivesLeft) then playMe(sndEmpty) end
+			
+			end
+			
+		elseif (intWhat == SWITCH_BUTTON1) then
+		
+			p1BUTTON1 = false
+			
+			if (bReloadDisabled == false) then
+			
+				if(dip_ReloadTrigger == DOPT_ONEMPTY) then
+				
+					if (iBullets == 0) then 
+						iBullets = dip_MaxBullets 
+						playMe(sndReload)
+						bRelAnim = true
+					end
+				
+				elseif(dip_ReloadTrigger == DOPT_IMMEDIATE) then
+				
+					if (iBullets < dip_MaxBullets) then	-- Reload if there is less than max (avoid emptying bonus bullets)
+						relIndex = iBullets
+						iBullets = dip_MaxBullets
+						playMe(sndReload)
+						bRelAnim = true
+					end
+					
+				elseif(dip_ReloadTrigger == DOPT_BORDERS) then
+				
+					if (mousex <= 10 or mousex >= 350) or (mousey <= 10 or mousey >= 230) then
+					
+						if (iBullets <= dip_MaxBullets) then	-- Reload if there is less than max (avoid emptying bonus bullets)
+							relIndex = iBullets
+							iBullets = dip_MaxBullets
+							playMe(sndReload)
+							bRelAnim = true
+						
+						end
+					
+					end
+				
+				end
+				
+			else
+			
+				if not (currentLevel == levelIntro or currentLevel == levelService) then playMe(sndEmpty) end
+				
+			end
+			
+		elseif (intWhat == SWITCH_SERVICE) then
+		
+			p1SERVICE = false
+			
+			if not (currentLevel == levelService or gameflow == stateVLDPwake) then
+			
+				lvlState = lvlSetup
+				currentLevel = levelService		
+				
+			end
+			
+		elseif (intWhat == SWITCH_COIN1 or intWhat == SWITCH_COIN2) then
+
+			p1COIN1 = false
+			p1COIN2 = false
+			
+			if not (dip_CoinsPerCredit == DOPT_FREEPLAY) then
+			
+				if (iCredits < 9) then
+				
+					iCoins = iCoins + 1			
+					
+					if (iCoins >= dip_CoinsPerCredit) then
+					
+						iCoins = iCoins - dip_CoinsPerCredit
+						iCredits = iCredits + 1
+						playMe(sndCredit)
+						
+					else
+					
+						playMe(sndCoin)					
+					
+					end
+					if currentLevel == levelContinue then bResetContinue = true end
+				
+				end
+				
+			end
+			
+		end
+		
+	end
+	
+	return true
+	
+end
+
+function onMouseMoved(intX, intY, intXrel, intYrel)
+
+	mousex = intX
+	mousey = intY
+	cursorx = intX - cursoroffsetx
+	cursory = intY - cursoroffsety
+	revsetx = intX - 3
+	revsety = intY - 3
+
+end
+
+function onOverlayUpdate()
+
+	-- The main game loop.
+
+	overlayClear()
+	
+	currentFrame = discGetFrame()
+	
+	if (gameflow == stateVLDPwake) then
+	
+		 initVLDP()
+	
+	elseif (gameflow == stateStartup) then
+	
+				
+		
+		initJob()		
+		gameflow = statePlaying
+		currentLevel = levelIntro
+		lvlState = lvlSetup
+		
+	elseif (gameflow == statePlaying) then	
+
+		if (currentLevel == levelIntro) then
+			
+			doIntro()
+			
+		elseif (currentLevel == levelMenu) then
+		
+			doMenu()
+			
+		elseif (currentLevel == levelPractice) then
+		
+			doLevelPractice()			
+			
+		elseif (currentLevel == levelDoor1) then
+		
+			doLevelDoor1()
+			
+		elseif (currentLevel == levelDoor2) then
+		
+			doLevelDoor2()
+			
+		elseif (currentLevel == levelDoor3) then
+		
+			doLevelDoor3()
+			
+		elseif (currentLevel == levelFellina1) then
+		
+			doLevelFellina1()
+			
+		elseif (currentLevel == levelFellina2) then
+		
+			doLevelFellina2()
+			
+		elseif (currentLevel == levelMountain1) then
+		
+			doLevelMountain1()
+			
+		elseif (currentLevel == levelMountain2) then
+		
+			doLevelMountain2()
+			
+		elseif (currentLevel == levelReaper1) then
+		
+			doLevelReaper1()
+			
+		elseif (currentLevel == levelReaper2) then
+		
+			doLevelReaper2()
+			
+		elseif (currentLevel == levelReaper3) then
+		
+			doLevelReaper3()
+			
+		elseif (currentLevel == levelScrapyard1) then
+		
+			doLevelScrapyard1()
+			
+		elseif (currentLevel == levelScrapyard2) then
+		
+			doLevelScrapyard2()
+			
+		elseif (currentLevel == levelScrapyard3) then
+		
+			doLevelScrapyard3()
+			
+		elseif (currentLevel == levelFirePractice) then
+		
+			doCannonPractice()
+			
+		elseif (currentLevel == levelShipBattle) then
+		
+			doShipBattle()
+			
+		elseif (currentLevel == levelTallon) then
+		
+			doLevelTallon()
+			
+		elseif (currentLevel == levelCrystalBuild) then
+		
+			doLevelCrystalBuild()
+			
+		elseif (currentLevel == levelContinue) then
+		
+			doContinue()
+			
+		elseif (currentLevel == levelGameOver) then
+		
+			doGameOver()
+			
+		elseif (currentLevel == levelLivesLeft) then
+		
+			doLivesLeft()
+			
+		elseif (currentLevel == levelHighScore) then
+		
+			doHighScore()
+			
+		elseif (currentLevel == levelService) then
+		
+			doServiceMenu()
+		
+		end	
+	
+	end
+	
+	if (bShowMouse and (not bCannonFired) and singeWantsCrosshairs()) then 
+	
+		spriteDraw(cursorx, cursory, sprCursor) 
+		
+		if (bReversePointer and not (currentLevel == levelHighScore)) then 
+		
+			iRevFrames = iRevFrames + 1
+			if (iRevFrames == REV_DELAY) then
+			
+				bReversePointer = false
+			else
+				spriteDraw(revsetx, revsety, sprRev) 
+				
+			end
+			
+		end	
+	
+	end
+	
+	if (bShowScore) then
+		
+		drawScore()
+		drawLives()
+		drawBullets()
+	
+	elseif bShowCredits then
+	
+		drawCredits()
+	
+	end
+	
+	if bDebug then showDebugInfo() end
+	
+	return(OVERLAY_UPDATED)
+	
+end
+
+function onSoundCompleted(intWhich)
+
+	-- leave empty
+	
+end
+
+function onShutdown()
+	
+	discStop()
+	
+	if (bDebug == true) then debugPrint ("Leaving game!") end
+	
+end
+
+function playMe(thisSound)
+
+	if (bPlaySound == true) then
+	
+		if (bDebug) then debugPrint ("Playing sound") end
+		soundPlay(thisSound)
+		
+		return true
+		
+	else
+	
+		return false
+		
+	end
+	
+end
+
+function showDebugInfo()
+
+end
