@@ -1,0 +1,290 @@
+--[[
+
+PROGRAM NAME:	LUA SINGE
+VERSION:		1.1
+AUTHOR:			KARIS (2020)
+
+This file is part of LUA SINGE.
+
+	LUA SINGE is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation.
+
+	LUA SINGE is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+	Thanks to Scott Duensing, RDG.
+
+]]--
+
+--Framework.singe....
+
+p1UP = false		
+p1DOWN = false		
+p1LEFT = false
+p1RIGHT = false
+p1BUTTON1 = false
+p1BUTTON2 = false
+p1BUTTON3 = false
+p1COIN1 = false
+p1COIN2 = false
+p1SERVICE = false
+p1START1 = false
+p1START2 = false
+p1PAUSE = false
+
+--End Framework
+
+bPause = false
+bResetContinue = false
+bTurn = false
+bAct = false
+bShowCredits = false
+bShowAction = false
+bShowLives = false
+bShowScore = false
+bShowLvl = false
+bShowScene = false
+bShowSkip = false
+bShowGet = false
+bSkipIntroClip = false
+bLevelComplete = false
+bCheckForCredits = false
+bPlayPrompt = false
+bIgnoreJoy = false
+bExtendedPlay = false
+bLCDLineWait = false
+bGOAlt = false
+bTestMash = false
+bAllowSave = false
+bSave = false
+bCheckMove = false
+bShowDisk = false
+bShuffleOrder = true
+bRes = true
+bFlip = false
+
+dip_LivesPerCredit = 5
+dip_CoinsPerCredit = 1
+dip_ShowAction = 1
+dip_AllowContinue = true
+dip_LimitContinue = 3
+dip_SortStyle = 0
+dip_MustBeatLevel = 1
+dip_StartLevel = 1
+dip_StartSegment = 1
+dip_Difficulty = 0
+dip_Kidmode = 0
+dip_Movie = 0
+dip_Debug = 0
+dip_PlayEveryLevel = true
+dip_GameType=0
+dip_Lang = 0
+dip_Loadsave = 0
+dip_Slot = 1
+DOPT_LANG_ENGLISH = 1
+DOPT_LANG_JAPANESE = 0
+DOPT_FREEPLAY = 0
+DOPT_INFINITE_CONTINUES = 0
+
+gameflow = 0
+flow_VLDPStart = 0
+flow_GameInit = 1
+flow_GameRunning = 2
+
+lvlState = 0
+lvlSetup = 0
+lvlRunning = 1
+lvlEnd = 2
+lvlPlayDeath = 3
+lvlPlayRest = 4
+branch01 = 10
+branch02 = 11
+branch03 = 12
+branch04 = 13
+branch05 = 14
+branch06 = 15
+branch07 = 16
+branch08 = 17
+branch09 = 18
+branch10 = 19
+branch11 = 20
+branch12 = 21
+
+currentFrame = 0
+currentLevel = 0
+currentMove = 0
+levelIntro = 0
+level01 = 1
+level02 = 2
+level03 = 3
+level04 = 4
+level05 = 5
+level06 = 6
+level07 = 7
+level08 = 8
+level09 = 9
+level10 = 10
+level11 = 11
+level12 = 12
+level13 = 13
+level14 = 14
+level15 = 15
+level16 = 16
+level17 = 17
+levelExt = 18
+levelContinue = 100
+levelGameOver = 101
+levelChoose = 102
+levelNormal = 103
+levelService = 104
+levelMenuScreen = 105
+levelHighScore = 106
+levelMovie = 107
+levelSave = 108
+
+iCoins = 0
+iCredits = 0
+iScore = 0
+iScoreTemp = 0
+iScoreSave = 0
+iLiveSave = 5
+iBonus = 0
+iLives = 0
+iLevelStart = 0
+iLevelEnd = 0
+iTempLevel = 0
+iStageIndex = 0
+iContinues = 0
+iLastFiller = 0
+iChoice = 0
+iCurPos = level01
+iPauseFrame = 0
+iDeathCount = 0
+iRoll = 0
+thisMove = 0
+altState = 0
+totalMoves = 0
+iMash = 0
+mashCounter = 5
+iMovie = 1
+iPenal = 0
+iTop = 0
+yscopos = 0
+ylivpos = 0
+ycoinpos = 0
+ylvlpos = 0
+ydskpos = 0
+numChoice = 3
+
+NOMOVE = -1
+MOVEPENDING = -2
+MOVEFAIL = -3
+
+UP = 1
+DOWN = 2
+LEFT = 3
+RIGHT = 4
+BUTTON1 = 5
+BUTTON2 = 6
+BUTTON3 = 7
+MASH = 8
+ACTUP = 9
+ACTDOWN = 10
+ACTLEFT = 11
+ACTRIGHT = 12
+UPLEFT = 13
+UPRIGHT = 14
+DOWNLEFT = 15
+DOWNRIGHT = 16 
+SKIP = 17
+NOMOVES = 18
+PW0 = 19
+PW1 = 20
+PW2 = 21
+PW3 = 22
+PW4 = 23
+PW5 = 24
+PW6 = 25
+PWFULL = 26
+CHOOSE = 27
+
+INSERTCOIN = 1
+CREDIT	   = 2
+LIVES	   = 3
+LEVEL      = 4
+SKIPINTRO  = 5
+SCENE      = 6
+SCORE      = 7
+BONUS      = 8
+SELMAP	   = 9
+OKMAP      = 10 
+D1         = 11  
+D2         = 12
+D3         = 13  
+DA         = 14
+ARROWSEL   = 15
+FREEPLAY   = 16
+GETREADY   = 17
+TOP        = 18
+SECRET     = 19
+
+inputFrmStart = 1
+inputFrmEnd = 2
+correctMove = 3
+moveDeath = 4
+moveFrmStart = 5
+moveFrmEnd = 6
+
+SEGMENT01 = 1
+SEGMENT02 = 2
+SEGMENT03 = 3
+SEGMENT04 = 4
+SEGMENT05 = 5
+SEGMENT06 = 6
+SEGMENT07 = 7
+SEGMENT08 = 8
+SEGMENT09 = 9
+SEGMENT10 = 10
+SEGMENT11 = 11
+SEGMENT12 = 12
+SEGMENT13 = 13
+SEGMENT14 = 14
+SEGMENT15 = 15
+segID = 0
+iSegPointer = 0
+
+segment = nil;
+stage = nil;
+
+BEATSTATUS = 1
+LEVELSTARTED = 2
+SEGMENTCOUNT = 3
+DEATHCOUNT = 4
+
+SEGMENTID = 1
+SEGMENTCOMPLETE = 2
+SEGMENTNAME = 3
+
+sLCD = ""
+iLCDline = 1; iLCDpointer = 1; iLCDx = 0; iLCDwait = 0.250
+bShowLCD = true
+
+choice = nil; optorder = nil;
+filler = nil; filler = {false,false,false,false}
+levelMap = nil; levelMap = 	{false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}
+LvlOrder= nil; LvlOrder = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}
+sprite = nil;
+sprNUM = nil;
+sprArrow = nil;
+
+fontQuality(FONT_QUALITY_BLENDED)
+
+sndright   = soundLoad("singe/timegal/right.wav")
+sndwrong   = soundLoad("singe/timegal/wrong.wav")
+snddeath   = soundLoad("singe/timegal/death.wav")
+sndvictory = soundLoad("singe/timegal/victory.wav")
+sndcoin    = soundLoad("singe/timegal/coin.wav")
+sndcredit  = soundLoad("singe/timegal/credit.wav")
+sndclear   = soundLoad("singe/timegal/clear.wav")

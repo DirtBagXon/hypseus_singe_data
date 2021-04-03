@@ -1,0 +1,647 @@
+--[[
+
+PROGRAM NAME:	TIME TRAVELER (SINGE EDITION)
+VERSION:		2.0
+AUTHOR:			RDG2010
+CONVERT. FOR SINGE2     POIU2020
+This file is part of TIME TRAVELER (SINGE EDITION)
+
+    TIME TRAVELER (SINGE EDITION) is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation.
+
+    TIME TRAVELER (SINGE EDITION) is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+    Read COPYING.TXT for more info.
+
+
+]]--
+
+segment = nil;
+stage = nil;
+
+BEATSTATUS = 1
+LEVELSTARTED = 2
+SEGMENTCOUNT = 3
+DEATHCOUNT = 4
+
+SEGMENTID = 1
+SEGMENTCOMPLETE = 2
+SEGMENTNAME = 3
+
+function initStages()
+
+	local k = 0	
+
+	stage = nil; stage = {}	
+	segment = nil; segment = {}
+	for k=level01,levelTut do
+		
+		segment[k] = {}
+	
+		if k == level01 then
+		
+			shuffleLevel1(k)
+			
+		elseif k == level02 then
+		
+			shuffleLevel2(k)
+			
+		elseif k == level03 then
+		
+			shuffleLevel3(k)
+			
+		elseif k == level04 then
+		
+			shuffleLevel4(k)
+			
+		elseif k == level05 then
+		
+			shuffleLevel5(k)
+			
+		elseif k == level06 then
+		
+			shuffleLevel6(k)
+			
+		elseif k == level07 then
+		
+			shuffleLevel7(k)
+			
+		elseif k == level08 then
+		
+			shuffleLevel8(k)
+			
+		elseif k == levelTut then
+		
+			shuffleLevelTut()
+		
+		end
+	
+	end
+
+end
+
+function shuffleLevelTut()
+
+	if (bDebug) then debugPrint ("Entering shuffleLevelTut()") end
+	
+	stage[levelTut] = {}; stage[levelTut] = {false, false, 2, 0}
+	segment[levelTut][1] = {}; segment[levelTut][1] = {SEGMENT01, false, "Sign Post"}
+	segment[levelTut][2] = {}; segment[levelTut][2] = {SEGMENT02, false, "Tutorial Sequence"}
+	
+	if (bDebug) then debugPrint ("Leaving shuffleLevelTut()") end
+
+end
+
+function shuffleLevel1(thisStage) -- 1850
+
+	local k = 0	
+	local t = 0
+	local j = 0
+	local d = 0		
+	local sOrder = nil
+	
+	if (bDebug) then debugPrint ("Entering shuffleLevel1()") end
+	
+	if (math.random(1,100) > 50) then
+
+		sOrder = {"013","023"}
+		totalScenes = 3
+		t=2
+		k = math.random(1,t)		
+		
+	else
+	
+		sOrder = {"0123"}
+		totalScenes = 4
+		k=1
+		
+	end	
+	
+	if dip_PlayEveryLevel then
+		
+		k=1;sOrder=nil;sOrder={"0123"};totalScenes=4
+
+	end
+	stage[thisStage] = {}; stage[thisStage] = {false, false, totalScenes, 0}
+	
+	for j=1,totalScenes do
+	
+		if (bDebug == true) then
+			debugPrint("totalScenes = " .. totalScenes .. " - sOrder[" .. k .. "] = " .. sOrder[k] .. " - k = " .. k .. " - string.sub(sOrder[".. k .."],".. j ..","  .. j .. ") = " .. string.sub(sOrder[k],j,j))
+			
+		end
+		
+		d = tonumber(string.sub(sOrder[k],j,j))			
+		
+		if (d == 0) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT01, false, "Guy Behind the Barrel"}			
+	
+		elseif (d == 1) then
+	
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT02, false, "Three Indians"}
+			
+		elseif (d == 2) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT03, false, "Indian With a Knife"}
+			
+		elseif (d == 3) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT04, false, "Two guys (exit)"}				
+			
+		end
+		
+	end
+
+end
+
+function shuffleLevel2(thisStage) -- 50000BC
+
+	local k = 0	
+	local t = 0
+	local j = 0
+	local d = 0	
+	local totalScenes = 0
+	local sOrder = nil
+	
+	if (bDebug) then debugPrint ("Entering shuffleLevel2()") end
+	
+	if (math.random(1,100) > 50) then
+
+		sOrder = {"042","026","025","026","035","036","045","046","145","136","125","126","135","136","145","146"}
+		totalScenes = 3
+		t=16
+		
+	else
+	
+		sOrder = {"0325","0326","0235","0236","0345","0346","0235","0236","0335","0346","0435","0436","1235","1236","1345","1346","1425","1426","1325","1326","1435","1436"}
+		totalScenes = 4
+		t=22
+		
+	end		
+	
+	k = math.random(1,t)
+
+	if dip_PlayEveryLevel then
+		
+		k=1;sOrder=nil;sOrder={"0123456"};totalScenes=7
+	
+	end
+	
+	stage[thisStage] = {}; stage[thisStage] = {false, false, totalScenes, 0}
+	
+	for j=1,totalScenes do
+	
+		if (bDebug == true) then
+			debugPrint("totalScenes = " .. totalScenes .. " - sOrder[" .. k .. "] = " .. sOrder[k] .. " - k = " .. k .. " - string.sub(sOrder[".. k .."],".. j ..","  .. j .. ") = " .. string.sub(sOrder[k],j,j))
+			
+		end
+		
+		d = tonumber(string.sub(sOrder[k],j,j))			
+		
+		if (d == 0) then
+			
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT01, false, "Cavewoman with sword (Enter)"}
+			
+		elseif (d == 1) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT02, false, "Two cavemen and a woman (Enter)"}			
+		
+		elseif (d == 2) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT03, false, "Shoot the fat lady"}
+			
+		elseif (d == 3) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT04, false, "Jumping fire"}
+			
+		elseif (d == 4) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT05, false, "Cavewomen Threewave"}
+			
+		elseif (d == 5) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT06, false, "Two guys and a flying dragon (exit)"}
+			
+		elseif (d == 6) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT07, false, "Run from the fat lady (exit)"}
+		
+		end
+	
+	end	
+	
+	if (bDebug) then debugPrint ("Leaving shuffleLevel2()") end
+
+end
+
+function shuffleLevel3(thisStage) -- 2173
+
+	if (bDebug) then debugPrint ("Entering shuffleLevel3()") end
+
+	local k = 0	
+	local t = 0
+	local j = 0
+	local d = 0	
+	local totalScenes = 0
+	local sOrder = nil	
+
+	if (bDebug == true) then debugPrint ("Setting up moves array for level 3 (2,173)") end
+	
+	if (math.random(1,100) > 50) then
+
+		sOrder = {"012", "016", "017", "025", "026", "027", "035", "036", "037", "045", "046", "047"}
+		totalScenes = 3
+		t=12
+		
+	else
+	
+		sOrder = {"0125","0126","0127","0235","0236","0237","0345","0346","0347","0215","0216","0217","0315","0316","0317","0415","0416","0417"}
+		totalScenes = 4
+		t=18
+		
+	end
+	
+	k = math.random(1,t)	
+	
+	if (bFailedMotherBrain == true) then
+	
+		bFailedMotherBrain = false
+		sOrder = {"045"}
+		totalScenes = 3;k=1
+	
+	end
+	
+	if dip_PlayEveryLevel then
+		
+		k=1;sOrder=nil;sOrder={"01234567"};totalScenes=8
+	
+	end
+	
+	stage[thisStage] = {}; stage[thisStage] = {false, false, totalScenes, 0}	
+	
+	for j=1,totalScenes do
+	
+		if (bDebug == true) then
+			debugPrint("totalScenes = " .. totalScenes .. " - sOrder[" .. k .. "] = " .. sOrder[k] .. " - k = " .. k .. " - string.sub(sOrder[".. k .."],".. j ..","  .. j .. ") = " .. string.sub(sOrder[k],j,j))
+			
+		end
+		
+		d = tonumber(string.sub(sOrder[k],j,j))		
+		
+		if (d == 0) then
+			
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT01, false, "Magic Mike!"}
+					
+		elseif (d == 1) then
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT02, false, "Squishing Elevator"}			
+		
+		elseif (d == 2) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT03, false, "Blue Line of Doom"}
+					
+		elseif (d == 3) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT04, false, "Dodging Comets"}
+					
+		elseif (d == 4) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT05, false, "Kaleidoscope crystal room"}
+					
+		elseif (d == 5) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT06, false, "Two guys firing lasers"}
+					
+		elseif (d == 6) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT07, false, "Dodging Comets (exit level)"}
+			
+		elseif (d == 7) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT08, false, "Mother Brain"}
+		
+		end
+	
+	end	
+	
+	if (bDebug) then debugPrint ("Leaving shuffleLevel3()") end		
+
+end
+
+function shuffleLevel4(thisStage) -- 1998
+
+	local k = 0	
+	local t = 0
+	local j = 0
+	local d = 0		
+	local sOrder = nil
+	
+	if (bDebug == true) then debugPrint ("Setting up moves array for level 4 (1,998)") end
+
+	if (math.random(1,100) > 50) then
+
+		sOrder = {"036","026","036","046","056","156","126","136","146","156","506","516","526","536","546"}
+		totalScenes = 3
+		t=15
+		
+	else
+	
+		sOrder = {"0526","0246","0536","0346","0546","0456","0256","0546","1236","1326","1246","1426","1256","1526","5346","5436","0356","0536","0456","0546"}
+		totalScenes = 4
+		t=20
+		
+	end
+	
+	k = math.random(1,t)	
+	if dip_PlayEveryLevel then
+		
+		k=1;sOrder=nil;sOrder={"0123456"};totalScenes=7
+	
+	end
+	stage[thisStage] = {}; stage[thisStage] = {false, false, totalScenes, 0}
+		
+	for j=1,totalScenes do
+	
+		if (bDebug == true) then
+			debugPrint("totalScenes = " .. totalScenes .. " - sOrder[" .. k .. "] = " .. sOrder[k] .. " - k = " .. k .. " - string.sub(sOrder[".. k .."],".. j ..","  .. j .. ") = " .. string.sub(sOrder[k],j,j))
+			
+		end
+		
+		d = tonumber(string.sub(sOrder[k],j,j))			
+		
+		if (d == 0) then
+			
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT01, false, "Cemetery (Enter)"}
+			
+		elseif (d == 1) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT02, false, "Rude (Enter)"}
+					
+		elseif (d == 2) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT03, false, "Baseball"}			
+		
+		elseif (d == 3) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT04, false, "Full Moon Chainsaw dude"}
+					
+		elseif (d == 4) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT05, false, "Behind the Green Door"}
+					
+		elseif (d == 5) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT06, false, "Drug Bust"}
+					
+		elseif (d == 6) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT07, false, "Cemetery (exit)"}
+			
+		end
+	
+	end	
+	
+	if (bDebug) then debugPrint ("Leaving shuffleLevel4()") end
+
+
+end
+
+function shuffleLevel5(thisStage) -- Age of Magic
+
+	local k = 0	   
+	local t = 0
+	local j = 0
+	local d = 0		
+	local sOrder = nil
+
+	if (bDebug == true) then debugPrint ("Setting up moves array for level 5 (Age of Magic)") end	
+
+	sOrder = {"04236","02437","04326","03546","02457","04586","03527","05436","12347","13286","12457","14286","12537","15246","13487","14326","03547","05326","04537","05486"}
+	totalScenes = 5
+	t=20	
+	
+	k = math.random(1,t)	
+	if dip_PlayEveryLevel then
+		
+		k=1;sOrder=nil;sOrder={"012345678"};totalScenes=9
+	
+	end
+	stage[thisStage] = {}; stage[thisStage] = {false, false, totalScenes, 0}
+	
+	
+	for j=1,totalScenes do
+	
+		if (bDebug == true) then
+			debugPrint("totalScenes = " .. totalScenes .. " - sOrder[" .. k .. "] = " .. sOrder[k] .. " - k = " .. k .. " - string.sub(sOrder[".. k .."],".. j ..","  .. j .. ") = " .. string.sub(sOrder[k],j,j))
+			
+		end
+			
+		d = tonumber(string.sub(sOrder[k],j,j))			
+		
+		if (d == 0) then
+			
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT01, false, "Genie in the Bottle"}
+			
+		elseif (d == 1) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT02, false, "Morphin Mushroom Wizard"}
+					
+		elseif (d == 2) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT03, false, "Thug From the Left"}			
+		
+		elseif (d == 3) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT04, false, "Wizard Battle"}
+					
+		elseif (d == 4) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT05, false, "Sword in the Stone"}
+					
+		elseif (d == 5) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT06, false, "Do Not Read This"}
+					
+		elseif (d == 6) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT07, false, "Sword Fight (exit)"}
+			
+		elseif (d == 7) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT08, false, "Fiery Breath Juggler (exit)"}
+					
+		elseif (d == 8) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT09, false, "Archer Dude"}
+			
+		end
+	
+	end	
+
+	if (bDebug) then debugPrint ("Leaving shuffleLevel5()") end
+
+end
+
+function shuffleLevel6(thisStage) -- 1350
+
+	local k = 0	
+	local t = 0
+	local j = 0
+	local d = 0		
+	local sOrder = nil
+
+	if (bDebug == true) then debugPrint ("Setting up moves array for level 6 (1,350)") end
+
+	sOrder = {"01237","02138","01327","03148","01457","04128","01527","05138","12347","13248","12457","14258","12537","15248","53417","54318","03517","05328","04537","05428"}
+	totalScenes = 5
+	t=20	
+	
+	k = math.random(1,t)
+	if dip_PlayEveryLevel then
+		
+		k=1;sOrder=nil;sOrder={"012345678"};totalScenes=9
+	
+	end
+	stage[thisStage] = {}; stage[thisStage] = {false, false, totalScenes, 0}
+	
+	
+	for j=1,totalScenes do
+	
+		if (bDebug == true) then
+			debugPrint("totalScenes = " .. totalScenes .. " - sOrder[" .. k .. "] = " .. sOrder[k] .. " - k = " .. k .. " - string.sub(sOrder[".. k .."],".. j ..","  .. j .. ") = " .. string.sub(sOrder[k],j,j))
+			
+		end
+			
+		d = tonumber(string.sub(sOrder[k],j,j))			
+		
+		if (d == 0) then
+			
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT01, false, "Red Shirt Ninja"}
+			
+		elseif (d == 1) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT02, false, "Swordfight Kills Wizard"}
+					
+		elseif (d == 2) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT03, false, "Orange Shirt Ninja"}			
+		
+		elseif (d == 3) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT04, false, "Yellow Shirt Ninja"}
+					
+		elseif (d == 4) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT05, false, "Blue Shirt Ninja"}
+					
+		elseif (d == 5) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT06, false, "Just Shoot the Guy"}
+					
+		elseif (d == 6) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT07, false, "Archer Dude 1,350"}
+			
+		elseif (d == 7) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT08, false, "None Shall Pass (exit)"}
+					
+		elseif (d == 8) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT09, false, "Blue Shirt Ninja (exit)"}
+			
+		end
+	
+	end	
+	
+	if (bDebug) then debugPrint ("Leaving shuffleLevel6()") end
+
+end
+
+function shuffleLevel7(thisStage) -- 2552
+
+	local k = 0	
+	local t = 0
+	local j = 0
+	local d = 0		
+	local sOrder = nil
+
+	if (bDebug == true) then debugPrint ("Setting up moves array for level 7 (2,552)") end
+
+	sOrder = {"4132","5317","4302","5167","4302","5317","4032","5617","4132","5067","4612","5037","4312","5067","4032","5167","4032","5317","4162","5137","4062","2137"}
+	totalScenes = 4
+	t=22	
+	
+	k = math.random(1,t)	
+	if dip_PlayEveryLevel then
+		
+		k=1;sOrder=nil;sOrder={"01234567"};totalScenes=8
+	
+	end
+	stage[thisStage] = {}; stage[thisStage] = {false, false, totalScenes, 0}		
+	
+	
+	for j=1,totalScenes do
+	
+		if (bDebug == true) then
+			debugPrint("totalScenes = " .. totalScenes .. " - sOrder[" .. k .. "] = " .. sOrder[k] .. " - k = " .. k .. " - string.sub(sOrder[".. k .."],".. j ..","  .. j .. ") = " .. string.sub(sOrder[k],j,j))
+			
+		end
+			
+		d = tonumber(string.sub(sOrder[k],j,j))
+		
+		if (d == 0) then
+			
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT01, false, "Plates of Doom v1"}
+			
+		elseif (d == 1) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT02, false, "Plates of Doom v2"}
+					
+		elseif (d == 2) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT03, false, "Lightning Strikes (exit)"}
+		
+		elseif (d == 3) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT04, false, "Drink the Blue Potion"}
+					
+		elseif (d == 4) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT05, false, "Lightning Orbs (Enter)"}
+					
+		elseif (d == 5) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT06, false, "Lightning Orbs (reverse)(Enter)"}
+					
+		elseif (d == 6) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT07, false, "Dancing to bullets"}
+			
+		elseif (d == 7) then
+		
+			segment[thisStage][j] = {}; segment[thisStage][j] = {SEGMENT08, false, "Remember Us? (exit)"}
+			
+		end
+	
+	end
+	
+	if (bDebug) then debugPrint ("Leaving shuffleLevel7()") end
+		
+end
+
+function shuffleLevel8(thisStage) -- Final
+
+	if (bDebug == true) then debugPrint ("Setting up moves array for Final Boss + Ending") end
+	
+	totalScenes = 2
+	stage[thisStage] = {}; stage[thisStage] = {false, false, totalScenes, 0}			
+	segment[thisStage][1] = {}; segment[thisStage][1] = {SEGMENT01, false, "Dodging Lasers"}
+	segment[thisStage][2] = {}; segment[thisStage][2] = {SEGMENT02, false, "Final Showdown"}
+	
+	if (bDebug) then debugPrint ("Leaving shuffleLevel8()") end
+
+end

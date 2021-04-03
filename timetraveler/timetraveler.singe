@@ -1,0 +1,966 @@
+--[[
+******************************************************************************
+PROGRAM NAME:	TIME TRAVELER (SINGE EDITION)
+VERSION:		2.0
+AUTHOR:			RDG2010
+CONVERT. FOR SINGE2     POIU2020
+This file is part of TIME TRAVELER (SINGE EDITION)
+
+    TIME TRAVELER (SINGE EDITION) is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation.
+
+    TIME TRAVELER (SINGE EDITION) is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+    Read COPYING.TXT for more info.
+
+
+******************************************************************************
+]]--
+
+dofile("singe/timetraveler/globals.singe")
+dofile("singe/timetraveler/helltrader.singe")
+dofile("singe/timetraveler/hscore.singe")
+dofile("singe/timetraveler/map.singe")
+dofile("singe/timetraveler/play.singe")
+dofile("singe/timetraveler/service.singe")
+dofile("singe/timetraveler/setuplevel.singe")
+dofile("singe/timetraveler/shufflelevel.singe")
+dofile("singe/timetraveler/toolbox.singe")
+
+function doFillerFrame()
+
+	if bDebug then debugPrint("Entering doFillerFrame()") end
+	
+	local b1 = true
+	local k = 0
+	
+	for k=1,4 do
+		b1 = b1 and filler[k]
+	end
+	
+	if b1 then
+	
+		for k=1,4 do
+		
+			if k ~= iLastFiller then filler[k] = false end
+		
+		end
+	
+	end
+	b1 = false
+	repeat
+	
+		k = math.random(1,4)
+		if filler[k] == false then
+		
+			iLastFiller = k
+			filler[k] = true
+			b1 = true
+		
+		end
+		
+	until b1	
+	
+	if     iLastFiller  == 1 then setupClip(offsetvts03, offsetvts03 + 1520)
+	elseif iLastFiller  == 2 then setupClip(1520 + offsetvts03, 2890 + offsetvts03)
+	elseif iLastFiller  == 3 then setupClip(2890 + offsetvts03, 4445 + offsetvts03)
+	elseif iLastFiller  == 4 then setupClip(4445 + offsetvts03, 5798 + offsetvts03)
+	end
+		
+	
+	if bDebug then debugPrint("Leaving doFillerFrame()") end
+
+end
+
+function doIntro()
+	
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint("Entering doIntro()") end	
+		
+		setupClip(offsetMenus+890, offsetMenus+1110)  -- SEGA!	
+		initLCD()
+		lvlState = branch01		
+		
+		bShowCredits = true
+		bShowLCD = true
+		bShowLives = false
+		bShowCubes = false
+		bCheckForCredits = true
+		
+	elseif (lvlState == branch01) then
+	
+		if currentFrame == iFrameEnd then 
+		
+			doFillerFrame()	
+			bShowLCD = true							
+			lvlState = branch02
+		
+		end	
+	
+	elseif (lvlState == branch02) then
+	
+		if (currentFrame == iFrameEnd or p1BUTTON1) then -- HTT Logo
+	
+			p1BUTTON1 = false
+			discSkipToFrame(frameLogo) --offsetMenus + 32)
+			discPause()
+			bShowLCD = false			
+			timerON(5)			
+			lvlState = branch03			
+	
+		end
+		
+	elseif (lvlState == branch03) then
+	
+		if timerDue() then
+		
+			bYellSEGA = not bYellSEGA 
+			
+			if bYellSEGA then
+			
+				setupClip(offsetMenus+890, offsetMenus+1110)  -- SEGA!				
+			else
+		
+				setupClip(680+offsetMenus,890+offsetMenus) -- Winners don't use drugs				
+				
+				
+			end			
+			lvlState = branch01		
+		
+		end	
+		
+	elseif (lvlState == branch04) then
+	
+		if currentFrame == iFrameEnd then lvlState = lvlSetup end
+		
+	elseif (lvlState == branch05) then
+	
+		if timerDue() then
+		
+			gameflow = flow_GameInit
+			
+		elseif (p1START1) then
+		
+			p1START1 = false
+			
+			if (iCredits > 0 or dip_CoinsPerCredit == DOPT_FREEPLAY) then 			
+				
+				if iCredits > 0 then iCredits = iCredits - 1 end
+				startGame()
+				bShowCredits = false
+			
+			end
+		
+		end
+	
+	elseif (lvlState == lvlEnd) then
+	
+		-- no end. loop indefinitely until player does something.			
+	
+	end
+	
+	if (dip_CoinsPerCredit == DOPT_FREEPLAY) then
+	
+		if (p1START1) then
+		
+			p1START1 = false				
+			startGame()			
+			
+		end
+	
+	elseif (bCheckForCredits and iCredits > 0) then
+			
+		bCheckForCredits = false
+		bShowLCD = false
+		bShowCredits = true
+		discSkipToFrame(frameLogo) --32 + offsetMenus)
+		discPause()
+		timerON(30)		
+		lvlState = branch05
+
+	elseif (p1START1 and p1START2 and p1UP and lvlState ~= branch04) then
+	
+		p1START1 = false
+		p1START2 = false
+		p1UP     = false
+	
+		setupClip(offsetvts16, offsetvts17)
+		lvlState = branch04
+	
+	elseif (p1BUTTON1 and p1BUTTON2 and p1DOWN and lvlState ~= branch04) then
+	
+		p1BUTTON1 = false
+		p1BUTTON2 = false		
+		p1DOWN   = false
+	
+		setupClip(offsetvts17, offsetvts18)
+		lvlState = branch04
+	
+	end
+
+end
+
+function doContinue()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint("Entering doContinue()") end		
+		
+		if (iCredits > 0 or dip_CoinsPerCredit == DOPT_FREEPLAY) then
+			monoAudio(CHANNEL_LEFT)		
+		else
+			monoAudio(CHANNEL_RIGHT)		
+		end
+		
+		setupClip(offsetMenus+2505,offsetMenus+2955)		
+		bShowLives = false
+		bShowCubes = false
+		bShowScore = false
+		bShowCredits = true
+		bShowAction = false
+		lvlState = lvlRunning		
+	
+	elseif (lvlState == lvlRunning) then
+
+		if currentFrame == iFrameEnd then
+			
+			lvlState = lvlEnd
+		
+		elseif (p1START1) then
+		
+			p1START1 = false
+			
+			if (iCredits > 0 or dip_CoinsPerCredit == DOPT_FREEPLAY) then
+
+				startGame()								
+				if bDebug then debugPrint("Leaving doContinue(). Continuing game.") end
+			
+			end
+
+		end
+		
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		resetChannels()
+		
+		if newScore(iScore) then -- Has player achieved a high score?							
+			
+			currentLevel = levelHighScore	
+			
+		else							
+			
+			currentLevel = levelGameOver		
+		
+		end		
+		
+		if bDebug then debugPrint("Leaving doContinue().") end
+	
+	end
+
+end
+
+function doGameOver()
+
+	if (lvlState == lvlSetup) then
+
+		if bDebug then debugPrint("Entering doGameOver()") end
+		bShowLives = false
+		bShowCubes = false
+		bShowScore = false
+		bShowCredits = false
+		bShowAction = false		
+		bYellSEGA = true
+		discSkipToFrame(frameGameOver) --offsetMenus+30)
+		discPause()
+		timerON(4)
+		lvlState = lvlRunning
+	
+	elseif (lvlState == lvlRunning) then
+	
+		if timerDue() then
+		
+			lvlState = lvlEnd		
+		
+		end	
+	
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		currentLevel = levelIntro	
+		if bDebug then debugPrint("Leaving doGameOver()") end
+	
+	end
+
+end
+
+function drawAction()
+
+	if currentMove <= totalMoves then
+
+		local thisMove = move[currentMove][correctMove]
+		
+		if iCurPos == levelTut and segID == SEGMENT01 and currentMove == 1 then
+		
+			spriteDraw(150,38,sprArrow[LEFT])
+			spriteDraw(182,38,sprArrow[RIGHT])
+			
+		elseif iCurPos == level08 or bQuestionMark then
+		
+			spriteDraw(173,38,sprite[QUESTION])
+		
+		elseif thisMove == UP then
+			
+			spriteDraw( 170,35, sprArrow[UP])
+		
+		elseif thisMove == DOWN then
+		
+			spriteDraw(170,35,sprArrow[DOWN])
+		
+		elseif thisMove == LEFT then
+		
+			spriteDraw(166,38,sprArrow[LEFT])
+		
+		elseif thisMove == RIGHT then
+		
+			spriteDraw(166,38,sprArrow[RIGHT])
+		
+		elseif thisMove == ACTION then
+		
+			spriteDraw(145,50,sprArrow[ACTION])
+			
+		elseif thisMove == TURNRIGHTSHOOT then
+		
+			spriteDraw(145,50,sprArrow[ACTION])
+			spriteDraw(166,25,sprArrow[RIGHT])
+			
+		elseif thisMove == TURNLEFTSHOOT then
+		
+			spriteDraw(145,50,sprArrow[ACTION])
+			spriteDraw(166,25,sprArrow[LEFT])
+		
+		end
+		
+	end
+
+end
+
+function drawCredits()
+	
+	blinkTimer(0.4)
+	
+	if heartbeat then	
+	
+		if (iCredits > 0) then			
+		
+				spriteDraw(240,215,sprite[CREDIT])
+				drawSpriteNumber(300,215,iCredits)
+			
+		end
+		
+	end
+
+end
+
+function drawLCD()
+
+	if altState == lvlSetup then
+	
+		timerON(iLCDwait)
+		iLCDpointer = 1
+		iLCDline = 1
+		iLCDx = getMiddle(sLCD[iLCDline])
+		altState = lvlRunning
+	
+	elseif altState == lvlRunning then	
+		
+		if timerDue() then
+		
+			if iLCDpointer < string.len(sLCD[iLCDline]) then 
+				iLCDpointer = iLCDpointer + 1 
+				timerON(iLCDwait)
+			else			
+				
+				timerON(1)
+				altState = branch01
+				
+			end		
+		
+		end
+		
+	elseif altState == branch01 then
+	
+		if timerDue() then
+		
+			if iLCDline < 15 then
+				iLCDline = iLCDline + 1
+			else
+				iLCDline = 1
+			end
+			iLCDpointer = 1
+			iLCDx = getMiddle(sLCD[iLCDline])
+			timerON(iLCDwait)
+			altState = lvlRunning
+		
+		end
+		
+	end
+	
+	textPrint(string.sub(sLCD[iLCDline],1,iLCDpointer),iLCDx,200,fontDigital,GREEN,BLACK)	
+
+end
+
+function drawLives()
+
+	if (iLives > 0) then
+		
+		spriteDraw(269,215,sprite[LIVES])
+		drawSpriteNumber(303,215,(iLives - 1))
+		
+	end
+
+end
+
+function drawCubes()
+
+	spriteDraw(50,215,sprite[REVCUBE])
+	drawSpriteNumber(84,215,iRevCubes)
+end
+
+function drawScore()
+	
+	local j = 0
+	
+	if     iScore < 10 then j = 176
+	elseif iScore < 100 then j = 172
+	elseif iScore < 1000 then j = 168
+	elseif iScore < 10000 then j = 164
+	elseif iScore < 100000 then j = 160
+	elseif iScore < 1000000 then j = 156
+	else j = 152 end	
+	
+	drawSpriteNumber(j,215,iScore)
+	
+end
+
+function drawSpriteNumber(thisx, thisy, thisAmt)
+
+	local j = 0
+	local k = 0
+	local s1 = ""
+	
+	s1 = tostring(thisAmt)
+	
+	for k=1,(string.len(s1)) do
+		
+		j = tonumber(string.sub(s1,k,k)) + 1	
+		spriteDraw((thisx + ((k-1) * 8)), thisy, sprNUM[j])
+	
+	end
+
+end
+
+function getIntroClip(thisValue)
+
+	local a = 0
+	local b = 1
+
+	if thisValue == level01 then  -- 1873
+	
+		a = offsetvts01 + 3413 
+		b = offsetvts01 + 3465
+		
+	elseif thisValue == level02 then -- 50000BC
+	
+		a = offsetvts05 + 120
+		b = offsetvts05 + 175
+	
+	elseif thisValue == level03 then -- 2173
+	
+		a = offsetvts05 + 175
+		b = offsetvts05 + 235
+	
+	elseif thisValue == level04 then -- 1998
+	
+		a = offsetvts05 + 235
+		b = offsetvts05 + 299
+	
+	elseif thisValue == level05 then -- Age of Magic
+	
+		a = offsetvts05 + 299
+		b = offsetvts05 + 358
+	
+	elseif thisValue == level06 then -- 1350
+	
+		a = offsetvts05 + 358
+		b = offsetvts05 + 416
+	
+	elseif thisValue == level07 then -- 2552
+	
+		a = offsetvts05 + 416
+		b = offsetvts05 + 476
+	
+	end
+	
+	resetChannels()
+	setupClip(a,b)
+
+end
+
+function initJob()
+
+	if bDebug then debugPrint ("Entering initJob()") end
+	
+	debugPrint("Playing DVD version 2.0b")
+
+	readConfig()
+	resetChannels()
+	fontQuality(FONT_QUALITY_SOLID)
+	fontSelect(fontDebug8pt)  
+	colorForeground(0,255,0)		
+	gameflow = flow_GameRunning
+	currentLevel = levelIntro
+	lvlState = lvlSetup
+	iCoins = 0
+	iCredits = 0
+	iScore = 0
+	iSegPointer = 0
+	bShowCredits = true
+	bShowScore = false
+	bShowLives = false
+	bShowAction = false
+	
+	setFontColor(GREEN)
+	
+	sprNUM = nil; sprNUM = {}
+	sprNUM[1]  = fontToSprite("0")
+	sprNUM[2]  = fontToSprite("1")
+	sprNUM[3]  = fontToSprite("2")
+	sprNUM[4]  = fontToSprite("3")
+	sprNUM[5]  = fontToSprite("4")
+	sprNUM[6]  = fontToSprite("5")
+	sprNUM[7]  = fontToSprite("6")
+	sprNUM[8]  = fontToSprite("7")
+	sprNUM[9]  = fontToSprite("8")
+	sprNUM[10] = fontToSprite("9")
+	
+	INSERTCOIN = 1
+	FREEPLAY   = 2
+	CREDIT	   = 3
+	CONTINUE   = 4	
+	LIVES	   = 5
+	REVCUBE    = 6
+	QUESTION   = 7
+	
+	filler = nil; filler = {false,false,false,false}
+	sprite = nil; sprite = {}
+	sprite[INSERTCOIN] = fontToSprite("INSERT COIN")
+	sprite[FREEPLAY] = fontToSprite("FREE PLAY")
+	sprite[CREDIT] = fontToSprite("CREDIT")
+	sprite[CONTINUE] = fontToSprite("CONTINUE?")
+	sprite[LIVES] = fontToSprite("P =")
+	sprite[REVCUBE] = fontToSprite("C =")		
+	sprite[QUESTION] = spriteLoad("singe/timetraveler/question.png")
+	
+	UP = 1
+	DOWN = 2
+	LEFT = 3
+	RIGHT = 4
+	ACTION = 5
+	
+	sprArrow = nil; sprArrow = {}
+	sprArrow[UP] 		= spriteLoad("singe/timetraveler/arrowup.png")
+	sprArrow[DOWN] 		= spriteLoad("singe/timetraveler/arrowdown.png")
+	sprArrow[LEFT]	 	= spriteLoad("singe/timetraveler/arrowleft.png")
+	sprArrow[RIGHT] 	= spriteLoad("singe/timetraveler/arrowright.png")
+	sprArrow[ACTION] 	= spriteLoad("singe/timetraveler/action.png")
+	
+	initLCD()
+	
+	if dip_Lang == DOPT_LANG_ENGLISH then
+	
+		frameLogo = offsetMenus + 32
+		frameGameOver = offsetMenus + 30		
+		frameCube = offsetMenus + 20
+	
+	elseif dip_Lang == DOPT_LANG_JAPANESE then
+	
+		frameLogo = offsetMenus + 69
+		frameGameOver = offsetMenus + 67		
+		frameCube = offsetMenus + 57
+	
+	end
+	
+	if bDebug then debugPrint ("Leaving initJob()") end
+	
+end
+
+function initLCD()
+
+	sLCD = nil; sLCD = {}
+	sLCD[1] = "  TO EXPERIENCE  "
+	sLCD[2] = "    THE MAGIC    "
+	sLCD[3] = "   OF HOLOGRAM   "
+			  
+	if dip_CoinsPerCredit == DOPT_FREEPLAY then
+		sLCD[4] = " FREE PLAY MODE  "
+		sLCD[5] = "PRESS 1P TO START"
+		
+	else
+		if dip_CoinsPerCredit == 1 then
+			sLCD[4] = string.format("INSERT  %d  COIN", dip_CoinsPerCredit)
+			
+		else	
+			sLCD[4] = string.format("INSERT  %d  COINS", dip_CoinsPerCredit)		
+		end
+		
+		if dip_LivesPerCredit == 1 then
+			sLCD[5] = string.format("FOR   %d   LIFE", dip_LivesPerCredit)
+		else
+			sLCD[5] = string.format("FOR   %d   LIVES", dip_LivesPerCredit)
+		end
+	end
+	
+	sLCD[6] = "-----------------"
+	sLCD[7] = "   HALL OF FAME  "	          	
+	
+	local k = 0
+	for k=1,5 do
+	
+		sLCD[k+7] = string.format("%d.%s      %d", k, highscore[k][1], highscore[k][2])
+		
+	end
+	sLCD[13] = "-----------------"
+	sLCD[14] = "SINGE PORT BY RDG2010"	
+	sLCD[15] = "-----------------"
+	
+	iLCDline = 1; iLCDpointer = 1; iLCDx = 0; iLCDwait = 0.075
+	altState = lvlSetup 
+
+end
+
+function initVLDP()	
+ 
+	-- VLDP has to run before any sprite drawing takes place.
+	
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint("Entering initVLDP()") end
+	
+		discSetFPS(29.97)				
+		setupClip(180 + offsetMenus, 350 + offsetMenus)
+		lvlState = lvlRunning
+	
+	elseif (lvlState == lvlRunning) then
+	
+		if (currentFrame == iFrameEnd) then
+		
+			discPause()
+			lvlState = lvlEnd
+		
+		end
+	
+	elseif (lvlState == lvlEnd) then
+	
+		gameflow = flow_GameInit
+		lvlState = lvlSetup
+		
+		if bDebug then debugPrint("Leaving initVLDP()") end
+	
+	end
+
+end
+
+function onInputPressed(intWhat)
+	
+	if not bPause then
+	
+		if (intWhat == SWITCH_BUTTON1) then
+
+			p1BUTTON1 = true
+			
+		elseif (intWhat == SWITCH_BUTTON2) then
+
+			p1BUTTON2 = true
+		
+		elseif (intWhat == SWITCH_UP) then
+			
+			p1UP = true
+			
+		elseif (intWhat == SWITCH_DOWN) then
+			
+			p1DOWN = true
+			
+		elseif (intWhat == SWITCH_LEFT) then
+			
+			p1LEFT = true
+			
+		elseif (intWhat == SWITCH_RIGHT) then
+			
+			p1RIGHT = true	
+
+		elseif (intWhat == SWITCH_SERVICE) then
+			
+			p1SERVICE = true
+			
+		elseif (intWhat == SWITCH_COIN1) then
+			
+			p1COIN1 = true
+			
+		elseif (intWhat == SWITCH_COIN2) then
+			
+			p1COIN2 = true	
+			
+		elseif (intWhat == SWITCH_START1) then
+			
+			p1START1 = true			
+			
+		elseif (intWhat == SWITCH_START2) then
+			
+			p1START2 = true
+			
+		end
+		
+	end
+
+end
+
+function onInputReleased(intWhat)
+
+	if (intWhat == SWITCH_PAUSE) then bPause = not bPause end
+	
+	if (gameflow == flow_GameRunning and not bPause) then	
+	
+		if (intWhat == SWITCH_COIN1 or intWhat == SWITCH_COIN2) then 
+			
+			if (currentLevel ~= levelService and currentLevel ~= levelNormal and currentLevel ~= levelTrader) then
+			
+				p1COIN1 = false
+				p1COIN2 = false
+		
+				if not (dip_CoinsPerCredit == DOPT_FREEPLAY) then
+					
+					if (iCredits < 9) then
+					
+						iCoins = iCoins + 1			
+						
+						if (iCoins >= dip_CoinsPerCredit) then
+						
+							iCoins = iCoins - dip_CoinsPerCredit
+							iCredits = iCredits + 1
+							soundPlay(sndcredit)
+							
+						else
+						
+							soundPlay(sndcoin)					
+						
+						end
+						if currentLevel == levelContinue then bResetContinue = true end
+					
+					end
+					
+				end
+				
+			end
+			
+		elseif (intWhat == SWITCH_UP) then
+		
+			p1UP = false
+		
+		elseif (intWhat == SWITCH_DOWN) then
+		
+			p1DOWN = false
+		
+		elseif (intWhat == SWITCH_LEFT) then
+		
+			p1LEFT = false
+		
+		elseif (intWhat == SWITCH_RIGHT) then
+		
+			p1RIGHT = false
+			
+		elseif (intWhat == SWITCH_BUTTON1) then
+		
+			p1BUTTON1 = false
+			
+		elseif (intWhat == SWITCH_BUTTON2) then
+
+			p1BUTTON2 = false
+			
+		elseif (intWhat == SWITCH_SERVICE and gameflow == flow_GameRunning) then
+		
+			p1SERVICE = false
+			lvlState = lvlSetup
+			currentLevel = levelService
+			
+		elseif (intWhat == SWITCH_START1) then
+			
+			p1START1 = false
+			
+		elseif (intWhat == SWITCH_START2) then
+			
+			p1START2 = false
+		
+		end	
+	
+	end		
+	
+end
+
+function onMouseMoved(intX, intY, intXrel, intYrel)
+
+	-- leave empty
+
+end
+
+function onOverlayUpdate()
+
+	overlayClear()
+	
+	currentFrame = discGetFrame()
+	
+	if (gameflow == flow_VLDPStart) then
+	
+		initVLDP()
+	
+	elseif (gameflow == flow_GameInit) then
+	
+		initJob()				
+		
+	elseif (gameflow == flow_GameRunning) then	
+		
+		if (currentLevel == levelIntro) then
+		
+			doIntro()		
+			
+		elseif (currentLevel == levelNormal) then
+		
+			doLevel()			
+			
+		elseif (currentLevel == levelMenuScreen) then
+		
+			doLevelSelect()	
+			
+		elseif (currentLevel == levelTrader) then			
+			
+			doTrader()
+			
+		elseif (currentLevel == levelHellgate) then
+		
+			doHellgate()
+
+		elseif (currentLevel == levelContinue) then
+		
+			doContinue()
+			
+		elseif (currentLevel == levelGameOver) then
+		
+			doGameOver()
+			
+		elseif (currentLevel == levelHighScore) then
+		
+			doHighScore()
+
+		elseif (currentLevel == levelService) then
+		
+			doServiceMenu()
+		
+		end
+	
+		if bShowAction    then drawAction()     end
+		if bShowScore 	  then drawScore() 		end
+		if bShowCubes     then drawCubes()      end
+		if bShowLives 	  then drawLives() 		end
+		if bShowCredits   then drawCredits() 	end	
+		if bShowLCD       then drawLCD() 	    end	
+		if bDebug 		  then showDebugInfo() 	end
+	
+	end
+	
+	return(OVERLAY_UPDATED)
+	
+end
+
+function onShutdown()
+	
+	discStop()	
+	if (bDebug == true) then debugPrint ("Leaving game!") end
+	
+end
+
+function onSoundCompleted(intWhich)
+
+	-- leave empty	
+	
+end
+
+function startGame()
+
+	if bDebug then debugPrint ("Entering startGame()") end
+	
+	initStages()
+	resetChannels()
+
+	if bExtendedPlay then 
+	
+		currentLevel = levelNormal
+		iCurPos = level01		
+		levelMap = nil; levelMap = {true, false, false, false, false, false, false, false, true}
+	
+	else
+		
+		if iCredits > 0 then iCredits = iCredits - 1 end
+		iScore = 0	
+		
+		if (currentLevel == levelContinue) then	
+	
+			currentLevel = iTempLevel
+			
+		else		
+			
+			iContinues = 0
+			iSegPointer = 0
+			iCurPos = levelTut					
+			bFailedMotherBrain = false					
+			levelMap = nil; levelMap = {true, false, false, false, false, false, false, false, true}					
+			currentLevel = levelNormal			
+		
+		end		
+		
+	end
+	
+	lvlState = lvlSetup
+	
+	if iCurPos == levelTut then
+		bShowLives = false
+		bShowAction = false
+		bShowScore = false	
+	else	
+		bShowLives = true
+		bShowAction = true
+		bShowScore = true
+	end
+	
+	iLives = dip_LivesPerCredit	
+	iRevCubes = dip_RevCubeMax
+	iCubeCount = 0		
+	bShowAction = false
+	bShowCredits = false
+	bShowLCD = false
+	bResetContinue = false	
+	bExtendedPlay = false
+	bAltTraderIntro = false		
+	
+	if bDebug then debugPrint ("Leaving startGame()") end
+
+end
+
+function showDebugInfo()
+
+	-- leave empty
+
+end

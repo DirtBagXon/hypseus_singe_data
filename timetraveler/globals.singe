@@ -1,0 +1,297 @@
+--[[
+
+PROGRAM NAME:	TIME TRAVELER (SINGE EDITION)
+VERSION:		2.0
+AUTHOR:			RDG2010
+CONVERT. FOR SINGE2     POIU2020
+This file is part of TIME TRAVELER (SINGE EDITION)
+
+    TIME TRAVELER (SINGE EDITION) is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation.
+
+    TIME TRAVELER (SINGE EDITION) is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+    Read COPYING.TXT for more info.
+
+
+]]--
+
+--Framework.singe....
+
+SWITCH_UP         =  0
+SWITCH_LEFT       =  1
+SWITCH_DOWN       =  2
+SWITCH_RIGHT      =  3
+SWITCH_START1     =  4
+SWITCH_START2     =  5
+SWITCH_BUTTON1    =  6
+SWITCH_BUTTON2    =  7
+SWITCH_BUTTON3    =  8
+SWITCH_COIN1      =  9
+SWITCH_COIN2      = 10
+SWITCH_SKILL1     = 11
+SWITCH_SKILL2     = 12
+SWITCH_SKILL3     = 13
+SWITCH_SERVICE    = 14
+SWITCH_TEST       = 15
+SWITCH_RESET      = 16
+SWITCH_SCREENSHOT = 17
+SWITCH_QUIT       = 18
+SWITCH_PAUSE      = 19
+SWITCH_CONSOLE    = 20
+
+MODE_NORMAL = 0
+MODE_FULL   = 1
+	
+VLDP_ERROR = 0
+VLDP_SEARCHING = 1
+VLDP_STOPPED = 2
+VLDP_PLAYING = 3
+VLDP_PAUSED = 4
+
+FONT_QUALITY_SOLID   = 1
+FONT_QUALITY_SHADED  = 2
+FONT_QUALITY_BLENDED = 3
+
+SOUND_ERROR_INVALID = -1
+SOUND_ERROR_FULL    = -2
+
+OVERLAY_NOT_UPDATED = 0
+OVERLAY_UPDATED     = 1
+
+p1UP = false		
+p1DOWN = false		
+p1LEFT = false
+p1RIGHT = false
+p1BUTTON1 = false
+p1BUTTON2 = false
+p1COIN1 = false
+p1COIN2 = false
+p1SERVICE = false
+p1START1 = false
+p1START2 = false
+p1PAUSE = false
+
+--End Framework
+
+bDebug = false
+bPause = false
+bResetContinue = false
+bTurn = false
+bSection01Reached = false
+bSection02Reached = false
+bSection03Reached = false
+bShowCredits = false
+bShowAction = false
+bShowLives = false
+bShowScore = false
+bShowCubes = false
+bLevelComplete = false
+bCheckForCredits = false
+bFailedMotherBrain = false
+bPlayPrompt = false
+bYellSEGA = true
+bIgnoreJoy = false
+bExtendedPlay = false
+bLCDLineWait = false
+bAltTraderIntro = false
+bQuestionMark = false
+
+dip_LivesPerCredit = 3
+dip_CoinsPerCredit = 0
+dip_ShowAction = true
+dip_ShowWizard = true
+dip_ShowHellgate = true
+dip_AllowContinue = true
+dip_LimitContinue = 3
+dip_SortStyle = 0
+dip_MustBeatLevel = 0
+dip_RevCubeMax = 3
+dip_Difficulty = 0
+dip_PlayEveryLevel = false
+dip_Lang = 0
+DOPT_LANG_ENGLISH = 0
+DOPT_LANG_JAPANESE = 1
+DOPT_FREEPLAY = 0
+DOPT_INFINITE_CONTINUES = 0
+
+gameflow = 0
+flow_VLDPStart = 0
+flow_GameInit = 1
+flow_GameRunning = 2
+
+
+lvlState = 0
+lvlSetup = 0
+lvlRunning = 1
+lvlEnd = 2
+lvlPlayDeath = 3
+lvlPlayRest = 4
+branch01 = 10
+branch02 = 11
+branch03 = 12
+branch04 = 13
+branch05 = 14
+branch06 = 15
+branch07 = 16
+branch08 = 17
+branch09 = 18
+branch10 = 19
+
+currentFrame = 0
+currentLevel = 0
+currentMove = 0
+levelIntro = 0
+level01 = 1
+level02 = 2
+level03 = 3
+level04 = 4
+level05 = 5
+level06 = 6
+level07 = 7
+level08 = 8
+level09 = 9
+level10 = 10
+level11 = 11
+level12 = 12
+level13 = 13
+level14 = 14
+level15 = 15
+level16 = 16
+level17 = 17
+level18 = 18
+levelTut = 9
+finalstage = level08
+levelContinue = 100
+levelGameOver = 101
+levelChoose = 102
+levelNormal = 103
+levelService = 104
+levelTrader = 105
+levelHellgate = 106
+levelMenuScreen = 107
+levelHighScore = 108
+
+
+iCoins = 0
+iCredits = 0
+iScore = 0
+iLives = 0
+iLevelStart = 0
+iLevelEnd = 0
+iTempLevel = 0
+iStageIndex = 0
+iContinues = 0
+iLastFiller = 0
+iChoice = 0
+iCurPos = 0
+iPauseFrame = 0
+iRevCubes = 0
+iCubeCount = 0
+iCubeMaxBuysPerGame = 12
+iDeathCount = 0
+iRoll = 0
+thisMove = 0
+altState = 0
+totalMoves = 0
+
+NOMOVE = -1
+MOVEPENDING = -2
+MOVEFAIL = -3
+UP = 1
+DOWN = 2
+LEFT = 3
+RIGHT = 4
+ACTION = 5
+BUTTON = 6
+UPRIGHT = 7
+UPLEFT = 8
+DOWNRIGHT = 9
+DOWNLEFT = 10
+REVCUBE = 11
+TURNRIGHTSHOOT = 12
+TURNLEFTSHOOT = 13
+SELARROW = 7
+CORRECTMOVE = 1000
+
+INSERTCOIN = 1
+FREEPLAY   = 2
+CREDIT	   = 3
+CONTINUE   = 4	
+LIVES	   = 5
+REVCUBE    = 6
+QUESTION   = 7
+
+offsetMenus = 56134		
+offsetvts01 = 0
+offsetvts02 = 3469
+offsetvts03 = 5288
+offsetvts04 = 11087
+offsetvts05 = 13346
+offsetvts06 = 13825
+offsetvts07 = 19104
+offsetvts08 = 24623
+offsetvts09 = 31852
+offsetvts10 = 36671
+offsetvts11 = 42680
+offsetvts13 = 48989
+offsetvts14 = 49808
+offsetvts15 = 51917
+offsetvts16 = 55746
+offsetvts17 = 55895
+offsetvts18 = 56134
+frameGameOver = 0
+frameCube = 0
+frameLogo = 0
+
+-- Labels for Wizard clip logic
+
+WIZ_OUTOFTCUBES = 0
+WIZ_USECUBE = 1
+WIZ_BACKTOLEARN = 2
+WIZ_SHOOTSOONER = 3
+WIZ_DONTMISSATTACK = 4
+WIZ_USESWORD = 5
+WIZ_TRYJUMPING = 6
+WIZ_TRYDUCKING = 7
+WIZ_TURNBEFORESHOOT = 8
+WIZ_DONTTURNAWAY = 9
+WIZ_TIMINGISCRITICAL = 10
+WIZ_LEARNANYTHINGYET = 11
+WIZ_TRYINGPATIENCE = 12
+WIZ_USEBLUEFLASHES = 13
+WIZ_DOSOMETHING = 14
+WIZ_FATLADY = 15
+WIZ_COLORBLIND = 16
+WIZ_MANYFORMS = 17
+WIZ_WELLDONE = 18
+WIZ_DONTFORGETCUBES = 19
+WIZ_DEFAULT = 20
+
+sLCD = ""
+iLCDline = 1; iLCDpointer = 1; iLCDx = 0; iLCDwait = 0.250
+bShowLCD = true
+
+opt = nil; optorder = nil;
+filler = nil; filler = {false,false,false,false}
+levelMap = nil; levelMap = 	{true, false, false, false, false, false, false}
+sprite = nil;
+sprNUM = nil;
+sprArrow = nil;
+
+--fontQuality(FONT_QUALITY_NORMAL)
+fontDebug6pt = fontLoad("singe/timetraveler/m39.ttf", 6)
+fontDebug8pt = fontLoad("singe/timetraveler/m39.ttf", 8)
+fontDigital = fontLoad("singe/timetraveler/ds-digib.ttf", 18)
+
+sndright   = soundLoad("singe/timetraveler/right.wav")
+sndwrong   = soundLoad("singe/timetraveler/wrong.wav")
+snddeath   = soundLoad("singe/timetraveler/death.wav")
+sndvictory = soundLoad("singe/timetraveler/victory.wav")
+sndcoin    = soundLoad("singe/timetraveler/coin.wav")
+sndcredit  = soundLoad("singe/timetraveler/credit.wav")
+
+sprBox = spriteLoad("singe/timetraveler/yellowbox.png")
