@@ -77,13 +77,13 @@ However below are scripts to help you do this if porting over.
     perl -p -i -e 's/MYDIR\ \.\. \"\/Cfg/\"singe\/'$GAME'/g' *.singe
     perl -p -i -e 's/MYDIR\ \.\. \"\/Fonts/\"singe\/'$GAME'/g' *.singe
     perl -p -i -e 's/MYDIR\ \.\. \"\/Sounds/\"singe\/'$GAME'/g' *.singe
-    perl -p -i -e 's/MYDIR\ \.\. \"\/Overlays/\"singe\/'$GAME'/g' *.singe
+    perl -p -i -e 's/MYDIR\ \.\. \"\/Overlay/\"singe\/'$GAME'/g' *.singe
 
     perl -p -i -e 's/MYDIR\.\."\/Script/\"singe\/'$GAME'/g' *.singe
     perl -p -i -e 's/MYDIR\.\."\/Cfg/\"singe\/'$GAME'/g' *.singe
     perl -p -i -e 's/MYDIR\.\."\/Fonts/\"singe\/'$GAME'/g' *.singe
     perl -p -i -e 's/MYDIR\.\."\/Sounds/\"singe\/'$GAME'/g' *.singe
-    perl -p -i -e 's/MYDIR\.\."\/Overlays/\"singe\/'$GAME'/g' *.singe
+    perl -p -i -e 's/MYDIR\.\."\/Overlay/\"singe\/'$GAME'/g' *.singe
 
     perl -p -i -e 's/\/Script/singe\/'$GAME'/g' *.singe
     perl -p -i -e 's/\/Cfg/singe\/'$GAME'/g' *.singe
