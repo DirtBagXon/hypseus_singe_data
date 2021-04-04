@@ -29,7 +29,7 @@ Usually in *main.singe*, comment existing and hardcode Singe 320x240 overlay:
 
 If images (``.pngs``) appear too large when ported, resize them.  
 
-    sudo apt-get install imagemagick
+    sudo apt-get install imagemagick pngcrush
 
 Copy original images to subdirectory *'original'*
 
@@ -79,4 +79,4 @@ However below are scripts to help you do this if porting over.
 
 ### These games have known issues:
 
-* maddog - However Singe 1 version works perfectly
+* maddog
