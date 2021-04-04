@@ -79,4 +79,4 @@ However below are scripts to help you do this if porting over.
 
 ### These games have known issues:
 
-* maddog
+* maddog - However Singe 1 version works perfectly
