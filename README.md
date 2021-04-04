@@ -1,6 +1,6 @@
+# Hypseus Singe support for Singe 2 games
 
-Recode Singe 2 video files for Singe 1
---------------------------------------
+### Recode Singe 2 video files for Hypseus Singe
 
     ffmpeg -i <original>.mp4 -an -codec:v mpeg2video -b 4182k <game>.m2v
     ffmpeg -i <original>.mp4 -vn -c:a libvorbis -ar 44100 -map a -b:a 160k <game>.ogg
@@ -10,6 +10,21 @@ Recode Singe 2 video files for Singe 1
     ffmpeg -i Puss_in_Boots_english.mp4 -an -codec:v mpeg2video -b 4182k pussinboots.m2v
     ffmpeg -i Puss_in_Boots_english.mp4 -vn -c:a libvorbis -ar 44100 -map a -b:a 160k pussinboots.ogg
 
+### Using this repository
+
+All data in the subdirectories of this repository has been ported according to the processes below.
+
+You do not **need** to alter any of the peripheral data in these subdirectories.
+
+The **only required** step is to obtain the video files for your required game and perform a video conversion as detailed above using *ffmpeg*. This can be performed on any PC including Windows: https://ffmpeg.org/download.html
+
+Once you have the new **.m2v** and **.ogg** video and audio files: 
+
+* Move them into the relevant subdirectory from this repository.
+* Install the subdirectory into your Hypseus Singe ROM folder location.
+
+
+## Details below are only required for porting new games
 
 ### Resize overlay
 
@@ -43,7 +58,7 @@ Run **convert_png.sh** script within *'original'* subdirectory.
     
 Alter *scale* in script for preference - 3 works for most games.    
 
-### Convert .singe files (for reference only)
+### Converting .singe files
 
 All references to peripheral files should link to ``singe/<gamename>`` in the singe script.
     
@@ -58,12 +73,6 @@ However below are scripts to help you do this if porting over.
 
     perl -p -i -e 's/'$NAME'//g' *.singe
 
-    perl -p -i -e 's/\/Script/singe\/'$GAME'/g' *.singe
-    perl -p -i -e 's/\/Cfg/singe\/'$GAME'/g' *.singe
-    perl -p -i -e 's/\/Fonts/singe\/'$GAME'/g' *.singe
-    perl -p -i -e 's/\/Sounds/singe\/'$GAME'/g' *.singe
-    perl -p -i -e 's/\/Overlay/singe\/'$GAME'/g' *.singe
-
     perl -p -i -e 's/MYDIR\ \.\. \"\/Script/\"singe\/'$GAME'/g' *.singe
     perl -p -i -e 's/MYDIR\ \.\. \"\/Cfg/\"singe\/'$GAME'/g' *.singe
     perl -p -i -e 's/MYDIR\ \.\. \"\/Fonts/\"singe\/'$GAME'/g' *.singe
@@ -76,7 +85,13 @@ However below are scripts to help you do this if porting over.
     perl -p -i -e 's/MYDIR\.\."\/Sounds/\"singe\/'$GAME'/g' *.singe
     perl -p -i -e 's/MYDIR\.\."\/Overlays/\"singe\/'$GAME'/g' *.singe
 
+    perl -p -i -e 's/\/Script/singe\/'$GAME'/g' *.singe
+    perl -p -i -e 's/\/Cfg/singe\/'$GAME'/g' *.singe
+    perl -p -i -e 's/\/Fonts/singe\/'$GAME'/g' *.singe
+    perl -p -i -e 's/\/Sounds/singe\/'$GAME'/g' *.singe
+    perl -p -i -e 's/\/Overlay/singe\/'$GAME'/g' *.singe
+    
 
-### These games have known issues:
+### These Singe 2 games have known issues:
 
-* maddog
+* maddog - Singe 1 version works as expected
