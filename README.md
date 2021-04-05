@@ -10,6 +10,10 @@
     ffmpeg -i Puss_in_Boots_english.mp4 -an -codec:v mpeg2video -b 4182k pussinboots.m2v
     ffmpeg -i Puss_in_Boots_english.mp4 -vn -c:a libvorbis -ar 44100 -map a -b:a 160k pussinboots.ogg
 
+If your device is struggling with the HD content, you can resize in this operation:
+
+    ffmpeg -i Puss_in_Boots_english.mp4 -an -vf scale=640:480 -codec:v mpeg2video -b 4182k pussinboots.m2v
+
 ### Using this repository
 
 All data in the subdirectories of this repository has been ported according to the processes below.
