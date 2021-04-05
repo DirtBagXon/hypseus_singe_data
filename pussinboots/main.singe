@@ -1863,18 +1863,18 @@ function drawCredits()     -- Draw the credits
 		
 		if (dip_CoinsPerCredit == DOPT_FREEPLAY) then					
 			
-			spriteDraw((OVLW/2)-SKIPW/2,ycoinpos,sprite[FREEPLAY])
+			spriteDraw((OVLW/2)-SKIPW/2.5,ycoinpos,sprite[FREEPLAY])
 		
 		else
 		
 			if (iCredits > 0) then			
 				
-				spriteDraw((OVLW/2)-SKIPW/2,ycoinpos,sprite[CREDIT])
-				drawSpriteNumber((OVLW/2)-SKIPW/2+CRDW+NUMW,ycoinpos,iCredits)
+				spriteDraw((OVLW/2)-SKIPW/4,ycoinpos,sprite[CREDIT])
+				drawSpriteNumber((OVLW/2)-SKIPW/4+CRDW+NUMW,ycoinpos,iCredits)
 				
 			else		
 				
-				spriteDraw((OVLW/2)-SKIPW/2,ycoinpos,sprite[INSERTCOIN])
+				spriteDraw((OVLW/2)-SKIPW/2.5,ycoinpos,sprite[INSERTCOIN])
 				
 			end
 			
