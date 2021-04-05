@@ -1,0 +1,1581 @@
+--[[
+
+PROGRAM NAME:	Platoon Singe edition
+VERSION:		1.3
+AUTHOR:			POIU (2020)
+
+This file is part of Platoon Singe edition
+
+	Platoon Singe edition is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation.
+
+	Platoon Singe edition is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+	Thanks to Scott Duensing (author of Singe) and KARIS for all LUA support
+
+]]--
+
+
+sVersion = "1.0b"
+sType = "Video"
+
+dofile("singe/platoon/platoon-globals.singe")
+dofile("singe/platoon/platoon-setuplevel.singe")
+dofile("singe/platoon/hscore.singe")
+dofile("singe/platoon/manage.singe")
+dofile("singe/platoon/service.singe")
+dofile("singe/platoon/toolbox.singe")
+dofile("singe/platoon/platoon-hitbox-charlie.singe")
+dofile("singe/platoon/platoon-hitbox-delta.singe")
+dofile("singe/platoon/platoon-hitbox-tango.singe")
+dofile("singe/platoon/platoon-hitbox-lima.singe")
+dofile("singe/platoon/platoon-hitbox-zulu.singe")
+dofile("singe/platoon/platoon-hitbox-bravo.singe")
+
+function shooterHit(thisFrame, thisMove)
+	
+	local k = 0
+	local f1 = 0
+	local f2 = 0
+	local x1 = 0
+	local x2 = 0
+	local y1 = 0
+	local y2 = 0	
+	local bResult = false
+	local bFound = false
+	local loopStart = move[thisMove][hitboxStart]
+	local loopEnd = move[thisMove][hitboxEnd]
+	
+	bResult = false
+	
+	for k=loopStart,loopEnd do
+		
+		if (hitmap[k][hitmapFrame] == thisFrame) then
+			
+			f1 = hitmap[k][hitmapIndex]
+			f2 = f1 + (hitmap[k][hitmapCount]-1)
+			bFound = true		
+			
+			break
+		end	
+
+	end
+	
+	if bFound then
+		
+		for k=f1,f2 do
+			
+			x1 = hitbox[k][bbx1]
+			y1 = hitbox[k][bby1]
+			x2 = hitbox[k][bbx2]
+			y2 = hitbox[k][bby2]
+			
+			if (mousex >= x1 and mousex <= x2) and (mousey >= y1 and mousey <= y2) then	-- Player hit!
+				
+				if k == f1 then
+				
+					if not (f1 == f2) then
+				
+						iScore = iScore + (SCORE_BADGUY * 0.25)						
+						
+					end
+				
+				end
+				
+				if bDebug then debugPrint ("BAD GUY HIT!") end
+				bResult = true
+				break
+			
+			end
+			
+		end
+		
+	end
+
+	return bResult
+
+end
+
+function doLevelCharlie()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint ("Entering doLevelCharlie()") end
+		
+		setupLevel(levelCharlie)
+		levelFrameStart = thisOffset
+		levelFrameEnd   = thisOffset + 3855
+		bLevelComplete  = false		
+		currentMove = 1		
+		bOnce = true
+		discSkipToFrame(levelFrameStart)
+		lvlState = lvlRunning
+		
+	elseif (p1BUTTON3 and bOnce) then
+
+			p1START1 = false
+			bOnce = false		
+			discSkipToFrame(levelFrameStart + 500 )		
+			discPlay()
+			lvlState = lvlRunning	
+				 				
+	elseif (lvlState == lvlPause) then
+	
+		if timerDue() then
+		
+			discSkipToFrame(move[currentMove][deathFrameStart])				
+			lvlState = lvlPlayDeath			
+			
+		else
+		
+			if (p1BUTTON3) then
+				p1BUTTON3 = false
+				if (iBullets > 0) then
+				
+					if (shooterHit(currentFrame - thisOffset, currentMove) == true) then -- Bad guy Hit!
+						
+						iScore = iScore + SCORE_BADGUY
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)
+						currentMove = currentMove + 1
+						lvlState = lvlRunning
+																					
+					end				
+					
+				end
+				
+			end
+		
+		end
+	
+	elseif (lvlState == lvlRunning) then
+	
+		if (currentMove > totalMoves) then
+		
+			if (currentFrame == levelFrameEnd) then
+			
+				bLevelComplete = true
+				lvlState = lvlEnd											
+			end
+			
+		elseif (currentFrame > move[currentMove][moveFrameEnd]) then -- Death to player!
+		
+			if (move[currentMove][rndMoveType] == GOODGUY) then
+			
+				currentMove = currentMove + 1
+			else
+			
+				discSkipToFrame(move[currentMove][moveFrameEnd])
+				discPause()			
+				timerON(iDelay)
+				lvlState = lvlPause			
+				
+			end
+		
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+		
+			if (p1BUTTON3) then
+				p1BUTTON3 = false
+				if (iBullets > 0) then
+				
+					if (shooterHit(currentFrame - thisOffset, currentMove) == true) then -- Bad guy Hit!
+					
+						iScore = iScore + SCORE_BADGUY
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)
+						currentMove = currentMove + 1
+						
+									
+					
+					end
+				
+				end				
+				
+			end
+			
+		end
+		
+	elseif (lvlState == lvlPlayDeath) then
+	
+		if (currentFrame == move[currentMove][deathFrameEnd]) then
+		
+			if (move[currentMove][rndMoveType] == GOODGUY) then
+			
+				lvlState = lvlEnd				
+				
+			else
+			
+				getNags(NAG_NORMAL)
+				discSkipToFrame(nagFrameStart)
+				lvlState = lvlPlayNag			
+				
+			end
+		
+		end
+		
+	elseif (lvlState == lvlPlayNag) then
+	
+		if (currentFrame == nagFrameEnd or p1BUTTON3) then
+		
+			p1BUTTON3 = false		
+			lvlState = lvlEnd
+		
+		end	
+	
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft			
+			
+		else
+			
+			if bLevelComplete then			
+				
+				stage[levelCharlie] = true				
+				currentLevel = levelDelta				
+				
+			end			
+			
+
+		end
+
+		if bDebug then debugPrint ("Leaving doLevelCharlie()") end
+	
+	end
+
+end
+
+function doLevelDelta()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint ("Entering doLevelDelta()") end
+		
+		setupLevel(levelDelta)
+		levelFrameStart = thisOffset
+		levelFrameEnd   = thisOffset + 2488
+		bLevelComplete  = false		
+		currentMove = 1		
+		bOnce = true
+		discSkipToFrame(levelFrameStart)
+		lvlState = lvlRunning
+		
+	elseif (p1BUTTON3 and bOnce) then
+
+			p1START1 = false
+			bOnce = false		
+			discSkipToFrame(levelFrameStart + 720 )		
+			discPlay()
+			lvlState = lvlRunning	
+	
+			 	
+	
+		
+	elseif (lvlState == lvlPause) then
+	
+		if timerDue() then
+		
+			discSkipToFrame(move[currentMove][deathFrameStart])				
+			lvlState = lvlPlayDeath			
+			
+		else
+		
+			if (p1BUTTON3) then
+				p1BUTTON3 = false
+				if (iBullets > 0) then
+				
+					if (shooterHit(currentFrame - thisOffset, currentMove) == true) then -- Bad guy Hit!
+						
+						iScore = iScore + SCORE_BADGUY
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)
+						currentMove = currentMove + 1
+						lvlState = lvlRunning											
+					
+					end				
+					
+				end
+				
+			end
+		
+		end
+	
+	elseif (lvlState == lvlRunning) then
+	
+		if (currentMove > totalMoves) then
+		
+			if (currentFrame == levelFrameEnd) then
+			
+				bLevelComplete = true
+				lvlState = lvlEnd
+				
+			
+				
+			end
+			
+		elseif (currentFrame > move[currentMove][moveFrameEnd]) then -- Death to player!
+		
+			if (move[currentMove][rndMoveType] == GOODGUY) then
+			
+				currentMove = currentMove + 1
+			else
+			
+				discSkipToFrame(move[currentMove][moveFrameEnd])
+				discPause()			
+				timerON(iDelay)
+				lvlState = lvlPause			
+				
+			end
+		
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+		
+			if (p1BUTTON3) then
+				p1BUTTON3 = false
+				if (iBullets > 0) then
+				
+					if (shooterHit(currentFrame - thisOffset, currentMove) == true) then -- Bad guy Hit!
+					
+						iScore = iScore + SCORE_BADGUY
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)
+						currentMove = currentMove + 1
+											
+					end
+				
+				end				
+				
+			end
+			
+		end
+		
+	elseif (lvlState == lvlPlayDeath) then
+	
+		if (currentFrame == move[currentMove][deathFrameEnd]) then
+		
+			if (move[currentMove][rndMoveType] == GOODGUY) then
+			
+				lvlState = lvlEnd				
+				
+			else
+			
+				getNags(NAG_NORMAL)
+				discSkipToFrame(nagFrameStart)
+				lvlState = lvlPlayNag			
+				
+			end
+		
+		end
+		
+	elseif (lvlState == lvlPlayNag) then
+	
+		if (currentFrame == nagFrameEnd or p1BUTTON3) then
+		
+			p1BUTTON3 = false		
+			lvlState = lvlEnd
+		
+		end	
+	
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft			
+			
+		else
+			
+			if bLevelComplete then			
+				
+				stage[levelDelta] = true				
+				currentLevel = levelTango				
+				
+			end			
+			
+
+		end
+
+		if bDebug then debugPrint ("Leaving doLevelDelta()") end
+	
+	end
+
+end
+
+function doLevelTango()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint ("Entering doLevelTango()") end
+		
+		setupLevel(levelTango)
+		levelFrameStart = thisOffset
+		levelFrameEnd   = thisOffset + 2504
+		bLevelComplete  = false		
+		currentMove = 1		
+		bOnce = true
+		discSkipToFrame(levelFrameStart)
+		lvlState = lvlRunning
+		
+	elseif (p1BUTTON3 and bOnce) then
+
+			p1START1 = false
+			bOnce = false		
+			discSkipToFrame(levelFrameStart + 270 )		
+			discPlay()
+			lvlState = lvlRunning	
+	
+			 	
+	
+		
+	elseif (lvlState == lvlPause) then
+	
+		if timerDue() then
+		
+			discSkipToFrame(move[currentMove][deathFrameStart])				
+			lvlState = lvlPlayDeath			
+			
+		else
+		
+			if (p1BUTTON3) then
+				p1BUTTON3 = false
+				if (iBullets > 0) then
+				
+					if (shooterHit(currentFrame - thisOffset, currentMove) == true) then -- Bad guy Hit!
+						
+						iScore = iScore + SCORE_BADGUY
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)
+						currentMove = currentMove + 1
+						lvlState = lvlRunning
+										
+					end				
+					
+				end
+				
+			end
+		
+		end
+	
+	elseif (lvlState == lvlRunning) then
+	
+		if (currentMove > totalMoves) then
+		
+			if (currentFrame == levelFrameEnd) then
+			
+				bLevelComplete = true
+				lvlState = lvlEnd
+				
+			
+				
+			end
+			
+		elseif (currentFrame > move[currentMove][moveFrameEnd]) then -- Death to player!
+		
+			if (move[currentMove][rndMoveType] == GOODGUY) then
+			
+				currentMove = currentMove + 1
+			else
+			
+				discSkipToFrame(move[currentMove][moveFrameEnd])
+				discPause()			
+				timerON(iDelay)
+				lvlState = lvlPause			
+				
+			end
+		
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+		
+			if (p1BUTTON3) then
+				p1BUTTON3 = false
+				if (iBullets > 0) then
+				
+					if (shooterHit(currentFrame - thisOffset, currentMove) == true) then -- Bad guy Hit!
+					
+						iScore = iScore + SCORE_BADGUY
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)
+						currentMove = currentMove + 1					
+													
+					end
+				
+				end				
+				
+			end
+			
+		end
+		
+	elseif (lvlState == lvlPlayDeath) then
+	
+		if (currentFrame == move[currentMove][deathFrameEnd]) then
+		
+			if (move[currentMove][rndMoveType] == GOODGUY) then
+			
+				lvlState = lvlEnd				
+				
+			else
+			
+				getNags(NAG_NORMAL)
+				discSkipToFrame(nagFrameStart)
+				lvlState = lvlPlayNag			
+				
+			end
+		
+		end
+		
+	elseif (lvlState == lvlPlayNag) then
+	
+		if (currentFrame == nagFrameEnd or p1BUTTON3) then
+		
+			p1BUTTON3 = false		
+			lvlState = lvlEnd
+		
+		end	
+	
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft			
+			
+		else
+			
+			if bLevelComplete then			
+				
+				stage[levelTango] = true				
+				currentLevel = levelLima
+				
+					
+				
+			end			
+			
+
+		end
+
+		if bDebug then debugPrint ("Leaving doLevelTango()") end
+	
+	end
+
+end
+
+function doLevelLima()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint ("Entering doLevelLima()") end
+		
+		setupLevel(levelLima)
+		levelFrameStart = thisOffset
+		levelFrameEnd   = thisOffset + 3835
+		bLevelComplete  = false		
+		currentMove = 1		
+		bOnce = true
+		discSkipToFrame(levelFrameStart)
+		lvlState = lvlRunning
+		
+	elseif (p1BUTTON3 and bOnce) then
+
+			p1START1 = false
+			bOnce = false		
+			discSkipToFrame(levelFrameStart + 780 )		
+			discPlay()
+			lvlState = lvlRunning	
+	
+			 	
+	
+		
+	elseif (lvlState == lvlPause) then
+	
+		if timerDue() then
+		
+			discSkipToFrame(move[currentMove][deathFrameStart])				
+			lvlState = lvlPlayDeath			
+			
+		else
+		
+			if (p1BUTTON3) then
+				p1BUTTON3 = false
+				if (iBullets > 0) then
+				
+					if (shooterHit(currentFrame - thisOffset, currentMove) == true) then -- Bad guy Hit!
+						
+						iScore = iScore + SCORE_BADGUY
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)
+						currentMove = currentMove + 1
+						lvlState = lvlRunning
+																						
+					end				
+					
+				end
+				
+			end
+		
+		end
+	
+	elseif (lvlState == lvlRunning) then
+	
+		if (currentMove > totalMoves) then
+		
+			if (currentFrame == levelFrameEnd) then
+			
+				bLevelComplete = true
+				lvlState = lvlEnd
+				
+			
+				
+			end
+			
+		elseif (currentFrame > move[currentMove][moveFrameEnd]) then -- Death to player!
+		
+			if (move[currentMove][rndMoveType] == GOODGUY) then
+			
+				currentMove = currentMove + 1
+			else
+			
+				discSkipToFrame(move[currentMove][moveFrameEnd])
+				discPause()			
+				timerON(iDelay)
+				lvlState = lvlPause			
+				
+			end
+		
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+		
+			if (p1BUTTON3) then
+				p1BUTTON3 = false
+				if (iBullets > 0) then
+				
+					if (shooterHit(currentFrame - thisOffset, currentMove) == true) then -- Bad guy Hit!
+					
+						iScore = iScore + SCORE_BADGUY
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)
+						currentMove = currentMove + 1
+																			
+					end
+				
+				end				
+				
+			end
+			
+		end
+		
+	elseif (lvlState == lvlPlayDeath) then
+	
+		if (currentFrame == move[currentMove][deathFrameEnd]) then
+		
+			if (move[currentMove][rndMoveType] == GOODGUY) then
+			
+				lvlState = lvlEnd				
+				
+			else
+			
+				getNags(NAG_NORMAL)
+				discSkipToFrame(nagFrameStart)
+				lvlState = lvlPlayNag			
+				
+			end
+		
+		end
+		
+	elseif (lvlState == lvlPlayNag) then
+	
+		if (currentFrame == nagFrameEnd or p1BUTTON3) then
+		
+			p1BUTTON3 = false		
+			lvlState = lvlEnd
+		
+		end	
+	
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft			
+			
+		else
+			
+			if bLevelComplete then			
+				
+				stage[levelLima] = true				
+				currentLevel = levelZulu
+				
+					
+				
+			end			
+			
+
+		end
+
+		if bDebug then debugPrint ("Leaving doLevelLima()") end
+	
+	end
+
+end
+
+function doLevelZulu()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint ("Entering doLevelZulu()") end
+		
+		setupLevel(levelZulu)
+		levelFrameStart = thisOffset
+		levelFrameEnd   = thisOffset + 2444
+		bLevelComplete  = false		
+		currentMove = 1		
+		bOnce = true
+		discSkipToFrame(levelFrameStart)
+		lvlState = lvlRunning
+		
+	elseif (p1BUTTON3 and bOnce) then
+
+			p1START1 = false
+			bOnce = false		
+			discSkipToFrame(levelFrameStart + 295 )		
+			discPlay()
+			lvlState = lvlRunning	
+	
+			 	
+	
+		
+	elseif (lvlState == lvlPause) then
+	
+		if timerDue() then
+		
+			discSkipToFrame(move[currentMove][deathFrameStart])				
+			lvlState = lvlPlayDeath			
+			
+		else
+		
+			if (p1BUTTON3) then
+				p1BUTTON3 = false
+				if (iBullets > 0) then
+				
+					if (shooterHit(currentFrame - thisOffset, currentMove) == true) then -- Bad guy Hit!
+						
+						iScore = iScore + SCORE_BADGUY
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)
+						currentMove = currentMove + 1
+						lvlState = lvlRunning
+																					
+					end				
+					
+				end
+				
+			end
+		
+		end
+	
+	elseif (lvlState == lvlRunning) then
+	
+		if (currentMove > totalMoves) then
+		
+			if (currentFrame == levelFrameEnd) then
+			
+				bLevelComplete = true
+				lvlState = lvlEnd
+				
+			
+				
+			end
+			
+		elseif (currentFrame > move[currentMove][moveFrameEnd]) then -- Death to player!
+		
+			if (move[currentMove][rndMoveType] == GOODGUY) then
+			
+				currentMove = currentMove + 1
+			else
+			
+				discSkipToFrame(move[currentMove][moveFrameEnd])
+				discPause()			
+				timerON(iDelay)
+				lvlState = lvlPause			
+				
+			end
+		
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+		
+			if (p1BUTTON3) then
+				p1BUTTON3 = false
+				if (iBullets > 0) then
+				
+					if (shooterHit(currentFrame - thisOffset, currentMove) == true) then -- Bad guy Hit!
+					
+						iScore = iScore + SCORE_BADGUY
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)
+						currentMove = currentMove + 1
+																			
+					end
+				
+				end				
+				
+			end
+			
+		end
+		
+	elseif (lvlState == lvlPlayDeath) then
+	
+		if (currentFrame == move[currentMove][deathFrameEnd]) then
+		
+			if (move[currentMove][rndMoveType] == GOODGUY) then
+			
+				lvlState = lvlEnd				
+				
+			else
+			
+				getNags(NAG_NORMAL)
+				discSkipToFrame(nagFrameStart)
+				lvlState = lvlPlayNag			
+				
+			end
+		
+		end
+		
+	elseif (lvlState == lvlPlayNag) then
+	
+		if (currentFrame == nagFrameEnd or p1BUTTON3) then
+		
+			p1BUTTON3 = false		
+			lvlState = lvlEnd
+		
+		end	
+	
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft			
+			
+		else
+			
+			if bLevelComplete then			
+				
+				stage[levelZulu] = true				
+				currentLevel = levelBravo
+				
+					
+				
+			end			
+			
+
+		end
+
+		if bDebug then debugPrint ("Leaving doLevelZulu()") end
+	
+	end
+
+end
+
+function doLevelBravo()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint ("Entering doLevelBravo()") end
+		
+		setupLevel(levelBravo)
+		levelFrameStart = thisOffset
+		levelFrameEnd   = thisOffset + 5916
+		bLevelComplete  = false		
+		currentMove = 1		
+		bOnce = true
+		discSkipToFrame(levelFrameStart)
+		lvlState = lvlRunning
+		
+	elseif (p1BUTTON3 and bOnce) then
+
+			p1START1 = false
+			bOnce = false		
+			discSkipToFrame(levelFrameStart + 800 )		
+			discPlay()
+			lvlState = lvlRunning	
+	
+			 	
+	
+		
+	elseif (lvlState == lvlPause) then
+	
+		if timerDue() then
+		
+			discSkipToFrame(move[currentMove][deathFrameStart])				
+			lvlState = lvlPlayDeath			
+			
+		else
+		
+			if (p1BUTTON3) then
+				p1BUTTON3 = false
+				if (iBullets > 0) then
+				
+					if (shooterHit(currentFrame - thisOffset, currentMove) == true) then -- Bad guy Hit!
+						
+						iScore = iScore + SCORE_BADGUY
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)
+						currentMove = currentMove + 1
+						lvlState = lvlRunning
+																				
+					end				
+					
+				end
+				
+			end
+		
+		end
+	
+	elseif (lvlState == lvlRunning) then
+	
+		if (currentMove > totalMoves) then
+		
+			if (currentFrame == levelFrameEnd) then
+			
+				bLevelComplete = true
+				lvlState = lvlEnd
+				
+			
+				
+			end
+			
+		elseif (currentFrame > move[currentMove][moveFrameEnd]) then -- Death to player!
+		
+			if (move[currentMove][rndMoveType] == GOODGUY) then
+			
+				currentMove = currentMove + 1
+			else
+			
+				discSkipToFrame(move[currentMove][moveFrameEnd])
+				discPause()			
+				timerON(iDelay)
+				lvlState = lvlPause			
+				
+			end
+		
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+		
+			if (p1BUTTON3) then
+				p1BUTTON3 = false
+				if (iBullets > 0) then
+				
+					if (shooterHit(currentFrame - thisOffset, currentMove) == true) then -- Bad guy Hit!
+					
+						iScore = iScore + SCORE_BADGUY
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)
+						currentMove = currentMove + 1
+																				
+					end
+				
+				end				
+				
+			end
+			
+		end
+		
+	elseif (lvlState == lvlPlayDeath) then
+	
+		if (currentFrame == move[currentMove][deathFrameEnd]) then
+		
+			if (move[currentMove][rndMoveType] == GOODGUY) then
+			
+				lvlState = lvlEnd				
+				
+			else
+			
+				getNags(NAG_NORMAL)
+				discSkipToFrame(nagFrameStart)
+				lvlState = lvlPlayNag			
+				
+			end
+		
+		end
+		
+	elseif (lvlState == lvlPlayNag) then
+	
+		if (currentFrame == nagFrameEnd or p1BUTTON3) then
+		
+			p1BUTTON3 = false		
+			lvlState = lvlEnd
+		
+		end	
+	
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft			
+			
+		else
+			
+			if bLevelComplete then			
+				
+				stage[levelBravo] = true				
+				if newScore(iScore) == false then
+				
+					currentLevel = levelGameOver
+					
+				else				
+				
+					currentLevel = levelHighScore
+					
+				end
+				bSection01Reached = false
+				
+			end			
+			
+
+		end
+
+		if bDebug then debugPrint ("Leaving doLevelBravo()") end
+	
+	end
+
+end
+
+function initJob()
+
+	readConfig()
+	iCoins = 0
+	blinkSecs = os.clock()
+	lastBlinkSecs = blinkSecs
+	bShowMouse = false
+	bShowScore = false
+	bShowCredits = true
+	bShowdown = false
+	
+	sprCursor = nil
+	if (dip_Crosshair == 1) then
+
+		sprCursor  = spriteLoad("singe/platoon/crosshaira.png")
+		cursoroffsetx = 3; cursoroffsety = 3
+		
+	elseif (dip_Crosshair == 2) then
+	
+		sprCursor  = spriteLoad("singe/platoon/crosshairb.png")
+		cursoroffsetx = 6; cursoroffsety = 6
+		
+	elseif (dip_Crosshair == 3) then
+	
+		sprCursor  = spriteLoad("singe/platoon/crosshairc.png")
+		cursoroffsetx = 0; cursoroffsety = 0
+		
+	elseif (dip_Crosshair == 4) then
+	
+		sprCursor  = spriteLoad("singe/platoon/crosshaird.png")
+		cursoroffsetx = 6; cursoroffsety = 6
+		
+	elseif (dip_Crosshair == 5) then
+	
+		sprCursor  = spriteLoad("singe/platoon/crosshaire.png")
+		cursoroffsetx = 0; cursoroffsety = 0
+		
+	end
+
+	if (dip_Difficulty == DOPT_EASY) then
+	
+		iDelay = 0.8
+		SCORE_BADGUY = 100
+		
+	
+	elseif (dip_Difficulty == DOPT_MEDIUM) then
+		
+		iDelay = 0.6		
+		SCORE_BADGUY = 200
+		
+		
+	elseif (dip_Difficulty == DOPT_HARD) then
+	
+		iDelay = 0.3
+		SCORE_BADGUY = 250
+		
+		
+	elseif (dip_Difficulty == DOPT_EXTREME) then
+	
+		iDelay = 0.150
+		SCORE_BADGUY = 300
+		
+	
+	end
+	
+	tx=0;ty=x;sx=0;sy=0;crx=0;cry=0
+	colorForeground(255, 0, 0)
+	fontSelect(fontCA24pt)
+	sprCredits = nil
+	sprCredits = fontToSprite(string.format('CREDITS: %d',iCredits))
+	
+	tx = (overlayGetWidth()  * 0.5) - (spriteGetWidth(sprCredits) * 0.5)
+	ty = (overlayGetHeight() * 0.85) - (spriteGetHeight(sprCredits) * 0.5)	
+	
+	sprFreePlay = nil
+	sprFreePlay = fontToSprite(string.format('FREE PLAY'))
+	crx = (overlayGetWidth()  * 0.5) - (spriteGetWidth(sprFreePlay) * 0.5)
+	cry = (overlayGetHeight() * 0.85) - (spriteGetHeight(sprFreePlay) * 0.5)
+	
+	fontSelect(fontCA24pt)
+	sprScore = nil
+	sprScore = fontToSprite(string.format('00000'))	
+	
+	sx = ((overlayGetWidth()  * 0.5) - (spriteGetWidth(sprScore) * 0.5))
+	sy = ((overlayGetHeight() * 0.9) - (spriteGetHeight(sprScore) * 0.5))	
+	scrx= nil; scrx = {sx, sx + 14, sx + (14*2), sx + (14*3), sx + 14*4}
+	
+	colorForeground(0, 0, 255)
+	sprHSTitle = nil
+	sprHSTitle = fontToSprite(string.format('TOP HUNTERS'))
+	colorForeground(0, 255, 0)	
+	
+	hsx = ((overlayGetWidth()  * 0.5) - (spriteGetWidth(sprHSTitle) * 0.5))
+	hsy = 20 
+	rndegg = math.random(os.clock() * 100000)
+	
+
+end
+
+function initVLDP()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint("Entering initVLDP()" .. offsetMenus) end
+	
+		playMe(sndCoin)		
+		discSkipToFrame (offsetMenus)
+		lvlState = lvlRunning
+		
+		bShowMouse = false
+		bReloadDisabled = true		
+		bPlaySound = false
+		bShowScore = false
+	
+	elseif (lvlState == lvlRunning) then
+		
+		if currentFrame == (offsetMenus + 195) then
+		
+			discPause()
+			lvlState = lvlEnd
+		
+		end
+	
+	elseif (lvlState == lvlEnd) then	
+		
+		lvlState = lvlSetup
+		gameflow = stateStartup
+		
+		if bDebug then debugPrint("Leaving initVLDP()") end
+	
+	end
+
+end
+
+function getNags(thisType)
+
+	if bDebug then debugPrint("Entering getNags()") end
+	
+	local q = 0
+	local w = 0
+	local b1 = true
+	
+	iLives = iLives - 1
+	
+	if dip_Undertaker then
+	
+		
+		
+		nagFrameStart = 18651
+		nagFrameEnd   = 18805
+		
+	end
+		
+	if bDebug then debugPrint("Leaving getNags()") end
+
+end
+
+function onInputPressed(intWhat)
+	
+	
+	if not bPause then
+	
+		if (intWhat == SWITCH_BUTTON3) then
+
+			p1BUTTON3 = true
+			
+		elseif (intWhat == SWITCH_BUTTON1) then
+
+			p1BUTTON1 = true
+			
+		elseif (intWhat == SWITCH_SERVICE) then
+			
+			p1SERVICE = true
+			
+		elseif (intWhat == SWITCH_START1) then
+			
+			p1START1 = true
+		
+		elseif (intWhat == SWITCH_COIN1) then
+			
+			p1COIN1 = true
+			
+		elseif (intWhat == SWITCH_COIN2) then
+			
+			p1COIN2 = true
+			
+		end
+		
+	end
+	
+	return true
+
+
+
+end
+
+function onInputReleased(intWhat)
+
+	if (intWhat == SWITCH_PAUSE) then 			
+		
+		bPause = not bPause 
+		if not (currentLevel == levelIntro or currentLevel == levelService) then bShowMouse = not bPause end		
+		
+	elseif (intWhat == SWITCH_QUIT) then	-- if user pressed ESC then quit program.
+			gameflow = stateQuit
+			
+	elseif (bPause == false) and (currentLevel ~= levelInit) then
+			
+		if (intWhat == SWITCH_START1) then
+		
+			-- If user presses 1up on their cab then start a new game.	
+			p1START1 = false
+			
+			if (currentLevel == levelIntro) then
+			
+				if (iCredits > 0 or dip_CoinsPerCredit == DOPT_FREEPLAY) then 
+			
+					iBullets = dip_MaxBullets
+					iCredits = iCredits - 1				
+					iScore = 0
+					iLives = dip_LivesPerCredit
+					currentLevel = levelCharlie
+					tempLevel = currentLevel
+					lvlState = lvlSetup					
+					bLevelComplete = false
+					bPlaySound = true
+					bReloadDisabled = false
+					bSection01Reached = false
+					bSection02Reached = false
+					bSection03Reached = false
+					bAdviceGiven = false
+					bResetContinue = false
+					bHarryAlt = false
+					bLocoAlt = false
+					bShowMouse = true				
+					bShowScore = true
+					bShowCredits = false
+					bJustStarting = true
+					bShowdown = false
+					rndegg = math.random(os.clock() * 100000)
+					
+					stage = nil; stage = {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}
+					panel = nil; panel = {ATLARGE, ATLARGE, ATLARGE, ATLARGE}
+				
+				end
+				
+			end
+			
+		elseif (intWhat == SWITCH_BUTTON3) then	
+			
+			p1BUTTON3 = false
+			
+			if (iBullets > 0 and not (currentLevel == levelMenu or currentLevel == levelIntro or currentLevel == levelService)) then
+			
+				iBullets = iBullets - 1
+				if dip_Crosshair == 5 then blinkRev() end
+				playMe(sndGunshot)
+			
+			else
+			
+				if not (currentLevel == levelIntro or currentLevel == levelService or currentLevel == levelContinue or currentLevel == levelGameOver or currentLevel == levelLivesLeft) then playMe(sndEmpty) end
+			
+			end
+			
+		elseif (intWhat == SWITCH_BUTTON1) then
+		
+			p1BUTTON1 = false
+			
+			if (bReloadDisabled == false) then
+			
+				if(dip_ReloadTrigger == DOPT_ONEMPTY) then
+				
+					if (iBullets == 0) then 
+						iBullets = dip_MaxBullets 
+						playMe(sndReload)
+					end
+				
+				elseif(dip_ReloadTrigger == DOPT_IMMEDIATE) then
+				
+					if (iBullets < dip_MaxBullets) then	-- Reload if there is less than max 
+						iBullets = dip_MaxBullets
+						playMe(sndReload)
+					end
+					
+				elseif(dip_ReloadTrigger == DOPT_BORDERS) then
+				
+					if (mousex <= 10 or mousex >= 350) or (mousey <= 10 or mousey >= 230) then
+					
+						if (iBullets <= dip_MaxBullets) then	-- Reload is there is less than max 
+							iBullets = dip_MaxBullets
+							playMe(sndReload)
+						
+						end
+					
+					end
+				
+				end
+				
+			else
+			
+				if not (currentLevel == levelIntro or currentLevel == levelService) then playMe(sndEmpty) end
+				
+			end
+			
+		elseif (intWhat == SWITCH_SERVICE) then
+		
+			p1SERVICE = false
+			
+			if not (currentLevel == levelService or gameflow == stateVLDPwake) then
+			
+				lvlState = lvlSetup
+				currentLevel = levelService		
+				
+			end
+			
+		elseif (intWhat == SWITCH_COIN1 or intWhat == SWITCH_COIN2) then
+
+			p1COIN1 = false
+			p1COIN2 = false
+			
+			if not (dip_CoinsPerCredit == DOPT_FREEPLAY) then
+			
+				if (iCredits < 9) then
+				
+					iCoins = iCoins + 1			
+					
+					if (iCoins >= dip_CoinsPerCredit) then
+					
+						iCoins = iCoins - dip_CoinsPerCredit
+						iCredits = iCredits + 1
+						playMe(sndCredit)
+						
+					else
+					
+						playMe(sndCoin)					
+					
+					end
+					if currentLevel == levelContinue then bResetContinue = true end
+				
+				end
+				
+			end
+			
+		end
+		
+	end
+	
+	return true
+	
+end
+
+function onMouseMoved(intX, intY, intXrel, intYrel)
+
+	mousex = intX
+	mousey = intY
+	cursorx = intX - cursoroffsetx
+	cursory = intY - cursoroffsety
+	revsetx = intX - 3
+	revsety = intY - 3
+
+end
+
+function onOverlayUpdate()
+
+	overlayClear()
+	
+	currentFrame = discGetFrame()
+	
+	if (gameflow == stateVLDPwake) then
+
+		initVLDP()
+	
+	elseif (gameflow == stateStartup) then
+	
+		debugPrint ("Playing CDROM version " .. sVersion)			
+		
+		initJob()		
+		gameflow = statePlaying
+		currentLevel = levelIntro
+		lvlState = lvlSetup	
+		
+	elseif (gameflow == statePlaying) then	
+	
+		if (currentLevel == levelService) then
+		
+			doServiceMenu()
+			
+		
+			
+					
+			
+		elseif (currentLevel == levelIntro) then
+			
+			doIntro()
+			
+		elseif (currentLevel == levelMenu) then
+		
+			doMenu()
+			
+		elseif (currentLevel == levelCharlie) then
+		
+			doLevelCharlie()
+			
+		elseif (currentLevel == levelDelta) then
+		
+			doLevelDelta()
+			
+		elseif (currentLevel == levelTango) then
+		
+			doLevelTango()
+			
+		elseif (currentLevel == levelLima) then
+		
+			doLevelLima()
+			
+		elseif (currentLevel == levelZulu) then
+		
+			doLevelZulu()
+			
+		elseif (currentLevel == levelBravo) then
+		
+			doLevelBravo()
+			
+		elseif (currentLevel == levelContinue) then
+		
+			doContinue()
+			
+		elseif (currentLevel == levelGameOver) then
+		
+			doGameOver()
+			
+		elseif (currentLevel == levelLivesLeft) then
+		
+			doLivesLeft()
+			
+		elseif (currentLevel == levelHighScore) then
+		
+			doHighScore()
+		
+		end	
+	
+	end
+	
+	if (bShowMouse and singeWantsCrosshairs()) then 
+	
+		spriteDraw(cursorx, cursory, sprCursor) 
+		
+		if (bReversePointer and not (currentLevel == levelHighScore)) then 
+		
+			iRevFrames = iRevFrames + 1
+			if (iRevFrames == REV_DELAY) then
+			
+				bReversePointer = false
+			else
+				spriteDraw(revsetx, revsety, sprRev) 
+				
+			end
+			
+		end	
+	
+	end
+	
+	if (bShowScore) then
+		
+		drawBullets()		
+		drawLives()		
+		drawSpriteScore()
+		
+	
+	elseif bShowCredits then
+	
+		drawCredits()
+	
+	end
+		
+	if bDebug then showDebugInfo() end
+	
+	return(OVERLAY_UPDATED)
+	
+end
+
+function onSoundCompleted(intWhich)
+
+	-- leave empty
+	
+end
+
+function onShutdown()
+	
+	discStop()
+	
+	if (bDebug == true) then debugPrint ("Leaving game!") end
+	
+end
+
+function playMe(thisSound)
+
+	if (bPlaySound == true) then
+	
+		if (bDebug) then debugPrint ("Playing sound") end
+		soundPlay(thisSound)
+		
+		return true
+		
+	else
+	
+		return false
+		
+	end
+	
+end
+
+function showDebugInfo()
+
+end

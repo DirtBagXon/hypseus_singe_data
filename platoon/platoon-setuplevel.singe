@@ -1,0 +1,187 @@
+--[[
+
+PROGRAM NAME:	Platoon Singe edition
+VERSION:		1.3
+AUTHOR:			POIU (2020)
+
+This file is part of Platoon Singe edition
+
+	Platoon Singe edition is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation.
+
+	Platoon Singe edition is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+	Thanks to Scott Duensing (author of Singe) and KARIS for all LUA support
+
+]]--
+
+GOODGUY = 1
+BADGUY = 0
+rndMoveType = 9
+
+function setupLevel(thisLevel)
+
+	if bDebug then debugPrint ("Entering setupLevel") end
+	local k = 0
+	local ww = 0
+	local t = 0
+	
+	move = nil; move = {}
+	
+	if thisLevel == levelCharlie then
+	
+		move[1] = {}; move[1] = {833, 869, 9131, 9294,  1,  37, 0, 0, BADGUY}
+		move[2] = {}; move[2] = {963, 990, 9295, 9444,  38,  65, 0, 0, BADGUY}
+		move[3] = {}; move[3] = {1113, 1145, 9445, 9586,  66,  98, 0, 0, BADGUY}
+		move[4] = {}; move[4] = {1300, 1366, 9587, 9713,  99,  165, 0, 0, BADGUY}
+		move[5] = {}; move[5] = {1527, 1538, 9714, 9872,  166,  177, 0, 0, BADGUY}
+		move[6] = {}; move[6] = {1690, 1755, 9873, 9985,  178,  243, 0, 0, BADGUY}
+		move[7] = {}; move[7] = {2013, 2055, 9986, 10177,  244,  286, 0, 0, BADGUY}
+		move[8] = {}; move[8] = {2160, 2233, 10178, 10322,  287,  360, 0, 0, BADGUY}
+		move[9] = {}; move[9] = {2377, 2434, 10323, 10466,  361,  418, 0, 0, BADGUY}
+		move[10] = {}; move[10] = {2555, 2597, 10467, 10627,  419,  461, 0, 0, BADGUY}
+			
+		totalMoves  = 10
+		hitmapTotal = 461
+		thisOffset  = 5274
+		GetArrayCharlie()
+		
+	elseif thisLevel == levelDelta then	
+	
+		move[1] = {}; move[1] = {1035, 1076, 13118, 13287,  1,  42, 0, 0, BADGUY}
+		move[2] = {}; move[2] = {1135, 1206, 13288, 13454,  43,  114, 0, 0, BADGUY}
+		move[3] = {}; move[3] = {1305, 1363, 13455, 13591,  115,  173, 0, 0, BADGUY}
+		move[4] = {}; move[4] = {1490, 1522, 13592, 13765,  174,  206, 0, 0, BADGUY}
+		move[5] = {}; move[5] = {1700, 1745, 13766, 13895,  207,  252, 0, 0, BADGUY}
+		move[6] = {}; move[6] = {1820, 1879, 13896, 14051,  253,  312, 0, 0, BADGUY}
+		move[7] = {}; move[7] = {1970, 2035, 14052, 14190,  313,  378, 0, 0, BADGUY}
+		move[8] = {}; move[8] = {2130, 2175, 14191, 14337,  379,  424, 0, 0, BADGUY}
+	
+		totalMoves  = 8
+		hitmapTotal = 424
+		thisOffset  = 10628
+		GetArrayDelta()
+		
+	elseif thisLevel == levelTango then
+
+		move[1] = {}; move[1] = {470, 503, 16844, 16974,  1,  34, 0, 0, BADGUY}
+		move[2] = {}; move[2] = {582, 625, 16975, 17104,  35,  78, 0, 0, BADGUY}
+		move[3] = {}; move[3] = {710, 754, 17105, 17241,  79,  121, 0, 0, BADGUY}
+		move[4] = {}; move[4] = {935, 970, 17242, 17383,  122,  156, 0, 0, BADGUY}
+		move[5] = {}; move[5] = {1126, 1144, 17384, 17531,  157,  175, 0, 0, BADGUY}
+		move[6] = {}; move[6] = {1370, 1458, 17532, 17646,  176,  264, 0, 0, BADGUY}
+		move[7] = {}; move[7] = {1655, 1715, 17647, 17794,  265,  325, 0, 0, BADGUY}
+		move[8] = {}; move[8] = {1890, 1958, 17795, 17951,  326,  394, 0, 0, BADGUY}
+		move[9] = {}; move[9] = {2100, 2117, 17952, 18074,  395,  412, 0, 0, BADGUY}
+		move[10] = {}; move[10] = {2137, 2151, 18075, 18174,  413,  426, 0, 0, BADGUY}
+		
+		totalMoves  = 10
+		hitmapTotal = 426
+		thisOffset  = 14338
+		GetArrayTango()
+		
+	elseif thisLevel == levelLima then
+	
+	    move[1] = {}; move[1] = {950, 975, 22644, 22722,  1,  26, 0, 0, BADGUY}
+		move[2] = {}; move[2] = {1055, 1085, 22723, 22837,  27,  56, 0, 0, BADGUY}
+		move[3] = {}; move[3] = {1228, 1248, 22838, 22978,  57,  77, 0, 0, BADGUY}
+		move[4] = {}; move[4] = {1773, 1829, 22979, 23129,  78,  134, 0, 0, BADGUY}
+		move[5] = {}; move[5] = {2038, 2069, 23130, 23283,  135,  166, 0, 0, BADGUY}
+		move[6] = {}; move[6] = {2193, 2230, 23284, 23415,  167,  204, 0, 0, BADGUY}
+		move[7] = {}; move[7] = {2333, 2354, 23416, 23558,  205,  226, 0, 0, BADGUY}
+		move[8] = {}; move[8] = {2820, 2845, 23559, 23682,  227,  252, 0, 0, BADGUY}
+		move[9] = {}; move[9] = {3060, 3108, 23683, 23865,  253,  301, 0, 0, BADGUY}
+		move[10] = {}; move[10] = {3250, 3270, 23866, 24032,  302,  322, 0, 0, BADGUY}
+		move[11] = {}; move[11] = {3400, 3452, 24033, 24209,  323,  375, 0, 0, BADGUY}
+		move[12] = {}; move[12] = {3545, 3572, 24210, 24354,  376,  403, 0, 0, BADGUY}
+		
+		totalMoves  = 12
+		hitmapTotal = 403
+		thisOffset  = 18807
+		GetArrayLima()
+	
+	elseif thisLevel == levelZulu then
+	
+	    move[1] = {}; move[1] = {370, 442, 26801, 26934,  1,  73, 0, 0, BADGUY}
+		move[2] = {}; move[2] = {550, 593, 26935, 27064,  74,  117, 0, 0, BADGUY}
+		move[3] = {}; move[3] = {830, 855, 27065, 27195,  118,  143, 0, 0, BADGUY}
+		move[4] = {}; move[4] = {975, 990, 27196, 27332,  144,  159, 0, 0, BADGUY}
+		move[5] = {}; move[5] = {1125, 1145, 27333, 27453,  160,  180, 0, 0, BADGUY}
+		move[6] = {}; move[6] = {1380, 1407, 27454, 27586,  181,  208, 0, 0, BADGUY}
+		move[7] = {}; move[7] = {1500, 1529, 27587, 27718,  209,  238, 0, 0, BADGUY}
+		move[8] = {}; move[8] = {1595, 1609, 27719, 27836,  239,  253, 0, 0, BADGUY}
+		move[9] = {}; move[9] = {1702, 1713, 27837, 27983,  254,  266, 0, 0, BADGUY}
+		move[10] = {}; move[10] = {1790, 1842, 27984, 28139,  267,  319, 0, 0, BADGUY}
+		move[11] = {}; move[11] = {1920, 1957, 28140, 28229,  320,  357, 0, 0, BADGUY}
+		move[12] = {}; move[12] = {2130, 2143, 28230, 28417,  358,  371, 0, 0, BADGUY}
+		
+		totalMoves  = 12
+		hitmapTotal = 371
+		thisOffset  = 24355          
+		GetArrayZulu()
+		
+	elseif thisLevel == levelBravo then
+	
+	   move[1] = {}; move[1] = {1005, 1022, 34336, 34436,  1,  18, 0, 0, BADGUY}
+		move[2] = {}; move[2] = {1150, 1175, 34437, 34532,  19,  44, 0, 0, BADGUY}
+		move[3] = {}; move[3] = {1271, 1294, 34533, 34625,  45,  68, 0, 0, BADGUY}
+		move[4] = {}; move[4] = {1435, 1454, 34626, 34725,  69,  88, 0, 0, BADGUY}
+		move[5] = {}; move[5] = {1650, 1700, 34726, 34844,  89,  139, 0, 0, BADGUY}
+		move[6] = {}; move[6] = {1810, 1886, 34845, 34911,  140,  216, 0, 0, BADGUY}
+		move[7] = {}; move[7] = {2035, 2087, 34912, 34992,  217,  269, 0, 0, BADGUY}
+		move[8] = {}; move[8] = {2260, 2301, 34993, 35085,  270,  310, 0, 0, BADGUY}
+		move[9] = {}; move[9] = {2335, 2358, 35086, 35139,  311,  333, 0, 0, BADGUY}
+		move[10] = {}; move[10] = {2870, 2890, 35140, 35273,  334,  354, 0, 0, BADGUY}
+		move[11] = {}; move[11] = {2975, 2992, 35274, 35357,  355,  372, 0, 0, BADGUY}
+		move[12] = {}; move[12] = {3325, 3415, 35358, 35476,  373,  463, 0, 0, BADGUY}
+		move[13] = {}; move[13] = {3485, 3515, 35477, 35612,  464,  494, 0, 0, BADGUY}
+		move[14] = {}; move[14] = {3625, 3670, 35613, 35755,  495,  540, 0, 0, BADGUY}
+		move[15] = {}; move[15] = {3725, 3755, 35756, 35921,  541,  571, 0, 0, BADGUY}
+		move[16] = {}; move[16] = {3890, 3918, 35922, 36007,  572,  600, 0, 0, BADGUY}
+		move[17] = {}; move[17] = {4025, 4061, 36008, 36175,  601,  637, 0, 0, BADGUY}
+		move[18] = {}; move[18] = {4250, 4280, 36176, 36308,  638,  668, 0, 0, BADGUY}
+		move[19] = {}; move[19] = {4377, 4423, 36309, 36465,  669,  715, 0, 0, BADGUY}
+		move[20] = {}; move[20] = {4565, 4614, 36466, 36564,  716,  765, 0, 0, BADGUY}
+		
+		totalMoves  = 20
+		hitmapTotal = 765
+		thisOffset  = 28418          
+		GetArrayBravo()
+		
+	end
+	
+	local b1 = false
+	
+	
+
+	for k=1,totalMoves do
+		
+		move[k][1] = move[k][1] + thisOffset
+		move[k][2] = move[k][2] + thisOffset
+		
+		if thisLevel == levelBonus then
+		
+			move[k][3] = move[k][3] + thisOffset
+			move[k][4] = move[k][4] + thisOffset
+		
+		end
+		
+		if b1 then
+			
+			move[k][7] = move[k][7] + thisOffset		
+			move[k][8] = move[k][8] + thisOffset
+		
+		end
+	
+	
+		
+	end
+	
+	if iBullets < dip_MaxBullets then iBullets = dip_MaxBullets end
+
+	if bDebug then debugPrint ("Leaving setupLevel") end
+
+end

@@ -1,0 +1,293 @@
+--[[
+
+PROGRAM NAME:	Platoon Singe edition
+VERSION:		1.3
+AUTHOR:			POIU (2020)
+
+This file is part of Platoon Singe edition
+
+	Platoon Singe edition is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation.
+
+	Platoon Singe edition is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+	Thanks to Scott Duensing (author of Singe) and KARIS for all LUA support
+
+]]--
+
+
+--Framework.singe....
+
+discSetFPS(29.97)
+discSkipToFrame(1)
+discPause()
+
+SWITCH_UP         =  0
+SWITCH_LEFT       =  1
+SWITCH_DOWN       =  2
+SWITCH_RIGHT      =  3
+SWITCH_START1     =  4
+SWITCH_START2     =  5
+SWITCH_BUTTON1    =  6
+SWITCH_BUTTON2    =  7
+SWITCH_BUTTON3    =  8
+SWITCH_COIN1      =  9
+SWITCH_COIN2      = 10
+SWITCH_SKILL1     = 11
+SWITCH_SKILL2     = 12
+SWITCH_SKILL3     = 13
+SWITCH_SERVICE    = 14
+SWITCH_TEST       = 15
+SWITCH_RESET      = 16
+SWITCH_SCREENSHOT = 17
+SWITCH_QUIT       = 18
+SWITCH_PAUSE      = 19
+SWITCH_CONSOLE    = 20
+
+FONT_QUALITY_SOLID   = 1
+FONT_QUALITY_SHADED  = 2
+FONT_QUALITY_BLENDED = 3
+
+SOUND_ERROR_INVALID = -1
+SOUND_ERROR_FULL    = -2
+
+OVERLAY_NOT_UPDATED = 0
+OVERLAY_UPDATED     = 1
+
+-- Make old random number calls still work
+random = {}
+random.new = math.random
+--...End Framework
+
+
+
+bDebug = false
+bPause = false
+bPlaySound = true
+bLevelComplete = false
+bReloadDisabled = false
+bShowMouse = true
+bSection01Reached = false
+bSection02Reached = false
+bSection03Reached = false
+bShowCredits = false
+bShowScore = false
+bResetContinue = false
+bFlip = false
+bNoMoreBonuses = false
+bAdviceGiven = false
+
+
+clockSecs = 0
+
+DOPT_EASY = 1
+DOPT_MEDIUM = 2
+DOPT_HARD = 3
+DOPT_EXTREME = 4
+DOPT_IMMEDIATE = 100
+DOPT_ONEMPTY = 101
+DOPT_BORDERS = 102
+DOPT_FREEPLAY = 4
+
+dip_LivesPerCredit = 6
+dip_CoinsPerCredit = 1
+dip_CoinsPerContinue = 1
+dip_Difficulty = DOPT_EASY
+dip_MaxBullets = 6
+dip_ReloadTrigger = DOPT_IMMEDIATE
+dip_Crosshair = 1
+dip_Undertaker = true
+
+
+-- Indexes for pixel perfect detection
+
+lineStartX = 1
+lineEndX = 3
+lineY = 2
+
+iLives = 0
+iScore = 0
+iBullets = 0
+iDelay = 0
+iCredits = 0
+iCoins = 0
+iLastRndClip = 0
+iChoice = 0
+
+NAG_NORMAL = 1
+NAG_FRIENDLYKILLED = 2
+
+SCORE_BADGUY = 100
+SCORE_OUTLAW = 500
+SCORE_BOUNTY = 1000
+SCORE_SHOWDOWN = 200
+
+mousex = 0
+mousey = 0
+cursorx = 0
+cursory = 0
+cursoroffsetx = 0
+cursoroffsety = 0
+
+levelStart = 0
+
+
+SKIP_DEATH    = 120
+
+levelCharlie = 1
+levelDelta = 2
+levelTango = 3
+levelLima = 4
+levelZulu = 5
+levelBravo = 6
+
+
+
+
+
+move = nil
+totalMoves = 0
+hitmapTotal = 0
+moveFrameStart = 1
+moveFrameEnd = 2
+deathFrameStart = 3
+deathFrameEnd = 4
+hitboxStart = 5
+hitboxEnd = 6
+rndMoveStart = 7
+rndMoveEnd = 8
+practiceMoveEnd = 7
+levelFrameStart = 0
+levelFrameEnd = 0
+iFrameStart = 0
+iFrameEnd = 0
+nagFrameStart = 0
+nagFrameEnd = 0
+
+levelGameOver = 105
+levelContinue = 106
+levelMenu = 107
+levelService = 108
+levelLivesLeft = 109
+levelHighScore = 110
+levelInit = 111
+
+currentFrame = 0
+currentMove = 0
+currentLevel = levelInit
+tempLevel = 0
+thisOffset = 0
+offsetMenus = 36565
+sName = ""
+sNicks = ""
+
+
+lvlSetup = 1
+lvlRunning = 2
+lvlEnd = 3
+lvlPlayDeath = 4
+lvlPlayClip1 = 5
+lvlPlayClip2 = 6
+lvlPlayClip3 = 7
+lvlPlayClip4 = 8
+lvlPlayClip5 = 9
+lvlPlayClip6 = 10
+lvlPlayNag = 11
+lvlPause = 15
+lvlState = lvlSetup 
+
+statePlaying = 0
+stateStartup = 1
+stateQuit = 2
+stateVLDPwake = 3
+gameflow = stateVLDPwake  --stateStartup
+
+
+-- Labels for elements in the hitbox arrays
+
+bbx1 = 1	-- Box coordinates
+bby1 = 2
+bbx2 = 3
+bby2 = 4
+
+hitmapFrame = 1		
+hitmapIndex = 2		
+hitmapCount = 3		
+hitmapBonus = 4		
+hitmapCivStart = 5	
+hitmapCivCount = 6	
+
+-- booleans for joystick input
+
+p1UP = false		-- Used for level select menu. 
+p1DOWN = false		-- Used to quickly test if a joy direction or button is being pressed.
+p1LEFT = false
+p1RIGHT = false
+p1BUTTON3 = false
+p1COIN1 = false
+p1COIN2 = false
+p1SERVICE = false
+p1START1 = false
+
+bulletSprtX  = 0
+bulletSprtY  = 0
+bulletSprtY2 = 0
+
+ATLARGE = 1
+
+
+panel = nil; panel = {ATLARGE, ATLARGE, ATLARGE, ATLARGE}
+
+nag = nil; nag = {false, false, false, false, false, false}
+civ = nil; civ = {false, false, false, false}
+stage = nil; stage = {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}
+showdown = nil; showdown = {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}
+
+tx = 0; ty = 0; crx = 0; cry = 0; rndegg = 0
+
+fontDebug6pt = fontLoad("singe/platoon/m39.ttf", 6)
+fontDebug8pt = fontLoad("singe/platoon/m39.ttf", 8)
+fontDebug12pt = fontLoad("singe/platoon/m39.ttf", 12)
+fontDebug16pt = fontLoad("singe/platoon/m39.ttf", 16)
+fontCA8pt   = fontLoad("singe/platoon/arcaden.ttf", 8)
+fontCA10pt   = fontLoad("singe/platoon/arcaden.ttf", 10)
+fontCA12pt   = fontLoad("singe/platoon/arcaden.ttf", 12)
+fontCA14pt   = fontLoad("singe/platoon/arcaden.ttf", 14)
+fontCA16pt   = fontLoad("singe/platoon/arcaden.ttf", 16)
+fontCA24pt   = fontLoad("singe/platoon/arcaden.ttf", 24)
+
+sprArrow    = spriteLoad("singe/platoon/pistol2.png")
+
+scrx= nil
+sprScore   = nil
+sprCredits = nil
+sprFreePlay = nil
+
+sprBullet = nil; sprBullet = spriteLoad("singe/platoon/bullet2.png")
+sprHatBig = nil; sprHatBig = spriteLoad("singe/platoon/hat2.png")
+sprHatSmall = nil; sprHatSmall = spriteLoad("singe/platoon/hat3.png")
+sprReload = nil; sprReload = spriteLoad("singe/platoon/reload2.png")
+
+
+sprNum = nil; sprNUM = {}
+sprNUM[0] = spriteLoad("singe/platoon/num0.png")
+sprNUM[1] = spriteLoad("singe/platoon/num1.png")
+sprNUM[2] = spriteLoad("singe/platoon/num2.png")
+sprNUM[3] = spriteLoad("singe/platoon/num3.png")
+sprNUM[4] = spriteLoad("singe/platoon/num4.png")
+sprNUM[5] = spriteLoad("singe/platoon/num5.png")
+sprNUM[6] = spriteLoad("singe/platoon/num6.png")
+sprNUM[7] = spriteLoad("singe/platoon/num7.png")
+sprNUM[8] = spriteLoad("singe/platoon/num8.png")
+sprNUM[9] = spriteLoad("singe/platoon/num9.png")
+
+sndCoin        = soundLoad("singe/platoon/coin.wav")
+sndCredit      = soundLoad("singe/platoon/credit.wav")
+sndGunshot     = soundLoad("singe/platoon/shot.wav") 
+sndEmpty       = soundLoad("singe/platoon/empty.wav")
+sndReload      = soundLoad("singe/platoon/reload.wav")
+
+
