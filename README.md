@@ -68,7 +68,7 @@ However below are scripts to help you do this if porting over.
 
     #!/bin/bash
   
-    export NAME="s/Puss_in_Boots_english_singe_2//g"
+    export NAME="Puss_in_Boots_english_singe_2"
     export GAME="pussinboots"
 
     perl -p -i -e 's/'$NAME'//g' *.singe
