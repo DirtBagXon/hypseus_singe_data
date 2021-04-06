@@ -98,4 +98,5 @@ However below are scripts to help you do this if porting over.
 
 ### These Singe 2 games have known issues:
 
-* maddog - Singe 1 version works as expected
+* ``maddog`` - **Singe 1 version works as expected**
+* Games with ``ERROR : current mpeg has too many frames, VLDP will ignore any frames above 65535``
