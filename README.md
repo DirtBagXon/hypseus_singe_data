@@ -16,6 +16,8 @@ If your device is struggling with the HD content, you can resize in this operati
 
 ### Using this repository
 
+This repo contains no Copyright &copy; material, only fan made graphics, sounds and LUA scripts.
+
 All data in the subdirectories of this repository has been ported according to the processes below.
 
 You do not **need** to alter any of the peripheral data in these subdirectories.

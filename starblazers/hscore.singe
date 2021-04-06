@@ -1,0 +1,553 @@
+--[[
+
+PROGRAM NAME:	Starblazers
+
+]]--
+
+sAlph = nil; 
+iCursor = 0
+sName = "";
+highscore = nil;
+
+joySecs = 0
+joyLimit = 0
+joylastSeconds = 0
+joythisSeconds = 0
+
+function joyDelayOFF()
+
+joySecs = 0
+joyLimit = 0
+
+end
+
+function joyDelayON(thisLong)
+
+	joySecs = 0
+	joyLimit = thisLong
+	joylastSeconds = os.clock()	
+
+end
+
+function joyDelayDue()
+	
+	joythisSeconds = os.clock()
+	
+	if bPause then
+		
+		joylastSeconds = joythisSeconds 
+		
+	else
+		
+		if (joythisSeconds ~= joylastSeconds) then		
+			
+			joySecs = joySecs + joythisSeconds - joylastSeconds
+			joylastSeconds = joythisSeconds 		
+
+		end
+		
+		if (joySecs >= joyLimit) then
+
+			if (dip_Debug) then debugPrint ("Timer lock DISengaged. Timer expired.") end
+			joyDelayOFF()
+			return true
+			
+		else		
+			
+			return false
+		
+		end	
+	
+	end
+
+end
+
+function doHighScore()
+
+	if (lvlState == lvlSetup) then
+	
+		if dip_Debug then debugPrint("Entering doHighScore()") end
+		
+		bShowLives = false
+		bShowScore = false
+		bShowCredits = false
+		bShowAction = false
+		bShowCubes = false
+		bShowLCD = false
+		bIgnoreJoy = false
+		iCursor = 1
+		sName = ""
+		initArray()
+		
+		setupClip(offsetNewHScore, offsetNewHScoreend)		
+		lvlState = branch01
+		
+	elseif (lvlState == branch01) then
+	
+		if (currentFrame == iFrameEnd or p1BUTTON1) then
+		
+			p1BUTTON1 = false		
+			setupClip(offsetEnterHScore, offsetEnterHScoreend)		
+			lvlState = lvlRunning
+		
+		end
+		
+	elseif (lvlState == branch02) then
+	
+		if timerDue() then
+		
+			lvlState = lvlEnd
+		
+		end
+		
+	elseif (lvlState == branch03) then
+		
+		if currentFrame == iFrameEnd then 
+
+			
+			discPause()
+			timerON(2)
+			lvlState = branch04 
+
+		else
+
+			drawHS()
+
+		end
+		
+	elseif (lvlState == branch04) then
+		
+		if timerDue() then
+		
+			lvlState = lvlEnd
+
+		else
+
+			drawHS()
+		
+		end
+	
+	elseif (lvlState == lvlRunning) then
+	
+		if currentFrame == iFrameEnd then	
+			
+			updateHS(sName, iScore)
+			discPause()
+			timerON(0.5)
+			lvlState = branch02
+			
+		else
+		
+			drawLetters()
+			
+			if bIgnoreJoy then 
+			
+				if joyDelayDue() then bIgnoreJoy = false end
+				
+			else
+				
+				checkInput()
+				
+			end
+		
+		end	
+	
+	elseif (lvlState == lvlEnd) then	
+		
+		
+		writeConfig()
+		lvlState = lvlSetup
+		currentLevel = levelGameOver
+		
+		if dip_Debug then debugPrint("Leaving doHighScore()") end
+	
+	end
+
+
+end
+
+function checkInput()
+
+	if p1LEFT then 
+		iCursor = iCursor - 1
+		soundPlay(sndright)
+		
+	elseif p1RIGHT then 
+		iCursor = iCursor + 1
+		soundPlay(sndright)
+		
+	elseif p1DOWN then 
+	
+		soundPlay(sndright)
+		if iCursor <= 35 then
+			iCursor = iCursor + 9
+		
+		else
+		
+			if     iCursor == 36 then iCursor = 44
+			elseif iCursor == 34 or iCursor == 35 then iCursor = 43
+			elseif iCursor == 37 then iCursor = 1
+			elseif iCursor == 38 then iCursor = 2		
+			elseif iCursor == 39 then iCursor = 3		
+			elseif iCursor == 40 then iCursor = 4
+			elseif iCursor == 41 then iCursor = 5
+			elseif iCursor == 42 then iCursor = 6
+			elseif iCursor == 43 then iCursor = 7
+			elseif iCursor == 44 then iCursor = 9
+			end			
+		
+		end
+	
+	elseif p1UP then
+	
+		soundPlay(sndright)
+		if iCursor >= 10 and iCursor <= 42 then
+			iCursor = iCursor - 9
+		
+		else
+		
+			if     iCursor == 1 then iCursor = 37
+			elseif iCursor == 2 then iCursor = 38
+			elseif iCursor == 3 then iCursor = 39
+			elseif iCursor == 4 then iCursor = 40
+			elseif iCursor == 5 then iCursor = 41
+			elseif iCursor == 6 then iCursor = 42
+			elseif iCursor == 7 or iCursor == 8 then iCursor = 43
+			elseif iCursor == 9 then iCursor = 44
+			elseif iCursor == 43 then iCursor = 34
+			elseif iCursor == 44 then iCursor = 36
+			end	
+		
+		end
+		
+	elseif p1BUTTON1 then
+	
+		if iCursor < 43 then
+		
+			soundPlay(sndcredit)
+			
+			if string.len(sName) < 3 then
+			
+				sName = string.format("%s%s",sName,sAlph[iCursor])
+			
+			end
+
+			if string.len(sName) == 3 then
+			
+				iCursor = 44
+			
+			end
+	
+		
+		elseif iCursor == 43 then		
+			
+			soundPlay(snddeath)
+			if string.len(sName) > 1 then
+			
+				sName = string.sub(sName,1, string.len(sName)-1)
+				
+			else
+			
+				sName = ""
+			
+			end
+			
+		
+		elseif iCursor == 44 then
+			
+			updateHS(sName, iScore)
+			setupClip(offsetOKHScore, offsetOKHScoreend)
+			lvlState = branch03	
+					
+		end
+	
+	end
+	
+	if iCursor > 44 then iCursor = 1
+	elseif iCursor < 1 then iCursor = 44 end
+	
+	if p1UP or p1DOWN or p1LEFT or p1RIGHT or p1BUTTON1 then
+		bIgnoreJoy = true
+		joyDelayON(0.200)
+	end
+	
+	p1UP = false
+	p1DOWN = false
+	p1LEFT = false
+	p1RIGHT = false
+	p1BUTTON1 = false
+
+end
+
+function initArray()
+
+	sAlph = nil; sAlph = {}
+	local s1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ@123456789?!#$%*"
+	
+	local k = 1
+	
+	for k=1,42 do
+	
+		sAlph[k] = string.sub(s1,k,k)
+	
+	end
+	
+	sAlph[43] = "CLR"
+	sAlph[44] = "END"
+
+end
+
+function printLetters()
+
+	local s1 = ""
+	local k = 0	
+	
+	for k=1,3 do
+	
+		if (k <= string.len(sName)) then
+		
+			s1 = s1 .. string.sub(sName,k,k) .. " "
+		
+		else
+		
+			s1 = s1 .. "_ "
+		
+		
+		end	
+	
+	end
+	
+	fontSelect(fontGame)
+	setFontColor(mycolor3)
+	fontPrint(OVLW/2-NUMW*(5/2),OVLH/4,s1)
+	
+	
+
+end
+
+function drawLetters()
+
+	local k = 0
+	local q = 0
+	local x1 = 0
+	local y1 = OVLH/3
+		
+	fontSelect(fontGame)	
+
+	if bShowTitle == true then
+
+		setFontColor(mycolor1)
+		fontSelect(fontLCD)
+		fontPrint(getMiddle("HIGH SCORE!!"),LINEH*2, "HIGH SCORE!!")
+		fontSelect(fontGame)
+		fontPrint(getMiddle("PLEASE ENTER YOUR NAME"),OVLH-LINEH*2, "PLEASE ENTER YOUR NAME")
+	
+	end		
+
+	
+	printLetters()		
+	
+	for k = 1,44 do
+
+		if OVLW == 320 then
+	
+			x1 = OVLW/6+NUMW + q*NUMW*3
+
+		else
+
+			x1 = OVLW/3+NUMW + q*NUMW*3
+
+		end
+
+	
+		if k == iCursor then 
+			blinkTimer(0.300)
+			if heartbeat then setFontColor(mycolor3) else setFontColor(mycolor1) end
+		else 
+			setFontColor(mycolor2) 
+		end
+		
+		if k < 43 then
+			fontPrint(x1,y1,string.sub(sAlph[k],1,1))
+		else
+
+			if OVLW == 320 then
+	
+				x1 = OVLW/6 + q*NUMW*3
+
+			else
+
+				x1 = OVLW/3 + q*NUMW*3
+
+			end
+					
+		
+			if k == 43 then 		
+				
+				fontPrint(x1+NUMW, y1, "CLR")				
+				
+			end
+			
+			if k == 44 then			
+				
+				fontPrint(x1+NUMW*2, y1, "END")
+			
+			
+			end
+			
+		end
+		
+		q = q + 1
+		if q > 8 then 
+			y1 = y1 + LINEH*3
+			q = 0
+		end
+	
+	end
+
+end
+
+function drawHS()
+
+	local k = 0
+	
+		
+	
+
+	if bShowTitle == true then
+
+		fontSelect(fontLCD)
+		setFontColor(mycolor1)
+		fontPrint(getMiddle("RANKINGS"),LINEH*2, "RANKINGS")
+		
+	end		
+
+	fontSelect(fontGame)
+	setFontColor(mycolor3)
+	
+	if OVLW == 320 then
+	
+		for k = 1, 10 do
+			
+
+			if k==10 then
+
+				fontPrint(OVLW/4, OVLH/5 + k *LINEH*2, k)
+
+			else
+
+				fontPrint(NUMW+OVLW/4, OVLH/5 + k *LINEH*2, k)
+
+			end
+
+			fontPrint(20+OVLW/4, OVLH/5 + k * LINEH*2, ".")
+			fontPrint(35+OVLW/4, OVLH/5 + k * LINEH*2, highscore[k][1])
+			fontPrint(85+OVLW/4, OVLH/5 + k * LINEH*2, highscore[k][2])
+
+		end
+
+	else
+
+		for k = 1, 10 do
+			
+
+			if k==10 then
+
+				fontPrint(OVLW/(5/2), OVLH/5 + k *LINEH*2, k)
+
+			else
+
+				fontPrint(10+OVLW/(5/2), OVLH/5 + k *LINEH*2, k)
+
+			end
+
+			fontPrint(20+OVLW/(5/2), OVLH/5 + k * LINEH*2, ".")
+			fontPrint(35+OVLW/(5/2), OVLH/5 + k * LINEH*2, highscore[k][1])
+			fontPrint(85+OVLW/(5/2), OVLH/5 + k * LINEH*2, highscore[k][2])
+
+		end
+
+	end	
+
+end
+
+
+function newScore(thisScore)
+
+	local bResult = false
+	local k = 0
+	
+	for k=1,10 do
+	
+		if (tonumber(thisScore) >= tonumber(highscore[k][2])) then
+			
+			bResult = true			
+			break
+		
+		end	
+	
+	end
+	
+	return bResult
+
+end
+
+function getRandomName()
+
+	local grabbag = {'CAL','AKI','DON','TYG','KIM','LAR','KOR','MOR','KAR','CYR'}
+	local q = math.modf((rndegg:value(1000,10999)/1000))
+	if dip_Debug then debugPrint("Random name is: " .. grabbag[q]) end
+	return grabbag[q]	
+
+end
+
+function updateHS(thisName, thisScore)
+
+	local k = 0
+	local tempName = ""
+	local tempScore = ""
+	local tempHS = nil
+	local bFound = false
+	local fromHere = 0
+	
+	if (thisName == "") then thisName = getRandomName() end
+	
+	tempHS = {}
+	
+	for k=1,10 do
+	
+		tempHS[k] = {}
+		tempHS[k] = {highscore[k][1], highscore[k][2]}
+		
+	end
+		
+	for k=1,10 do
+	
+		tempName = highscore[k][1]
+		tempScore = highscore[k][2]
+	
+		if (tonumber(thisScore) >= tonumber(highscore[k][2])) then
+		
+			bFound = true
+			highscore[k][1] = thisName
+			highscore[k][2] = thisScore
+			fromHere = k
+			break
+		
+		end
+	
+	
+	end
+	
+	if bFound then
+		
+		for k=fromHere,9 do
+		
+			highscore[k+1][1] = tempHS[k][1]
+			highscore[k+1][2] = tempHS[k][2]
+		
+		end	
+
+	end
+	
+end

@@ -1,0 +1,993 @@
+--[[
+
+PROGRAM NAME:	Starblazers
+
+]]--
+
+-------------------------
+-- 1. General settings --
+-------------------------
+
+MYDIR = "singe/starblazers/"				-- This is the dir where your game is (don't forget the /) 
+
+dofile(MYDIR .. "globals.singe")				-- Don't touch all of this
+dofile(MYDIR .. "main.singe")
+dofile(MYDIR .. "map.singe")
+dofile(MYDIR .. "hscore.singe")
+dofile(MYDIR .. "service.singe")
+dofile(MYDIR .. "toolbox.singe")
+
+MovieFPS = 29.97								-- Number of frames per second of your movies. Another common option is 29.976.
+
+
+SCOREMOVE = 500									-- Points for a correct move. A difficulty buff will then be applyied. 
+BUFFMOVE = 300									-- Each difficulty level above "easy" will add this value for a correct move.
+SCORESCENE = 0									-- Points for finishing a Scene. Each death will then reduce this score.
+DEATHPENALTY = 0								-- Each death will reduce the score of the scene by this vaue. 
+SCORELEVEL = 0									-- Points for finishing a Level.
+SCOREGAME = 125000								-- Points for finishing the Game.
+SCORESECRET = 1									-- Points for accessing Secret Level with one life : 1 point that makes a difference !
+
+bShowTitle = false		
+mycolor1 = LIGHTBLUE
+mycolor2 = BLACK	
+mycolor3 = WHITE	
+
+finalstage = 7 	     		     				-- Last stage of the story. Prevent the game to go to a level that does not exist (level 8).
+bAllowSecret = false							-- If you don't have a "secret level" video then : replace true by false.
+bAllowMap = false 								
+MapStart = 0
+
+choiceMode=true	-- if a choice level is used - disable mouse....
+choiceLevel=2	-- which level?
+			
+------------------------------------------------------------------------
+-- 2. Starting and ending frames for the various elements of the game --
+------------------------------------------------------------------------													
+													
+math.randomseed(os.clock()*100000) 
+intrornd=math.random(3)
+
+offsetTitle = 0										
+offsetIntro01 = 1000									
+offsetIntro02 = 0
+offsetIntro03 = 0			  							
+
+
+offsetTitleend = offsetTitle + 597						 										
+offsetIntro01end = offsetIntro01 + 4144			
+offsetIntro02end = offsetIntro02 + 0				
+offsetIntro03end = offsetIntro03 + 0					
+
+if intrornd==1 then
+	offsetLevel01 = 8000
+	TotalScenesLevel01 = 2	
+end
+if intrornd==2 then
+	offsetLevel01 = 10000
+	TotalScenesLevel01 = 2
+end
+if intrornd==3 then
+	offsetLevel01 = 13000
+	TotalScenesLevel01 = 1
+end
+
+offsetLevel02 = 58000
+offsetLevel03 = 15000
+offsetLevel04 = 25000									
+offsetLevel05 = 32000
+offsetLevel06 = 38000									
+offsetLevel07= 50000
+offsetLevel08 = 0
+offsetLevel09 = 0
+offsetLevel10 = 0
+offsetLevelExt = 0								
+
+offsetLevel01Clipend = offsetLevel01 + 324
+offsetLevel02Clipend = offsetLevel02 + 0
+offsetLevel03Clipend = offsetLevel03 + 582
+offsetLevel04Clipend = offsetLevel04 + 649
+offsetLevel05Clipend = offsetLevel05 + 173
+offsetLevel06Clipend = offsetLevel06 + 79
+offsetLevel07Clipend = offsetLevel07 + 446
+offsetLevel08Clipend = offsetLevel08 +0
+offsetLevel09Clipend = offsetLevel09 +0
+offsetLevel10Clipend = offsetLevel10 +0
+offsetLevelExtClipend = offsetLevelExt +0
+
+offsetMenus = 1000																							
+													
+
+frameOptions = offsetMenus + 176
+frameSave = offsetMenus + 176
+frameRankings =offsetMenus + 176							
+frameCommands = offsetMenus + 578						
+frameVictory = offsetMenus + 386						
+frameExtendedPlay = offsetMenus +0					
+
+offsetContinue = offsetTitle 						
+offsetContinueend = offsetTitle + 300
+
+offsetGameOver = offsetTitle + 465					
+offsetGameOverend = offsetTitle + 599
+
+offsetGameOverAlt = offsetTitle + 0					
+offsetGameOverAltend = offsetTitle + 599 				
+
+offsetNewHScore = offsetLevel01 + 99					
+offsetNewHScoreend = offsetLevel01 + 322					
+
+offsetEnterHScore = offsetTitle + 0					
+offsetEnterHScoreend = offsetTitle + 599				
+
+offsetOKHScore = offsetLevel01 + 99 						
+offsetOKHScoreend = offsetLevel01 + 322 
+					
+offsetClear = offsetMenus + 0				
+offsetClearend = offsetMenus + 0
+
+offsetMap = offsetMenus +29	
+offsetMapend = offsetMenus +29	
+
+offsetDeath = 2000										
+
+offsetDeath01 = offsetDeath 						
+offsetDeath01end = offsetDeath +68
+
+offsetDeath02 = offsetDeath + 70				
+offsetDeath02end = offsetDeath + 188
+
+offsetDeath03 = offsetDeath + 190					
+offsetDeath03end = offsetDeath + 263
+
+offsetDeath04 = offsetDeath + 265
+offsetDeath04end = offsetDeath + 339
+
+offsetDeath05 = offsetDeath + 341
+offsetDeath05end = offsetDeath + 458
+
+offsetDeath06 = offsetDeath + 415
+offsetDeath06end = offsetDeath + 458
+
+offsetDeath07 = offsetDeath + 460
+offsetDeath07end = offsetDeath + 503
+
+offsetDeath08 = offsetDeath + 505
+offsetDeath08end = offsetDeath + 548
+
+offsetDeath09 = offsetDeath + 552
+offsetDeath09end = offsetDeath + 628
+
+offsetDeath10 = offsetDeath + 550
+offsetDeath10end = offsetDeath + 1026
+
+offsetDeath11 = offsetDeath + 1028
+offsetDeath11end = offsetDeath + 1116
+
+offsetDeath12 = offsetDeath +1424
+offsetDeath12end = offsetDeath + 1504
+
+offsetDeath13 = offsetDeath + 1506						 			
+offsetDeath13end = offsetDeath + 1580
+
+offsetDeath14 = offsetDeath + 1582					
+offsetDeath14end = offsetDeath + 1670
+
+offsetDeath15 = offsetDeath + 1672
+offsetDeath15end = offsetDeath + 1760
+
+offsetDeath16 = offsetDeath + 1762
+offsetDeath16end = offsetDeath + 1833
+
+offsetDeath17 = offsetDeath + 1835
+offsetDeath17end = offsetDeath + 1911
+
+offsetDeath18 = offsetDeath + 1913
+offsetDeath18end = offsetDeath + 1980
+
+offsetDeath19 = offsetDeath + 1982
+offsetDeath19end = offsetDeath + 2070
+
+offsetDeath20 = offsetDeath + 2072			
+offsetDeath20end = offsetDeath + 2148
+
+offsetDeath21 = offsetDeath + 2150
+offsetDeath21end = offsetDeath + 2198
+
+offsetDeath22 = offsetDeath + 2200
+offsetDeath22end = offsetDeath + 2288
+
+offsetDeath23 = offsetDeath + 2290
+offsetDeath23end = offsetDeath + 2376
+
+offsetDeath24 = offsetDeath + 2558
+offsetDeath24end = offsetDeath + 2593
+
+offsetDeath25 = offsetDeath + 2737
+offsetDeath25end = offsetDeath + 2810
+
+offsetDeath26 = offsetDeath + 2812					 			
+offsetDeath26end = offsetDeath + 2981
+
+offsetDeath27 = offsetDeath + 2893				
+offsetDeath27end = offsetDeath + 3124
+
+offsetDeath28 = offsetDeath + 3126
+offsetDeath28end = offsetDeath + 3303
+
+offsetDeath29 = offsetDeath + 3305
+offsetDeath29end = offsetDeath + 3392
+
+offsetDeath30 = offsetDeath + 3470
+offsetDeath30end = offsetDeath + 3548
+
+offsetDeath31 = offsetDeath + 3552
+offsetDeath31end = offsetDeath + 3639
+
+offsetDeath32 = offsetDeath + 4032
+offsetDeath32end = offsetDeath + 4118
+
+offsetDeath33 = offsetDeath + 4120
+offsetDeath33end = offsetDeath + 4169
+
+offsetDeath34 = offsetDeath + 4171
+offsetDeath34end = offsetDeath + 4228
+
+offsetDeath35 = offsetDeath + 4232						
+offsetDeath35end = offsetDeath + 4288
+
+offsetDeath36 = offsetDeath + 4290											
+offsetDeath36end = offsetDeath + 4396
+
+offsetDeath37 = offsetDeath + 4398						
+offsetDeath37end = offsetDeath + 4470
+
+offsetDeath38 = offsetDeath + 4472												
+offsetDeath38end = offsetDeath + 4519
+
+offsetDeath39 = offsetDeath + 4521							
+offsetDeath39end = offsetDeath + 4618
+
+offsetDeath40 = offsetDeath + 628							
+offsetDeath40end = offsetDeath + 1116
+
+
+
+------------------------------------------------------------------------------------------
+-- 3. List of moves for each level, by scene (StartFrame, EndFrame, MOVE, Death#, 0, 0) --
+------------------------------------------------------------------------------------------
+							
+
+function setupLevel01(thisSegment)
+
+   if intrornd==1 then											 
+																			
+	if thisSegment == SEGMENT01 then
+
+		segmentStart = offsetLevel01Clipend + 1
+		segmentEnd   = offsetLevel01 + 863
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {833, 863, DOWN, 1, 0, 0}
+		
+	elseif thisSegment == SEGMENT02 then  													
+	
+		segmentStart = offsetLevel01 + 865
+		segmentEnd   = offsetLevel01 + 1556
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {1098, 1128, UP, 2, 0, 0}
+
+		
+	end
+   end
+   if intrornd==2 then
+	if thisSegment == SEGMENT01 then
+
+		segmentStart = offsetLevel01Clipend + 1
+		segmentEnd   = offsetLevel01 + 954
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {814, 844, LEFT, 3, 0, 0}
+
+	elseif thisSegment == SEGMENT02 then  													
+	
+		segmentStart = offsetLevel01 + 956
+		segmentEnd   = offsetLevel01 + 2079
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {1096, 1200, UP, 4, 0, 0}
+
+	end
+   end
+   if intrornd==3 then
+	if thisSegment == SEGMENT01 then
+
+		segmentStart = offsetLevel01Clipend + 1
+		segmentEnd   = offsetLevel01 + 1173
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {425, 440, BUTTON1, 5, 0, 0}
+
+	end
+   end
+end
+
+TotalScenesLevel02 = 1														
+
+function setupLevel02(thisSegment)											
+
+	if thisSegment == SEGMENT01 then
+
+		segmentStart = offsetLevel02Clipend + 1
+		segmentEnd   = offsetLevel02 + 597
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {0, 597, SKIP, 1, 0, 0}
+
+	end
+	
+end
+
+TotalScenesLevel03 = 4														
+
+function setupLevel03(thisSegment)											
+
+	if thisSegment == SEGMENT01 then
+
+		segmentStart = offsetLevel03Clipend + 1
+		segmentEnd   = offsetLevel03 + 1028
+		totalMoves   = 3
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {701, 716, BUTTON1, 6, 0, 0}
+		move[2] = {}; move[2] = {816, 826, ACTDOWN, 6, 0, 0}
+		move[3] = {}; move[3] = {978, 988, ACTLEFT, 6, 0, 0}
+
+	elseif thisSegment == SEGMENT02 then  													
+	
+		segmentStart = offsetLevel03 + 1031
+		segmentEnd   = offsetLevel03 + 1653
+		totalMoves   = 5
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {1132, 1152, MASH, 7, 0, 0}
+		move[2] = {}; move[2] = {1237, 1257, ACTDOWN, 7, 0, 0}
+		move[3] = {}; move[3] = {1352, 1373, BUTTON1, 8, 0, 0}
+		move[4] = {}; move[4] = {1444, 1464, ACTUP, 7, 0, 0}
+		move[5] = {}; move[5] = {1584, 1604, ACTRIGHT, 7, 0, 0}
+		
+	elseif thisSegment == SEGMENT03 then  													
+	
+		segmentStart = offsetLevel03 + 1656
+		segmentEnd   = offsetLevel03 + 3185
+		totalMoves   = 7
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {1936, 1956, MASH, 10, 0, 0}
+		move[2] = {}; move[2] = {2107, 2127, ACTRIGHT, 8, 0, 0}
+		move[3] = {}; move[3] = {2336, 2356, ACTDOWN, 8, 0, 0}
+		move[4] = {}; move[4] = {2439, 2459, BUTTON1, 8, 0, 0}
+		move[5] = {}; move[5] = {2578, 2598, ACTRIGHT, 8, 0, 0}	
+		move[6] = {}; move[6] = {2832, 2852, MASH, 8, 0, 0}			
+		move[7] = {}; move[7] = {3075, 3095, MASH, 8, 0, 0}
+
+	elseif thisSegment == SEGMENT04 then  																				
+	
+		segmentStart = offsetLevel03 + 3187
+		segmentEnd   = offsetLevel03 + 5210
+		totalMoves   = 7
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {3257, 3277, UP, 10, 0, 0}	
+		move[2] = {}; move[2] = {3778, 3798, MASH, 9, 0, 0}
+		move[3] = {}; move[3] = {4013, 4033, UP, 9, 0, 0}	
+		move[4] = {}; move[4] = {4157, 4177, MASH, 9, 0, 0}
+		move[5] = {}; move[5] = {4374, 4394, BUTTON1, 9, 0, 0}	
+		move[6] = {}; move[6] = {4562, 4582, BUTTON1, 9, 0, 0}
+		move[7] = {}; move[7] = {4778, 4798, BUTTON1, 10, 0, 0}		
+			
+	end
+	
+end
+
+
+TotalScenesLevel04 = 3	
+
+function setupLevel04(thisSegment)	
+
+	if thisSegment == SEGMENT01 then
+
+		segmentStart = offsetLevel04Clipend + 1
+		segmentEnd   = offsetLevel04 + 2053
+		totalMoves   = 4
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {1186, 1206, LEFT, 10, 0, 0}
+		move[2] = {}; move[2] = {1385, 1405, ACTLEFT, 10, 0, 0}
+		move[3] = {}; move[3] = {1561, 1581, ACTDOWN, 10, 0, 0}
+		move[4] = {}; move[4] = {1783, 1803, MASH, 10, 0, 0}
+
+	elseif thisSegment == SEGMENT02 then  													
+	
+		segmentStart = offsetLevel04 + 2070
+		segmentEnd   = offsetLevel04 + 2678
+		totalMoves   = 3
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {2208, 2228, BUTTON1, 10, 0, 0}
+		move[2] = {}; move[2] = {2387, 2407, ACTUP, 10, 0, 0}
+		move[3] = {}; move[3] = {2557, 2577, ACTDOWN, 10, 0, 0}
+
+	elseif thisSegment == SEGMENT03 then  													
+	
+		segmentStart = offsetLevel04 + 2680
+		segmentEnd   = offsetLevel04 + 6115
+		totalMoves   = 2
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {3194, 3214, MASH, 9, 0, 0}
+		move[2] = {}; move[2] = {3295, 3315, MASH, 9, 0, 0}	
+					
+	end
+	
+end
+
+
+TotalScenesLevel05 = 3	
+
+function setupLevel05(thisSegment)	
+
+	if thisSegment == SEGMENT01 then
+
+		segmentStart = offsetLevel05Clipend + 1
+		segmentEnd   = offsetLevel05 + 1161
+		totalMoves   = 4
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {268, 288, BUTTON1, 10, 0, 0}
+		move[2] = {}; move[2] = {512, 532, BUTTON1, 10, 0, 0}
+		move[3] = {}; move[3] = {785, 805, BUTTON1, 10, 0, 0}
+		move[4] = {}; move[4] = {1048, 1068, BUTTON1, 10, 0, 0}
+
+	elseif thisSegment == SEGMENT02 then  													
+	
+		segmentStart = offsetLevel05 + 1163
+		segmentEnd   = offsetLevel05 + 1780
+		totalMoves   = 3
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {1394, 1414, LEFT, 12, 0, 0}
+		move[2] = {}; move[2] = {1567, 1587, LEFT, 12, 0, 0}
+		move[3] = {}; move[3] = {1635, 1655, BUTTON1, 12, 0, 0}
+
+	elseif thisSegment == SEGMENT03 then  													
+	
+		segmentStart = offsetLevel05 + 1783
+		segmentEnd   = offsetLevel05 + 3514
+		totalMoves   = 4
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {1828, 1848, MASH, 13, 0, 0}
+		move[2] = {}; move[2] = {2238, 2258, BUTTON1, 14, 0, 0}
+		move[3] = {}; move[3] = {2575, 2595, BUTTON1, 15, 0, 0}
+		move[4] = {}; move[4] = {2806, 2826, BUTTON1, 16, 0, 0}
+			
+	end
+	
+end
+
+
+TotalScenesLevel06 = 10	
+
+function setupLevel06(thisSegment)
+
+	if thisSegment == SEGMENT01 then
+
+		segmentStart = offsetLevel06Clipend + 1
+		segmentEnd   = offsetLevel06 + 756
+		totalMoves   = 9
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {88, 103, UP, 38, 0, 0}
+		move[2] = {}; move[2] = {138, 153, UP, 38, 0, 0}
+		move[3] = {}; move[3] = {178, 193, ACTUP, 38, 0, 0}
+		move[4] = {}; move[4] = {238, 253, BUTTON1, 38, 0, 0}
+		move[5] = {}; move[5] = {288, 303, UP, 38, 0, 0}	
+		move[6] = {}; move[6] = {333, 348, ACTUP, 38, 0, 0}			
+		move[7] = {}; move[7] = {373, 388, ACTUP, 38, 0, 0}
+		move[8] = {}; move[8] = {408, 453, UP, 38, 0, 0}
+		move[9] = {}; move[9] = {473, 488, BUTTON1, 38, 0, 0}	
+
+	elseif thisSegment == SEGMENT02 then  													
+	
+		segmentStart = offsetLevel06 + 758
+		segmentEnd   = offsetLevel06 + 3047
+		totalMoves   = 10
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {990, 1020, LEFT, 17, 0, 0}
+		move[2] = {}; move[2] = {1171, 1201, RIGHT, 17, 0, 0}
+		move[3] = {}; move[3] = {1394, 1424, UP, 17, 0, 0}
+		move[4] = {}; move[4] = {1754, 1784, LEFT, 17, 0, 0}		
+		move[5] = {}; move[5] = {1968, 1998, DOWN, 17, 0, 0}
+		move[6] = {}; move[6] = {2148, 2178, MASH, 18, 0, 0}
+		move[6] = {}; move[6] = {2298, 2327, MASH, 18, 0, 0}
+		move[7] = {}; move[7] = {2393, 2423, UP, 17, 0, 0}
+		move[8] = {}; move[8] = {2705, 2735, ACTLEFT, 19, 0, 0}
+		move[9] = {}; move[9] = {2829, 2859, ACTUP, 19, 0, 0}
+		move[10] = {}; move[10] = {2903, 2933, MASH, 19, 0, 0}		
+			
+	elseif thisSegment == SEGMENT03 then  													
+	
+		segmentStart = offsetLevel06 + 3049
+		segmentEnd   = offsetLevel06 + 3889
+		totalMoves   = 2
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {3178, 3208, MASH, 20, 0, 0}
+		move[2] = {}; move[2] = {3238, 3262, LEFT, 20, 0, 0}
+
+	elseif thisSegment == SEGMENT04 then  													
+	
+		segmentStart = offsetLevel06 + 3891
+		segmentEnd   = offsetLevel06 + 4515
+		totalMoves   = 3
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {4108, 4138, RIGHT, 21, 0, 0}	
+		move[2] = {}; move[2] = {4411, 4431, RIGHT, 22, 0, 0}
+		move[3] = {}; move[3] = {4448, 4468, RIGHT, 23, 0, 0}		
+		
+	elseif thisSegment == SEGMENT05 then  								
+	
+		segmentStart = offsetLevel06 + 4517
+		segmentEnd   = offsetLevel06 + 4954
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {4791, 4821, DOWN, 24, 0, 0}		
+
+	elseif thisSegment == SEGMENT06 then  													
+	
+		segmentStart = offsetLevel06 + 4956
+		segmentEnd   = offsetLevel06 + 5149
+		totalMoves   = 1
+	
+		dirrnd=math.random(4)
+	
+		move = nil; move = {}
+		if dirrnd == 1 then 
+			move[1] = {}; move[1] = {5068, 5098, ACTUP, 25, 0, 0}
+		end
+		if dirrnd == 2 then
+			move[1] = {}; move[1] = {5068, 5098, ACTDOWN, 25, 0, 0}
+		end
+		if dirrnd == 3 then
+			move[1] = {}; move[1] = {5068, 5098, ACTLEFT, 25, 0, 0}
+		end
+		if dirrnd == 4 then
+			move[1] = {}; move[1] = {5068, 5098, ACTRIGHT, 25, 0, 0}
+		end
+
+	elseif thisSegment == SEGMENT07 then  								
+	
+		segmentStart = offsetLevel06 + 5151
+		segmentEnd   = offsetLevel06 + 6345
+		totalMoves   = 7
+		
+		move = nil; move = {}
+		if dirrnd == 1 then 
+			move[1] = {}; move[1] = {5450, 5480, ACTRIGHT, 29, 0, 0}
+		else
+			move[1] = {}; move[1] = {5450, 5480, ACTRIGHT, 29, 0, 0}
+		end		
+		move[2] = {}; move[2] = {5593, 5623, LEFT, 30, 0, 0}	
+		move[3] = {}; move[3] = {5758, 5778, LEFT, 30, 0, 0}	
+		move[4] = {}; move[4] = {5808, 5828, RIGHT, 30, 0, 0}		
+		if dirrnd == 3 then 
+			move[5] = {}; move[5] = {6118, 6138, MESH, 32, 0, 0}
+		else
+			move[5] = {}; move[5] = {6118, 6138, BUTTON1, 32, 0, 0}
+		end
+		move[6] = {}; move[6] = {6155, 6175, BUTTON1, 32, 0, 0}
+		move[7] = {}; move[7] = {6258, 6288, RIGHT, 33, 0, 0}
+		
+	elseif thisSegment == SEGMENT08 then  								
+	
+		segmentStart = offsetLevel06 + 6347
+		segmentEnd   = offsetLevel06 + 6678
+		totalMoves   = 3
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {6448, 6468, BUTTON1, 34, 0, 0}	
+		move[2] = {}; move[2] = {6496, 6516, BUTTON1, 34, 0, 0}
+		move[3] = {}; move[3] = {6564, 6594, BUTTON1, 34, 0, 0}	
+		
+	elseif thisSegment == SEGMENT09 then  								
+	
+		segmentStart = offsetLevel06 + 6680
+		segmentEnd   = offsetLevel06 + 8076
+		totalMoves   = 5
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {6962, 6992, UP, 35, 0, 0}	
+		move[2] = {}; move[2] = {7105, 7135, ACTRIGHT, 35, 0, 0}
+		move[3] = {}; move[3] = {7227, 7257, ACTLEFT, 35, 0, 0}
+		move[4] = {}; move[4] = {7286, 7316, ACTRIGHT, 35, 0, 0}
+		move[5] = {}; move[5] = {8004, 8024, RIGHT, 36, 0, 0}		
+		
+	elseif thisSegment == SEGMENT10 then  								
+	
+		segmentStart = offsetLevel06 + 8078
+		segmentEnd   = offsetLevel06 + 9160
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {8400, 8430, BUTTON1, 37, 0, 0}	
+
+	end
+	
+end
+
+
+TotalScenesLevel07 = 3	
+
+function setupLevel07(thisSegment)
+
+	if thisSegment == SEGMENT01 then
+
+		segmentStart = offsetLevel07Clipend + 1
+		segmentEnd   = offsetLevel07 + 694
+		totalMoves   = 3
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {500, 530, LEFT, 38, 0, 0}
+		move[2] = {}; move[2] = {580, 610, UP, 38, 0, 0}
+		move[3] = {}; move[3] = {650, 680, RIGHT, 38, 0, 0}		
+
+	elseif thisSegment == SEGMENT02 then  													
+	
+		segmentStart = offsetLevel07 + 696
+		segmentEnd   = offsetLevel07 + 1216
+		totalMoves   = 4
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {990, 1020, UP, 38, 0, 0}
+		move[2] = {}; move[2] = {1040, 1070, DOWN, 39, 0, 0}
+		move[3] = {}; move[3] = {1120, 1150, RIGHT, 38, 0, 0}
+		move[4] = {}; move[4] = {1175, 1195, RIGHT, 39, 0, 0}		
+
+	elseif thisSegment == SEGMENT03 then  													
+	
+		segmentStart = offsetLevel07 + 1218
+		segmentEnd   = offsetLevel07 + 4720
+		totalMoves   = 3
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {2488, 2503, BUTTON1, 40, 0, 0}
+		move[2] = {}; move[2] = {2555, 2570, BUTTON1, 40, 0, 0}
+		move[3] = {}; move[3] = {2635, 2650, BUTTON1, 40, 0, 0}		
+			
+	end
+	
+end
+
+TotalScenesLevel08 = 1	
+
+function setupLevel08(thisSegment) 										
+	if thisSegment == SEGMENT01 then
+
+		segmentStart = offsetLevel08Clipend + 1
+		segmentEnd   = offsetLevel08 + 0
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {0, 0, UP, 1, 0, 0}
+
+	elseif thisSegment == SEGMENT02 then  													
+	
+		segmentStart = offsetLevel08 + 0
+		segmentEnd   = offsetLevel08 + 0
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {0, 0, UP, 1, 0, 0}
+
+	elseif thisSegment == SEGMENT03 then  													
+	
+		segmentStart = offsetLevel08 + 0
+		segmentEnd   = offsetLevel08 + 0
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {0, 0, UP, 1, 0, 0}
+
+	elseif thisSegment == SEGMENT04 then  													
+	
+		segmentStart = offsetLevel08 + 0
+		segmentEnd   = offsetLevel08 + 0
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {0, 0, UP, 1, 0, 0}	
+
+	elseif thisSegment == SEGMENT05 then  								
+	
+		segmentStart = offsetLevel08 + 0
+		segmentEnd   = offsetLevel08 + 0
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {0, 0, UP, 1, 0, 0}	
+
+	elseif thisSegment == SEGMENT06 then  								
+	
+		segmentStart = offsetLevel08 + 0
+		segmentEnd   = offsetLevel08 + 0
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {0, 0, UP, 1, 0, 0}	
+
+	elseif thisSegment == SEGMENT07 then  								
+	
+		segmentStart = offsetLevel08 + 0
+		segmentEnd   = offsetLevel08 + 0
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {0, 0, UP, 1, 0, 0}	
+
+	elseif thisSegment == SEGMENT08 then  								
+	
+		segmentStart = offsetLevel08 + 0
+		segmentEnd   = offsetLevel08 + 0
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {0, 0, UP, 1, 0, 0}	
+
+	elseif thisSegment == SEGMENT09 then  								
+	
+		segmentStart = offsetLevel08 + 0
+		segmentEnd   = offsetLevel08 + 0
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {0, 0, UP, 1, 0, 0}	
+
+	elseif thisSegment == SEGMENT10 then  								
+	
+		segmentStart = offsetLevel08 + 0
+		segmentEnd   = offsetLevel08 + 0
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {0, 0, UP, 1, 0, 0}	
+				
+	end
+	
+end
+
+
+TotalScenesLevel09 = 1
+
+function setupLevel09(thisSegment) 									
+
+	if thisSegment == SEGMENT01 then
+	
+		segmentStart = offsetLevel09Clipend + 1
+		segmentEnd   = offsetLevel09 + 0
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {0, 0, UP, 1, 0, 0}
+
+	elseif thisSegment == SEGMENT02 then  													
+	
+		segmentStart = offsetLevel09 + 0
+		segmentEnd   = offsetLevel09 + 0
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {0, 0, UP, 1, 0, 0}
+
+	elseif thisSegment == SEGMENT03 then  													
+	
+		segmentStart = offsetLevel09 + 0
+		segmentEnd   = offsetLevel09 + 0
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {0, 0, UP, 1, 0, 0}
+
+	elseif thisSegment == SEGMENT04 then  													
+	
+		segmentStart = offsetLevel09 + 0
+		segmentEnd   = offsetLevel09 + 0
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {0, 0, UP, 1, 0, 0}	
+
+	elseif thisSegment == SEGMENT05 then  								
+	
+		segmentStart = offsetLevel09 + 0
+		segmentEnd   = offsetLevel09 + 0
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {0, 0, UP, 1, 0, 0}	
+
+	elseif thisSegment == SEGMENT06 then  								
+	
+		segmentStart = offsetLevel09 + 0
+		segmentEnd   = offsetLevel09 + 0
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {0, 0, UP, 1, 0, 0}	
+
+	elseif thisSegment == SEGMENT07 then  								
+	
+		segmentStart = offsetLevel09 + 0
+		segmentEnd   = offsetLevel09 + 0
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {0, 0, UP, 1, 0, 0}	
+
+	elseif thisSegment == SEGMENT08 then  								
+	
+		segmentStart = offsetLevel09 + 0
+		segmentEnd   = offsetLevel09 + 0
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {0, 0, UP, 1, 0, 0}	
+
+	elseif thisSegment == SEGMENT09 then  								
+	
+		segmentStart = offsetLevel09 + 0
+		segmentEnd   = offsetLevel09 + 0
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {0, 0, UP, 1, 0, 0}	
+
+	elseif thisSegment == SEGMENT10 then  								
+	
+		segmentStart = offsetLevel09 + 0
+		segmentEnd   = offsetLevel09 + 0
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {0, 0, UP, 1, 0, 0}	
+				
+	end
+	
+end
+
+
+TotalScenesLevel10 = 1
+
+function setupLevel10(thisSegment) 										
+
+	if thisSegment == SEGMENT01 then
+
+		segmentStart = offsetLevel10Clipend + 1
+		segmentEnd   = offsetLevel10 + 0
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {0, 0, UP, 1, 0, 0}
+
+	elseif thisSegment == SEGMENT02 then  													
+	
+		segmentStart = offsetLevel10 + 0
+		segmentEnd   = offsetLevel10 + 0
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {0, 0, UP, 1, 0, 0}
+
+	elseif thisSegment == SEGMENT03 then  													
+	
+		segmentStart = offsetLevel10 + 0
+		segmentEnd   = offsetLevel10 + 0
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {0, 0, UP, 1, 0, 0}
+
+	elseif thisSegment == SEGMENT04 then  													
+	
+		segmentStart = offsetLevel10 + 0
+		segmentEnd   = offsetLevel10 + 0
+		totalMoves   = 1
+
+		move = nil; move = {}
+		move[1] = {}; move[1] = {0, 0, UP, 1, 0, 0}	
+
+	elseif thisSegment == SEGMENT05 then  								
+	
+		segmentStart = offsetLevel10 + 0
+		segmentEnd   = offsetLevel10 + 0
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {0, 0, UP, 1, 0, 0}	
+
+	elseif thisSegment == SEGMENT06 then  								
+	
+		segmentStart = offsetLevel10 + 0
+		segmentEnd   = offsetLevel10 + 0
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {0, 0, UP, 1, 0, 0}	
+
+	elseif thisSegment == SEGMENT07 then  								
+	
+		segmentStart = offsetLevel10 + 0
+		segmentEnd   = offsetLevel10 + 0
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {0, 0, UP, 1, 0, 0}	
+
+	elseif thisSegment == SEGMENT08 then  								
+	
+		segmentStart = offsetLevel10 + 0
+		segmentEnd   = offsetLevel10 + 0
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {0, 0, UP, 1, 0, 0}	
+
+	elseif thisSegment == SEGMENT09 then  								
+	
+		segmentStart = offsetLevel10 + 0
+		segmentEnd   = offsetLevel10 + 0
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {0, 0, UP, 1, 0, 0}	
+
+	elseif thisSegment == SEGMENT10 then  								
+	
+		segmentStart = offsetLevel10 + 0
+		segmentEnd   = offsetLevel10 + 0
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {0, 0, UP, 1, 0, 0}	
+				
+	end
+	
+end
+
+
+TotalScenesLevelExt = 1
+
+function setupLevelExt(thisSegment) 
+
+	if thisSegment == SEGMENT01 then
+
+		segmentStart = offsetLevel10Clipend + 1
+		segmentEnd   = offsetLevel10 + 0
+		totalMoves   = 1
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {0, 0, UP, 1, 0, 0}
+				
+	end
+	
+end
