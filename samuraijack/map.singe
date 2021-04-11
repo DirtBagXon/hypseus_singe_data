@@ -181,23 +181,23 @@ function setCursor(overHere)
 
 	if (overHere == level01) then -- level01
 	
-		curx = 185; cury = 75
+		curx = 46; cury = 25
 	
 	elseif (overHere == level02) then -- level02
 	
-	    curx = 745; cury = 75
+	    curx = 186; cury = 25
 	
 	elseif (overHere == level03) then -- level03
 	
-		curx = 185; cury = 295
+		curx = 46; cury =98 
 	
 	elseif (overHere == level04) then -- level04
 	
-		curx = 745; cury = 295
+		curx = 186; cury = 98 
 	
 	elseif (overHere == level05) then -- level05
 	
-		curx = 465; cury = 465
+		curx = 116; cury = 155
 		
 	end	
 	
@@ -272,10 +272,10 @@ function doLevelSelect()
 		
 		else	-- Here we draw the symbols for completed level.	
 			
-			if levelMap[level01] == true then spriteDraw(275, 105, sprite[OKMAP]) end
-			if levelMap[level02] == true then spriteDraw(840, 105, sprite[OKMAP]) end
-			if levelMap[level03] == true then spriteDraw(275, 315, sprite[OKMAP]) end
-			if levelMap[level04] == true then spriteDraw(840, 315, sprite[OKMAP]) end
+			if levelMap[level01] == true then spriteDraw(68, 35, sprite[OKMAP]) end
+			if levelMap[level02] == true then spriteDraw(210, 35, sprite[OKMAP]) end
+			if levelMap[level03] == true then spriteDraw(68, 105, sprite[OKMAP]) end
+			if levelMap[level04] == true then spriteDraw(210, 105, sprite[OKMAP]) end
 			
 		    
 

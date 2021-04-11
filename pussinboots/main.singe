@@ -1863,18 +1863,18 @@ function drawCredits()     -- Draw the credits
 		
 		if (dip_CoinsPerCredit == DOPT_FREEPLAY) then					
 			
-			spriteDraw((OVLW/2)-SKIPW/2.5,ycoinpos,sprite[FREEPLAY])
+			spriteDraw((OVLW/2)-SKIPW/1.1,ycoinpos,sprite[FREEPLAY])
 		
 		else
 		
 			if (iCredits > 0) then			
 				
-				spriteDraw((OVLW/2)-SKIPW/4,ycoinpos,sprite[CREDIT])
-				drawSpriteNumber((OVLW/2)-SKIPW/4+CRDW+NUMW,ycoinpos,iCredits)
+				spriteDraw((OVLW/2)-SKIPW/1.1,ycoinpos,sprite[CREDIT])
+				drawSpriteNumber((OVLW/2)-SKIPW/1.1+CRDW+NUMW,ycoinpos,iCredits)
 				
 			else		
 				
-				spriteDraw((OVLW/2)-SKIPW/2.5,ycoinpos,sprite[INSERTCOIN])
+				spriteDraw((OVLW/2)-SKIPW/1.1,ycoinpos,sprite[INSERTCOIN])
 				
 			end
 			
@@ -2190,59 +2190,59 @@ function initJob()      -- Initialization process
 	setFontColor(mycolor1)
 	
 	sprNUM = nil; sprNUM = {}
-	sprNUM[1]  = spriteLoad(MYDIR.."singe/pussinboots/num00.png")
-	sprNUM[2]  = spriteLoad(MYDIR.."singe/pussinboots/num01.png")
-	sprNUM[3]  = spriteLoad(MYDIR.."singe/pussinboots/num02.png")
-	sprNUM[4]  = spriteLoad(MYDIR.."singe/pussinboots/num03.png")
-	sprNUM[5]  = spriteLoad(MYDIR.."singe/pussinboots/num04.png")
-	sprNUM[6]  = spriteLoad(MYDIR.."singe/pussinboots/num05.png")
-	sprNUM[7]  = spriteLoad(MYDIR.."singe/pussinboots/num06.png")
-	sprNUM[8]  = spriteLoad(MYDIR.."singe/pussinboots/num07.png")
-	sprNUM[9]  = spriteLoad(MYDIR.."singe/pussinboots/num08.png")
-	sprNUM[10] = spriteLoad(MYDIR.."singe/pussinboots/num09.png")
+	sprNUM[1]  = spriteLoad("singe/pussinboots/num00.png")
+	sprNUM[2]  = spriteLoad("singe/pussinboots/num01.png")
+	sprNUM[3]  = spriteLoad("singe/pussinboots/num02.png")
+	sprNUM[4]  = spriteLoad("singe/pussinboots/num03.png")
+	sprNUM[5]  = spriteLoad("singe/pussinboots/num04.png")
+	sprNUM[6]  = spriteLoad("singe/pussinboots/num05.png")
+	sprNUM[7]  = spriteLoad("singe/pussinboots/num06.png")
+	sprNUM[8]  = spriteLoad("singe/pussinboots/num07.png")
+	sprNUM[9]  = spriteLoad("singe/pussinboots/num08.png")
+	sprNUM[10] = spriteLoad("singe/pussinboots/num09.png")
 	
 	filler = nil; filler = {false,false,false,false}			
 	sprite = nil; sprite = {}									
-	sprite[CREDIT] = spriteLoad(MYDIR.."singe/pussinboots/credit.png")
-	sprite[LIVES] = spriteLoad(MYDIR.."singe/pussinboots/live.png")				
-	sprite[LEVEL] = spriteLoad(MYDIR.."singe/pussinboots/level.png")		
-	sprite[SKIPINTRO] = spriteLoad(MYDIR.."singe/pussinboots/skip.png")
-	sprite[SCENE] = spriteLoad(MYDIR.."singe/pussinboots/scene.png")
-	sprite[SCORE] = spriteLoad(MYDIR.."singe/pussinboots/score.png")
-	sprite[BONUS] = spriteLoad(MYDIR.."singe/pussinboots/bonus.png")
-	sprite[SELMAP] = spriteLoad(MYDIR.."singe/pussinboots/arrowsel.png")
-	sprite[OKMAP] = spriteLoad(MYDIR.."singe/pussinboots/ok.png")
-	sprite[D1] = spriteLoad(MYDIR.."singe/pussinboots/disk1.png")
-	sprite[D2] = spriteLoad(MYDIR.."singe/pussinboots/disk2.png")
-	sprite[D3] = spriteLoad(MYDIR.."singe/pussinboots/disk3.png")
-	sprite[DA] = spriteLoad(MYDIR.."singe/pussinboots/diskA.png")
-	sprite[ARROWSEL] = spriteLoad(MYDIR.."singe/pussinboots/arrowsel2.png")
-	sprite[GETREADY] = spriteLoad(MYDIR.."singe/pussinboots/getready.png")
-	sprite[INSERTCOIN] = spriteLoad(MYDIR.."singe/pussinboots/insertcoin.png")
-	sprite[FREEPLAY] = spriteLoad(MYDIR.."singe/pussinboots/freeplay.png")
-	sprite[TOP] = spriteLoad(MYDIR.."singe/pussinboots/topscore.png")
-	sprite[SECRET] = spriteLoad(MYDIR.."singe/pussinboots/secret.png")
+	sprite[CREDIT] = spriteLoad("singe/pussinboots/credit.png")
+	sprite[LIVES] = spriteLoad("singe/pussinboots/live.png")				
+	sprite[LEVEL] = spriteLoad("singe/pussinboots/level.png")		
+	sprite[SKIPINTRO] = spriteLoad("singe/pussinboots/skip.png")
+	sprite[SCENE] = spriteLoad("singe/pussinboots/scene.png")
+	sprite[SCORE] = spriteLoad("singe/pussinboots/score.png")
+	sprite[BONUS] = spriteLoad("singe/pussinboots/bonus.png")
+	sprite[SELMAP] = spriteLoad("singe/pussinboots/arrowsel.png")
+	sprite[OKMAP] = spriteLoad("singe/pussinboots/ok.png")
+	sprite[D1] = spriteLoad("singe/pussinboots/disk1.png")
+	sprite[D2] = spriteLoad("singe/pussinboots/disk2.png")
+	sprite[D3] = spriteLoad("singe/pussinboots/disk3.png")
+	sprite[DA] = spriteLoad("singe/pussinboots/diskA.png")
+	sprite[ARROWSEL] = spriteLoad("singe/pussinboots/arrowsel2.png")
+	sprite[GETREADY] = spriteLoad("singe/pussinboots/getready.png")
+	sprite[INSERTCOIN] = spriteLoad("singe/pussinboots/insertcoin.png")
+	sprite[FREEPLAY] = spriteLoad("singe/pussinboots/freeplay.png")
+	sprite[TOP] = spriteLoad("singe/pussinboots/topscore.png")
+	sprite[SECRET] = spriteLoad("singe/pussinboots/secret.png")
 	
 	sprArrow = nil; sprArrow = {}											
-	sprArrow[UP] 		= spriteLoad(MYDIR.."singe/pussinboots/arrowup.png")
-	sprArrow[DOWN] 		= spriteLoad(MYDIR.."singe/pussinboots/arrowdown.png")
-	sprArrow[LEFT]	 	= spriteLoad(MYDIR.."singe/pussinboots/arrowleft.png")
-	sprArrow[RIGHT] 	= spriteLoad(MYDIR.."singe/pussinboots/arrowright.png")										
-	sprArrow[BUTTON1] 	= spriteLoad(MYDIR.."singe/pussinboots/action.png")							
-	sprArrow[MASH] 		= spriteLoad(MYDIR.."singe/pussinboots/mash.png") 	
-	sprArrow[UPLEFT]   	= spriteLoad(MYDIR.."singe/pussinboots/arrowul.png")	
-	sprArrow[UPRIGHT]  	= spriteLoad(MYDIR.."singe/pussinboots/arrowur.png")
-	sprArrow[DOWNLEFT] 	= spriteLoad(MYDIR.."singe/pussinboots/arrowdl.png")
-	sprArrow[DOWNRIGHT]	= spriteLoad(MYDIR.."singe/pussinboots/arrowdr.png")					
-	sprArrow[NOMOVES] 	= spriteLoad(MYDIR.."singe/pussinboots/nomoves.png")
-	sprArrow[PW0] 		= spriteLoad(MYDIR.."singe/pussinboots/m0.png")
-	sprArrow[PW1] 		= spriteLoad(MYDIR.."singe/pussinboots/m1.png")
-	sprArrow[PW2] 		= spriteLoad(MYDIR.."singe/pussinboots/m2.png")
-	sprArrow[PW3] 		= spriteLoad(MYDIR.."singe/pussinboots/m3.png")
-	sprArrow[PW4] 		= spriteLoad(MYDIR.."singe/pussinboots/m4.png")
-	sprArrow[PW5] 		= spriteLoad(MYDIR.."singe/pussinboots/m5.png")
-	sprArrow[PW6] 		= spriteLoad(MYDIR.."singe/pussinboots/m6.png")
-	sprArrow[PWFULL] 	= spriteLoad(MYDIR.."singe/pussinboots/mfull.png")
+	sprArrow[UP] 		= spriteLoad("singe/pussinboots/arrowup.png")
+	sprArrow[DOWN] 		= spriteLoad("singe/pussinboots/arrowdown.png")
+	sprArrow[LEFT]	 	= spriteLoad("singe/pussinboots/arrowleft.png")
+	sprArrow[RIGHT] 	= spriteLoad("singe/pussinboots/arrowright.png")										
+	sprArrow[BUTTON1] 	= spriteLoad("singe/pussinboots/action.png")							
+	sprArrow[MASH] 		= spriteLoad("singe/pussinboots/mash.png") 	
+	sprArrow[UPLEFT]   	= spriteLoad("singe/pussinboots/arrowul.png")	
+	sprArrow[UPRIGHT]  	= spriteLoad("singe/pussinboots/arrowur.png")
+	sprArrow[DOWNLEFT] 	= spriteLoad("singe/pussinboots/arrowdl.png")
+	sprArrow[DOWNRIGHT]	= spriteLoad("singe/pussinboots/arrowdr.png")					
+	sprArrow[NOMOVES] 	= spriteLoad("singe/pussinboots/nomoves.png")
+	sprArrow[PW0] 		= spriteLoad("singe/pussinboots/m0.png")
+	sprArrow[PW1] 		= spriteLoad("singe/pussinboots/m1.png")
+	sprArrow[PW2] 		= spriteLoad("singe/pussinboots/m2.png")
+	sprArrow[PW3] 		= spriteLoad("singe/pussinboots/m3.png")
+	sprArrow[PW4] 		= spriteLoad("singe/pussinboots/m4.png")
+	sprArrow[PW5] 		= spriteLoad("singe/pussinboots/m5.png")
+	sprArrow[PW6] 		= spriteLoad("singe/pussinboots/m6.png")
+	sprArrow[PWFULL] 	= spriteLoad("singe/pussinboots/mfull.png")
 --[[	
 	OVLW = vldpGetWidth()
 	OVLH = vldpGetHeight()
@@ -2253,8 +2253,8 @@ function initJob()      -- Initialization process
 	LINEH = OVLH/80
 	LINEW = OVLW/80
 
-	fontGame = fontLoad(MYDIR.."singe/pussinboots/font.ttf", LINEW*2)
-	fontLCD = fontLoad(MYDIR.."singe/pussinboots/font.ttf", LINEW*2.5)
+	fontGame = fontLoad("singe/pussinboots/font.ttf", LINEW*2)
+	fontLCD = fontLoad("singe/pussinboots/font.ttf", LINEW*2.5)
 
 	fontSelect(fontGame)  
 	
