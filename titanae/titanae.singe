@@ -103,20 +103,18 @@ offsetLevel01 = 3411
 offsetLevel02 = 11840													
 offsetLevel03 = 21292
 offsetLevel04 = 30071
-offsetLevel05 = 65438
-offsetLevel06 = 38064
-offsetLevel07 = 42403
-offsetLevel08 = 49451
+offsetLevel05 = 38064
+offsetLevel06 = 42403
+offsetLevel07 = 49451
 
 
 offsetLevel01Clipend = offsetLevel01 +1
 offsetLevel02Clipend = offsetLevel02 +2431		
 offsetLevel03Clipend = offsetLevel03 +3005		
 offsetLevel04Clipend = offsetLevel04 +2411
-offsetLevel05Clipend = offsetLevel05 +910
-offsetLevel06Clipend = offsetLevel06 +2322
-offsetLevel07Clipend = offsetLevel07 +1050
-offsetLevel08Clipend = offsetLevel08 +1573
+offsetLevel05Clipend = offsetLevel05 +2322
+offsetLevel06Clipend = offsetLevel06 +1050
+offsetLevel07Clipend = offsetLevel07 +1573
 
 
 offsetMenus = 62509																					
@@ -739,85 +737,16 @@ function setupLevel04(thisSegment)
 end
 
 
-TotalScenesLevel05 = 3	
+TotalScenesLevel05 = 2
 Lvl05mirror = 0														
-Death05mirror = 0											
+Death05mirror = 0
 
-function setupLevel05(thisSegment)									
-																	
-	if thisSegment == SEGMENT01 then 								
-
-		segmentStart = offsetLevel05Clipend + 1						
-		segmentEnd   = offsetLevel05 + 2089						
-		totalMoves   = 12											
-		
-		move = nil; move = {}										
-		move[1] = {}; move[1] = {1056, 1073, DOWN, 1, 0, 0}		
-		move[2] = {}; move[2] = {1112, 1127, LEFT, 1, 0, 0}			
-		move[3] = {}; move[3] = {1415, 1430, RIGHT, 1, 0, 0}		
-		move[4] = {}; move[4] = {1620, 1635, LEFT, 1, 0, 0}		
-		move[5] = {}; move[5] = {1667, 1682, RIGHT, 1, 0, 0}		
-		move[6] = {}; move[6] = {1719, 1734, LEFT, 1, 0, 0}
-		move[7] = {}; move[7] = {1776, 1790, RIGHT, 1, 0, 0}
-		move[8] = {}; move[8] = {1832, 1847, RIGHT, 1, 0, 0}
-		move[9] = {}; move[9] = {1873, 1888, LEFT, 1, 0, 0}		 
-		move[10] = {}; move[10] = {1923, 1938, DOWN, 1, 0, 0}		
-		move[11] = {}; move[11] = {1971, 1986, UP, 1, 0, 0}
-		move[12] = {}; move[12] = {2039, 2053, LEFT, 1, 0, 0}
-						
-				
-						
-	elseif thisSegment == SEGMENT02 then 							
-
-		segmentStart = offsetLevel05 + 2090							
-		segmentEnd   = offsetLevel05 + 3080
-		totalMoves   = 13
-		
-		move = nil; move = {}
-		move[1] = {}; move[1] = {2153, 2173, ACTRIGHT, 1, 0, 0}
-		move[2] = {}; move[2] = {2248, 2263, ACTLEFT, 1, 0, 0}	
-		move[3] = {}; move[3] = {2314, 2329, DOWN, 1, 0, 0}		
-		move[4] = {}; move[4] = {2400, 2415, ACTLEFT, 1, 0, 0}
-		move[5] = {}; move[5] = {2450, 2468, ACTRIGHT, 1, 0, 0}
-		move[6] = {}; move[6] = {2590, 2605, LEFT, 1, 0, 0}
-		move[7] = {}; move[7] = {2645, 2660, DOWN, 1, 0, 0}
-		move[8] = {}; move[8] = {2711, 2726, DOWN, 1, 0, 0}
-		move[9] = {}; move[9] = {2840, 2855, ACTUP, 1, 0, 0}
-		move[10] = {}; move[10] = {2895, 2910, LEFT, 1, 0, 0}
-		move[11] = {}; move[11] = {2920, 2934, RIGHT, 1, 0, 0}
-		move[12] = {}; move[12] = {2977, 2992, LEFT, 1, 0, 0}
-		move[13] = {}; move[13] = {3020, 3036, LEFT, 1, 0, 0}
-			
-
-
-	elseif thisSegment == SEGMENT03 then 							
-
-		segmentStart = offsetLevel05 + 3081							
-		segmentEnd   = offsetLevel05 + 4313
-		totalMoves   = 5
-		
-		move = nil; move = {}
-		move[1] = {}; move[1] = {3182, 3194, LEFT, 1, 0, 0}
-		move[2] = {}; move[2] = {3280, 3295, LEFT, 1, 0, 0}
-		move[3] = {}; move[3] = {3370, 3385, ACTRIGHT, 1, 0, 0}
-		move[4] = {}; move[4] = {3453, 3468, UP, 1, 0, 0}
-		move[5] = {}; move[5] = {3522, 3537, LEFT, 1, 0, 0}
-		
-	end
-	
-end
-
-
-TotalScenesLevel06 = 2	
-Lvl06mirror = 0														
-Death06mirror = 0
-
-function setupLevel06(thisSegment)
+function setupLevel05(thisSegment)
 
 	if thisSegment == SEGMENT01 then
 
-		segmentStart = offsetLevel06Clipend + 1
-		segmentEnd   = offsetLevel06 + 2936
+		segmentStart = offsetLevel05Clipend + 1
+		segmentEnd   = offsetLevel05 + 2936
 		totalMoves   = 11
 				
 		move = nil; move = {}
@@ -836,8 +765,8 @@ function setupLevel06(thisSegment)
 
 	elseif thisSegment == SEGMENT02 then
 	
-		segmentStart = offsetLevel06 + 2937
-		segmentEnd   = offsetLevel06 + 4336
+		segmentStart = offsetLevel05 + 2937
+		segmentEnd   = offsetLevel05 + 4336
 		totalMoves   = 12
 				
 		move = nil; move = {}
@@ -860,16 +789,16 @@ function setupLevel06(thisSegment)
 end
 
 
-TotalScenesLevel07 = 5	
-Lvl07mirror = 0														
-Death07mirror = 0
+TotalScenesLevel06 = 5
+Lvl06mirror = 0
+Death06mirror = 0
 
 function setupLevel06(thisSegment)
 
 	if thisSegment == SEGMENT01 then
 
-		segmentStart = offsetLevel07Clipend + 1
-		segmentEnd   = offsetLevel07 + 2274
+		segmentStart = offsetLevel06Clipend + 1
+		segmentEnd   = offsetLevel06 + 2274
 		totalMoves   = 10
 		
 		move = nil; move = {}
@@ -887,8 +816,8 @@ function setupLevel06(thisSegment)
 
 	elseif thisSegment == SEGMENT02 then
 
-		segmentStart = offsetLevel07 + 2275
-		segmentEnd   = offsetLevel07 + 3627
+		segmentStart = offsetLevel06 + 2275
+		segmentEnd   = offsetLevel06 + 3627
 		totalMoves   = 12
 		
 		move = nil; move = {}
@@ -908,8 +837,8 @@ function setupLevel06(thisSegment)
 
 elseif thisSegment == SEGMENT03 then
 
-		segmentStart = offsetLevel07 + 3628
-		segmentEnd   = offsetLevel07 + 4474
+		segmentStart = offsetLevel06 + 3628
+		segmentEnd   = offsetLevel06 + 4474
 		totalMoves   = 12
 
 
@@ -929,8 +858,8 @@ elseif thisSegment == SEGMENT03 then
 
 	elseif thisSegment == SEGMENT04 then  													
 	
-		segmentStart = offsetLevel07 + 4475
-		segmentEnd   = offsetLevel07 + 6048
+		segmentStart = offsetLevel06 + 4475
+		segmentEnd   = offsetLevel06 + 6048
 		totalMoves   = 18
 
 		move = nil; move = {}
@@ -957,8 +886,8 @@ elseif thisSegment == SEGMENT03 then
 
 	elseif thisSegment == SEGMENT05 then  													
 	
-		segmentStart = offsetLevel07 + 6049
-		segmentEnd   = offsetLevel07 + 7045
+		segmentStart = offsetLevel06 + 6049
+		segmentEnd   = offsetLevel06 + 7045
 		totalMoves   = 6
 		
 		move = nil; move = {}
@@ -973,16 +902,16 @@ elseif thisSegment == SEGMENT03 then
 	
 end
 
-TotalScenesLevel08 = 7	
-Lvl08mirror = 0														
-Death08mirror = 0
+TotalScenesLevel07 = 7
+Lvl07mirror = 0
+Death07mirror = 0
 
 function setupLevel07(thisSegment)
 
 	if thisSegment == SEGMENT01 then
 
-		segmentStart = offsetLevel08Clipend + 1
-		segmentEnd   = offsetLevel08 + 2543
+		segmentStart = offsetLevel07Clipend + 1
+		segmentEnd   = offsetLevel07 + 2543
 		totalMoves   = 12
 		
 		move = nil; move = {}
@@ -1002,8 +931,8 @@ function setupLevel07(thisSegment)
 
 	elseif thisSegment == SEGMENT02 then
 
-		segmentStart = offsetLevel08 + 2544
-		segmentEnd   = offsetLevel08 + 3891
+		segmentStart = offsetLevel07 + 2544
+		segmentEnd   = offsetLevel07 + 3891
 		totalMoves   = 18
 		
 		move = nil; move = {}
@@ -1029,8 +958,8 @@ function setupLevel07(thisSegment)
 
 	elseif thisSegment == SEGMENT03 then  													
 	
-		segmentStart = offsetLevel08 + 3892
-		segmentEnd   = offsetLevel08 + 5069
+		segmentStart = offsetLevel07 + 3892
+		segmentEnd   = offsetLevel07 + 5069
 		totalMoves   = 14
 
 		move = nil; move = {}
@@ -1052,8 +981,8 @@ function setupLevel07(thisSegment)
 
 	elseif thisSegment == SEGMENT04 then  													
 	
-		segmentStart = offsetLevel08 + 5070
-		segmentEnd   = offsetLevel08 + 6140
+		segmentStart = offsetLevel07 + 5070
+		segmentEnd   = offsetLevel07 + 6140
 		totalMoves   = 13
 		
 		move = nil; move = {}
@@ -1074,8 +1003,8 @@ function setupLevel07(thisSegment)
 
 	elseif thisSegment == SEGMENT05 then  													
 	
-		segmentStart = offsetLevel08 + 6141
-		segmentEnd   = offsetLevel08 + 7721
+		segmentStart = offsetLevel07 + 6141
+		segmentEnd   = offsetLevel07 + 7721
 		totalMoves   = 16
 		
 		move = nil; move = {}
@@ -1099,8 +1028,8 @@ function setupLevel07(thisSegment)
 		
 	elseif thisSegment == SEGMENT06 then  													
 	
-		segmentStart = offsetLevel08 + 7722
-		segmentEnd   = offsetLevel08 + 11775
+		segmentStart = offsetLevel07 + 7722
+		segmentEnd   = offsetLevel07 + 11775
 		totalMoves   = 27
 		
 		move = nil; move = {}
@@ -1134,8 +1063,8 @@ function setupLevel07(thisSegment)
 
 	elseif thisSegment == SEGMENT07 then  													
 	
-		segmentStart = offsetLevel08 + 11776
-		segmentEnd   = offsetLevel08 + 13056
+		segmentStart = offsetLevel07 + 11776
+		segmentEnd   = offsetLevel07 + 13056
 		totalMoves   = 2
 
 		move = nil; move = {}

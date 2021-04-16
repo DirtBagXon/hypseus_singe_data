@@ -2,17 +2,17 @@
 
 ### Recode Singe 2 video files for Hypseus Singe
 
-    ffmpeg -i <original>.mp4 -an -codec:v mpeg2video -b 4182k <game>.m2v
+    ffmpeg -i <original>.mp4 -an -qscale:v 4 -b 6000k -codec:v mpeg2video <game>.m2v
     ffmpeg -i <original>.mp4 -vn -c:a libvorbis -ar 44100 -map a -b:a 160k <game>.ogg
 
 **e.g.**
 
-    ffmpeg -i Puss_in_Boots_english.mp4 -an -codec:v mpeg2video -b 4182k pussinboots.m2v
+    ffmpeg -i Puss_in_Boots_english.mp4 -an -qscale:v 4 -b 6000k -codec:v mpeg2video pussinboots.m2v
     ffmpeg -i Puss_in_Boots_english.mp4 -vn -c:a libvorbis -ar 44100 -map a -b:a 160k pussinboots.ogg
 
 If your device is struggling with the HD content, you can resize in this operation:
 
-    ffmpeg -i Puss_in_Boots_english.mp4 -an -vf scale=640:480 -codec:v mpeg2video -b 4182k pussinboots.m2v
+    ffmpeg -i Puss_in_Boots_english.mp4 -an -qscale:v 4 -b 6000k -vf scale=640:480 -codec:v mpeg2video pussinboots.m2v
 
 ### Using this repository
 
