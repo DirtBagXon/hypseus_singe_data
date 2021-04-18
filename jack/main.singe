@@ -925,7 +925,7 @@ function resetArrows()
 	posyDARROW = 140
 
 	posxLARROW = 100
-	posxRARROW = 120
+	posxRARROW = 210
 	posyLRARROWS = 112
 
 end
@@ -971,7 +971,7 @@ function drawAction()
 	
 			if heartbeat then	
 				
-				if posxLARROW > 45 then posxLARROW = posxLARROW-5 end
+				if posxLARROW > 30 then posxLARROW = posxLARROW-5 end
 				spriteDraw(posxLARROW,posyLRARROWS,sprArrow[LEFT])
 						
 			end
@@ -983,7 +983,7 @@ function drawAction()
 	
 			if heartbeat then	
 
-				if posxRARROW < 280 then posxRARROW = posxRARROW+5 end
+				if posxRARROW < 270 then posxRARROW = posxRARROW+5 end
 				spriteDraw(posxRARROW,posyLRARROWS,sprArrow[RIGHT])
 						
 			end
@@ -1069,7 +1069,7 @@ function drawAction()
 	
 			if heartbeat then	
 				
-				if posxLARROW > 45 then posxLARROW = posxLARROW-5 end
+				if posxLARROW > 30 then posxLARROW = posxLARROW-5 end
 				spriteDraw(posxLARROW,posyLRARROWS,sprArrow[LEFT])
 						
 			end
@@ -1081,7 +1081,7 @@ function drawAction()
 	
 			if heartbeat then	
 
-				if posxRARROW < 280 then posxRARROW = posxRARROW+5 end
+				if posxRARROW < 270 then posxRARROW = posxRARROW+5 end
 				spriteDraw(posxRARROW,posyLRARROWS,sprArrow[RIGHT])
 						
 			end
