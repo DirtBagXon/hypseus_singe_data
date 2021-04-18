@@ -1,0 +1,1126 @@
+--[[
+
+NOME PROGRAMMA: Samurai Jack Singe edition
+VERSIONE:		1.0
+AUTORE:			POIU (2019)
+
+Questo file fa parte di Samurai Jack Singe edition
+
+Samurai Jack Singe edition è un software gratuito: 
+puoi ridistribuirlo e / o modificarlo
+secondo i termini della GNU General Public License 
+come pubblicato da la Fondazione per il software libero.
+
+Samurai Jack Singe edition è distribuito nella speranza che possa essere utile,
+ma SENZA ALCUNA GARANZIA; senza nemmeno la garanzia implicita di
+COMMERCIABILITÀ o IDONEITÀ A UNO SCOPO PARTICOLARE.
+
+Un sentito ringraziamento a RDG (autore originale del programma)
+
+]]--
+
+
+MYDIR = "singe/jack/"					
+
+dofile(MYDIR .. "globals.singe")				
+dofile(MYDIR .. "main.singe")
+dofile(MYDIR .. "hscore.singe")
+dofile(MYDIR .. "service.singe")
+dofile(MYDIR .. "toolbox.singe")
+dofile(MYDIR .. "map.singe")
+
+
+MovieFPS = 23.976								
+
+
+SCOREMOVE = 700									
+BUFFMOVE = 300									
+SCORESCENE = 10000								
+DEATHPENALTY = 1000								
+SCORELEVEL = 50000								
+SCOREGAME = 250000								
+							
+
+
+finalstage = 5 	     		     				
+bAllowSecret = false				  				
+
+
+
+
+offsetTitle = 0									
+offsetIntro01 = 194							
+offsetIntro02 = 58083   						
+
+
+offsetTitleend = offsetTitle + 192			 										
+offsetIntro01end = offsetIntro01 + 1852			
+offsetIntro02end = offsetIntro02 + 1637	
+
+
+							
+offsetIntro03end = offsetTitle + 192
+
+
+offsetLevel01 = 2051	
+offsetLevel02 = 12249	
+offsetLevel03 = 16703		
+offsetLevel04 = 26869	
+offsetLevel05 = 41015
+		
+offsetLevelExt = 0
+
+
+offsetLevel01Clipend = offsetLevel01 +502	
+offsetLevel02Clipend = offsetLevel02 +250
+offsetLevel03Clipend = offsetLevel03 +0
+offsetLevel04Clipend = offsetLevel04 +1725
+offsetLevel05Clipend = offsetLevel05 +532
+offsetLevelExtClipend = offsetLevelExt +0
+
+
+offsetMenus = 55561																					
+
+
+frameOptions = offsetMenus +1					
+frameCommands = offsetMenus +34					
+frameVictory = offsetMenus +76								
+
+offsetContinue = offsetMenus +117			
+offsetContinueend = offsetMenus +289
+
+offsetGameOver = offsetMenus +292				
+offsetGameOverend = offsetMenus +410
+
+offsetGameOverAlt = offsetMenus +413		
+offsetGameOverAltend = offsetMenus +530		
+
+offsetNewHScore = offsetMenus +533				
+offsetNewHScoreend = offsetMenus +662			
+offsetEnterHScore = offsetMenus +663			
+offsetEnterHScoreend = offsetMenus +1133		
+
+offsetOKHScore = offsetMenus +1156	
+offsetOKHScoreend = offsetMenus +1344	
+
+offsetMap = offsetMenus +1346
+offsetMapend = offsetMenus +1823		
+
+
+offsetDeath = 57386								
+
+
+offsetDeath01 = offsetDeath 						
+offsetDeath01end = offsetDeath +93
+
+offsetDeath02 = offsetDeath +120					
+offsetDeath02end = offsetDeath +203
+
+offsetDeath03 = offsetDeath +231							
+offsetDeath03end = offsetDeath +346
+
+offsetDeath04 = offsetDeath +374
+offsetDeath04end = offsetDeath +463
+
+offsetDeath05 = offsetDeath +491
+offsetDeath05end = offsetDeath +575
+
+offsetDeath06 = offsetDeath +603
+offsetDeath06end = offsetDeath +695
+
+
+TotalScenesLevel01 = 10												
+
+function setupLevel01(thisSegment)								
+
+	if thisSegment == SEGMENT01 then 								
+
+		segmentStart = offsetLevel01Clipend + 1					
+		segmentEnd   = offsetLevel01 + 1774							
+		totalMoves   = 8										
+		
+		move = nil; move = {}										
+		move[1] = {}; move[1] = {550, 565, UP, 1, 0, 0}		    
+		move[2] = {}; move[2] = {607, 622, BUTTON1, 2, 0}
+		move[3] = {}; move[3] = {736, 751, ACTLEFT, 3, 0, 0}			
+		move[4] = {}; move[4] = {797, 812, ACTRIGHT, 4, 0, 0}		   
+		move[5] = {}; move[5] = {1041, 1056, ACTRIGHT, 5, 0, 0}	
+		move[6] = {}; move[6] = {1237, 1252, ACTRIGHT, 6, 0, 0}
+		move[7] = {}; move[7] = {1449, 1464, ACTRIGHT, 1, 0, 0}
+		move[8] = {}; move[8] = {1601, 1616, ACTRIGHT, 2, 0, 0}		
+		
+		
+	elseif thisSegment == SEGMENT02 then 						
+
+		segmentStart = offsetLevel01 + 1775							
+		segmentEnd   = offsetLevel01 + 2890
+		totalMoves   = 8
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {1845, 1860, BUTTON1, 1, 0, 0}
+		move[2] = {}; move[2] = {1949, 1964, DOWN, 2, 0, 0}			
+		move[3] = {}; move[3] = {2022, 2037, ACTDOWN, 3, 0, 0}
+		move[4] = {}; move[4] = {2105, 2140, MASH, 4, 0, 0}
+		move[5] = {}; move[5] = {2195, 2210, ACTDOWN, 5, 0, 0}
+		move[6] = {}; move[6] = {2255, 2270, BUTTON1, 6, 0, 0}
+		move[7] = {}; move[7] = {2342, 2357, BUTTON1, 1, 0, 0}
+		move[8] = {}; move[8] = {2430, 2445, ACTRIGHT, 2, 0, 0}
+		
+	elseif thisSegment == SEGMENT03 then  							
+	
+		segmentStart = offsetLevel01 + 2891
+		segmentEnd   = offsetLevel01 + 4193
+		totalMoves   = 12
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {2989, 3004, BUTTON1, 1, 0, 0}
+		move[2] = {}; move[2] = {3052, 3067, BUTTON1, 2, 0, 0}			
+		move[3] = {}; move[3] = {3070, 3085, ACTLEFT, 3, 0, 0}
+		move[4] = {}; move[4] = {3155, 3170, ACTDOWN, 4, 0, 0}
+		move[5] = {}; move[5] = {3200, 3215, ACTLEFT, 5, 0, 0}
+		move[6] = {}; move[6] = {3217, 3231, BUTTON1, 6, 0, 0}
+		move[7] = {}; move[7] = {3240, 3255, ACTDOWN, 1, 0, 0}
+		move[8] = {}; move[8] = {3260, 3290, MASH, 2, 0, 0}
+		move[9] = {}; move[9] = {3295, 3325, MASH, 3, 0, 0}
+		move[10] = {}; move[10] = {3340, 3355, ACTLEFT, 4, 0, 0}
+		move[11] = {}; move[11] = {3391, 3407, ACTDOWN, 5, 0, 0}
+		move[12] = {}; move[12] = {3885, 3915, MASH, 6, 0, 0}
+		
+	elseif thisSegment == SEGMENT04 then  							
+	
+		segmentStart = offsetLevel01 + 4194
+		segmentEnd   = offsetLevel01 + 4551
+		totalMoves   = 14
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {4258, 4273, BUTTON1, 1, 0, 0}
+		move[2] = {}; move[2] = {4277, 4292, BUTTON1, 2, 0, 0}			
+		move[3] = {}; move[3] = {4318, 4333, ACTUP, 3, 0, 0}
+		move[4] = {}; move[4] = {4342, 4357, ACTRIGHT, 4, 0, 0}
+		move[5] = {}; move[5] = {4375, 4390, ACTLEFT, 5, 0, 0}
+		move[6] = {}; move[6] = {4392, 4407, ACTRIGHT, 6, 0, 0}
+		move[7] = {}; move[7] = {4409, 4424, ACTRIGHT, 1, 0, 0}
+		move[8] = {}; move[8] = {4426, 4441, BUTTON1, 2, 0, 0}
+		move[9] = {}; move[9] = {4443, 4453, BUTTON1, 3, 0, 0}
+		move[10] = {}; move[10] = {4456, 4466, BUTTON1, 4, 0, 0}
+		move[11] = {}; move[11] = {4468, 4476, BUTTON1, 5, 0, 0}
+		move[12] = {}; move[12] = {4478, 4488, ACTUP, 1, 0, 0}
+		move[13] = {}; move[13] = {4496, 4511, ACTRIGHT, 2, 0, 0}
+		move[14] = {}; move[14] = {4518, 4533, ACTRIGHT, 3, 0, 0}
+		
+	elseif thisSegment == SEGMENT05 then  							
+	
+		segmentStart = offsetLevel01 + 4552
+		segmentEnd   = offsetLevel01 + 5459
+		totalMoves   = 12
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {4566, 4581, ACTUP, 1, 0, 0}
+		move[2] = {}; move[2] = {4609, 4639, MASH, 2, 0, 0}			
+		move[3] = {}; move[3] = {4676, 4691, ACTDOWN, 3, 0, 0}
+		move[4] = {}; move[4] = {4693, 4705, ACTUP, 4, 0, 0}
+		move[5] = {}; move[5] = {4707, 4722, ACTDOWN, 5, 0, 0}
+		move[6] = {}; move[6] = {4837, 4852, RIGHT, 6, 0, 0}
+		move[7] = {}; move[7] = {4950, 4965, BUTTON1, 1, 0, 0}
+		move[8] = {}; move[8] = {5027, 5042, BUTTON1, 2, 0, 0}
+		move[9] = {}; move[9] = {5067, 5082, LEFT, 3, 0, 0}
+		move[10] = {}; move[10] = {5085, 5100, ACTRIGHT, 4, 0, 0}
+		move[11] = {}; move[11] = {5142, 5172, MASH, 5, 0, 0}
+		move[12] = {}; move[12] = {5295, 5310, ACTLEFT, 1, 0, 0}
+	
+		
+	elseif thisSegment == SEGMENT06 then  							
+	
+		segmentStart = offsetLevel01 + 5460
+		segmentEnd   = offsetLevel01 + 6392
+		totalMoves   = 10
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {5570, 5585, BUTTON1, 1, 0, 0}
+		move[2] = {}; move[2] = {5594, 5609, BUTTON1, 2, 0, 0}			
+		move[3] = {}; move[3] = {5622, 5635, ACTDOWN, 3, 0, 0}
+		move[4] = {}; move[4] = {5650, 5665, ACTRIGHT, 4, 0, 0}
+		move[5] = {}; move[5] = {5668, 5680, ACTDOWN, 5, 0, 0}
+		move[6] = {}; move[6] = {5683, 5695, ACTRIGHT, 6, 0, 0}
+		move[7] = {}; move[7] = {5761, 5776, RIGHT, 1, 0, 0}
+		move[8] = {}; move[8] = {5802, 5817, UP, 2, 0, 0}
+		move[9] = {}; move[9] = {5896, 5911, RIGHT, 3, 0, 0}
+		move[10] = {}; move[10] = {6031, 6046, RIGHT, 4, 0, 0}
+		
+	elseif thisSegment == SEGMENT07 then  							
+	
+		segmentStart = offsetLevel01 + 6393
+		segmentEnd   = offsetLevel01 + 7795
+		totalMoves   = 13
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {6441, 6471, MASH, 1, 0, 0}
+		move[2] = {}; move[2] = {6472, 6503, MASH, 2, 0, 0}			
+		move[3] = {}; move[3] = {6504, 6535, MASH, 3, 0, 0}
+		move[4] = {}; move[4] = {6697, 6712, RIGHT, 4, 0, 0}
+		move[5] = {}; move[5] = {6749, 6764, RIGHT, 5, 0, 0}
+		move[6] = {}; move[6] = {6793, 6808, RIGHT, 6, 0, 0}
+		move[7] = {}; move[7] = {6851, 6866, UP, 1, 0, 0}
+		move[8] = {}; move[8] = {6888, 6903, UP, 2, 0, 0}
+		move[9] = {}; move[9] = {6944, 6959, BUTTON1, 3, 0, 0}
+		move[10] = {}; move[10] = {7306, 7321, ACTRIGHT, 5, 0, 0}
+		move[11] = {}; move[11] = {7393, 7423, MASH, 1, 0, 0}
+		move[12] = {}; move[12] = {7446, 7461, BUTTON1, 2, 0, 0}
+		move[13] = {}; move[13] = {7565, 7595, MASH, 3, 0, 0}
+		
+	elseif thisSegment == SEGMENT08 then  							
+	
+		segmentStart = offsetLevel01 + 7796
+		segmentEnd   = offsetLevel01 + 8859
+		totalMoves   = 4
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {7885, 7915, MASH, 1, 0, 0}
+		move[2] = {}; move[2] = {8035, 8065, MASH, 2, 0, 0}			
+		move[3] = {}; move[3] = {8100, 8140, MASH, 3, 0, 0}
+		move[4] = {}; move[4] = {8273, 8288, ACTDOWN, 4, 0, 0}
+		
+	elseif thisSegment == SEGMENT09 then  							
+	
+		segmentStart = offsetLevel01 + 8860
+		segmentEnd   = offsetLevel01 + 9604
+		totalMoves   = 8
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {8929, 8944, LEFT, 1, 0, 0}
+		move[2] = {}; move[2] = {8947, 8960, ACTUP, 2, 0, 0}			
+		move[3] = {}; move[3] = {8991, 9006, DOWN, 3, 0, 0}
+		move[4] = {}; move[4] = {9008, 9022, ACTLEFT, 4, 0, 0}
+		move[5] = {}; move[5] = {9040, 9055, ACTDOWN, 5, 0, 0}
+		move[6] = {}; move[6] = {9063, 9078, RIGHT, 6, 0, 0}
+		move[7] = {}; move[7] = {9080, 9091, LEFT, 1, 0, 0}
+		move[8] = {}; move[8] = {9290, 9320, MASH, 2, 0, 0}
+		
+	elseif thisSegment == SEGMENT10 then  							
+	
+		segmentStart = offsetLevel01 + 9605
+		segmentEnd   = offsetLevel01 + 10197
+		totalMoves   = 12
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {9652, 9667, ACTRIGHT, 1, 0, 0}
+		move[2] = {}; move[2] = {9685, 9700, ACTDOWN, 2, 0, 0}			
+		move[3] = {}; move[3] = {9702, 9716, ACTUP, 3, 0, 0}
+		move[4] = {}; move[4] = {9731, 9746, ACTRIGHT, 4, 0, 0}
+		move[5] = {}; move[5] = {9748, 9759, LEFT, 5, 0, 0}
+		move[6] = {}; move[6] = {9761, 9775, ACTRIGHT, 6, 0, 0}
+		move[7] = {}; move[7] = {9787, 9802, ACTDOWN, 1, 0, 0}
+		move[8] = {}; move[8] = {9815, 9830, ACTLEFT, 2, 0, 0}
+		move[9] = {}; move[9] = {9842, 9857, ACTRIGHT, 3, 0, 0}
+		move[10] = {}; move[10] = {9859, 9870, RIGHT, 5, 0, 0}
+		move[11] = {}; move[11] = {9872, 9886, ACTUP, 1, 0, 0}
+		move[12] = {}; move[12] = {9911, 9941, MASH, 3, 0, 0}
+		
+	end
+	
+end
+
+TotalScenesLevel02 = 6												
+
+function setupLevel02(thisSegment)								
+
+	if thisSegment == SEGMENT01 then 								
+
+		segmentStart = offsetLevel02Clipend + 1					
+		segmentEnd   = offsetLevel02 + 617							
+		totalMoves   = 7										
+		
+		move = nil; move = {}										
+		move[1] = {}; move[1] = {335, 350, RIGHT, 1, 0, 0}		    
+		move[2] = {}; move[2] = {365, 380, RIGHT, 2, 0}
+		move[3] = {}; move[3] = {382, 392, DOWN, 3, 0, 0}			
+		move[4] = {}; move[4] = {394, 404, LEFT, 4, 0, 0}		   
+		move[5] = {}; move[5] = {422, 460, MASH, 5, 0, 0}	
+		move[6] = {}; move[6] = {521, 536, ACTRIGHT, 6, 0, 0}
+		move[7] = {}; move[7] = {538, 552, ACTLEFT, 1, 0, 0}
+		
+	elseif thisSegment == SEGMENT02 then  							
+	
+		segmentStart = offsetLevel02 + 618
+		segmentEnd   = offsetLevel02 + 1451
+		totalMoves   = 8
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {687, 702, BUTTON1, 1, 0, 0}
+		move[2] = {}; move[2] = {704, 719, ACTRIGHT, 2, 0, 0}			
+		move[3] = {}; move[3] = {722, 737, BUTTON1, 3, 0, 0}
+		move[4] = {}; move[4] = {739, 752, BUTTON1, 4, 0, 0}
+		move[5] = {}; move[5] = {781, 796, ACTRIGHT, 5, 0, 0}
+		move[6] = {}; move[6] = {798, 813, ACTRIGHT, 6, 0, 0}
+		move[7] = {}; move[7] = {856, 871, BUTTON1, 1, 0, 0}
+		move[8] = {}; move[8] = {947, 962, ACTLEFT, 2, 0, 0}
+		
+	elseif thisSegment == SEGMENT03 then  							
+	
+		segmentStart = offsetLevel02 + 1452
+		segmentEnd   = offsetLevel02 + 2005
+		totalMoves   = 5
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {1535, 1550, LEFT, 1, 0, 0}
+		move[2] = {}; move[2] = {1660, 1675, BUTTON1, 2, 0, 0}			
+		move[3] = {}; move[3] = {1775, 1790, RIGHT, 3, 0, 0}
+		move[4] = {}; move[4] = {1870, 1885, ACTRIGHT, 4, 0, 0}
+		move[5] = {}; move[5] = {1905, 1920, ACTDOWN, 5, 0, 0}
+		
+	elseif thisSegment == SEGMENT04 then  							
+	
+		segmentStart = offsetLevel02 + 2006
+		segmentEnd   = offsetLevel02 + 2578
+		totalMoves   = 4
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {2017, 2032, ACTDOWN, 1, 0, 0}
+		move[2] = {}; move[2] = {2042, 2057, ACTDOWN, 2, 0, 0}			
+		move[3] = {}; move[3] = {2062, 2075, ACTRIGHT, 3, 0, 0}
+		move[4] = {}; move[4] = {2462, 2477, DOWN, 4, 0, 0}
+		
+	elseif thisSegment == SEGMENT05 then  							
+	
+		segmentStart = offsetLevel02 + 2579
+		segmentEnd   = offsetLevel02 + 3109
+		totalMoves   = 8
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {2611, 2626, RIGHT, 1, 0, 0}
+		move[2] = {}; move[2] = {2706, 2721, LEFT, 2, 0, 0}			
+		move[3] = {}; move[3] = {2798, 2813, DOWN, 3, 0, 0}
+		move[4] = {}; move[4] = {2839, 2854, RIGHT, 4, 0, 0}
+		move[5] = {}; move[5] = {2863, 2878, DOWN, 5, 0, 0}
+		move[6] = {}; move[6] = {2912, 2927, LEFT, 6, 0, 0}
+		move[7] = {}; move[7] = {2994, 3009, RIGHT, 1, 0, 0}
+		move[8] = {}; move[8] = {3074, 3089, RIGHT, 2, 0, 0}
+		
+	elseif thisSegment == SEGMENT06 then  							
+	
+		segmentStart = offsetLevel02 + 3110
+		segmentEnd   = offsetLevel02 + 4447
+		totalMoves   = 5
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {3150, 3207, MASH, 1, 0, 0}
+		move[2] = {}; move[2] = {3252, 3267, RIGHT, 2, 0, 0}			
+		move[3] = {}; move[3] = {3317, 3332, RIGHT, 3, 0, 0}
+		move[4] = {}; move[4] = {3762, 3777, BUTTON1, 4, 0, 0}
+		move[5] = {}; move[5] = {3890, 3905, BUTTON1, 5, 0, 0}
+			
+	end
+	
+end
+
+TotalScenesLevel03 = 9												
+
+function setupLevel03(thisSegment)	
+
+	if thisSegment == SEGMENT01 then
+
+		segmentStart = offsetLevel03Clipend + 1
+		segmentEnd   = offsetLevel03 + 2130
+		totalMoves   = 13
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {253, 268, UP, 1, 0, 0}
+		move[2] = {}; move[2] = {311, 326, UP, 2, 0, 0}
+		move[3] = {}; move[3] = {375, 390, UP, 3, 0, 0}
+		move[4] = {}; move[4] = {426, 441, UP, 4, 0, 0}
+		move[5] = {}; move[5] = {567, 582, DOWN, 5, 0, 0}
+		move[6] = {}; move[6] = {822, 837, DOWN, 6, 0, 0}
+		move[7] = {}; move[7] = {917, 932, RIGHT, 1, 0, 0}
+		move[8] = {}; move[8] = {953, 968, RIGHT, 1, 0, 0}
+		move[9] = {}; move[9] = {1076, 1091, BUTTON1, 2, 0, 0}
+		move[10] = {}; move[10] = {1146, 1161, RIGHT, 3, 0, 0}
+		move[11] = {}; move[11] = {1507, 1522, RIGHT, 1, 0, 0}
+		move[12] = {}; move[12] = {1637, 1672, MASH, 2, 0, 0}
+		move[13] = {}; move[13] = {1736, 1751, ACTRIGHT, 3, 0, 0}
+		
+	elseif thisSegment == SEGMENT02 then
+		
+		segmentStart = offsetLevel03 + 2131
+		segmentEnd   = offsetLevel03 + 3243
+		totalMoves   = 8
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {2335, 2350, LEFT, 1, 0, 0}
+		move[2] = {}; move[2] = {2363, 2378, RIGHT, 2, 0, 0}
+		move[3] = {}; move[3] = {2460, 2475, ACTRIGHT, 3, 0, 0}
+		move[4] = {}; move[4] = {2561, 2646, MASH, 4, 0, 0}
+		move[5] = {}; move[5] = {2653, 2723, MASH, 5, 0, 0}
+		move[6] = {}; move[6] = {2934, 2949, UP, 6, 0, 0}
+		move[7] = {}; move[7] = {3076, 3091, DOWN, 1, 0, 0}
+		move[8] = {}; move[8] = {3157, 3172, LEFT, 1, 0, 0}
+		
+	elseif thisSegment == SEGMENT03 then
+		
+		segmentStart = offsetLevel03 + 3244
+		segmentEnd   = offsetLevel03 + 4096
+		totalMoves   = 8
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {3374, 3389, LEFT, 1, 0, 0}
+		move[2] = {}; move[2] = {3411, 3448, MASH, 2, 0, 0}
+		move[3] = {}; move[3] = {3463, 3478, UP, 3, 0, 0}
+		move[4] = {}; move[4] = {3485, 3525, MASH, 4, 0, 0}
+		move[5] = {}; move[5] = {3860, 3875, UP, 1, 0, 0}
+		move[6] = {}; move[6] = {3967, 3977, LEFT, 1, 0, 0}
+		move[7] = {}; move[7] = {3985, 3995, LEFT, 2, 0, 0}
+		move[8] = {}; move[8] = {4003, 4013, LEFT, 3, 0, 0}
+		
+	elseif thisSegment == SEGMENT04 then
+		
+		segmentStart = offsetLevel03 + 4097
+		segmentEnd   = offsetLevel03 + 6927
+		totalMoves   = 7
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {4293, 4323, MASH, 1, 0, 0}
+		move[2] = {}; move[2] = {4466, 4481, RIGHT, 2, 0, 0}
+		move[3] = {}; move[3] = {4878, 4893, DOWN, 3, 0, 0}
+		move[4] = {}; move[4] = {4908, 4923, ACTRIGHT, 4, 0, 0}
+		move[5] = {}; move[5] = {4954, 4984, MASH, 5, 0, 0}
+		move[6] = {}; move[6] = {4990, 5020, MASH, 6, 0, 0}
+		move[7] = {}; move[7] = {5026, 5060, MASH, 1, 0, 0}
+		
+	elseif thisSegment == SEGMENT05 then
+		
+		segmentStart = offsetLevel03 + 6928
+		segmentEnd   = offsetLevel03 + 8039
+		totalMoves   = 7
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {6956, 6971, RIGHT, 1, 0, 0}
+		move[2] = {}; move[2] = {7005, 7020, RIGHT, 2, 0, 0}
+		move[3] = {}; move[3] = {7050, 7065, RIGHT, 3, 0, 0}
+		move[4] = {}; move[4] = {7089, 7104, RIGHT, 4, 0, 0}
+		move[5] = {}; move[5] = {7258, 7273, BUTTON1, 5, 0, 0}
+		move[6] = {}; move[6] = {7286, 7340, MASH, 6, 0, 0}
+		move[7] = {}; move[7] = {7375, 7390, DOWN, 1, 0, 0}
+		
+	elseif thisSegment == SEGMENT06 then
+		
+		segmentStart = offsetLevel03 + 8040
+		segmentEnd   = offsetLevel03 + 8351
+		totalMoves   = 7
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {8072, 8087, BUTTON1, 1, 0, 0}
+		move[2] = {}; move[2] = {8092, 8122, MASH, 2, 0, 0}
+		move[3] = {}; move[3] = {8125, 8155, MASH, 3, 0, 0}
+		move[4] = {}; move[4] = {8165, 8203, MASH, 4, 0, 0}
+		move[5] = {}; move[5] = {8206, 8236, MASH, 5, 0, 0}
+		move[6] = {}; move[6] = {8245, 8260, ACTRIGHT, 6, 0, 0}
+		move[7] = {}; move[7] = {8292, 8307, ACTLEFT, 1, 0, 0}
+		
+	elseif thisSegment == SEGMENT07 then
+		
+		segmentStart = offsetLevel03 + 8352
+		segmentEnd   = offsetLevel03 + 9164
+		totalMoves   = 8
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {8412, 8427, ACTRIGHT, 1, 0, 0}
+		move[2] = {}; move[2] = {8745, 8780, MASH, 2, 0, 0}
+		move[3] = {}; move[3] = {8789, 8804, LEFT, 3, 0, 0}
+		move[4] = {}; move[4] = {8823, 8838, UP, 4, 0, 0}
+		move[5] = {}; move[5] = {9024, 9039, BUTTON1, 5, 0, 0}
+		move[6] = {}; move[6] = {9047, 9063, ACTLEFT, 6, 0, 0}
+		move[7] = {}; move[7] = {9073, 9088, ACTLEFT, 1, 0, 0}
+		move[8] = {}; move[8] = {9128, 9143, RIGHT, 1, 0, 0}
+		
+	elseif thisSegment == SEGMENT08 then
+		
+		segmentStart = offsetLevel03 + 9165
+		segmentEnd   = offsetLevel03 + 9544
+		totalMoves   = 11
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {9181, 9196, ACTRIGHT, 1, 0, 0}
+		move[2] = {}; move[2] = {9225, 9240, ACTLEFT, 2, 0, 0}
+		move[3] = {}; move[3] = {9266, 9276, ACTRIGHT, 3, 0, 0}
+		move[4] = {}; move[4] = {9299, 9314, LEFT, 4, 0, 0}
+		move[5] = {}; move[5] = {9323, 9338, ACTRIGHT, 5, 0, 0}
+		move[6] = {}; move[6] = {9348, 9363, ACTRIGHT, 6, 0, 0}
+		move[7] = {}; move[7] = {9366, 9381, ACTLEFT, 1, 0, 0}
+		move[8] = {}; move[8] = {9388, 9403, BUTTON1, 2, 0, 0}
+		move[9] = {}; move[9] = {9414, 9428, LEFT, 3, 0, 0}
+		move[10] = {}; move[10] = {9442, 9457, DOWN, 3, 0, 0}
+		move[11] = {}; move[11] = {9462, 9477, LEFT, 4, 0, 0}
+		
+	elseif thisSegment == SEGMENT09 then
+		
+		segmentStart = offsetLevel03 + 9545
+		segmentEnd   = offsetLevel03 + 10165
+		totalMoves   = 3
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {9565, 9580, UP, 1, 0, 0}
+		move[2] = {}; move[2] = {9591, 9606, DOWN, 2, 0, 0}
+		move[3] = {}; move[3] = {9669, 9684, ACTLEFT, 3, 0, 0}
+		
+	end
+	
+end
+
+
+
+TotalScenesLevel04 = 10	
+
+function setupLevel04(thisSegment)	
+
+	if thisSegment == SEGMENT01 then
+	
+		segmentStart = offsetLevel04Clipend + 1
+		segmentEnd   = offsetLevel04 + 2213
+		totalMoves   = 10
+		move = nil; move = {}
+		
+		move[1] = {}; move[1] = {1752, 1767, ACTUP, 5, 0, 0}
+		move[2] = {}; move[2] = {1775, 1785, ACTLEFT, 6, 0, 0}
+		move[3] = {}; move[3] = {1787, 1797, ACTRIGHT, 1, 0, 0}
+		move[4] = {}; move[4] = {1835, 1865, MASH, 2, 0, 0}
+		move[5] = {}; move[5] = {1881, 1927, MASH, 3, 0, 0}
+		move[6] = {}; move[6] = {1958, 1973, ACTUP, 4, 0, 0}
+		move[7] = {}; move[7] = {1976, 1989, ACTDOWN, 5, 0, 0}
+		move[8] = {}; move[8] = {1996, 2026, MASH, 6, 0, 0}
+		move[9] = {}; move[9] = {2123, 2138, ACTRIGHT, 1, 0, 0}
+		move[10] = {}; move[10] = {2148, 2178, MASH, 1, 0, 0}
+		move[10] = {}; move[10] = {2179, 2209, MASH, 1, 0, 0}
+		
+	elseif thisSegment == SEGMENT02 then
+	
+		segmentStart = offsetLevel04 + 2214
+		segmentEnd   = offsetLevel04 + 2690
+		totalMoves   = 11
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {2414, 2429, ACTRIGHT, 1, 0, 0}
+		move[2] = {}; move[2] = {2431, 2441, LEFT, 2, 0, 0}
+		move[3] = {}; move[3] = {2443, 2457, DOWN, 3, 0, 0}
+		move[4] = {}; move[4] = {2463, 2478, RIGHT, 4, 0, 0}
+		move[5] = {}; move[5] = {2492, 2507, UP, 5, 0, 0}
+		move[6] = {}; move[6] = {2561, 2576, UP, 6, 0, 0}
+		move[7] = {}; move[7] = {2578, 2590, ACTLEFT, 1, 0, 0}
+		move[8] = {}; move[8] = {2592, 2602, ACTUP, 2, 0, 0}
+		move[9] = {}; move[9] = {2604, 2616, ACTRIGHT, 3, 0, 0}
+		move[10] = {}; move[10] = {2619, 2629, ACTLEFT, 4, 0, 0}
+		move[11] = {}; move[11] = {2669, 2684, UP, 5, 0, 0}
+		
+	elseif thisSegment == SEGMENT03 then
+	
+	    segmentStart = offsetLevel04 + 2691
+		segmentEnd   = offsetLevel04 + 3266
+		totalMoves   = 13
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {2701, 2711, ACTRIGHT, 1, 0, 0}
+		move[2] = {}; move[2] = {2712, 2722, UP, 2, 0, 0}
+		move[3] = {}; move[3] = {2724, 2734, ACTUP, 3, 0, 0}
+		move[4] = {}; move[4] = {2736, 2746, ACTUP, 4, 0, 0}
+		move[5] = {}; move[5] = {2759, 2774, BUTTON1, 5, 0, 0}
+		move[6] = {}; move[6] = {2797, 2812, ACTDOWN, 6, 0, 0}
+		move[7] = {}; move[7] = {2844, 2874, MASH, 1, 0, 0}
+		move[8] = {}; move[8] = {2954, 2968, BUTTON1, 2, 0, 0}
+		move[9] = {}; move[9] = {2970, 2980, BUTTON1, 3, 0, 0}
+		move[10] = {}; move[10] = {2997, 3012, ACTDOWN, 4, 0, 0}
+		move[11] = {}; move[11] = {3031, 3046, ACTLEFT, 5, 0, 0}
+		move[12] = {}; move[12] = {3073, 3088, ACTRIGHT, 6, 0, 0}
+		move[13] = {}; move[13] = {3090, 3100, ACTLEFT, 1, 0, 0}
+		
+	elseif thisSegment == SEGMENT04 then
+	
+	    segmentStart = offsetLevel04 + 3267
+		segmentEnd   = offsetLevel04 + 4706
+		totalMoves   = 12
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {3469, 3510, MASH, 1, 0, 0}
+		move[2] = {}; move[2] = {3533, 3548, RIGHT, 2, 0, 0}
+		move[3] = {}; move[3] = {3566, 3581, RIGHT, 3, 0, 0}
+		move[4] = {}; move[4] = {4041, 4056, RIGHT, 4, 0, 0}
+		move[5] = {}; move[5] = {4097, 4112, RIGHT, 5, 0, 0}
+		move[6] = {}; move[6] = {4298, 4313, UP, 6, 0, 0}
+		move[7] = {}; move[7] = {4505, 4520, BUTTON1, 1, 0, 0}
+		move[8] = {}; move[8] = {4530, 4540, BUTTON1, 2, 0, 0}
+		move[9] = {}; move[9] = {4543, 4553, BUTTON1, 3, 0, 0}
+		move[10] = {}; move[10] = {4606, 4636, MASH, 4, 0, 0}
+		move[11] = {}; move[11] = {4637, 4667, MASH, 5, 0, 0}
+		move[12] = {}; move[12] = {4668, 4698, MASH, 6, 0, 0}
+		
+	elseif thisSegment == SEGMENT05 then
+	
+	    segmentStart = offsetLevel04 + 4707
+		segmentEnd   = offsetLevel04 + 5868
+		totalMoves   = 20
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {4808, 4818, BUTTON1, 1, 0, 0}
+		move[2] = {}; move[2] = {4820, 4835, ACTLEFT, 2, 0, 0}
+		move[3] = {}; move[3] = {4843, 4858, UP, 3, 0, 0}
+		move[4] = {}; move[4] = {4865, 4880, RIGHT, 4, 0, 0}
+		move[5] = {}; move[5] = {4961, 5001, MASH, 5, 0, 0}
+		move[6] = {}; move[6] = {5015, 5030, RIGHT, 6, 0, 0}
+		move[7] = {}; move[7] = {5040, 5070, MASH, 1, 0, 0}
+		move[8] = {}; move[8] = {5071, 5101, MASH, 2, 0, 0}
+		move[9] = {}; move[9] = {5102, 5132, MASH, 3, 0, 0}
+		move[10] = {}; move[10] = {5133, 5163, MASH, 4, 0, 0}
+		move[11] = {}; move[11] = {5164, 5194, MASH, 5, 0, 0}
+		move[12] = {}; move[12] = {5195, 5225, MASH, 6, 0, 0}
+		move[13] = {}; move[13] = {5226, 5256, MASH, 1, 0, 0}
+		move[14] = {}; move[14] = {5257, 5287, MASH, 2, 0, 0}
+		move[15] = {}; move[15] = {5288, 5318, MASH, 3, 0, 0}
+		move[16] = {}; move[16] = {5321, 5336, RIGHT, 4, 0, 0}
+	    move[17] = {}; move[17] = {5389, 5404, RIGHT, 5, 0, 0}
+		move[18] = {}; move[18] = {5486, 5501, RIGHT, 5, 0, 0}
+		move[19] = {}; move[19] = {5539, 5554, ACTRIGHT, 6, 0, 0}
+		move[20] = {}; move[20] = {5844, 5859, RIGHT, 5, 0, 0}
+		
+	elseif thisSegment == SEGMENT06 then
+	
+	    segmentStart = offsetLevel04 + 5869
+		segmentEnd   = offsetLevel04 + 7428
+		totalMoves   = 14
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {6043, 6058, UP, 1, 0, 0}
+		move[2] = {}; move[2] = {6143, 6158, UP, 2, 0, 0}
+		move[3] = {}; move[3] = {6187, 6202, UP, 3, 0, 0}
+		move[4] = {}; move[4] = {6222, 6237, RIGHT, 4, 0, 0}
+		move[5] = {}; move[5] = {6422, 6437, RIGHT, 5, 0, 0}
+		move[6] = {}; move[6] = {6560, 6575, BUTTON1, 6, 0, 0}
+		move[7] = {}; move[7] = {6691, 6706, BUTTON1, 1, 0, 0}
+		move[8] = {}; move[8] = {6894, 6904, ACTUP, 2, 0, 0}
+		move[9] = {}; move[9] = {7025, 7035, DOWN, 3, 0, 0}
+		move[10] = {}; move[10] = {7042, 7052, RIGHT, 4, 0, 0}
+		move[11] = {}; move[11] = {7066, 7096, MASH, 5, 0, 0}
+		move[12] = {}; move[12] = {7097, 7127, MASH, 6, 0, 0}
+		move[13] = {}; move[13] = {7344, 7359, ACTDOWN, 1, 0, 0}
+		move[14] = {}; move[14] = {7381, 7396, UP, 2, 0, 0}
+		
+	elseif thisSegment == SEGMENT07 then
+	
+	    segmentStart = offsetLevel04 + 7429
+		segmentEnd   = offsetLevel04 + 8338
+		totalMoves   = 17
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {7515, 7545, MASH, 1, 0, 0}
+		move[2] = {}; move[2] = {7546, 7576, MASH, 2, 0, 0}
+		move[3] = {}; move[3] = {7593, 7623, MASH, 3, 0, 0}
+		move[4] = {}; move[4] = {7667, 7677, LEFT, 4, 0, 0}
+		move[5] = {}; move[5] = {7716, 7731, ACTLEFT, 5, 0, 0}
+		move[6] = {}; move[6] = {7735, 7748, ACTRIGHT, 6, 0, 0}
+		move[7] = {}; move[7] = {7750, 7760, UP, 1, 0, 0}
+		move[8] = {}; move[8] = {7819, 7830, ACTDOWN, 2, 0, 0}
+		move[9] = {}; move[9] = {7953, 7965, ACTDOWN, 3, 0, 0}
+		move[10] = {}; move[10] = {7968, 7980, BUTTON1, 4, 0, 0}
+		move[11] = {}; move[11] = {7982, 7992, LEFT, 5, 0, 0}
+		move[12] = {}; move[12] = {8000, 8015, DOWN, 6, 0, 0}
+		move[13] = {}; move[13] = {8062, 8092, MASH, 1, 0, 0}
+		move[14] = {}; move[14] = {8093, 8123, MASH, 2, 0, 0}
+		move[15] = {}; move[15] = {8124, 8154, MASH, 3, 0, 0}
+		move[16] = {}; move[16] = {8155, 8185, MASH, 4, 0, 0}
+		move[17] = {}; move[17] = {8228, 8243, UP, 4, 0, 0}
+		
+	elseif thisSegment == SEGMENT08 then
+	
+	    segmentStart = offsetLevel04 + 8340
+		segmentEnd   = offsetLevel04 + 9652
+		totalMoves   = 10
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {8402, 8417, UP, 1, 0, 0}
+		move[2] = {}; move[2] = {8454, 8469, BUTTON1, 2, 0, 0}
+		move[3] = {}; move[3] = {8540, 8555, BUTTON1, 3, 0, 0}
+		move[4] = {}; move[4] = {8801, 8815, ACTRIGHT, 4, 0, 0}
+		move[5] = {}; move[5] = {8834, 8849, DOWN, 5, 0, 0}
+		move[6] = {}; move[6] = {8966, 8981, BUTTON1, 6, 0, 0}
+		move[7] = {}; move[7] = {9100, 9115, ACTUP, 1, 0, 0}
+		move[8] = {}; move[8] = {9184, 9199, UP, 2, 0, 0}
+		move[9] = {}; move[9] = {9223, 9238, ACTLEFT, 3, 0, 0}
+		move[10] = {}; move[10] = {9613, 9646, MASH, 4, 0, 0}
+		
+	elseif thisSegment == SEGMENT09 then
+	
+	    segmentStart = offsetLevel04 + 9653
+		segmentEnd   = offsetLevel04 + 10447
+		totalMoves   = 9
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {9739, 9754, UP, 1, 0, 0}
+		move[2] = {}; move[2] = {9828, 9843, DOWN, 2, 0, 0}
+		move[3] = {}; move[3] = {9884, 9914, MASH, 3, 0, 0}
+		move[4] = {}; move[4] = {9967, 9982, UP, 4, 0, 0}
+		move[5] = {}; move[5] = {9997, 10012, BUTTON1, 5, 0, 0}
+		move[6] = {}; move[6] = {10107, 10122, BUTTON1, 6, 0, 0}
+		move[7] = {}; move[7] = {10382, 10392, UP, 1, 0, 0}
+		move[8] = {}; move[8] = {10394, 10404, DOWN, 2, 0, 0}
+		move[9] = {}; move[9] = {10423, 10438, BUTTON1, 3, 0, 0}
+		
+	elseif thisSegment == SEGMENT10 then
+	
+	    segmentStart = offsetLevel04 + 10448
+		segmentEnd   = offsetLevel04 + 14140
+		totalMoves   = 9
+		
+		move = nil; move = {}
+	    move[1] = {}; move[1] = {10536, 10546, RIGHT, 4, 0, 0}
+		move[2] = {}; move[2] = {10571, 10586, ACTUP, 5, 0, 0}
+		move[3] = {}; move[3] = {10587, 10602, ACTLEFT, 6, 0, 0}
+		move[4] = {}; move[4] = {10603, 10613, ACTUP, 1, 0, 0}
+		move[5] = {}; move[5] = {10614, 10624, ACTLEFT, 2, 0, 0}
+		move[6] = {}; move[6] = {10625, 10635, ACTRIGHT, 3, 0, 0}
+		move[7] = {}; move[7] = {10707, 10717, UP, 1, 0, 0}
+		move[8] = {}; move[8] = {11016, 11031, BUTTON1, 2, 0, 0}
+		move[9] = {}; move[9] = {11271, 13967, SKIP, 3, 0, 0}
+		
+		
+		end
+	
+end
+		
+TotalScenesLevel05 = 17
+
+function setupLevel05(thisSegment)
+
+	if thisSegment == SEGMENT01 then
+
+		segmentStart = offsetLevel05Clipend + 1
+		segmentEnd   = offsetLevel05 + 799
+		totalMoves   = 11
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {621, 636, ACTUP, 1, 0, 0}
+		move[2] = {}; move[2] = {638, 648, ACTDOWN, 2, 0, 0}
+		move[3] = {}; move[3] = {650, 660, ACTRIGHT, 3, 0, 0}
+		move[4] = {}; move[4] = {662, 672, ACTUP, 4, 0, 0}
+		move[5] = {}; move[5] = {674, 682, ACTDOWN, 5, 0, 0}
+		move[6] = {}; move[6] = {692, 705, ACTLEFT, 6, 0, 0}
+		move[7] = {}; move[7] = {707, 717, ACTDOWN, 1, 0, 0}
+		move[8] = {}; move[8] = {720, 735, ACTRIGHT, 2, 0, 0}
+		move[9] = {}; move[9] = {737, 749, ACTLEFT, 3, 0, 0}
+		move[10] = {}; move[10] = {751, 761, ACTLEFT, 4, 0, 0}
+		move[11] = {}; move[11] = {763, 773, ACTLEFT, 5, 0, 0}
+		
+	elseif thisSegment == SEGMENT02 then
+	
+	    segmentStart = offsetLevel05 + 800
+		segmentEnd   = offsetLevel05 + 1193
+		totalMoves   = 10
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {912, 927, UP, 1, 0, 0}
+		move[2] = {}; move[2] = {964, 979, ACTDOWN, 2, 0, 0}
+		move[3] = {}; move[3] = {1008, 1018, ACTLEFT, 3, 0, 0}
+		move[4] = {}; move[4] = {1024, 1039, ACTDOWN, 4, 0, 0}
+		move[5] = {}; move[5] = {1041, 1055, ACTRIGHT, 5, 0, 0}
+		move[6] = {}; move[6] = {1072, 1085, BUTTON1, 6, 0, 0}
+		move[7] = {}; move[7] = {1088, 1101, BUTTON1, 1, 0, 0}
+		move[8] = {}; move[8] = {1118, 1131, BUTTON1, 2, 0, 0}
+		move[9] = {}; move[9] = {1142, 1155, BUTTON1, 3, 0, 0}
+		move[10] = {}; move[10] = {1157, 1170, BUTTON1, 4, 0, 0}
+		
+	elseif thisSegment == SEGMENT03 then
+	
+	    segmentStart = offsetLevel05 + 1194
+		segmentEnd   = offsetLevel05 + 1433
+		totalMoves   = 10
+	
+	    move = nil; move = {}
+		move[1] = {}; move[1] = {1210, 1222, ACTLEFT, 5, 0, 0}
+		move[2] = {}; move[2] = {1224, 1234, ACTLEFT, 6, 0, 0}
+		move[3] = {}; move[3] = {1236, 1246, LEFT, 1, 0, 0}
+		move[4] = {}; move[4] = {1257, 1270, RIGHT, 2, 0, 0}
+		move[5] = {}; move[5] = {1278, 1291, ACTUP, 3, 0, 0}
+		move[6] = {}; move[6] = {1293, 1303, ACTLEFT, 4, 0, 0}
+		move[7] = {}; move[7] = {1305, 1315, UP, 5, 0, 0}
+		move[8] = {}; move[8] = {1340, 1355, ACTUP, 6, 0, 0}
+		move[9] = {}; move[9] = {1365, 1380, ACTRIGHT, 1, 0, 0}
+		move[10] = {}; move[10] = {1385, 1398, ACTDOWN, 2, 0, 0}
+		
+	elseif thisSegment == SEGMENT04 then
+	
+	    segmentStart = offsetLevel05 + 1434
+		segmentEnd   = offsetLevel05 + 2965
+		totalMoves   = 7
+	
+	    move = nil; move = {}
+		move[1] = {}; move[1] = {1523, 1538, UP, 5, 0, 0}
+		move[2] = {}; move[2] = {1664, 1674, UP, 6, 0, 0}
+		move[3] = {}; move[3] = {1826, 1841, RIGHT, 1, 0, 0}
+		move[4] = {}; move[4] = {2266, 2276, BUTTON1, 1, 0, 0}
+		move[5] = {}; move[5] = {2315, 2345, MASH, 2, 0, 0}
+		move[6] = {}; move[6] = {2346, 2376, MASH, 3, 0, 0}
+		move[7] = {}; move[7] = {2377, 2407, MASH, 4, 0, 0}
+		
+	elseif thisSegment == SEGMENT05 then
+	
+	    segmentStart = offsetLevel05 + 2966
+		segmentEnd   = offsetLevel05 + 5340
+		totalMoves   = 22
+	
+	    move = nil; move = {}
+		move[1] = {}; move[1] = {3040, 3050, RIGHT, 5, 0, 0}
+		move[2] = {}; move[2] = {3127, 3140, LEFT, 6, 0, 0}
+		move[3] = {}; move[3] = {3212, 3227, UP, 1, 0, 0}
+		move[4] = {}; move[4] = {3300, 3314, BUTTON1, 1, 0, 0}
+		move[5] = {}; move[5] = {3316, 3326, BUTTON1, 2, 0, 0}
+		move[6] = {}; move[6] = {3336, 3350, DOWN, 3, 0, 0}
+		move[7] = {}; move[7] = {3387, 3400, UP, 4, 0, 0}
+		move[8] = {}; move[8] = {3432, 3445, RIGHT, 2, 0, 0}
+		move[9] = {}; move[9] = {3464, 3494, MASH, 3, 0, 0}
+		move[10] = {}; move[10] = {3495, 3525, MASH, 4, 0, 0}
+		move[11] = {}; move[11] = {3526, 3556, MASH, 5, 0, 0}
+		move[12] = {}; move[12] = {3557, 3587, MASH, 6, 0, 0}
+		move[13] = {}; move[13] = {3588, 3618, MASH, 1, 0, 0}
+		move[14] = {}; move[14] = {3619, 3649, MASH, 2, 0, 0}
+		move[15] = {}; move[15] = {3650, 3680, MASH, 3, 0, 0}
+	    move[16] = {}; move[16] = {3681, 3711, MASH, 4, 0, 0}
+		move[17] = {}; move[17] = {3712, 3742, MASH, 5, 0, 0}
+		move[18] = {}; move[18] = {3743, 3773, MASH, 6, 0, 0}
+		move[19] = {}; move[19] = {3774, 3804, MASH, 1, 0, 0}
+		move[20] = {}; move[20] = {3805, 3834, MASH, 2, 0, 0}
+		move[21] = {}; move[21] = {3835, 3865, MASH, 5, 0, 0}
+		move[22] = {}; move[22] = {3962, 3977, UP, 5, 0, 0}
+		
+	elseif thisSegment == SEGMENT06 then
+	
+	    segmentStart = offsetLevel05 + 5341
+		segmentEnd   = offsetLevel05 + 6012
+		totalMoves   = 12
+	
+	    move = nil; move = {}
+		move[1] = {}; move[1] = {5423, 5433, RIGHT, 5, 0, 0}
+		move[2] = {}; move[2] = {5468, 5478, RIGHT, 6, 0, 0}
+		move[3] = {}; move[3] = {5505, 5515, RIGHT, 1, 0, 0}
+		move[4] = {}; move[4] = {5538, 5548, RIGHT, 1, 0, 0}
+		move[5] = {}; move[5] = {5611, 5641, MASH, 2, 0, 0}
+		move[6] = {}; move[6] = {5642, 5672, MASH, 3, 0, 0}
+		move[7] = {}; move[7] = {5707, 5717, LEFT, 4, 0, 0}
+		move[8] = {}; move[8] = {5780, 5790, RIGHT, 2, 0, 0}
+		move[9] = {}; move[9] = {5808, 5818, RIGHT, 3, 0, 0}
+		move[10] = {}; move[10] = {5837, 5847, RIGHT, 4, 0, 0}
+		move[11] = {}; move[11] = {5888, 5898, LEFT, 5, 0, 0}
+		move[12] = {}; move[12] = {5911, 5921, RIGHT, 6, 0, 0}
+		
+	elseif thisSegment == SEGMENT07 then
+	
+	    segmentStart = offsetLevel05 + 6013
+		segmentEnd   = offsetLevel05 + 6485
+		totalMoves   = 8
+	
+	    move = nil; move = {}
+		move[1] = {}; move[1] = {6064, 6077, RIGHT, 5, 0, 0}
+		move[2] = {}; move[2] = {6127, 6137, LEFT, 6, 0, 0}
+		move[3] = {}; move[3] = {6275, 6288, RIGHT, 1, 0, 0}
+		move[4] = {}; move[4] = {6333, 6346, UP, 1, 0, 0}
+		move[5] = {}; move[5] = {6380, 6390, UP, 2, 0, 0}
+		move[6] = {}; move[6] = {6392, 6402, LEFT, 3, 0, 0}
+		move[7] = {}; move[7] = {6411, 6441, MASH, 4, 0, 0}
+		move[8] = {}; move[8] = {6452, 6463, ACTUP, 2, 0, 0}
+		
+	elseif thisSegment == SEGMENT08 then
+	
+	    segmentStart = offsetLevel05 + 6486
+		segmentEnd   = offsetLevel05 + 6895
+		totalMoves   = 9
+	
+	    move = nil; move = {}
+		move[1] = {}; move[1] = {6563, 6576, RIGHT, 5, 0, 0}
+		move[2] = {}; move[2] = {6643, 6656, DOWN, 6, 0, 0}
+		move[3] = {}; move[3] = {6663, 6673, DOWN, 1, 0, 0}
+		move[4] = {}; move[4] = {6680, 6693, UP, 1, 0, 0}
+		move[5] = {}; move[5] = {6695, 6708, RIGHT, 2, 0, 0}
+		move[6] = {}; move[6] = {6795, 6808, LEFT, 3, 0, 0}
+		move[7] = {}; move[7] = {6830, 6840, BUTTON1, 4, 0, 0}
+		move[8] = {}; move[8] = {6856, 6870, ACTLEFT, 2, 0, 0}
+		move[9] = {}; move[9] = {6873, 6885, ACTRIGHT, 2, 0, 0}
+		
+	elseif thisSegment == SEGMENT09 then
+	
+	    segmentStart = offsetLevel05 + 6896
+		segmentEnd   = offsetLevel05 + 7379
+		totalMoves   = 12
+	
+	    move = nil; move = {}
+		move[1] = {}; move[1] = {6912, 6925, ACTUP, 5, 0, 0}
+		move[2] = {}; move[2] = {6928, 6940, ACTUP, 6, 0, 0}
+		move[3] = {}; move[3] = {6942, 6952, RIGHT, 1, 0, 0}
+		move[4] = {}; move[4] = {6954, 6966, ACTLEFT, 1, 0, 0}
+		move[5] = {}; move[5] = {6971, 6984, ACTUP, 2, 0, 0}
+		move[6] = {}; move[6] = {6998, 7028, MASH, 3, 0, 0}
+		move[7] = {}; move[7] = {7029, 7059, MASH, 4, 0, 0}
+		move[8] = {}; move[8] = {7080, 7093, ACTRIGHT, 2, 0, 0}
+		move[9] = {}; move[9] = {7108, 7138, MASH, 2, 0, 0}
+		move[10] = {}; move[10] = {7139, 7169, MASH, 4, 0, 0}
+		move[11] = {}; move[11] = {7170, 7200, MASH, 5, 0, 0}
+		move[12] = {}; move[12] = {7228, 7240, LEFT, 6, 0, 0}
+		
+	elseif thisSegment == SEGMENT10 then
+	
+	    segmentStart = offsetLevel05 + 7380
+		segmentEnd   = offsetLevel05 + 7736
+		totalMoves   = 8
+	
+	    move = nil; move = {}
+		move[1] = {}; move[1] = {7442, 7456, UP, 5, 0, 0}
+		move[2] = {}; move[2] = {7470, 7480, BUTTON1, 6, 0, 0}
+		move[3] = {}; move[3] = {7486, 7496, BUTTON1, 1, 0, 0}
+		move[4] = {}; move[4] = {7498, 7508, BUTTON1, 1, 0, 0}
+		move[5] = {}; move[5] = {7510, 7520, BUTTON1, 2, 0, 0}
+		move[6] = {}; move[6] = {7522, 7532, BUTTON1, 3, 0, 0}
+		move[7] = {}; move[7] = {7573, 7586, DOWN, 4, 0, 0}
+		move[8] = {}; move[8] = {7588, 7598, UP, 2, 0, 0}
+		
+	elseif thisSegment == SEGMENT11 then
+	
+	    segmentStart = offsetLevel05 + 7737
+		segmentEnd   = offsetLevel05 + 8212
+		totalMoves   = 6
+	
+	    move = nil; move = {}
+		move[1] = {}; move[1] = {7760, 7773, UP, 5, 0, 0}
+		move[2] = {}; move[2] = {7786, 7799, LEFT, 6, 0, 0}
+		move[3] = {}; move[3] = {7914, 7927, LEFT, 1, 0, 0}
+		move[4] = {}; move[4] = {7962, 7975, RIGHT, 1, 0, 0}
+		move[5] = {}; move[5] = {8056, 8069, UP, 2, 0, 0}
+		move[6] = {}; move[6] = {8122, 8136, UP, 3, 0, 0}
+		
+	elseif thisSegment == SEGMENT12 then
+	
+	    segmentStart = offsetLevel05 + 8213
+		segmentEnd   = offsetLevel05 + 8588
+		totalMoves   = 9
+	
+	    move = nil; move = {}
+		move[1] = {}; move[1] = {8339, 8351, RIGHT, 5, 0, 0}
+		move[2] = {}; move[2] = {8387, 8400, DOWN, 6, 0, 0}
+		move[3] = {}; move[3] = {8425, 8438, RIGHT, 1, 0, 0}
+		move[4] = {}; move[4] = {8487, 8499, BUTTON1, 1, 0, 0}
+		move[5] = {}; move[5] = {8500, 8509, BUTTON1, 2, 0, 0}
+		move[6] = {}; move[6] = {8510, 8519, BUTTON1, 3, 0, 0}
+		move[7] = {}; move[7] = {8520, 8530, BUTTON1, 4, 0, 0}
+		move[8] = {}; move[8] = {8531, 8540, BUTTON1, 2, 0, 0}
+		move[9] = {}; move[9] = {8541, 8551, BUTTON1, 2, 0, 0}
+		
+	elseif thisSegment == SEGMENT13 then
+	
+	    segmentStart = offsetLevel05 + 8589
+		segmentEnd   = offsetLevel05 + 8950
+		totalMoves   = 8
+	
+	    move = nil; move = {}
+		move[1] = {}; move[1] = {8653, 8667, ACTDOWN, 5, 0, 0}
+		move[2] = {}; move[2] = {8703, 8733, MASH, 6, 0, 0}
+		move[3] = {}; move[3] = {8734, 8774, MASH, 1, 0, 0}
+		move[4] = {}; move[4] = {8775, 8805, MASH, 1, 0, 0}
+		move[5] = {}; move[5] = {8806, 8836, MASH, 2, 0, 0}
+		move[6] = {}; move[6] = {8837, 8877, MASH, 3, 0, 0}
+		move[7] = {}; move[7] = {8878, 8908, MASH, 4, 0, 0}
+		move[8] = {}; move[8] = {8909, 8939, MASH, 2, 0, 0}
+		
+	elseif thisSegment == SEGMENT14 then
+	
+	    segmentStart = offsetLevel05 + 8951
+		segmentEnd   = offsetLevel05 + 9914
+		totalMoves   = 15
+	
+	    move = nil; move = {}
+		move[1] = {}; move[1] = {9028, 9041, LEFT, 5, 0, 0}
+		move[2] = {}; move[2] = {9052, 9082, MASH, 6, 0, 0}
+		move[3] = {}; move[3] = {9083, 9113, MASH, 1, 0, 0}
+		move[4] = {}; move[4] = {9118, 9131, DOWN, 1, 0, 0}
+		move[5] = {}; move[5] = {9171, 9201, MASH, 2, 0, 0}
+		move[6] = {}; move[6] = {9202, 9232, MASH, 3, 0, 0}
+		move[7] = {}; move[7] = {9233, 9263, MASH, 4, 0, 0}
+		move[8] = {}; move[8] = {9264, 9294, MASH, 2, 0, 0}
+		move[9] = {}; move[9] = {9295, 9325, MASH, 3, 0, 0}
+		move[10] = {}; move[10] = {9339, 9352, BUTTON1, 4, 0, 0}
+		move[11] = {}; move[11] = {9382, 9396, UP, 2, 0, 0}
+		move[12] = {}; move[12] = {9414, 9427, ACTRIGHT, 3, 0, 0}
+		move[13] = {}; move[13] = {9430, 9441, ACTRIGHT, 4, 0, 0}
+		move[14] = {}; move[14] = {9443, 9453, ACTLEFT, 2, 0, 0}
+		move[15] = {}; move[15] = {9455, 9465, ACTLEFT, 2, 0, 0}
+		move[16] = {}; move[16] = {9496, 9510, ACTRIGHT, 5, 0, 0}
+		move[17] = {}; move[17] = {9523, 9536, LEFT, 6, 0, 0}
+		
+	elseif thisSegment == SEGMENT15 then
+	
+	    segmentStart = offsetLevel05 + 9915
+		segmentEnd   = offsetLevel05 + 10931
+		totalMoves   = 17
+	
+	    move = nil; move = {}
+		move[1] = {}; move[1] = {10008, 10021, UP, 5, 0, 0}
+		move[2] = {}; move[2] = {10087, 10097, RIGHT, 6, 0, 0}
+		move[3] = {}; move[3] = {10099, 10111, LEFT, 1, 0, 0}
+		move[4] = {}; move[4] = {10134, 10147, DOWN, 1, 0, 0}
+		move[5] = {}; move[5] = {10194, 10207, LEFT, 2, 0, 0}
+		move[6] = {}; move[6] = {10239, 10252, ACTUP, 3, 0, 0}
+		move[7] = {}; move[7] = {10254, 10264, ACTDOWN, 4, 0, 0}
+		move[8] = {}; move[8] = {10302, 10315, BUTTON1, 2, 0, 0}
+		move[9] = {}; move[9] = {10318, 10331, ACTLEFT, 3, 0, 0}
+		move[10] = {}; move[10] = {10333, 10346, UP, 4, 0, 0}
+		move[11] = {}; move[11] = {10363, 10377, ACTRIGHT, 2, 0, 0}
+		move[12] = {}; move[12] = {10379, 10389, UP, 3, 0, 0}
+		move[13] = {}; move[13] = {10390, 10400, UP, 4, 0, 0}
+		move[14] = {}; move[14] = {10401, 10411, LEFT, 2, 0, 0}
+		move[15] = {}; move[15] = {10417, 10429, ACTUP, 2, 0, 0}
+		move[16] = {}; move[16] = {10430, 10440, UP, 2, 0, 0}
+		move[17] = {}; move[17] = {10442, 10452, UP, 2, 0, 0}
+		
+	elseif thisSegment == SEGMENT16 then
+	
+	    segmentStart = offsetLevel05 + 10932
+		segmentEnd   = offsetLevel05 + 12508
+		totalMoves   = 3
+	
+	    move = nil; move = {}
+		move[1] = {}; move[1] = {11004, 11016, DOWN, 5, 0, 0}
+		move[2] = {}; move[2] = {11061, 11074, UP, 6, 0, 0}
+		move[3] = {}; move[3] = {11246, 11276, MASH, 1, 0, 0}
+		
+	elseif thisSegment == SEGMENT17 then
+	
+	    segmentStart = offsetLevel05 + 12509
+		segmentEnd   = offsetLevel05 + 14545
+		totalMoves   = 8
+	
+	    move = nil; move = {}
+		move[1] = {}; move[1] = {12550, 12565, ACTRIGHT, 5, 0, 0}
+		move[2] = {}; move[2] = {12996, 13011, UP, 6, 0, 0}
+		move[3] = {}; move[3] = {13046, 13076, MASH, 1, 0, 0}
+		move[4] = {}; move[4] = {13118, 13148, MASH, 1, 0, 0}
+		move[5] = {}; move[5] = {13198, 13228, MASH, 2, 0, 0}
+		move[6] = {}; move[6] = {13229, 13259, MASH, 3, 0, 0}
+		move[7] = {}; move[7] = {13426, 13456, MASH, 4, 0, 0}
+		move[8] = {}; move[8] = {13571, 13586, ACTDOWN, 2, 0, 0}
+		
+		
+		
+		
+		
+		
+		
+	end
+	
+end
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		

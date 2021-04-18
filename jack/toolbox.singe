@@ -1,0 +1,349 @@
+--[[
+
+NOME PROGRAMMA: Samurai Jack Singe edition
+VERSIONE:		1.0
+AUTORE:			POIU (2019)
+
+Questo file fa parte di Samurai Jack Singe edition
+
+Samurai Jack Singe edition è un software gratuito: 
+puoi ridistribuirlo e / o modificarlo
+secondo i termini della GNU General Public License 
+come pubblicato da la Fondazione per il software libero.
+
+Samurai Jack Singe edition è distribuito nella speranza che possa essere utile,
+ma SENZA ALCUNA GARANZIA; senza nemmeno la garanzia implicita di
+COMMERCIABILITÀ o IDONEITÀ A UNO SCOPO PARTICOLARE.
+
+Un sentito ringraziamento a RDG (autore originale del programma)
+
+]]--
+
+iSecs = 0
+iLimit = 0
+lastSeconds = 0
+thisSeconds = 0
+
+sprText = nil
+sprShadow = nil
+sLastText = nil
+iLastColor = -1
+iLastShadow = -1
+
+tSecs = 0
+tLimit = 0
+tlastSeconds = 0
+tthisSeconds = 0
+bTommy = false
+
+bGunMute = false
+iMuteFrames = 0
+MUTE_DELAY = 35
+
+heartbeat = false
+blinkSecs = 0
+lastBlinkSecs = 0
+
+iRevFrames = 0
+REV_DELAY = 10
+bReversePointer = false
+revsetx = 0; revsety = 0
+
+iFrameStart = 0; iFrameEnd = 0
+
+CHANNEL_LEFT = 1
+CHANNEL_RIGHT = 2
+ALL_CHANNELS = 3
+bMuteAttract = false
+
+RED = 0
+BLUE = 1
+YELLOW = 2
+GREEN = 3
+ORANGE = 4
+WHITE = 5
+GREY = 6; GRAY = 6
+LIGHTBLUE = 7
+BLACK = 8
+
+function singeRandomize()
+
+	local k = 0
+	for k=1,100 do
+		math.randomseed(k * os.clock())
+	end
+
+end
+
+function blinkTimer(thisMS)
+
+	-- Function blinks every second.
+
+	blinkSecs = os.clock()
+	
+	if bPause then
+	
+		lastBlinkSecs = blinkSecs
+		
+	else
+
+		if (blinkSecs - lastBlinkSecs > thisMS) then
+			heartbeat = not heartbeat
+			lastBlinkSecs = blinkSecs
+
+		end
+		
+	end	
+	
+end
+
+function goTimer(thisMS)
+
+	-- Function blinks every second.
+
+	blinkSecs = os.clock()
+	
+	if bPause then
+	
+		lastBlinkSecs = blinkSecs
+		
+	else
+
+		if (blinkSecs - lastBlinkSecs > thisMS) then
+			heartbeat = true
+			lastBlinkSecs = blinkSecs
+
+		end
+		
+	end	
+	
+end
+
+function clockRnd()
+
+	local j = 0
+	local q = 0
+	local w = 0	
+	local r = 0
+	local b1 = true
+
+	j = os.clock()
+	q, w = math.modf(j) 
+	
+	s2 = tostring(w)	
+	r = string.find(s2,".")
+	
+	if (r == nil) then
+	
+		s2 = tostring(q)
+		s2 = string.sub(s2,string.len(s2), string.len(s2))
+	
+	else
+	
+		s2 = string.sub(s2, r + 1)	
+		r = string.len(s2)
+		
+		if r == 0 then
+			
+			s2 = tostring(q)
+			s2 = string.sub(s2,string.len(s2), string.len(s2))
+			
+		
+		elseif r == 2 then
+			
+			s2 = string.sub(s2, 2, 2)
+		
+		elseif r >= 3 then
+			
+			s2 = string.sub(s2, 3, 3)		
+		
+		end	
+	
+	end
+
+	w = tonumber(s2)	
+	return w
+
+end
+
+function timerOFF()
+
+	iSecs = 0
+	iLimit = 0
+	--if (dip_Debug) then debugPrint ("Timer OFF") end
+
+end
+
+function timerON(thisLong)
+
+	iSecs = 0
+	iLimit = thisLong
+	lastSeconds = os.clock()
+	--if (dip_Debug) then debugPrint ("Timer lock engaged! Waiting for " .. thisLong .. " Seconds") end
+
+end
+
+function timerDue()
+	
+	thisSeconds = os.clock()
+	
+	if bPause then
+		
+		lastSeconds = thisSeconds 
+		
+	else
+		
+		if (thisSeconds ~= lastSeconds) then		
+			
+			iSecs = iSecs + thisSeconds - lastSeconds
+			lastSeconds = thisSeconds 		
+			
+			--if (dip_Debug) then debugPrint ("Timer count " .. iSecs) end
+
+		end
+		
+		if (iSecs >= iLimit) then
+
+			--if (dip_Debug) then debugPrint ("Timer lock DISengaged. Timer expired.") end
+			timerOFF()
+			return true
+			
+		else		
+			--if dip_Debug then debugPrint("Amount to wait: " .. iLimit .. " iSecs so far: " .. iSecs) end
+			return false
+		
+		end	
+	
+	end
+
+end
+
+
+function muteSound()
+	
+	iMuteFrames = 0
+	bGunMute = true
+
+end
+
+function blinkRev()
+
+	iRevFrames = 0
+	bReversePointer = true
+
+end
+
+function setupClip(thisA, thisB)
+
+	iFrameStart = thisA
+	iFrameEnd = thisB
+	
+	discSkipToFrame(thisA)					
+
+end
+
+function monoAudio (thisChannel)
+
+	if thisChannel == CHANNEL_LEFT then
+	
+		discAudio (2, false)
+		discAudio (1, true)
+		
+	elseif thisChannel == CHANNEL_RIGHT then
+	
+		discAudio (1, false)
+		discAudio (2, true)
+		
+	end
+
+end
+
+function resetChannels()
+
+	discAudio(1, true)
+	discAudio(2, true)
+	
+end
+
+function muteAudio()
+
+	discAudio(1, false)
+	discAudio(2, false)
+
+end
+
+function setFontColor(thisColor)
+
+	if thisColor == RED then
+
+		colorForeground(255, 0, 0)
+	
+	elseif thisColor == BLUE then
+	
+		colorForeground(0, 0, 255)
+	
+	elseif thisColor == YELLOW then
+	
+		colorForeground(255, 255, 0)
+	
+	elseif thisColor == GREEN then
+	
+		colorForeground(0, 255, 0)
+	
+	elseif thisColor == ORANGE then
+	
+		colorForeground(255, 150, 0)
+	
+	elseif thisColor == WHITE then
+	
+		colorForeground(255, 255, 255)
+		
+	elseif thisColor == GREY or thisColor == GRAY then
+	
+		colorForeground(128, 128, 128)
+		
+	elseif thisColor == LIGHTBLUE then
+	
+		colorForeground(30, 160, 250)
+
+	elseif thisColor == BLACK then
+
+		colorForeground(0,0,0)
+	
+	end
+
+end
+
+function textPrint(thisMsg, thisx, thisy, thisFont, thisColor, thisShadow)	
+	
+	fontSelect(thisFont)
+	setFontColor(thisColor)
+	fontPrint(thisx,thisy,thisMsg)
+
+end
+
+function getMiddle(thisPhrase)
+
+	local x = 0
+	local y = 0
+	
+	--x = overlayGetWidth() * 0.5 - spriteGetWidth(fontToSprite(thisPhrase)) * 0.5
+	--y = overlayGetHeight() * 0.5 - spriteGetHeight(fontToSprite(thisPhrase)) * 0.5
+
+	x = overlayGetWidth() * 0.25 - spriteGetWidth(fontToSprite(thisPhrase)) * 0.5
+	y = overlayGetHeight() * 0.25 - spriteGetHeight(fontToSprite(thisPhrase)) * 0.5
+	
+	if dip_Debug then
+		
+		--debugPrint("**************")
+		--debugPrint("")
+		--debugPrint("Coordinates for phrase " .. thisPhrase)
+		--debugPrint("X: " .. x .. " - Y: " .. y)
+		--debugPrint("")
+		--debugPrint("**************")
+		
+	end
+
+	return x
+
+end
