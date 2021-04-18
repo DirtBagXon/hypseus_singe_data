@@ -18,30 +18,29 @@ This file is part of SPACE PIRATES (SINGE EDITION)
 
 ]]--
 
+MYDIR = "singe/spacepirates/"
 
-
-
-dofile("singe/spacepirates/globals.singe")
-dofile("singe/spacepirates/setuplevel.singe")
-dofile("singe/spacepirates/hscore.singe")
-dofile("singe/spacepirates/service.singe")
-dofile("singe/spacepirates/toolbox.singe")
-dofile("singe/spacepirates/hitbox-band.singe")
-dofile("singe/spacepirates/hitbox-door1.singe")
-dofile("singe/spacepirates/hitbox-door2b.singe")
-dofile("singe/spacepirates/hitbox-door3.singe")
-dofile("singe/spacepirates/hitbox-fellina.singe")
-dofile("singe/spacepirates/hitbox-fellinapuzzle.singe")
-dofile("singe/spacepirates/hitbox-mountain.singe")
-dofile("singe/spacepirates/hitbox-reaper.singe")
-dofile("singe/spacepirates/hitbox-scrapyard.singe")
-dofile("singe/spacepirates/hitbox-scrapyard2.singe")
-dofile("singe/spacepirates/hitbox-socketpuzzle.singe")
-dofile("singe/spacepirates/hitbox-tallon2.singe")
-dofile("singe/spacepirates/hitbox-practice.singe")
-dofile("singe/spacepirates/hitbox-firepractice.singe")
-dofile("singe/spacepirates/hitbox-ship.singe")
-dofile("singe/spacepirates/shipbattle.singe")
+dofile(MYDIR .. "globals.singe")
+dofile(MYDIR .. "setuplevel.singe")
+dofile(MYDIR .. "hscore.singe")
+dofile(MYDIR .. "service.singe")
+dofile(MYDIR .. "toolbox.singe")
+dofile(MYDIR .. "hitbox-band.singe")
+dofile(MYDIR .. "hitbox-door1.singe")
+dofile(MYDIR .. "hitbox-door2b.singe")
+dofile(MYDIR .. "hitbox-door3.singe")
+dofile(MYDIR .. "hitbox-fellina.singe")
+dofile(MYDIR .. "hitbox-fellinapuzzle.singe")
+dofile(MYDIR .. "hitbox-mountain.singe")
+dofile(MYDIR .. "hitbox-reaper.singe")
+dofile(MYDIR .. "hitbox-scrapyard.singe")
+dofile(MYDIR .. "hitbox-scrapyard2.singe")
+dofile(MYDIR .. "hitbox-socketpuzzle.singe")
+dofile(MYDIR .. "hitbox-tallon2.singe")
+dofile(MYDIR .. "hitbox-practice.singe")
+dofile(MYDIR .. "hitbox-firepractice.singe")
+dofile(MYDIR .. "hitbox-ship.singe")
+dofile(MYDIR .. "shipbattle.singe")
 
 
 function bandHit(thisBand)
@@ -4836,27 +4835,27 @@ function initJob()
 	sprCursor = nil
 	if (dip_Crosshair == 1) then
 
-		sprCursor  = spriteLoad("singe/spacepirates/crosshaira.png")
+		sprCursor  = spriteLoad(MYDIR .. "crosshaira.png")
 		cursoroffsetx = 3; cursoroffsety = 3
 		
 	elseif (dip_Crosshair == 2) then
 	
-		sprCursor  = spriteLoad("singe/spacepirates/crosshairb.png")
+		sprCursor  = spriteLoad(MYDIR .. "crosshairb.png")
 		cursoroffsetx = 6; cursoroffsety = 6
 		
 	elseif (dip_Crosshair == 3) then
 	
-		sprCursor  = spriteLoad("singe/spacepirates/crosshairc.png")
+		sprCursor  = spriteLoad(MYDIR .. "crosshairc.png")
 		cursoroffsetx = 0; cursoroffsety = 0
 		
 	elseif (dip_Crosshair == 4) then
 	
-		sprCursor  = spriteLoad("singe/spacepirates/crosshaird.png")
+		sprCursor  = spriteLoad(MYDIR .. "crosshaird.png")
 		cursoroffsetx = 6; cursoroffsety = 6
 		
 	elseif (dip_Crosshair == 5) then
 	
-		sprCursor  = spriteLoad("singe/spacepirates/crosshaire.png")
+		sprCursor  = spriteLoad(MYDIR .. "crosshaire.png")
 		cursoroffsetx = 0; cursoroffsety = 0
 		
 	end
@@ -4920,29 +4919,29 @@ function initJob()
 	
 	sprShot = nil; sprShot = {}
 	
-	sprShot[1] = spriteLoad("singe/spacepirates/d01.png")
-	sprShot[2] = spriteLoad("singe/spacepirates/d02.png")
-	sprShot[3] = spriteLoad("singe/spacepirates/d03.png")
-	sprShot[4] = spriteLoad("singe/spacepirates/d04.png")
-	sprShot[5] = spriteLoad("singe/spacepirates/d05.png")
-	sprShot[6] = spriteLoad("singe/spacepirates/d06.png")
-	sprShot[7] = spriteLoad("singe/spacepirates/d07.png")
-	sprShot[8] = spriteLoad("singe/spacepirates/d08.png")
-	sprShot[9] = spriteLoad("singe/spacepirates/d09.png")
-	sprShot[10] = spriteLoad("singe/spacepirates/d10.png")
+	sprShot[1] = spriteLoad(MYDIR .. "d01.png")
+	sprShot[2] = spriteLoad(MYDIR .. "d02.png")
+	sprShot[3] = spriteLoad(MYDIR .. "d03.png")
+	sprShot[4] = spriteLoad(MYDIR .. "d04.png")
+	sprShot[5] = spriteLoad(MYDIR .. "d05.png")
+	sprShot[6] = spriteLoad(MYDIR .. "d06.png")
+	sprShot[7] = spriteLoad(MYDIR .. "d07.png")
+	sprShot[8] = spriteLoad(MYDIR .. "d08.png")
+	sprShot[9] = spriteLoad(MYDIR .. "d09.png")
+	sprShot[10] = spriteLoad(MYDIR .. "d10.png")
 	
 	sprNUM = nil; sprNUM = {}
 	
-	sprNUM[0] = spriteLoad("singe/spacepirates/f00.png")
-	sprNUM[1] = spriteLoad("singe/spacepirates/f01.png")
-	sprNUM[2] = spriteLoad("singe/spacepirates/f02.png")
-	sprNUM[3] = spriteLoad("singe/spacepirates/f03.png")
-	sprNUM[4] = spriteLoad("singe/spacepirates/f04.png")
-	sprNUM[5] = spriteLoad("singe/spacepirates/f05.png")
-	sprNUM[6] = spriteLoad("singe/spacepirates/f06.png")
-	sprNUM[7] = spriteLoad("singe/spacepirates/f07.png")
-	sprNUM[8] = spriteLoad("singe/spacepirates/f08.png")
-	sprNUM[9] = spriteLoad("singe/spacepirates/f09.png")
+	sprNUM[0] = spriteLoad(MYDIR .. "f00.png")
+	sprNUM[1] = spriteLoad(MYDIR .. "f01.png")
+	sprNUM[2] = spriteLoad(MYDIR .. "f02.png")
+	sprNUM[3] = spriteLoad(MYDIR .. "f03.png")
+	sprNUM[4] = spriteLoad(MYDIR .. "f04.png")
+	sprNUM[5] = spriteLoad(MYDIR .. "f05.png")
+	sprNUM[6] = spriteLoad(MYDIR .. "f06.png")
+	sprNUM[7] = spriteLoad(MYDIR .. "f07.png")
+	sprNUM[8] = spriteLoad(MYDIR .. "f08.png")
+	sprNUM[9] = spriteLoad(MYDIR .. "f09.png")
 	
 	rndegg = math.random
 

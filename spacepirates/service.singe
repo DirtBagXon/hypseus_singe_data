@@ -42,7 +42,7 @@ function readConfig()
 	local hsName = ""
 	local hdScore = ""
 	local k = 0
-	local h1 = io.input("singe/spacepirates/spacepirates.cfg")	
+	local h1 = io.input(MYDIR .. "spacepirates.cfg")	
 
 	if (bDebug) then debugPrint ("Entering readConfig()") end
 
@@ -153,7 +153,7 @@ function writeConfig()
 	local sNewLine = "\n"
 	local s1 = ""
 
-	local h1 = io.output("singe/spacepirates/spacepirates.cfg")
+	local h1 = io.output(MYDIR .. "spacepirates.cfg")
 	
 	io.write("dip_CoinsPerCredit = " .. dip_CoinsPerCredit .. sNewLine)
 	io.write("dip_CoinsPerContinue = " .. dip_CoinsPerContinue .. sNewLine)
@@ -420,27 +420,27 @@ function printOpts()
 			sprCursor = nil
 			if (dip_Crosshair == 1) then
 	
-				sprCursor  = spriteLoad("singe/spacepirates/crosshaira.png")
+				sprCursor  = spriteLoad(MYDIR .. "crosshaira.png")
 				cursoroffsetx = 3; cursoroffsety = 3
 				
 			elseif (dip_Crosshair == 2) then
 			
-				sprCursor  = spriteLoad("singe/spacepirates/crosshairb.png")
+				sprCursor  = spriteLoad(MYDIR .. "crosshairb.png")
 				cursoroffsetx = 6; cursoroffsety = 6
 				
 			elseif (dip_Crosshair == 3) then
 			
-				sprCursor  = spriteLoad("singe/spacepirates/crosshairc.png")
+				sprCursor  = spriteLoad(MYDIR .. "crosshairc.png")
 				cursoroffsetx = 0; cursoroffsety = 0
 				
 			elseif (dip_Crosshair == 4) then
 			
-				sprCursor  = spriteLoad("singe/spacepirates/crosshaird.png")
+				sprCursor  = spriteLoad(MYDIR .. "crosshaird.png")
 				cursoroffsetx = 6; cursoroffsety = 6
 				
 			elseif (dip_Crosshair == 5) then
 			
-				sprCursor  = spriteLoad("singe/spacepirates/crosshaire.png")
+				sprCursor  = spriteLoad(MYDIR .. "crosshaire.png")
 				fontPrint(fntx, 173, "TRIGGER")
 				fontPrint(fntx-7, 181, "ACTIVATED")	
 				cursoroffsetx = 0; cursoroffsety = 0
