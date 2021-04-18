@@ -1062,8 +1062,13 @@ function setupLevel(thisLevel)
 
 	for k=1,totalMoves do
 
-		move[k][1] = move[k][1] + thisOffset
-		move[k][2] = move[k][2] + thisOffset
+		if move[k][1] ~= nil then 
+			move[k][1] = move[k][1] + thisOffset
+		end
+
+		if move[k][2] ~= nil then 
+			move[k][2] = move[k][2] + thisOffset
+		end
 		
 		if b1 then
 		
