@@ -26,12 +26,14 @@ This file is part of DRAGON'S LAIR II
 -- 1. General settings --
 -------------------------
 
-dofile("singe/dl2e/framework.singe")				
-dofile("singe/dl2e/globals.singe")				
-dofile("singe/dl2e/main.singe")
-dofile("singe/dl2e/hscore.singe")
-dofile("singe/dl2e/service.singe")
-dofile("singe/dl2e/toolbox.singe")
+MYDIR = "singe/dl2e/"
+
+dofile(MYDIR .. "framework.singe")				
+dofile(MYDIR .. "globals.singe")				
+dofile(MYDIR .. "main.singe")
+dofile(MYDIR .. "hscore.singe")
+dofile(MYDIR .. "service.singe")
+dofile(MYDIR .. "toolbox.singe")
 
 dip_Debug = false
 MovieFPS = 23.976								

@@ -18,15 +18,15 @@ This file is part of TITAN A.E.
 
 ]]--
 
+MYDIR = "singe/titanae/"
 
-
-dofile("singe/titanae/framework.singe")
-dofile("singe/titanae/globals.singe")				
-dofile("singe/titanae/main.singe")
-dofile("singe/titanae/map.singe")
-dofile("singe/titanae/hscore.singe")
-dofile("singe/titanae/service.singe")
-dofile("singe/titanae/toolbox.singe")
+dofile(MYDIR .. "framework.singe")
+dofile(MYDIR .. "globals.singe")				
+dofile(MYDIR .. "main.singe")
+dofile(MYDIR .. "map.singe")
+dofile(MYDIR .. "hscore.singe")
+dofile(MYDIR .. "service.singe")
+dofile(MYDIR .. "toolbox.singe")
 
 overlaySetResolution(vldpGetWidth(), vldpGetHeight())
 

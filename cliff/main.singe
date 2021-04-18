@@ -3756,7 +3756,7 @@ function getRes()
 
 	if dip_Res == 0 or dip_Res == 1 then
 
-		MIDIRES = "singe/cliff/"
+		MIDIRES = MYDIR .. ""
 		--[[
 		overlaySetResolution(vldpGetWidth(), vldpGetHeight())
 		OVLW = vldpGetWidth()
@@ -3766,7 +3766,7 @@ function getRes()
 
 	else
 
-		MIDIRES = "singe/cliff/Lores/"
+		MIDIRES = MYDIR .. "Lores/"
 		--[[
 		overlaySetResolution(vldpGetWidth()/2, vldpGetHeight()/2)
 		OVLW = vldpGetWidth()/2
@@ -3856,15 +3856,15 @@ function getRes()
 
 	if fontSize ~= 0 then
 
-		fontGame = fontLoad("singe/cliff/font.ttf", fontSizeNew*2)
-		fontLCD = fontLoad("singe/cliff/font.ttf", fontSizeNew*2.5)
-		fontBig = fontLoad("singe/cliff/font.ttf", fontSizeNew*3)
+		fontGame = fontLoad(MYDIR .. "font.ttf", fontSizeNew*2)
+		fontLCD = fontLoad(MYDIR .. "font.ttf", fontSizeNew*2.5)
+		fontBig = fontLoad(MYDIR .. "font.ttf", fontSizeNew*3)
 
 	else
 
-		fontGame = fontLoad("singe/cliff/font.ttf", LINEW*2)
-		fontLCD = fontLoad("singe/cliff/font.ttf", LINEW*2.5)
-		fontBig = fontLoad("singe/cliff/font.ttf", LINEW*3)
+		fontGame = fontLoad(MYDIR .. "font.ttf", LINEW*2)
+		fontLCD = fontLoad(MYDIR .. "font.ttf", LINEW*2.5)
+		fontBig = fontLoad(MYDIR .. "font.ttf", LINEW*3)
 
 	end
 

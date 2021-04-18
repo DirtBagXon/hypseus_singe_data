@@ -22,18 +22,20 @@ This file is part of Platoon Singe edition
 sVersion = "1.0b"
 sType = "Video"
 
-dofile("singe/platoon/platoon-globals.singe")
-dofile("singe/platoon/platoon-setuplevel.singe")
-dofile("singe/platoon/hscore.singe")
-dofile("singe/platoon/manage.singe")
-dofile("singe/platoon/service.singe")
-dofile("singe/platoon/toolbox.singe")
-dofile("singe/platoon/platoon-hitbox-charlie.singe")
-dofile("singe/platoon/platoon-hitbox-delta.singe")
-dofile("singe/platoon/platoon-hitbox-tango.singe")
-dofile("singe/platoon/platoon-hitbox-lima.singe")
-dofile("singe/platoon/platoon-hitbox-zulu.singe")
-dofile("singe/platoon/platoon-hitbox-bravo.singe")
+MYDIR = "singe/platoon/"
+
+dofile(MYDIR .. "platoon-globals.singe")
+dofile(MYDIR .. "platoon-setuplevel.singe")
+dofile(MYDIR .. "hscore.singe")
+dofile(MYDIR .. "manage.singe")
+dofile(MYDIR .. "service.singe")
+dofile(MYDIR .. "toolbox.singe")
+dofile(MYDIR .. "platoon-hitbox-charlie.singe")
+dofile(MYDIR .. "platoon-hitbox-delta.singe")
+dofile(MYDIR .. "platoon-hitbox-tango.singe")
+dofile(MYDIR .. "platoon-hitbox-lima.singe")
+dofile(MYDIR .. "platoon-hitbox-zulu.singe")
+dofile(MYDIR .. "platoon-hitbox-bravo.singe")
 
 function shooterHit(thisFrame, thisMove)
 	
@@ -1078,27 +1080,27 @@ function initJob()
 	sprCursor = nil
 	if (dip_Crosshair == 1) then
 
-		sprCursor  = spriteLoad("singe/platoon/crosshaira.png")
+		sprCursor  = spriteLoad(MYDIR .. "crosshaira.png")
 		cursoroffsetx = 3; cursoroffsety = 3
 		
 	elseif (dip_Crosshair == 2) then
 	
-		sprCursor  = spriteLoad("singe/platoon/crosshairb.png")
+		sprCursor  = spriteLoad(MYDIR .. "crosshairb.png")
 		cursoroffsetx = 6; cursoroffsety = 6
 		
 	elseif (dip_Crosshair == 3) then
 	
-		sprCursor  = spriteLoad("singe/platoon/crosshairc.png")
+		sprCursor  = spriteLoad(MYDIR .. "crosshairc.png")
 		cursoroffsetx = 0; cursoroffsety = 0
 		
 	elseif (dip_Crosshair == 4) then
 	
-		sprCursor  = spriteLoad("singe/platoon/crosshaird.png")
+		sprCursor  = spriteLoad(MYDIR .. "crosshaird.png")
 		cursoroffsetx = 6; cursoroffsety = 6
 		
 	elseif (dip_Crosshair == 5) then
 	
-		sprCursor  = spriteLoad("singe/platoon/crosshaire.png")
+		sprCursor  = spriteLoad(MYDIR .. "crosshaire.png")
 		cursoroffsetx = 0; cursoroffsety = 0
 		
 	end

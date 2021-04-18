@@ -18,14 +18,14 @@ This file is part of LUA SINGE ENGINE.
 
 ]]--
 
-dofile("singe/cliff/framework.singe")		
-dofile("singe/cliff/main.singe")
-dofile("singe/cliff/map.singe")
-dofile("singe/cliff/hscore.singe")
-dofile("singe/cliff/service.singe")
-dofile("singe/cliff/toolbox.singe")
-dofile("singe/cliff/trophy.singe")
-dofile("singe/cliff/addons.singe")
+dofile(MYDIR .. "framework.singe")		
+dofile(MYDIR .. "main.singe")
+dofile(MYDIR .. "map.singe")
+dofile(MYDIR .. "hscore.singe")
+dofile(MYDIR .. "service.singe")
+dofile(MYDIR .. "toolbox.singe")
+dofile(MYDIR .. "trophy.singe")
+dofile(MYDIR .. "addons.singe")
 
 --Framework.singe....
 
@@ -335,11 +335,11 @@ sprArrow = nil;
 
 fontQuality(FONT_QUALITY_BLENDED)
 
-sndright   = soundLoad("singe/cliff/right.wav")
-sndwrong   = soundLoad("singe/cliff/wrong.wav")
-snddeath   = soundLoad("singe/cliff/death.wav")
-sndvictory = soundLoad("singe/cliff/victory.wav")
-sndcoin    = soundLoad("singe/cliff/coin.wav")
-sndcredit  = soundLoad("singe/cliff/credit.wav")
-sndclear   = soundLoad("singe/cliff/clear.wav")
-sndroll   = soundLoad("singe/cliff/roll.wav")
+sndright   = soundLoad(MYDIR .. "right.wav")
+sndwrong   = soundLoad(MYDIR .. "wrong.wav")
+snddeath   = soundLoad(MYDIR .. "death.wav")
+sndvictory = soundLoad(MYDIR .. "victory.wav")
+sndcoin    = soundLoad(MYDIR .. "coin.wav")
+sndcredit  = soundLoad(MYDIR .. "credit.wav")
+sndclear   = soundLoad(MYDIR .. "clear.wav")
+sndroll   = soundLoad(MYDIR .. "roll.wav")

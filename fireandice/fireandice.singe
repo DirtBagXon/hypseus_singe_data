@@ -58,13 +58,15 @@ This file is part of FIRE AND ICE
 -- 1. General settings --
 -------------------------
 
-dofile( "singe/fireandice/framework.singe")		-- Don't touch all of this
-dofile( "singe/fireandice/globals.singe")				
-dofile( "singe/fireandice/main.singe")
-dofile( "singe/fireandice/map.singe")
-dofile( "singe/fireandice/hscore.singe")
-dofile( "singe/fireandice/service.singe")
-dofile( "singe/fireandice/toolbox.singe")
+MYDIR = "singe/fireandice/"
+
+dofile( MYDIR .. "framework.singe")		-- Don't touch all of this
+dofile( MYDIR .. "globals.singe")				
+dofile( MYDIR .. "main.singe")
+dofile( MYDIR .. "map.singe")
+dofile( MYDIR .. "hscore.singe")
+dofile( MYDIR .. "service.singe")
+dofile( MYDIR .. "toolbox.singe")
 
 MovieFPS = 23.976								-- Number of frames per second of your movies.
 

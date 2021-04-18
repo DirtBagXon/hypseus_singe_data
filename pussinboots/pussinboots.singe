@@ -18,13 +18,15 @@ This file is part of Dragon Trainer Singe edition 2.0
 
 ]]--
 
-dofile("singe/pussinboots/framework.singe")
-dofile("singe/pussinboots/globals.singe")				
-dofile("singe/pussinboots/main.singe")
-dofile("singe/pussinboots/map.singe")
-dofile("singe/pussinboots/hscore.singe")
-dofile("singe/pussinboots/service.singe")
-dofile("singe/pussinboots/toolbox.singe")
+MYDIR = "singe/pussinboots/"
+
+dofile(MYDIR .. "framework.singe")
+dofile(MYDIR .. "globals.singe")				
+dofile(MYDIR .. "main.singe")
+dofile(MYDIR .. "map.singe")
+dofile(MYDIR .. "hscore.singe")
+dofile(MYDIR .. "service.singe")
+dofile(MYDIR .. "toolbox.singe")
 
 overlaySetResolution(vldpGetWidth(), vldpGetHeight())
 

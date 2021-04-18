@@ -57,13 +57,15 @@ This file is part of TIMEGAL
 -- 1. General settings --
 -------------------------
 
-dofile("singe/timegalv2/framework.singe")
-dofile("singe/timegalv2/globals.singe")				
-dofile("singe/timegalv2/main.singe")
-dofile("singe/timegalv2/map.singe")
-dofile("singe/timegalv2/hscore.singe")
-dofile("singe/timegalv2/service.singe")
-dofile("singe/timegalv2/toolbox.singe")
+MYDIR = "singe/timegalv2/"
+
+dofile(MYDIR .. "framework.singe")
+dofile(MYDIR .. "globals.singe")				
+dofile(MYDIR .. "main.singe")
+dofile(MYDIR .. "map.singe")
+dofile(MYDIR .. "hscore.singe")
+dofile(MYDIR .. "service.singe")
+dofile(MYDIR .. "toolbox.singe")
 
 
 MovieFPS = 29.970								-- Number of frames per second of your movies.
