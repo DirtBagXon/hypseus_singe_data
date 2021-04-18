@@ -5,17 +5,17 @@
 Files in this repository are based around the first release of Singe 2 games on archive.org \
 Subsequent releases will likely not work correctly.
 
-    ffmpeg -i <original>.mp4 -an -qscale:v 4 -b 6000k -codec:v mpeg2video <game>.m2v
+    ffmpeg -i <original>.mp4 -an -qscale:v 4 -b:v 6000k -codec:v mpeg2video <game>.m2v
     ffmpeg -i <original>.mp4 -vn -c:a libvorbis -ar 44100 -map a -b:a 160k <game>.ogg
 
 **e.g.**
 
-    ffmpeg -i FaI.mp4 -an -qscale:v 4 -b 6000k -codec:v mpeg2video fireandice.m2v
+    ffmpeg -i FaI.mp4 -an -qscale:v 4 -b:v 6000k -codec:v mpeg2video fireandice.m2v
     ffmpeg -i FaI.mp4 -vn -c:a libvorbis -ar 44100 -map a -b:a 160k fireandice.ogg
 
 If your device is struggling with the HD content, you can resize in this operation:
 
-    ffmpeg -i FaI.mp4 -an -qscale:v 4 -b 6000k -vf scale=640:480 -codec:v mpeg2video fireandice.m2v
+    ffmpeg -i FaI.mp4 -an -qscale:v 4 -b:v 6000k -vf scale=640:480 -codec:v mpeg2video fireandice.m2v
 
 ### Using this repository
 

@@ -1,24 +1,20 @@
 --[[
 
-PROGRAM NAME:	DRAGON'S LAIR II
-VERSION:		1.2
-AUTHOR:			KARIS (2019)
+PROGRAM NAME:	DRAGON'S LAIR IIe
+VERSION:		2.0 (standalone)
+AUTHOR:			KARIS (2020)
 
-This file is part of DRAGON'S LAIR II
+This file is part of DRAGON'S LAIR IIe
 
-	DRAGON'S LAIR II is free software: you can redistribute it and/or modify
+	DRAGON'S LAIR IIe is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation.
 
-	DRAGON'S LAIR II is distributed in the hope that it will be useful,
+	DRAGON'S LAIR IIe is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 	Thanks to Scott Duensing, RDG.
-	
-	THIS FILE IS NOT USED BY THE PROGRAM.
-
-	IT IS A BLANK SHEET TO START YOUR OWN WORK. GOOD LUCK! 
 
 ]]--
 
@@ -26,7 +22,7 @@ This file is part of DRAGON'S LAIR II
 -- 1. General settings --
 -------------------------
 
-MYDIR = "singe/dl2e/"
+MYDIR = "singe/dl2e/"							
 
 dofile(MYDIR .. "framework.singe")				
 dofile(MYDIR .. "globals.singe")				
@@ -52,70 +48,70 @@ BUFFITMOVE = 50
 
 finalstage = 14	     		     				
 bAllowSecret = false			  				
-					
-
+	
 
 ------------------------------------------------------------------------
 -- 2. Starting and ending frames for the various elements of the game --
 ------------------------------------------------------------------------													
 													
 offsetTitle = 0										
-offsetIntro01 = 604									
-offsetIntro02 = 604
-offsetIntro03 = 604			  							
+offsetIntro01 = 619									
+offsetIntro02 = 0
+offsetIntro03 = 619			  							
 
 
 offsetTitleend = offsetTitle + 126						 										
-offsetIntro01end = offsetIntro01 + 1107				
-offsetIntro02end = offsetIntro02 + 1107			
-offsetIntro03end = offsetIntro03 + 1107					
+offsetIntro01end = 1727				
+offsetIntro02end = offsetIntro02 + 126			
+offsetIntro03end = 1727					
 
 
-offsetLevel01 = 1713									
-offsetLevel02 = 4585													
-offsetLevel03 = 6905
-offsetLevel04 = 9225
-offsetLevel05 = 11911
-offsetLevel06 = 14597
-offsetLevel07 = 17391									
-offsetLevel08 = 20184
-offsetLevel09 = 23040
-offsetLevel10 = 25896
-offsetLevel11 = 28792
-offsetLevel12 = 31699
-offsetLevel13 = 32717
-offsetLevel14 = 34393
-offsetLevelExt = 44159									
+offsetLevel01 = 1800									
+offsetLevel02 = 4687													
+offsetLevel03 = 7022
+offsetLevel04 = 9356
+offsetLevel05 = 12057
+offsetLevel06 = 14760
+offsetLevel07 = 17568									
+offsetLevel08 = 20375
+offsetLevel09 = 23246
+offsetLevel10 = 26117
+offsetLevel11 = 29028
+offsetLevel12 = 31951
+offsetLevel13 = 32983
+offsetLevel14 = 34670
+offsetLevelExt = 0									
 
 
-offsetLevel01Clipend = offsetLevel01 + 55				
-offsetLevel02Clipend = offsetLevel02 + 55				
-offsetLevel03Clipend = offsetLevel03 + 55				
-offsetLevel04Clipend = offsetLevel04 + 55
-offsetLevel05Clipend = offsetLevel05 + 55
-offsetLevel06Clipend = offsetLevel06 + 55
-offsetLevel07Clipend = offsetLevel07 + 55
-offsetLevel08Clipend = offsetLevel08 + 55
-offsetLevel09Clipend = offsetLevel09 + 55
-offsetLevel10Clipend = offsetLevel10 + 55
-offsetLevel11Clipend = offsetLevel11 + 55
-offsetLevel12Clipend = offsetLevel12 + 55
-offsetLevel13Clipend = offsetLevel13 + 55
-offsetLevel14Clipend = offsetLevel14 + 55
+offsetLevel01Clipend = offsetLevel01 + 0			
+offsetLevel02Clipend = offsetLevel02 + 0				
+offsetLevel03Clipend = offsetLevel03 + 0				
+offsetLevel04Clipend = offsetLevel04 + 0
+offsetLevel05Clipend = offsetLevel05 + 0
+offsetLevel06Clipend = offsetLevel06 + 0
+offsetLevel07Clipend = offsetLevel07 + 0
+offsetLevel08Clipend = offsetLevel08 + 0
+offsetLevel09Clipend = offsetLevel09 + 0
+offsetLevel10Clipend = offsetLevel10 + 0
+offsetLevel11Clipend = offsetLevel11 + 0
+offsetLevel12Clipend = offsetLevel12 + 0
+offsetLevel13Clipend = offsetLevel13 + 0
+offsetLevel14Clipend = offsetLevel14 + 0
 offsetLevelExtClipend = offsetLevelExt +0
 
 
 offsetMenus = 0																							
 													
 
-frameOptions = offsetMenus +140						
-frameCommands = offsetMenus +135						
-frameVictory = offsetMenus +0						
+frameOptions = offsetMenus +137						
+frameCommands = offsetMenus +132						
+frameVictory = 36439						
 frameExtendedPlay = offsetMenus +0
-frameSave = offsetMenus +140					
+frameSave = offsetMenus +140	
+frameRankings = offsetMenus +493				
 
-offsetContinue = offsetMenus +119						
-offsetContinueend = offsetMenus +171
+offsetContinue = offsetMenus +234						
+offsetContinueend = offsetMenus +291
 
 offsetGameOver = offsetMenus +508						
 offsetGameOverend = offsetMenus +511
@@ -128,197 +124,197 @@ offsetEnterHScore = offsetMenus +498
 offsetOKHScore = offsetMenus +493					
 			
 
-offsetRetry = 37776
+offsetRetry = 532
 
 offsetDeath = 0									
 
-offsetDeath01 = 3578						
-offsetDeath02 = 3625					
-offsetDeath03 = 3673							
-offsetDeath04 = 3721
-offsetDeath05 = 3769
-offsetDeath06 = 3817
-offsetDeath07 = 3865
-offsetDeath08 = 3913
-offsetDeath09 = 3961
-offsetDeath10 = 4009
-offsetDeath11 = 4057
-offsetDeath12 = 4105
-offsetDeath13 = 4153						 			
-offsetDeath14 = 4201							
-offsetDeath15 = 4249
-offsetDeath16 = 4297
-offsetDeath17 = 4345
-offsetDeath18 = 4393
-offsetDeath19 = 4441
-offsetDeath20 = 4489				
-offsetDeath21 = 4537
-offsetDeath22 = 6377
-offsetDeath23 = 6425
-offsetDeath24 = 6473
-offsetDeath25 = 6521
-offsetDeath26 = 6569							 			
-offsetDeath27 = 6617							
-offsetDeath28 = 6665
-offsetDeath29 = 6713
-offsetDeath30 = 6761
-offsetDeath31 = 6809
-offsetDeath32 = 6857
-offsetDeath33 = 8697
-offsetDeath34 = 8745
-offsetDeath35 = 8793							
-offsetDeath36 = 8841												
-offsetDeath37 = 8889							
-offsetDeath38 = 8937													
-offsetDeath39 = 8985							
-offsetDeath40 = 9033						
-offsetDeath41 = 9081							
-offsetDeath42 = 9129													
-offsetDeath43 = 9177							
-offsetDeath44 = 11183							
-offsetDeath45 = 11231
-offsetDeath46 = 11279
-offsetDeath47 = 11328
-offsetDeath48 = 11375
-offsetDeath49 = 11423
-offsetDeath50 = 11471				
-offsetDeath51 = 11519
-offsetDeath52 = 11567
-offsetDeath53 = 11615
-offsetDeath54 = 11163
-offsetDeath55 = 11711
-offsetDeath56 = 11759							 			
-offsetDeath57 = 11807							
-offsetDeath58 = 11863
-offsetDeath59 = 13869
-offsetDeath60 = 13917
-offsetDeath61 = 13965
-offsetDeath62 = 14014
-offsetDeath63 = 14061
-offsetDeath64 = 14109
-offsetDeath65 = 14157							
-offsetDeath66 = 14205											
-offsetDeath67 = 14253						
-offsetDeath68 = 14301											
-offsetDeath69 = 14349						
-offsetDeath70 = 14397					
-offsetDeath71 = 14445						
-offsetDeath72 = 14493													
-offsetDeath73 = 14549						
-offsetDeath74 = 16550							
-offsetDeath75 = 16598						
-offsetDeath76 = 16646							
-offsetDeath77 = 16690													
-offsetDeath78 = 16738							
-offsetDeath79 = 16787							
-offsetDeath80 = 16835
-offsetDeath81 = 16883
-offsetDeath82 = 16947
-offsetDeath83 = 16995
-offsetDeath84 = 17051
-offsetDeath85 = 17099				
-offsetDeath86 = 17143
-offsetDeath87 = 17191
-offsetDeath88 = 17247
-offsetDeath89 = 17296
-offsetDeath90 = 19343
-offsetDeath91 = 19391							 			
-offsetDeath92 = 19439							
-offsetDeath93 = 19483
-offsetDeath94 = 19531
-offsetDeath95 = 19580
-offsetDeath96 = 19628
-offsetDeath97 = 19676
-offsetDeath98 = 19740
-offsetDeath99 = 19788
-offsetDeath100 = 19844						
-offsetDeath101 = 19892											
-offsetDeath102 = 19936						
-offsetDeath103 = 19984											
-offsetDeath104 = 20040						
-offsetDeath105 = 20089					
-offsetDeath106 = 20136						
-offsetDeath107 = 22272													
-offsetDeath108 = 22320						
-offsetDeath109 = 22368					
-offsetDeath110 = 22416							
-offsetDeath111 = 22464
-offsetDeath112 = 22512
-offsetDeath113 = 22560
-offsetDeath114 = 22608
-offsetDeath115 = 22656
-offsetDeath116 = 22704
-offsetDeath117 = 22752
-offsetDeath118 = 22800
-offsetDeath119 = 22848
-offsetDeath120 = 22896
-offsetDeath121 = 22944
-offsetDeath122 = 22992
-offsetDeath123 = 25128							 			
-offsetDeath124 = 25176							
-offsetDeath125 = 25224
-offsetDeath126 = 25272
-offsetDeath127 = 25320
-offsetDeath128 = 25368
-offsetDeath129 = 25416
-offsetDeath130 = 25464
-offsetDeath131 = 25512
-offsetDeath132 = 25560							
-offsetDeath133 = 25608												
-offsetDeath134 = 25656							
-offsetDeath135 = 25704													
-offsetDeath136 = 25752							
-offsetDeath137 = 25800						
-offsetDeath138 = 25848							
-offsetDeath139 = 28072													
-offsetDeath140 = 28120							
-offsetDeath141 = 28168							
-offsetDeath142 = 28216
-offsetDeath143 = 28264
-offsetDeath144 = 28312
-offsetDeath145 = 28360
-offsetDeath146 = 28408
+offsetDeath01 = 3608						
+offsetDeath02 = 3655					
+offsetDeath03 = 3703							
+offsetDeath04 = 3751
+offsetDeath05 = 3799
+offsetDeath06 = 3847
+offsetDeath07 = 3895
+offsetDeath08 = 3943
+offsetDeath09 = 3991
+offsetDeath10 = 4039
+offsetDeath11 = 4087
+offsetDeath12 = 4135
+offsetDeath13 = 4183						 			
+offsetDeath14 = 4231							
+offsetDeath15 = 4279
+offsetDeath16 = 4327
+offsetDeath17 = 4375
+offsetDeath18 = 4423
+offsetDeath19 = 4471
+offsetDeath20 = 4519				
+offsetDeath21 = 4567
+offsetDeath22 = 6422
+offsetDeath23 = 6470
+offsetDeath24 = 6518
+offsetDeath25 = 6566
+offsetDeath26 = 6614							 			
+offsetDeath27 = 6662							
+offsetDeath28 = 6710
+offsetDeath29 = 6758
+offsetDeath30 = 6806
+offsetDeath31 = 6854
+offsetDeath32 = 6902
+offsetDeath33 = 8757
+offsetDeath34 = 8805
+offsetDeath35 = 8853							
+offsetDeath36 = 8901												
+offsetDeath37 = 8949							
+offsetDeath38 = 8997													
+offsetDeath39 = 9045							
+offsetDeath40 = 9093						
+offsetDeath41 = 9141							
+offsetDeath42 = 9189													
+offsetDeath43 = 9237							
+offsetDeath44 = 11258							
+offsetDeath45 = 11306
+offsetDeath46 = 11354
+offsetDeath47 = 11403
+offsetDeath48 = 11450
+offsetDeath49 = 11498
+offsetDeath50 = 11546				
+offsetDeath51 = 11594
+offsetDeath52 = 11642
+offsetDeath53 = 11690
+offsetDeath54 = 11738
+offsetDeath55 = 11786
+offsetDeath56 = 11834							 			
+offsetDeath57 = 11882							
+offsetDeath58 = 11938
+offsetDeath59 = 13959
+offsetDeath60 = 14007
+offsetDeath61 = 14055
+offsetDeath62 = 14104
+offsetDeath63 = 14151
+offsetDeath64 = 14199
+offsetDeath65 = 14247							
+offsetDeath66 = 14295											
+offsetDeath67 = 14343						
+offsetDeath68 = 14391											
+offsetDeath69 = 14439						
+offsetDeath70 = 14487					
+offsetDeath71 = 14535						
+offsetDeath72 = 14583													
+offsetDeath73 = 14639						
+offsetDeath74 = 16655							
+offsetDeath75 = 16703						
+offsetDeath76 = 16751							
+offsetDeath77 = 16795													
+offsetDeath78 = 16843							
+offsetDeath79 = 16892							
+offsetDeath80 = 16940
+offsetDeath81 = 16988
+offsetDeath82 = 17052
+offsetDeath83 = 17100
+offsetDeath84 = 17156
+offsetDeath85 = 17204				
+offsetDeath86 = 17248
+offsetDeath87 = 17296
+offsetDeath88 = 17352
+offsetDeath89 = 17401
+offsetDeath90 = 19463
+offsetDeath91 = 19511							 			
+offsetDeath92 = 19559							
+offsetDeath93 = 19603
+offsetDeath94 = 19651
+offsetDeath95 = 19700
+offsetDeath96 = 19748
+offsetDeath97 = 19796
+offsetDeath98 = 19860
+offsetDeath99 = 19908
+offsetDeath100 = 19964						
+offsetDeath101 = 20012											
+offsetDeath102 = 20056						
+offsetDeath103 = 20104											
+offsetDeath104 = 20160						
+offsetDeath105 = 20208					
+offsetDeath106 = 20256						
+offsetDeath107 = 22406													
+offsetDeath108 = 22454						
+offsetDeath109 = 22502					
+offsetDeath110 = 22550							
+offsetDeath111 = 22598
+offsetDeath112 = 22646
+offsetDeath113 = 22694
+offsetDeath114 = 22742
+offsetDeath115 = 22790
+offsetDeath116 = 22838
+offsetDeath117 = 22886
+offsetDeath118 = 22934
+offsetDeath119 = 22982
+offsetDeath120 = 23030
+offsetDeath121 = 23078
+offsetDeath122 = 23126
+offsetDeath123 = 25277							 			
+offsetDeath124 = 25325							
+offsetDeath125 = 25373
+offsetDeath126 = 25421
+offsetDeath127 = 25469
+offsetDeath128 = 25517
+offsetDeath129 = 25565
+offsetDeath130 = 25613
+offsetDeath131 = 25661
+offsetDeath132 = 25709							
+offsetDeath133 = 25757												
+offsetDeath134 = 25805							
+offsetDeath135 = 25853													
+offsetDeath136 = 25901							
+offsetDeath137 = 25949						
+offsetDeath138 = 25997							
+offsetDeath139 = 28236													
+offsetDeath140 = 28284							
+offsetDeath141 = 28332							
+offsetDeath142 = 28380
+offsetDeath143 = 28428
+offsetDeath144 = 28476
+offsetDeath145 = 28524
+offsetDeath146 = 28572
 offsetDeath147 = 28456				
-offsetDeath148 = 28504
-offsetDeath149 = 28552
-offsetDeath150 = 28600
-offsetDeath151 = 28648
-offsetDeath152 = 28696
-offsetDeath153 = 28744							 			
-offsetDeath154 = 30968							
-offsetDeath155 = 31016
-offsetDeath156 = 31064
-offsetDeath157 = 31112
-offsetDeath158 = 31160
-offsetDeath159 = 31208
-offsetDeath160 = 31256
-offsetDeath161 = 31304
-offsetDeath162 = 31352							
-offsetDeath163 = 31400											
-offsetDeath164 = 31448						
-offsetDeath165 = 31496											
-offsetDeath166 = 31544						
-offsetDeath167 = 31592					
-offsetDeath168 = 31640						
-offsetDeath169 = 32380													
-offsetDeath170 = 32429						
-offsetDeath171 = 32477							
-offsetDeath172 = 32525						
-offsetDeath173 = 32573							
-offsetDeath174 = 32621													
-offsetDeath175 = 32669							
-offsetDeath176 = 34045							
-offsetDeath177 = 34101
-offsetDeath178 = 34149
-offsetDeath179 = 34197
-offsetDeath180 = 34245
-offsetDeath181 = 34293
-offsetDeath182 = 34341				
-offsetDeath183 = 36281
-offsetDeath184 = 36329
-offsetDeath185 = 36377
-offsetDeath186 = 36425
-offsetDeath187 = 36473
+offsetDeath148 = 28668
+offsetDeath149 = 28716
+offsetDeath150 = 28764
+offsetDeath151 = 28812
+offsetDeath152 = 28860
+offsetDeath153 = 28908							 			
+offsetDeath154 = 31147							
+offsetDeath155 = 31195
+offsetDeath156 = 31243
+offsetDeath157 = 31291
+offsetDeath158 = 31339
+offsetDeath159 = 31387
+offsetDeath160 = 31435
+offsetDeath161 = 31483
+offsetDeath162 = 31531							
+offsetDeath163 = 31579											
+offsetDeath164 = 31627						
+offsetDeath165 = 31675											
+offsetDeath166 = 31723						
+offsetDeath167 = 31771					
+offsetDeath168 = 31819						
+offsetDeath169 = 32574													
+offsetDeath170 = 32623						
+offsetDeath171 = 32671							
+offsetDeath172 = 32719						
+offsetDeath173 = 32767							
+offsetDeath174 = 32815													
+offsetDeath175 = 32863							
+offsetDeath176 = 34254							
+offsetDeath177 = 34310
+offsetDeath178 = 34358
+offsetDeath179 = 34406
+offsetDeath180 = 34454
+offsetDeath181 = 34502
+offsetDeath182 = 34550				
+offsetDeath183 = 36505
+offsetDeath184 = 36553
+offsetDeath185 = 36601
+offsetDeath186 = 36649
+offsetDeath187 = 36677
 		
 
 ------------------------------------------------------------------------------------------
@@ -331,62 +327,62 @@ function setupLevel01(thisSegment)
 																			
 	if thisSegment == SEGMENT01 then
 
-		segmentStart = offsetLevel01 + 57
-		segmentEnd   = offsetLevel01 + 504
+		segmentStart = 1800
+		segmentEnd   = offsetLevel01 + 447
 		totalMoves   = 7
 		
 		move = nil; move = {}
-		move[1] = {}; move[1] = {185, 204, LEFT, 4, 0, 0}
-		move[2] = {}; move[2] = {233, 256, LEFT, 5, 0, 0}
-		move[3] = {}; move[3] = {311, 324, LEFT, 5, 0, 0}
-		move[4] = {}; move[4] = {353, 366, BUTTON1, 6, 0, 0}
-		move[5] = {}; move[5] = {401, 417, BUTTON1, 4, 0, 0}
-		move[6] = {}; move[6] = {441, 456, DOWN, 4, 0, 0}
-		move[7] = {}; move[7] = {473, 495, RIGHT, 7, 0, 0}
+		move[1] = {}; move[1] = {128, 147, LEFT, 4, 0, 0}
+		move[2] = {}; move[2] = {176, 199, LEFT, 5, 0, 0}
+		move[3] = {}; move[3] = {254, 267, LEFT, 5, 0, 0}
+		move[4] = {}; move[4] = {296, 309, BUTTON1, 6, 0, 0}
+		move[5] = {}; move[5] = {344, 360, BUTTON1, 4, 0, 0}
+		move[6] = {}; move[6] = {384, 399, DOWN, 4, 0, 0}
+		move[7] = {}; move[7] = {416, 438, RIGHT, 7, 0, 0}
 
 	elseif thisSegment == SEGMENT02 then  													
 	
-		segmentStart = offsetLevel01 + 505
-		segmentEnd   = offsetLevel01 + 1103
+		segmentStart = offsetLevel01 + 448
+		segmentEnd   = offsetLevel01 + 1046
 		totalMoves   = 12
 				
 		move = nil; move = {}
-		move[1] = {}; move[1] = {553, 570, BUTTON1, 8, 0, 0}
-		move[2] = {}; move[2] = {593, 608, RIGHT, 8, 0, 0}
-		move[3] = {}; move[3] = {641, 656, BUTTON1, 9, 0, 0}
-		move[4] = {}; move[4] = {681, 701, LEFT, 8, 0, 0}
-		move[5] = {}; move[5] = {729, 746, DOWN, 8, 0, 0}
-		move[6] = {}; move[6] = {800, 816, BUTTON1, 10, 0, 0}
-		move[7] = {}; move[7] = {836, 850, LEFT, 10, 0, 0}
-		move[8] = {}; move[8] = {879, 895, RIGHT, 11, 0, 0}
-		move[9] = {}; move[9] = {913, 928, RIGHT, 12, 0, 0}
-		move[10] = {}; move[10] = {945, 962, BUTTON1, 12, 0, 0}
-		move[11] = {}; move[11] = {993, 1008, LEFT, 12, 0, 0}
-		move[12] = {}; move[12] = {1057, 1075, DOWN, 13, 0, 0}
+		move[1] = {}; move[1] = {496, 513, BUTTON1, 8, 0, 0}
+		move[2] = {}; move[2] = {536, 551, RIGHT, 8, 0, 0}
+		move[3] = {}; move[3] = {584, 599, BUTTON1, 9, 0, 0}
+		move[4] = {}; move[4] = {624, 644, LEFT, 8, 0, 0}
+		move[5] = {}; move[5] = {672, 689, DOWN, 8, 0, 0}
+		move[6] = {}; move[6] = {743, 759, BUTTON1, 10, 0, 0}
+		move[7] = {}; move[7] = {779, 793, LEFT, 10, 0, 0}
+		move[8] = {}; move[8] = {822, 838, RIGHT, 11, 0, 0}
+		move[9] = {}; move[9] = {856, 871, RIGHT, 12, 0, 0}
+		move[10] = {}; move[10] = {888, 905, BUTTON1, 12, 0, 0}
+		move[11] = {}; move[11] = {936, 951, LEFT, 12, 0, 0}
+		move[12] = {}; move[12] = {990, 1018, DOWN, 13, 0, 0}
 
 	elseif thisSegment == SEGMENT03 then  													
 	
-		segmentStart = offsetLevel01 + 1104
-		segmentEnd   = offsetLevel01 + 1862
+		segmentStart = offsetLevel01 + 1047
+		segmentEnd   = offsetLevel01 + 1805
 		totalMoves   = 16
 		
 		move = nil; move = {}
-		move[1] = {}; move[1] = {1121, 1136, BUTTON1, 14, 0, 0}
-		move[2] = {}; move[2] = {1171, 1186, LEFT, 15, 0, 0}
-		move[3] = {}; move[3] = {1217, 1232, BUTTON1, 14, 0, 0}
-		move[4] = {}; move[4] = {1257, 1276, DOWN, 15, 0, 0}
-		move[5] = {}; move[5] = {1297, 1311, BUTTON1, 14, 0, 0}
-		move[6] = {}; move[6] = {1345, 1360, RIGHT, 14, 0, 0}
-		move[7] = {}; move[7] = {1393, 1408, BUTTON1, 16, 0, 0}
-		move[8] = {}; move[8] = {1433, 1448, LEFT, 17, 0, 0}
-		move[9] = {}; move[9] = {1481, 1496, BUTTON1, 18, 0, 0}
-		move[10] = {}; move[10] = {1529, 1544, BUTTON1, 19, 0, 0}
-		move[11] = {}; move[11] = {1561, 1578, LEFT, 18, 0, 0}
-		move[12] = {}; move[12] = {1593, 1611, BUTTON1, 18, 0, 0}
-		move[13] = {}; move[13] = {1641, 1656, BUTTON1, 20, 0, 0}
-		move[14] = {}; move[14] = {1689, 1702, BUTTON1, 20, 0, 0}
-		move[15] = {}; move[15] = {1721, 1736, RIGHT, 20, 0, 0}
-		move[16] = {}; move[16] = {1761, 1775, BUTTON1, 21, 0, 0}
+		move[1] = {}; move[1] = {1064, 1079, BUTTON1, 14, 0, 0}
+		move[2] = {}; move[2] = {1114, 1129, LEFT, 15, 0, 0}
+		move[3] = {}; move[3] = {1160, 1175, BUTTON1, 14, 0, 0}
+		move[4] = {}; move[4] = {1200, 1219, DOWN, 15, 0, 0}
+		move[5] = {}; move[5] = {1240, 1254, BUTTON1, 14, 0, 0}
+		move[6] = {}; move[6] = {1288, 1303, RIGHT, 14, 0, 0}
+		move[7] = {}; move[7] = {1336, 1351, BUTTON1, 16, 0, 0}
+		move[8] = {}; move[8] = {1376, 1391, LEFT, 17, 0, 0}
+		move[9] = {}; move[9] = {1424, 1439, BUTTON1, 18, 0, 0}
+		move[10] = {}; move[10] = {1472, 1487, BUTTON1, 19, 0, 0}
+		move[11] = {}; move[11] = {1504, 1521, LEFT, 18, 0, 0}
+		move[12] = {}; move[12] = {1536, 1554, BUTTON1, 18, 0, 0}
+		move[13] = {}; move[13] = {1584, 1599, BUTTON1, 20, 0, 0}
+		move[14] = {}; move[14] = {1632, 1645, BUTTON1, 20, 0, 0}
+		move[15] = {}; move[15] = {1664, 1679, RIGHT, 20, 0, 0}
+		move[16] = {}; move[16] = {1704, 1718, BUTTON1, 21, 0, 0}
 			
 	end
 
@@ -399,8 +395,8 @@ function setupLevel02(thisSegment)
 
 	if thisSegment == SEGMENT01 then
 
-		segmentStart = offsetLevel02 + 57
-		segmentEnd   = offsetLevel02 + 529
+		segmentStart = 4687
+		segmentEnd   = offsetLevel02 + 529 - 57
 		totalMoves   = 10
 		
 		move = nil; move = {}
@@ -417,8 +413,8 @@ function setupLevel02(thisSegment)
 		
 	elseif thisSegment == SEGMENT02 then  													
 	
-		segmentStart = offsetLevel02 + 530
-		segmentEnd   = offsetLevel02 + 1081
+		segmentStart = offsetLevel02 + 530 - 57
+		segmentEnd   = offsetLevel02 + 1081 - 57
 		totalMoves   = 12
 		
 		move = nil; move = {}
@@ -437,8 +433,8 @@ function setupLevel02(thisSegment)
 
 	elseif thisSegment == SEGMENT03 then  													
 	
-		segmentStart = offsetLevel02 + 1082
-		segmentEnd   = offsetLevel02 + 1791
+		segmentStart = offsetLevel02 + 1082 - 57
+		segmentEnd   = offsetLevel02 + 1791 - 57
 		totalMoves   = 15
 		
 		move = nil; move = {}
@@ -469,8 +465,8 @@ function setupLevel03(thisSegment)
 
 	if thisSegment == SEGMENT01 then
 
-		segmentStart = offsetLevel03 + 57
-		segmentEnd   = offsetLevel03 + 529
+		segmentStart = 7022
+		segmentEnd   = offsetLevel03 + 529 - 57
 		totalMoves   = 10
 		
 		move = nil; move = {}
@@ -487,8 +483,8 @@ function setupLevel03(thisSegment)
 		
 	elseif thisSegment == SEGMENT02 then  													
 	
-		segmentStart = offsetLevel03 + 530
-		segmentEnd   = offsetLevel03 + 1081
+		segmentStart = offsetLevel03 + 530 - 57
+		segmentEnd   = offsetLevel03 + 1081 - 57
 		totalMoves   = 12
 		
 		move = nil; move = {}
@@ -507,8 +503,8 @@ function setupLevel03(thisSegment)
 
 	elseif thisSegment == SEGMENT03 then  													
 	
-		segmentStart = offsetLevel03 + 1082
-		segmentEnd   = offsetLevel03 + 1790
+		segmentStart = offsetLevel03 + 1082 - 57
+		segmentEnd   = offsetLevel03 + 1790 - 57
 		totalMoves   = 15
 		
 		move = nil; move = {}
@@ -538,8 +534,8 @@ function setupLevel04(thisSegment)
 
 	if thisSegment == SEGMENT01 then
 
-		segmentStart = offsetLevel04 + 57
-		segmentEnd   = offsetLevel04 + 560
+		segmentStart = 9356
+		segmentEnd   = offsetLevel04 + 560 - 56
 		totalMoves   = 11
 		
 		move = nil; move = {}
@@ -557,8 +553,8 @@ function setupLevel04(thisSegment)
 
 	elseif thisSegment == SEGMENT02 then  													
 	
-		segmentStart = offsetLevel04 + 561
-		segmentEnd   = offsetLevel04 + 1096
+		segmentStart = offsetLevel04 + 561 - 56
+		segmentEnd   = offsetLevel04 + 1096 - 56
 		totalMoves   = 11
 		
 		move = nil; move = {}
@@ -576,8 +572,8 @@ function setupLevel04(thisSegment)
 
 	elseif thisSegment == SEGMENT03 then  													
 	
-		segmentStart = offsetLevel04 + 1097
-		segmentEnd   = offsetLevel04 + 1956
+		segmentStart = offsetLevel04 + 1097 - 56
+		segmentEnd   = offsetLevel04 + 1956 - 56
 		totalMoves   = 18
 		
 		move = nil; move = {}
@@ -610,8 +606,8 @@ function setupLevel05(thisSegment)
 
 	if thisSegment == SEGMENT01 then
 
-		segmentStart = offsetLevel05 + 57
-		segmentEnd   = offsetLevel05 + 560
+		segmentStart = 12057
+		segmentEnd   = offsetLevel05 + 560 - 56
 		totalMoves   = 11
 		
 		move = nil; move = {}
@@ -629,8 +625,8 @@ function setupLevel05(thisSegment)
 
 	elseif thisSegment == SEGMENT02 then  													
 	
-		segmentStart = offsetLevel05 + 561
-		segmentEnd   = offsetLevel05 + 1096
+		segmentStart = offsetLevel05 + 561 - 56
+		segmentEnd   = offsetLevel05 + 1096 - 56
 		totalMoves   = 11
 		
 		move = nil; move = {}
@@ -648,8 +644,8 @@ function setupLevel05(thisSegment)
 
 	elseif thisSegment == SEGMENT03 then  													
 	
-		segmentStart = offsetLevel05 + 1097
-		segmentEnd   = offsetLevel05 + 1956
+		segmentStart = offsetLevel05 + 1097 - 56
+		segmentEnd   = offsetLevel05 + 1956 - 56
 		totalMoves   = 18
 		
 		move = nil; move = {}
@@ -682,8 +678,8 @@ function setupLevel06(thisSegment)
 
 	if thisSegment == SEGMENT01 then
 
-		segmentStart = offsetLevel06 + 57
-		segmentEnd   = offsetLevel06 + 633
+		segmentStart = 14760
+		segmentEnd   = offsetLevel06 + 633 - 58
 		totalMoves   = 14
 		
 		move = nil; move = {}
@@ -704,8 +700,8 @@ function setupLevel06(thisSegment)
 
 	elseif thisSegment == SEGMENT02 then  													
 	
-		segmentStart = offsetLevel06 + 634
-		segmentEnd   = offsetLevel06 + 1297
+		segmentStart = offsetLevel06 + 634 - 58
+		segmentEnd   = offsetLevel06 + 1297 - 58
 		totalMoves   = 16
 		
 		move = nil; move = {}
@@ -728,8 +724,8 @@ function setupLevel06(thisSegment)
 
 	elseif thisSegment == SEGMENT03 then  													
 	
-		segmentStart = offsetLevel06 + 1298
-		segmentEnd   = offsetLevel06 + 1950
+		segmentStart = offsetLevel06 + 1298 - 58
+		segmentEnd   = offsetLevel06 + 1950 - 58
 		totalMoves   = 15
 		
 		move = nil; move = {}
@@ -760,8 +756,8 @@ function setupLevel07(thisSegment)
 
 	if thisSegment == SEGMENT01 then
 
-		segmentStart = offsetLevel07 + 57
-		segmentEnd   = offsetLevel07 + 633
+		segmentStart = 17568
+		segmentEnd   = offsetLevel07 + 633 - 58
 		totalMoves   = 14
 		
 		move = nil; move = {}
@@ -782,8 +778,8 @@ function setupLevel07(thisSegment)
 
 	elseif thisSegment == SEGMENT02 then  													
 	
-		segmentStart = offsetLevel07 + 634
-		segmentEnd   = offsetLevel07 + 1297
+		segmentStart = offsetLevel07 + 634 - 58
+		segmentEnd   = offsetLevel07 + 1297 - 58
 		totalMoves   = 16
 		
 		move = nil; move = {}
@@ -806,8 +802,8 @@ function setupLevel07(thisSegment)
 
 	elseif thisSegment == SEGMENT03 then  													
 	
-		segmentStart = offsetLevel07 + 1298
-		segmentEnd   = offsetLevel07 + 1950
+		segmentStart = offsetLevel07 + 1298 - 58
+		segmentEnd   = offsetLevel07 + 1950 - 58
 		totalMoves   = 15
 		
 		move = nil; move = {}
@@ -837,8 +833,8 @@ TotalScenesLevel08 = 4
 function setupLevel08(thisSegment) 										
 	if thisSegment == SEGMENT01 then
 
-		segmentStart = offsetLevel08 + 57
-		segmentEnd   = offsetLevel08 + 633
+		segmentStart = 20375
+		segmentEnd   = offsetLevel08 + 633 - 57
 		totalMoves   = 11
 		
 		move = nil; move = {}
@@ -856,8 +852,8 @@ function setupLevel08(thisSegment)
 
 	elseif thisSegment == SEGMENT02 then  													
 	
-		segmentStart = offsetLevel08 + 634
-		segmentEnd   = offsetLevel08 + 1111
+		segmentStart = offsetLevel08 + 634 - 57
+		segmentEnd   = offsetLevel08 + 1111 - 57
 		totalMoves   = 12
 		
 		move = nil; move = {}
@@ -876,8 +872,8 @@ function setupLevel08(thisSegment)
 
 	elseif thisSegment == SEGMENT03 then  													
 	
-		segmentStart = offsetLevel08 + 1112
-		segmentEnd   = offsetLevel08 + 1649
+		segmentStart = offsetLevel08 + 1112 - 57
+		segmentEnd   = offsetLevel08 + 1649 - 57
 		totalMoves   = 14
 		
 		move = nil; move = {}
@@ -898,8 +894,8 @@ function setupLevel08(thisSegment)
 
 	elseif thisSegment == SEGMENT04 then  													
 	
-		segmentStart = offsetLevel08 + 1650
-		segmentEnd   = offsetLevel08 + 2086
+		segmentStart = offsetLevel08 + 1650 - 57
+		segmentEnd   = offsetLevel08 + 2086 - 57
 		totalMoves   = 10
 		
 		move = nil; move = {}
@@ -924,8 +920,8 @@ TotalScenesLevel09 = 4
 function setupLevel09(thisSegment) 										
 	if thisSegment == SEGMENT01 then
 
-		segmentStart = offsetLevel09 + 57
-		segmentEnd   = offsetLevel09 + 633
+		segmentStart = 23246
+		segmentEnd   = offsetLevel09 + 633 - 57
 		totalMoves   = 11
 		
 		move = nil; move = {}
@@ -943,8 +939,8 @@ function setupLevel09(thisSegment)
 
 	elseif thisSegment == SEGMENT02 then  													
 	
-		segmentStart = offsetLevel09 + 634
-		segmentEnd   = offsetLevel09 + 1111
+		segmentStart = offsetLevel09 + 634 - 57
+		segmentEnd   = offsetLevel09 + 1111 - 57
 		totalMoves   = 12
 		
 		move = nil; move = {}
@@ -963,8 +959,8 @@ function setupLevel09(thisSegment)
 
 	elseif thisSegment == SEGMENT03 then  													
 	
-		segmentStart = offsetLevel09 + 1112
-		segmentEnd   = offsetLevel09 + 1649
+		segmentStart = offsetLevel09 + 1112 - 57
+		segmentEnd   = offsetLevel09 + 1649 - 57
 		totalMoves   = 14
 		
 		move = nil; move = {}
@@ -985,8 +981,8 @@ function setupLevel09(thisSegment)
 
 	elseif thisSegment == SEGMENT04 then  													
 	
-		segmentStart = offsetLevel09 + 1650
-		segmentEnd   = offsetLevel09 + 2086
+		segmentStart = offsetLevel09 + 1650 - 57
+		segmentEnd   = offsetLevel09 + 2086 - 57
 		totalMoves   = 10
 		
 		move = nil; move = {}
@@ -1012,8 +1008,8 @@ function setupLevel10(thisSegment)
 
 	if thisSegment == SEGMENT01 then
 
-		segmentStart = offsetLevel10 + 57
-		segmentEnd   = offsetLevel10 + 641
+		segmentStart = 26117
+		segmentEnd   = offsetLevel10 + 641 - 58
 		totalMoves   = 15
 		
 		move = nil; move = {}
@@ -1035,8 +1031,8 @@ function setupLevel10(thisSegment)
 
 	elseif thisSegment == SEGMENT02 then  													
 	
-		segmentStart = offsetLevel10 + 642
-		segmentEnd   = offsetLevel10 + 1441
+		segmentStart = offsetLevel10 + 642 - 58
+		segmentEnd   = offsetLevel10 + 1441 - 58
 		totalMoves   = 19
 		
 		move = nil; move = {}
@@ -1062,8 +1058,8 @@ function setupLevel10(thisSegment)
 
 	elseif thisSegment == SEGMENT03 then  													
 	
-		segmentStart = offsetLevel10 + 1442
-		segmentEnd   = offsetLevel10 + 2174
+		segmentStart = offsetLevel10 + 1442 - 58
+		segmentEnd   = offsetLevel10 + 2174 - 58
 		totalMoves   = 16
 		
 		move = nil; move = {}
@@ -1094,8 +1090,8 @@ function setupLevel11(thisSegment)
 
 	if thisSegment == SEGMENT01 then
 
-		segmentStart = offsetLevel11 + 57
-		segmentEnd   = offsetLevel11 + 641
+		segmentStart = 29028
+		segmentEnd   = offsetLevel11 + 641 - 57
 		totalMoves   = 15
 		
 		move = nil; move = {}
@@ -1117,8 +1113,8 @@ function setupLevel11(thisSegment)
 
 	elseif thisSegment == SEGMENT02 then  													
 	
-		segmentStart = offsetLevel11 + 642
-		segmentEnd   = offsetLevel11 + 1441
+		segmentStart = offsetLevel11 + 642 - 57
+		segmentEnd   = offsetLevel11 + 1441 - 57
 		totalMoves   = 19
 		
 		move = nil; move = {}
@@ -1144,8 +1140,8 @@ function setupLevel11(thisSegment)
 
 	elseif thisSegment == SEGMENT03 then  													
 	
-		segmentStart = offsetLevel11 + 1442
-		segmentEnd   = offsetLevel11 + 2174
+		segmentStart = offsetLevel11 + 1442 - 57
+		segmentEnd   = offsetLevel11 + 2174 - 57
 		totalMoves   = 16
 		
 		move = nil; move = {}
@@ -1176,8 +1172,8 @@ function setupLevel12(thisSegment)
 
 	if thisSegment == SEGMENT01 then
 
-		segmentStart = offsetLevel12 + 57
-		segmentEnd   = offsetLevel12 + 679
+		segmentStart = 31951
+		segmentEnd   = offsetLevel12 + 679 - 58
 		totalMoves   = 12
 		
 		move = nil; move = {}
@@ -1204,8 +1200,8 @@ function setupLevel13(thisSegment)
 
 	if thisSegment == SEGMENT01 then
 
-		segmentStart = offsetLevel13 + 57
-		segmentEnd   = offsetLevel13 + 808
+		segmentStart = 32983
+		segmentEnd   = offsetLevel13 + 808 - 57
 		totalMoves   = 17
 		
 		move = nil; move = {}
@@ -1230,8 +1226,8 @@ function setupLevel13(thisSegment)
 
 	elseif thisSegment == SEGMENT02 then  													
 	
-		segmentStart = offsetLevel13 + 809
-		segmentEnd   = offsetLevel13 + 1326
+		segmentStart = offsetLevel13 + 809 - 57
+		segmentEnd   = offsetLevel13 + 1326 - 57
 		totalMoves   = 12
 		
 		move = nil; move = {}
@@ -1258,8 +1254,8 @@ function setupLevel14(thisSegment)
 
 	if thisSegment == SEGMENT01 then
 
-		segmentStart = offsetLevel14 + 57
-		segmentEnd   = offsetLevel14 + 1890
+		segmentStart = 34670
+		segmentEnd   = offsetLevel14 + 1890 - 57
 		totalMoves   = 19
 		
 		move = nil; move = {}

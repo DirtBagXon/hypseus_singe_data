@@ -1,7 +1,7 @@
 --[[
 
 PROGRAM NAME:	LUA SINGE
-VERSION:		1.1
+VERSION:		2.0 (standalone)
 AUTHOR:			KARIS (2020)
 
 This file is part of LUA SINGE.
@@ -144,6 +144,14 @@ function readConfig()
 			
 		end
 
+		s1 = io.read("*line")	
+
+		if (s1 ~= nil) then
+		
+			dip_Res = tonumber(string.sub(s1,string.find(s1,"=")+1))
+			
+		end
+
 		s1 = io.read("*line")
 		highscore = nil; highscore = {}
 		for k=1,10 do
@@ -154,6 +162,19 @@ function readConfig()
 			
 			highscore[k] = {}
 			highscore[k] = {hsName, hsScore}
+		
+		end	
+
+		s1 = io.read("*line")
+		percent = nil; percent = {}
+		for k=1,finalstage do
+			s1 = io.read("*line")
+			
+			hsName = string.sub(s1,1,string.find(s1,",")-1)
+			hsScore = string.sub(s1,string.find(s1,",")+1, string.len(s1))
+						
+			percent[k] = {}
+			percent[k] = {hsName, hsScore}
 		
 		end		
 		
@@ -205,6 +226,8 @@ function writeConfig()
 	else
 		io.write("dip_AllowContinue = 0" .. sNewLine)
 	end
+
+	io.write("dip_Res = " .. dip_Res .. sNewLine)
 			
 	io.write(sNewLine)	
 	
@@ -215,19 +238,25 @@ function writeConfig()
 	
 	end
 	
-	io.write(sNewLine)	
+	io.write(sNewLine)
+
+	for k=1,finalstage do
+		
+		s1 = percent[k][1] .. "," .. percent[k][2]
+		io.write(s1 .. sNewLine)
+	
+	end
 	io.close(h1)
 
 end
 
 function updateOpts(thisIndex)
 
-
 	if (thisIndex == 1) then
 	
 		dip_Rom = dip_Rom  + 1
 		
-		if (dip_Rom > 1) then
+		if (dip_Rom > 2) then
 		
 			dip_Rom = 0
 			dip_Difficulty = 0
@@ -253,6 +282,11 @@ function updateOpts(thisIndex)
 			dip_StartSegment = 1
 			dip_AllowContinue = true
 			dip_Kidmode = false
+
+		elseif (dip_Rom == 2) then
+
+			dip_StartLevel = 1
+			dip_StartScene = 1
 
 		end
 
@@ -540,8 +574,24 @@ function updateOpts(thisIndex)
 			dip_Debug = false
 
 		end
+
+	elseif (thisIndex == 12) then	
 	
-	elseif (thisIndex == 12) then		
+		dip_Res = dip_Res + 1
+			
+		if (dip_Res > 1) then dip_Res = 0 end
+
+		if dip_Res == 0 then
+
+			getHiRes()
+			
+		elseif dip_Res == 1 then
+
+			getLoRes()
+
+		end
+	
+	elseif (thisIndex == 13) then		
 
 		lvlState = lvlEnd
 		
@@ -557,15 +607,10 @@ function updateOptsMin(thisIndex)
 		dip_Rom = dip_Rom  - 1
 		
 		if (dip_Rom < 0) then
-		
-			dip_Rom = 1
-			dip_ExtraLife = 0
-			dip_Difficulty = 0
-			dip_LivesPerCredit = 5
-			dip_Rewind = 3
-			dip_StartSegment = 1
-			dip_AllowContinue = true
-			dip_Kidmode = false
+			
+			dip_Rom= 2
+			dip_StartLevel = 1
+			dip_StartScene = 1
 
 		elseif (dip_Rom == 0) then
 
@@ -879,8 +924,24 @@ function updateOptsMin(thisIndex)
 			dip_Debug = false
 
 		end
+
+	elseif (thisIndex == 12) then	
 	
-	elseif (thisIndex == 12) then		
+		dip_Res = dip_Res - 1
+			
+		if (dip_Res < 0) then dip_Res = 1  end
+
+		if dip_Res == 0 then
+
+			getHiRes()
+			
+		elseif dip_Res == 1 then
+
+			getLoRes()
+
+		end
+	
+	elseif (thisIndex == 13) then		
 
 		lvlState = lvlEnd
 		
@@ -907,7 +968,8 @@ function printOpts()
 	smenu[9] = "Show Moves?"
 	smenu[10] = "Kid Mode (only action)"
 	smenu[11] = "Movie Mode (no play)"
-	smenu[12] = "EXIT"	
+	smenu[12] = "Overlay Mode"
+	smenu[13] = "EXIT"	
 	
 	
 	fontSelect(fontLCD)	
@@ -916,24 +978,27 @@ function printOpts()
 	fontSelect(fontGame)	
 	fontPrint(getMiddle("PROGRAMMED BY KARIS VERSION 2.0"),OVLH-LINEH*6, "PROGRAMMED BY KARIS VERSION 2.0")	
 	
-	for k=1,12 do
+	for k=1,13 do
 		
 		ypos = OVLH/6 + k *LINEH*3.5
 
 		if k == optSel then setFontColor(mycolor1) else setFontColor(mycolor2) end		
 			
-		if k == 12 then fontPrint(getMiddle(smenu[12]), OVLH/6 + (k+1) *LINEH*3.5, "EXIT") else fontPrint(OVLW/4, ypos, smenu[k]) end
+		if k == 13 then fontPrint(getMiddle(smenu[13]), OVLH/6 + (k+1) *LINEH*3.5, "EXIT") else fontPrint(OVLW/4, ypos, smenu[k]) end
 		
 		if (k == 1) then		
 			
 			if dip_Rom == 0 then
 			
 				fontPrint(fntx, ypos, "ENHANCED")	
-				
-			
-			else
+					
+			elseif dip_Rom == 1 then
 			
 				fontPrint(fntx, ypos, "ORIGINAL")
+
+			elseif dip_Rom == 2 then
+			
+				fontPrint(fntx, ypos, "PERCENT")
 											
 			end
 
@@ -1160,8 +1225,19 @@ function printOpts()
 			
 			end
 
-		
+		elseif (k == 12) then		
+			
+			if dip_Res == 0 then
+			
+				fontPrint(fntx, ypos, "Hi Res")	
 				
+			
+			elseif dip_Res == 1 then
+			
+				fontPrint(fntx, ypos, "Lo Res")
+					
+			end
+					
 		end
 
 	end
@@ -1173,7 +1249,7 @@ function doServiceMenu()
 	-- This is the main function for the service menu screen.
 	
 	local gunx = 42
-	local optMax = 12
+	local optMax = 13
 	
 	if (lvlState == lvlSetup) then
 	
@@ -1236,7 +1312,11 @@ function doServiceMenu()
 				p1DOWN = false; p1UP = false	
 				
 			end
-			
+		elseif (p1START1) then
+
+			p1START1 = false
+			lvlState = lvlEnd
+
 		end
 		printOpts()
 
@@ -1318,7 +1398,12 @@ function doSave()
 				p1DOWN = false; p1UP = false	
 				
 			end
-			
+		
+		elseif (p1START1) then
+
+			p1START1 = false
+			lvlState = lvlEnd
+
 		end
 		printSave()
 

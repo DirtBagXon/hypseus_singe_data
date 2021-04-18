@@ -1,16 +1,16 @@
 --[[
 
-PROGRAM NAME:	LUA SINGE
-VERSION:		1.1
+PROGRAM NAME:	LUA SINGE ENGINE
+VERSION:		2.0
 AUTHOR:			KARIS (2020)
 
-This file is part of LUA SINGE.
+This file is part of LUA SINGE ENGINE.
 
-	LUA SINGE is free software: you can redistribute it and/or modify
+	LUA SINGE ENGINE is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation.
 
-	LUA SINGE is distributed in the hope that it will be useful,
+	LUA SINGE ENGINE is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
@@ -62,7 +62,6 @@ function joyDelayDue()
 		
 		if (joySecs >= joyLimit) then
 
-			if (dip_Debug) then debugPrint ("Timer lock DISengaged. Timer expired.") end
 			joyDelayOFF()
 			return true
 			
@@ -79,8 +78,6 @@ end
 function doHighScore()
 
 	if (lvlState == lvlSetup) then
-	
-		if dip_Debug then debugPrint("Entering doHighScore()") end
 		
 		bShowLives = false
 		bShowScore = false
@@ -92,54 +89,58 @@ function doHighScore()
 		iCursor = 1
 		sName = ""
 		initArray()
-				
-		lvlState = branch01
 		
-	elseif (lvlState == branch01) then
-	
-		if timerDue() then
-			
-			discSkipToFrame(offsetEnterHScore)
-			timerON(20)
-			discPause()	
-			lvlState = lvlRunning
-		
-		end
+		discSkipToFrame(offsetEnterHScore)
+		discPause()
+		timerON(60)
+
+		lvlState = lvlRunning
 		
 	elseif (lvlState == branch02) then
-	
-		if timerDue() then
-			
-			lvlState = lvlEnd
-		
-		else
-
-			drawHS()
-
-		end
-		
-	elseif (lvlState == branch03) then
 		
 		if timerDue() then 
-			
-			lvlState = lvlEnd
-			
+
+			discPause()
+			timerON(2)
+			lvlState = lvlEnd 
+
 		else
 
 			drawHS()
 
 		end
-	
+
+	elseif (lvlState == branch03) then
+		
+		if timerDue() then  
+
+			discPause()
+			timerON(2)
+			lvlState = lvlEnd
+
+		else
+
+			drawPercent()
+
+		end
+		
 	elseif (lvlState == lvlRunning) then
 	
 		if timerDue() then	
 			
-			updateHS(sName, iScore)
-			discSkipToFrame(offsetOKHScore)
-			discPause()
-			timerON(5)
-					
-			lvlState = branch02
+			if dip_Rom == 2 then
+
+				updatePercent(sName, math.floor(100*(iRightMv/(iRightMv+iWrongMv))))
+				setupClip(offsetRankings, offsetRankingsend)
+				lvlState = branch03
+
+			else
+
+				updateHS(sName, iScore)
+				setupClip(offsetRankings, offsetRankingsend)
+				lvlState = branch02	
+
+			end
 			
 		else
 		
@@ -158,15 +159,26 @@ function doHighScore()
 		end	
 	
 	elseif (lvlState == lvlEnd) then	
+				
 		
 		writeConfig()
-		lvlState = lvlSetup
-		currentLevel = levelGameOver
-		
-		if dip_Debug then debugPrint("Leaving doHighScore()") end
-	
-	end
 
+		if dip_Rom == 2 then
+
+			lvlState = lvlSetup
+			currentLevel = levelIntro
+
+		else
+
+			bGOAlt = true
+			lvlState = lvlSetup
+			currentLevel = levelGameOver
+		
+		end	
+
+		
+		
+	end
 
 end
 
@@ -259,11 +271,23 @@ function checkInput()
 		
 		elseif iCursor == 44 then
 			
-			updateHS(sName, iScore)
-			discSkipToFrame(offsetOKHScore)
-			discPause()
-			timerON(5)
-			lvlState = branch03	
+			if dip_Rom == 2 then
+
+				updatePercent(sName, math.floor(100*(iRightMv/(iRightMv+iWrongMv))))
+				discSkipToFrame(offsetOKHScore)
+				discPause()
+				timerON(5)
+				lvlState = branch03
+
+			else
+
+				updateHS(sName, iScore)
+				discSkipToFrame(offsetOKHScore)
+				discPause()
+				timerON(5)
+				lvlState = branch02
+
+			end
 					
 		end
 	
@@ -316,7 +340,7 @@ function printLetters()
 		
 		else
 		
-			s1 = s1 .. "- "
+			s1 = s1 .. "_ "
 		
 		
 		end	
@@ -324,7 +348,7 @@ function printLetters()
 	end
 	
 	fontSelect(fontLCD)
-	setFontColor(mycolor3)
+	setFontColor(mycolor4)
 	fontPrint(getMiddle(s1),OVLH/3,s1)
 	
 	
@@ -337,13 +361,9 @@ function drawLetters()
 	local q = 0
 	local x1 = 0
 	local y1 = OVLH/2.5
-	
-	setFontColor(mycolor1)
-	fontSelect(fontLCD)
-	fontPrint(getMiddle("HIGH SCORE!!"),LINEH*4, "HIGH SCORE!!")
-	fontSelect(fontGame)
-	fontPrint(getMiddle("PLEASE ENTER YOUR NAME"),OVLH-LINEH*4, "PLEASE ENTER YOUR NAME")
-			
+		
+		
+
 	printLetters()		
 
 	fontSelect(fontLCD)
@@ -355,10 +375,10 @@ function drawLetters()
 		if k == iCursor then 
 		
 			blinkTimer(0.300)
-			if heartbeat then setFontColor(mycolor3) else setFontColor(mycolor1) end
+			if heartbeat then setFontColor(mycolor2) else setFontColor(mycolor1) end
 		
 		else 
-			setFontColor(mycolor2) 
+			setFontColor(mycolor1) 
 		
 		end
 		
@@ -401,8 +421,8 @@ function drawHS()
 	
 	if bShowTitle == true then
 
-		fontSelect(fontLCD)
-		setFontColor(mycolor1)
+		fontSelect(fontBig)
+		setFontColor(mycolor3)
 		fontPrint(getMiddle("RANKINGS"),LINEH*4, "RANKINGS")
 		
 	end		
@@ -413,19 +433,162 @@ function drawHS()
 			
 		if k==1 then
 
-			setFontColor(mycolor2)
-			fontPrint(LINEW*2.3+OVLW/2.65, OVLH/5+ k *LINEH*5, k .."."..highscore[k][1].."   "..highscore[k][2])
+			setFontColor(mycolor1)
+			fontPrint(LINEW*1.9+OVLW/2.8, OVLH/5 + k *LINEH*5, k ..".")
+			fontPrint(LINEW*2+OVLW/2.5, OVLH/5 + k *LINEH*5, highscore[k][1])
+			fontPrint(LINEW*2+OVLW/2, OVLH/5 + k *LINEH*5, highscore[k][2])
 		
+		elseif k==10 then
+
+			setFontColor(mycolor2)
+			fontPrint(LINEW*2+OVLW/2.9, OVLH/5 + k *LINEH*5, k ..".")
+			fontPrint(LINEW*2+OVLW/2.5, OVLH/5 + k *LINEH*5, highscore[k][1])
+			fontPrint(LINEW*2+OVLW/2, OVLH/5 + k *LINEH*5, highscore[k][2])	
+
 		else
 
-			setFontColor(mycolor1)
-			fontPrint(LINEW*2+OVLW/2.65, OVLH/5 + k *LINEH*5, k .."."..highscore[k][1].."   "..highscore[k][2])
+			setFontColor(mycolor2)
+			fontPrint(LINEW*2+OVLW/2.8, OVLH/5 + k *LINEH*5, k ..".")
+			fontPrint(LINEW*2+OVLW/2.5, OVLH/5 + k *LINEH*5, highscore[k][1])
+			fontPrint(LINEW*2+OVLW/2, OVLH/5 + k *LINEH*5, highscore[k][2])
 
 		end
 
 	end
 
 end
+
+function drawPercent()
+
+	local k = 0
+	
+	if ShowTitle == true then
+
+		fontSelect(fontBig)
+		setFontColor(mycolor3)
+		fontPrint(getMiddle("RANKINGS"),LINEH*4, "RANKINGS")
+		
+	end		
+
+	fontSelect(fontLCD)
+	setFontColor(mycolor2)
+	fontPrint(getMiddle("BEST PERCENT"),LINEH*2, "BEST PERCENT")
+	setFontColor(mycolor1)
+
+	for k = 1, finalstage do
+			
+		fontPrint(getMiddle("Level 2 : BAB 99"), OVLH/10 + k *LINEH*4.5, "Level " .. k .. " : " .. percent[k][1] .. " " .. percent[k][2])
+				
+	end
+
+end
+
+
+function drawTrophy()
+
+	local k = 0
+	
+	if bShowTitle == true then
+
+		fontSelect(fontBig)
+		setFontColor(mycolor3)
+		fontPrint(getMiddle("TROPHIES"),LINEH*4, "TROPHIES")
+		
+	end		
+	
+	if t1 == 0 then
+
+		spriteDraw(3*OVLW/4,OVLH/4,sprite[TN])
+
+	elseif t1 == 1 then
+
+		spriteDraw(3*OVLW/4,OVLH/4,sprite[TB])
+
+	elseif t1 == 2 then
+
+		spriteDraw(3*OVLW/4,OVLH/4,sprite[TS])
+
+	elseif t1 == 3 then
+
+		spriteDraw(3*OVLW/4,OVLH/4,sprite[TG])
+
+	elseif t1 == 4 then
+
+		spriteDraw(3*OVLW/4,OVLH/4,sprite[TP])
+
+	end
+
+
+	if t2 == 0 then
+
+		spriteDraw(3*OVLW/4,1.72*OVLH/4,sprite[TN])
+
+	elseif t2 == 1 then
+
+		spriteDraw(3*OVLW/4,1.72*OVLH/4,sprite[TB])
+
+	elseif t2 == 2 then
+
+		spriteDraw(3*OVLW/4,1.72*OVLH/4,sprite[TS])
+
+	elseif t2 == 3 then
+
+		spriteDraw(3*OVLW/4,1.72*OVLH/4,sprite[TG])
+
+	elseif t2 == 4 then
+
+		spriteDraw(3*OVLW/4,1.72*OVLH/4,sprite[TP])
+
+	end
+
+
+	if t3 == 0 then
+
+		spriteDraw(3*OVLW/4,2.44*OVLH/4,sprite[TN])
+
+	elseif t3 == 1 then
+
+		spriteDraw(3*OVLW/4,2.44*OVLH/4,sprite[TB])
+
+	elseif t3 == 2 then
+
+		spriteDraw(3*OVLW/4,2.44*OVLH/4,sprite[TS])
+
+	elseif t3 == 3 then
+
+		spriteDraw(3*OVLW/4,2.44*OVLH/4,sprite[TG])
+
+	elseif t3 == 4 then
+
+		spriteDraw(3*OVLW/4,2.44*OVLH/4,sprite[TP])
+
+	end
+
+
+	if t4 == 0 then
+
+		spriteDraw(3*OVLW/4,3.16*OVLH/4,sprite[TN])
+
+	elseif t4 == 1 then
+
+		spriteDraw(3*OVLW/4,3.16*OVLH/4,sprite[TB])
+
+	elseif t4 == 2 then
+
+		spriteDraw(3*OVLW/4,3.16*OVLH/4,sprite[TS])
+
+	elseif t4 == 3 then
+
+		spriteDraw(3*OVLW/4,3.16*OVLH/4,sprite[TG])
+
+	elseif t4 == 4 then
+
+		spriteDraw(3*OVLW/4,3.16*OVLH/4,sprite[TP])
+
+	end
+
+end
+
 
 function newScore(thisScore)
 
@@ -443,6 +606,20 @@ function newScore(thisScore)
 	
 	end
 	
+	return bResult
+
+end
+
+function newPercent(thisPercent)
+
+	local bResult = false
+
+	if (tonumber(thisPercent) > tonumber(percent[iCurPos][2])) then
+			
+		bResult = true			
+			
+	end	
+
 	return bResult
 
 end
@@ -506,4 +683,11 @@ function updateHS(thisName, thisScore)
 
 	end
 	
+end
+
+function updatePercent(thisName, thisPercent)
+	
+	percent[iCurPos][1] = thisName
+	percent[iCurPos][2] = thisPercent
+		
 end

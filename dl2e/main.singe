@@ -1,22 +1,20 @@
 --[[
 
-PROGRAM NAME:	FIRE & ICE
-VERSION:		2.0
-AUTHOR:			KARIS (2019)
+PROGRAM NAME:	DRAGON'S LAIR IIe
+VERSION:		2.0 (standalone)
+AUTHOR:			KARIS (2020)
 
-This file is part of FIRE AND ICE
+This file is part of DRAGON'S LAIR IIe
 
-    FIRE AND ICE is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation.
+	DRAGON'S LAIR IIe is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation.
 
-    FIRE AND ICE is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+	DRAGON'S LAIR IIe is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-    Thanks to RDG (original author of the program), Ralph Bakshi (director of the movie).
-    Dedicated to Frank Frazetta (the God).
-
+	Thanks to Scott Duensing, RDG.
 
 ]]--
 
@@ -216,53 +214,167 @@ function doContinue()
 
 end
 
-function doFillerFrame()
+function doFinish()      -- Process the end of a level
 
-	if dip_Debug then debugPrint("Entering doFillerFrame()") end
-	
-	local b1 = true
-	local k = 0
-	
-	for k=1,2 do
-		b1 = b1 and filler[k]
-	end
-	
-	if b1 then
-	
-		for k=1,2 do
+	bShowScore = false
+	bRes = true
+	fontSelect(fontLCD)
+	local iTemp = math.floor(100*(iRightMv/(iRightMv+iWrongMv)))
+
+	if dip_Rom ~= 2 then
+
+		NextLevel(iCurPos)
+
+	else
+
+		if ShowTitle == true then
+
+				setFontColor(mycolor3)
+				fontPrint(getMiddle("LEVEL CLEARED"),LINEH*4, "LEVEL CLEARED")
+			
+		end		
+
+		if (lvlState == lvlSetup) then     -- Plays Level Cleared video 
+
+			discSkipToFrame(frameOptions)
+			discPause()
+			timerON(2)
+			lvlState = branch02
+
+		elseif (lvlState == branch01) then     -- First Pause
+					
+			if timerDue() then
+				
+				timerON(0.5)
+				discPause()
+				lvlState = branch02
+				
+			end
 		
-			if k ~= iLastFiller then filler[k] = false end
+		elseif (lvlState == branch02) then     -- Second pause (for Level Score) 
+					
+			if timerDue() then 
+				
+				timerON(2)
+				discPause()
+				soundPlay(sndcredit)
+				lvlState = branch03
+				
+			end
+
+		elseif lvlState == branch03 then     -- Shows Level Score
+
+			
+			if timerDue() then
+
+				timerON(2)
+				discPause()
+				soundPlay(sndcredit)
+				lvlState = branch04
+
+			else
+				
+				setFontColor(mycolor1)
+				fontPrint(getMiddle("99 completed moves out of 99"),OVLH/3,iRightMv .. " completed moves out of " .. iRightMv+iWrongMv)				
+				
+			end
+
+		elseif lvlState == branch04 then     -- Shows Bonus Score
+
+			
+			if timerDue() then
+				
+				timerON(2)
+				discPause()
+				soundPlay(sndvictory)
+				lvlState = branch05
+
+			else
+
+				fontPrint(getMiddle("99 completed moves out of 99"),OVLH/3,iRightMv .. " completed moves out of " .. iRightMv+iWrongMv) 	
+				fontPrint(getMiddle("99/100"),OVLH/2,iTemp .. " /100")	
+
+				if iTemp <50 then
+
+					fontPrint(getMiddle("NEED MORE TRAINING!"),2*OVLH/3, "NEED MORE TRAINING!")
+
+				elseif iTemp >=50 and iTemp <80 then
+
+					fontPrint(getMiddle("NOT BAD!"),2*OVLH/3, "NOT BAD!")
+					
+				elseif iTemp >=80 and iTemp <90 then
+
+					fontPrint(getMiddle("ALMOST THERE!"),2*OVLH/3, "ALMOST THERE!")
+
+				elseif iTemp >=90 and iTemp <100 then
+
+					fontPrint(getMiddle("AMAZING!"),2*OVLH/3, "AMAZING!")
+
+				elseif iTemp == 100 then
+
+					fontPrint(getMiddle("PERFECT!"),2*OVLH/3, "PERFECT!")	
+
+				end				
+
+			end
+
+		elseif lvlState == branch05 then     -- Back to normal
+
+			
+			if timerDue() then
+
+				iScoreTemp = 0
+				iBonus = 0
+				numTrophy = 0
+
+				lvlState = branch06
+								
+			else
+
+				fontPrint(getMiddle("99 completed moves out of 99"),OVLH/3,iRightMv .. " completed moves out of " .. iRightMv+iWrongMv) 	
+				fontPrint(getMiddle("99/100"),OVLH/2,iTemp .. "/100")
+
+				if iTemp <50 then
+
+					fontPrint(getMiddle("NEED MORE TRAINING!"),2*OVLH/3, "NEED MORE TRAINING!")
+
+				elseif iTemp >=50 and iTemp <80 then
+
+					fontPrint(getMiddle("NOT BAD!"),2*OVLH/3, "NOT BAD!")
+					
+				elseif iTemp >=80 and iTemp <90 then
+
+					fontPrint(getMiddle("ALMOST THERE!"),2*OVLH/3, "ALMOST THERE!")
+
+				elseif iTemp >=90 and iTemp <100 then
+
+					fontPrint(getMiddle("AMAZING!"),2*OVLH/3, "AMAZING!")
+
+				elseif iTemp == 100 then
+
+					fontPrint(getMiddle("PERFECT!"),2*OVLH/3, "PERFECT!")	
+
+				end		
 		
+			end
+
+		elseif lvlState == branch06 then     -- End (percent game)
+
+			if newPercent(iTemp) and dip_Difficulty>0 then -- Has player achieved a high Percent?			
+				
+				lvlState = lvlSetup  
+				currentLevel = levelHighScore
+
+			else
+				
+				lvlState = lvlSetup
+				currentLevel = levelIntro
+
+			end	
+
 		end
 
 	end
-	b1 = false
-	repeat
-		
-		singeRandomize()
-		k = math.random(2)
-		if filler[k] == false then
-		
-			iLastFiller = k
-			filler[k] = true
-			b1 = true
-		
-		end
-		
-	until b1	
-	
-	if     iLastFiller  == 1 then setupClip(offsetIntro02, offsetIntro02end)
-	elseif iLastFiller  == 2 then setupClip(offsetIntro03, offsetIntro03end)
-
-	end
-		
-	if dip_Debug then debugPrint("Leaving doFillerFrame()") end
-
-end
-
-function doFinish()
-		
-	NextLevel(iCurPos)
 
 end
 
@@ -322,11 +434,9 @@ end
 
 function doIntro()
 	
-	if (lvlState == lvlSetup) then
+	if (lvlState == lvlSetup) then     -- Attract mode
 		
-		if dip_Debug then debugPrint("Entering doIntro()") end	
-		
-		setupClip(offsetIntro01, offsetIntro01end)  -- ATTRACT	
+		setupClip(offsetIntro01, offsetIntro01end)  
 		initLCD()
 		lvlState = branch01		
 		
@@ -335,83 +445,71 @@ function doIntro()
 		bShowLives = false
 		bCheckForCredits = true
 
-	elseif (lvlState == branch01) then
+	elseif (lvlState == branch01) then     -- Show commands
 
 		if (currentFrame == iFrameEnd or p1BUTTON1) then
 			
 			p1BUTTON1 = false
-
-			discSkipToFrame(frameCommands)	
+			discSkipToFrame(frameCommands)
+			discPause()
 			bShowLCD = false
-			bShowCredits = false
-			timerON(15)
-			discPause()			
-			lvlState = branch02			
-	
-		end
-			
-	elseif (lvlState == branch02) then
-		
-		if timerDue() then
+			bShowCredits = false			
+			timerON(10)			
+			lvlState = branch02	
 
-						
+		end
+	
+	elseif (lvlState == branch02) then     -- Show Rankings
+		
+		if timerDue() or p1BUTTON1 then
+
+			p1BUTTON1 = false
 			local k = 0
 			fontSelect(fontGame)	
-			setFontColor(YELLOW)
-			discSkipToFrame(offsetOKHScore)
-			timerON(5)
+			setFontColor(mycolor1)
+			discSkipToFrame(frameRankings)
+			timerON(8)
 			discPause()
 							
 			lvlState = branch03
 	
-		
 		end	
+	
+	elseif (lvlState == branch03) then     -- Percent
 		
-	elseif (lvlState == branch03) then
-		
-		if timerDue() then
+		if timerDue() or p1BUTTON1 then
 
-			lvlState = lvlSetup
+			p1BUTTON1 = false
+			local k = 0
+			fontSelect(fontGame)	
+			setFontColor(mycolor1)
+			discSkipToFrame(frameOptions)
+			timerON(8)
+			discPause()
+
+			lvlState = branch04
 
 		else
 				
 			drawHS()		
 		
 		end	
+
+	elseif (lvlState == branch04) then     -- Resume intro movies
 		
-	elseif (lvlState == branch04) then
-		
-		if currentFrame == iFrameEnd then lvlState = lvlSetup end
-		
-	elseif (lvlState == branch05) then
-		
-		if timerDue() then
-		
-			gameflow = flow_GameInit
-			
-		elseif (p1START1) then
-		
-			p1START1 = false
-			
-			if ((iCredits > 0 or dip_CoinsPerCredit == DOPT_FREEPLAY) and dip_Movie == false) then 			
+		if timerDue() or p1BUTTON1 then	
+
+			p1BUTTON1 = false
+			bShowLCD = true
+			bShowCredits = true
+			lvlState = lvlSetup
+
+		else
 				
-				startGame()
-				bShowCredits = false
-
-			elseif dip_Movie == true then
-
-				lvlState = lvlSetup 
-				currentLevel = levelMovie
-				bShowCredits = false
-			
-			end
-	
-		end
-	
-	elseif (lvlState == lvlEnd) then
+			drawPercent()		
 		
-		-- no end. loop indefinitely until player does something.			
-	
+		end	
+
 	end
 	
 	if (dip_CoinsPerCredit == DOPT_FREEPLAY) or (bShowCredits == true and iCredits > 0) then
@@ -484,7 +582,7 @@ function doLevel()
 			
 		else		
 			
-			if currentFrame +1 ~= segmentStart then
+			if (currentFrame +1 ~= segmentStart) or (currentFrame ~= segmentStart) or (currentFrame -1 ~= segmentStart) then
 
 				discSkipToFrame(segmentStart)					
 			
@@ -556,7 +654,24 @@ function doLevel()
 		
 	elseif (lvlState == branch07) then
 				
-		if currentFrame == iFrameEnd then lvlState = lvlEnd end
+		if currentFrame == iFrameEnd then 
+
+			if (dip_Rewind==0 and bDeath == true) or (dip_Rom == 1 and bDeath == true) then
+
+				lvlState = lvlEnd
+
+			elseif dip_Rewind == 2 and bDeath == true and currentMove == totalMoves then
+
+				segment[iCurPos][iSegPointer][SEGMENTCOMPLETE] = true
+				lvlState = lvlEnd
+
+			else
+				
+				lvlState = branch09
+			
+			end	
+
+		end
 		
 	elseif (lvlState == branch08) then
 		
@@ -686,8 +801,19 @@ function doLevel()
 			
 			iPauseFrame = move[currentMove][inputFrmEnd] --currentFrame			
 			bShowAction = false
-			setupDeathClip(thisMove)
-							
+
+			if dip_Rom == 2 then 
+				
+				soundPlay(sndwrong)
+				iWrongMv = iWrongMv +1
+				lvlState = lvlPlayRest
+
+			else
+				
+				setupDeathClip(thisMove) 
+
+			end
+									
 		elseif (currentFrame >= move[currentMove][inputFrmStart] and currentFrame <= move[currentMove][inputFrmEnd]) then
 			
 			thisMove = scanInput()
@@ -709,7 +835,7 @@ function doLevel()
 
 						soundPlay(sndright)
 						addPoints(SCOREMOVE + dip_Difficulty * BUFFMOVE) 
-
+						iRightMv = iRightMv +1
 					end				
 					
 					lvlState = lvlPlayRest
@@ -718,7 +844,18 @@ function doLevel()
 				
 					iPauseFrame = move[currentMove][inputFrmEnd] --currentFrame			
 					bShowAction = false		
-					setupDeathClip(thisMove)	
+					
+					if dip_Rom == 2 then 
+				
+						soundPlay(sndwrong)
+						iWrongMv = iWrongMv +1
+						lvlState = lvlPlayRest
+
+					else
+				
+						setupDeathClip(thisMove) 
+
+					end	
 		
 				end
 				
@@ -737,29 +874,32 @@ function doLevel()
 			stage[thisLevel][DEATHCOUNT] = stage[thisLevel][DEATHCOUNT] + 1
 		
 			if iLives > 0 then
-				
+							
 				if bDeath == true then 
-					
+				
 					bShowLives = true
 					bShowScore = true
-					setupClip(offsetLevel02,offsetLevel02Clipend) 
-
-				end
-				
-				if (dip_Rewind==0 and bDeath == true) or (dip_Rom == 1 and bDeath == true) then
-
-					lvlState = lvlEnd
-
-				elseif dip_Rewind == 2 and bDeath == true and currentMove == totalMoves then
-
-					segment[iCurPos][iSegPointer][SEGMENTCOMPLETE] = true
-					lvlState = lvlEnd
+					setupClip(36844,36899) 
+					lvlState = branch07
 
 				else
+
+					if (dip_Rewind==0 and bDeath == true) or (dip_Rom == 1 and bDeath == true) then
+
+						lvlState = lvlEnd
+
+					elseif dip_Rewind == 2 and bDeath == true and currentMove == totalMoves then
+
+						segment[iCurPos][iSegPointer][SEGMENTCOMPLETE] = true
+						lvlState = lvlEnd
+
+					else
+						
+						lvlState = branch09
 					
-					lvlState = branch09
-				
-				end	
+					end	
+
+				end
 
 			else
 				
@@ -774,7 +914,7 @@ function doLevel()
 		lvlState = lvlSetup
 		
 		if (iLives == 0) then -- game over			
-			
+		
 			if dip_AllowContinue  then
 				
 				iTempLevel = currentLevel	
@@ -802,8 +942,6 @@ function doLevel()
 			
 			if stageBeat(thisLevel) then
 				
-
-
 				if thisLevel == level01 and bRetry == true and (bObj1 == false or bObj02 == false or bObj03 == false) then
 						
 
@@ -1279,51 +1417,18 @@ function drawSum()
 		
 end
 
-function initJob()
-
-	debugPrint("Playing Dragon's Lair II: Timewarp")
+function getHiRes()
 
 	overlaySetResolution(vldpGetWidth(), vldpGetHeight())
 
-	readConfig()
-	if dip_Debug then debugPrint ("Entering initJob()") end
-
-	resetChannels()
-	gameflow = flow_GameRunning
-	currentLevel = levelIntro
-	lvlState = lvlSetup
-	iCoins = 0
-	iScore = 0
-	iScoreTemp = 0
-	iSegPointer = 0
-	bShowCredits = true
-	bShowScore = false
-	bShowLives = false
-	bShowAction = false
-	bAct = false
-	bShowLvl = false
-	bShowScene = false
-	bShowSkip = false
-	bShowDisk1 = false
-	bShowDisk2 = false
-	bShowDisk3 = false
-	bShowDiskA = false
-	mycolor1 = YELLOW
-	mycolor2 = WHITE	
-	mycolor3 = RED							
-	mycolor4 = BLACK						
-	
-	posyUPTEXT = 8									
-	posyDOWNTEXT = 225
-											
 	--[[
 	OVLW = vldpGetWidth()
 	OVLH = vldpGetHeight()
 	]]--
-	
+
 	OVLW = 320
 	OVLH = 240
-
+	
 	LINEH = OVLH/80
 	LINEW = OVLW/80
 
@@ -1402,6 +1507,326 @@ function initJob()
 	ydskpos = LINEH
 	yscopos = LINEH
 	ylvlpos = OVLH-LIVH-LINEH
+
+end
+
+function getLoRes()
+
+	overlaySetResolution(vldpGetWidth()/2, vldpGetHeight()/2)
+
+	--[[
+	OVLW = vldpGetWidth()/2
+	OVLH = vldpGetHeight()/2
+	]]--
+
+	OVLW = 320
+	OVLH = 240
+	
+	LINEH = OVLH/80
+	LINEW = OVLW/80
+
+	fontGame = fontLoad(MYDIR .. "font.otf", LINEW*2)
+	fontLCD = fontLoad(MYDIR .. "font.otf", LINEW*2.5)
+
+	fontSelect(fontGame)  
+	setFontColor(RED)
+	
+	sprNUM = nil; sprNUM = {}
+	sprNUM[1]  = spriteLoad(MYDIR .. "Lores/num00.png")
+	sprNUM[2]  = spriteLoad(MYDIR .. "Lores/num01.png")
+	sprNUM[3]  = spriteLoad(MYDIR .. "Lores/num02.png")
+	sprNUM[4]  = spriteLoad(MYDIR .. "Lores/num03.png")
+	sprNUM[5]  = spriteLoad(MYDIR .. "Lores/num04.png")
+	sprNUM[6]  = spriteLoad(MYDIR .. "Lores/num05.png")
+	sprNUM[7]  = spriteLoad(MYDIR .. "Lores/num06.png")
+	sprNUM[8]  = spriteLoad(MYDIR .. "Lores/num07.png")
+	sprNUM[9]  = spriteLoad(MYDIR .. "Lores/num08.png")
+	sprNUM[10] = spriteLoad(MYDIR .. "Lores/num09.png")
+	
+	filler = nil; filler = {false,false,false,false}			
+	sprite = nil; sprite = {}									
+	sprite[INSERTCOIN] = spriteLoad(MYDIR .. "Lores/insertcoin.png")			
+	sprite[FREEPLAY] = spriteLoad(MYDIR .. "Lores/freeplay.png")
+	sprite[CREDIT] = spriteLoad(MYDIR .. "Lores/credit.png")
+	sprite[LIVES] = spriteLoad(MYDIR .. "Lores/live.png")
+	sprite[D1] = spriteLoad(MYDIR .. "Lores/disk1.png")
+	sprite[D2] = spriteLoad(MYDIR .. "Lores/disk2.png")
+	sprite[D3] = spriteLoad(MYDIR .. "Lores/disk3.png")
+	sprite[DA] = spriteLoad(MYDIR .. "Lores/diskA.png")	
+
+
+	sprArrow = nil; sprArrow = {}											
+	sprArrow[UP] 		= spriteLoad(MYDIR .. "Lores/arrowup.png")
+	sprArrow[DOWN] 		= spriteLoad(MYDIR .. "Lores/arrowdown.png")
+	sprArrow[LEFT]	 	= spriteLoad(MYDIR .. "Lores/arrowleft.png")
+	sprArrow[RIGHT] 	= spriteLoad(MYDIR .. "Lores/arrowright.png")										
+	sprArrow[BUTTON1] 	= spriteLoad(MYDIR .. "Lores/action.png")							
+	sprArrow[NOMOVES] 	= spriteLoad(MYDIR .. "Lores/nomoves.png")
+
+	LIVW = spriteGetWidth(sprite[LIVES])
+	LIVH = spriteGetHeight(sprite[LIVES])
+	NUMW = spriteGetWidth(sprNUM[1])
+	TEXTH = spriteGetHeight(sprite[FREEPLAY])
+	BUTW = spriteGetWidth(sprArrow[BUTTON1])
+	BUTH = spriteGetHeight(sprArrow[BUTTON1])
+	SKIPW = spriteGetWidth(sprite[FREEPLAY])
+	CRDW = spriteGetWidth(sprite[CREDIT])
+	ARUW = spriteGetWidth(sprArrow[UP])
+	ARUH = spriteGetHeight(sprArrow[UP])
+	ARLW = spriteGetWidth(sprArrow[LEFT])
+	ARLH = spriteGetHeight(sprArrow[LEFT])
+	DISKW = spriteGetWidth(sprite[D1])
+	DISKH = spriteGetHeight(sprite[D1])	
+
+	posxBUTTONS = (OVLW/2)-(BUTW/2)								-- Coordinates for the buttons
+	posyBUTTONS = (OVLH/2)-(BUTH/2)
+
+	posxUDARROWS = (OVLW/2)-(ARUW/2)
+	posyLRARROWS = (OVLH/2)-(ARLH/2)
+	startyUARROW = LINEH*32
+	startyDARROW = OVLH-ARUH-(LINEH*32)
+	endyUARROW = LINEH*12
+	endyDARROW = OVLH-ARUH-(LINEH*12)
+
+	startxLARROW = LINEW*36
+	startxRARROW = OVLW-ARLW-(LINEW*36)
+	endxLARROW = LINEW*16
+	endxRARROW = OVLW-ARLW-(LINEW*16)
+	
+	posyLCD = LINEH	
+
+	ycoinpos = OVLH-TEXTH-LINEH
+	ylivpos = OVLH-LIVH-LINEH
+	ydskpos = LINEH
+	yscopos = LINEH
+	ylvlpos = OVLH-LIVH-LINEH
+	
+
+end
+
+function initJob()
+
+	debugPrint("Playing Dragon's Lair II: Timewarp 1.2")
+
+	readConfig()
+	if dip_Debug then debugPrint ("Entering initJob()") end
+
+	resetChannels()
+	gameflow = flow_GameRunning
+	currentLevel = levelIntro
+	lvlState = lvlSetup
+	iCoins = 0
+	iScore = 0
+	iScoreTemp = 0
+	iSegPointer = 0
+	bShowCredits = true
+	bShowScore = false
+	bShowLives = false
+	bShowAction = false
+	bAct = false
+	bShowLvl = false
+	bShowScene = false
+	bShowSkip = false
+	bShowDisk1 = false
+	bShowDisk2 = false
+	bShowDisk3 = false
+	bShowDiskA = false
+	mycolor1 = WHITE
+	mycolor2 = YELLOW	
+	mycolor3 = RED							
+	mycolor4 = YELLOW						
+	
+	posyUPTEXT = 8									
+	posyDOWNTEXT = 225
+											
+	if dip_Res == 0 then
+
+		overlaySetResolution(vldpGetWidth(), vldpGetHeight())
+
+		--[[
+		OVLW = vldpGetWidth()
+		OVLH = vldpGetHeight()
+		]]--
+
+		OVLW = 320
+		OVLH = 240
+		
+		LINEH = OVLH/80
+		LINEW = OVLW/80
+
+		fontGame = fontLoad(MYDIR .. "font.otf", LINEW*2)
+		fontLCD = fontLoad(MYDIR .. "font.otf", LINEW*2.5)
+
+		fontSelect(fontGame)  
+		setFontColor(RED)
+		
+		sprNUM = nil; sprNUM = {}
+		sprNUM[1]  = spriteLoad(MYDIR .. "num00.png")
+		sprNUM[2]  = spriteLoad(MYDIR .. "num01.png")
+		sprNUM[3]  = spriteLoad(MYDIR .. "num02.png")
+		sprNUM[4]  = spriteLoad(MYDIR .. "num03.png")
+		sprNUM[5]  = spriteLoad(MYDIR .. "num04.png")
+		sprNUM[6]  = spriteLoad(MYDIR .. "num05.png")
+		sprNUM[7]  = spriteLoad(MYDIR .. "num06.png")
+		sprNUM[8]  = spriteLoad(MYDIR .. "num07.png")
+		sprNUM[9]  = spriteLoad(MYDIR .. "num08.png")
+		sprNUM[10] = spriteLoad(MYDIR .. "num09.png")
+		
+		filler = nil; filler = {false,false,false,false}			
+		sprite = nil; sprite = {}									
+		sprite[INSERTCOIN] = spriteLoad(MYDIR .. "insertcoin.png")			
+		sprite[FREEPLAY] = spriteLoad(MYDIR .. "freeplay.png")
+		sprite[CREDIT] = spriteLoad(MYDIR .. "credit.png")
+		sprite[LIVES] = spriteLoad(MYDIR .. "live.png")
+		sprite[D1] = spriteLoad(MYDIR .. "disk1.png")
+		sprite[D2] = spriteLoad(MYDIR .. "disk2.png")
+		sprite[D3] = spriteLoad(MYDIR .. "disk3.png")
+		sprite[DA] = spriteLoad(MYDIR .. "diskA.png")	
+
+
+		sprArrow = nil; sprArrow = {}											
+		sprArrow[UP] 		= spriteLoad(MYDIR .. "arrowup.png")
+		sprArrow[DOWN] 		= spriteLoad(MYDIR .. "arrowdown.png")
+		sprArrow[LEFT]	 	= spriteLoad(MYDIR .. "arrowleft.png")
+		sprArrow[RIGHT] 	= spriteLoad(MYDIR .. "arrowright.png")										
+		sprArrow[BUTTON1] 	= spriteLoad(MYDIR .. "action.png")							
+		sprArrow[NOMOVES] 	= spriteLoad(MYDIR .. "nomoves.png")
+
+		LIVW = spriteGetWidth(sprite[LIVES])
+		LIVH = spriteGetHeight(sprite[LIVES])
+		NUMW = spriteGetWidth(sprNUM[1])
+		TEXTH = spriteGetHeight(sprite[FREEPLAY])
+		BUTW = spriteGetWidth(sprArrow[BUTTON1])
+		BUTH = spriteGetHeight(sprArrow[BUTTON1])
+		SKIPW = spriteGetWidth(sprite[FREEPLAY])
+		CRDW = spriteGetWidth(sprite[CREDIT])
+		ARUW = spriteGetWidth(sprArrow[UP])
+		ARUH = spriteGetHeight(sprArrow[UP])
+		ARLW = spriteGetWidth(sprArrow[LEFT])
+		ARLH = spriteGetHeight(sprArrow[LEFT])
+		DISKW = spriteGetWidth(sprite[D1])
+		DISKH = spriteGetHeight(sprite[D1])	
+
+		posxBUTTONS = (OVLW/2)-(BUTW/2)								-- Coordinates for the buttons
+		posyBUTTONS = (OVLH/2)-(BUTH/2)
+
+		posxUDARROWS = (OVLW/2)-(ARUW/2)
+		posyLRARROWS = (OVLH/2)-(ARLH/2)
+		startyUARROW = LINEH*32
+		startyDARROW = OVLH-ARUH-(LINEH*32)
+		endyUARROW = LINEH*12
+		endyDARROW = OVLH-ARUH-(LINEH*12)
+
+		startxLARROW = LINEW*36
+		startxRARROW = OVLW-ARLW-(LINEW*36)
+		endxLARROW = LINEW*16
+		endxRARROW = OVLW-ARLW-(LINEW*16)
+		
+		posyLCD = LINEH	
+
+		ycoinpos = OVLH-TEXTH-LINEH
+		ylivpos = OVLH-LIVH-LINEH
+		ydskpos = LINEH
+		yscopos = LINEH
+		ylvlpos = OVLH-LIVH-LINEH
+
+
+	elseif dip_Res == 1 then
+
+		overlaySetResolution(vldpGetWidth()/2, vldpGetHeight()/2)
+
+		--[[
+		OVLW = vldpGetWidth()/2
+		OVLH = vldpGetHeight()/2
+		]]--
+
+		OVLW = 320
+		OVLH = 240
+		
+		LINEH = OVLH/80
+		LINEW = OVLW/80
+
+		fontGame = fontLoad(MYDIR .. "font.otf", LINEW*2)
+		fontLCD = fontLoad(MYDIR .. "font.otf", LINEW*2.5)
+
+		fontSelect(fontGame)  
+		setFontColor(RED)
+		
+		sprNUM = nil; sprNUM = {}
+		sprNUM[1]  = spriteLoad(MYDIR .. "Lores/num00.png")
+		sprNUM[2]  = spriteLoad(MYDIR .. "Lores/num01.png")
+		sprNUM[3]  = spriteLoad(MYDIR .. "Lores/num02.png")
+		sprNUM[4]  = spriteLoad(MYDIR .. "Lores/num03.png")
+		sprNUM[5]  = spriteLoad(MYDIR .. "Lores/num04.png")
+		sprNUM[6]  = spriteLoad(MYDIR .. "Lores/num05.png")
+		sprNUM[7]  = spriteLoad(MYDIR .. "Lores/num06.png")
+		sprNUM[8]  = spriteLoad(MYDIR .. "Lores/num07.png")
+		sprNUM[9]  = spriteLoad(MYDIR .. "Lores/num08.png")
+		sprNUM[10] = spriteLoad(MYDIR .. "Lores/num09.png")
+		
+		filler = nil; filler = {false,false,false,false}			
+		sprite = nil; sprite = {}									
+		sprite[INSERTCOIN] = spriteLoad(MYDIR .. "Lores/insertcoin.png")			
+		sprite[FREEPLAY] = spriteLoad(MYDIR .. "Lores/freeplay.png")
+		sprite[CREDIT] = spriteLoad(MYDIR .. "Lores/credit.png")
+		sprite[LIVES] = spriteLoad(MYDIR .. "Lores/live.png")
+		sprite[D1] = spriteLoad(MYDIR .. "Lores/disk1.png")
+		sprite[D2] = spriteLoad(MYDIR .. "Lores/disk2.png")
+		sprite[D3] = spriteLoad(MYDIR .. "Lores/disk3.png")
+		sprite[DA] = spriteLoad(MYDIR .. "Lores/diskA.png")	
+
+
+		sprArrow = nil; sprArrow = {}											
+		sprArrow[UP] 		= spriteLoad(MYDIR .. "Lores/arrowup.png")
+		sprArrow[DOWN] 		= spriteLoad(MYDIR .. "Lores/arrowdown.png")
+		sprArrow[LEFT]	 	= spriteLoad(MYDIR .. "Lores/arrowleft.png")
+		sprArrow[RIGHT] 	= spriteLoad(MYDIR .. "Lores/arrowright.png")										
+		sprArrow[BUTTON1] 	= spriteLoad(MYDIR .. "Lores/action.png")							
+		sprArrow[NOMOVES] 	= spriteLoad(MYDIR .. "Lores/nomoves.png")
+
+		LIVW = spriteGetWidth(sprite[LIVES])
+		LIVH = spriteGetHeight(sprite[LIVES])
+		NUMW = spriteGetWidth(sprNUM[1])
+		TEXTH = spriteGetHeight(sprite[FREEPLAY])
+		BUTW = spriteGetWidth(sprArrow[BUTTON1])
+		BUTH = spriteGetHeight(sprArrow[BUTTON1])
+		SKIPW = spriteGetWidth(sprite[FREEPLAY])
+		CRDW = spriteGetWidth(sprite[CREDIT])
+		ARUW = spriteGetWidth(sprArrow[UP])
+		ARUH = spriteGetHeight(sprArrow[UP])
+		ARLW = spriteGetWidth(sprArrow[LEFT])
+		ARLH = spriteGetHeight(sprArrow[LEFT])
+		DISKW = spriteGetWidth(sprite[D1])
+		DISKH = spriteGetHeight(sprite[D1])	
+
+		posxBUTTONS = (OVLW/2)-(BUTW/2)								-- Coordinates for the buttons
+		posyBUTTONS = (OVLH/2)-(BUTH/2)
+
+		posxUDARROWS = (OVLW/2)-(ARUW/2)
+		posyLRARROWS = (OVLH/2)-(ARLH/2)
+		startyUARROW = LINEH*32
+		startyDARROW = OVLH-ARUH-(LINEH*32)
+		endyUARROW = LINEH*12
+		endyDARROW = OVLH-ARUH-(LINEH*12)
+
+		startxLARROW = LINEW*36
+		startxRARROW = OVLW-ARLW-(LINEW*36)
+		endxLARROW = LINEW*16
+		endxRARROW = OVLW-ARLW-(LINEW*16)
+		
+		posyLCD = LINEH	
+
+		ycoinpos = OVLH-TEXTH-LINEH
+		ylivpos = OVLH-LIVH-LINEH
+		ydskpos = LINEH
+		yscopos = LINEH
+		ylvlpos = OVLH-LIVH-LINEH
+	
+
+	end
+
+
+	
 
 	initLCD()
 	
@@ -1504,6 +1929,13 @@ function onInputPressed(intWhat)
 		elseif (intWhat == SWITCH_COIN1) then
 			
 			p1COIN1 = true
+
+			if p1START1 == true then
+
+				p1START1 = false
+				singeQuit()
+				
+			end
 			
 		elseif (intWhat == SWITCH_COIN2) then
 			
@@ -1511,7 +1943,14 @@ function onInputPressed(intWhat)
 			
 		elseif (intWhat == SWITCH_START1) then
 			
-			p1START1 = true			
+			p1START1 = true		
+
+			if p1COIN1 == true then
+
+				p1COIN1 = false
+				singeQuit()
+				
+			end			
 			
 		elseif (intWhat == SWITCH_START2) then
 			
@@ -1523,7 +1962,7 @@ function onInputPressed(intWhat)
 
 end
 
-function onInputReleased(intWhat)
+function onInputReleased(intWhat)      -- Confirm the release of all buttons (with sometimes special things involved)
 
 	if (intWhat == SWITCH_PAUSE) then bPause = not bPause end
 	
@@ -1558,7 +1997,13 @@ function onInputReleased(intWhat)
 					end
 					
 				end
-				
+
+
+			else
+
+				p1COIN1 = false
+				p1COIN2 = false
+
 			end
 			
 		elseif (intWhat == SWITCH_UP) then
@@ -1578,9 +2023,9 @@ function onInputReleased(intWhat)
 			p1RIGHT = false
 			
 		elseif (intWhat == SWITCH_BUTTON1) then
-		
+			
 			p1BUTTON1 = false
-						
+																	
 		elseif (intWhat == SWITCH_BUTTON2) then
 
 			p1BUTTON2 = false
@@ -1592,18 +2037,33 @@ function onInputReleased(intWhat)
 		elseif (intWhat == SWITCH_SERVICE and gameflow == flow_GameRunning) then
 		
 			p1SERVICE = false
-			lvlState = lvlSetup
-			currentLevel = levelService
 
-		elseif (intWhat == SWITCH_TEST) then
+			if currentLevel == levelService then
+
+				lvlState = lvlSetup
+				currentLevel = levelIntro
+
+			else
+
+				lvlState = lvlSetup
+				currentLevel = levelService
+			
+			end
+
+		elseif (intWhat == SWITCH_TEST and gameflow == flow_GameRunning) then
 
 			p1TEST = false
-			
-			if currentLevel == levelIntro or (currentMove < totalMoves and move[currentMove+1][correctMove]~=27) then
+
+			if currentLevel == levelSave then
+
+				lvlState = lvlSetup
+				currentLevel = levelIntro
+
+			else
 
 				lvlState = lvlSetup
 				currentLevel = levelSave
-			
+								
 			end
 
 		elseif (intWhat == SWITCH_START1) then
@@ -1614,67 +2074,74 @@ function onInputReleased(intWhat)
 			
 			p1START2 = false
 
-		elseif (intWhat == SWITCH_SKILL1) then
+		elseif (intWhat == SWITCH_SKILL1 and gameflow == flow_GameRunning) then
 			
 			p1SKILL1 = false
 
-			if currentLevel == levelNormal and (currentMove < totalMoves and move[currentMove+1][correctMove]~=27) and p1START1 == true then
+			if dip_Rom ~= 2 then
 
-				loadSave(1)
-				p1START1 = false
-				bShowDisk1 = true
-				altState = branch01
+				if currentLevel == levelNormal and (currentMove < totalMoves and move[currentMove+1][correctMove]~=CHOOSE) and p1START1 == true then
 
-			elseif currentLevel == levelNormal and (currentMove < totalMoves and move[currentMove+1][correctMove]~=27) then
+					loadSave(1)
+					p1START1 = false
+					bShowDisk1 = true
+					altState = branch01
 
-				autoSave(1)
-				bShowDisk1 = true
-				altState = branch01
-			
-			end	
+				elseif currentLevel == levelNormal and (currentMove < totalMoves and move[currentMove+1][correctMove]~=CHOOSE) then
 
-			
+					autoSave(1)
+					bShowDisk1 = true
+					altState = branch01
+				
+				end	
 
-		elseif (intWhat == SWITCH_SKILL2) then
+			end
+
+		elseif (intWhat == SWITCH_SKILL2 and gameflow == flow_GameRunning) then
 			
 			p1SKILL2 = false
 
-			if currentLevel == levelNormal and (currentMove < totalMoves and move[currentMove+1][correctMove]~=27) and p1START1 == true then
+			if dip_Rom ~= 2 then
 
-				loadSave(2)
-				p1START1 = false
-				bShowDisk2 = true
-				altState = branch01
-				
-			elseif currentLevel == levelNormal and (currentMove < totalMoves and move[currentMove+1][correctMove]~=27) then
+				if currentLevel == levelNormal and (currentMove < totalMoves and move[currentMove+1][correctMove]~=CHOOSE) and p1START1 == true then
 
-				autoSave(2)
-				bShowDisk2 = true
-				altState = branch01
-				
-			end	
+					loadSave(2)
+					p1START1 = false
+					bShowDisk2 = true
+					altState = branch01
+					
+				elseif currentLevel == levelNormal and (currentMove < totalMoves and move[currentMove+1][correctMove]~=CHOOSE) then
 
-			
+					autoSave(2)
+					bShowDisk2 = true
+					altState = branch01
+					
+				end	
 
-		elseif (intWhat == SWITCH_SKILL3) then
+			end
+
+		elseif (intWhat == SWITCH_SKILL3 and gameflow == flow_GameRunning) then
 			
 			p1SKILL3 = false
 
-			if currentLevel == levelNormal and (currentMove < totalMoves and move[currentMove+1][correctMove]~=27) and p1START1 == true then
+			if dip_Rom ~= 2 then
 
-				loadSave(3)
-				p1START1 = false
-				bShowDisk3 = true
-				altState = branch01
+				if currentLevel == levelNormal and (currentMove < totalMoves and move[currentMove+1][correctMove]~=CHOOSE) and p1START1 == true then
 
-			elseif currentLevel == levelNormal and (currentMove < totalMoves and move[currentMove+1][correctMove]~=27) then
+					loadSave(3)
+					p1START1 = false
+					bShowDisk3 = true
+					altState = branch01
 
-				autoSave(3)
-				bShowDisk3 = true
-				altState = branch01
-			
-			end	
-			
+				elseif currentLevel == levelNormal and (currentMove < totalMoves and move[currentMove+1][correctMove]~=CHOOSE) then
+
+					autoSave(3)
+					bShowDisk3 = true
+					altState = branch01
+				
+				end	
+			end
+
 		end	
 	
 	end		
@@ -2586,7 +3053,7 @@ function setupDeathClip(playerMove)
 		
 		if dip_Rom == 0 then
 
-			iPauseFrame = 2323
+			iPauseFrame = 2353
 			
 		else
 
@@ -2614,7 +3081,7 @@ function setupDeathClip(playerMove)
 
 		if dip_Rom == 0 then
 
-			iPauseFrame = 2371
+			iPauseFrame = 2401
 
 		else
 
@@ -2643,7 +3110,7 @@ function setupDeathClip(playerMove)
 		
 		if dip_Rom == 0 then
 
-			iPauseFrame = 3163
+			iPauseFrame = 3193
 
 		else
 
@@ -2743,7 +3210,7 @@ function setupDeathClip(playerMove)
 		
 		if dip_Rom == 0 then
 
-			iPauseFrame = 4923
+			iPauseFrame = 4943
 
 		else
 
@@ -2811,7 +3278,7 @@ function setupDeathClip(playerMove)
 		
 		if dip_Rom == 0 then
 
-			iPauseFrame = 7166
+			iPauseFrame = 7278
 
 		else
 
@@ -2879,7 +3346,7 @@ function setupDeathClip(playerMove)
 		
 		if dip_Rom == 0 then
 
-			iPauseFrame = 11973
+			iPauseFrame = 10237
 
 		else
 
@@ -2963,7 +3430,7 @@ function setupDeathClip(playerMove)
 		
 		if dip_Rom == 0 then
 
-			iPauseFrame = 15170
+			iPauseFrame = 12938
 
 		else
 
@@ -3047,7 +3514,7 @@ function setupDeathClip(playerMove)
 		
 		if dip_Rom == 0 then
 
-			iPauseFrame = 18096
+			iPauseFrame = 15368
 
 		else
 
@@ -3075,7 +3542,7 @@ function setupDeathClip(playerMove)
 		
 		if dip_Rom == 0 then
 
-			iPauseFrame = 18512
+			iPauseFrame = 15785
 
 		else
 
@@ -3163,7 +3630,7 @@ function setupDeathClip(playerMove)
 		
 		if dip_Rom == 0 then
 
-			iPauseFrame = 18096
+			iPauseFrame = 18176
 
 		else
 
@@ -3191,7 +3658,7 @@ function setupDeathClip(playerMove)
 		
 		if dip_Rom == 0 then
 
-			iPauseFrame = 18096
+			iPauseFrame = 18592
 
 		else
 
@@ -3279,7 +3746,7 @@ function setupDeathClip(playerMove)
 		
 		if dip_Rom == 0 then
 
-			iPauseFrame = 24947
+			iPauseFrame = 21215
 
 		else
 
@@ -3307,7 +3774,7 @@ function setupDeathClip(playerMove)
 		
 		if dip_Rom == 0 then
 
-			iPauseFrame = 25615
+			iPauseFrame = 21883
 
 		else
 
@@ -3391,7 +3858,7 @@ function setupDeathClip(playerMove)
 		
 		if dip_Rom == 0 then
 
-			iPauseFrame = 28347
+			iPauseFrame = 24086
 
 		else
 
@@ -3419,7 +3886,7 @@ function setupDeathClip(playerMove)
 		
 		if dip_Rom == 0 then
 
-			iPauseFrame = 29015
+			iPauseFrame = 24754
 
 		else
 
@@ -3503,7 +3970,7 @@ function setupDeathClip(playerMove)
 		
 		if dip_Rom == 0 then
 
-			iPauseFrame = 31539
+			iPauseFrame = 26749
 
 		else
 
@@ -3531,7 +3998,7 @@ function setupDeathClip(playerMove)
 		
 		if dip_Rom == 0 then
 
-			iPauseFrame = 32251
+			iPauseFrame = 27461
 
 		else
 
@@ -3611,7 +4078,7 @@ function setupDeathClip(playerMove)
 		
 		if dip_Rom == 0 then
 
-			iPauseFrame = 34999
+			iPauseFrame = 29660
 
 		else
 
@@ -3639,7 +4106,7 @@ function setupDeathClip(playerMove)
 		
 		if dip_Rom == 0 then
 
-			iPauseFrame = 35711
+			iPauseFrame = 30372
 
 		else
 
@@ -3818,81 +4285,81 @@ function SetupFramesLevel(thisLevel)
 
 		elseif thisLevel == level02 then
 
-			move[k][5] = move[k][1] + offsetLevel02
-			move[k][1] = move[k][1] + offsetLevel02 
-			move[k][2] = move[k][2] + offsetLevel02
+			move[k][5] = move[k][1] + offsetLevel02 - 57
+			move[k][1] = move[k][1] + offsetLevel02 - 57 
+			move[k][2] = move[k][2] + offsetLevel02 - 57
 		
 		elseif thisLevel == level03 then
 
-			move[k][5] = move[k][1] + offsetLevel03
-			move[k][1] = move[k][1] + offsetLevel03 
-			move[k][2] = move[k][2] + offsetLevel03
+			move[k][5] = move[k][1] + offsetLevel03 - 57
+			move[k][1] = move[k][1] + offsetLevel03 - 57 
+			move[k][2] = move[k][2] + offsetLevel03 - 57
 
 		elseif thisLevel == level04 then
 
-			move[k][5] = move[k][1] + offsetLevel04
-			move[k][1] = move[k][1] + offsetLevel04 
-			move[k][2] = move[k][2] + offsetLevel04
+			move[k][5] = move[k][1] + offsetLevel04 - 56
+			move[k][1] = move[k][1] + offsetLevel04 - 56
+			move[k][2] = move[k][2] + offsetLevel04 - 56
 
 		elseif thisLevel == level05 then
 
-			move[k][5] = move[k][1] + offsetLevel05
-			move[k][1] = move[k][1] + offsetLevel05 
-			move[k][2] = move[k][2] + offsetLevel05
+			move[k][5] = move[k][1] + offsetLevel05 - 56
+			move[k][1] = move[k][1] + offsetLevel05 - 56
+			move[k][2] = move[k][2] + offsetLevel05 - 56
 
 		elseif thisLevel == level06 then
 
-			move[k][5] = move[k][1] + offsetLevel06
-			move[k][1] = move[k][1] + offsetLevel06
-			move[k][2] = move[k][2] + offsetLevel06
+			move[k][5] = move[k][1] + offsetLevel06 - 58
+			move[k][1] = move[k][1] + offsetLevel06 - 58
+			move[k][2] = move[k][2] + offsetLevel06 - 58
 
 		elseif thisLevel == level07 then
 
-			move[k][5] = move[k][1] + offsetLevel07
-			move[k][1] = move[k][1] + offsetLevel07 
-			move[k][2] = move[k][2] + offsetLevel07
+			move[k][5] = move[k][1] + offsetLevel07 - 58
+			move[k][1] = move[k][1] + offsetLevel07 - 58 
+			move[k][2] = move[k][2] + offsetLevel07 - 58
 
 		elseif thisLevel == level08 then
 
-			move[k][5] = move[k][1] + offsetLevel08
-			move[k][1] = move[k][1] + offsetLevel08
-			move[k][2] = move[k][2] + offsetLevel08
+			move[k][5] = move[k][1] + offsetLevel08 - 57
+			move[k][1] = move[k][1] + offsetLevel08 - 57
+			move[k][2] = move[k][2] + offsetLevel08 - 57
 
 		elseif thisLevel == level09 then
 
-			move[k][5] = move[k][1] + offsetLevel09
-			move[k][1] = move[k][1] + offsetLevel09 
-			move[k][2] = move[k][2] + offsetLevel09
+			move[k][5] = move[k][1] + offsetLevel09 - 57
+			move[k][1] = move[k][1] + offsetLevel09 - 57 
+			move[k][2] = move[k][2] + offsetLevel09 - 57
 
 		elseif thisLevel == level10 then
 
-			move[k][5] = move[k][1] + offsetLevel10
-			move[k][1] = move[k][1] + offsetLevel10 
-			move[k][2] = move[k][2] + offsetLevel10
+			move[k][5] = move[k][1] + offsetLevel10 - 58
+			move[k][1] = move[k][1] + offsetLevel10 - 58 
+			move[k][2] = move[k][2] + offsetLevel10 - 58
 
 		elseif thisLevel == level11 then
 
-			move[k][5] = move[k][1] + offsetLevel11
-			move[k][1] = move[k][1] + offsetLevel11 
-			move[k][2] = move[k][2] + offsetLevel11
+			move[k][5] = move[k][1] + offsetLevel11 - 57
+			move[k][1] = move[k][1] + offsetLevel11 - 57 
+			move[k][2] = move[k][2] + offsetLevel11 - 57
 
 		elseif thisLevel == level12 then
 
-			move[k][5] = move[k][1] + offsetLevel12
-			move[k][1] = move[k][1] + offsetLevel12
-			move[k][2] = move[k][2] + offsetLevel12
+			move[k][5] = move[k][1] + offsetLevel12 - 58
+			move[k][1] = move[k][1] + offsetLevel12 - 58
+			move[k][2] = move[k][2] + offsetLevel12 - 58
 
 		elseif thisLevel == level13 then
 
-			move[k][5] = move[k][1] + offsetLevel13
-			move[k][1] = move[k][1] + offsetLevel13 
-			move[k][2] = move[k][2] + offsetLevel13
+			move[k][5] = move[k][1] + offsetLevel13 - 57
+			move[k][1] = move[k][1] + offsetLevel13 - 57
+			move[k][2] = move[k][2] + offsetLevel13 - 57
 
 		elseif thisLevel == level14 then
 
-			move[k][5] = move[k][1] + offsetLevel14
-			move[k][1] = move[k][1] + offsetLevel14 
-			move[k][2] = move[k][2] + offsetLevel14
+			move[k][5] = move[k][1] + offsetLevel14 - 57
+			move[k][1] = move[k][1] + offsetLevel14 - 57
+			move[k][2] = move[k][2] + offsetLevel14 - 57
 
 		elseif thisLevel == levelExt then
 
@@ -4006,7 +4473,7 @@ function setupLevel(thisLevel)
 		
 	end
 
-	if bAllowSave == true then 
+	if bAllowSave == true and dip_Rom ~= 2 then 
 
 		autoSave(4) 
 		bShowDiskA = true
@@ -4071,108 +4538,14 @@ function startGame()
 			iContinues = 0
 			iSegPointer = 0
 
-			if dip_StartLevel == 1 then
+			iCurPos = dip_StartLevel				
+			iSegPointer = dip_StartSegment -1	
 
-				iCurPos = level01					
-			
-			elseif dip_StartLevel == 2 then
-			
-				iCurPos = level02	
-
-			elseif dip_StartLevel == 3 then
-			
-				iCurPos = level03
-
-			elseif dip_StartLevel == 4 then
-			
-				iCurPos = level04
-
-			elseif dip_StartLevel == 5 then
-			
-				iCurPos = level05
-
-			elseif dip_StartLevel == 6 then
-			
-				iCurPos = level06
-
-			elseif dip_StartLevel == 7 then
-			
-				iCurPos = level07
-
-			elseif dip_StartLevel == 8 then
-			
-				iCurPos = level08
-
-			elseif dip_StartLevel == 9 then
-			
-				iCurPos = level09
-
-			elseif dip_StartLevel == 10 then
-			
-				iCurPos = level10
-
-			elseif dip_StartLevel == 11 then
-			
-				iCurPos = level11
-
-			elseif dip_StartLevel == 12 then
-			
-				iCurPos = level12
-
-			elseif dip_StartLevel == 13 then
-			
-				iCurPos = level13
-
-			elseif dip_StartLevel == 14 then
-			
-				iCurPos = level14
-
-			end
-
-			if dip_StartSegment == 1 then
-
-				iSegPointer = 0					
-			
-			elseif dip_StartSegment == 2 then
-			
-				iSegPointer = 1	
-
-			elseif dip_StartSegment == 3 then
-			
-				iSegPointer = 2
-
-			elseif dip_StartSegment == 4 then
-			
-				iSegPointer = 3
-
-			elseif dip_StartSegment == 5 then
-			
-				iSegPointer = 4
-
-			elseif dip_StartSegment == 6 then
-			
-				iSegPointer = 5	
-
-			elseif dip_StartSegment == 7 then
-			
-				iSegPointer = 6	
-
-			elseif dip_StartSegment == 8 then
-			
-				iSegPointer = 7
-
-			elseif dip_StartSegment == 9 then
-			
-				iSegPointer = 8
-
-			elseif dip_StartSegment == 10 then
-			
-				iSegPointer = 9	
-
-			end
+			iRightMv = 0
+			iWrongMv = 0
 
 			levelMap = nil; levelMap = {true, false, false, false, false, false, false, false, true}					
-			currentLevel = levelNormal			
+			currentLevel = levelNormal
 		
 		end		
 		
@@ -4385,7 +4758,7 @@ function startMovie()
 		iContinues = 0
 		iSegPointer = 0
 	
-		setupClip(offsetLevel01 + 57, offsetLevel01 + 1862)					
+		setupClip(offsetLevel01, offsetLevel01 + 1805)					
 		
 		bShowLives = false
 		bShowAction = false
@@ -4418,36 +4791,36 @@ function startMovie()
 
 			if iMovie == 2 then
 
-				setupClip(offsetLevel02 + 57, offsetLevel02 + 1791)
+				setupClip(offsetLevel02, offsetLevel02 + 1791 -57)
 
 			elseif iMovie == 3 then
 
-				setupClip(offsetLevel04 + 57, offsetLevel04 + 1956)
+				setupClip(offsetLevel04, offsetLevel04 + 1956 -56)
 
 			elseif iMovie == 4 then
 
-				setupClip(offsetLevel06 + 57, offsetLevel06 + 1950)
+				setupClip(offsetLevel06, offsetLevel06 + 1950 -58)
 
 			elseif iMovie == 5 then
 
-				setupClip(offsetLevel08 + 57, offsetLevel08 + 2086)	
+				setupClip(offsetLevel08, offsetLevel08 + 2086 -57)	
 
 			elseif iMovie == 6 then
 
-				setupClip(offsetLevel10 + 57, offsetLevel10 + 2174)
+				setupClip(offsetLevel10, offsetLevel10 + 2174 -58)
 
 			elseif iMovie == 7 then
 
-				setupClip(offsetLevel13 + 57, offsetLevel13 + 1326)
+				setupClip(offsetLevel13, offsetLevel13 + 1326 -57)
 
 			elseif iMovie == 8 then
 
-				setupClip(offsetLevel14 + 57, offsetLevel14 + 1890)
+				setupClip(offsetLevel14, offsetLevel14 + 1890 -57)
 
 			elseif iMovie == 9 or iMovie == 1 then
 
 				iMovie = 1
-				setupClip(offsetLevel01 + 57, offsetLevel01 + 1862)		
+				setupClip(offsetLevel01, offsetLevel01 + 1805)		
 
 			end
 
@@ -4459,36 +4832,36 @@ function startMovie()
 
 			if iMovie == 2 then
 
-				setupClip(offsetLevel02 + 57, offsetLevel02 + 1791)
+				setupClip(offsetLevel02, offsetLevel02 + 1791 -57)
 
 			elseif iMovie == 3 then
 
-				setupClip(offsetLevel04 + 57, offsetLevel04 + 1956)
+				setupClip(offsetLevel04, offsetLevel04 + 1956 -56)
 
 			elseif iMovie == 4 then
 
-				setupClip(offsetLevel06 + 57, offsetLevel06 + 1950)
+				setupClip(offsetLevel06, offsetLevel06 + 1950 -58)
 
 			elseif iMovie == 5 then
 
-				setupClip(offsetLevel08 + 57, offsetLevel08 + 2086)	
+				setupClip(offsetLevel08, offsetLevel08 + 2086 -57)	
 
 			elseif iMovie == 6 then
 
-				setupClip(offsetLevel10 + 57, offsetLevel10 + 2174)
+				setupClip(offsetLevel10, offsetLevel10 + 2174 -58)
 
 			elseif iMovie == 7 then
 
-				setupClip(offsetLevel13 + 57, offsetLevel13 + 1326)
+				setupClip(offsetLevel13, offsetLevel13 + 1326 -57)
 
 			elseif iMovie == 8 or iMovie == 0 then
 
 				iMovie = 8
-				setupClip(offsetLevel14 + 57, offsetLevel14 + 1890)
+				setupClip(offsetLevel14, offsetLevel14 + 1890 -57)
 
 			elseif iMovie == 1 then
 
-				setupClip(offsetLevel01 + 57, offsetLevel01 + 1862)	
+				setupClip(offsetLevel01, offsetLevel01 + 1805)	
 
 			end
 
