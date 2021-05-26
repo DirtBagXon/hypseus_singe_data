@@ -381,32 +381,32 @@ function printOpts()
 	-- This function writes the options on the service menu screen.
 	local k = 0
 	local ypos = 0
-	local fntx = 400
+	local fntx = 200
 	local smenu = {}; 
 	
-	smenu[1] = "Difficultà"
-	smenu[2] = "Start livello"
-	smenu[3] = "Start scena"
-	smenu[4] = "Gettone per Credito"
-	smenu[5] = "Vite per Credito"
-	smenu[6] = "Permetti Continue?"
-	smenu[7] = "Massimo Continues"
-	smenu[8] = "Mostra Mosse?"
-	smenu[9] = "Kid Mode (sempre azione)"
-	smenu[10] = "Film mode (niente gioco)"
-	smenu[11] = "Debug Mode (solo per test)"	
+	smenu[1] = "Difficulty"
+	smenu[2] = "Start lives"
+	smenu[3] = "Start scene"
+	smenu[4] = "Coins per Credit"
+	smenu[5] = "Lives per Credit"
+	smenu[6] = "Allow Continue?"
+	smenu[7] = "Max Continues"
+	smenu[8] = "Show Moves?"
+	smenu[9] = "Kid Mode"
+	smenu[10] = "Film mode"
+	smenu[11] = "Debug Mode"	
 	smenu[12] = "EXIT"	
 	
-	textPrint("Poiu versione 1.0",220,210,fontDebug6pt,mycolorTITMENU,BLACK)
+	textPrint("Poiu versione 1.0",105,210,fontDebug6pt,mycolorTITMENU,BLACK)
 	fontSelect(fontDebug8pt)	
 	setFontColor(YELLOW)
-	fontPrint(273,45, "Opzioni Menù")	
+	fontPrint(105,45, "Opzions Menu")	
 	
 	for k=1,12 do
 		
 		ypos = 53+k*10
 		if k == optSel then setFontColor(mycolorMENUON) else setFontColor(mycolorMENUOFF) end		
-		if k == 12 then fontPrint(305,180, "EXIT") else fontPrint(195, ypos, smenu[k]) end
+		if k == 12 then fontPrint(135,180, "EXIT") else fontPrint(55, ypos, smenu[k]) end
 		
 		if (k == 1) then
 
