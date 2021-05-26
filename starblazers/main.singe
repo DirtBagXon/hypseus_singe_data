@@ -131,7 +131,7 @@ function doContinue()
 	
 	elseif (lvlState == lvlRunning) then
 
-		if currentFrame == iFrameEnd then
+		if currentFrame >= iFrameEnd then
 			
 			lvlState = lvlEnd
 		
@@ -232,7 +232,7 @@ function doFinish()
 
 	elseif (lvlState == branch02) then
 				
-		if (currentFrame == iFrameEnd) then 
+		if (currentFrame >= iFrameEnd) then 
 			
 			timerON(0.6)
 			discPause()
@@ -356,7 +356,7 @@ function doGameOver()
 	
 	elseif (lvlState == lvlRunning) then
 	
-		if (currentFrame == iFrameEnd) then
+		if (currentFrame >= iFrameEnd) then
 			
 			bShowScore = false
 			lvlState = lvlEnd		
@@ -390,7 +390,7 @@ function doIntro()
 
 	elseif (lvlState == branch01) then
 
-		if (currentFrame == iFrameEnd or p1BUTTON1) then
+		if (currentFrame >= iFrameEnd or p1BUTTON1) then
 			
 			p1BUTTON1 = false
 			discSkipToFrame(frameCommands)
@@ -453,7 +453,7 @@ function doIntro()
 		
 	elseif (lvlState == branch04) then
 		
-		if currentFrame == iFrameEnd then lvlState = lvlSetup end
+		if currentFrame >= iFrameEnd then lvlState = lvlSetup end
 		
 	elseif (lvlState == branch05) then
 		
@@ -573,7 +573,7 @@ function doLevel()
 		
 	elseif (lvlState == branch01) then
 			
-		if (currentFrame == iFrameEnd or p1BUTTON1 or myButton==8) then		
+		if (currentFrame >= iFrameEnd or p1BUTTON1 or myButton==8) then		
 			
 			p1BUTTON1 = false
 			bShowLvl = false
@@ -603,7 +603,7 @@ function doLevel()
 		
 	elseif (lvlState == branch05) then	
 			
-		if currentFrame == iFrameEnd then
+		if currentFrame >= iFrameEnd then
 		
 			local j = 0
 
@@ -656,7 +656,7 @@ function doLevel()
 		
 	elseif (lvlState == branch07) then
 		
-		if currentFrame == iFrameEnd then lvlState = lvlEnd end
+		if currentFrame >= iFrameEnd then lvlState = lvlEnd end
 		
 	elseif (lvlState == branch08) then
 		
@@ -670,7 +670,7 @@ function doLevel()
 
 	elseif (lvlState == branch09) then
 		
-		if currentFrame == iFrameEnd then
+		if currentFrame >= iFrameEnd then
 
 			resetArrows()
 			discSkipToFrame(iPauseFrame)
@@ -1081,7 +1081,7 @@ function doLevel()
 
 		bShowScene = false
 			
-		if (currentFrame == iFrameEnd) then
+		if (currentFrame >= iFrameEnd) then
 		
 			iLives = iLives - 1
 						
@@ -1828,7 +1828,7 @@ function initJob()
 	sprArrow[PW5] 		= spriteLoad(MYDIR .. "m5.png")
 	sprArrow[PW6] 		= spriteLoad(MYDIR .. "m6.png")
 	sprArrow[PWFULL] 	= spriteLoad(MYDIR .. "mfull.png")
-	
+
 	OVLW = overlayGetWidth()
 	OVLH = overlayGetHeight()
 	
@@ -1997,7 +1997,7 @@ function initVLDP()
 	
 	elseif (lvlState == lvlRunning) then
 	
-		if (currentFrame == iFrameEnd) then
+		if (currentFrame >= iFrameEnd) then
 		
 			discPause()
 			lvlState = lvlEnd
@@ -3908,7 +3908,7 @@ function startMovie()
 	
 	elseif (lvlState == lvlRunning) then
 	
-		if (currentFrame == iFrameEnd) then
+		if (currentFrame >= iFrameEnd) then
 			
 			p1RIGHT = true
 			lvlState = lvlRunning
