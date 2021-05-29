@@ -79,4 +79,28 @@ Edit **sonicfury.txt** to:
  
 
 Reload emulationstation  
-Enjoy VHS fun  
+Enjoy **VHS** fun
+
+
+## Current ActionMax Status (SDL2)
+
+These games read specific pixels from the YUV/YV12 video overlay in an SDL_Texture.
+
+Reading information from SDL_Textures is problematic as it is contained in GPU memory.
+
+This can be achieved using SetRenderTarget and RenderReadPixels but is already a slow process.  
+It also only seems to be implemented well in X11.
+
+It appears RetroPie (**armhf**) isn't handling this well at the moment.
+
+ActionMax (armhf) will not work with SDL_RENDERER_ACCELERATED only in software SDL_RENDERER_SOFTWARE  
+using the **-nohwaccel** argument.
+
+The issue then is that the CPU has to handle this heavy texture switching and reading, and the Pi struggles.
+
+ActionMax works as expected on (**x86_64**) and (**i386**) RetroPie builds using hardware acceleration in X11.
+
+The Windows version (no X11) requires **-nohwaccel** but CPU grunt handles it fine from there.
+
+Without a major rewrite of the overlay codebase, this is a casualty of the SDL1 to SDL2 porting, until better X11 support is  
+implemented or SDL2 matures.
