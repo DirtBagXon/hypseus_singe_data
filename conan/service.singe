@@ -1,0 +1,616 @@
+--[[
+
+NOME PROGRAMMA: CONAN IL RAGAZZO DEL FUTURO singe edition
+VERSIONE:		1.0
+AUTORE:			POIU (2019)
+
+Questo file fa parte di CONAN IL RAGAZZO DEL FUTURO singe edition
+
+CONAN IL RAGAZZO DEL FUTURO singe edition è un software gratuito: 
+puoi ridistribuirlo e / o modificarlo
+secondo i termini della GNU General Public License 
+come pubblicato da la Fondazione per il software libero.
+
+CONAN IL RAGAZZO DEL FUTURO singe edition è distribuito nella speranza che possa essere utile,
+ma SENZA ALCUNA GARANZIA; senza nemmeno la garanzia implicita di
+COMMERCIABILITÀ o IDONEITÀ A UNO SCOPO PARTICOLARE.
+
+Un sentito ringraziamento a RDG (autore originale del programma), Hayao Miyazaki (regista e premio oscar di questo capolavoro animato)
+
+
+]]--
+
+optSel = 0
+
+function readConfig()
+
+	local s1
+	local hsName = ""
+	local hsScore = ""
+	local k = 0
+	local h1 = io.input(MYDIR .. "conan.cfg")	
+
+	if (dip_Debug) then debugPrint ("Entering readConfig()") end
+
+		local s1 = io.read("*line")	
+
+		if (s1 ~= nil) then
+		
+			dip_Difficulty = tonumber(string.sub(s1,string.find(s1,"=")+1))
+			
+		end	
+	
+		s1 = io.read("*line")
+		
+		if (s1 ~= nil) then
+		
+			dip_StartLevel = tonumber(string.sub(s1,string.find(s1,"=")+1))
+			
+		end
+
+		s1 = io.read("*line")
+		
+		if (s1 ~= nil) then
+		
+			dip_StartSegment = tonumber(string.sub(s1,string.find(s1,"=")+1))
+			
+		end
+
+		s1 = io.read("*line")
+		
+		if (s1 ~= nil) then
+
+			dip_CoinsPerCredit = tonumber(string.sub(s1,string.find(s1,"=")+1))			
+			
+		end
+		
+		s1 = io.read("*line")
+		
+		if (s1 ~= nil) then
+		
+			dip_LivesPerCredit = tonumber(string.sub(s1,string.find(s1,"=")+1))
+			
+		end
+				
+		s1 = io.read("*line")
+		s1 = tonumber(string.sub(s1,string.find(s1,"=")+1))	
+		
+		if (s1 ~= nil) then
+		
+			if (s1 == 1) then
+				dip_AllowContinue = true
+			else
+				dip_AllowContinue = false
+			end
+		end
+		
+		s1 = io.read("*line")
+		
+		if (s1 ~= nil) then
+		
+			dip_LimitContinue = tonumber(string.sub(s1,string.find(s1,"=")+1))
+			
+		end
+
+		s1 = io.read("*line")
+		s1 = tonumber(string.sub(s1,string.find(s1,"=")+1))	
+		
+		if (s1 ~= nil) then
+		
+			if (s1 == 1) then
+				dip_ShowAction = true
+			else
+				dip_ShowAction = false
+			end
+		end		
+
+		s1 = io.read("*line")
+		s1 = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+		if (s1 ~= nil) then
+		
+			if (s1 == 1) then
+				dip_Kidmode = true
+			else
+				dip_Kidmode = false
+			end
+		end
+
+		s1 = io.read("*line")
+		s1 = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+		if (s1 ~= nil) then
+		
+			if (s1 == 1) then
+				dip_Movie = true
+			else
+				dip_Movie = false
+			end
+		end
+
+		s1 = io.read("*line")
+		s1 = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+		if (s1 ~= nil) then
+		
+			if (s1 == 1) then
+				dip_Debug = true
+			else
+				dip_Debug = false
+			end
+		end
+		
+		s1 = io.read("*line")
+		
+		if (s1 ~= nil) then
+		
+			dip_Lang = tonumber(string.sub(s1,string.find(s1,"=")+1))
+			
+		end
+
+		s1 = io.read("*line")
+		highscore = nil; highscore = {}
+		for k=1,5 do
+			s1 = io.read("*line")
+			
+			hsName = string.sub(s1,1,string.find(s1,",")-1)
+			hsScore = string.sub(s1,string.find(s1,",")+1, string.len(s1))
+			
+			highscore[k] = {}
+			highscore[k] = {hsName, hsScore}
+		
+		end		
+		
+		io.close(h1)
+		
+		if (dip_Debug) then debugPrint ("Leaving readConfig()") end
+
+end
+
+function writeConfig()
+
+	-- This function writes the values of the dip variables
+	-- into an external data file.
+
+	local sNewLine = "\n"
+	local s1 = ""
+
+	local h1 = io.output(MYDIR .. "conan.cfg")
+	
+	io.write("dip_Difficulty = " .. dip_Difficulty .. sNewLine)
+	io.write("dip_StartLevel = " .. dip_StartLevel .. sNewLine)	
+	io.write("dip_StartSegment = " .. dip_StartSegment .. sNewLine)	
+	io.write("dip_CoinsPerCredit = " .. dip_CoinsPerCredit .. sNewLine)
+	io.write("dip_LivesPerCredit = " .. dip_LivesPerCredit .. sNewLine)	
+
+	if (dip_AllowContinue == true) then
+		io.write("dip_AllowContinue = 1" .. sNewLine)
+	else
+		io.write("dip_AllowContinue = 0" .. sNewLine)
+	end
+	
+	io.write("dip_LimitContinue = " .. dip_LimitContinue .. sNewLine)
+	
+	if (dip_ShowAction == true) then
+		io.write("dip_ShowAction = 1" .. sNewLine)
+	else
+		io.write("dip_ShowAction = 0" .. sNewLine)
+	end	
+	
+	if (dip_Kidmode == true) then
+		io.write("dip_Kidmode = 1" .. sNewLine)
+	else
+		io.write("dip_Kidmode = 0" .. sNewLine)
+	end
+
+	if (dip_Movie == true) then
+		io.write("dip_Movie = 1" .. sNewLine)
+	else
+		io.write("dip_Movie = 0" .. sNewLine)
+	end
+
+	if (dip_Debug == true) then
+		io.write("dip_Debug = 1" .. sNewLine)
+	else
+		io.write("dip_Debug = 0" .. sNewLine)
+	end
+	
+	io.write("dip_Lang = " .. dip_Lang .. sNewLine)		
+	io.write(sNewLine)	
+	
+	for k=1,5 do
+		
+		s1 = highscore[k][1] .. "," .. highscore[k][2]
+		io.write(s1 .. sNewLine)
+	
+	end
+	
+	io.write(sNewLine)	
+	io.close(h1)
+
+end
+
+function updateOpts(thisIndex)
+
+	if (thisIndex == 1) then
+	
+		if (not dip_Kidmode) then 
+
+			dip_Difficulty  = dip_Difficulty  + 1
+			
+			if (dip_Difficulty  > 3) then
+		
+				dip_Difficulty = 0
+		
+			end		
+		
+		end
+
+	elseif (thisIndex == 2) then	
+	
+		dip_StartLevel = dip_StartLevel + 1
+		dip_StartSegment = 1
+	
+		if (dip_StartLevel > finalstage) then
+		
+			dip_StartLevel = 1
+			
+		end
+
+	elseif (thisIndex == 3) then	
+	
+		dip_StartSegment = dip_StartSegment + 1
+	
+		if dip_StartLevel == 1 then
+		
+			if (dip_StartSegment > TotalScenesLevel01) then dip_StartSegment = 1	end
+
+		elseif dip_StartLevel == 2 then
+
+			if (dip_StartSegment > TotalScenesLevel02) then dip_StartSegment = 1	end
+
+		elseif dip_StartLevel == 3 then
+
+			if (dip_StartSegment > TotalScenesLevel03) then dip_StartSegment = 1	end
+
+		elseif dip_StartLevel == 4 then
+
+			if (dip_StartSegment > TotalScenesLevel04) then dip_StartSegment = 1	end
+
+		elseif dip_StartLevel == 5 then
+
+			if (dip_StartSegment > TotalScenesLevel05) then dip_StartSegment = 1	end
+
+		elseif dip_StartLevel == 6 then
+
+			if (dip_StartSegment > TotalScenesLevel06) then dip_StartSegment = 1 end
+
+		elseif dip_StartLevel == 7 then
+
+			if (dip_StartSegment > TotalScenesLevel07) then dip_StartSegment = 1	end
+
+		elseif dip_StartLevel == 8 then
+
+			if (dip_StartSegment > TotalScenesLevel08) then dip_StartSegment = 1	end
+
+		elseif dip_StartLevel == 9 then
+
+			if (dip_StartSegment > TotalScenesLevel09) then dip_StartSegment = 1	end
+
+		elseif dip_StartLevel == 10 then
+
+			if (dip_StartSegment > TotalScenesLevel10) then dip_StartSegment = 1	end
+					
+		end
+
+	elseif (thisIndex == 4) then
+	
+		dip_CoinsPerCredit = dip_CoinsPerCredit + 1
+		
+		if (dip_CoinsPerCredit > 3) then
+		
+			dip_CoinsPerCredit = 0
+		
+		end
+
+	elseif (thisIndex == 5) then	
+	
+		dip_LivesPerCredit = dip_LivesPerCredit + 1
+			
+		if (dip_LivesPerCredit > 5) then
+		
+			dip_LivesPerCredit = 1
+			
+		end		
+	
+	elseif (thisIndex == 6) then
+	
+		dip_AllowContinue = not dip_AllowContinue 
+	
+	elseif (thisIndex == 7) then
+	
+		dip_LimitContinue  = dip_LimitContinue  + 1
+		
+		if (dip_LimitContinue  > 5) then
+		
+			dip_LimitContinue = 0
+		
+		end
+
+	elseif (thisIndex == 8) then
+	
+		dip_ShowAction = not dip_ShowAction	
+
+	elseif (thisIndex == 9) then
+	
+		dip_Kidmode = not dip_Kidmode
+		
+		if dip_Kidmode then
+
+			dip_Difficulty = 0
+			dip_Movie = false
+
+		end
+
+	elseif (thisIndex == 10) then
+	
+		dip_Movie = not dip_Movie
+		
+		if dip_Movie then
+
+			dip_CoinsPerCredit = 0
+			dip_Kidmode = false
+			dip_Debug = false
+
+		end
+
+
+	elseif (thisIndex == 11) then
+	
+		dip_Debug = not dip_Debug
+		
+	elseif (thisIndex == 12) then		
+
+		lvlState = lvlEnd
+		
+	end
+
+end
+
+function printOpts()
+
+	-- This function writes the options on the service menu screen.
+	local k = 0
+	local ypos = 0
+	local fntx = 400/2
+	local smenu = {}; 
+	
+        smenu[1] = "Difficulty"
+        smenu[2] = "Start lives"
+        smenu[3] = "Start scene"
+        smenu[4] = "Coins per Credit"
+        smenu[5] = "Lives per Credit"
+        smenu[6] = "Allow Continue?"
+        smenu[7] = "Max Continues"
+        smenu[8] = "Show Moves?"
+        smenu[9] = "Kid Mode"
+        smenu[10] = "Film mode"
+        smenu[11] = "Debug Mode"
+        smenu[12] = "EXIT"
+	
+	textPrint("Poiu versione 1.0",220/2,210,fontDebug6pt,mycolorTITMENU,BLACK)
+	fontSelect(fontDebug6pt)	
+	setFontColor(YELLOW)
+	fontPrint(273/2,45, "Opzioni Menù")	
+	
+	for k=1,12 do
+		
+		ypos = 53+k*10
+		if k == optSel then setFontColor(mycolorMENUON) else setFontColor(mycolorMENUOFF) end		
+		if k == 12 then fontPrint(305/2,180, "EXIT") else fontPrint(195/2, ypos, smenu[k]) end
+		
+		if (k == 1) then
+
+			if dip_Difficulty == 0 then
+				
+				fontPrint(fntx, ypos, "EASY")
+
+			elseif dip_Difficulty == 1 then
+		
+				fontPrint(fntx, ypos, "NORMAL")	
+
+			elseif dip_Difficulty == 2 then
+		
+				fontPrint(fntx, ypos, "HARD")
+
+			elseif dip_Difficulty == 3 then
+		
+				fontPrint(fntx, ypos, "EXTREME")
+							
+			end
+			
+		elseif (k == 2) then	
+
+			fontPrint(fntx, ypos, dip_StartLevel)	
+		
+		elseif (k == 3) then	
+
+			fontPrint(fntx, ypos, dip_StartSegment)	
+		
+		elseif (k == 4) then
+
+			if (dip_CoinsPerCredit == DOPT_FREEPLAY) then
+				
+				fontPrint(fntx,ypos, "FREE PLAY")
+				
+			else
+			
+				fontPrint(fntx,ypos, dip_CoinsPerCredit)
+			end		
+		
+		elseif (k == 5) then		
+
+			fontPrint(fntx, ypos, dip_LivesPerCredit)
+		
+		elseif (k == 6) then		
+			
+			if dip_AllowContinue then
+			
+				fontPrint(fntx, ypos, "YES")	
+				
+			
+			else
+			
+				fontPrint(fntx, ypos, "NO")
+				
+			
+			end
+			
+		elseif (k == 7) then		
+		
+			if dip_LimitContinue == 0 then
+				
+				fontPrint(fntx, ypos, "UNLIMITED")	
+			
+			else
+		
+				fontPrint(fntx, ypos, dip_LimitContinue)	
+				
+			end
+
+		elseif (k == 8) then
+		
+			if dip_ShowAction then			
+			
+				fontPrint(fntx, ypos, "YES")	
+				
+			
+			else
+			
+				fontPrint(fntx, ypos, "NO")	
+				
+			
+			end	
+
+		elseif (k == 9) then		
+			
+			if dip_Kidmode then
+			
+				fontPrint(fntx, ypos, "YES")	
+				
+			
+			else
+			
+				fontPrint(fntx, ypos, "NO")
+				
+			
+			end
+				
+		elseif (k == 10) then		
+			
+			if dip_Movie then
+			
+				fontPrint(fntx, ypos, "YES")	
+				
+			
+			else
+			
+				fontPrint(fntx, ypos, "NO")
+				
+			
+			end
+
+		elseif (k == 11) then		
+			
+			if dip_Debug then
+			
+				fontPrint(fntx, ypos, "YES")	
+				
+			
+			else
+			
+				fontPrint(fntx, ypos, "NO")
+				
+			
+			end
+				
+		end
+
+	end
+
+end
+
+function doServiceMenu()
+
+	-- This is the main function for the service menu screen.
+	
+	local gunx = 42
+	local optMax = 12
+	
+	if (lvlState == lvlSetup) then
+	
+		if (dip_Debug) then debugPrint ("Entering doServiceMenu()") end
+
+		discSkipToFrame(frameOptions)
+		discPause()		
+		timerOFF()		
+		optSel = 1
+		readConfig()		
+		bShowScore = false
+		bShowLives = false
+		bShowLvl = false
+		bShowSkip = false		
+		bShowCredits = false
+		bShowLCD = false
+		bShowAction = false	
+		bIgnoreJoy = false
+		
+		lvlState = lvlRunning
+	
+	elseif (lvlState == lvlRunning) then
+	
+		if (p1BUTTON1) then
+		
+			p1BUTTON1 = false
+			soundPlay(sndcredit)
+			updateOpts(optSel)	
+			
+		elseif (p1DOWN or p1UP) then
+		
+			
+			if bIgnoreJoy then 
+			
+				if joyDelayDue() then bIgnoreJoy = false end
+				
+			else
+				
+				if p1DOWN then 
+					optSel = optSel + 1
+					if (optSel > optMax) then optSel = 1 end
+				elseif p1UP then 
+					optSel = optSel - 1
+					if (optSel < 1) then optSel = optMax end
+				end
+				
+				soundPlay(sndcoin)
+				if p1UP or p1DOWN or p1LEFT or p1RIGHT or p1BUTTON1 then
+					bIgnoreJoy = true
+					joyDelayON(0.200)
+				end
+				
+				p1DOWN = false; p1UP = false	
+				
+			end
+			
+		end
+		printOpts()
+
+	elseif (lvlState == lvlEnd) then
+	
+		writeConfig()		
+		gameflow = flow_GameInit
+		if (dip_Debug) then debugPrint ("Leaving doServiceMenu()") end	
+
+	end
+
+end
