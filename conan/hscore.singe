@@ -310,7 +310,7 @@ function printLetters()
 	
 	fontSelect(fontDebug8pt)
 	setFontColor(YELLOW)
-	fontPrint(310,92,s1)
+	fontPrint(150,92,s1)
 	
 end
 
@@ -323,14 +323,14 @@ function drawLetters()
 	
 	fontSelect(fontGame8pt)	
 	setFontColor(RED)
-	fontPrint(282,55, "HIGH SCORE!!")
+	fontPrint(getMiddle("HIGH SCORE!!"), 55, "HIGH SCORE!!")
 	setFontColor(RED)
-	fontPrint(242,72, "PLEASE ENTER YOUR NAME")
+	fontPrint(getMiddle("PLEASE ENTER YOUR NAME"), 72, "PLEASE ENTER YOUR NAME")
 	printLetters()		
 	
 	for k = 1,44 do
 	
-		x1 = 255 + q*18
+		x1 = 80 + q*18
 		
 		if k == iCursor then 
 			blinkTimer(0.300)
@@ -343,7 +343,7 @@ function drawLetters()
 			fontPrint(x1,y1,string.sub(sAlph[k],1,1))
 		else
 		
-			x1 = 250 + q*18
+			x1 = 80 + q*18
 		
 			if k == 43 then 		
 				
@@ -353,7 +353,7 @@ function drawLetters()
 			
 			if k == 44 then			
 				
-				fontPrint(x1+10, y1, "END")
+				fontPrint(x1+20, y1, "END")
 			
 			
 			end
