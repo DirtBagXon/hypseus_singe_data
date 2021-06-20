@@ -926,8 +926,8 @@ function resetArrows()
 	posyUARROW = 60
 	posyDARROW = 140
 
-	posxLARROW = 145/2
-	posxRARROW = 445/2
+	posxLARROW = 105/2
+	posxRARROW = 405/2
 	posyLRARROWS = 95
 
 end
@@ -973,7 +973,7 @@ function drawAction()
 	
 			if heartbeat then	
 				
-				if posxLARROW > 45 then posxLARROW = posxLARROW-5 end
+				if posxLARROW > 25 then posxLARROW = posxLARROW-5 end
 				spriteDraw(posxLARROW,posyLRARROWS,sprArrow[LEFT])
 						
 			end
@@ -985,7 +985,7 @@ function drawAction()
 	
 			if heartbeat then	
 
-				if posxRARROW < 545 then posxRARROW = posxRARROW+5 end
+				if posxRARROW < 505/2 then posxRARROW = posxRARROW+5 end
 				spriteDraw(posxRARROW,posyLRARROWS,sprArrow[RIGHT])
 						
 			end
@@ -1043,7 +1043,7 @@ function drawAction()
 	
 			if heartbeat then	
 				
-				if posxLARROW > 45 then posxLARROW = posxLARROW-5 end
+				if posxLARROW > 25 then posxLARROW = posxLARROW-5 end
 				spriteDraw(posxLARROW,posyLRARROWS,sprArrow[LEFT])
 						
 			end
@@ -1055,7 +1055,7 @@ function drawAction()
 	
 			if heartbeat then	
 
-				if posxRARROW < 545 then posxRARROW = posxRARROW+5 end
+				if posxRARROW < 505/2 then posxRARROW = posxRARROW+5 end
 				spriteDraw(posxRARROW,posyLRARROWS,sprArrow[RIGHT])
 						
 			end
@@ -1140,8 +1140,8 @@ function drawLives()
 
 	if (iLives > 0) then
 		
-		spriteDraw(585/2,posyDOWNTEXT-3,sprite[LIVES])
-		drawSpriteNumber(617/2,posyDOWNTEXT,( iLives ))
+		spriteDraw(565/2,posyDOWNTEXT-3,sprite[LIVES])
+		drawSpriteNumber(607/2,posyDOWNTEXT,( iLives ))
 
 		if dip_Debug then
 
@@ -1269,7 +1269,7 @@ function initJob()
 	mycolorMENUOFF = BLACK							-- Color for unselected item in the options menu
 													-- RED, BLUE, YELLOW, GREEN, ORANGE, WHITE, GREY, BLACK and LIGHTBLUE possible.
 	
-	posxBUTTONS = 271/2								-- Coordinates for the buttons
+	posxBUTTONS = 230/2								-- Coordinates for the buttons
 	posyBUTTONS = 112
 	
 	posyUPTEXT = 8									-- Coordinates for the various texts.
