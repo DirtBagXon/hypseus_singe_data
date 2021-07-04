@@ -1,0 +1,373 @@
+--[[
+
+PROGRAM NAME:	LUA SINGE ENGINE
+VERSION:		3.22
+AUTHOR:			KARIS (2021)
+
+This file is part of LUA SINGE ENGINE.
+
+	LUA SINGE ENGINE is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation.
+
+	LUA SINGE ENGINE is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+	Thanks to Scott Duensing, RDG.
+
+]]--
+
+dofile("singe/"..MYDIR.."/framework.singe")		
+dofile("singe/"..MYDIR.."/main.singe")
+dofile("singe/"..MYDIR.."/hscore.singe")
+dofile("singe/"..MYDIR.."/service.singe")
+dofile("singe/"..MYDIR.."/toolbox.singe")
+dofile("singe/"..MYDIR.."/addons.singe")
+
+--Framework.singe....
+
+p1UP = false		
+p1DOWN = false		
+p1LEFT = false
+p1RIGHT = false
+p1BUTTON1 = false
+p1BUTTON2 = false
+p1BUTTON3 = false
+p1COIN1 = false
+p1COIN2 = false
+p1SERVICE = false
+p1START1 = false
+p1START2 = false
+p1PAUSE = false
+p1CONSOLE = false
+
+--End Framework
+
+bPause = false
+bResetContinue = false
+bTurn = false
+bAct = false
+bShowCredits = false
+bShowAction = false
+bShowLives = false
+bShowScore = false
+bShowLvl = false
+bShowSkip = false
+bShowGet = false
+bShowTop = false
+bSkipIntroClip = false
+bLevelComplete = false
+bCheckForCredits = false
+bPlayPrompt = false
+bIgnoreJoy = false
+bExtendedPlay = false
+bLCDLineWait = false
+bGOAlt = false
+bTestMash = false
+bTestRunL = false
+bTestRunR = false
+bTestHold = false
+bAllowSave = false
+bSave = false
+bCheckMove = false
+bShowDisk = false
+bShuffleOrder = true
+bRes = true
+bFlip = false
+bPath = false
+bCalc = true
+bOneDiff = true
+bSwap = false
+ForceRewind = false
+
+dip_LivesPerCredit = 5
+dip_CoinsPerCredit = 1
+dip_ShowAction = 2
+dip_AllowContinue = true
+dip_LimitContinue = 3
+dip_Diffshow = 1
+dip_StartLevel = 1
+dip_StartScene = 1
+dip_Difficulty = 0
+dip_PlayStyle = 0
+dip_GameType = 0
+dip_Lang = 0
+dip_Loadsave = 0
+dip_Slot = 1
+dip_MashtoRun = 0
+DOPT_LANG_ENGLISH = 1
+DOPT_LANG_JAPANESE = 0
+DOPT_FREEPLAY = 0
+DOPT_INFINITE_CONTINUES = 4
+t1 = 0
+t2 = 0
+t3 = 0
+t4 = 0
+t1l = 0
+t2l = 0
+t3l = 0
+t4l = 0
+miscR = 255									
+miscG = 255										
+miscB = 255
+
+
+gameflow = 0
+flow_VLDPStart = 0
+flow_GameInit = 1
+flow_GameRunning = 2
+
+lvlState = 0
+lvlSetup = 0
+lvlRunning = 1
+lvlEnd = 2
+lvlPlayDeath = 3
+lvlPlayRest = 4
+branch01 = 10
+branch02 = 11
+branch03 = 12
+branch04 = 13
+branch05 = 14
+branch06 = 15
+branch07 = 16
+branch08 = 17
+branch09 = 18
+branch10 = 19
+branch11 = 20
+branch12 = 21
+
+sceneStart = 0
+sceneEnd = 0
+currentFrame = 0
+currentLevel = 0
+currentMove = 0
+levelIntro = 0
+levelContinue = 100
+levelGameOver = 101
+levelChoose = 102
+levelNormal = 103
+levelService = 104
+levelMenuScreen = 105
+levelHighScore = 106
+levelMovie = 107
+levelSave = 108
+levelDiffScreen = 109
+levelFinish = 110
+levelTrophy = 111
+levelExit = 112
+levelSecret = 1000
+
+iCoins = 0
+iCredits = 0
+iScore = 0
+iScoreTemp = 0
+iScoreSave = 0
+iLiveSave = 5
+iBonus = 0
+iLives = 0
+iLevelStart = 0
+iLevelEnd = 0
+iTempLevel = 0
+iStageIndex = 0
+iContinues = 0
+iLastFiller = 1
+iChoice = 0
+iCurPos = 1
+iPauseFrame = 0
+iDeathCount = 0
+iRoll = 0
+curPath = 0
+iPath = 0
+iPathA = 0
+iPathAend = 0
+iPathAjmp = 0
+iPathB = 0
+thisMove = 0
+altState = 0
+diffState = 0
+totalMoves = 0
+iMash = 0
+mashCounter = 5
+lenCounter = 8
+iMovie = 1
+iPenal = 0
+iTop = 0
+iLenHold = 0
+yscopos = 0
+ylivpos = 0
+ycoinpos = 0
+ylvlpos = 0
+ydskpos = 0
+numChoice = 3
+numTrophy = 0
+lastHold = 0
+fontSize = 0
+fontSizeNew = 0
+iRightMv = 0
+iWrongMv = 0
+iExtraLife = 0
+iLifeBar = 10
+iScPlayed = 1
+iScDeath = 0
+iTotDeath = 0
+BarSize = 10
+BarMin = 2
+BarBonus = 3
+Tlimit = 0
+posGauge = 0
+
+TOP = 1
+MID = 2
+BOTTOM = 3
+
+NOMOVE = -1
+MOVEPENDING = -2
+MOVEFAIL = -3
+
+UP = 1
+DOWN = 2
+LEFT = 3
+RIGHT = 4
+BUTTON1 = 5
+BUTTON2 = 6
+BUTTON3 = 7
+BUTTON4 = 8
+UPLEFT = 9
+UPRIGHT = 10
+DOWNLEFT = 11
+DOWNRIGHT = 12
+ACTUP = 13
+ACTDOWN = 14
+ACTLEFT = 15
+ACTRIGHT = 16
+MASH = 17
+MASHMIN = 18
+MASHMAX = 19 
+LETGO = 20
+HOLDUP = 21
+HOLDDOWN = 22
+HOLDLEFT = 23
+HOLDRIGHT = 24
+HOLDBUT = 25
+DOUBLE = 26
+RUN = 27
+RUNMIN = 28
+RUNMAX = 29
+MASH2 = 30
+MASH2MIN = 31
+MASH2MAX = 32
+CHOOSE = 50
+PATH = 51
+YESNO = 52
+SKIP = 100
+
+INSERTCOIN = 101
+CREDIT	   = 102
+LIVES	   = 103
+LEVEL      = 104
+SKIPINTRO  = 105
+SCENES     = 106
+SCORE      = 107
+BONUS      = 108
+SELMAP	   = 109
+OKMAP      = 110 
+D1         = 111  
+D2         = 112
+D3         = 113  
+DA         = 114
+ARROWSEL   = 115
+FREEPLAY   = 116
+GETREADY   = 117
+TOPSCORE   = 118
+SECRET     = 119
+PW0 	   = 120
+PW1 	   = 121
+PW2 	   = 122
+PW3 	   = 123
+PW4 	   = 124
+PW5 	   = 125
+PW6 	   = 126
+PW7		   = 127
+PWFULL 	   = 128
+MOVE 	   = 129
+HOLD 	   = 130
+NOMOVES    = 131
+BUTTONS	   = 132
+STICK 	   = 133
+SPECIALS   = 134
+TN 		   = 135
+TB 		   = 136
+TS 		   = 137
+TG 		   = 138
+TP 		   = 139
+DEATH      = 140
+TOTAL      = 141
+MINUS      = 142
+PERFECT    = 143
+BARFULL    = 144
+BARNONE    = 145
+
+inputFrmStart = 1
+inputFrmEnd = 2
+correctMove = 3
+moveDeath = 4
+moveFrmStart = 5
+moveFrmEnd = 6
+
+curDeathStart = 1
+curDeathEnd = 2
+
+segID = 0
+iSegPointer = 0
+
+Level = nil;
+Level = {}
+
+TITLE = 1
+INTROCLIP = 2
+INTROCLIPEND = 3
+TOTALSCENES = 4 --SCENECOUNT
+MIRROR = 5
+DTHMIRROR = 6
+
+LEVELSTARTED = 1
+BEATSTATUS = 2
+DEATHCOUNT = 3
+
+SCENEID = 1
+SCENECOMPLETE = 2
+
+sLCD = ""
+iLCDline = 1; iLCDpointer = 1; iLCDx = 0; iLCDwait = 0.250
+bShowLCD = true
+
+choice = nil 
+optorder = nil
+path = nil
+levelMap = nil 
+levelMap = {}
+PlayOrder = nil 
+PlayOrder = {}
+LvlOrder= nil
+LvlOrder = {}
+sprite = nil
+sprNUM = nil
+sprArrow = nil
+Death = nil 
+Death = {}
+Group1 = {}
+Group2 = {}
+Group3 = {}
+Group4 = {}
+
+fontQuality(FONT_QUALITY_BLENDED)
+
+sndright   = soundLoad("singe/"..MYDIR.."/right.wav")
+sndwrong   = soundLoad("singe/"..MYDIR.."/wrong.wav")
+snddeath   = soundLoad("singe/"..MYDIR.."/death.wav")
+sndvictory = soundLoad("singe/"..MYDIR.."/victory.wav")
+sndcoin    = soundLoad("singe/"..MYDIR.."/coin.wav")
+sndcredit  = soundLoad("singe/"..MYDIR.."/credit.wav")
+sndclear   = soundLoad("singe/"..MYDIR.."/clear.wav")
+sndroll   = soundLoad("singe/"..MYDIR.."/roll.wav")
