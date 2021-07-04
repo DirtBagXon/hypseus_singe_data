@@ -1,5 +1,7 @@
 # Hypseus Singe support for Singe 2 games
 
+#### Firstly, ensure you are running at least version 2.5.6 of Hypseus Singe, this version has an important Singe fix.
+
 ### Recode Singe 2 video files for Hypseus Singe
 
 Files in this repository are based around the first release of Singe 2 games on archive.org \
