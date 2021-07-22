@@ -1,15 +1,18 @@
-# Hypseus Singe anomaly files and support for Singe 2 games
+# Hypseus Singe anomaly files +
+# Support for Singe 2 games
 
 #### Firstly, ensure you are running at least version 2.5.6 of Hypseus Singe, this version has an important fix.
 
 ### Singe 1 replacement files
 
-Due to tighter frame reporting changes in Hypsesus Singe, some of the original Singe games can get stuck, particularly at the end of levels. This is mostly down to unforgiving LUA coding where ``==`` has been specified, rather than `>=`` for frame references. These errors are infrequent and random. The files in the ``Singe1`` folder of this repository can be dropped in as replacements over the originals. They simply allow detection of level changes through corrected operator assignment, which will work in Hypsesus or original Singe.
+Due to tighter frame reporting changes in Hypsesus Singe, some of the original Singe games can get stuck, particularly at the end of levels. This is mostly down to unforgiving LUA coding where ``==`` has been specified, rather than ``>=`` for frame references. These errors are infrequent and random. The files in the ``00-singe1`` folder of this repository can be dropped in as replacements over the originals. They simply allow detection of level changes through corrected operator assignment. No fundamental changes other than operators have been made. These files should therefore work in Hypseus and original Singe.
 
 ### Recode Singe 2 video files for Hypseus Singe
 
 Files in this repository are based around the first release of Singe 2 games on archive.org \
 Subsequent releases will likely not work correctly.
+
+Newer games, like Altered Carbon, will work from current releases as they were not original release games.
 
     ffmpeg -i <original>.mp4 -an -qscale:v 4 -b:v 6000k -codec:v mpeg2video <game>.m2v
     ffmpeg -i <original>.mp4 -vn -c:a libvorbis -ar 44100 -map a -b:a 160k <game>.ogg
