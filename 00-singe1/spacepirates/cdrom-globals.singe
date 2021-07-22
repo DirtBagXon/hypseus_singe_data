@@ -1,0 +1,368 @@
+--[[
+
+PROGRAM NAME:	SPACE PIRATES (SINGE EDITION)
+AUTHOR:			RDG2010
+
+This file is part of SPACE PIRATES (SINGE EDITION)
+
+    SPACE PIRATES (SINGE EDITION) is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation.
+
+    SPACE PIRATES (SINGE EDITION) is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+    Read COPYING.TXT for more info.
+
+
+]]--
+
+
+--Framework.singe....
+
+discSetFPS(29.97)
+discSkipToFrame(1)
+discPause()
+
+SWITCH_UP         =  0
+SWITCH_LEFT       =  1
+SWITCH_DOWN       =  2
+SWITCH_RIGHT      =  3
+SWITCH_START1     =  4
+SWITCH_START2     =  5
+SWITCH_BUTTON1    =  6
+SWITCH_BUTTON2    =  7
+SWITCH_BUTTON3    =  8
+SWITCH_COIN1      =  9
+SWITCH_COIN2      = 10
+SWITCH_SKILL1     = 11
+SWITCH_SKILL2     = 12
+SWITCH_SKILL3     = 13
+SWITCH_SERVICE    = 14
+SWITCH_TEST       = 15
+SWITCH_RESET      = 16
+SWITCH_SCREENSHOT = 17
+SWITCH_QUIT       = 18
+SWITCH_PAUSE      = 19
+SWITCH_CONSOLE    = 20
+
+FONT_QUALITY_SOLID   = 1
+FONT_QUALITY_SHADED  = 2
+FONT_QUALITY_BLENDED = 3
+
+SOUND_ERROR_INVALID = -1
+SOUND_ERROR_FULL    = -2
+
+OVERLAY_NOT_UPDATED = 0
+OVERLAY_UPDATED     = 1
+
+
+--...End Framework
+
+
+
+bDebug = false
+bPause = false
+bPlaySound = true
+bLevelComplete = false
+bShowMouse = true
+bSection01Reached = false
+bSection02Reached = false
+bSection03Reached = false
+bSection04Reached = false
+bSection05Reached = false
+bSection06Reached = false
+bItemShot = false
+bShowdown = false
+bFirstTimeAround = false
+bNoMoreBonuses = false
+bShowCredits = false
+bShowScore = false
+bResetContinue = false
+bFlip = false
+bState = false
+clockSecs = 0
+
+DOPT_EASY = 1
+DOPT_MEDIUM = 2
+DOPT_HARD = 3
+DOPT_EXTREME = 4
+DOPT_IMMEDIATE = 100
+DOPT_ONEMPTY = 101
+DOPT_BORDERS = 102
+DOPT_FREEPLAY = 4
+
+dip_LivesPerCredit = 6
+dip_CoinsPerCredit = 1
+dip_CoinsPerContinue = 1
+dip_Difficulty = DOPT_EASY
+dip_MaxBullets = 12
+dip_ReloadTrigger = DOPT_IMMEDIATE
+dip_Crosshair = 1
+dip_Showdown = true
+dip_Undertaker = true
+
+
+-- Indexes for pixel perfect detection
+
+lineStartX = 1
+lineEndX = 3
+lineY = 2
+
+iLives = 0
+iScore = 0
+iBullets = 0
+iDelay = 0
+iCredits = 0
+iCoins = 0
+iLastRndClip = 0
+iBand = 0
+iWrongBand = 0
+iSocketHits = 0
+iFellinaArrow = 0
+iFellinaSkull = 0
+iSkullStart = 0
+iReaperLaughs = 0
+iReaperHits = 0
+iChoice = 0
+iSkullshots = 0
+iLevelWithCannon = 0
+bandFrameStart = 0
+bandFrameEnd = 0
+
+ORDER_RGB = 1
+ORDER_GBR = 2
+ORDER_BRG = 3
+iCrystalOrder = ORDER_RGB
+
+ORDER_CORRECT = 10
+ORDER_WRONG   = 11
+
+COLOR_RED = 1
+COLOR_GREEN = 2
+COLOR_BLUE = 3
+RIGHT_COLOR = 4
+WRONG_COLOR = 5
+iUrsulaColor = COLOR_RED
+
+BAND_BLUE = 2
+BAND_YELLOW = 1
+
+SCORE_BADGUY = 100
+SCORE_URSULA = 500
+SCORE_TALLON = 1000
+SCORE_OBJECT = 50
+
+mousex = 0
+mousey = 0
+cursorx = 0
+cursory = 0
+cursoroffsetx = 0
+cursoroffsety = 0
+
+currentFrame = 0
+currentMove = 0
+tempLevel = 0
+thisOffset = 0
+offsetMenus = 58144
+sName = ""
+sNicks = ""
+
+
+BZ_YOUAREINDANGER = 1
+BZ_ENERGYCRITICAL = 2
+BZ_LIFESUPPORTLOW = 3
+BZ_YOUAREHISTORY  = 4
+TALLON_LATERDUDE     = 5
+TALLON_YOUAREHISTORY = 6
+TALLON_WALKTHEPLANK  = 7
+TALLON_THOUGHLUCK    = 8
+TALLON_NEXTTIMERANGER = 9
+BZ_PICKUPLEFTOFF = 10
+BZ_WHOSIDEAREYOUON = 11
+BZ_BLASTEDCOLONIST = 12
+BZ_YOUCALLTHATHELP = 13
+BZ_DONTSHOOTFIRST  = 14
+
+COLONIST_SHOT = 100
+TALLON_RANDOM = 110
+SKIP_DEATH    = 120
+
+STAGE_FELLINA = 1
+STAGE_REAPER = 2
+STAGE_SCRAPYARD = 3
+STAGE_MOUNTAIN = 4
+
+
+move = nil
+totalMoves = 0
+hitmapTotal = 0
+moveFrameStart = 1
+moveFrameEnd = 2
+deathFrameStart = 3
+deathFrameEnd = 4
+hitboxStart = 5
+hitboxEnd = 6
+rndMoveStart = 7
+rndMoveEnd = 8
+practiceMoveEnd = 7
+levelFrameStart = 0
+levelFrameEnd = 0
+iFrameStart = 0
+iFrameEnd = 0
+undertkrFrmStart = 0
+undertkrFrmEnd = 0
+
+levelMenu = -1
+levelIntro = 0
+levelPractice = 1
+levelDoor1 = 2
+levelDoor2 = 3
+levelDoor3 = 4
+levelFellina1 = 5
+levelFellina2 = 6
+levelMountain1 = 7
+levelMountain2 = 8
+levelReaper1 = 9
+levelReaper2 = 10
+levelReaper3 = 11
+levelScrapyard1 = 12
+levelScrapyard2 = 13
+levelScrapyard3 = 14
+levelTallon = 15
+levelCrystalBuild = 16
+levelFirePractice = 17
+levelShipBattle = 18
+levelInit = 111
+currentLevel = levelInit
+
+altState = 0
+
+crystalState = 0
+crystalSetup = 1
+crystalRunning = 2
+crystalEnd = 3
+crystalFrameStart = 0
+crystalFrameEnd = 1
+
+CRYSTAL_RED = 1
+CRYSTAL_GREEN = 2
+CRYSTAL_BLUE = 3
+
+levelStart = 104
+levelGameOver = 105
+levelContinue = 106
+levelMenu = 107
+levelService = 108
+levelLivesLeft = 109
+levelHighScore = 110
+
+
+lvlSetup = 1
+lvlRunning = 2
+lvlEnd = 3
+lvlPlayDeath = 4
+lvlPlayClip1 = 5
+lvlPlayClip2 = 6
+lvlPlayClip3 = 7
+lvlPlayClip4 = 8
+lvlPlayClip5 = 9
+lvlPlayClip6 = 10
+lvlPlayClip7 = 16
+lvlPlayClip8 = 17
+lvlPlayClip9 = 18
+lvlPlayNag = 11
+lvlPlayPuzzle1 = 12
+lvlPlayPuzzle2 = 13
+lvlPlayPuzzle3 = 14
+lvlPause = 15
+lvlState = lvlSetup 
+
+statePlaying = 0
+stateStartup = 1
+stateQuit = 2
+stateVLDPwake = 3
+gameflow = stateVLDPwake  --stateStartup
+
+
+-- Labels for elements in the hitbox arrays
+
+bbx1 = 1	-- Box coordinates
+bby1 = 2
+bbx2 = 3
+bby2 = 4
+
+hitmapFrame = 1		
+hitmapIndex = 2		
+hitmapCount = 3		
+hitmapBonus = 4		
+hitmapCivStart = 5	
+hitmapCivCount = 6	
+
+-- booleans for joystick input
+
+p1UP = false		
+p1DOWN = false		-- Used to quickly test if a joy direction or button is being pressed.
+p1LEFT = false
+p1RIGHT = false
+p1BUTTON3 = false
+p1COIN1 = false
+p1COIN2 = false
+p1SERVICE = false
+p1START1 = false
+p1PAUSE = false
+
+bulletSprtX  = 0
+bulletSprtY  = 0
+bulletSprtY2 = 0
+
+
+tallonClip = nil; tallonClip = {false, false, false}
+colonist = nil; colonist = {false, false, false}
+stage = nil; stage = {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}
+panel = nil; panel = {false, false, false, false}
+crystal = nil; crystal = {false, false, false}
+
+tx = 0; ty = 0; crx = 0; cry = 0; rndegg = 0
+
+fontDebug6pt = fontLoad("singe/spacepirates/m39.ttf", 6)
+fontDebug8pt = fontLoad("singe/spacepirates/m39.ttf", 8)
+fontCA14pt   = fontLoad("singe/spacepirates/ca.ttf", 14)
+fontCA16pt   = fontLoad("singe/spacepirates/ca.ttf", 16)
+fontCA24pt   = fontLoad("singe/spacepirates/ca.ttf", 24)
+fontScore    = fontLoad("singe/spacepirates/ca.ttf", 24)
+
+sprArrow    = spriteLoad("singe/spacepirates/pistol.png")
+sprRev      = spriteLoad("singe/spacepirates/crosshaira.png")
+sprSpot     = spriteLoad("singe/spacepirates/spot4.png")
+sprPanel    = spriteLoad("singe/spacepirates/p00.png")
+sprLifebarEmpty   = spriteLoad("singe/spacepirates/p03.png")
+sprLifebarGreen   = spriteLoad("singe/spacepirates/p05.png")
+sprLifebarYellow  = spriteLoad("singe/spacepirates/p06.png")
+sprLifebarRed     = spriteLoad("singe/spacepirates/p07.png")
+sprLifebarSEmpty   = spriteLoad("singe/spacepirates/p04.png")
+sprLifebarSGreen   = spriteLoad("singe/spacepirates/p08.png")
+sprLifebarSYellow  = spriteLoad("singe/spacepirates/p09.png")
+sprLifebarSRed     = spriteLoad("singe/spacepirates/p10.png")
+sprLifebarSBlue  = spriteLoad("singe/spacepirates/p11.png")
+sprCharge      = spriteLoad("singe/spacepirates/p02.png")
+
+sprShot = nil; sprEmpty = nil; emptyIndex = 0; eLastFrame = 0
+sprRel = nil; relIndex = 0; rLastFrame = 0; bRelAnim = false
+
+sprScore   = nil
+sprCredits = nil
+sprFreePlay = nil
+
+sndCoin      = soundLoad("singe/spacepirates/coin.wav")
+sndCredit    = soundLoad("singe/spacepirates/sp_credit2.wav")
+sndEmpty     = soundLoad("singe/spacepirates/sp_empty.wav")
+sndReload    = soundLoad("singe/spacepirates/sp_reload01b.wav")
+sndGunshot   = soundLoad("singe/spacepirates/sp_gunshot.wav")
+sndMiss      = soundLoad("singe/spacepirates/sp_ohwell.wav")
+sndWrong     = soundLoad("singe/spacepirates/wrong.wav")
+sndTick      = soundLoad("singe/spacepirates/tick.wav")
+sndTock      = soundLoad("singe/spacepirates/tock.wav")
+sndBreak     = soundLoad("singe/spacepirates/sp_erase.wav")
+sndGoodShot  = soundLoad("singe/spacepirates/sp_niceshot.wav")

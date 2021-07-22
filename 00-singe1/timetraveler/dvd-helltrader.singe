@@ -1,0 +1,303 @@
+--[[
+
+PROGRAM NAME:	TIME TRAVELER (SINGE EDITION)
+VERSION:		2.0
+AUTHOR:			RDG2010
+
+This file is part of TIME TRAVELER (SINGE EDITION)
+
+    TIME TRAVELER (SINGE EDITION) is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation.
+
+    TIME TRAVELER (SINGE EDITION) is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+    Read COPYING.TXT for more info.
+
+
+]]--
+
+iRoll_3CHERRIES = 1
+iRoll_3ORANGES = 2
+iRoll_2CHERRIES1ORANGE = 3
+iRoll_2CHERRIES1SKULL = 4
+iRoll_2SKULLS1ORANGE = 5
+iRoll_3SKULLS = 6
+
+function doTrader()
+
+	if lvlState == lvlSetup then
+	
+		if bDebug then debugPrint("Entering doTrader()") end	
+		
+		if (iCubeCount < iCubeMaxBuysPerGame) then
+		
+			if bAltTraderIntro then	setupClip(offsetvts13 + 265, offsetvts13 + 535)			
+			else                    setupClip(offsetvts13,       offsetvts13 + 265)	end
+			lvlState = branch01	
+			
+		else
+		
+			if not bAltTraderIntro then soundPlay(snddeath) end
+			lvlState = lvlEnd
+			
+		end
+	
+	elseif lvlState == branch01 then
+	
+		if currentFrame >= iFrameEnd then
+		
+			if iRevCubes < 9 then
+			
+				lvlState = lvlRunning
+				timerON(6)
+				discSkipToFrame(frameCube) --offsetMenus+20)
+				discPause()
+				
+			else
+			
+				setupClip(offsetvts13 + 678, offsetvts13 + 818)
+				lvlState = branch02			
+			
+			end
+			
+		else
+		
+			traderCheckInput()
+		
+		end
+	
+	elseif lvlState == branch02 then
+
+		if currentFrame >= iFrameEnd then lvlState = lvlEnd end
+	
+	elseif lvlState == branch03 then
+	
+		if currentFrame >= iFrameEnd then 
+		
+			setupClip(offsetvts13 + 678, offsetvts13 + 818)
+			lvlState = branch02
+			
+		else
+		
+			traderCheckInput()
+			
+		end
+	
+	elseif lvlState == lvlRunning then
+	
+		if timerDue() then
+		
+			lvlState = lvlEnd
+		
+		else
+		
+			traderCheckInput()
+		
+		end	
+	
+	elseif lvlState == lvlEnd then
+	
+		currentLevel = levelMenuScreen
+		lvlState = lvlSetup	
+		
+		if bDebug then debugPrint("Leaving doTrader()") end
+	
+	end
+
+end
+
+function traderCheckInput()
+
+	if (iCubeCount < iCubeMaxBuysPerGame) then
+		
+		if (p1COIN1 or p2COIN1) then
+		
+			p1COIN1 = false
+			p2COIN1 = false
+			
+			iRevCubes = iRevCubes + 1  -- Cube cost is hardcoded at 1 coin
+			iCubeCount = iCubeCount + 1
+			
+			if (iCubeCount < iCubeMaxBuysPerGame) then
+				setupClip(offsetvts13 + 535, offsetvts13 + 678)
+				lvlState = branch01
+				
+			else
+				setupClip(offsetvts13 + 535, offsetvts13 + 590)
+				lvlState = branch03
+			
+			end
+			
+		end
+		
+	else
+	
+		setupClip(offsetvts13 + 678, offsetvts13 + 818)
+		lvlState = branch02
+		
+	end
+
+end
+
+function doHellgate()
+
+	if lvlState == lvlSetup then
+	
+		if bDebug then debugPrint("Entering doHellgate()") end	
+	
+		bDoubleBet = true
+		setupClip(offsetvts14, offsetvts14 + 365)
+		lvlState = branch01	
+	
+	elseif lvlState == branch01 then
+	
+		if currentFrame >= iFrameEnd then
+			lvlState = lvlEnd
+		else
+		
+			if p1BUTTON1 then			
+			
+				iRoll = math.modf(rndegg:value(1000,6999)/1000)
+				p1BUTTON1 = false
+				
+				if iRoll == iRoll_3CHERRIES then
+				
+					setupClip(offsetvts14 + 545, offsetvts14 + 705)
+				
+				elseif iRoll == iRoll_3ORANGES then
+				
+					setupClip(offsetvts14 + 705, offsetvts14 + 875)
+				
+				elseif iRoll == iRoll_2CHERRIES1ORANGE then
+				
+					setupClip(offsetvts14 + 875, offsetvts14 + 1048)
+				
+				elseif iRoll == iRoll_3CHERRIES1SKULL then
+				
+					setupClip(offsetvts14 + 1225, offsetvts14 + 1389)
+				
+				elseif iRoll == iRoll_2SKULLS1ORANGE then
+				
+					setupClip(offsetvts14 + 1389, offsetvts14 + 1555)
+				
+				else
+					iRoll = iRoll_3SKULLS
+					setupClip(offsetvts14 + 1555, offsetvts14 + 1725)				
+				
+				end
+				
+				lvlState = branch02
+				
+			end			
+		
+		end
+		
+	elseif lvlState == branch02 then				
+		
+		if currentFrame >= iFrameEnd then
+		
+			local iReward = 0
+	
+			if iRoll == iRoll_3CHERRIES then
+				
+				iReward = 3
+				
+			elseif iRoll == iRoll_3ORANGES then
+			
+				iReward = 2
+				
+			elseif iRoll == iRoll_2CHERRIES1ORANGE then
+			
+				iReward = 1
+				
+			elseif iRoll == iRoll_3CHERRIES1SKULL then
+			
+				iReward = -1
+			
+			elseif iRoll == iRoll_2SKULLS1ORANGE then
+			
+				iReward = -2
+				
+			elseif iRoll == iRoll_3SKULLS then
+			
+				iReward = -3
+				
+			end		
+			
+			iLives = iLives + iReward
+			
+			if iLives < 0 then iLives = 0 end
+			
+			if iReward > 0 then				
+				
+				setupClip(offsetvts14 + 1048, offsetvts14 + 1225) -- You Win
+				lvlState = branch03
+				
+			else
+			
+				if iRoll == iRoll_3SKULLS and iLives == 0 then				
+					
+					setupClip(offsetvts14 + 1725, offsetvts14 + 1928) -- Welcome to Hell
+					lvlState = branch04
+					
+				else
+			
+					setupClip(offsetvts14 + 1928, offsetvts14 + 2108) -- You Lose
+					lvlState = branch03
+					
+				end
+			
+			end
+			
+		end		
+	
+	elseif lvlState == branch03 then
+	
+		if currentFrame >= iFrameEnd then lvlState = lvlEnd end
+		
+	elseif lvlState == branch04 then
+	
+		if currentFrame >= iFrameEnd then 
+		
+			setupClip(offsetvts14 + 1955, offsetvts14 + 2108) -- You Lose
+			lvlState = branch05
+			
+		end	
+	
+	elseif lvlState == branch05 then
+	
+		if currentFrame >= iFrameEnd then
+		
+			lvlState = lvlSetup
+			if newScore(iScore) then -- Has player achieved a high score?							
+				
+				currentLevel = levelHighScore	
+			
+			else							
+				
+				currentLevel = levelGameOver		
+			
+			end	
+		
+		end
+	
+	elseif lvlState == lvlEnd then
+	
+		lvlState = lvlSetup
+		if iLives == 0 then
+			currentLevel = levelContinue
+			
+		else
+			
+			currentLevel = levelMenuScreen
+			
+		end	
+		
+		if bDebug then debugPrint("Leaving doHellgate()") end	
+	
+	end
+	
+end

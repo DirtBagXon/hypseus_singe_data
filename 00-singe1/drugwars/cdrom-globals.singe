@@ -1,0 +1,308 @@
+--[[
+
+PROGRAM NAME:	DRUG WARS (SINGE EDITION)
+AUTHOR:			RDG2010
+
+This file is part of DRUG WARS (SINGE EDITION)
+
+    DRUG WARS (SINGE EDITION) is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation.
+
+    DRUG WARS (SINGE EDITION) is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+    Read COPYING.TXT for more info.
+
+
+]]--
+
+--Framework.singe....
+
+discSetFPS(29.97)
+discSkipToFrame(1)
+discPause()
+
+SWITCH_UP         =  0
+SWITCH_LEFT       =  1
+SWITCH_DOWN       =  2
+SWITCH_RIGHT      =  3
+SWITCH_START1     =  4
+SWITCH_START2     =  5
+SWITCH_BUTTON1    =  6
+SWITCH_BUTTON2    =  7
+SWITCH_BUTTON3    =  8
+SWITCH_COIN1      =  9
+SWITCH_COIN2      = 10
+SWITCH_SKILL1     = 11
+SWITCH_SKILL2     = 12
+SWITCH_SKILL3     = 13
+SWITCH_SERVICE    = 14
+SWITCH_TEST       = 15
+SWITCH_RESET      = 16
+SWITCH_SCREENSHOT = 17
+SWITCH_QUIT       = 18
+SWITCH_PAUSE      = 19
+SWITCH_CONSOLE    = 20
+
+FONT_QUALITY_SOLID   = 1
+FONT_QUALITY_SHADED  = 2
+FONT_QUALITY_BLENDED = 3
+
+SOUND_ERROR_INVALID = -1
+SOUND_ERROR_FULL    = -2
+
+OVERLAY_NOT_UPDATED = 0
+OVERLAY_UPDATED     = 1
+
+
+--...End Framework
+
+
+
+bDebug = false
+bPause = false
+bPlaySound = true
+bLevelComplete = false
+bShowMouse = true
+bSection01Reached = false
+bSection02Reached = false
+bSection03Reached = false
+bShowCredits = false
+bShowScore = false
+bResetContinue = false
+bFlip = false
+clockSecs = 0
+bRelAnim = false
+relIndex = 1
+rLastFrame = 0
+
+DOPT_EASY = 1
+DOPT_MEDIUM = 2
+DOPT_HARD = 3
+DOPT_EXTREME = 4
+DOPT_IMMEDIATE = 100
+DOPT_ONEMPTY = 101
+DOPT_BORDERS = 102
+DOPT_FREEPLAY = 4
+
+dip_LivesPerCredit = 6
+dip_CoinsPerCredit = 1
+dip_CoinsPerContinue = 1
+dip_Difficulty = DOPT_EASY
+dip_MaxBullets = 12
+dip_ReloadTrigger = DOPT_IMMEDIATE
+dip_Crosshair = 1
+dip_Showdown = true
+dip_Undertaker = true
+
+
+-- Indexes for pixel perfect detection
+
+lineStartX = 1
+lineEndX = 3
+lineY = 2
+
+iLives = 0
+iScore = 0
+iBullets = 0
+iDelay = 0
+iCredits = 0
+iCoins = 0
+iLastRndClip = 0
+iChoice = 0
+
+
+
+MENU_SIERRA = 1
+MENU_CHICAGO = 2
+MENU_BORDER = 3
+MENU_SA = 4
+
+NAG_NORMAL = 1
+NAG_FRIENDLYKILLED = 2
+
+iCurrentMenu = MENU_SIERRA
+
+
+SCORE_BADGUY = 100
+
+mousex = 0
+mousey = 0
+cursorx = 0
+cursory = 0
+cursoroffsetx = 0
+cursoroffsety = 0
+
+
+SKIP_DEATH    = 120
+
+
+move = nil
+totalMoves = 0
+hitmapTotal = 0
+moveFrameStart = 1
+moveFrameEnd = 2
+deathFrameStart = 3
+deathFrameEnd = 4
+hitboxStart = 5
+hitboxEnd = 6
+rndMoveStart = 7
+rndMoveEnd = 8
+practiceMoveEnd = 7
+levelFrameStart = 0
+levelFrameEnd = 0
+iFrameStart = 0
+iFrameEnd = 0
+nagFrameStart = 0
+nagFrameEnd = 0
+
+levelMenu = 0
+levelBeach = 1
+levelCarchase = 2
+levelShipyard = 3
+levelHideout = 4
+levelBar = 5
+levelBuschase = 6
+levelHeli = 7
+levelBase = 8
+levelNightvision = 9
+levelCourtroom = 10
+levelBoathouse = 11
+levelTown = 12
+levelFinal = 13
+levelPractice = 14
+
+levelStart = 104
+levelGameOver = 105
+levelContinue = 106
+levelMenu = 107
+levelService = 108
+levelLivesLeft = 109
+levelHighScore = 110
+levelInit = 111
+
+currentFrame = 0
+currentMove = 0
+currentLevel = levelInit
+tempLevel = 0
+thisOffset = 0
+offsetMenus = 58959
+sName = ""
+sNicks = ""
+
+
+STAGE_BEACH = 1
+STAGE_CARCHASE = 2
+STAGE_SHIPYARD = 3
+STAGE_HIDEOUT = 4
+STAGE_BAR = 5
+STAGE_BUSCHASE = 6
+STAGE_HELI = 7
+STAGE_BASE = 8
+STAGE_NIGHTVISION = 9
+STAGE_COURTROOM = 10
+STAGE_BOATHOUSE = 11
+STAGE_TOWN = 12
+STAGE_FINAL = 13
+STAGE_PRACTICE = 14
+
+lvlSetup = 1
+lvlRunning = 2
+lvlEnd = 3
+lvlPlayDeath = 4
+lvlPlayClip1 = 5
+lvlPlayClip2 = 6
+lvlPlayClip3 = 7
+lvlPlayClip4 = 8
+lvlPlayClip5 = 9
+lvlPlayClip6 = 10
+lvlPlayNag = 11
+lvlPause = 15
+lvlState = lvlSetup 
+
+statePlaying = 0
+stateStartup = 1
+stateQuit = 2
+stateVLDPwake = 3
+gameflow = stateVLDPwake  --stateStartup
+
+
+-- Labels for elements in the hitbox arrays
+
+bbx1 = 1	-- Box coordinates
+bby1 = 2
+bbx2 = 3
+bby2 = 4
+
+hitmapFrame = 1		
+hitmapIndex = 2		
+hitmapCount = 3		
+hitmapBonus = 4		
+hitmapCivStart = 5	
+hitmapCivCount = 6	
+
+-- booleans for joystick input
+
+p1UP = false		
+p1DOWN = false		-- Used to quickly test if a joy direction or button is being pressed.
+p1LEFT = false
+p1RIGHT = false
+p1BUTTON3 = false
+p1COIN1 = false
+p1COIN2 = false
+p1SERVICE = false
+p1START1 = false
+
+bulletSprtX  = 0
+bulletSprtY  = 0
+bulletSprtY2 = 0
+
+
+stage = nil; stage = {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}
+panel = nil; panel = {false, false, false, false, false, false, false, false, false, false, false, false, false, false}
+nagSierra = nil; nagSierra = {false, false, false, false, false}
+nagChicago = nil; nagChicago = {false, false, false, false}
+nagBorder = nil; nagBorder = {false, false, false}
+nagSA = nil; nagSA = {false, false, false}
+
+
+tx = 0; ty = 0; crx = 0; cry = 0; rndegg = 0
+
+fontDebug6pt = fontLoad("singe/drugwars/m39.ttf", 6)
+fontDebug8pt = fontLoad("singe/drugwars/m39.ttf", 8)
+fontCA14pt   = fontLoad("singe/drugwars/addlg___.ttf", 14)
+fontCA16pt   = fontLoad("singe/drugwars/addlg___.ttf", 16)
+fontCA24pt   = fontLoad("singe/drugwars/addlg___.ttf", 24)
+
+sprArrow      = spriteLoad("singe/drugwars/pistol.png")
+sprBadge      = spriteLoad("singe/drugwars/badge3.png")
+sprBadgeSmall =  spriteLoad("singe/drugwars/badge4.png")
+sprRev        = spriteLoad("singe/drugwars/crosshaira.png")
+
+sprScore    = nil
+sprCredits  = nil
+sprFreePlay = nil
+
+sprBullet = nil; sprBullet = {}
+sprBullet[1] = spriteLoad("singe/drugwars/bullets00.png")
+sprBullet[2] = spriteLoad("singe/drugwars/bullets01.png")
+sprBullet[3] = spriteLoad("singe/drugwars/bullets02.png")
+sprBullet[4] = spriteLoad("singe/drugwars/bullets03.png")
+sprBullet[5] = spriteLoad("singe/drugwars/bullets04.png")
+sprBullet[6] = spriteLoad("singe/drugwars/bullets05.png")
+sprBullet[7] = spriteLoad("singe/drugwars/bullets06.png")
+sprBullet[8] = spriteLoad("singe/drugwars/bullets07.png")
+sprBullet[9] = spriteLoad("singe/drugwars/bullets08.png")
+sprBullet[10] = spriteLoad("singe/drugwars/bullets09.png")
+sprBullet[11] = spriteLoad("singe/drugwars/bullets10.png")
+sprBullet[12] = spriteLoad("singe/drugwars/bullets11.png")
+sprBullet[13] = spriteLoad("singe/drugwars/bullets12.png")
+
+sndCoin      = soundLoad("singe/drugwars/coin.wav")
+sndCredit    = soundLoad("singe/drugwars/gunhit.wav")
+sndGunshot   = soundLoad("singe/drugwars/gunshot.wav")
+sndEmpty     = soundLoad("singe/drugwars/gunempty.wav")
+sndReload    = soundLoad("singe/drugwars/gunreload.wav")
+sndBreak     = soundLoad("singe/drugwars/break.wav")

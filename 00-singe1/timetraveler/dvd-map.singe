@@ -1,0 +1,400 @@
+--[[
+
+PROGRAM NAME:	TIME TRAVELER (SINGE EDITION)
+VERSION:		2.0
+AUTHOR:			RDG2010
+
+This file is part of TIME TRAVELER (SINGE EDITION)
+
+    TIME TRAVELER (SINGE EDITION) is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation.
+
+    TIME TRAVELER (SINGE EDITION) is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+    Read COPYING.TXT for more info.
+
+
+]]--
+
+curx = 0; cury = 0;
+
+function moveCursor(overHere)
+
+	-- This function moves the cursor in the level select screen.
+	-- It determines yellow rectangle movement
+	-- depending on position (given by variable overHere) and levels completed.
+	-- The function does not return any values.
+	
+	if bIgnoreJoy then 
+			
+		if joyDelayDue() then bIgnoreJoy = false end
+		
+	else
+	
+		if (iCurPos == levelTrader) then
+		
+			if (p1UP) then			
+			
+				--p1UP = false
+				if (levelMap[level02] == true and levelMap[level03] == true and levelMap[level04] == true) then
+				
+					if (levelMap[level05] == false) then
+				
+						iCurPos = level05
+						
+					elseif (levelMap[level06] == false) then
+					
+						iCurPos = level06
+					
+					end
+					
+				end
+			
+			elseif (p1LEFT) then
+			
+				--p1LEFT = false
+				if (levelMap[level02] == true and levelMap[level03] == true and levelMap[level04] == true) then
+				
+					if (levelMap[level05] == false) then
+				
+						iCurPos = level05
+						
+					elseif (levelMap[level05] == true and levelMap[level06] == false) then
+				
+						iCurPos = level06
+					end
+				
+				elseif (levelMap[level04] == false) then
+				
+					iCurPos = level04
+					
+				elseif (levelMap[level03] == false) then
+				
+					iCurPos = level03
+					
+				elseif (levelMap[level02] == false) then
+				
+					iCurPos = level02
+				
+				end
+				
+			
+			end
+			
+		elseif (iCurPos == level04) then 	-- 1,998
+		
+			if (p1RIGHT) then
+			
+				--p1RIGHT = false
+				iCurPos = levelTrader
+			
+			elseif (p1LEFT) then
+				
+				--p1LEFT = false
+				if (levelMap[level02] == false) then
+					iCurPos = level02
+				
+				elseif (levelMap[level03] == false) then
+				
+					iCurPos = level03
+					
+				end
+				
+			end
+			
+		elseif (iCurPos == level02) then -- 50,000 BC
+		
+			if (p1RIGHT) then
+			
+				--p1RIGHT = false			
+				if (levelMap[level04] == false) then 
+					iCurPos = level04 
+				elseif (levelMap[level04] == true) then
+				
+					iCurPos = levelTrader
+					
+				end
+			
+			elseif (p1DOWN) then
+			
+				--p1DOWN = false
+				if (levelMap[level03] == false) then iCurPos = level03 end
+			
+			end
+			
+		elseif (iCurPos == level03) then -- 2,173
+		
+			if (p1RIGHT) then
+			
+				--p1RIGHT = false
+				if (levelMap[level04] == false) then 
+					iCurPos = level04 
+				else
+					iCurPos = levelTrader
+				end
+				
+			elseif (p1UP) then
+			
+				--p1UP = false
+				if (levelMap[level02] == false) then iCurPos = level02 end
+				
+			end
+			
+		elseif (iCurPos == level05) then -- Age of Magic
+		
+			if (p1RIGHT) then
+			
+				--p1RIGHT = false
+				if (levelMap[level06] == false) then iCurPos = level06 end
+				
+			elseif (p1DOWN) then
+			
+				--p1DOWN = false
+				iCurPos = levelTrader
+				
+			end
+			
+		elseif (iCurPos == level06) then -- 1,350
+		
+			if (p1LEFT) then
+			
+				--p1LEFT = false
+				if (levelMap[level05] == false) then iCurPos = level05 end
+				
+			elseif (p1DOWN) then
+			
+				--p1DOWN = false
+				iCurPos = levelTrader
+				
+			end
+				
+		
+		end		
+		
+		if p1UP or p1DOWN or p1LEFT or p1RIGHT or p1BUTTON1 then
+			bIgnoreJoy = true
+			joyDelayON(0.200)
+		end
+		
+		p1UP      = false		
+		p1DOWN    = false		
+		p1LEFT    = false
+		p1RIGHT   = false
+		p1BUTTON1 = false
+		p1BUTTON2 = false
+		
+	end
+
+end
+
+function LevelMapComplete()
+
+	-- Quick function to determine if player has completed all the levels required to play the final boss video clip.
+	-- Returns true if all levels complete, false otherwise.
+	-- Used by doLevelSelect()
+
+	if (levelMap[level02] == true and levelMap[level03] == true and levelMap[level04] == true and levelMap[level05] == true and levelMap[level06] == true) then
+		return true
+	else
+		return false
+	end
+
+end
+
+function setCursor(overHere)
+
+	-- This function determines the x and y coordinates of the yellow rectangle
+	-- in the level select screen.
+	-- This function does not return any values.
+
+
+	if (overHere == level02) then -- 50,000 BC
+	
+		curx = 60; cury = 116
+	
+	elseif (overHere == level03) then -- 2,173
+	
+		curx = 55; cury = 159
+	
+	elseif (overHere == level04) then -- 1,998
+	
+		curx = 124; cury = 145
+	
+	elseif (overHere == level05) then -- Age of Magic
+	
+		curx = 188; cury = 91
+		
+	elseif (overHere == level06) then -- 1,350
+	
+		curx = 272; cury = 76
+	
+	--elseif (overHere == level07) then -- 2,552
+	
+		--curx = 272; cury = 76	
+		
+	elseif (overHere == levelTrader) then -- Trader
+	
+		curx = 227; cury = 171
+	
+	end	
+	
+
+end
+
+function doLevelSelect()
+
+	-- Main loop for level select menu screen.
+
+	if (lvlState == lvlSetup) then
+	
+		if (bDebug == true) then debugPrint("Entering doLevelSelect()") end
+		
+		bShowLives = true
+		bShowCubes = true
+		bIgnoreJoy = false
+		
+		if (LevelMapComplete() == true) then
+			
+			if not bAltTraderIntro then
+				if (bDebug) then debugPrint ("All levels complete. Calling Trader.") end
+				bAltTraderIntro = true
+				iCurPos = levelTrader
+			
+			elseif not levelMap[level07] then
+			
+				iCurPos = level07				
+				
+			else
+			
+				iCurPos = level08			
+			
+			end
+			lvlState = lvlEnd
+			
+		else
+			setMenuFrame() 
+			iCurPos = levelTrader		
+			lvlState = lvlRunning
+			timerON(6)
+		end		
+	
+	elseif (lvlState == lvlRunning) then
+		
+		if timerDue() then
+		
+			if not levelMap[iCurPos] then
+			
+				if iCurPos == levelTrader then
+				
+					if not levelMap[level02] then
+						iCurPos = level02
+					elseif not levelMap[level03] then
+						iCurPos = level03						
+					elseif not levelMap[level04] then
+						iCurPos = level04
+					elseif not levelMap[level05] then
+						iCurPos = level05
+					elseif not levelMap[level06] then
+						iCurPos = level06
+					end
+				
+				end
+			end
+			lvlState = lvlEnd
+		
+		else		
+			
+			if (p1BUTTON1) then
+				
+				p1BUTTON1 = false			
+				lvlState = lvlEnd
+			else
+				
+				moveCursor(iCurPos)			
+				setCursor(iCurPos)
+				spriteDraw(curx, cury, sprBox)
+				
+			end
+			
+		end
+        
+	
+	elseif (lvlState == lvlEnd) then		
+		
+		if iCurPos == levelTrader then
+			currentLevel = levelTrader
+		else
+			currentLevel = levelNormal
+		end
+		lvlState = lvlSetup		
+		
+		if (bDebug == true) then debugPrint("iCurPos = "  .. iCurPos) end
+		if (bDebug == true) then debugPrint("Leaving doLevelSelect()") end
+		
+	
+	end
+
+end
+
+function setMenuFrame()
+		
+	if (levelMap[level02] == false and levelMap[level03] == true and levelMap[level04] == false and levelMap[level05] == false and levelMap[level06] == false) then 
+	-- 2173 is complete
+
+		h = (offsetMenus)
+		
+	elseif (levelMap[level02] == false and levelMap[level03] == false and levelMap[level04] == true and levelMap[level05] == false and levelMap[level06] == false) then 
+	-- 1998 is complete
+
+		h = (2 + offsetMenus)
+	
+	elseif (levelMap[level02] == true and levelMap[level03] == false and levelMap[level04] == false and levelMap[level05] == false and levelMap[level06] == false) then 
+	-- 50000 BC is complete
+	
+		h = (2*2 + offsetMenus)
+		
+	elseif (levelMap[level02] == false and levelMap[level03] == true and levelMap[level04] == true and levelMap[level05] == false and levelMap[level06] == false) then 
+	-- 2173 and 1998 are complete
+	
+		h = (2*3 + offsetMenus)
+	
+	elseif (levelMap[level02] == true and levelMap[level03] == false and levelMap[level04] == true and levelMap[level05] == false and levelMap[level06] == false) then 
+	-- 50000 and 1998 are complete
+	
+		h = (2*4 + offsetMenus)	
+		
+	elseif (levelMap[level02] == true and levelMap[level03] == true and levelMap[level04] == false and levelMap[level05] == false and levelMap[level06] == false) then 
+	-- 50000 and 2173 are complete
+		
+		h = (2*5 + offsetMenus)
+		
+	elseif (levelMap[level02] == true and levelMap[level03] == true and levelMap[level04] == true and levelMap[level05] == false and levelMap[level06] == false) then 
+	-- 50000, 2173, 1998 are complete
+		
+		h = (2*6 + offsetMenus)
+		
+	elseif (levelMap[level02] == true and levelMap[level03] == true and levelMap[level04] == true and levelMap[level05] == false and levelMap[level06] == true) then 
+	-- 1350, 50000, 2173, 1998 are complete
+		
+		h = (2*7 + offsetMenus)
+	
+	elseif (levelMap[level02] == true and levelMap[level03] == true and levelMap[level04] == true and levelMap[level05] == true and levelMap[level06] == false) then 
+	-- Age of Magic, 50000, 2173, 1998 are complete
+	
+		h = (2*8 + offsetMenus)
+		
+	elseif (levelMap[level02] == false and levelMap[level03] == false and levelMap[level04] == false and levelMap[level05] == false and levelMap[level06] == false) then 
+	-- All levels open (except wild west)
+
+		h = (2*9 + offsetMenus)
+		
+	end
+	
+	if (bDebug) then debugPrint("setMenuFrame returns frame number " .. h) end
+	
+	discSearch(h)	
+
+end

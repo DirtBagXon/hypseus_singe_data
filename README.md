@@ -1,6 +1,10 @@
-# Hypseus Singe support for Singe 2 games
+# Hypseus Singe anomaly files and support for Singe 2 games
 
 #### Firstly, ensure you are running at least version 2.5.6 of Hypseus Singe, this version has an important fix.
+
+### Singe 1 replacement files
+
+Due to tighter frame reporting changes in Hypsesus Singe, some of the original Singe games can get stuck, particularly at the end of levels. This is mostly down to unforgiving LUA coding where ``==`` has been specified, rather than `>=`` for frame references. These errors are infrequent and random. The files in the ``Singe1`` folder of this repository can be dropped in as replacements over the originals. They simply allow detection of level changes through corrected operator assignment, which will work in Hypsesus or original Singe.
 
 ### Recode Singe 2 video files for Hypseus Singe
 

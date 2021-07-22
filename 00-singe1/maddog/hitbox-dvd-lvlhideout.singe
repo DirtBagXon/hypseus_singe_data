@@ -1,0 +1,3013 @@
+--[[
+
+PROGRAM NAME:	MAD DOG MCCREE (SINGE EDITION)
+AUTHOR:			RDG2010
+
+This file is part of MAD DOG MCCREE (SINGE EDITION)
+
+    MAD DOG MCCREE (SINGE EDITION) is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation.
+
+    MAD DOG MCCREE (SINGE EDITION) is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+    Read COPYING.TXT for more info.
+
+
+]]--
+
+
+function GetHideoutArray()
+
+	hitbox = nil; hitbox = {}
+
+	-- \shooter-0068-000.mdg
+
+	hitbox[1] = {}; hitbox[1] = {101, 90, 108, 98}
+
+	-- \shooter-0068-001.mdg
+
+	hitbox[2] = {}; hitbox[2] = {103, 88, 110, 98}
+
+	-- \shooter-0068-002.mdg
+
+	hitbox[3] = {}; hitbox[3] = {104, 88, 112, 97}
+	hitbox[4] = {}; hitbox[4] = {110, 95, 118, 99}
+
+	-- \shooter-0068-003.mdg
+
+	hitbox[5] = {}; hitbox[5] = {106, 86, 113, 95}
+	hitbox[6] = {}; hitbox[6] = {98, 95, 121, 99}
+
+	-- \shooter-0068-004.mdg
+
+	hitbox[7] = {}; hitbox[7] = {106, 84, 114, 94}
+	hitbox[8] = {}; hitbox[8] = {98, 95, 121, 99}
+
+	-- \shooter-0068-005.mdg
+
+	hitbox[9] = {}; hitbox[9] = {106, 84, 114, 94}
+	hitbox[10] = {}; hitbox[10] = {98, 95, 121, 99}
+
+	-- \shooter-0068-006.mdg
+
+	hitbox[11] = {}; hitbox[11] = {106, 84, 115, 95}
+	hitbox[12] = {}; hitbox[12] = {96, 95, 119, 99}
+
+	-- \shooter-0068-007.mdg
+
+	hitbox[13] = {}; hitbox[13] = {106, 84, 115, 95}
+	hitbox[14] = {}; hitbox[14] = {96, 95, 119, 99}
+
+	-- \shooter-0068-008.mdg
+
+	hitbox[15] = {}; hitbox[15] = {106, 84, 115, 95}
+	hitbox[16] = {}; hitbox[16] = {96, 95, 119, 99}
+
+	-- \shooter-0068-009.mdg
+
+	hitbox[17] = {}; hitbox[17] = {106, 84, 115, 95}
+	hitbox[18] = {}; hitbox[18] = {96, 95, 119, 99}
+
+	-- \shooter-0068-010.mdg
+
+	hitbox[19] = {}; hitbox[19] = {106, 84, 115, 95}
+	hitbox[20] = {}; hitbox[20] = {96, 95, 119, 99}
+
+	-- \shooter-0068-011.mdg
+
+	hitbox[21] = {}; hitbox[21] = {106, 84, 115, 95}
+	hitbox[22] = {}; hitbox[22] = {96, 95, 119, 99}
+
+	-- \shooter-0068-012.mdg
+
+	hitbox[23] = {}; hitbox[23] = {106, 84, 115, 95}
+	hitbox[24] = {}; hitbox[24] = {96, 95, 119, 99}
+
+	-- \shooter-0068-013.mdg
+
+	hitbox[25] = {}; hitbox[25] = {106, 84, 115, 95}
+	hitbox[26] = {}; hitbox[26] = {96, 95, 119, 99}
+
+	-- \shooter-0068-014.mdg
+
+	hitbox[27] = {}; hitbox[27] = {106, 84, 115, 95}
+	hitbox[28] = {}; hitbox[28] = {96, 95, 119, 99}
+
+	-- \shooter-0068-015.mdg
+
+	hitbox[29] = {}; hitbox[29] = {106, 84, 115, 95}
+	hitbox[30] = {}; hitbox[30] = {96, 95, 119, 99}
+
+	-- \shooter-0068-016.mdg
+
+	hitbox[31] = {}; hitbox[31] = {106, 84, 115, 95}
+	hitbox[32] = {}; hitbox[32] = {96, 95, 119, 99}
+
+	-- \shooter-0068-017.mdg
+
+	hitbox[33] = {}; hitbox[33] = {106, 84, 115, 95}
+	hitbox[34] = {}; hitbox[34] = {96, 95, 119, 99}
+
+	-- \shooter-0068-018.mdg
+
+	hitbox[35] = {}; hitbox[35] = {106, 84, 115, 95}
+	hitbox[36] = {}; hitbox[36] = {96, 95, 119, 99}
+
+	-- \shooter-0068-019.mdg
+
+	hitbox[37] = {}; hitbox[37] = {106, 84, 115, 95}
+	hitbox[38] = {}; hitbox[38] = {96, 95, 119, 99}
+
+	-- \shooter-0068-020.mdg
+
+	hitbox[39] = {}; hitbox[39] = {106, 84, 115, 95}
+	hitbox[40] = {}; hitbox[40] = {96, 95, 119, 99}
+
+	-- \shooter-0068-021.mdg
+
+	hitbox[41] = {}; hitbox[41] = {106, 84, 115, 95}
+	hitbox[42] = {}; hitbox[42] = {96, 95, 119, 99}
+
+	-- \shooter-0068-022.mdg
+
+	hitbox[43] = {}; hitbox[43] = {106, 84, 115, 95}
+	hitbox[44] = {}; hitbox[44] = {96, 95, 119, 99}
+
+	-- \shooter-0068-023.mdg
+
+	hitbox[45] = {}; hitbox[45] = {106, 84, 115, 95}
+	hitbox[46] = {}; hitbox[46] = {96, 95, 119, 99}
+
+	-- \shooter-0068-024.mdg
+
+	hitbox[47] = {}; hitbox[47] = {106, 84, 115, 95}
+	hitbox[48] = {}; hitbox[48] = {96, 95, 119, 99}
+
+	-- \shooter-0068-025.mdg
+
+	hitbox[49] = {}; hitbox[49] = {106, 84, 115, 95}
+	hitbox[50] = {}; hitbox[50] = {96, 95, 119, 99}
+
+	-- \shooter-0068-026.mdg
+
+	hitbox[51] = {}; hitbox[51] = {106, 84, 115, 95}
+	hitbox[52] = {}; hitbox[52] = {96, 95, 119, 99}
+
+	-- \shooter-0068-027.mdg
+
+	hitbox[53] = {}; hitbox[53] = {106, 84, 115, 95}
+	hitbox[54] = {}; hitbox[54] = {96, 95, 119, 99}
+
+	-- \shooter-0068-028.mdg
+
+	hitbox[55] = {}; hitbox[55] = {106, 84, 115, 95}
+	hitbox[56] = {}; hitbox[56] = {96, 95, 119, 99}
+
+	-- \shooter-0068-029.mdg
+
+	hitbox[57] = {}; hitbox[57] = {106, 84, 115, 95}
+	hitbox[58] = {}; hitbox[58] = {96, 95, 119, 99}
+
+	-- \shooter-0068-030.mdg
+
+	hitbox[59] = {}; hitbox[59] = {106, 84, 115, 95}
+	hitbox[60] = {}; hitbox[60] = {96, 95, 119, 99}
+
+	-- \shooter-0068-031.mdg
+
+	hitbox[61] = {}; hitbox[61] = {106, 84, 115, 95}
+	hitbox[62] = {}; hitbox[62] = {96, 95, 119, 99}
+
+	-- \shooter-0068-032.mdg
+
+	hitbox[63] = {}; hitbox[63] = {106, 84, 115, 95}
+	hitbox[64] = {}; hitbox[64] = {96, 95, 119, 99}
+
+	-- \shooter-0068-033.mdg
+
+	hitbox[65] = {}; hitbox[65] = {106, 84, 115, 95}
+	hitbox[66] = {}; hitbox[66] = {96, 95, 119, 99}
+
+	-- \shooter-0068-034.mdg
+
+	hitbox[67] = {}; hitbox[67] = {106, 84, 115, 95}
+	hitbox[68] = {}; hitbox[68] = {96, 95, 119, 99}
+
+	-- \shooter-0068-035.mdg
+
+	hitbox[69] = {}; hitbox[69] = {106, 84, 115, 95}
+	hitbox[70] = {}; hitbox[70] = {96, 95, 119, 99}
+
+	-- \shooter-0068-036.mdg
+
+	hitbox[71] = {}; hitbox[71] = {106, 84, 115, 95}
+	hitbox[72] = {}; hitbox[72] = {96, 95, 119, 99}
+
+	-- \shooter-0068-037.mdg
+
+	hitbox[73] = {}; hitbox[73] = {106, 84, 115, 95}
+	hitbox[74] = {}; hitbox[74] = {96, 95, 119, 99}
+
+	-- \shooter-0068-038.mdg
+
+	hitbox[75] = {}; hitbox[75] = {106, 84, 115, 95}
+	hitbox[76] = {}; hitbox[76] = {96, 95, 119, 99}
+
+	-- \shooter-0068-039.mdg
+
+	hitbox[77] = {}; hitbox[77] = {106, 84, 115, 95}
+	hitbox[78] = {}; hitbox[78] = {96, 95, 119, 99}
+
+	-- \shooter-0068-040.mdg
+
+	hitbox[79] = {}; hitbox[79] = {106, 84, 115, 95}
+	hitbox[80] = {}; hitbox[80] = {96, 95, 119, 99}
+
+	-- \shooter-0068-041.mdg
+
+	hitbox[81] = {}; hitbox[81] = {106, 84, 115, 95}
+	hitbox[82] = {}; hitbox[82] = {96, 95, 119, 99}
+
+	-- \shooter-0068-042.mdg
+
+	hitbox[83] = {}; hitbox[83] = {106, 84, 115, 95}
+	hitbox[84] = {}; hitbox[84] = {96, 95, 119, 99}
+
+	-- \shooter-0176-000.mdg
+
+	hitbox[85] = {}; hitbox[85] = {146, 95, 154, 102}
+	hitbox[86] = {}; hitbox[86] = {154, 99, 161, 104}
+
+	-- \shooter-0176-001.mdg
+
+	hitbox[87] = {}; hitbox[87] = {148, 94, 156, 101}
+	hitbox[88] = {}; hitbox[88] = {155, 101, 161, 106}
+
+	-- \shooter-0176-002.mdg
+
+	hitbox[89] = {}; hitbox[89] = {148, 91, 156, 100}
+	hitbox[90] = {}; hitbox[90] = {156, 100, 162, 106}
+
+	-- \shooter-0176-003.mdg
+
+	hitbox[91] = {}; hitbox[91] = {148, 91, 156, 100}
+	hitbox[92] = {}; hitbox[92] = {155, 100, 166, 106}
+
+	-- \shooter-0176-004.mdg
+
+	hitbox[93] = {}; hitbox[93] = {148, 88, 156, 96}
+	hitbox[94] = {}; hitbox[94] = {155, 99, 166, 106}
+	hitbox[95] = {}; hitbox[95] = {145, 95, 165, 101}
+
+	-- \shooter-0176-005.mdg
+
+	hitbox[96] = {}; hitbox[96] = {149, 86, 157, 95}
+	hitbox[97] = {}; hitbox[97] = {155, 100, 169, 106}
+	hitbox[98] = {}; hitbox[98] = {144, 95, 166, 101}
+
+	-- \shooter-0176-006.mdg
+
+	hitbox[99] = {}; hitbox[99] = {150, 84, 158, 93}
+	hitbox[100] = {}; hitbox[100] = {155, 99, 171, 106}
+	hitbox[101] = {}; hitbox[101] = {144, 93, 166, 100}
+
+	-- \shooter-0176-007.mdg
+
+	hitbox[102] = {}; hitbox[102] = {149, 82, 157, 91}
+	hitbox[103] = {}; hitbox[103] = {155, 99, 173, 106}
+	hitbox[104] = {}; hitbox[104] = {147, 91, 168, 102}
+
+	-- \shooter-0176-008.mdg
+
+	hitbox[105] = {}; hitbox[105] = {150, 80, 159, 88}
+	hitbox[106] = {}; hitbox[106] = {155, 99, 175, 106}
+	hitbox[107] = {}; hitbox[107] = {145, 89, 168, 100}
+
+	-- \shooter-0176-009.mdg
+
+	hitbox[108] = {}; hitbox[108] = {152, 78, 161, 87}
+	hitbox[109] = {}; hitbox[109] = {155, 99, 177, 106}
+	hitbox[110] = {}; hitbox[110] = {147, 87, 169, 101}
+	hitbox[111] = {}; hitbox[111] = {167, 93, 173, 103}
+
+	-- \shooter-0176-010.mdg
+
+	hitbox[112] = {}; hitbox[112] = {152, 78, 161, 87}
+	hitbox[113] = {}; hitbox[113] = {155, 99, 177, 106}
+	hitbox[114] = {}; hitbox[114] = {147, 87, 169, 101}
+	hitbox[115] = {}; hitbox[115] = {167, 93, 173, 103}
+
+	-- \shooter-0176-011.mdg
+
+	hitbox[116] = {}; hitbox[116] = {152, 78, 161, 87}
+	hitbox[117] = {}; hitbox[117] = {155, 99, 177, 106}
+	hitbox[118] = {}; hitbox[118] = {147, 87, 169, 101}
+	hitbox[119] = {}; hitbox[119] = {167, 93, 173, 103}
+
+	-- \shooter-0176-012.mdg
+
+	hitbox[120] = {}; hitbox[120] = {152, 78, 161, 87}
+	hitbox[121] = {}; hitbox[121] = {155, 99, 177, 106}
+	hitbox[122] = {}; hitbox[122] = {147, 87, 169, 101}
+	hitbox[123] = {}; hitbox[123] = {167, 93, 173, 103}
+
+	-- \shooter-0176-013.mdg
+
+	hitbox[124] = {}; hitbox[124] = {152, 78, 161, 87}
+	hitbox[125] = {}; hitbox[125] = {155, 99, 177, 106}
+	hitbox[126] = {}; hitbox[126] = {147, 87, 169, 101}
+	hitbox[127] = {}; hitbox[127] = {167, 93, 173, 103}
+
+	-- \shooter-0176-014.mdg
+
+	hitbox[128] = {}; hitbox[128] = {152, 78, 161, 87}
+	hitbox[129] = {}; hitbox[129] = {155, 99, 177, 106}
+	hitbox[130] = {}; hitbox[130] = {147, 87, 169, 101}
+	hitbox[131] = {}; hitbox[131] = {167, 93, 173, 103}
+
+	-- \shooter-0176-015.mdg
+
+	hitbox[132] = {}; hitbox[132] = {152, 78, 161, 87}
+	hitbox[133] = {}; hitbox[133] = {155, 99, 177, 106}
+	hitbox[134] = {}; hitbox[134] = {147, 87, 169, 101}
+	hitbox[135] = {}; hitbox[135] = {167, 93, 173, 103}
+
+	-- \shooter-0176-016.mdg
+
+	hitbox[136] = {}; hitbox[136] = {152, 78, 161, 87}
+	hitbox[137] = {}; hitbox[137] = {155, 99, 177, 106}
+	hitbox[138] = {}; hitbox[138] = {147, 87, 169, 101}
+	hitbox[139] = {}; hitbox[139] = {167, 93, 173, 103}
+
+	-- \shooter-0176-017.mdg
+
+	hitbox[140] = {}; hitbox[140] = {152, 78, 161, 87}
+	hitbox[141] = {}; hitbox[141] = {155, 99, 177, 106}
+	hitbox[142] = {}; hitbox[142] = {147, 87, 169, 101}
+	hitbox[143] = {}; hitbox[143] = {167, 93, 173, 103}
+
+	-- \shooter-0176-018.mdg
+
+	hitbox[144] = {}; hitbox[144] = {152, 78, 161, 87}
+	hitbox[145] = {}; hitbox[145] = {155, 99, 177, 106}
+	hitbox[146] = {}; hitbox[146] = {147, 87, 169, 101}
+	hitbox[147] = {}; hitbox[147] = {167, 93, 173, 103}
+
+	-- \shooter-0176-019.mdg
+
+	hitbox[148] = {}; hitbox[148] = {152, 78, 161, 87}
+	hitbox[149] = {}; hitbox[149] = {155, 99, 177, 106}
+	hitbox[150] = {}; hitbox[150] = {147, 87, 169, 101}
+	hitbox[151] = {}; hitbox[151] = {167, 93, 173, 103}
+
+	-- \shooter-0176-020.mdg
+
+	hitbox[152] = {}; hitbox[152] = {152, 78, 161, 87}
+	hitbox[153] = {}; hitbox[153] = {155, 99, 177, 106}
+	hitbox[154] = {}; hitbox[154] = {147, 87, 169, 101}
+	hitbox[155] = {}; hitbox[155] = {167, 93, 173, 103}
+
+	-- \shooter-0176-021.mdg
+
+	hitbox[156] = {}; hitbox[156] = {152, 78, 161, 87}
+	hitbox[157] = {}; hitbox[157] = {155, 99, 177, 106}
+	hitbox[158] = {}; hitbox[158] = {147, 87, 169, 101}
+	hitbox[159] = {}; hitbox[159] = {167, 93, 173, 103}
+
+	-- \shooter-0176-022.mdg
+
+	hitbox[160] = {}; hitbox[160] = {152, 78, 161, 87}
+	hitbox[161] = {}; hitbox[161] = {155, 99, 177, 106}
+	hitbox[162] = {}; hitbox[162] = {147, 87, 169, 101}
+	hitbox[163] = {}; hitbox[163] = {167, 93, 173, 103}
+
+	-- \shooter-0176-023.mdg
+
+	hitbox[164] = {}; hitbox[164] = {152, 78, 161, 87}
+	hitbox[165] = {}; hitbox[165] = {155, 99, 177, 106}
+	hitbox[166] = {}; hitbox[166] = {147, 87, 169, 101}
+	hitbox[167] = {}; hitbox[167] = {167, 93, 173, 103}
+
+	-- \shooter-0176-024.mdg
+
+	hitbox[168] = {}; hitbox[168] = {152, 78, 161, 87}
+	hitbox[169] = {}; hitbox[169] = {155, 99, 177, 106}
+	hitbox[170] = {}; hitbox[170] = {147, 87, 169, 101}
+	hitbox[171] = {}; hitbox[171] = {167, 93, 173, 103}
+
+	-- \shooter-0176-025.mdg
+
+	hitbox[172] = {}; hitbox[172] = {152, 78, 161, 87}
+	hitbox[173] = {}; hitbox[173] = {155, 99, 177, 106}
+	hitbox[174] = {}; hitbox[174] = {147, 87, 169, 101}
+	hitbox[175] = {}; hitbox[175] = {167, 93, 173, 103}
+
+	-- \shooter-0176-026.mdg
+
+	hitbox[176] = {}; hitbox[176] = {152, 78, 161, 87}
+	hitbox[177] = {}; hitbox[177] = {155, 99, 177, 106}
+	hitbox[178] = {}; hitbox[178] = {147, 87, 169, 101}
+	hitbox[179] = {}; hitbox[179] = {167, 93, 173, 103}
+
+	-- \shooter-0176-027.mdg
+
+	hitbox[180] = {}; hitbox[180] = {152, 78, 161, 87}
+	hitbox[181] = {}; hitbox[181] = {155, 99, 177, 106}
+	hitbox[182] = {}; hitbox[182] = {147, 87, 169, 101}
+	hitbox[183] = {}; hitbox[183] = {167, 93, 173, 103}
+
+	-- \shooter-0176-028.mdg
+
+	hitbox[184] = {}; hitbox[184] = {152, 78, 161, 87}
+	hitbox[185] = {}; hitbox[185] = {155, 99, 177, 106}
+	hitbox[186] = {}; hitbox[186] = {147, 87, 169, 101}
+	hitbox[187] = {}; hitbox[187] = {167, 93, 173, 103}
+
+	-- \shooter-0176-029.mdg
+
+	hitbox[188] = {}; hitbox[188] = {152, 78, 161, 87}
+	hitbox[189] = {}; hitbox[189] = {155, 99, 177, 106}
+	hitbox[190] = {}; hitbox[190] = {147, 87, 169, 101}
+	hitbox[191] = {}; hitbox[191] = {167, 93, 173, 103}
+
+	-- \shooter-0176-030.mdg
+
+	hitbox[192] = {}; hitbox[192] = {152, 78, 161, 87}
+	hitbox[193] = {}; hitbox[193] = {155, 99, 177, 106}
+	hitbox[194] = {}; hitbox[194] = {147, 87, 169, 101}
+	hitbox[195] = {}; hitbox[195] = {167, 93, 173, 103}
+
+	-- \shooter-0176-031.mdg
+
+	hitbox[196] = {}; hitbox[196] = {152, 78, 161, 87}
+	hitbox[197] = {}; hitbox[197] = {155, 99, 177, 106}
+	hitbox[198] = {}; hitbox[198] = {147, 87, 169, 101}
+	hitbox[199] = {}; hitbox[199] = {167, 93, 173, 103}
+
+	-- \shooter-0176-032.mdg
+
+	hitbox[200] = {}; hitbox[200] = {152, 78, 161, 87}
+	hitbox[201] = {}; hitbox[201] = {155, 99, 177, 106}
+	hitbox[202] = {}; hitbox[202] = {147, 87, 169, 101}
+	hitbox[203] = {}; hitbox[203] = {167, 93, 173, 103}
+
+	-- \shooter-0176-033.mdg
+
+	hitbox[204] = {}; hitbox[204] = {152, 78, 161, 87}
+	hitbox[205] = {}; hitbox[205] = {155, 99, 177, 106}
+	hitbox[206] = {}; hitbox[206] = {147, 87, 169, 101}
+	hitbox[207] = {}; hitbox[207] = {167, 93, 173, 103}
+
+	-- \shooter-0176-034.mdg
+
+	hitbox[208] = {}; hitbox[208] = {152, 78, 161, 87}
+	hitbox[209] = {}; hitbox[209] = {155, 99, 177, 106}
+	hitbox[210] = {}; hitbox[210] = {147, 87, 169, 101}
+	hitbox[211] = {}; hitbox[211] = {167, 93, 173, 103}
+
+	-- \shooter-0176-035.mdg
+
+	hitbox[212] = {}; hitbox[212] = {152, 78, 161, 87}
+	hitbox[213] = {}; hitbox[213] = {155, 99, 177, 106}
+	hitbox[214] = {}; hitbox[214] = {147, 87, 169, 101}
+	hitbox[215] = {}; hitbox[215] = {167, 93, 173, 103}
+
+	-- \shooter-0176-036.mdg
+
+	hitbox[216] = {}; hitbox[216] = {152, 78, 161, 87}
+	hitbox[217] = {}; hitbox[217] = {155, 99, 177, 106}
+	hitbox[218] = {}; hitbox[218] = {147, 87, 169, 101}
+	hitbox[219] = {}; hitbox[219] = {167, 93, 173, 103}
+
+	-- \shooter-0176-037.mdg
+
+	hitbox[220] = {}; hitbox[220] = {152, 78, 161, 87}
+	hitbox[221] = {}; hitbox[221] = {155, 99, 177, 106}
+	hitbox[222] = {}; hitbox[222] = {147, 87, 169, 101}
+	hitbox[223] = {}; hitbox[223] = {167, 93, 173, 103}
+
+	-- \shooter-0176-038.mdg
+
+	hitbox[224] = {}; hitbox[224] = {152, 78, 161, 87}
+	hitbox[225] = {}; hitbox[225] = {155, 99, 177, 106}
+	hitbox[226] = {}; hitbox[226] = {147, 87, 169, 101}
+	hitbox[227] = {}; hitbox[227] = {167, 93, 173, 103}
+
+	-- \shooter-0176-039.mdg
+
+	hitbox[228] = {}; hitbox[228] = {150, 78, 159, 87}
+	hitbox[229] = {}; hitbox[229] = {155, 99, 177, 106}
+	hitbox[230] = {}; hitbox[230] = {147, 87, 169, 101}
+	hitbox[231] = {}; hitbox[231] = {167, 93, 173, 103}
+
+	-- \shooter-0410-000.mdg
+
+	hitbox[232] = {}; hitbox[232] = {96, 95, 104, 103}
+	hitbox[233] = {}; hitbox[233] = {97, 103, 103, 110}
+
+	-- \shooter-0410-001.mdg
+
+	hitbox[234] = {}; hitbox[234] = {96, 93, 105, 104}
+	hitbox[235] = {}; hitbox[235] = {98, 104, 104, 111}
+
+	-- \shooter-0410-002.mdg
+
+	hitbox[236] = {}; hitbox[236] = {97, 93, 106, 106}
+
+	-- \shooter-0410-003.mdg
+
+	hitbox[237] = {}; hitbox[237] = {96, 89, 108, 106}
+	hitbox[238] = {}; hitbox[238] = {103, 112, 112, 119}
+
+	-- \shooter-0410-004.mdg
+
+	hitbox[239] = {}; hitbox[239] = {96, 89, 108, 106}
+	hitbox[240] = {}; hitbox[240] = {101, 111, 111, 117}
+
+	-- \shooter-0410-005.mdg
+
+	hitbox[241] = {}; hitbox[241] = {99, 87, 110, 103}
+	hitbox[242] = {}; hitbox[242] = {99, 106, 117, 112}
+	hitbox[243] = {}; hitbox[243] = {101, 112, 109, 119}
+
+	-- \shooter-0410-006.mdg
+
+	hitbox[244] = {}; hitbox[244] = {99, 87, 110, 103}
+	hitbox[245] = {}; hitbox[245] = {99, 106, 117, 112}
+	hitbox[246] = {}; hitbox[246] = {101, 112, 109, 119}
+
+	-- \shooter-0410-007.mdg
+
+	hitbox[247] = {}; hitbox[247] = {102, 85, 113, 102}
+	hitbox[248] = {}; hitbox[248] = {97, 102, 115, 109}
+	hitbox[249] = {}; hitbox[249] = {94, 97, 101, 104}
+	hitbox[250] = {}; hitbox[250] = {101, 109, 111, 119}
+	hitbox[251] = {}; hitbox[251] = {104, 118, 110, 128}
+
+	-- \shooter-0410-008.mdg
+
+	hitbox[252] = {}; hitbox[252] = {102, 85, 113, 102}
+	hitbox[253] = {}; hitbox[253] = {97, 102, 115, 109}
+	hitbox[254] = {}; hitbox[254] = {94, 97, 101, 104}
+	hitbox[255] = {}; hitbox[255] = {101, 109, 111, 119}
+	hitbox[256] = {}; hitbox[256] = {104, 118, 110, 128}
+
+	-- \shooter-0410-009.mdg
+
+	hitbox[257] = {}; hitbox[257] = {102, 85, 113, 102}
+	hitbox[258] = {}; hitbox[258] = {97, 102, 115, 109}
+	hitbox[259] = {}; hitbox[259] = {94, 97, 101, 104}
+	hitbox[260] = {}; hitbox[260] = {101, 109, 111, 119}
+	hitbox[261] = {}; hitbox[261] = {104, 118, 110, 128}
+
+	-- \shooter-0410-010.mdg
+
+	hitbox[262] = {}; hitbox[262] = {102, 85, 113, 102}
+	hitbox[263] = {}; hitbox[263] = {97, 102, 115, 109}
+	hitbox[264] = {}; hitbox[264] = {94, 97, 101, 104}
+	hitbox[265] = {}; hitbox[265] = {101, 109, 111, 119}
+	hitbox[266] = {}; hitbox[266] = {104, 118, 110, 128}
+
+	-- \shooter-0410-011.mdg
+
+	hitbox[267] = {}; hitbox[267] = {102, 85, 113, 102}
+	hitbox[268] = {}; hitbox[268] = {97, 102, 115, 109}
+	hitbox[269] = {}; hitbox[269] = {94, 97, 101, 104}
+	hitbox[270] = {}; hitbox[270] = {101, 109, 111, 119}
+	hitbox[271] = {}; hitbox[271] = {104, 118, 110, 128}
+
+	-- \shooter-0410-012.mdg
+
+	hitbox[272] = {}; hitbox[272] = {102, 85, 113, 102}
+	hitbox[273] = {}; hitbox[273] = {97, 102, 115, 109}
+	hitbox[274] = {}; hitbox[274] = {94, 97, 101, 104}
+	hitbox[275] = {}; hitbox[275] = {101, 109, 111, 119}
+	hitbox[276] = {}; hitbox[276] = {104, 118, 110, 128}
+
+	-- \shooter-0410-013.mdg
+
+	hitbox[277] = {}; hitbox[277] = {102, 85, 113, 102}
+	hitbox[278] = {}; hitbox[278] = {97, 102, 115, 109}
+	hitbox[279] = {}; hitbox[279] = {94, 97, 101, 104}
+	hitbox[280] = {}; hitbox[280] = {101, 109, 111, 119}
+	hitbox[281] = {}; hitbox[281] = {104, 118, 110, 128}
+
+	-- \shooter-0410-014.mdg
+
+	hitbox[282] = {}; hitbox[282] = {102, 85, 113, 102}
+	hitbox[283] = {}; hitbox[283] = {97, 102, 115, 109}
+	hitbox[284] = {}; hitbox[284] = {94, 97, 101, 104}
+	hitbox[285] = {}; hitbox[285] = {101, 109, 111, 119}
+	hitbox[286] = {}; hitbox[286] = {104, 118, 110, 128}
+
+	-- \shooter-0410-015.mdg
+
+	hitbox[287] = {}; hitbox[287] = {102, 85, 113, 102}
+	hitbox[288] = {}; hitbox[288] = {97, 102, 115, 109}
+	hitbox[289] = {}; hitbox[289] = {94, 97, 101, 104}
+	hitbox[290] = {}; hitbox[290] = {101, 109, 111, 119}
+	hitbox[291] = {}; hitbox[291] = {104, 118, 110, 128}
+
+	-- \shooter-0410-016.mdg
+
+	hitbox[292] = {}; hitbox[292] = {98, 85, 114, 99}
+	hitbox[293] = {}; hitbox[293] = {97, 102, 115, 109}
+	hitbox[294] = {}; hitbox[294] = {94, 97, 113, 104}
+	hitbox[295] = {}; hitbox[295] = {101, 109, 111, 119}
+	hitbox[296] = {}; hitbox[296] = {104, 118, 110, 128}
+
+	-- \shooter-0410-017.mdg
+
+	hitbox[297] = {}; hitbox[297] = {98, 85, 114, 99}
+	hitbox[298] = {}; hitbox[298] = {97, 102, 115, 109}
+	hitbox[299] = {}; hitbox[299] = {94, 97, 113, 104}
+	hitbox[300] = {}; hitbox[300] = {101, 109, 111, 119}
+	hitbox[301] = {}; hitbox[301] = {104, 118, 110, 128}
+
+	-- \shooter-0410-018.mdg
+
+	hitbox[302] = {}; hitbox[302] = {98, 85, 114, 99}
+	hitbox[303] = {}; hitbox[303] = {97, 102, 115, 109}
+	hitbox[304] = {}; hitbox[304] = {94, 97, 113, 104}
+	hitbox[305] = {}; hitbox[305] = {101, 109, 111, 119}
+	hitbox[306] = {}; hitbox[306] = {104, 118, 110, 128}
+
+	-- \shooter-0410-019.mdg
+
+	hitbox[307] = {}; hitbox[307] = {98, 85, 114, 99}
+	hitbox[308] = {}; hitbox[308] = {97, 102, 115, 109}
+	hitbox[309] = {}; hitbox[309] = {94, 97, 113, 104}
+	hitbox[310] = {}; hitbox[310] = {101, 109, 111, 119}
+	hitbox[311] = {}; hitbox[311] = {104, 118, 110, 128}
+
+	-- \shooter-0410-020.mdg
+
+	hitbox[312] = {}; hitbox[312] = {98, 85, 114, 99}
+	hitbox[313] = {}; hitbox[313] = {97, 102, 115, 109}
+	hitbox[314] = {}; hitbox[314] = {94, 97, 113, 104}
+	hitbox[315] = {}; hitbox[315] = {101, 109, 111, 119}
+	hitbox[316] = {}; hitbox[316] = {104, 118, 110, 128}
+
+	-- \shooter-0410-021.mdg
+
+	hitbox[317] = {}; hitbox[317] = {98, 85, 114, 99}
+	hitbox[318] = {}; hitbox[318] = {97, 102, 115, 109}
+	hitbox[319] = {}; hitbox[319] = {94, 97, 113, 104}
+	hitbox[320] = {}; hitbox[320] = {101, 109, 111, 119}
+	hitbox[321] = {}; hitbox[321] = {104, 118, 110, 128}
+
+	-- \shooter-0410-022.mdg
+
+	hitbox[322] = {}; hitbox[322] = {98, 85, 114, 99}
+	hitbox[323] = {}; hitbox[323] = {97, 102, 115, 109}
+	hitbox[324] = {}; hitbox[324] = {94, 97, 113, 104}
+	hitbox[325] = {}; hitbox[325] = {101, 109, 111, 119}
+	hitbox[326] = {}; hitbox[326] = {104, 118, 110, 128}
+
+	-- \shooter-0410-023.mdg
+
+	hitbox[327] = {}; hitbox[327] = {98, 85, 114, 99}
+	hitbox[328] = {}; hitbox[328] = {97, 102, 115, 109}
+	hitbox[329] = {}; hitbox[329] = {94, 97, 113, 104}
+	hitbox[330] = {}; hitbox[330] = {101, 109, 111, 119}
+	hitbox[331] = {}; hitbox[331] = {104, 118, 110, 128}
+
+	-- \shooter-0410-024.mdg
+
+	hitbox[332] = {}; hitbox[332] = {98, 85, 114, 99}
+	hitbox[333] = {}; hitbox[333] = {97, 102, 115, 109}
+	hitbox[334] = {}; hitbox[334] = {94, 97, 113, 104}
+	hitbox[335] = {}; hitbox[335] = {101, 109, 111, 119}
+	hitbox[336] = {}; hitbox[336] = {104, 118, 110, 128}
+
+	-- \shooter-0410-025.mdg
+
+	hitbox[337] = {}; hitbox[337] = {98, 85, 114, 99}
+	hitbox[338] = {}; hitbox[338] = {97, 102, 115, 109}
+	hitbox[339] = {}; hitbox[339] = {94, 97, 113, 104}
+	hitbox[340] = {}; hitbox[340] = {101, 109, 111, 119}
+	hitbox[341] = {}; hitbox[341] = {104, 118, 110, 128}
+
+	-- \shooter-0410-026.mdg
+
+	hitbox[342] = {}; hitbox[342] = {98, 85, 114, 99}
+	hitbox[343] = {}; hitbox[343] = {97, 102, 115, 109}
+	hitbox[344] = {}; hitbox[344] = {94, 97, 113, 104}
+	hitbox[345] = {}; hitbox[345] = {101, 109, 111, 119}
+	hitbox[346] = {}; hitbox[346] = {104, 118, 110, 128}
+
+	-- \shooter-0410-027.mdg
+
+	hitbox[347] = {}; hitbox[347] = {98, 85, 114, 99}
+	hitbox[348] = {}; hitbox[348] = {97, 102, 115, 109}
+	hitbox[349] = {}; hitbox[349] = {94, 97, 113, 104}
+	hitbox[350] = {}; hitbox[350] = {101, 109, 111, 119}
+	hitbox[351] = {}; hitbox[351] = {104, 118, 110, 128}
+
+	-- \shooter-0410-028.mdg
+
+	hitbox[352] = {}; hitbox[352] = {98, 85, 114, 99}
+	hitbox[353] = {}; hitbox[353] = {97, 102, 115, 109}
+	hitbox[354] = {}; hitbox[354] = {94, 97, 113, 104}
+	hitbox[355] = {}; hitbox[355] = {101, 109, 111, 119}
+	hitbox[356] = {}; hitbox[356] = {104, 118, 110, 128}
+
+	-- \shooter-0410-029.mdg
+
+	hitbox[357] = {}; hitbox[357] = {98, 85, 114, 99}
+	hitbox[358] = {}; hitbox[358] = {97, 102, 115, 109}
+	hitbox[359] = {}; hitbox[359] = {94, 97, 113, 104}
+	hitbox[360] = {}; hitbox[360] = {101, 109, 111, 119}
+	hitbox[361] = {}; hitbox[361] = {104, 118, 110, 128}
+
+	-- \shooter-0410-030.mdg
+
+	hitbox[362] = {}; hitbox[362] = {98, 85, 114, 99}
+	hitbox[363] = {}; hitbox[363] = {97, 102, 115, 109}
+	hitbox[364] = {}; hitbox[364] = {94, 97, 113, 104}
+	hitbox[365] = {}; hitbox[365] = {101, 109, 111, 119}
+	hitbox[366] = {}; hitbox[366] = {104, 118, 110, 128}
+
+	-- \shooter-0410-031.mdg
+
+	hitbox[367] = {}; hitbox[367] = {98, 85, 114, 99}
+	hitbox[368] = {}; hitbox[368] = {97, 102, 115, 109}
+	hitbox[369] = {}; hitbox[369] = {94, 97, 113, 104}
+	hitbox[370] = {}; hitbox[370] = {101, 109, 111, 119}
+	hitbox[371] = {}; hitbox[371] = {104, 118, 110, 128}
+
+	-- \shooter-0410-032.mdg
+
+	hitbox[372] = {}; hitbox[372] = {98, 85, 114, 99}
+	hitbox[373] = {}; hitbox[373] = {97, 102, 115, 109}
+	hitbox[374] = {}; hitbox[374] = {94, 97, 113, 104}
+	hitbox[375] = {}; hitbox[375] = {101, 109, 111, 119}
+	hitbox[376] = {}; hitbox[376] = {104, 118, 110, 128}
+
+	-- \shooter-0410-033.mdg
+
+	hitbox[377] = {}; hitbox[377] = {98, 85, 114, 99}
+	hitbox[378] = {}; hitbox[378] = {97, 102, 115, 109}
+	hitbox[379] = {}; hitbox[379] = {94, 97, 113, 104}
+	hitbox[380] = {}; hitbox[380] = {101, 109, 111, 119}
+	hitbox[381] = {}; hitbox[381] = {104, 118, 110, 128}
+
+	-- \shooter-0410-034.mdg
+
+	hitbox[382] = {}; hitbox[382] = {98, 85, 114, 99}
+	hitbox[383] = {}; hitbox[383] = {97, 102, 115, 109}
+	hitbox[384] = {}; hitbox[384] = {94, 97, 113, 104}
+	hitbox[385] = {}; hitbox[385] = {101, 109, 111, 119}
+	hitbox[386] = {}; hitbox[386] = {104, 118, 110, 128}
+
+	-- \shooter-0410-035.mdg
+
+	hitbox[387] = {}; hitbox[387] = {98, 85, 114, 99}
+	hitbox[388] = {}; hitbox[388] = {97, 102, 115, 109}
+	hitbox[389] = {}; hitbox[389] = {94, 97, 113, 104}
+	hitbox[390] = {}; hitbox[390] = {101, 109, 111, 119}
+	hitbox[391] = {}; hitbox[391] = {104, 118, 110, 128}
+
+	-- \shooter-0410-036.mdg
+
+	hitbox[392] = {}; hitbox[392] = {98, 85, 114, 99}
+	hitbox[393] = {}; hitbox[393] = {97, 102, 115, 109}
+	hitbox[394] = {}; hitbox[394] = {94, 97, 113, 104}
+	hitbox[395] = {}; hitbox[395] = {101, 109, 111, 119}
+	hitbox[396] = {}; hitbox[396] = {104, 118, 110, 128}
+
+	-- \shooter-0410-037.mdg
+
+	hitbox[397] = {}; hitbox[397] = {98, 85, 114, 99}
+	hitbox[398] = {}; hitbox[398] = {97, 102, 115, 109}
+	hitbox[399] = {}; hitbox[399] = {94, 97, 113, 104}
+	hitbox[400] = {}; hitbox[400] = {101, 109, 111, 119}
+	hitbox[401] = {}; hitbox[401] = {104, 118, 110, 128}
+
+	-- \shooter-0410-038.mdg
+
+	hitbox[402] = {}; hitbox[402] = {98, 85, 114, 99}
+	hitbox[403] = {}; hitbox[403] = {97, 102, 115, 109}
+	hitbox[404] = {}; hitbox[404] = {94, 97, 113, 104}
+	hitbox[405] = {}; hitbox[405] = {101, 109, 111, 119}
+	hitbox[406] = {}; hitbox[406] = {104, 118, 110, 128}
+
+	-- \shooter-0410-039.mdg
+
+	hitbox[407] = {}; hitbox[407] = {98, 85, 114, 99}
+	hitbox[408] = {}; hitbox[408] = {97, 102, 115, 109}
+	hitbox[409] = {}; hitbox[409] = {94, 97, 113, 104}
+	hitbox[410] = {}; hitbox[410] = {101, 109, 111, 119}
+	hitbox[411] = {}; hitbox[411] = {104, 118, 110, 128}
+
+	-- \shooter-0410-040.mdg
+
+	hitbox[412] = {}; hitbox[412] = {98, 85, 114, 99}
+	hitbox[413] = {}; hitbox[413] = {97, 102, 115, 109}
+	hitbox[414] = {}; hitbox[414] = {94, 97, 113, 104}
+	hitbox[415] = {}; hitbox[415] = {101, 109, 111, 119}
+	hitbox[416] = {}; hitbox[416] = {104, 118, 110, 128}
+
+	-- \shooter-0410-041.mdg
+
+	hitbox[417] = {}; hitbox[417] = {98, 85, 114, 99}
+	hitbox[418] = {}; hitbox[418] = {97, 102, 115, 109}
+	hitbox[419] = {}; hitbox[419] = {94, 97, 113, 104}
+	hitbox[420] = {}; hitbox[420] = {101, 109, 111, 119}
+	hitbox[421] = {}; hitbox[421] = {104, 118, 110, 128}
+
+	-- \shooter-0410-042.mdg
+
+	hitbox[422] = {}; hitbox[422] = {98, 85, 114, 99}
+	hitbox[423] = {}; hitbox[423] = {97, 102, 115, 109}
+	hitbox[424] = {}; hitbox[424] = {94, 97, 113, 104}
+	hitbox[425] = {}; hitbox[425] = {101, 109, 111, 119}
+	hitbox[426] = {}; hitbox[426] = {104, 118, 110, 128}
+
+	-- \shooter-0410-043.mdg
+
+	hitbox[427] = {}; hitbox[427] = {98, 85, 114, 99}
+	hitbox[428] = {}; hitbox[428] = {97, 102, 115, 109}
+	hitbox[429] = {}; hitbox[429] = {94, 97, 113, 104}
+	hitbox[430] = {}; hitbox[430] = {101, 109, 111, 119}
+	hitbox[431] = {}; hitbox[431] = {104, 118, 110, 128}
+
+	-- \shooter-0410-044.mdg
+
+	hitbox[432] = {}; hitbox[432] = {98, 85, 114, 99}
+	hitbox[433] = {}; hitbox[433] = {97, 102, 115, 109}
+	hitbox[434] = {}; hitbox[434] = {94, 97, 113, 104}
+	hitbox[435] = {}; hitbox[435] = {101, 109, 111, 119}
+	hitbox[436] = {}; hitbox[436] = {104, 118, 110, 128}
+
+	-- \shooter-0410-045.mdg
+
+	hitbox[437] = {}; hitbox[437] = {98, 85, 114, 99}
+	hitbox[438] = {}; hitbox[438] = {97, 102, 115, 109}
+	hitbox[439] = {}; hitbox[439] = {94, 97, 113, 104}
+	hitbox[440] = {}; hitbox[440] = {101, 109, 111, 119}
+	hitbox[441] = {}; hitbox[441] = {104, 118, 110, 128}
+
+	-- \shooter-0410-046.mdg
+
+	hitbox[442] = {}; hitbox[442] = {98, 85, 114, 99}
+	hitbox[443] = {}; hitbox[443] = {97, 102, 115, 109}
+	hitbox[444] = {}; hitbox[444] = {94, 97, 113, 104}
+	hitbox[445] = {}; hitbox[445] = {101, 109, 111, 119}
+	hitbox[446] = {}; hitbox[446] = {104, 118, 110, 128}
+
+	-- \shooter-0410-047.mdg
+
+	hitbox[447] = {}; hitbox[447] = {98, 85, 114, 99}
+	hitbox[448] = {}; hitbox[448] = {97, 102, 115, 109}
+	hitbox[449] = {}; hitbox[449] = {94, 97, 113, 104}
+	hitbox[450] = {}; hitbox[450] = {101, 109, 111, 119}
+	hitbox[451] = {}; hitbox[451] = {104, 118, 110, 128}
+
+	-- \shooter-0410-048.mdg
+
+	hitbox[452] = {}; hitbox[452] = {98, 85, 114, 99}
+	hitbox[453] = {}; hitbox[453] = {97, 102, 115, 109}
+	hitbox[454] = {}; hitbox[454] = {94, 97, 113, 104}
+	hitbox[455] = {}; hitbox[455] = {101, 109, 111, 119}
+	hitbox[456] = {}; hitbox[456] = {104, 118, 110, 128}
+
+	-- \shooter-0410-049.mdg
+
+	hitbox[457] = {}; hitbox[457] = {98, 85, 114, 99}
+	hitbox[458] = {}; hitbox[458] = {97, 102, 115, 109}
+	hitbox[459] = {}; hitbox[459] = {94, 97, 113, 104}
+	hitbox[460] = {}; hitbox[460] = {101, 109, 111, 119}
+	hitbox[461] = {}; hitbox[461] = {104, 118, 110, 128}
+
+	-- \shooter-0410-050.mdg
+
+	hitbox[462] = {}; hitbox[462] = {98, 85, 114, 99}
+	hitbox[463] = {}; hitbox[463] = {97, 102, 115, 109}
+	hitbox[464] = {}; hitbox[464] = {94, 97, 113, 104}
+	hitbox[465] = {}; hitbox[465] = {101, 109, 111, 119}
+	hitbox[466] = {}; hitbox[466] = {104, 118, 110, 128}
+
+	-- \shooter-0410-051.mdg
+
+	hitbox[467] = {}; hitbox[467] = {98, 85, 114, 99}
+	hitbox[468] = {}; hitbox[468] = {97, 102, 115, 109}
+	hitbox[469] = {}; hitbox[469] = {94, 97, 113, 104}
+	hitbox[470] = {}; hitbox[470] = {101, 109, 111, 119}
+	hitbox[471] = {}; hitbox[471] = {104, 118, 110, 128}
+
+	-- \shooter-0410-052.mdg
+
+	hitbox[472] = {}; hitbox[472] = {98, 85, 114, 99}
+	hitbox[473] = {}; hitbox[473] = {97, 102, 115, 109}
+	hitbox[474] = {}; hitbox[474] = {94, 97, 113, 104}
+	hitbox[475] = {}; hitbox[475] = {101, 109, 111, 119}
+	hitbox[476] = {}; hitbox[476] = {104, 118, 110, 128}
+
+	-- \shooter-0410-053.mdg
+
+	hitbox[477] = {}; hitbox[477] = {98, 85, 114, 99}
+	hitbox[478] = {}; hitbox[478] = {97, 102, 115, 109}
+	hitbox[479] = {}; hitbox[479] = {94, 97, 113, 104}
+	hitbox[480] = {}; hitbox[480] = {101, 109, 111, 119}
+	hitbox[481] = {}; hitbox[481] = {104, 118, 110, 128}
+
+	-- \shooter-0600-000.mdg
+
+	hitbox[482] = {}; hitbox[482] = {136, 45, 142, 77}
+
+	-- \shooter-0600-001.mdg
+
+	hitbox[483] = {}; hitbox[483] = {136, 45, 142, 77}
+
+	-- \shooter-0600-002.mdg
+
+	hitbox[484] = {}; hitbox[484] = {136, 45, 142, 77}
+
+	-- \shooter-0600-003.mdg
+
+	hitbox[485] = {}; hitbox[485] = {136, 45, 142, 77}
+
+	-- \shooter-0600-004.mdg
+
+	hitbox[486] = {}; hitbox[486] = {136, 45, 142, 77}
+
+	-- \shooter-0600-005.mdg
+
+	hitbox[487] = {}; hitbox[487] = {136, 45, 142, 77}
+
+	-- \shooter-0600-006.mdg
+
+	hitbox[488] = {}; hitbox[488] = {136, 45, 142, 77}
+
+	-- \shooter-0600-007.mdg
+
+	hitbox[489] = {}; hitbox[489] = {136, 45, 142, 77}
+
+	-- \shooter-0600-008.mdg
+
+	hitbox[490] = {}; hitbox[490] = {136, 45, 142, 77}
+
+	-- \shooter-0600-009.mdg
+
+	hitbox[491] = {}; hitbox[491] = {136, 45, 142, 77}
+
+	-- \shooter-0600-010.mdg
+
+	hitbox[492] = {}; hitbox[492] = {136, 45, 142, 77}
+
+	-- \shooter-0600-011.mdg
+
+	hitbox[493] = {}; hitbox[493] = {136, 45, 142, 77}
+
+	-- \shooter-0600-012.mdg
+
+	hitbox[494] = {}; hitbox[494] = {136, 45, 142, 77}
+
+	-- \shooter-0600-013.mdg
+
+	hitbox[495] = {}; hitbox[495] = {136, 45, 142, 77}
+
+	-- \shooter-0600-014.mdg
+
+	hitbox[496] = {}; hitbox[496] = {136, 45, 142, 77}
+
+	-- \shooter-0600-015.mdg
+
+	hitbox[497] = {}; hitbox[497] = {136, 45, 142, 77}
+
+	-- \shooter-0600-016.mdg
+
+	hitbox[498] = {}; hitbox[498] = {136, 45, 142, 77}
+
+	-- \shooter-0600-017.mdg
+
+	hitbox[499] = {}; hitbox[499] = {136, 45, 142, 77}
+
+	-- \shooter-0600-018.mdg
+
+	hitbox[500] = {}; hitbox[500] = {136, 45, 142, 77}
+
+	-- \shooter-0600-019.mdg
+
+	hitbox[501] = {}; hitbox[501] = {136, 45, 142, 77}
+
+	-- \shooter-0600-020.mdg
+
+	hitbox[502] = {}; hitbox[502] = {136, 45, 142, 77}
+
+	-- \shooter-0600-021.mdg
+
+	hitbox[503] = {}; hitbox[503] = {136, 45, 142, 77}
+
+	-- \shooter-0600-022.mdg
+
+	hitbox[504] = {}; hitbox[504] = {136, 45, 142, 77}
+
+	-- \shooter-0600-023.mdg
+
+	hitbox[505] = {}; hitbox[505] = {136, 45, 142, 77}
+
+	-- \shooter-0600-024.mdg
+
+	hitbox[506] = {}; hitbox[506] = {136, 45, 142, 77}
+
+	-- \shooter-0600-025.mdg
+
+	hitbox[507] = {}; hitbox[507] = {136, 45, 142, 77}
+
+	-- \shooter-0600-026.mdg
+
+	hitbox[508] = {}; hitbox[508] = {136, 45, 142, 77}
+
+	-- \shooter-0600-027.mdg
+
+	hitbox[509] = {}; hitbox[509] = {136, 45, 142, 77}
+
+	-- \shooter-0600-028.mdg
+
+	hitbox[510] = {}; hitbox[510] = {136, 45, 142, 77}
+
+	-- \shooter-0600-029.mdg
+
+	hitbox[511] = {}; hitbox[511] = {136, 45, 142, 77}
+
+	-- \shooter-0600-030.mdg
+
+	hitbox[512] = {}; hitbox[512] = {171, 71, 185, 153}
+
+	-- \shooter-0600-031.mdg
+
+	hitbox[513] = {}; hitbox[513] = {171, 71, 185, 153}
+
+	-- \shooter-0600-032.mdg
+
+	hitbox[514] = {}; hitbox[514] = {171, 71, 185, 153}
+
+	-- \shooter-0600-033.mdg
+
+	hitbox[515] = {}; hitbox[515] = {171, 71, 185, 153}
+
+	-- \shooter-0600-034.mdg
+
+	hitbox[516] = {}; hitbox[516] = {171, 71, 185, 153}
+
+	-- \shooter-0600-035.mdg
+
+	hitbox[517] = {}; hitbox[517] = {171, 71, 185, 153}
+
+	-- \shooter-0600-036.mdg
+
+	hitbox[518] = {}; hitbox[518] = {171, 71, 185, 153}
+
+	-- \shooter-0600-037.mdg
+
+	hitbox[519] = {}; hitbox[519] = {171, 71, 185, 153}
+
+	-- \shooter-0600-038.mdg
+
+	hitbox[520] = {}; hitbox[520] = {171, 71, 185, 153}
+
+	-- \shooter-0600-039.mdg
+
+	hitbox[521] = {}; hitbox[521] = {171, 71, 185, 153}
+
+	-- \shooter-0600-040.mdg
+
+	hitbox[522] = {}; hitbox[522] = {171, 71, 185, 153}
+
+	-- \shooter-0600-041.mdg
+
+	hitbox[523] = {}; hitbox[523] = {171, 71, 185, 153}
+
+	-- \shooter-0600-042.mdg
+
+	hitbox[524] = {}; hitbox[524] = {171, 71, 185, 153}
+
+	-- \shooter-0600-043.mdg
+
+	hitbox[525] = {}; hitbox[525] = {171, 71, 185, 153}
+
+	-- \shooter-0600-044.mdg
+
+	hitbox[526] = {}; hitbox[526] = {171, 71, 185, 153}
+
+	-- \shooter-0600-045.mdg
+
+	hitbox[527] = {}; hitbox[527] = {171, 71, 185, 153}
+
+	-- \shooter-0600-046.mdg
+
+	hitbox[528] = {}; hitbox[528] = {171, 71, 185, 153}
+
+	-- \shooter-0600-047.mdg
+
+	hitbox[529] = {}; hitbox[529] = {171, 71, 185, 153}
+
+	-- \shooter-0600-048.mdg
+
+	hitbox[530] = {}; hitbox[530] = {171, 71, 185, 153}
+
+	-- \shooter-0600-049.mdg
+
+	hitbox[531] = {}; hitbox[531] = {171, 71, 185, 153}
+
+	-- \shooter-0600-050.mdg
+
+	hitbox[532] = {}; hitbox[532] = {171, 71, 185, 153}
+
+	-- \shooter-0600-051.mdg
+
+	hitbox[533] = {}; hitbox[533] = {171, 71, 185, 153}
+
+	-- \shooter-0600-052.mdg
+
+	hitbox[534] = {}; hitbox[534] = {171, 71, 185, 153}
+
+	-- \shooter-0600-053.mdg
+
+	hitbox[535] = {}; hitbox[535] = {171, 71, 185, 153}
+
+	-- \shooter-0600-054.mdg
+
+	hitbox[536] = {}; hitbox[536] = {171, 71, 185, 153}
+
+	-- \shooter-0600-055.mdg
+
+	hitbox[537] = {}; hitbox[537] = {171, 71, 185, 153}
+
+	-- \shooter-0600-056.mdg
+
+	hitbox[538] = {}; hitbox[538] = {171, 71, 185, 153}
+
+	-- \shooter-0600-057.mdg
+
+	hitbox[539] = {}; hitbox[539] = {171, 71, 185, 153}
+
+	-- \shooter-0600-058.mdg
+
+	hitbox[540] = {}; hitbox[540] = {171, 71, 185, 153}
+
+	-- \shooter-0600-059.mdg
+
+	hitbox[541] = {}; hitbox[541] = {171, 71, 185, 153}
+
+	-- \shooter-0600-060.mdg
+
+	hitbox[542] = {}; hitbox[542] = {171, 71, 185, 153}
+
+	-- \shooter-0600-061.mdg
+
+	hitbox[543] = {}; hitbox[543] = {171, 71, 185, 153}
+
+	-- \shooter-0600-062.mdg
+
+	hitbox[544] = {}; hitbox[544] = {171, 71, 185, 153}
+
+	-- \shooter-0600-063.mdg
+
+	hitbox[545] = {}; hitbox[545] = {171, 71, 185, 153}
+
+	-- \shooter-0600-064.mdg
+
+	hitbox[546] = {}; hitbox[546] = {171, 71, 185, 153}
+
+	-- \shooter-0600-065.mdg
+
+	hitbox[547] = {}; hitbox[547] = {171, 71, 185, 153}
+
+	-- \shooter-0600-066.mdg
+
+	hitbox[548] = {}; hitbox[548] = {171, 71, 185, 153}
+
+	-- \shooter-0600-067.mdg
+
+	hitbox[549] = {}; hitbox[549] = {171, 71, 185, 153}
+
+	-- \shooter-0600-068.mdg
+
+	hitbox[550] = {}; hitbox[550] = {171, 71, 185, 153}
+
+	-- \shooter-0600-069.mdg
+
+	hitbox[551] = {}; hitbox[551] = {171, 71, 185, 153}
+
+	-- \shooter-0600-070.mdg
+
+	hitbox[552] = {}; hitbox[552] = {171, 71, 185, 153}
+
+	-- \shooter-0600-071.mdg
+
+	hitbox[553] = {}; hitbox[553] = {171, 71, 185, 153}
+
+	-- \shooter-0600-072.mdg
+
+	hitbox[554] = {}; hitbox[554] = {171, 71, 185, 153}
+
+	-- \shooter-0600-073.mdg
+
+	hitbox[555] = {}; hitbox[555] = {171, 71, 185, 153}
+
+	-- \shooter-0600-074.mdg
+
+	hitbox[556] = {}; hitbox[556] = {171, 71, 185, 153}
+
+	-- \shooter-0600-075.mdg
+
+	hitbox[557] = {}; hitbox[557] = {171, 71, 185, 153}
+
+	-- \shooter-0600-076.mdg
+
+	hitbox[558] = {}; hitbox[558] = {171, 71, 185, 153}
+
+	-- \shooter-0600-077.mdg
+
+	hitbox[559] = {}; hitbox[559] = {171, 71, 185, 153}
+
+	-- \shooter-0600-078.mdg
+
+	hitbox[560] = {}; hitbox[560] = {171, 71, 185, 153}
+
+	-- \shooter-0600-079.mdg
+
+	hitbox[561] = {}; hitbox[561] = {171, 71, 185, 153}
+
+	-- \shooter-0600-080.mdg
+
+	hitbox[562] = {}; hitbox[562] = {171, 71, 185, 153}
+
+	-- \shooter-0600-081.mdg
+
+	hitbox[563] = {}; hitbox[563] = {171, 71, 185, 153}
+
+	-- \shooter-0600-082.mdg
+
+	hitbox[564] = {}; hitbox[564] = {171, 71, 185, 153}
+
+	-- \shooter-0600-083.mdg
+
+	hitbox[565] = {}; hitbox[565] = {171, 71, 185, 153}
+
+	-- \shooter-0600-084.mdg
+
+	hitbox[566] = {}; hitbox[566] = {171, 71, 185, 153}
+
+	-- \shooter-0600-085.mdg
+
+	hitbox[567] = {}; hitbox[567] = {171, 71, 185, 153}
+
+	-- \shooter-0600-086.mdg
+
+	hitbox[568] = {}; hitbox[568] = {171, 71, 185, 153}
+
+	-- \shooter-0600-087.mdg
+
+	hitbox[569] = {}; hitbox[569] = {171, 71, 185, 153}
+
+	-- \shooter-0600-088.mdg
+
+	hitbox[570] = {}; hitbox[570] = {171, 71, 185, 153}
+
+	-- \shooter-0600-089.mdg
+
+	hitbox[571] = {}; hitbox[571] = {171, 71, 185, 153}
+
+	-- \shooter-0600-090.mdg
+
+	hitbox[572] = {}; hitbox[572] = {115, 46, 120, 78}
+
+	-- \shooter-0600-091.mdg
+
+	hitbox[573] = {}; hitbox[573] = {115, 46, 120, 78}
+
+	-- \shooter-0600-092.mdg
+
+	hitbox[574] = {}; hitbox[574] = {115, 46, 120, 78}
+
+	-- \shooter-0600-093.mdg
+
+	hitbox[575] = {}; hitbox[575] = {115, 46, 120, 78}
+
+	-- \shooter-0600-094.mdg
+
+	hitbox[576] = {}; hitbox[576] = {115, 46, 120, 78}
+
+	-- \shooter-0600-095.mdg
+
+	hitbox[577] = {}; hitbox[577] = {115, 46, 120, 78}
+
+	-- \shooter-0600-096.mdg
+
+	hitbox[578] = {}; hitbox[578] = {115, 46, 120, 78}
+
+	-- \shooter-0600-097.mdg
+
+	hitbox[579] = {}; hitbox[579] = {115, 46, 120, 78}
+
+	-- \shooter-0600-098.mdg
+
+	hitbox[580] = {}; hitbox[580] = {115, 46, 120, 78}
+
+	-- \shooter-0600-099.mdg
+
+	hitbox[581] = {}; hitbox[581] = {115, 46, 120, 78}
+
+	-- \shooter-0600-100.mdg
+
+	hitbox[582] = {}; hitbox[582] = {115, 46, 120, 78}
+
+	-- \shooter-0600-101.mdg
+
+	hitbox[583] = {}; hitbox[583] = {115, 46, 120, 78}
+
+	-- \shooter-0600-102.mdg
+
+	hitbox[584] = {}; hitbox[584] = {115, 46, 120, 78}
+
+	-- \shooter-0600-103.mdg
+
+	hitbox[585] = {}; hitbox[585] = {115, 46, 120, 78}
+
+	-- \shooter-0600-104.mdg
+
+	hitbox[586] = {}; hitbox[586] = {115, 46, 120, 78}
+
+	-- \shooter-0600-105.mdg
+
+	hitbox[587] = {}; hitbox[587] = {115, 46, 120, 78}
+
+	-- \shooter-0600-106.mdg
+
+	hitbox[588] = {}; hitbox[588] = {115, 46, 120, 78}
+
+	-- \shooter-0600-107.mdg
+
+	hitbox[589] = {}; hitbox[589] = {115, 46, 120, 78}
+
+	-- \shooter-0600-108.mdg
+
+	hitbox[590] = {}; hitbox[590] = {115, 46, 120, 78}
+
+	-- \shooter-0600-109.mdg
+
+	hitbox[591] = {}; hitbox[591] = {115, 46, 120, 78}
+
+	-- \shooter-0600-110.mdg
+
+	hitbox[592] = {}; hitbox[592] = {115, 46, 120, 78}
+
+	-- \shooter-0600-111.mdg
+
+	hitbox[593] = {}; hitbox[593] = {115, 46, 120, 78}
+
+	-- \shooter-0600-112.mdg
+
+	hitbox[594] = {}; hitbox[594] = {115, 46, 120, 78}
+
+	-- \shooter-0600-113.mdg
+
+	hitbox[595] = {}; hitbox[595] = {115, 46, 120, 78}
+
+	-- \shooter-0600-114.mdg
+
+	hitbox[596] = {}; hitbox[596] = {115, 46, 120, 78}
+
+	-- \shooter-0600-115.mdg
+
+	hitbox[597] = {}; hitbox[597] = {115, 46, 120, 78}
+
+	-- \shooter-0600-116.mdg
+
+	hitbox[598] = {}; hitbox[598] = {115, 46, 120, 78}
+
+	-- \shooter-0600-117.mdg
+
+	hitbox[599] = {}; hitbox[599] = {115, 46, 120, 78}
+
+	-- \shooter-0600-118.mdg
+
+	hitbox[600] = {}; hitbox[600] = {115, 46, 120, 78}
+
+	-- \shooter-0600-119.mdg
+
+	hitbox[601] = {}; hitbox[601] = {115, 46, 120, 78}
+
+	-- \shooter-0600-120.mdg
+
+	hitbox[602] = {}; hitbox[602] = {115, 46, 120, 78}
+
+	-- \shooter-0600-121.mdg
+
+	hitbox[603] = {}; hitbox[603] = {115, 46, 120, 78}
+
+	-- \shooter-0600-122.mdg
+
+	hitbox[604] = {}; hitbox[604] = {115, 46, 120, 78}
+
+	-- \shooter-0600-123.mdg
+
+	hitbox[605] = {}; hitbox[605] = {115, 46, 120, 78}
+
+	-- \shooter-0600-124.mdg
+
+	hitbox[606] = {}; hitbox[606] = {115, 46, 120, 78}
+
+	-- \shooter-0600-125.mdg
+
+	hitbox[607] = {}; hitbox[607] = {115, 46, 120, 78}
+
+	-- \shooter-0600-126.mdg
+
+	hitbox[608] = {}; hitbox[608] = {115, 46, 120, 78}
+
+	-- \shooter-0600-127.mdg
+
+	hitbox[609] = {}; hitbox[609] = {115, 46, 120, 78}
+
+	-- \shooter-0600-128.mdg
+
+	hitbox[610] = {}; hitbox[610] = {115, 46, 120, 78}
+
+	-- \shooter-0600-129.mdg
+
+	hitbox[611] = {}; hitbox[611] = {115, 46, 120, 78}
+
+	-- \shooter-0600-130.mdg
+
+	hitbox[612] = {}; hitbox[612] = {115, 46, 120, 78}
+
+	-- \shooter-0600-131.mdg
+
+	hitbox[613] = {}; hitbox[613] = {115, 46, 120, 78}
+
+	-- \shooter-0600-132.mdg
+
+	hitbox[614] = {}; hitbox[614] = {115, 46, 120, 78}
+
+	-- \shooter-0600-133.mdg
+
+	hitbox[615] = {}; hitbox[615] = {115, 46, 120, 78}
+
+	-- \shooter-0600-134.mdg
+
+	hitbox[616] = {}; hitbox[616] = {115, 46, 120, 78}
+
+	-- \shooter-0600-135.mdg
+
+	hitbox[617] = {}; hitbox[617] = {115, 46, 120, 78}
+
+	-- \shooter-0600-136.mdg
+
+	hitbox[618] = {}; hitbox[618] = {115, 46, 120, 78}
+
+	-- \shooter-0600-137.mdg
+
+	hitbox[619] = {}; hitbox[619] = {115, 46, 120, 78}
+
+	-- \shooter-0600-138.mdg
+
+	hitbox[620] = {}; hitbox[620] = {115, 46, 120, 78}
+
+	-- \shooter-0600-139.mdg
+
+	hitbox[621] = {}; hitbox[621] = {115, 46, 120, 78}
+
+	-- \shooter-0600-140.mdg
+
+	hitbox[622] = {}; hitbox[622] = {115, 46, 120, 78}
+
+	-- \shooter-0600-141.mdg
+
+	hitbox[623] = {}; hitbox[623] = {115, 46, 120, 78}
+
+	-- \shooter-0600-142.mdg
+
+	hitbox[624] = {}; hitbox[624] = {115, 46, 120, 78}
+
+	-- \shooter-0600-143.mdg
+
+	hitbox[625] = {}; hitbox[625] = {115, 46, 120, 78}
+
+	-- \shooter-0600-144.mdg
+
+	hitbox[626] = {}; hitbox[626] = {115, 46, 120, 78}
+
+	-- \shooter-0600-145.mdg
+
+	hitbox[627] = {}; hitbox[627] = {115, 46, 120, 78}
+
+	-- \shooter-0600-146.mdg
+
+	hitbox[628] = {}; hitbox[628] = {115, 46, 120, 78}
+
+	-- \shooter-0600-147.mdg
+
+	hitbox[629] = {}; hitbox[629] = {115, 46, 120, 78}
+
+	-- \shooter-0600-148.mdg
+
+	hitbox[630] = {}; hitbox[630] = {115, 46, 120, 78}
+
+	-- \shooter-0600-149.mdg
+
+	hitbox[631] = {}; hitbox[631] = {115, 46, 120, 78}
+
+	-- \shooter-0600-150.mdg
+
+	hitbox[632] = {}; hitbox[632] = {115, 46, 120, 78}
+
+	-- \shooter-0600-151.mdg
+
+	hitbox[633] = {}; hitbox[633] = {115, 46, 120, 78}
+
+	-- \shooter-0600-152.mdg
+
+	hitbox[634] = {}; hitbox[634] = {115, 46, 120, 78}
+
+	-- \shooter-0600-153.mdg
+
+	hitbox[635] = {}; hitbox[635] = {115, 46, 120, 78}
+
+	-- \shooter-0600-154.mdg
+
+	hitbox[636] = {}; hitbox[636] = {115, 46, 120, 78}
+
+	-- \shooter-0600-155.mdg
+
+	hitbox[637] = {}; hitbox[637] = {115, 46, 120, 78}
+
+	-- \shooter-0600-156.mdg
+
+	hitbox[638] = {}; hitbox[638] = {115, 46, 120, 78}
+
+	-- \shooter-0600-157.mdg
+
+	hitbox[639] = {}; hitbox[639] = {115, 46, 120, 78}
+
+	-- \shooter-0600-158.mdg
+
+	hitbox[640] = {}; hitbox[640] = {115, 46, 120, 78}
+
+	-- \shooter-0600-159.mdg
+
+	hitbox[641] = {}; hitbox[641] = {115, 46, 120, 78}
+
+	-- \shooter-0600-160.mdg
+
+	hitbox[642] = {}; hitbox[642] = {115, 46, 120, 78}
+
+	-- \shooter-0600-161.mdg
+
+	hitbox[643] = {}; hitbox[643] = {115, 46, 120, 78}
+
+	-- \shooter-0600-162.mdg
+
+	hitbox[644] = {}; hitbox[644] = {115, 46, 120, 78}
+
+	-- \shooter-0600-163.mdg
+
+	hitbox[645] = {}; hitbox[645] = {115, 46, 120, 78}
+
+	-- \shooter-0600-164.mdg
+
+	hitbox[646] = {}; hitbox[646] = {115, 46, 120, 78}
+
+	-- \shooter-0600-165.mdg
+
+	hitbox[647] = {}; hitbox[647] = {115, 46, 120, 78}
+
+	-- \shooter-0600-166.mdg
+
+	hitbox[648] = {}; hitbox[648] = {115, 46, 120, 78}
+
+	-- \shooter-0600-167.mdg
+
+	hitbox[649] = {}; hitbox[649] = {115, 46, 120, 78}
+
+	-- \shooter-0600-168.mdg
+
+	hitbox[650] = {}; hitbox[650] = {115, 46, 120, 78}
+
+	-- \shooter-0600-169.mdg
+
+	hitbox[651] = {}; hitbox[651] = {115, 46, 120, 78}
+
+	-- \shooter-0600-170.mdg
+
+	hitbox[652] = {}; hitbox[652] = {115, 46, 120, 78}
+
+	-- \shooter-0600-171.mdg
+
+	hitbox[653] = {}; hitbox[653] = {115, 46, 120, 78}
+
+	-- \shooter-0600-172.mdg
+
+	hitbox[654] = {}; hitbox[654] = {115, 46, 120, 78}
+
+	-- \shooter-0600-173.mdg
+
+	hitbox[655] = {}; hitbox[655] = {115, 46, 120, 78}
+
+	-- \shooter-0600-174.mdg
+
+	hitbox[656] = {}; hitbox[656] = {115, 46, 120, 78}
+
+	-- \shooter-0600-175.mdg
+
+	hitbox[657] = {}; hitbox[657] = {115, 46, 120, 78}
+
+	-- \shooter-0600-176.mdg
+
+	hitbox[658] = {}; hitbox[658] = {115, 46, 120, 78}
+
+	-- \shooter-0600-177.mdg
+
+	hitbox[659] = {}; hitbox[659] = {115, 46, 120, 78}
+
+	-- \shooter-0600-178.mdg
+
+	hitbox[660] = {}; hitbox[660] = {115, 46, 120, 78}
+
+	-- \shooter-0600-179.mdg
+
+	hitbox[661] = {}; hitbox[661] = {115, 46, 120, 78}
+
+	-- \shooter-0600-180.mdg
+
+	hitbox[662] = {}; hitbox[662] = {115, 46, 120, 78}
+
+	-- \shooter-0600-181.mdg
+
+	hitbox[663] = {}; hitbox[663] = {115, 46, 120, 78}
+
+	-- \shooter-0600-182.mdg
+
+	hitbox[664] = {}; hitbox[664] = {115, 46, 120, 78}
+
+	-- \shooter-0600-183.mdg
+
+	hitbox[665] = {}; hitbox[665] = {115, 46, 120, 78}
+
+	-- \shooter-0600-184.mdg
+
+	hitbox[666] = {}; hitbox[666] = {115, 46, 120, 78}
+
+	-- \shooter-0600-185.mdg
+
+	hitbox[667] = {}; hitbox[667] = {115, 46, 120, 78}
+
+	-- \shooter-0600-186.mdg
+
+	hitbox[668] = {}; hitbox[668] = {115, 46, 120, 78}
+
+	-- \shooter-0600-187.mdg
+
+	hitbox[669] = {}; hitbox[669] = {115, 46, 120, 78}
+
+	-- \shooter-0600-188.mdg
+
+	hitbox[670] = {}; hitbox[670] = {115, 46, 120, 78}
+
+	-- \shooter-0600-189.mdg
+
+	hitbox[671] = {}; hitbox[671] = {115, 46, 120, 78}
+
+	-- \shooter-0600-190.mdg
+
+	hitbox[672] = {}; hitbox[672] = {115, 46, 120, 78}
+
+	-- \shooter-0600-191.mdg
+
+	hitbox[673] = {}; hitbox[673] = {115, 46, 120, 78}
+
+	-- \shooter-0600-192.mdg
+
+	hitbox[674] = {}; hitbox[674] = {115, 46, 120, 78}
+
+	-- \shooter-0600-193.mdg
+
+	hitbox[675] = {}; hitbox[675] = {115, 46, 120, 78}
+
+	-- \shooter-0600-194.mdg
+
+	hitbox[676] = {}; hitbox[676] = {115, 46, 120, 78}
+
+	-- \shooter-0600-195.mdg
+
+	hitbox[677] = {}; hitbox[677] = {115, 46, 120, 78}
+
+	-- \shooter-0600-196.mdg
+
+	hitbox[678] = {}; hitbox[678] = {115, 46, 120, 78}
+
+	-- \shooter-0600-197.mdg
+
+	hitbox[679] = {}; hitbox[679] = {115, 46, 120, 78}
+
+	-- \shooter-0600-198.mdg
+
+	hitbox[680] = {}; hitbox[680] = {115, 46, 120, 78}
+
+	-- \shooter-0600-199.mdg
+
+	hitbox[681] = {}; hitbox[681] = {115, 46, 120, 78}
+
+	-- \shooter-0923-000.mdg
+
+	hitbox[682] = {}; hitbox[682] = {154, 66, 169, 175}
+
+	-- \shooter-0923-001.mdg
+
+	hitbox[683] = {}; hitbox[683] = {154, 66, 169, 175}
+
+	-- \shooter-0923-002.mdg
+
+	hitbox[684] = {}; hitbox[684] = {154, 66, 169, 175}
+
+	-- \shooter-0923-003.mdg
+
+	hitbox[685] = {}; hitbox[685] = {154, 65, 169, 174}
+
+	-- \shooter-0923-004.mdg
+
+	hitbox[686] = {}; hitbox[686] = {154, 65, 169, 174}
+
+	-- \shooter-0923-005.mdg
+
+	hitbox[687] = {}; hitbox[687] = {154, 65, 169, 174}
+
+	-- \shooter-0923-006.mdg
+
+	hitbox[688] = {}; hitbox[688] = {154, 65, 169, 174}
+
+	-- \shooter-0923-007.mdg
+
+	hitbox[689] = {}; hitbox[689] = {154, 65, 169, 174}
+
+	-- \shooter-0923-008.mdg
+
+	hitbox[690] = {}; hitbox[690] = {154, 65, 169, 174}
+
+	-- \shooter-0923-009.mdg
+
+	hitbox[691] = {}; hitbox[691] = {154, 65, 169, 174}
+
+	-- \shooter-0964-000.mdg
+
+	hitbox[692] = {}; hitbox[692] = {153, 68, 168, 128}
+
+	-- \shooter-0964-001.mdg
+
+	hitbox[693] = {}; hitbox[693] = {152, 74, 166, 133}
+
+	-- \shooter-0964-002.mdg
+
+	hitbox[694] = {}; hitbox[694] = {152, 74, 166, 133}
+
+	-- \shooter-0964-003.mdg
+
+	hitbox[695] = {}; hitbox[695] = {152, 74, 166, 133}
+
+	-- \shooter-0964-004.mdg
+
+	hitbox[696] = {}; hitbox[696] = {152, 74, 166, 133}
+
+	-- \shooter-0964-005.mdg
+
+	hitbox[697] = {}; hitbox[697] = {152, 74, 166, 133}
+
+	-- \shooter-0964-006.mdg
+
+	hitbox[698] = {}; hitbox[698] = {155, 77, 186, 137}
+
+	-- \shooter-0964-007.mdg
+
+	hitbox[699] = {}; hitbox[699] = {170, 64, 184, 81}
+	hitbox[700] = {}; hitbox[700] = {163, 82, 191, 130}
+
+	-- \shooter-0964-008.mdg
+
+	hitbox[701] = {}; hitbox[701] = {170, 64, 184, 81}
+	hitbox[702] = {}; hitbox[702] = {163, 82, 191, 130}
+
+	-- \shooter-0964-009.mdg
+
+	hitbox[703] = {}; hitbox[703] = {176, 68, 191, 86}
+	hitbox[704] = {}; hitbox[704] = {168, 83, 195, 130}
+	hitbox[705] = {}; hitbox[705] = {177, 128, 187, 198}
+
+	-- \shooter-0964-010.mdg
+
+	hitbox[706] = {}; hitbox[706] = {185, 68, 199, 85}
+	hitbox[707] = {}; hitbox[707] = {175, 82, 203, 129}
+	hitbox[708] = {}; hitbox[708] = {183, 128, 192, 177}
+
+	-- \shooter-0964-011.mdg
+
+	hitbox[709] = {}; hitbox[709] = {187, 69, 201, 86}
+	hitbox[710] = {}; hitbox[710] = {177, 85, 205, 132}
+	hitbox[711] = {}; hitbox[711] = {187, 128, 196, 177}
+	hitbox[712] = {}; hitbox[712] = {168, 130, 188, 145}
+
+	-- \shooter-0964-012.mdg
+
+	hitbox[713] = {}; hitbox[713] = {187, 69, 201, 86}
+	hitbox[714] = {}; hitbox[714] = {179, 85, 206, 132}
+	hitbox[715] = {}; hitbox[715] = {191, 128, 201, 177}
+	hitbox[716] = {}; hitbox[716] = {168, 132, 192, 147}
+
+	-- \shooter-0964-013.mdg
+
+	hitbox[717] = {}; hitbox[717] = {191, 72, 205, 90}
+	hitbox[718] = {}; hitbox[718] = {185, 89, 209, 133}
+	hitbox[719] = {}; hitbox[719] = {191, 128, 201, 177}
+	hitbox[720] = {}; hitbox[720] = {168, 132, 192, 147}
+
+	-- \shooter-0964-014.mdg
+
+	hitbox[721] = {}; hitbox[721] = {191, 72, 205, 90}
+	hitbox[722] = {}; hitbox[722] = {186, 89, 210, 144}
+	hitbox[723] = {}; hitbox[723] = {200, 132, 210, 181}
+	hitbox[724] = {}; hitbox[724] = {176, 131, 190, 165}
+
+	-- \shooter-0964-015.mdg
+
+	hitbox[725] = {}; hitbox[725] = {201, 72, 215, 90}
+	hitbox[726] = {}; hitbox[726] = {194, 89, 218, 144}
+	hitbox[727] = {}; hitbox[727] = {201, 158, 210, 177}
+	hitbox[728] = {}; hitbox[728] = {186, 129, 216, 163}
+
+	-- \shooter-0964-016.mdg
+
+	hitbox[729] = {}; hitbox[729] = {206, 73, 220, 90}
+	hitbox[730] = {}; hitbox[730] = {197, 90, 219, 145}
+	hitbox[731] = {}; hitbox[731] = {190, 125, 199, 143}
+	hitbox[732] = {}; hitbox[732] = {192, 140, 218, 171}
+
+	-- \shooter-0964-017.mdg
+
+	hitbox[733] = {}; hitbox[733] = {209, 73, 223, 90}
+	hitbox[734] = {}; hitbox[734] = {200, 88, 226, 129}
+	hitbox[735] = {}; hitbox[735] = {193, 124, 221, 143}
+	hitbox[736] = {}; hitbox[736] = {203, 143, 222, 173}
+
+	-- \shooter-0964-018.mdg
+
+	hitbox[737] = {}; hitbox[737] = {209, 73, 223, 90}
+	hitbox[738] = {}; hitbox[738] = {200, 88, 226, 129}
+	hitbox[739] = {}; hitbox[739] = {193, 124, 221, 143}
+	hitbox[740] = {}; hitbox[740] = {203, 143, 222, 173}
+
+	-- \shooter-0964-019.mdg
+
+	hitbox[741] = {}; hitbox[741] = {209, 73, 223, 90}
+	hitbox[742] = {}; hitbox[742] = {200, 88, 226, 129}
+	hitbox[743] = {}; hitbox[743] = {193, 124, 221, 143}
+	hitbox[744] = {}; hitbox[744] = {203, 143, 222, 173}
+
+	-- \shooter-0989-000.mdg
+
+	hitbox[745] = {}; hitbox[745] = {152, 58, 166, 75}
+	hitbox[746] = {}; hitbox[746] = {151, 75, 168, 168}
+
+	-- \shooter-0989-001.mdg
+
+	hitbox[747] = {}; hitbox[747] = {152, 58, 166, 75}
+	hitbox[748] = {}; hitbox[748] = {151, 75, 168, 168}
+
+	-- \shooter-0989-002.mdg
+
+	hitbox[749] = {}; hitbox[749] = {152, 58, 166, 75}
+	hitbox[750] = {}; hitbox[750] = {151, 75, 168, 168}
+
+	-- \shooter-0989-003.mdg
+
+	hitbox[751] = {}; hitbox[751] = {152, 58, 166, 75}
+	hitbox[752] = {}; hitbox[752] = {151, 75, 168, 168}
+
+	-- \shooter-0989-004.mdg
+
+	hitbox[753] = {}; hitbox[753] = {152, 58, 166, 75}
+	hitbox[754] = {}; hitbox[754] = {151, 75, 168, 168}
+
+	-- \shooter-0989-005.mdg
+
+	hitbox[755] = {}; hitbox[755] = {152, 58, 166, 75}
+	hitbox[756] = {}; hitbox[756] = {151, 75, 168, 168}
+
+	-- \shooter-0989-006.mdg
+
+	hitbox[757] = {}; hitbox[757] = {152, 58, 166, 75}
+	hitbox[758] = {}; hitbox[758] = {151, 75, 168, 168}
+
+	-- \shooter-0989-007.mdg
+
+	hitbox[759] = {}; hitbox[759] = {160, 53, 174, 71}
+	hitbox[760] = {}; hitbox[760] = {152, 69, 174, 114}
+	hitbox[761] = {}; hitbox[761] = {152, 112, 183, 158}
+
+	-- \shooter-0989-008.mdg
+
+	hitbox[762] = {}; hitbox[762] = {160, 53, 174, 71}
+	hitbox[763] = {}; hitbox[763] = {152, 69, 174, 114}
+	hitbox[764] = {}; hitbox[764] = {152, 112, 183, 158}
+
+	-- \shooter-0989-009.mdg
+
+	hitbox[765] = {}; hitbox[765] = {162, 53, 176, 70}
+	hitbox[766] = {}; hitbox[766] = {152, 69, 174, 113}
+	hitbox[767] = {}; hitbox[767] = {152, 112, 183, 158}
+
+	-- \shooter-0989-010.mdg
+
+	hitbox[768] = {}; hitbox[768] = {169, 50, 183, 67}
+	hitbox[769] = {}; hitbox[769] = {153, 66, 182, 110}
+	hitbox[770] = {}; hitbox[770] = {152, 109, 183, 162}
+
+	-- \shooter-0989-011.mdg
+
+	hitbox[771] = {}; hitbox[771] = {169, 50, 183, 67}
+	hitbox[772] = {}; hitbox[772] = {153, 66, 182, 110}
+	hitbox[773] = {}; hitbox[773] = {152, 109, 183, 162}
+
+	-- \shooter-0989-012.mdg
+
+	hitbox[774] = {}; hitbox[774] = {171, 53, 185, 71}
+	hitbox[775] = {}; hitbox[775] = {154, 65, 183, 109}
+	hitbox[776] = {}; hitbox[776] = {152, 109, 183, 162}
+
+	-- \shooter-0989-013.mdg
+
+	hitbox[777] = {}; hitbox[777] = {171, 53, 185, 71}
+	hitbox[778] = {}; hitbox[778] = {155, 68, 185, 164}
+	hitbox[779] = {}; hitbox[779] = {182, 165, 195, 190}
+
+	-- \shooter-1025-000.mdg
+
+	hitbox[780] = {}; hitbox[780] = {157, 67, 171, 85}
+	hitbox[781] = {}; hitbox[781] = {149, 84, 176, 132}
+
+	-- \shooter-1025-001.mdg
+
+	hitbox[782] = {}; hitbox[782] = {157, 67, 171, 85}
+	hitbox[783] = {}; hitbox[783] = {149, 84, 176, 132}
+
+	-- \shooter-1025-002.mdg
+
+	hitbox[784] = {}; hitbox[784] = {157, 67, 171, 85}
+	hitbox[785] = {}; hitbox[785] = {149, 84, 176, 132}
+
+	-- \shooter-1025-003.mdg
+
+	hitbox[786] = {}; hitbox[786] = {157, 67, 171, 85}
+	hitbox[787] = {}; hitbox[787] = {149, 84, 176, 132}
+
+	-- \shooter-1025-004.mdg
+
+	hitbox[788] = {}; hitbox[788] = {157, 69, 171, 86}
+	hitbox[789] = {}; hitbox[789] = {150, 86, 177, 140}
+
+	-- \shooter-1025-005.mdg
+
+	hitbox[790] = {}; hitbox[790] = {157, 69, 171, 86}
+	hitbox[791] = {}; hitbox[791] = {150, 86, 177, 140}
+	hitbox[792] = {}; hitbox[792] = {152, 140, 166, 178}
+
+	-- \shooter-1025-006.mdg
+
+	hitbox[793] = {}; hitbox[793] = {157, 69, 171, 86}
+	hitbox[794] = {}; hitbox[794] = {150, 86, 177, 140}
+	hitbox[795] = {}; hitbox[795] = {152, 140, 166, 178}
+
+	-- \shooter-1025-007.mdg
+
+	hitbox[796] = {}; hitbox[796] = {157, 69, 171, 86}
+	hitbox[797] = {}; hitbox[797] = {150, 86, 177, 140}
+	hitbox[798] = {}; hitbox[798] = {152, 140, 166, 178}
+
+	-- \shooter-1025-008.mdg
+
+	hitbox[799] = {}; hitbox[799] = {157, 69, 175, 87}
+	hitbox[800] = {}; hitbox[800] = {150, 84, 183, 138}
+	hitbox[801] = {}; hitbox[801] = {153, 136, 166, 174}
+
+	-- \shooter-1025-009.mdg
+
+	hitbox[802] = {}; hitbox[802] = {157, 69, 175, 87}
+	hitbox[803] = {}; hitbox[803] = {150, 84, 183, 138}
+	hitbox[804] = {}; hitbox[804] = {153, 136, 166, 174}
+
+	-- \shooter-1025-010.mdg
+
+	hitbox[805] = {}; hitbox[805] = {157, 69, 175, 87}
+	hitbox[806] = {}; hitbox[806] = {150, 84, 183, 138}
+	hitbox[807] = {}; hitbox[807] = {153, 136, 166, 174}
+
+	-- \shooter-1025-011.mdg
+
+	hitbox[808] = {}; hitbox[808] = {157, 69, 175, 87}
+	hitbox[809] = {}; hitbox[809] = {150, 84, 183, 138}
+	hitbox[810] = {}; hitbox[810] = {153, 136, 166, 174}
+
+	-- \shooter-1025-012.mdg
+
+	hitbox[811] = {}; hitbox[811] = {164, 69, 182, 87}
+	hitbox[812] = {}; hitbox[812] = {152, 85, 192, 150}
+	hitbox[813] = {}; hitbox[813] = {159, 139, 173, 201}
+	hitbox[814] = {}; hitbox[814] = {181, 137, 192, 188}
+
+	-- \shooter-1025-013.mdg
+
+	hitbox[815] = {}; hitbox[815] = {166, 71, 184, 88}
+	hitbox[816] = {}; hitbox[816] = {155, 88, 192, 152}
+	hitbox[817] = {}; hitbox[817] = {160, 143, 173, 205}
+	hitbox[818] = {}; hitbox[818] = {185, 142, 196, 193}
+
+	-- \shooter-1025-014.mdg
+
+	hitbox[819] = {}; hitbox[819] = {166, 71, 184, 88}
+	hitbox[820] = {}; hitbox[820] = {155, 88, 192, 152}
+	hitbox[821] = {}; hitbox[821] = {160, 143, 173, 205}
+	hitbox[822] = {}; hitbox[822] = {192, 156, 203, 207}
+
+	-- \shooter-1025-015.mdg
+
+	hitbox[823] = {}; hitbox[823] = {166, 71, 184, 88}
+	hitbox[824] = {}; hitbox[824] = {155, 88, 192, 152}
+	hitbox[825] = {}; hitbox[825] = {160, 143, 173, 205}
+	hitbox[826] = {}; hitbox[826] = {192, 156, 203, 207}
+
+	-- \shooter-1025-016.mdg
+
+	hitbox[827] = {}; hitbox[827] = {169, 64, 187, 87}
+	hitbox[828] = {}; hitbox[828] = {155, 88, 192, 152}
+	hitbox[829] = {}; hitbox[829] = {160, 143, 173, 205}
+	hitbox[830] = {}; hitbox[830] = {189, 151, 199, 173}
+	hitbox[831] = {}; hitbox[831] = {197, 169, 210, 185}
+	hitbox[832] = {}; hitbox[832] = {202, 182, 210, 200}
+	hitbox[833] = {}; hitbox[833] = {182, 138, 198, 158}
+
+	-- \shooter-1025-017.mdg
+
+	hitbox[834] = {}; hitbox[834] = {169, 64, 187, 87}
+	hitbox[835] = {}; hitbox[835] = {158, 88, 195, 152}
+	hitbox[836] = {}; hitbox[836] = {164, 143, 177, 205}
+	hitbox[837] = {}; hitbox[837] = {192, 151, 203, 173}
+	hitbox[838] = {}; hitbox[838] = {198, 169, 210, 185}
+	hitbox[839] = {}; hitbox[839] = {206, 182, 214, 200}
+	hitbox[840] = {}; hitbox[840] = {182, 138, 198, 158}
+
+	-- \shooter-1025-018.mdg
+
+	hitbox[841] = {}; hitbox[841] = {169, 64, 187, 87}
+	hitbox[842] = {}; hitbox[842] = {158, 88, 195, 152}
+	hitbox[843] = {}; hitbox[843] = {164, 143, 177, 205}
+	hitbox[844] = {}; hitbox[844] = {192, 151, 203, 173}
+	hitbox[845] = {}; hitbox[845] = {198, 169, 210, 185}
+	hitbox[846] = {}; hitbox[846] = {206, 182, 214, 200}
+	hitbox[847] = {}; hitbox[847] = {182, 138, 198, 158}
+
+	-- \shooter-1025-019.mdg
+
+	hitbox[848] = {}; hitbox[848] = {169, 64, 187, 87}
+	hitbox[849] = {}; hitbox[849] = {158, 88, 195, 152}
+	hitbox[850] = {}; hitbox[850] = {164, 143, 177, 205}
+	hitbox[851] = {}; hitbox[851] = {192, 151, 203, 173}
+	hitbox[852] = {}; hitbox[852] = {198, 169, 210, 185}
+	hitbox[853] = {}; hitbox[853] = {206, 182, 214, 200}
+	hitbox[854] = {}; hitbox[854] = {182, 138, 198, 158}
+
+	-- \shooter-1254-000.mdg
+
+	hitbox[855] = {}; hitbox[855] = {187, 76, 206, 199}
+
+	-- \shooter-1254-001.mdg
+
+	hitbox[856] = {}; hitbox[856] = {175, 28, 194, 57}
+	hitbox[857] = {}; hitbox[857] = {173, 74, 210, 182}
+
+	-- \shooter-1254-002.mdg
+
+	hitbox[858] = {}; hitbox[858] = {161, 35, 180, 69}
+	hitbox[859] = {}; hitbox[859] = {159, 69, 195, 208}
+
+	-- \shooter-1254-003.mdg
+
+	hitbox[860] = {}; hitbox[860] = {150, 36, 178, 69}
+	hitbox[861] = {}; hitbox[861] = {140, 68, 203, 204}
+
+	-- \shooter-1254-004.mdg
+
+	hitbox[862] = {}; hitbox[862] = {147, 36, 175, 70}
+	hitbox[863] = {}; hitbox[863] = {128, 69, 198, 206}
+
+	-- \shooter-1254-005.mdg
+
+	hitbox[864] = {}; hitbox[864] = {147, 36, 175, 70}
+	hitbox[865] = {}; hitbox[865] = {128, 69, 198, 206}
+
+	-- \shooter-1254-006.mdg
+
+	hitbox[866] = {}; hitbox[866] = {147, 36, 175, 70}
+	hitbox[867] = {}; hitbox[867] = {128, 69, 198, 206}
+
+	-- \shooter-1254-007.mdg
+
+	hitbox[868] = {}; hitbox[868] = {147, 36, 175, 70}
+	hitbox[869] = {}; hitbox[869] = {128, 69, 198, 206}
+
+	-- \shooter-1254-008.mdg
+
+	hitbox[870] = {}; hitbox[870] = {147, 36, 175, 70}
+	hitbox[871] = {}; hitbox[871] = {128, 69, 198, 176}
+
+	-- \shooter-1254-009.mdg
+
+	hitbox[872] = {}; hitbox[872] = {147, 36, 175, 70}
+	hitbox[873] = {}; hitbox[873] = {128, 69, 198, 176}
+
+	-- \shooter-1254-010.mdg
+
+	hitbox[874] = {}; hitbox[874] = {147, 36, 175, 70}
+	hitbox[875] = {}; hitbox[875] = {128, 69, 198, 176}
+
+	-- \shooter-1254-011.mdg
+
+	hitbox[876] = {}; hitbox[876] = {147, 36, 175, 70}
+	hitbox[877] = {}; hitbox[877] = {128, 69, 198, 176}
+
+	-- \shooter-1254-012.mdg
+
+	hitbox[878] = {}; hitbox[878] = {147, 36, 175, 70}
+	hitbox[879] = {}; hitbox[879] = {128, 69, 198, 176}
+
+	-- \shooter-1254-013.mdg
+
+	hitbox[880] = {}; hitbox[880] = {147, 36, 175, 70}
+	hitbox[881] = {}; hitbox[881] = {128, 69, 198, 176}
+
+	-- \shooter-1254-014.mdg
+
+	hitbox[882] = {}; hitbox[882] = {147, 36, 175, 70}
+	hitbox[883] = {}; hitbox[883] = {128, 69, 198, 176}
+
+	-- \shooter-1254-015.mdg
+
+	hitbox[884] = {}; hitbox[884] = {147, 36, 175, 70}
+	hitbox[885] = {}; hitbox[885] = {128, 69, 198, 176}
+
+	-- \shooter-1254-016.mdg
+
+	hitbox[886] = {}; hitbox[886] = {147, 36, 175, 70}
+	hitbox[887] = {}; hitbox[887] = {128, 69, 198, 176}
+
+	-- \shooter-1254-017.mdg
+
+	hitbox[888] = {}; hitbox[888] = {147, 36, 175, 70}
+	hitbox[889] = {}; hitbox[889] = {128, 69, 198, 176}
+
+	-- \shooter-1254-018.mdg
+
+	hitbox[890] = {}; hitbox[890] = {147, 36, 175, 70}
+	hitbox[891] = {}; hitbox[891] = {128, 69, 198, 176}
+
+	-- \shooter-1254-019.mdg
+
+	hitbox[892] = {}; hitbox[892] = {147, 36, 175, 70}
+	hitbox[893] = {}; hitbox[893] = {128, 69, 198, 176}
+
+	-- \shooter-1254-020.mdg
+
+	hitbox[894] = {}; hitbox[894] = {147, 36, 175, 70}
+	hitbox[895] = {}; hitbox[895] = {128, 69, 198, 176}
+
+	-- \shooter-1254-021.mdg
+
+	hitbox[896] = {}; hitbox[896] = {147, 36, 175, 70}
+	hitbox[897] = {}; hitbox[897] = {128, 69, 198, 176}
+
+	-- \shooter-1254-022.mdg
+
+	hitbox[898] = {}; hitbox[898] = {147, 36, 175, 70}
+	hitbox[899] = {}; hitbox[899] = {128, 69, 198, 176}
+
+	-- \shooter-1254-023.mdg
+
+	hitbox[900] = {}; hitbox[900] = {147, 36, 175, 70}
+	hitbox[901] = {}; hitbox[901] = {128, 69, 198, 176}
+
+	-- \shooter-1254-024.mdg
+
+	hitbox[902] = {}; hitbox[902] = {147, 36, 175, 70}
+	hitbox[903] = {}; hitbox[903] = {128, 69, 198, 176}
+
+	-- \shooter-1254-025.mdg
+
+	hitbox[904] = {}; hitbox[904] = {147, 36, 175, 70}
+	hitbox[905] = {}; hitbox[905] = {128, 69, 198, 176}
+
+	-- \shooter-1254-026.mdg
+
+	hitbox[906] = {}; hitbox[906] = {147, 36, 175, 70}
+	hitbox[907] = {}; hitbox[907] = {128, 69, 198, 176}
+
+	-- \shooter-1254-027.mdg
+
+	hitbox[908] = {}; hitbox[908] = {147, 36, 175, 70}
+	hitbox[909] = {}; hitbox[909] = {128, 69, 198, 176}
+
+	-- \shooter-1254-028.mdg
+
+	hitbox[910] = {}; hitbox[910] = {147, 36, 175, 70}
+	hitbox[911] = {}; hitbox[911] = {128, 69, 198, 176}
+
+	-- \shooter-1254-029.mdg
+
+	hitbox[912] = {}; hitbox[912] = {149, 35, 177, 69}
+	hitbox[913] = {}; hitbox[913] = {128, 69, 198, 176}
+
+
+
+	hitmap = nil; hitmap = {}
+	hitmap[1] = {}; hitmap[1] = {68, 1, 1, 0, 0, 0}
+	hitmap[2] = {}; hitmap[2] = {69, 2, 1, 0, 0, 0}
+	hitmap[3] = {}; hitmap[3] = {70, 3, 2, 0, 0, 0}
+	hitmap[4] = {}; hitmap[4] = {71, 5, 2, 0, 0, 0}
+	hitmap[5] = {}; hitmap[5] = {72, 7, 2, 0, 0, 0}
+	hitmap[6] = {}; hitmap[6] = {73, 9, 2, 0, 0, 0}
+	hitmap[7] = {}; hitmap[7] = {74, 11, 2, 0, 0, 0}
+	hitmap[8] = {}; hitmap[8] = {75, 13, 2, 0, 0, 0}
+	hitmap[9] = {}; hitmap[9] = {76, 15, 2, 0, 0, 0}
+	hitmap[10] = {}; hitmap[10] = {77, 17, 2, 0, 0, 0}
+	hitmap[11] = {}; hitmap[11] = {78, 19, 2, 0, 0, 0}
+	hitmap[12] = {}; hitmap[12] = {79, 21, 2, 0, 0, 0}
+	hitmap[13] = {}; hitmap[13] = {80, 23, 2, 0, 0, 0}
+	hitmap[14] = {}; hitmap[14] = {81, 25, 2, 0, 0, 0}
+	hitmap[15] = {}; hitmap[15] = {82, 27, 2, 0, 0, 0}
+	hitmap[16] = {}; hitmap[16] = {83, 29, 2, 0, 0, 0}
+	hitmap[17] = {}; hitmap[17] = {84, 31, 2, 0, 0, 0}
+	hitmap[18] = {}; hitmap[18] = {85, 33, 2, 0, 0, 0}
+	hitmap[19] = {}; hitmap[19] = {86, 35, 2, 0, 0, 0}
+	hitmap[20] = {}; hitmap[20] = {87, 37, 2, 0, 0, 0}
+	hitmap[21] = {}; hitmap[21] = {88, 39, 2, 0, 0, 0}
+	hitmap[22] = {}; hitmap[22] = {89, 41, 2, 0, 0, 0}
+	hitmap[23] = {}; hitmap[23] = {90, 43, 2, 0, 0, 0}
+	hitmap[24] = {}; hitmap[24] = {91, 45, 2, 0, 0, 0}
+	hitmap[25] = {}; hitmap[25] = {92, 47, 2, 0, 0, 0}
+	hitmap[26] = {}; hitmap[26] = {93, 49, 2, 0, 0, 0}
+	hitmap[27] = {}; hitmap[27] = {94, 51, 2, 0, 0, 0}
+	hitmap[28] = {}; hitmap[28] = {95, 53, 2, 0, 0, 0}
+	hitmap[29] = {}; hitmap[29] = {96, 55, 2, 0, 0, 0}
+	hitmap[30] = {}; hitmap[30] = {97, 57, 2, 0, 0, 0}
+	hitmap[31] = {}; hitmap[31] = {98, 59, 2, 0, 0, 0}
+	hitmap[32] = {}; hitmap[32] = {99, 61, 2, 0, 0, 0}
+	hitmap[33] = {}; hitmap[33] = {100, 63, 2, 0, 0, 0}
+	hitmap[34] = {}; hitmap[34] = {101, 65, 2, 0, 0, 0}
+	hitmap[35] = {}; hitmap[35] = {102, 67, 2, 0, 0, 0}
+	hitmap[36] = {}; hitmap[36] = {103, 69, 2, 0, 0, 0}
+	hitmap[37] = {}; hitmap[37] = {104, 71, 2, 0, 0, 0}
+	hitmap[38] = {}; hitmap[38] = {105, 73, 2, 0, 0, 0}
+	hitmap[39] = {}; hitmap[39] = {106, 75, 2, 0, 0, 0}
+	hitmap[40] = {}; hitmap[40] = {107, 77, 2, 0, 0, 0}
+	hitmap[41] = {}; hitmap[41] = {108, 79, 2, 0, 0, 0}
+	hitmap[42] = {}; hitmap[42] = {109, 81, 2, 0, 0, 0}
+	hitmap[43] = {}; hitmap[43] = {110, 83, 2, 0, 0, 0}
+	hitmap[44] = {}; hitmap[44] = {176, 85, 2, 0, 0, 0}
+	hitmap[45] = {}; hitmap[45] = {177, 87, 2, 0, 0, 0}
+	hitmap[46] = {}; hitmap[46] = {178, 89, 2, 0, 0, 0}
+	hitmap[47] = {}; hitmap[47] = {179, 91, 2, 0, 0, 0}
+	hitmap[48] = {}; hitmap[48] = {180, 93, 3, 0, 0, 0}
+	hitmap[49] = {}; hitmap[49] = {181, 96, 3, 0, 0, 0}
+	hitmap[50] = {}; hitmap[50] = {182, 99, 3, 0, 0, 0}
+	hitmap[51] = {}; hitmap[51] = {183, 102, 3, 0, 0, 0}
+	hitmap[52] = {}; hitmap[52] = {184, 105, 3, 0, 0, 0}
+	hitmap[53] = {}; hitmap[53] = {185, 108, 4, 0, 0, 0}
+	hitmap[54] = {}; hitmap[54] = {186, 112, 4, 0, 0, 0}
+	hitmap[55] = {}; hitmap[55] = {187, 116, 4, 0, 0, 0}
+	hitmap[56] = {}; hitmap[56] = {188, 120, 4, 0, 0, 0}
+	hitmap[57] = {}; hitmap[57] = {189, 124, 4, 0, 0, 0}
+	hitmap[58] = {}; hitmap[58] = {190, 128, 4, 0, 0, 0}
+	hitmap[59] = {}; hitmap[59] = {191, 132, 4, 0, 0, 0}
+	hitmap[60] = {}; hitmap[60] = {192, 136, 4, 0, 0, 0}
+	hitmap[61] = {}; hitmap[61] = {193, 140, 4, 0, 0, 0}
+	hitmap[62] = {}; hitmap[62] = {194, 144, 4, 0, 0, 0}
+	hitmap[63] = {}; hitmap[63] = {195, 148, 4, 0, 0, 0}
+	hitmap[64] = {}; hitmap[64] = {196, 152, 4, 0, 0, 0}
+	hitmap[65] = {}; hitmap[65] = {197, 156, 4, 0, 0, 0}
+	hitmap[66] = {}; hitmap[66] = {198, 160, 4, 0, 0, 0}
+	hitmap[67] = {}; hitmap[67] = {199, 164, 4, 0, 0, 0}
+	hitmap[68] = {}; hitmap[68] = {200, 168, 4, 0, 0, 0}
+	hitmap[69] = {}; hitmap[69] = {201, 172, 4, 0, 0, 0}
+	hitmap[70] = {}; hitmap[70] = {202, 176, 4, 0, 0, 0}
+	hitmap[71] = {}; hitmap[71] = {203, 180, 4, 0, 0, 0}
+	hitmap[72] = {}; hitmap[72] = {204, 184, 4, 0, 0, 0}
+	hitmap[73] = {}; hitmap[73] = {205, 188, 4, 0, 0, 0}
+	hitmap[74] = {}; hitmap[74] = {206, 192, 4, 0, 0, 0}
+	hitmap[75] = {}; hitmap[75] = {207, 196, 4, 0, 0, 0}
+	hitmap[76] = {}; hitmap[76] = {208, 200, 4, 0, 0, 0}
+	hitmap[77] = {}; hitmap[77] = {209, 204, 4, 0, 0, 0}
+	hitmap[78] = {}; hitmap[78] = {210, 208, 4, 0, 0, 0}
+	hitmap[79] = {}; hitmap[79] = {211, 212, 4, 0, 0, 0}
+	hitmap[80] = {}; hitmap[80] = {212, 216, 4, 0, 0, 0}
+	hitmap[81] = {}; hitmap[81] = {213, 220, 4, 0, 0, 0}
+	hitmap[82] = {}; hitmap[82] = {214, 224, 4, 0, 0, 0}
+	hitmap[83] = {}; hitmap[83] = {215, 228, 4, 0, 0, 0}
+	hitmap[84] = {}; hitmap[84] = {410, 232, 2, 1, 0, 0}
+	hitmap[85] = {}; hitmap[85] = {411, 234, 2, 2, 0, 0}
+	hitmap[86] = {}; hitmap[86] = {412, 236, 1, 3, 0, 0}
+	hitmap[87] = {}; hitmap[87] = {413, 237, 2, 4, 0, 0}
+	hitmap[88] = {}; hitmap[88] = {414, 239, 2, 5, 0, 0}
+	hitmap[89] = {}; hitmap[89] = {415, 241, 3, 6, 0, 0}
+	hitmap[90] = {}; hitmap[90] = {416, 244, 3, 7, 0, 0}
+	hitmap[91] = {}; hitmap[91] = {417, 247, 5, 8, 0, 0}
+	hitmap[92] = {}; hitmap[92] = {418, 252, 5, 9, 0, 0}
+	hitmap[93] = {}; hitmap[93] = {419, 257, 5, 10, 0, 0}
+	hitmap[94] = {}; hitmap[94] = {420, 262, 5, 11, 0, 0}
+	hitmap[95] = {}; hitmap[95] = {421, 267, 5, 12, 0, 0}
+	hitmap[96] = {}; hitmap[96] = {422, 272, 5, 13, 0, 0}
+	hitmap[97] = {}; hitmap[97] = {423, 277, 5, 14, 0, 0}
+	hitmap[98] = {}; hitmap[98] = {424, 282, 5, 15, 0, 0}
+	hitmap[99] = {}; hitmap[99] = {425, 287, 5, 16, 0, 0}
+	hitmap[100] = {}; hitmap[100] = {426, 292, 5, 17, 0, 0}
+	hitmap[101] = {}; hitmap[101] = {427, 297, 5, 18, 0, 0}
+	hitmap[102] = {}; hitmap[102] = {428, 302, 5, 19, 0, 0}
+	hitmap[103] = {}; hitmap[103] = {429, 307, 5, 20, 0, 0}
+	hitmap[104] = {}; hitmap[104] = {430, 312, 5, 21, 0, 0}
+	hitmap[105] = {}; hitmap[105] = {431, 317, 5, 22, 0, 0}
+	hitmap[106] = {}; hitmap[106] = {432, 322, 5, 23, 0, 0}
+	hitmap[107] = {}; hitmap[107] = {433, 327, 5, 24, 0, 0}
+	hitmap[108] = {}; hitmap[108] = {434, 332, 5, 25, 0, 0}
+	hitmap[109] = {}; hitmap[109] = {435, 337, 5, 26, 0, 0}
+	hitmap[110] = {}; hitmap[110] = {436, 342, 5, 27, 0, 0}
+	hitmap[111] = {}; hitmap[111] = {437, 347, 5, 28, 0, 0}
+	hitmap[112] = {}; hitmap[112] = {438, 352, 5, 29, 0, 0}
+	hitmap[113] = {}; hitmap[113] = {439, 357, 5, 30, 0, 0}
+	hitmap[114] = {}; hitmap[114] = {440, 362, 5, 31, 0, 0}
+	hitmap[115] = {}; hitmap[115] = {441, 367, 5, 32, 0, 0}
+	hitmap[116] = {}; hitmap[116] = {442, 372, 5, 33, 0, 0}
+	hitmap[117] = {}; hitmap[117] = {443, 377, 5, 34, 0, 0}
+	hitmap[118] = {}; hitmap[118] = {444, 382, 5, 35, 0, 0}
+	hitmap[119] = {}; hitmap[119] = {445, 387, 5, 36, 0, 0}
+	hitmap[120] = {}; hitmap[120] = {446, 392, 5, 37, 0, 0}
+	hitmap[121] = {}; hitmap[121] = {447, 397, 5, 38, 0, 0}
+	hitmap[122] = {}; hitmap[122] = {448, 402, 5, 39, 0, 0}
+	hitmap[123] = {}; hitmap[123] = {449, 407, 5, 40, 0, 0}
+	hitmap[124] = {}; hitmap[124] = {450, 412, 5, 41, 0, 0}
+	hitmap[125] = {}; hitmap[125] = {451, 417, 5, 42, 0, 0}
+	hitmap[126] = {}; hitmap[126] = {452, 422, 5, 43, 0, 0}
+	hitmap[127] = {}; hitmap[127] = {453, 427, 5, 44, 0, 0}
+	hitmap[128] = {}; hitmap[128] = {454, 432, 5, 45, 0, 0}
+	hitmap[129] = {}; hitmap[129] = {455, 437, 5, 46, 0, 0}
+	hitmap[130] = {}; hitmap[130] = {456, 442, 5, 47, 0, 0}
+	hitmap[131] = {}; hitmap[131] = {457, 447, 5, 48, 0, 0}
+	hitmap[132] = {}; hitmap[132] = {458, 452, 5, 49, 0, 0}
+	hitmap[133] = {}; hitmap[133] = {459, 457, 5, 50, 0, 0}
+	hitmap[134] = {}; hitmap[134] = {460, 462, 5, 51, 0, 0}
+	hitmap[135] = {}; hitmap[135] = {461, 467, 5, 52, 0, 0}
+	hitmap[136] = {}; hitmap[136] = {462, 472, 5, 53, 0, 0}
+	hitmap[137] = {}; hitmap[137] = {463, 477, 5, 54, 0, 0}
+	hitmap[138] = {}; hitmap[138] = {600, 482, 1, 55, 0, 0}
+	hitmap[139] = {}; hitmap[139] = {601, 483, 1, 56, 0, 0}
+	hitmap[140] = {}; hitmap[140] = {602, 484, 1, 57, 0, 0}
+	hitmap[141] = {}; hitmap[141] = {603, 485, 1, 58, 0, 0}
+	hitmap[142] = {}; hitmap[142] = {604, 486, 1, 59, 0, 0}
+	hitmap[143] = {}; hitmap[143] = {605, 487, 1, 60, 0, 0}
+	hitmap[144] = {}; hitmap[144] = {606, 488, 1, 61, 0, 0}
+	hitmap[145] = {}; hitmap[145] = {607, 489, 1, 62, 0, 0}
+	hitmap[146] = {}; hitmap[146] = {608, 490, 1, 63, 0, 0}
+	hitmap[147] = {}; hitmap[147] = {609, 491, 1, 64, 0, 0}
+	hitmap[148] = {}; hitmap[148] = {610, 492, 1, 65, 0, 0}
+	hitmap[149] = {}; hitmap[149] = {611, 493, 1, 66, 0, 0}
+	hitmap[150] = {}; hitmap[150] = {612, 494, 1, 67, 0, 0}
+	hitmap[151] = {}; hitmap[151] = {613, 495, 1, 68, 0, 0}
+	hitmap[152] = {}; hitmap[152] = {614, 496, 1, 69, 0, 0}
+	hitmap[153] = {}; hitmap[153] = {615, 497, 1, 70, 0, 0}
+	hitmap[154] = {}; hitmap[154] = {616, 498, 1, 71, 0, 0}
+	hitmap[155] = {}; hitmap[155] = {617, 499, 1, 72, 0, 0}
+	hitmap[156] = {}; hitmap[156] = {618, 500, 1, 73, 0, 0}
+	hitmap[157] = {}; hitmap[157] = {619, 501, 1, 74, 0, 0}
+	hitmap[158] = {}; hitmap[158] = {620, 502, 1, 75, 0, 0}
+	hitmap[159] = {}; hitmap[159] = {621, 503, 1, 76, 0, 0}
+	hitmap[160] = {}; hitmap[160] = {622, 504, 1, 77, 0, 0}
+	hitmap[161] = {}; hitmap[161] = {623, 505, 1, 78, 0, 0}
+	hitmap[162] = {}; hitmap[162] = {624, 506, 1, 79, 0, 0}
+	hitmap[163] = {}; hitmap[163] = {625, 507, 1, 80, 0, 0}
+	hitmap[164] = {}; hitmap[164] = {626, 508, 1, 81, 0, 0}
+	hitmap[165] = {}; hitmap[165] = {627, 509, 1, 82, 0, 0}
+	hitmap[166] = {}; hitmap[166] = {628, 510, 1, 83, 0, 0}
+	hitmap[167] = {}; hitmap[167] = {629, 511, 1, 84, 0, 0}
+	hitmap[168] = {}; hitmap[168] = {630, 512, 1, 0, 0, 0}
+	hitmap[169] = {}; hitmap[169] = {631, 513, 1, 0, 0, 0}
+	hitmap[170] = {}; hitmap[170] = {632, 514, 1, 0, 0, 0}
+	hitmap[171] = {}; hitmap[171] = {633, 515, 1, 0, 0, 0}
+	hitmap[172] = {}; hitmap[172] = {634, 516, 1, 0, 0, 0}
+	hitmap[173] = {}; hitmap[173] = {635, 517, 1, 0, 0, 0}
+	hitmap[174] = {}; hitmap[174] = {636, 518, 1, 0, 0, 0}
+	hitmap[175] = {}; hitmap[175] = {637, 519, 1, 0, 0, 0}
+	hitmap[176] = {}; hitmap[176] = {638, 520, 1, 0, 0, 0}
+	hitmap[177] = {}; hitmap[177] = {639, 521, 1, 0, 0, 0}
+	hitmap[178] = {}; hitmap[178] = {640, 522, 1, 0, 0, 0}
+	hitmap[179] = {}; hitmap[179] = {641, 523, 1, 0, 0, 0}
+	hitmap[180] = {}; hitmap[180] = {642, 524, 1, 0, 0, 0}
+	hitmap[181] = {}; hitmap[181] = {643, 525, 1, 0, 0, 0}
+	hitmap[182] = {}; hitmap[182] = {644, 526, 1, 0, 0, 0}
+	hitmap[183] = {}; hitmap[183] = {645, 527, 1, 0, 0, 0}
+	hitmap[184] = {}; hitmap[184] = {646, 528, 1, 0, 0, 0}
+	hitmap[185] = {}; hitmap[185] = {647, 529, 1, 0, 0, 0}
+	hitmap[186] = {}; hitmap[186] = {648, 530, 1, 0, 0, 0}
+	hitmap[187] = {}; hitmap[187] = {649, 531, 1, 0, 0, 0}
+	hitmap[188] = {}; hitmap[188] = {650, 532, 1, 0, 0, 0}
+	hitmap[189] = {}; hitmap[189] = {651, 533, 1, 0, 0, 0}
+	hitmap[190] = {}; hitmap[190] = {652, 534, 1, 0, 0, 0}
+	hitmap[191] = {}; hitmap[191] = {653, 535, 1, 0, 0, 0}
+	hitmap[192] = {}; hitmap[192] = {654, 536, 1, 0, 0, 0}
+	hitmap[193] = {}; hitmap[193] = {655, 537, 1, 0, 0, 0}
+	hitmap[194] = {}; hitmap[194] = {656, 538, 1, 0, 0, 0}
+	hitmap[195] = {}; hitmap[195] = {657, 539, 1, 0, 0, 0}
+	hitmap[196] = {}; hitmap[196] = {658, 540, 1, 0, 0, 0}
+	hitmap[197] = {}; hitmap[197] = {659, 541, 1, 0, 0, 0}
+	hitmap[198] = {}; hitmap[198] = {660, 542, 1, 0, 0, 0}
+	hitmap[199] = {}; hitmap[199] = {661, 543, 1, 0, 0, 0}
+	hitmap[200] = {}; hitmap[200] = {662, 544, 1, 0, 0, 0}
+	hitmap[201] = {}; hitmap[201] = {663, 545, 1, 0, 0, 0}
+	hitmap[202] = {}; hitmap[202] = {664, 546, 1, 0, 0, 0}
+	hitmap[203] = {}; hitmap[203] = {665, 547, 1, 0, 0, 0}
+	hitmap[204] = {}; hitmap[204] = {666, 548, 1, 0, 0, 0}
+	hitmap[205] = {}; hitmap[205] = {667, 549, 1, 0, 0, 0}
+	hitmap[206] = {}; hitmap[206] = {668, 550, 1, 0, 0, 0}
+	hitmap[207] = {}; hitmap[207] = {669, 551, 1, 0, 0, 0}
+	hitmap[208] = {}; hitmap[208] = {670, 552, 1, 0, 0, 0}
+	hitmap[209] = {}; hitmap[209] = {671, 553, 1, 0, 0, 0}
+	hitmap[210] = {}; hitmap[210] = {672, 554, 1, 0, 0, 0}
+	hitmap[211] = {}; hitmap[211] = {673, 555, 1, 0, 0, 0}
+	hitmap[212] = {}; hitmap[212] = {674, 556, 1, 0, 0, 0}
+	hitmap[213] = {}; hitmap[213] = {675, 557, 1, 0, 0, 0}
+	hitmap[214] = {}; hitmap[214] = {676, 558, 1, 0, 0, 0}
+	hitmap[215] = {}; hitmap[215] = {677, 559, 1, 0, 0, 0}
+	hitmap[216] = {}; hitmap[216] = {678, 560, 1, 0, 0, 0}
+	hitmap[217] = {}; hitmap[217] = {679, 561, 1, 0, 0, 0}
+	hitmap[218] = {}; hitmap[218] = {680, 562, 1, 0, 0, 0}
+	hitmap[219] = {}; hitmap[219] = {681, 563, 1, 0, 0, 0}
+	hitmap[220] = {}; hitmap[220] = {682, 564, 1, 0, 0, 0}
+	hitmap[221] = {}; hitmap[221] = {683, 565, 1, 0, 0, 0}
+	hitmap[222] = {}; hitmap[222] = {684, 566, 1, 0, 0, 0}
+	hitmap[223] = {}; hitmap[223] = {685, 567, 1, 0, 0, 0}
+	hitmap[224] = {}; hitmap[224] = {686, 568, 1, 0, 0, 0}
+	hitmap[225] = {}; hitmap[225] = {687, 569, 1, 0, 0, 0}
+	hitmap[226] = {}; hitmap[226] = {688, 570, 1, 0, 0, 0}
+	hitmap[227] = {}; hitmap[227] = {689, 571, 1, 0, 0, 0}
+	hitmap[228] = {}; hitmap[228] = {690, 572, 1, 85, 0, 0}
+	hitmap[229] = {}; hitmap[229] = {691, 573, 1, 86, 0, 0}
+	hitmap[230] = {}; hitmap[230] = {692, 574, 1, 87, 0, 0}
+	hitmap[231] = {}; hitmap[231] = {693, 575, 1, 88, 0, 0}
+	hitmap[232] = {}; hitmap[232] = {694, 576, 1, 89, 0, 0}
+	hitmap[233] = {}; hitmap[233] = {695, 577, 1, 90, 0, 0}
+	hitmap[234] = {}; hitmap[234] = {696, 578, 1, 91, 0, 0}
+	hitmap[235] = {}; hitmap[235] = {697, 579, 1, 92, 0, 0}
+	hitmap[236] = {}; hitmap[236] = {698, 580, 1, 93, 0, 0}
+	hitmap[237] = {}; hitmap[237] = {699, 581, 1, 94, 0, 0}
+	hitmap[238] = {}; hitmap[238] = {700, 582, 1, 95, 0, 0}
+	hitmap[239] = {}; hitmap[239] = {701, 583, 1, 96, 0, 0}
+	hitmap[240] = {}; hitmap[240] = {702, 584, 1, 97, 0, 0}
+	hitmap[241] = {}; hitmap[241] = {703, 585, 1, 98, 0, 0}
+	hitmap[242] = {}; hitmap[242] = {704, 586, 1, 99, 0, 0}
+	hitmap[243] = {}; hitmap[243] = {705, 587, 1, 100, 0, 0}
+	hitmap[244] = {}; hitmap[244] = {706, 588, 1, 101, 0, 0}
+	hitmap[245] = {}; hitmap[245] = {707, 589, 1, 102, 0, 0}
+	hitmap[246] = {}; hitmap[246] = {708, 590, 1, 103, 0, 0}
+	hitmap[247] = {}; hitmap[247] = {709, 591, 1, 104, 0, 0}
+	hitmap[248] = {}; hitmap[248] = {710, 592, 1, 105, 0, 0}
+	hitmap[249] = {}; hitmap[249] = {711, 593, 1, 106, 0, 0}
+	hitmap[250] = {}; hitmap[250] = {712, 594, 1, 107, 0, 0}
+	hitmap[251] = {}; hitmap[251] = {713, 595, 1, 108, 0, 0}
+	hitmap[252] = {}; hitmap[252] = {714, 596, 1, 109, 0, 0}
+	hitmap[253] = {}; hitmap[253] = {715, 597, 1, 110, 0, 0}
+	hitmap[254] = {}; hitmap[254] = {716, 598, 1, 111, 0, 0}
+	hitmap[255] = {}; hitmap[255] = {717, 599, 1, 112, 0, 0}
+	hitmap[256] = {}; hitmap[256] = {718, 600, 1, 113, 0, 0}
+	hitmap[257] = {}; hitmap[257] = {719, 601, 1, 114, 0, 0}
+	hitmap[258] = {}; hitmap[258] = {720, 602, 1, 115, 0, 0}
+	hitmap[259] = {}; hitmap[259] = {721, 603, 1, 116, 0, 0}
+	hitmap[260] = {}; hitmap[260] = {722, 604, 1, 117, 0, 0}
+	hitmap[261] = {}; hitmap[261] = {723, 605, 1, 118, 0, 0}
+	hitmap[262] = {}; hitmap[262] = {724, 606, 1, 119, 0, 0}
+	hitmap[263] = {}; hitmap[263] = {725, 607, 1, 120, 0, 0}
+	hitmap[264] = {}; hitmap[264] = {726, 608, 1, 121, 0, 0}
+	hitmap[265] = {}; hitmap[265] = {727, 609, 1, 122, 0, 0}
+	hitmap[266] = {}; hitmap[266] = {728, 610, 1, 123, 0, 0}
+	hitmap[267] = {}; hitmap[267] = {729, 611, 1, 124, 0, 0}
+	hitmap[268] = {}; hitmap[268] = {730, 612, 1, 125, 0, 0}
+	hitmap[269] = {}; hitmap[269] = {731, 613, 1, 126, 0, 0}
+	hitmap[270] = {}; hitmap[270] = {732, 614, 1, 127, 0, 0}
+	hitmap[271] = {}; hitmap[271] = {733, 615, 1, 128, 0, 0}
+	hitmap[272] = {}; hitmap[272] = {734, 616, 1, 129, 0, 0}
+	hitmap[273] = {}; hitmap[273] = {735, 617, 1, 130, 0, 0}
+	hitmap[274] = {}; hitmap[274] = {736, 618, 1, 131, 0, 0}
+	hitmap[275] = {}; hitmap[275] = {737, 619, 1, 132, 0, 0}
+	hitmap[276] = {}; hitmap[276] = {738, 620, 1, 133, 0, 0}
+	hitmap[277] = {}; hitmap[277] = {739, 621, 1, 134, 0, 0}
+	hitmap[278] = {}; hitmap[278] = {740, 622, 1, 135, 0, 0}
+	hitmap[279] = {}; hitmap[279] = {741, 623, 1, 136, 0, 0}
+	hitmap[280] = {}; hitmap[280] = {742, 624, 1, 137, 0, 0}
+	hitmap[281] = {}; hitmap[281] = {743, 625, 1, 138, 0, 0}
+	hitmap[282] = {}; hitmap[282] = {744, 626, 1, 139, 0, 0}
+	hitmap[283] = {}; hitmap[283] = {745, 627, 1, 140, 0, 0}
+	hitmap[284] = {}; hitmap[284] = {746, 628, 1, 141, 0, 0}
+	hitmap[285] = {}; hitmap[285] = {747, 629, 1, 142, 0, 0}
+	hitmap[286] = {}; hitmap[286] = {748, 630, 1, 143, 0, 0}
+	hitmap[287] = {}; hitmap[287] = {749, 631, 1, 144, 0, 0}
+	hitmap[288] = {}; hitmap[288] = {750, 632, 1, 145, 0, 0}
+	hitmap[289] = {}; hitmap[289] = {751, 633, 1, 146, 0, 0}
+	hitmap[290] = {}; hitmap[290] = {752, 634, 1, 147, 0, 0}
+	hitmap[291] = {}; hitmap[291] = {753, 635, 1, 148, 0, 0}
+	hitmap[292] = {}; hitmap[292] = {754, 636, 1, 149, 0, 0}
+	hitmap[293] = {}; hitmap[293] = {755, 637, 1, 150, 0, 0}
+	hitmap[294] = {}; hitmap[294] = {756, 638, 1, 151, 0, 0}
+	hitmap[295] = {}; hitmap[295] = {757, 639, 1, 152, 0, 0}
+	hitmap[296] = {}; hitmap[296] = {758, 640, 1, 153, 0, 0}
+	hitmap[297] = {}; hitmap[297] = {759, 641, 1, 154, 0, 0}
+	hitmap[298] = {}; hitmap[298] = {760, 642, 1, 155, 0, 0}
+	hitmap[299] = {}; hitmap[299] = {761, 643, 1, 156, 0, 0}
+	hitmap[300] = {}; hitmap[300] = {762, 644, 1, 157, 0, 0}
+	hitmap[301] = {}; hitmap[301] = {763, 645, 1, 158, 0, 0}
+	hitmap[302] = {}; hitmap[302] = {764, 646, 1, 159, 0, 0}
+	hitmap[303] = {}; hitmap[303] = {765, 647, 1, 160, 0, 0}
+	hitmap[304] = {}; hitmap[304] = {766, 648, 1, 161, 0, 0}
+	hitmap[305] = {}; hitmap[305] = {767, 649, 1, 162, 0, 0}
+	hitmap[306] = {}; hitmap[306] = {768, 650, 1, 163, 0, 0}
+	hitmap[307] = {}; hitmap[307] = {769, 651, 1, 164, 0, 0}
+	hitmap[308] = {}; hitmap[308] = {770, 652, 1, 165, 0, 0}
+	hitmap[309] = {}; hitmap[309] = {771, 653, 1, 166, 0, 0}
+	hitmap[310] = {}; hitmap[310] = {772, 654, 1, 167, 0, 0}
+	hitmap[311] = {}; hitmap[311] = {773, 655, 1, 168, 0, 0}
+	hitmap[312] = {}; hitmap[312] = {774, 656, 1, 169, 0, 0}
+	hitmap[313] = {}; hitmap[313] = {775, 657, 1, 170, 0, 0}
+	hitmap[314] = {}; hitmap[314] = {776, 658, 1, 171, 0, 0}
+	hitmap[315] = {}; hitmap[315] = {777, 659, 1, 172, 0, 0}
+	hitmap[316] = {}; hitmap[316] = {778, 660, 1, 173, 0, 0}
+	hitmap[317] = {}; hitmap[317] = {779, 661, 1, 174, 0, 0}
+	hitmap[318] = {}; hitmap[318] = {780, 662, 1, 175, 0, 0}
+	hitmap[319] = {}; hitmap[319] = {781, 663, 1, 176, 0, 0}
+	hitmap[320] = {}; hitmap[320] = {782, 664, 1, 177, 0, 0}
+	hitmap[321] = {}; hitmap[321] = {783, 665, 1, 178, 0, 0}
+	hitmap[322] = {}; hitmap[322] = {784, 666, 1, 179, 0, 0}
+	hitmap[323] = {}; hitmap[323] = {785, 667, 1, 180, 0, 0}
+	hitmap[324] = {}; hitmap[324] = {786, 668, 1, 181, 0, 0}
+	hitmap[325] = {}; hitmap[325] = {787, 669, 1, 182, 0, 0}
+	hitmap[326] = {}; hitmap[326] = {788, 670, 1, 183, 0, 0}
+	hitmap[327] = {}; hitmap[327] = {789, 671, 1, 184, 0, 0}
+	hitmap[328] = {}; hitmap[328] = {790, 672, 1, 185, 0, 0}
+	hitmap[329] = {}; hitmap[329] = {791, 673, 1, 186, 0, 0}
+	hitmap[330] = {}; hitmap[330] = {792, 674, 1, 187, 0, 0}
+	hitmap[331] = {}; hitmap[331] = {793, 675, 1, 188, 0, 0}
+	hitmap[332] = {}; hitmap[332] = {794, 676, 1, 189, 0, 0}
+	hitmap[333] = {}; hitmap[333] = {795, 677, 1, 190, 0, 0}
+	hitmap[334] = {}; hitmap[334] = {796, 678, 1, 191, 0, 0}
+	hitmap[335] = {}; hitmap[335] = {797, 679, 1, 192, 0, 0}
+	hitmap[336] = {}; hitmap[336] = {798, 680, 1, 193, 0, 0}
+	hitmap[337] = {}; hitmap[337] = {799, 681, 1, 194, 0, 0}
+	hitmap[338] = {}; hitmap[338] = {923, 682, 1, 195, 0, 0}
+	hitmap[339] = {}; hitmap[339] = {924, 683, 1, 196, 0, 0}
+	hitmap[340] = {}; hitmap[340] = {925, 684, 1, 197, 0, 0}
+	hitmap[341] = {}; hitmap[341] = {926, 685, 1, 198, 0, 0}
+	hitmap[342] = {}; hitmap[342] = {927, 686, 1, 199, 0, 0}
+	hitmap[343] = {}; hitmap[343] = {928, 687, 1, 200, 0, 0}
+	hitmap[344] = {}; hitmap[344] = {929, 688, 1, 201, 0, 0}
+	hitmap[345] = {}; hitmap[345] = {930, 689, 1, 202, 0, 0}
+	hitmap[346] = {}; hitmap[346] = {931, 690, 1, 203, 0, 0}
+	hitmap[347] = {}; hitmap[347] = {932, 691, 1, 204, 0, 0}
+	hitmap[348] = {}; hitmap[348] = {964, 692, 1, 205, 0, 0}
+	hitmap[349] = {}; hitmap[349] = {965, 693, 1, 206, 0, 0}
+	hitmap[350] = {}; hitmap[350] = {966, 694, 1, 207, 0, 0}
+	hitmap[351] = {}; hitmap[351] = {967, 695, 1, 208, 0, 0}
+	hitmap[352] = {}; hitmap[352] = {968, 696, 1, 209, 0, 0}
+	hitmap[353] = {}; hitmap[353] = {969, 697, 1, 210, 0, 0}
+	hitmap[354] = {}; hitmap[354] = {970, 698, 1, 211, 0, 0}
+	hitmap[355] = {}; hitmap[355] = {971, 699, 2, 212, 0, 0}
+	hitmap[356] = {}; hitmap[356] = {972, 701, 2, 213, 0, 0}
+	hitmap[357] = {}; hitmap[357] = {973, 703, 3, 214, 0, 0}
+	hitmap[358] = {}; hitmap[358] = {974, 706, 3, 215, 0, 0}
+	hitmap[359] = {}; hitmap[359] = {975, 709, 4, 216, 0, 0}
+	hitmap[360] = {}; hitmap[360] = {976, 713, 4, 217, 0, 0}
+	hitmap[361] = {}; hitmap[361] = {977, 717, 4, 218, 0, 0}
+	hitmap[362] = {}; hitmap[362] = {978, 721, 4, 219, 0, 0}
+	hitmap[363] = {}; hitmap[363] = {979, 725, 4, 220, 0, 0}
+	hitmap[364] = {}; hitmap[364] = {980, 729, 4, 221, 0, 0}
+	hitmap[365] = {}; hitmap[365] = {981, 733, 4, 222, 0, 0}
+	hitmap[366] = {}; hitmap[366] = {982, 737, 4, 223, 0, 0}
+	hitmap[367] = {}; hitmap[367] = {983, 741, 4, 224, 0, 0}
+	hitmap[368] = {}; hitmap[368] = {989, 745, 2, 225, 0, 0}
+	hitmap[369] = {}; hitmap[369] = {990, 747, 2, 226, 0, 0}
+	hitmap[370] = {}; hitmap[370] = {991, 749, 2, 227, 0, 0}
+	hitmap[371] = {}; hitmap[371] = {992, 751, 2, 228, 0, 0}
+	hitmap[372] = {}; hitmap[372] = {993, 753, 2, 229, 0, 0}
+	hitmap[373] = {}; hitmap[373] = {994, 755, 2, 230, 0, 0}
+	hitmap[374] = {}; hitmap[374] = {995, 757, 2, 231, 0, 0}
+	hitmap[375] = {}; hitmap[375] = {996, 759, 3, 232, 0, 0}
+	hitmap[376] = {}; hitmap[376] = {997, 762, 3, 233, 0, 0}
+	hitmap[377] = {}; hitmap[377] = {998, 765, 3, 234, 0, 0}
+	hitmap[378] = {}; hitmap[378] = {999, 768, 3, 235, 0, 0}
+	hitmap[379] = {}; hitmap[379] = {1000, 771, 3, 236, 0, 0}
+	hitmap[380] = {}; hitmap[380] = {1001, 774, 3, 237, 0, 0}
+	hitmap[381] = {}; hitmap[381] = {1002, 777, 3, 238, 0, 0}
+	hitmap[382] = {}; hitmap[382] = {1025, 780, 2, 0, 0, 0}
+	hitmap[383] = {}; hitmap[383] = {1026, 782, 2, 0, 0, 0}
+	hitmap[384] = {}; hitmap[384] = {1027, 784, 2, 0, 0, 0}
+	hitmap[385] = {}; hitmap[385] = {1028, 786, 2, 0, 0, 0}
+	hitmap[386] = {}; hitmap[386] = {1029, 788, 2, 0, 0, 0}
+	hitmap[387] = {}; hitmap[387] = {1030, 790, 3, 0, 0, 0}
+	hitmap[388] = {}; hitmap[388] = {1031, 793, 3, 0, 0, 0}
+	hitmap[389] = {}; hitmap[389] = {1032, 796, 3, 0, 0, 0}
+	hitmap[390] = {}; hitmap[390] = {1033, 799, 3, 0, 0, 0}
+	hitmap[391] = {}; hitmap[391] = {1034, 802, 3, 0, 0, 0}
+	hitmap[392] = {}; hitmap[392] = {1035, 805, 3, 0, 0, 0}
+	hitmap[393] = {}; hitmap[393] = {1036, 808, 3, 0, 0, 0}
+	hitmap[394] = {}; hitmap[394] = {1037, 811, 4, 0, 0, 0}
+	hitmap[395] = {}; hitmap[395] = {1038, 815, 4, 0, 0, 0}
+	hitmap[396] = {}; hitmap[396] = {1039, 819, 4, 0, 0, 0}
+	hitmap[397] = {}; hitmap[397] = {1040, 823, 4, 0, 0, 0}
+	hitmap[398] = {}; hitmap[398] = {1041, 827, 7, 0, 0, 0}
+	hitmap[399] = {}; hitmap[399] = {1042, 834, 7, 0, 0, 0}
+	hitmap[400] = {}; hitmap[400] = {1043, 841, 7, 0, 0, 0}
+	hitmap[401] = {}; hitmap[401] = {1043, 848, 7, 0, 0, 0}
+	hitmap[402] = {}; hitmap[402] = {1064, 0, 0, 0, 1, 3}
+	hitmap[403] = {}; hitmap[403] = {1065, 0, 0, 0, 4, 2}
+	hitmap[404] = {}; hitmap[404] = {1066, 0, 0, 0, 6, 2}
+	hitmap[405] = {}; hitmap[405] = {1067, 0, 0, 0, 8, 2}
+	hitmap[406] = {}; hitmap[406] = {1068, 0, 0, 0, 10, 2}
+	hitmap[407] = {}; hitmap[407] = {1069, 0, 0, 0, 12, 2}
+	hitmap[408] = {}; hitmap[408] = {1070, 0, 0, 0, 14, 2}
+	hitmap[409] = {}; hitmap[409] = {1071, 0, 0, 0, 16, 2}
+	hitmap[410] = {}; hitmap[410] = {1072, 0, 0, 0, 18, 3}
+	hitmap[411] = {}; hitmap[411] = {1073, 0, 0, 0, 21, 3}
+	hitmap[412] = {}; hitmap[412] = {1074, 0, 0, 0, 24, 2}
+	hitmap[413] = {}; hitmap[413] = {1075, 0, 0, 0, 26, 2}
+	hitmap[414] = {}; hitmap[414] = {1076, 0, 0, 0, 28, 4}
+	hitmap[415] = {}; hitmap[415] = {1077, 0, 0, 0, 32, 4}
+	hitmap[416] = {}; hitmap[416] = {1078, 0, 0, 0, 36, 4}
+	hitmap[417] = {}; hitmap[417] = {1079, 0, 0, 0, 40, 4}
+	hitmap[418] = {}; hitmap[418] = {1080, 0, 0, 0, 44, 4}
+	hitmap[419] = {}; hitmap[419] = {1081, 0, 0, 0, 48, 4}
+	hitmap[420] = {}; hitmap[420] = {1082, 0, 0, 0, 52, 4}
+	hitmap[421] = {}; hitmap[421] = {1083, 0, 0, 0, 56, 4}
+	hitmap[422] = {}; hitmap[422] = {1084, 0, 0, 0, 60, 4}
+	hitmap[423] = {}; hitmap[423] = {1085, 0, 0, 0, 64, 4}
+	hitmap[424] = {}; hitmap[424] = {1086, 0, 0, 0, 68, 4}
+	hitmap[425] = {}; hitmap[425] = {1087, 0, 0, 0, 72, 4}
+	hitmap[426] = {}; hitmap[426] = {1088, 0, 0, 0, 76, 4}
+	hitmap[427] = {}; hitmap[427] = {1254, 855, 1, 0, 0, 0}
+	hitmap[428] = {}; hitmap[428] = {1255, 856, 2, 0, 0, 0}
+	hitmap[429] = {}; hitmap[429] = {1256, 858, 2, 0, 0, 0}
+	hitmap[430] = {}; hitmap[430] = {1257, 860, 2, 0, 0, 0}
+	hitmap[431] = {}; hitmap[431] = {1258, 862, 2, 0, 0, 0}
+	hitmap[432] = {}; hitmap[432] = {1259, 864, 2, 0, 0, 0}
+	hitmap[433] = {}; hitmap[433] = {1260, 866, 2, 0, 0, 0}
+	hitmap[434] = {}; hitmap[434] = {1261, 868, 2, 0, 0, 0}
+	hitmap[435] = {}; hitmap[435] = {1262, 870, 2, 0, 0, 0}
+	hitmap[436] = {}; hitmap[436] = {1263, 872, 2, 0, 0, 0}
+	hitmap[437] = {}; hitmap[437] = {1264, 874, 2, 0, 0, 0}
+	hitmap[438] = {}; hitmap[438] = {1265, 876, 2, 0, 0, 0}
+	hitmap[439] = {}; hitmap[439] = {1266, 878, 2, 0, 0, 0}
+	hitmap[440] = {}; hitmap[440] = {1267, 880, 2, 0, 0, 0}
+	hitmap[441] = {}; hitmap[441] = {1268, 882, 2, 0, 0, 0}
+	hitmap[442] = {}; hitmap[442] = {1269, 884, 2, 0, 0, 0}
+	hitmap[443] = {}; hitmap[443] = {1270, 886, 2, 0, 0, 0}
+	hitmap[444] = {}; hitmap[444] = {1271, 888, 2, 0, 0, 0}
+	hitmap[445] = {}; hitmap[445] = {1272, 890, 2, 0, 0, 0}
+	hitmap[446] = {}; hitmap[446] = {1273, 892, 2, 0, 0, 0}
+	hitmap[447] = {}; hitmap[447] = {1274, 894, 2, 0, 0, 0}
+	hitmap[448] = {}; hitmap[448] = {1275, 896, 2, 0, 0, 0}
+	hitmap[449] = {}; hitmap[449] = {1276, 898, 2, 0, 0, 0}
+	hitmap[450] = {}; hitmap[450] = {1277, 900, 2, 0, 0, 0}
+	hitmap[451] = {}; hitmap[451] = {1278, 902, 2, 0, 0, 0}
+	hitmap[452] = {}; hitmap[452] = {1279, 904, 2, 0, 0, 0}
+	hitmap[453] = {}; hitmap[453] = {1280, 906, 2, 0, 0, 0}
+	hitmap[454] = {}; hitmap[454] = {1281, 908, 2, 0, 0, 0}
+	hitmap[455] = {}; hitmap[455] = {1282, 910, 2, 0, 0, 0}
+	hitmap[456] = {}; hitmap[456] = {1283, 912, 2, 0, 0, 0}
+
+	powerup = nil; powerup = {}
+	powerup[1] = {198, 181, 212, 213}
+	powerup[2] = {198, 181, 212, 213}
+	powerup[3] = {198, 181, 212, 213}
+	powerup[4] = {198, 181, 212, 213}
+	powerup[5] = {198, 181, 212, 213}
+	powerup[6] = {198, 181, 212, 213}
+	powerup[7] = {198, 181, 212, 213}
+	powerup[8] = {198, 181, 212, 213}
+	powerup[9] = {198, 181, 212, 213}
+	powerup[10] = {198, 181, 212, 213}
+	powerup[11] = {198, 181, 212, 213}
+	powerup[12] = {198, 181, 212, 213}
+	powerup[13] = {198, 181, 212, 213}
+	powerup[14] = {198, 181, 212, 213}
+	powerup[15] = {198, 181, 212, 213}
+	powerup[16] = {198, 181, 212, 213}
+	powerup[17] = {198, 181, 212, 213}
+	powerup[18] = {198, 181, 212, 213}
+	powerup[19] = {198, 181, 212, 213}
+	powerup[20] = {198, 181, 212, 213}
+	powerup[21] = {198, 181, 212, 213}
+	powerup[22] = {198, 181, 212, 213}
+	powerup[23] = {198, 181, 212, 213}
+	powerup[24] = {198, 181, 212, 213}
+	powerup[25] = {198, 181, 212, 213}
+	powerup[26] = {198, 181, 212, 213}
+	powerup[27] = {198, 181, 212, 213}
+	powerup[28] = {198, 181, 212, 213}
+	powerup[29] = {198, 181, 212, 213}
+	powerup[30] = {198, 181, 212, 213}
+	powerup[31] = {198, 181, 212, 213}
+	powerup[32] = {198, 181, 212, 213}
+	powerup[33] = {198, 181, 212, 213}
+	powerup[34] = {198, 181, 212, 213}
+	powerup[35] = {198, 181, 212, 213}
+	powerup[36] = {198, 181, 212, 213}
+	powerup[37] = {198, 181, 212, 213}
+	powerup[38] = {198, 181, 212, 213}
+	powerup[39] = {198, 181, 212, 213}
+	powerup[40] = {198, 181, 212, 213}
+	powerup[41] = {198, 181, 212, 213}
+	powerup[42] = {198, 181, 212, 213}
+	powerup[43] = {198, 181, 212, 213}
+	powerup[44] = {198, 181, 212, 213}
+	powerup[45] = {198, 181, 212, 213}
+	powerup[46] = {198, 181, 212, 213}
+	powerup[47] = {198, 181, 212, 213}
+	powerup[48] = {198, 181, 212, 213}
+	powerup[49] = {198, 181, 212, 213}
+	powerup[50] = {198, 181, 212, 213}
+	powerup[51] = {198, 181, 212, 213}
+	powerup[52] = {198, 181, 212, 213}
+	powerup[53] = {198, 181, 212, 213}
+	powerup[54] = {198, 181, 212, 213}
+	powerup[55] = {173, 200, 182, 219}
+	powerup[56] = {173, 200, 182, 219}
+	powerup[57] = {173, 200, 182, 219}
+	powerup[58] = {173, 200, 182, 219}
+	powerup[59] = {173, 200, 182, 219}
+	powerup[60] = {173, 200, 182, 219}
+	powerup[61] = {173, 200, 182, 219}
+	powerup[62] = {173, 200, 182, 219}
+	powerup[63] = {173, 200, 182, 219}
+	powerup[64] = {173, 200, 182, 219}
+	powerup[65] = {173, 200, 182, 219}
+	powerup[66] = {173, 200, 182, 219}
+	powerup[67] = {173, 200, 182, 219}
+	powerup[68] = {173, 200, 182, 219}
+	powerup[69] = {173, 200, 182, 219}
+	powerup[70] = {173, 200, 182, 219}
+	powerup[71] = {173, 200, 182, 219}
+	powerup[72] = {173, 200, 182, 219}
+	powerup[73] = {173, 200, 182, 219}
+	powerup[74] = {173, 200, 182, 219}
+	powerup[75] = {173, 200, 182, 219}
+	powerup[76] = {173, 200, 182, 219}
+	powerup[77] = {173, 200, 182, 219}
+	powerup[78] = {173, 200, 182, 219}
+	powerup[79] = {173, 200, 182, 219}
+	powerup[80] = {173, 200, 182, 219}
+	powerup[81] = {173, 200, 182, 219}
+	powerup[82] = {173, 200, 182, 219}
+	powerup[83] = {173, 200, 182, 219}
+	powerup[84] = {173, 200, 182, 219}
+	powerup[85] = {150, 200, 159, 219}
+	powerup[86] = {150, 200, 159, 219}
+	powerup[87] = {150, 200, 159, 219}
+	powerup[88] = {150, 200, 159, 219}
+	powerup[89] = {150, 200, 159, 219}
+	powerup[90] = {150, 200, 159, 219}
+	powerup[91] = {150, 200, 159, 219}
+	powerup[92] = {150, 200, 159, 219}
+	powerup[93] = {150, 200, 159, 219}
+	powerup[94] = {150, 200, 159, 219}
+	powerup[95] = {150, 200, 159, 219}
+	powerup[96] = {150, 200, 159, 219}
+	powerup[97] = {150, 200, 159, 219}
+	powerup[98] = {150, 200, 159, 219}
+	powerup[99] = {150, 200, 159, 219}
+	powerup[100] = {150, 200, 159, 219}
+	powerup[101] = {150, 200, 159, 219}
+	powerup[102] = {150, 200, 159, 219}
+	powerup[103] = {150, 200, 159, 219}
+	powerup[104] = {150, 200, 159, 219}
+	powerup[105] = {150, 200, 159, 219}
+	powerup[106] = {150, 200, 159, 219}
+	powerup[107] = {150, 200, 159, 219}
+	powerup[108] = {150, 200, 159, 219}
+	powerup[109] = {150, 200, 159, 219}
+	powerup[110] = {150, 200, 159, 219}
+	powerup[111] = {150, 200, 159, 219}
+	powerup[112] = {150, 200, 159, 219}
+	powerup[113] = {150, 200, 159, 219}
+	powerup[114] = {150, 200, 159, 219}
+	powerup[115] = {150, 200, 159, 219}
+	powerup[116] = {150, 200, 159, 219}
+	powerup[117] = {150, 200, 159, 219}
+	powerup[118] = {150, 200, 159, 219}
+	powerup[119] = {150, 200, 159, 219}
+	powerup[120] = {150, 200, 159, 219}
+	powerup[121] = {150, 200, 159, 219}
+	powerup[122] = {150, 200, 159, 219}
+	powerup[123] = {150, 200, 159, 219}
+	powerup[124] = {150, 200, 159, 219}
+	powerup[125] = {150, 200, 159, 219}
+	powerup[126] = {150, 200, 159, 219}
+	powerup[127] = {150, 200, 159, 219}
+	powerup[128] = {150, 200, 159, 219}
+	powerup[129] = {150, 200, 159, 219}
+	powerup[130] = {150, 200, 159, 219}
+	powerup[131] = {150, 200, 159, 219}
+	powerup[132] = {150, 200, 159, 219}
+	powerup[133] = {150, 200, 159, 219}
+	powerup[134] = {150, 200, 159, 219}
+	powerup[135] = {150, 200, 159, 219}
+	powerup[136] = {150, 200, 159, 219}
+	powerup[137] = {150, 200, 159, 219}
+	powerup[138] = {150, 200, 159, 219}
+	powerup[139] = {150, 200, 159, 219}
+	powerup[140] = {150, 200, 159, 219}
+	powerup[141] = {150, 200, 159, 219}
+	powerup[142] = {150, 200, 159, 219}
+	powerup[143] = {150, 200, 159, 219}
+	powerup[144] = {150, 200, 159, 219}
+	powerup[145] = {150, 200, 159, 219}
+	powerup[146] = {150, 200, 159, 219}
+	powerup[147] = {150, 200, 159, 219}
+	powerup[148] = {150, 200, 159, 219}
+	powerup[149] = {150, 200, 159, 219}
+	powerup[150] = {150, 200, 159, 219}
+	powerup[151] = {150, 200, 159, 219}
+	powerup[152] = {150, 200, 159, 219}
+	powerup[153] = {150, 200, 159, 219}
+	powerup[154] = {150, 200, 159, 219}
+	powerup[155] = {150, 200, 159, 219}
+	powerup[156] = {150, 200, 159, 219}
+	powerup[157] = {150, 200, 159, 219}
+	powerup[158] = {150, 200, 159, 219}
+	powerup[159] = {150, 200, 159, 219}
+	powerup[160] = {150, 200, 159, 219}
+	powerup[161] = {150, 200, 159, 219}
+	powerup[162] = {150, 200, 159, 219}
+	powerup[163] = {150, 200, 159, 219}
+	powerup[164] = {150, 200, 159, 219}
+	powerup[165] = {150, 200, 159, 219}
+	powerup[166] = {150, 200, 159, 219}
+	powerup[167] = {150, 200, 159, 219}
+	powerup[168] = {150, 200, 159, 219}
+	powerup[169] = {150, 200, 159, 219}
+	powerup[170] = {150, 200, 159, 219}
+	powerup[171] = {150, 200, 159, 219}
+	powerup[172] = {150, 200, 159, 219}
+	powerup[173] = {150, 200, 159, 219}
+	powerup[174] = {150, 200, 159, 219}
+	powerup[175] = {150, 200, 159, 219}
+	powerup[176] = {150, 200, 159, 219}
+	powerup[177] = {150, 200, 159, 219}
+	powerup[178] = {150, 200, 159, 219}
+	powerup[179] = {150, 200, 159, 219}
+	powerup[180] = {150, 200, 159, 219}
+	powerup[181] = {150, 200, 159, 219}
+	powerup[182] = {150, 200, 159, 219}
+	powerup[183] = {150, 200, 159, 219}
+	powerup[184] = {150, 200, 159, 219}
+	powerup[185] = {150, 200, 159, 219}
+	powerup[186] = {150, 200, 159, 219}
+	powerup[187] = {150, 200, 159, 219}
+	powerup[188] = {150, 200, 159, 219}
+	powerup[189] = {150, 200, 159, 219}
+	powerup[190] = {150, 200, 159, 219}
+	powerup[191] = {150, 200, 159, 219}
+	powerup[192] = {150, 200, 159, 219}
+	powerup[193] = {150, 200, 159, 219}
+	powerup[194] = {150, 200, 159, 219}
+	powerup[195] = {91, 172, 104, 203}
+	powerup[196] = {91, 172, 104, 203}
+	powerup[197] = {91, 172, 104, 203}
+	powerup[198] = {91, 172, 104, 203}
+	powerup[199] = {91, 172, 104, 203}
+	powerup[200] = {91, 172, 104, 203}
+	powerup[201] = {91, 172, 104, 203}
+	powerup[202] = {91, 172, 104, 203}
+	powerup[203] = {91, 172, 104, 203}
+	powerup[204] = {91, 172, 104, 203}
+	powerup[205] = {91, 172, 104, 203}
+	powerup[206] = {91, 172, 104, 203}
+	powerup[207] = {91, 172, 104, 203}
+	powerup[208] = {91, 172, 104, 203}
+	powerup[209] = {91, 172, 104, 203}
+	powerup[210] = {91, 172, 104, 203}
+	powerup[211] = {91, 172, 104, 203}
+	powerup[212] = {91, 172, 104, 203}
+	powerup[213] = {91, 172, 104, 203}
+	powerup[214] = {91, 172, 104, 203}
+	powerup[215] = {91, 172, 104, 203}
+	powerup[216] = {91, 172, 104, 203}
+	powerup[217] = {91, 172, 104, 203}
+	powerup[218] = {91, 172, 104, 203}
+	powerup[219] = {91, 172, 104, 203}
+	powerup[220] = {91, 172, 104, 203}
+	powerup[221] = {91, 172, 104, 203}
+	powerup[222] = {91, 172, 104, 203}
+	powerup[223] = {91, 172, 104, 203}
+	powerup[224] = {91, 172, 104, 203}
+	powerup[225] = {91, 172, 104, 203}
+	powerup[226] = {91, 172, 104, 203}
+	powerup[227] = {91, 172, 104, 203}
+	powerup[228] = {91, 172, 104, 203}
+	powerup[229] = {91, 172, 104, 203}
+	powerup[230] = {91, 172, 104, 203}
+	powerup[231] = {91, 172, 104, 203}
+	powerup[232] = {91, 172, 104, 203}
+	powerup[233] = {91, 172, 104, 203}
+	powerup[234] = {91, 172, 104, 203}
+	powerup[235] = {91, 172, 104, 203}
+	powerup[236] = {91, 172, 104, 203}
+	powerup[237] = {91, 172, 104, 203}
+	powerup[238] = {91, 172, 104, 203}
+
+	civillian = nil; civillian = {}
+	civillian[1] = {148, 58, 165, 75}
+	civillian[2] = {148, 75, 178, 138}
+	civillian[3] = {168, 134, 185, 191}
+	civillian[4] = {148, 58, 165, 75}
+	civillian[5] = {148, 75, 178, 138}
+	civillian[6] = {150, 57, 167, 75}
+	civillian[7] = {149, 75, 179, 138}
+	civillian[8] = {150, 57, 167, 75}
+	civillian[9] = {149, 75, 179, 138}
+	civillian[10] = {150, 57, 167, 75}
+	civillian[11] = {149, 75, 179, 138}
+	civillian[12] = {157, 55, 173, 72}
+	civillian[13] = {152, 72, 182, 136}
+	civillian[14] = {157, 55, 173, 72}
+	civillian[15] = {152, 72, 182, 136}
+	civillian[16] = {157, 55, 173, 72}
+	civillian[17] = {152, 72, 182, 136}
+	civillian[18] = {162, 60, 178, 78}
+	civillian[19] = {152, 77, 182, 140}
+	civillian[20] = {169, 139, 182, 163}
+	civillian[21] = {164, 62, 181, 80}
+	civillian[22] = {154, 78, 184, 141}
+	civillian[23] = {169, 139, 182, 163}
+	civillian[24] = {164, 62, 181, 80}
+	civillian[25] = {150, 79, 192, 142}
+	civillian[26] = {164, 62, 181, 80}
+	civillian[27] = {150, 79, 192, 142}
+	civillian[28] = {164, 62, 181, 80}
+	civillian[29] = {150, 79, 192, 142}
+	civillian[30] = {152, 139, 164, 163}
+	civillian[31] = {176, 142, 188, 188}
+	civillian[32] = {164, 62, 181, 80}
+	civillian[33] = {150, 79, 192, 142}
+	civillian[34] = {152, 139, 164, 163}
+	civillian[35] = {176, 142, 188, 188}
+	civillian[36] = {168, 58, 184, 76}
+	civillian[37] = {152, 75, 194, 139}
+	civillian[38] = {152, 139, 164, 163}
+	civillian[39] = {176, 135, 188, 181}
+	civillian[40] = {168, 58, 184, 76}
+	civillian[41] = {152, 75, 194, 139}
+	civillian[42] = {152, 139, 164, 163}
+	civillian[43] = {176, 135, 188, 181}
+	civillian[44] = {168, 58, 184, 76}
+	civillian[45] = {155, 75, 197, 138}
+	civillian[46] = {159, 138, 171, 191}
+	civillian[47] = {178, 138, 191, 185}
+	civillian[48] = {168, 58, 184, 76}
+	civillian[49] = {155, 75, 197, 138}
+	civillian[50] = {159, 138, 171, 191}
+	civillian[51] = {178, 138, 191, 185}
+	civillian[52] = {169, 54, 186, 73}
+	civillian[53] = {155, 74, 197, 138}
+	civillian[54] = {159, 138, 171, 191}
+	civillian[55] = {178, 138, 191, 185}
+	civillian[56] = {169, 54, 186, 73}
+	civillian[57] = {155, 74, 197, 138}
+	civillian[58] = {159, 138, 171, 191}
+	civillian[59] = {178, 138, 191, 185}
+	civillian[60] = {169, 54, 186, 73}
+	civillian[61] = {155, 74, 197, 138}
+	civillian[62] = {159, 138, 171, 191}
+	civillian[63] = {178, 138, 191, 185}
+	civillian[64] = {169, 54, 186, 73}
+	civillian[65] = {155, 74, 197, 138}
+	civillian[66] = {159, 138, 171, 191}
+	civillian[67] = {178, 138, 191, 185}
+	civillian[68] = {169, 54, 186, 73}
+	civillian[69] = {155, 74, 197, 138}
+	civillian[70] = {159, 138, 171, 191}
+	civillian[71] = {178, 138, 191, 185}
+	civillian[72] = {169, 54, 186, 73}
+	civillian[73] = {155, 74, 197, 138}
+	civillian[74] = {159, 138, 171, 191}
+	civillian[75] = {178, 138, 191, 185}
+	civillian[76] = {169, 54, 186, 73}
+	civillian[77] = {155, 74, 197, 138}
+	civillian[78] = {159, 138, 171, 191}
+	civillian[79] = {178, 138, 191, 185}
+
+end

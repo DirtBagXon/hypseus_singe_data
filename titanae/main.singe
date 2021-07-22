@@ -232,7 +232,7 @@ function doContinue()     -- Process the continue event
 	
 	elseif (lvlState == lvlRunning) then
 
-		if currentFrame == iFrameEnd then
+		if currentFrame >= iFrameEnd then
 			
 			lvlState = lvlEnd
 		
@@ -339,7 +339,7 @@ function doFinish()      -- Process the end of a level
 
 	elseif (lvlState == branch01) then     -- First Pause
 				
-		if (currentFrame == iFrameEnd) then 
+		if (currentFrame >= iFrameEnd) then 
 			
 			timerON(1)
 			discPause()
@@ -465,7 +465,7 @@ function doGameOver()     -- Process game over
 	
 	elseif (lvlState == lvlRunning) then
 	
-		if (currentFrame == iFrameEnd) then
+		if (currentFrame >= iFrameEnd) then
 			
 			bShowScore = false
 			lvlState = lvlEnd		
@@ -499,7 +499,7 @@ function doIntro()     -- Process attract mode
 
 	elseif (lvlState == branch01) then     -- Show commands
 
-		if (currentFrame == iFrameEnd or p1BUTTON1) then
+		if (currentFrame >= iFrameEnd or p1BUTTON1) then
 			
 			p1BUTTON1 = false
 			discSkipToFrame(frameCommands)
@@ -554,7 +554,7 @@ function doIntro()     -- Process attract mode
 		
 	elseif (lvlState == branch04) then     -- Back to start
 		
-		if currentFrame == iFrameEnd then 
+		if currentFrame >= iFrameEnd then 
 		
 			lvlState = lvlSetup 
 
@@ -662,7 +662,7 @@ function doLevel()     -- Big process for level play
 		
 	elseif (lvlState == branch01) then     -- Management for the intro clip of the level
 			
-		if (currentFrame == iFrameEnd or p1BUTTON1) then		
+		if (currentFrame >= iFrameEnd or p1BUTTON1) then		
 			
 			p1BUTTON1 = false
 			bShowLvl = false
@@ -692,7 +692,7 @@ function doLevel()     -- Big process for level play
 		
 	elseif (lvlState == branch05) then     -- End of segment	
 			
-		if currentFrame == iFrameEnd then
+		if currentFrame >= iFrameEnd then
 		
 			local j = 0
 
@@ -755,7 +755,7 @@ function doLevel()     -- Big process for level play
 
 	elseif (lvlState == branch08) then	  -- Death treatment if there is a Sup Death movie
 
-		if (currentFrame == iFrameEnd) then
+		if (currentFrame >= iFrameEnd) then
 
 			iLives = iLives - 1
 						
@@ -802,7 +802,7 @@ function doLevel()     -- Big process for level play
 
 	elseif (lvlState == branch09) then      -- Treatment if there is a resurrect movie   
 
-		if (currentFrame == iFrameEnd) then
+		if (currentFrame >= iFrameEnd) then
 			
 			bShowGet = false
 			bShowScore = true
@@ -1254,7 +1254,7 @@ function doLevel()     -- Big process for level play
 		bShowScore = false
 		bShowScene = false
 
-		if (currentFrame == iFrameEnd) then
+		if (currentFrame >= iFrameEnd) then
 			
 			if ShowSupDeath then
 
@@ -2508,7 +2508,7 @@ function initVLDP()      -- Start of the loop
 	
 	elseif (lvlState == lvlRunning) then
 	
-		if (currentFrame == iFrameEnd) then
+		if (currentFrame >= iFrameEnd) then
 		
 			discPause()
 			lvlState = lvlEnd
@@ -4908,7 +4908,7 @@ function startMovie()      -- Start the movie (no play)
 	
 	elseif (lvlState == lvlRunning) then
 	
-		if (currentFrame == iFrameEnd) then
+		if (currentFrame >= iFrameEnd) then
 			
 			p1RIGHT = true
 			lvlState = lvlRunning

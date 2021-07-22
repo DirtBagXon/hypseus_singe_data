@@ -1,0 +1,871 @@
+--[[
+
+PROGRAM NAME:	CRIME PATROL (SINGE EDITION)
+AUTHOR:			RDG2010
+
+This file is part of CRIME PATROL (SINGE EDITION)
+
+    CRIME PATROL (SINGE EDITION) is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation.
+
+    CRIME PATROL (SINGE EDITION) is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+
+    Read COPYING.TXT for more info.
+
+
+]]--
+
+GOODGUY = 1
+BADGUY = 0
+rndMoveType = 9
+
+function setupLevel(thisLevel)
+
+	if bDebug then debugPrint ("Entering setupLevel") end
+	local k = 0
+	local qq = 0
+	local ww = 0
+	local t = 0
+	
+	move = nil; move = {}
+	
+	-- {move start frame, move end frame, death frame start, death frame end, hitbox index begin, hitbox index end, Random Move Type}
+	
+	if (thisLevel == levelPractice) then
+		
+		poporder = nil; poporder = {}
+		poporder = {"123456", "543261", "436521", "264153", "631542", "265413", "452613", "153462", "264153", "452613"}
+		
+		
+		t = rndegg:value(1,10)
+		local d = 0 		
+		local j = 1		
+		
+		for k=1,6 do
+		
+			d = tonumber(string.sub(poporder[t],k,k))
+			if (d == 1) then
+			
+				move[j] = {}; move[j] = { 60, 151, 0, 0, 0, 0,  30, 180, BADGUY01}
+			
+			elseif (d == 2) then
+			
+				move[j] = {}; move[j] = {216, 307, 0, 0, 0, 0, 181, 340, CIV01}
+			
+			elseif (d == 3) then
+			
+				move[j] = {}; move[j] = {372, 463, 0, 0, 0, 0, 341, 490, BADGUY02}
+			
+			elseif (d == 4) then
+			
+				move[j] = {}; move[j] = {528, 601, 0, 0, 0, 0, 491, 634, CIV02}
+			
+			elseif (d == 5) then
+			
+				move[j] = {}; move[j] = {664, 753, 0, 0, 0, 0, 635, 785, BADGUY03}
+				
+			elseif (d == 6) then
+			
+				move[j] = {}; move[j] = {816, 907, 0, 0, 0, 0, 786, 934, CIV03}
+			
+			end
+			j = j + 1
+		
+		end
+		
+		totalMoves = 6
+		hitmapTotal = 0
+		thisOffset = 27549
+		GetArrayPractice()
+		
+	elseif (thisLevel == levelStore) then
+
+	
+		move[1] = {};  move[1]  = { 393, 412, 24869, 24926,   1,  20, 0, 0, BADGUY}
+		move[2] = {};  move[2]  = { 478, 502, 24927, 25023,  21,  45, 0, 0, BADGUY}
+		move[3] = {};  move[3]  = { 545, 571, 25024, 25167,  46,  72, 0, 0, GOODGUY}
+		move[4] = {};  move[4]  = { 608, 630, 25168, 25250,  73,  95, 0, 0, BADGUY}
+		move[5] = {};  move[5]  = { 827, 846, 25251, 25291,  96, 115, 0, 0, BADGUY}
+		move[6] = {};  move[6]  = { 876, 891, 25292, 25364, 116, 131, 0, 0, BADGUY}
+		move[7] = {};  move[7]  = { 917, 939, 25365, 25416, 132, 154, 0, 0, BADGUY}
+		
+		totalMoves = 7
+		hitmapTotal = 155
+		thisOffset = 23801
+		GetArrayStore()
+		
+	elseif (thisLevel == levelGang) then
+	
+		move[1] = {}; move[1] = {120, 137, 26375, 26476,   1,  18,   1, 188, BADGUY}
+		
+		poporder = nil; poporder = {}
+		poporder = {"123456","142365","134256","124365","142356","143265","134256","123465","124356","142365"}
+		
+		t = rndegg:value(1,10)
+		local d = 0 		
+		local j = 2
+		
+		for k=1,6 do
+		
+			d = tonumber(string.sub(poporder[t],k,k))
+			if (d == 1) then
+			
+				move[j] = {}; move[j] = {203, 221, 26477, 26571,  19,  37, 189, 268, BADGUY}
+			
+			elseif (d == 2) then
+			
+				move[j] = {}; move[j] = {282, 300, 26572, 26652,  38,  56, 269, 354, BADGUY}
+			
+			elseif (d == 3) then
+			
+				move[j] = {}; move[j] = {372, 388, 26653, 26719,  57,  73, 355, 422, BADGUY}
+			
+			elseif (d == 4) then
+			
+				move[j] = {}; move[j] = {433, 452, 26720, 26774,  74,  93, 423, 500, BADGUY}
+			
+			elseif (d == 5) then
+			
+				move[j] = {}; move[j] = {622, 634, 26775, 26852,  94, 106, 600, 664, BADGUY}
+				
+			elseif (d == 6) then
+			
+				move[j] = {}; move[j] = {676, 689, 26853, 26942, 107, 120, 665, 731, BADGUY}
+			
+			end
+			j = j + 1
+		
+		end
+		
+		move[8] = {}; move[8] = {774, 797, 26943, 26995, 121, 144, 732, 957, BADGUY}
+
+		totalMoves = 8
+		hitmapTotal = 145
+		thisOffset = 25417
+		GetArrayGang()
+		
+	elseif (thisLevel == levelWarehouse1) then
+	
+		move[1] = {};  move[1]  = { 408,  427, 30798, 30859,   1,  20,    0,    0, BADGUY}
+		move[2] = {};  move[2]  = { 589,  664, 30860, 30912,  21,  96,    0,    0, GOODGUY}
+		move[3] = {};  move[3]  = { 666,  705, 30913, 31008,  97, 136,    0,    0, BADGUY}
+		move[4] = {};  move[4]  = { 772,  801, 31009, 31078, 137, 166,    0,    0, BADGUY}
+		move[5] = {};  move[5]  = {1088, 1101, 31079, 31153, 167, 180,    0,    0, BADGUY}
+		move[6] = {};  move[6]  = {1138, 1167, 31154, 31214, 181, 210,    0,    0, BADGUY}
+		move[7] = {};  move[7]  = {1252, 1274, 31215, 31262, 211, 234,    0,    0, BADGUY}
+		
+		totalMoves  = 7
+		hitmapTotal = 404
+		thisOffset  = 28523
+		GetArrayWarehouse()
+		
+	elseif (thisLevel == levelWarehouse2) then
+	
+		poporder = nil; poporder = {}
+		poporder = {"12345","14325","43215","24135","31425","24135","42135","13425", "43215","24135"}
+		
+		t = rndegg:value(1,10)
+		local d = 0 		
+		local j = 1		
+		
+		for k=1,5 do
+		
+			d = tonumber(string.sub(poporder[t],k,k))
+			if (d == 1) then
+			
+				move[j] = {}; move[j] = {1685, 1750, 31263, 31464, 235, 300, 1630, 1765, GOODGUY}
+			
+			elseif (d == 2) then
+			
+				move[j] = {}; move[j] = {1783, 1797, 31465, 31556, 301, 315, 1766, 1845, BADGUY}
+			
+			elseif (d == 3) then
+			
+				move[j] = {}; move[j] = {1866, 1887, 31557, 31605, 316, 337, 1846, 1960, BADGUY}
+			
+			elseif (d == 4) then
+			
+				move[j] = {}; move[j] = {1971, 1999, 31606, 31665, 338, 366, 1961, 2040, BADGUY}
+			
+			elseif (d == 5) then
+			
+				move[j] = {}; move[j] = {2064, 2085, 31666, 31721, 367, 388, 2041, 2110, BADGUY}
+			
+			end
+			j = j + 1
+		
+		end
+			
+		move[6] = {}; move[6] = {2129, 2143, 31722, 31750, 389, 403, 2111, 2270, BADGUY}
+		
+		totalMoves = 6
+		hitmapTotal = 404
+		thisOffset = 28523
+		GetArrayWarehouse()
+		
+		
+	elseif (thisLevel == levelAirport) then
+
+		move[1] = {};  move[1]  = { 483,  499, 43774, 43822,   1,  17, 0, 0, BADGUY}
+		move[2] = {};  move[2]  = { 566,  600, 43823, 43865,  18,  52, 0, 0, BADGUY}
+		move[3] = {};  move[3]  = { 616,  655, 43866, 43912,  53,  92, 0, 0, BADGUY}
+		move[4] = {};  move[4]  = { 672,  689, 43913, 43964,  93, 110, 0, 0, BADGUY}
+		move[5] = {};  move[5]  = { 740,  764, 43965, 44015, 111, 135, 0, 0, BADGUY}
+		move[6] = {};  move[6]  = {1060, 1082, 44016, 44064, 136, 158, 0, 0, BADGUY}
+		move[7] = {};  move[7]  = {1157, 1214, 44065, 44191, 159, 216, 0, 0, GOODGUY}
+		move[8] = {};  move[8]  = {1234, 1262, 44192, 44276, 217, 245, 0, 0, BADGUY}
+		move[9] = {};  move[9]  = {2302, 2319, 44277, 44323, 246, 263, 0, 0, BADGUY}
+		move[10] = {}; move[10]  = {2369, 2397, 44324, 44383, 264, 292, 0, 0, BADGUY}
+		
+		totalMoves = 10
+		hitmapTotal = 293
+		thisOffset = 41067
+		GetArrayAirplaneDrugs()
+		
+		
+	elseif (thisLevel == levelGarage) then
+	
+		move[1] = {};  move[1]  = { 549, 588, 47177, 47267,  1, 40, 505, 619, BADGUY}
+		move[2] = {};  move[2]  = { 621, 650, 47268, 47362, 41, 70, 620, 704, BADGUY}
+
+		poporder = nil; poporder = {}
+		poporder = {"123456","654321","134625","436152","653214","452361","352416","613452","423156","321546"}
+		
+		t = rndegg:value(1,10)
+		local d = 0 		
+		local j = 3		
+		
+		for k=1,6 do
+		
+			d = tonumber(string.sub(poporder[t],k,k))
+			if (d == 1) then
+			
+				move[j] = {}; move[j] = { 753,  795, 47363, 47408,  71, 113, 705, 851, BADGUY}
+			
+			elseif (d == 2) then
+			
+				move[j] = {}; move[j] = { 863,  880, 47409, 47454, 114, 131, 852, 963, BADGUY}
+			
+			elseif (d == 3) then
+			
+				move[j] = {}; move[j] = { 984, 1015, 47455, 47513, 132, 163, 964, 1084, BADGUY}
+			
+			elseif (d == 4) then
+			
+				move[j] = {}; move[j] = {1100, 1132, 47514, 47559, 164, 196, 1085, 1209, BADGUY}
+			
+			elseif (d == 5) then
+			
+				move[j] = {}; move[j] = {1220, 1246, 47560, 47610, 197, 223, 1210, 1300, BADGUY}
+			
+			elseif (d == 6) then
+			
+				move[j] = {}; move[j] = {1321, 1355, 47611, 47681, 224, 258, 1301, 1419, BADGUY}
+			
+			end
+			j = j + 1
+		
+		end
+
+		move[9]  = {}; move[9]   = {1441, 1460, 47682, 47743, 259, 278, 1420, 1539, BADGUY}
+		move[10] = {}; move[10]  = {1561, 1585, 47744, 47835, 279, 303, 1540, 1674, BADGUY}			
+		move[11] = {}; move[11]  = {1810, 1824, 47836, 47909, 304, 318, 1675, 1960, BADGUY}
+		move[12] = {}; move[12]  = {1991, 2006, 47910, 47973, 319, 334, 1961, 2160, BADGUY}
+		move[13] = {}; move[13]  = {2182, 2206, 47974, 48055, 335, 359, 2161, 2284, BADGUY}
+		move[14] = {}; move[14]  = {2304, 2335, 48056, 48184, 360, 391, 2285, 2448, BADGUY}
+		move[15] = {}; move[15]  = {2468, 2496, 48185, 48286, 392, 420, 2449, 2564, BADGUY}
+		move[16] = {}; move[16]  = {2584, 2611, 48287, 48397, 421, 448, 2565, 2620, BADGUY}
+		
+		totalMoves = 16
+		hitmapTotal = 449
+		thisOffset = 44384
+		GetArrayCars()
+		
+	elseif (thisLevel == levelStripclub) then
+
+		poporder = nil; poporder = {}
+		poporder = {"1234567","6543271","1347625","4376152","7653214","4527361","3752416","6134572","4231567","3215746"}
+		
+		t = rndegg:value(1,10)
+		local d = 0 		
+		local j = 1		
+		
+		for k=1,7 do
+		
+			d = tonumber(string.sub(poporder[t],k,k))
+			if (d == 1) then
+			
+				move[j] = {}; move[j] = {1173, 1197, 50983, 51017, 205, 229, 1153, 1240, BADGUY}
+			
+			elseif (d == 2) then
+			
+				move[j] = {}; move[j] = {1296, 1321, 51018, 51084, 325, 350, 1241, 1380, BADGUY}
+			
+			elseif (d == 3) then
+			
+				move[j] = {}; move[j] = {1430, 1447, 51085, 51152, 456, 473, 1381, 1520, BADGUY}
+			
+			elseif (d == 4) then
+			
+				move[j] = {}; move[j] = {1563, 1572, 51153, 51195, 584, 593, 1521, 1600, BADGUY}
+			
+			elseif (d == 5) then
+			
+				move[j] = {}; move[j] = {1679, 1697, 51196, 51236, 696, 714, 1601, 1740, BADGUY}
+			
+			elseif (d == 6) then
+			
+				move[j] = {}; move[j] = {1785, 1831, 51237, 51347, 795, 841, 1741, 1860, GOODGUY}
+				
+			elseif (d == 7) then
+			
+				move[j] = {}; move[j] = {1945, 1978, 51348, 51396, 947, 980, 1861, 2052, BADGUY}
+			
+			end
+			j = j + 1
+		
+		end
+
+		move[8]  = {}; move[8]   = {2190, 2205, 51509, 51548, 1173, 1188, 2053, 2215, BADGUY}
+		move[9]  = {}; move[9]   = {2226, 2255, 51549, 51611, 1205, 1234, 2216, 2300, BADGUY}
+		move[10] = {}; move[10]  = {2313, 2332, 51612, 51710, 1257, 1276, 2301, 2342, BADGUY}
+		move[11] = {}; move[11]  = {2388, 2406, 51711, 51819, 1329, 1348, 2343, 2408, BADGUY}
+		move[12] = {}; move[12]  = {2410, 2571, 51820, 51881, 1349, 1510, 2409, 2572, GOODGUY}
+		
+		totalMoves = 12
+		hitmapTotal = 1511 
+		thisOffset = 48398
+		GetArrayStripbar()
+		
+	elseif (thisLevel == levelDrugs1) then
+
+		poporder = nil; poporder = {}
+		poporder = {"1234", "4321", "4312", "4123", "3241", "2143", "3412", "1432", "2413", "1342"}
+		
+		t = rndegg:value(1,10)
+		local d = 0 		
+		local j = 1		
+		
+		for k=1,4 do
+		
+			d = tonumber(string.sub(poporder[t],k,k))
+			if (d == 1) then
+			
+				move[j] = {}; move[j] = {238, 254, 36328, 36420,  1, 17, 200, 300, BADGUY}
+			
+			elseif (d == 2) then
+			
+				move[j] = {}; move[j] = {313, 352, 36421, 36470, 18, 57, 301, 380, BADGUY}
+			
+			elseif (d == 3) then
+			
+				move[j] = {}; move[j] = {415, 427, 36471, 36514, 58, 70, 381, 465, BADGUY}
+			
+			elseif (d == 4) then
+			
+				move[j] = {}; move[j] = {473, 489, 36515, 36579, 71, 87, 466, 530, BADGUY}
+				
+			end
+			j = j + 1
+		
+		end
+		
+		move[5] = {};  move[5]   = { 549,  566, 36580, 36623,  88, 105,  531,  600, BADGUY}
+		move[6] = {};  move[6]   = { 617,  636, 35084, 35152, 106, 125,  601,  707, BADGUY}
+		move[7] = {};  move[7]   = { 715,  726, 36624, 36657, 126, 137,  708,  790, BADGUY}
+		move[8]  = {}; move[8]   = { 840,  918, 36658, 36728, 138, 216,  791,  930, GOODGUY}
+		move[9]  = {}; move[9]   = { 938,  961, 36729, 36788, 217, 240,  931,  990, BADGUY}
+		move[10] = {}; move[10]  = {1043, 1057, 36789, 36831, 241, 255,  991, 1070, BADGUY}
+		move[11] = {}; move[11]  = {1084, 1097, 36832, 36895, 256, 269, 1071, 1121, BADGUY}
+		move[12] = {}; move[12]  = {1200, 1258, 36896, 36950, 270, 328, 1122, 1261, GOODGUY}
+		move[13] = {}; move[13]  = {1542, 1560, 36951, 36999, 329, 347, 1262, 1870, BADGUY}
+		
+		totalMoves = 13
+		hitmapTotal = 348
+		thisOffset = 34447
+		GetArrayDruglab1()
+		
+	elseif (thisLevel == levelDrugs2) then
+
+		move[1] = {};  move[1]   = { 134,  150, 38854, 38906,   1,  17, 0, 0, BADGUY}
+		move[2] = {};  move[2]   = { 273,  296, 38907, 38942,  18,  41, 0, 0, BADGUY}
+		move[3] = {};  move[3]   = { 375,  385, 38943, 38988,  42,  52, 0, 0, BADGUY}
+		move[4] = {};  move[4]   = { 390,  401, 38989, 39037,  53,  64, 0, 0, BADGUY}
+		move[5] = {};  move[5]   = { 426,  433, 39038, 39081,  65,  72, 0, 0, BADGUY}
+		move[6] = {};  move[6]   = { 454,  483, 39082, 39129,  73, 102, 0, 0, BADGUY}
+		move[7] = {};  move[7]   = { 505,  533, 39130, 39175, 103, 131, 0, 0, BADGUY}
+		move[8] = {};  move[8]   = { 766,  780, 39176, 39297, 132, 146, 0, 0, BADGUY}
+		move[9] = {};  move[9]   = { 816,  830, 39298, 39343, 147, 161, 0, 0, BADGUY}
+		move[10] = {}; move[10]  = { 971,  986, 39344, 39443, 162, 177, 0, 0, BADGUY}
+		move[11] = {}; move[11]  = {1016, 1029, 39444, 39487, 178, 191, 0, 0, BADGUY}
+		move[12] = {}; move[12]  = {1217, 1234, 39488, 39549, 192, 209, 0, 0, BADGUY}
+		move[13] = {}; move[13]  = {1335, 1381, 39550, 39580, 210, 256, 0, 0, GOODGUY}
+		move[14] = {}; move[14]  = {1544, 1562, 39581, 39680, 257, 275, 0, 0, BADGUY}
+		
+		totalMoves = 14
+		hitmapTotal = 276
+		thisOffset = 37000
+		GetArrayDruglab2()
+		
+		
+	elseif (thisLevel == levelRobbery) then
+	
+		poporder = nil; poporder = {}
+		poporder = {"123456","654321","134625","436152","653214","452361","352416","613452","423156","321546"}
+		
+		t = rndegg:value(1,10)
+		local d = 0 		
+		local j = 1		
+		
+		for k=1,6 do
+		
+			d = tonumber(string.sub(poporder[t],k,k))
+			if (d == 1) then
+			
+				move[j] = {}; move[j] = {351, 385, 33705, 33777,   1,  35, 330, 397, GOODGUY}
+			
+			elseif (d == 2) then
+			
+				move[j] = {}; move[j] = {405, 434, 33778, 33823,  36,  65, 398, 445, GOODGUY}
+			
+			elseif (d == 3) then
+			
+				move[j] = {}; move[j] = {456, 479, 33824, 33863,  66,  89, 446, 500, BADGUY}
+			
+			elseif (d == 4) then
+			
+				move[j] = {}; move[j] = {514, 527, 33864, 33901,  90, 103, 501, 550, BADGUY}
+				
+			elseif (d == 5) then
+			
+				move[j] = {}; move[j] = {570, 591, 33902, 33942, 104, 125, 551, 719, BADGUY}
+				
+			elseif (d == 6) then
+			
+				move[j] = {}; move[j] = {725, 747, 33943, 33983, 126, 148, 720, 846, BADGUY}
+				
+			end
+			j = j + 1
+		
+		end
+ 
+		move[7] = {};  move[7]   = {1090, 1099, 33984, 34023, 149, 158,  847, 1150, BADGUY}
+		move[8] = {};  move[8]   = {1187, 1206, 34024, 34067, 159, 178, 1151, 1250, BADGUY}
+		move[9] = {};  move[9]   = {1258, 1296, 34068, 34146, 179, 217, 1251, 1310, GOODGUY}
+		move[10] = {}; move[10]  = {1332, 1344, 34147, 34195, 218, 230, 1311, 1400, BADGUY}
+		move[11] = {}; move[11]  = {1447, 1467, 34196, 34258, 231, 251, 1401, 1616, BADGUY}		
+		move[12] = {}; move[12]  = {1685, 1706, 34259, 34306, 397, 418, 1617, 1715, BADGUY}
+		move[13] = {}; move[13]  = {1725, 1740, 34307, 34370, 419, 434, 1716, 1780, BADGUY}
+		move[14] = {}; move[14]  = {1785, 1796, 34371, 34407, 435, 446, 1781, 1800, BADGUY}
+		move[15] = {}; move[15]  = {1820, 1838, 34408, 34446, 447, 465, 1801, 1900, BADGUY}
+		
+		totalMoves = 15
+		hitmapTotal = 466
+		thisOffset = 31751
+		GetArrayBankRobbery()
+		
+	elseif (thisLevel == levelHangar1) then	
+	
+		move[1] = {};  move[1]   = { 625,   637, 9970, 10017,   1,  13, 0, 0, BADGUY}
+		move[2] = {};  move[2]   = { 695,  706, 10018, 10053,  14,  25, 0, 0, BADGUY}
+		move[3] = {};  move[3]   = { 739,  753, 10054, 10078,  26,  40, 0, 0, BADGUY}
+		move[4] = {};  move[4]   = { 852,  886, 10079, 10141,  41,  75, 0, 0, BADGUY}
+		move[5] = {};  move[5]   = { 941,  960, 10142, 10194,  76,  95, 0, 0, BADGUY}
+		move[6] = {};  move[6]   = { 988, 1010, 10195, 10248,  96, 118, 0, 0, BADGUY}
+		move[7] = {};  move[7]   = {1083, 1122, 10249, 10341, 119, 158, 0, 0, BADGUY}
+		move[8] = {};  move[8]   = {1237, 1251, 10342, 10391, 159, 173, 0, 0, BADGUY}
+		move[9] = {};  move[9]   = {1411, 1438, 10392, 10431, 174, 201, 0, 0, BADGUY}
+		move[10] = {}; move[10]  = {1498, 1517, 10432, 10483, 202, 221, 0, 0, BADGUY}
+		move[11] = {}; move[11]  = {1542, 1561, 10484, 10532, 222, 241, 0, 0, BADGUY}
+		move[12] = {}; move[12]  = {1598, 1622, 10533, 10550, 242, 266, 0, 0, BADGUY}
+		move[13] = {}; move[13]  = {1706, 1730, 10551, 10583, 267, 291, 0, 0, BADGUY}
+		move[14] = {}; move[14]  = {1799, 1806, 10584, 10625, 292, 299, 0, 0, BADGUY}
+		move[15] = {}; move[15]  = {1826, 1837, 10626, 10673, 300, 311, 0, 0, BADGUY}
+		move[16] = {}; move[16]  = {1858, 1897, 10674, 10691, 312, 351, 0, 0, BADGUY}
+		move[17] = {}; move[17]  = {1959, 1968, 10692, 10729, 352, 361, 0, 0, BADGUY}
+	
+		totalMoves = 17
+		hitmapTotal = 897
+		thisOffset = 5664
+		GetArrayHangar()
+		
+	elseif (thisLevel == levelHangar2) then	
+	
+		move[1] = {}; move[1]  = {2228, 2249, 10730, 10743, 362, 383, 2226, 2276, BADGUY}
+	
+		poporder = nil; poporder = {}
+		poporder = {"123456789","987654321","147258369","369258147","258147369","258369147","456123789","456789123","753412698","753698412"}
+		
+		t = rndegg:value(1,10)
+		local d = 0 		
+		local j = 2		
+		
+		for k=1,9 do
+		
+			d = tonumber(string.sub(poporder[t],k,k))
+			if (d == 1) then
+			
+				move[j] = {}; move[j] = {2285, 2318, 10744, 10797, 384, 417, 2277, 2357, GOODGUY}
+			
+			elseif (d == 2) then
+			
+				move[j] = {}; move[j] = {2368, 2397, 10798, 10818, 418, 447, 2358, 2454, BADGUY}
+			
+			elseif (d == 3) then
+			
+				move[j] = {}; move[j] = {2466, 2489, 10819, 10841, 448, 471, 2455, 2544, BADGUY}
+				
+			elseif (d == 4) then
+			
+				move[j] = {}; move[j] = {2556, 2575, 10842, 10866, 472, 491, 2545, 2624, BADGUY}
+				
+			elseif (d == 5) then
+			
+				move[j] = {}; move[j] = {2633, 2647, 10867, 10886, 492, 506, 2625, 2702, BADGUY}
+				
+			elseif (d == 6) then
+			
+				move[j] = {}; move[j] = {2709, 2720, 10887, 10908, 507, 518, 2703, 2790, BADGUY}
+				
+			elseif (d == 7) then
+			
+				move[j] = {}; move[j] = {2823, 2859, 10909, 10978, 519, 555, 2791, 2905, GOODGUY}
+				
+			elseif (d == 8) then
+			
+				move[j] = {}; move[j] = {2916, 2935, 10979, 10999, 556, 575, 2906, 2989, BADGUY}
+				
+			elseif (d == 9) then
+			
+				move[j] = {}; move[j] = {3010, 3031, 11000, 11022, 576, 597, 2990, 3078, BADGUY}				
+			
+			end
+			j = j + 1
+		
+		end
+		
+		move[11] = {}; move[11]  = {3106, 3135, 11023, 11055, 598, 627, 3079, 3212, BADGUY}
+	
+		totalMoves = 11
+		hitmapTotal = 897
+		thisOffset = 5664
+		GetArrayHangar()
+		
+	elseif (thisLevel == levelHangar3) then	
+
+		move[1] = {};  move[1]   = {3229, 3242, 11056, 11097, 628, 641, 0, 0, BADGUY}
+		move[2] = {};  move[2]   = {3273, 3291, 11098, 11153, 642, 660, 0, 0, BADGUY}
+		move[3] = {};  move[3]   = {3380, 3394, 11154, 11210, 661, 675, 0, 0, BADGUY}
+		move[4] = {};  move[4]   = {3469, 3513, 11211, 11270, 676, 720, 0, 0, GOODGUY}
+		
+		thisOffset = 5664
+		levelFrameStart = thisOffset + 3212
+		
+		if (clockRnd() < 5) then
+		
+			move[5] = {};  move[5]   = {3629, 3694, 11271, 11334, 721, 786, 3541, 0, GOODGUY}
+			move[6] = {};  move[6]   = {3717, 3743, 11335, 11385, 787, 813, 0, 0, BADGUY}
+			move[7] = {};  move[7]   = {3758, 3773, 11386, 11468, 814, 829, 0, 0, BADGUY}
+			
+			levelFrameEnd   = thisOffset + 3920
+			
+
+		else
+			move[5] = {};  move[5]   = {4054, 4063, 11867, 11917, 830, 839, 3970, 0, BADGUY}
+			move[6] = {};  move[6]   = {4106, 4141, 11335, 11385, 840, 875, 0, 0, BADGUY}
+			move[7] = {};  move[7]   = {4156, 4176, 11386, 11468, 876, 896, 0, 0, BADGUY}
+			
+			levelFrameEnd   = thisOffset + 4305
+
+		end
+		
+		totalMoves = 7
+		hitmapTotal = 897		
+		GetArrayHangar()
+		
+	elseif (thisLevel == levelAirTerrorists) then
+
+		move[1] = {};  move[1]   = {412, 434, 3450, 3508,  1, 23, 390, 480, BADGUY}
+		move[2] = {};  move[2]   = {482, 526, 3509, 3646, 24, 68, 481, 550, BADGUY}
+		move[3] = {};  move[3]   = {568, 579, 4346, 4408, 75, 86, 551, 860, BADGUY}
+		
+		poporder = nil; poporder = {}
+		poporder = {"12345678","87654321","14725836","36258147","25814736","25836147","45612378","45678123","75341268","75368412"}
+		
+		t = rndegg:value(1,10)
+		local d = 0 		
+		local j = 4		
+		
+		for k=1,8 do
+		
+			d = tonumber(string.sub(poporder[t],k,k))
+			if (d == 1) then
+			
+				move[j] = {}; move[j] = { 892,  913, 3647, 3696, 172, 193,  861,  976, BADGUY}
+			
+			elseif (d == 2) then
+			
+				move[j] = {}; move[j] = { 983,  992, 3697, 3736, 250, 259,  977, 1083, BADGUY}
+			
+			elseif (d == 3) then
+			
+				move[j] = {}; move[j] = {1092, 1100, 3737, 3785, 343, 351, 1084, 1137, BADGUY}
+				
+			elseif (d == 4) then
+			
+				move[j] = {}; move[j] = {1144, 1165, 3786, 3828, 381, 402, 1138, 1228, BADGUY}
+				
+			elseif (d == 5) then
+			
+				move[j] = {}; move[j] = {1241, 1258, 3829, 3863, 462, 479, 1229, 1327, BADGUY}
+				
+			elseif (d == 6) then
+			
+				move[j] = {}; move[j] = {1350, 1357, 3864, 3903, 559, 566, 1328, 1411, BADGUY}
+				
+			elseif (d == 7) then
+			
+				move[j] = {}; move[j] = {1416, 1430, 3904, 3953, 617, 631, 1412, 1496, BADGUY}
+				
+			elseif (d == 8) then
+			
+				move[j] = {}; move[j] = {1500, 1512, 3954, 4002, 693, 705, 1497, 1567, BADGUY}
+			
+			end
+			j = j + 1
+		
+		end
+		
+		move[12] = {}; move[12]  = {1577, 1596, 4003, 4055, 757, 776, 1568, 1600, BADGUY}
+		move[13] = {}; move[13]  = {1610, 1631, 4056, 4124, 777, 798, 1601, 1676, BADGUY}
+		move[14] = {}; move[14]  = {1887, 1915, 4175, 4215, 928, 956, 1677, 1945, BADGUY}
+		move[15] = {}; move[15]  = {1952, 1960, 4216, 4345, 987, 995, 1946, 2210, BADGUY}
+		
+		totalMoves = 15
+		hitmapTotal = 996
+		thisOffset = 1235
+		GetArrayAirport()
+
+
+	elseif (thisLevel == levelAmbush) then
+ 
+		move[1] = {};  move[1]   = { 689,  706, 20408, 20462,   1,  18,  660,  740, BADGUY}
+		move[2] = {};  move[2]   = { 772,  825, 20463, 20564,  19,  72,  741,  840, GOODGUY}
+		move[3] = {};  move[3]   = { 877,  892, 20565, 20608,  73,  88,  841,  940, BADGUY}
+		move[4] = {};  move[4]   = { 988,  999, 20609, 20669,  89, 100,  941, 1060, BADGUY}
+		move[5] = {};  move[5]   = {1066, 1083, 20670, 20711, 101, 118, 1061, 1125, BADGUY}
+		move[6] = {};  move[6]   = {1149, 1168, 20712, 20822, 119, 138, 1126, 1295, BADGUY}
+		
+		poporder = nil; poporder = {}
+		poporder = {"12345","54321","13425","43152","53214","45231","35241","13452","42315","32154"}
+		
+		t = rndegg:value(1,10)
+		local d = 0 		
+		local j = 7		
+		
+		for k=1,5 do
+		
+			d = tonumber(string.sub(poporder[t],k,k))
+			if (d == 1) then
+			
+				move[j] = {}; move[j] = {1329, 1340, 20823, 20873, 139, 150, 1296, 1381, BADGUY}
+			
+			elseif (d == 2) then
+			
+				move[j] = {}; move[j] = {1390, 1409, 20874, 20942, 151, 170, 1382, 1443, BADGUY}
+			
+			elseif (d == 3) then
+			
+				move[j] = {}; move[j] = {1462, 1467, 20943, 20994, 171, 176, 1444, 1499, BADGUY}
+				
+			elseif (d == 4) then
+			
+				move[j] = {}; move[j] = {1511, 1530, 20995, 21021, 177, 196, 1500, 1576, BADGUY}
+				
+			elseif (d == 5) then
+			
+				move[j] = {}; move[j] = {1594, 1605, 21022, 21075, 197, 208, 1577, 1654, BADGUY}
+				
+			end
+			j = j + 1
+		
+		end
+		
+		move[12] = {}; move[12] = {1670, 1688, 21076, 21122, 209, 227, 1655, 1750, BADGUY}		
+		move[13] = {}; move[13] = {1757, 1785, 21123, 21166, 228, 256, 1751, 1851, BADGUY}
+		
+		totalMoves = 13
+		hitmapTotal = 1255
+		thisOffset = 11918
+		GetArrayNuclearPlant()
+		
+	elseif (thisLevel == levelNuclearPlant1) then
+	
+		move[1] = {}; move[1]  = {2420, 2434, 21167, 21222, 257, 271, 0, 0, BADGUY}		
+		move[2] = {}; move[2]  = {2493, 2506, 21223, 21262, 272, 285, 0, 0, BADGUY}
+		move[3] = {}; move[3]  = {2548, 2560, 21167, 21222, 286, 298, 0, 0, BADGUY}
+		move[4] = {}; move[4]  = {2599, 2637, 21263, 21336, 299, 337, 0, 0, GOODGUY}
+		move[5] = {}; move[5]  = {2670, 2698, 21337, 21481, 338, 366, 0, 0, GOODGUY}
+		move[6] = {}; move[6]  = {2753, 2768, 21482, 21532, 367, 382, 0, 0, BADGUY}
+		move[7] = {}; move[7]  = {2833, 2848, 21533, 21585, 383, 398, 0, 0, BADGUY}
+		move[8] = {}; move[8]  = {2897, 2916, 21586, 21649, 399, 418, 0, 0, BADGUY}
+		move[9] = {}; move[9]  = {2937, 2955, 21586, 21649, 419, 437, 0, 0, BADGUY}
+
+		totalMoves = 9
+		hitmapTotal = 1255
+		thisOffset = 11918
+		GetArrayNuclearPlant()
+		
+	elseif (thisLevel == levelNuclearPlant2) then
+	
+		move[1] = {}; move[1] = {3228, 3242, 21650, 21699, 438, 452, 3210, 3278, BADGUY}
+		
+		poporder = nil; poporder = {}
+		poporder = {"123456789","987654321","147258369","369258147","258147369","258369147","456123789","456789123","753412698","753698412"}
+		
+		t = rndegg:value(1,10)
+		local d = 0 		
+		local j = 2		
+		
+		for k=1,9 do
+		
+			d = tonumber(string.sub(poporder[t],k,k))
+			
+			if (d == 1) then
+			
+				move[j] = {}; move[j] = {3299, 3320, 21700, 21756, 453, 474, 3279, 3360, BADGUY}
+			
+			elseif (d == 2) then
+			
+				move[j] = {}; move[j] = {3374, 3393, 21757, 21800, 475, 494, 3361, 3433, BADGUY}
+			
+			elseif (d == 3) then
+			
+				move[j] = {}; move[j] = {3447, 3476, 21801, 21857, 495, 524, 3434, 3496, BADGUY}
+				
+			elseif (d == 4) then
+			
+				move[j] = {}; move[j] = {3513, 3528, 21858, 21905, 525, 540, 3497, 3596, BADGUY}
+				
+			elseif (d == 5) then
+			
+				move[j] = {}; move[j] = {3605, 3615, 21906, 21976, 541, 551, 3597, 3638, BADGUY}
+				
+			elseif (d == 6) then
+			
+				move[j] = {}; move[j] = {3650, 3667, 21977, 22035, 552, 569, 3639, 3693, BADGUY}
+				
+			elseif (d == 7) then
+			
+				move[j] = {}; move[j] = {3705, 3730, 22036, 22079, 570, 595, 3694, 3754, BADGUY}
+				
+			elseif (d == 8) then
+			
+				move[j] = {}; move[j] = {3762, 3770, 22080, 22126, 596, 604, 3756, 3807, BADGUY}
+				
+			elseif (d == 9) then
+			
+				move[j] = {}; move[j] = {3820, 3843, 22127, 22180, 605, 628, 3808, 3934, BADGUY}
+			
+			end
+			j = j + 1
+		
+		end
+		
+		poporder = nil; poporder = {}
+		poporder = {"123", "321", "213", "231", "312", "132", "213", "231", "312", "132"}
+		
+		t = rndegg:value(1,10)
+		d = 0 		
+		j = 11		
+		
+		for k=1,3 do
+		
+			d = tonumber(string.sub(poporder[t],k,k))
+			if (d == 1) then
+			
+				move[j] = {}; move[j] = {4014, 4053, 22181, 22266, 629, 668, 4000, 4181, BADGUY}
+			
+			elseif (d == 2) then
+			
+				move[j] = {}; move[j] = {4189, 4227, 22267, 22346, 669, 707, 4182, 4327, BADGUY}
+			
+			elseif (d == 3) then
+			
+				move[j] = {}; move[j] = {4333, 4362, 22347, 22417, 708, 737, 4328, 4418, BADGUY}
+			
+			end
+			j = j + 1
+		
+		end
+		
+		totalMoves = 13
+		hitmapTotal = 1255
+		thisOffset = 11918
+		GetArrayNuclearPlant()
+		
+	elseif (thisLevel == levelNuclearPlant3) then
+	
+		move[1] = {};  move[1]   = {4620, 4644, 22418, 22486,  738,  762, 0, 0, BADGUY}
+		move[2] = {};  move[2]   = {4943, 4967, 22487, 22565,  763,  787, 0, 0, BADGUY}
+		move[3] = {};  move[3]   = {5355, 5409, 22566, 22619,  788,  842, 0, 0, BADGUY}
+		move[4] = {};  move[4]   = {5557, 5626, 22620, 22683,  843,  912, 0, 0, BADGUY}
+		move[5] = {};  move[5]   = {5659, 5687, 22684, 22758,  913,  941, 0, 0, BADGUY}
+		move[6] = {};  move[6]   = {6527, 6538, 22759, 22807,  942,  953, 0, 0, BADGUY}
+		move[7] = {};  move[7]   = {6591, 6606, 22808, 22881,  954,  969, 0, 0, BADGUY}
+		move[8] = {};  move[8]   = {6685, 6700, 22882, 22970,  970,  985, 0, 0, BADGUY}
+		move[9] = {};  move[9]   = {6782, 6796, 22971, 23029,  986, 1000, 0, 0, BADGUY}
+		move[10] = {}; move[10]  = {6822, 6839, 23030, 23099, 1001, 1018, 0, 0, BADGUY}
+		move[11] = {}; move[11]  = {6871, 6900, 23100, 23169, 1019, 1048, 0, 0, GOODGUY}
+		move[12] = {}; move[12]  = {7083, 7093, 23170, 23239, 1049, 1059, 0, 0, BADGUY}
+		move[13] = {}; move[13]  = {7167, 7181, 23240, 23308, 1060, 1074, 0, 0, BADGUY}
+		move[14] = {}; move[14]  = {7260, 7266, 23309, 23382, 1075, 1081, 0, 0, BADGUY}		
+		move[15] = {};  move[15] = {7452, 7471, 23383, 23425, 1082, 1101, 0, 0, BADGUY}
+		move[16] = {};  move[16] = {7532, 7571, 23426, 23462, 1102, 1141, 0, 0, BADGUY}
+		move[17] = {};  move[17] = {7611, 7622, 23463, 23507, 1142, 1153, 0, 0, BADGUY}
+		move[18] = {};  move[18] = {7634, 7659, 23508, 23541, 1154, 1179, 0, 0, BADGUY}
+		move[19] = {};  move[19] = {7672, 7696, 23542, 23590, 1180, 1204, 0, 0, BADGUY}
+		move[20] = {};  move[20] = {7718, 7734, 23591, 23645, 1205, 1221, 0, 0, BADGUY}
+		move[21] = {};  move[21] = {7744, 7778, 23646, 23671, 1222, 1256, 0, 0, BADGUY}
+		move[22] = {};  move[22] = {7830, 7839, 23672, 23714, 1257, 1266, 0, 0, BADGUY}
+		move[23] = {};  move[23] = {7917, 7936, 23715, 23768, 1267, 1286, 0, 0, BADGUY}
+		move[24] = {};  move[24] = {8093, 8121, 23769, 23800, 1287, 1315, 0, 0, BADGUY}
+
+		totalMoves = 24
+		hitmapTotal = 1255
+		thisOffset = 11918
+		GetArrayNuclearPlant()
+		
+	end
+	
+	local b1 = false
+	
+	if thisLevel == levelPractice or thisLevel == levelWarehouse1 or thisLevel == levelWarehouse2 then b1 = true end
+	if thisLevel == levelGarage or thisLevel == levelStripclub then b1 = true end
+	if thisLevel == levelDrugs1 or thisLevel == levelRobbery then b1 = true end
+	if thisLevel == levelHangar2 or thisLevel == levelHangar3 then b1 = true end
+	if thisLevel == levelAirTerrorists or thisLevel == levelAmbush or thisLevel == levelGang then b1 = true end
+	if thisLevel == levelNuclearPlant1 or thisLevel == levelNuclearPlant2 then b1 = true end
+	
+	for k=1,totalMoves do
+		
+		move[k][1] = move[k][1] + thisOffset
+		move[k][2] = move[k][2] + thisOffset
+		
+		if b1 then
+		
+			move[k][7] = move[k][7] + thisOffset		
+			move[k][8] = move[k][8] + thisOffset
+		
+		end
+		
+	end
+	
+	iBullets = dip_MaxBullets
+
+	if bDebug then debugPrint ("Leaving setupLevel") end
+
+end
