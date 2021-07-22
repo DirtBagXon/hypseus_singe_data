@@ -18,12 +18,12 @@ This file is part of LUA SINGE ENGINE.
 
 ]]--
 
-dofile("singe/"..MYDIR.."/framework.singe")		
-dofile("singe/"..MYDIR.."/main.singe")
-dofile("singe/"..MYDIR.."/hscore.singe")
-dofile("singe/"..MYDIR.."/service.singe")
-dofile("singe/"..MYDIR.."/toolbox.singe")
-dofile("singe/"..MYDIR.."/addons.singe")
+dofile(MYDIR.."framework.singe")		
+dofile(MYDIR.."main.singe")
+dofile(MYDIR.."hscore.singe")
+dofile(MYDIR.."service.singe")
+dofile(MYDIR.."toolbox.singe")
+dofile(MYDIR.."addons.singe")
 
 --Framework.singe....
 
@@ -363,11 +363,11 @@ Group4 = {}
 
 fontQuality(FONT_QUALITY_BLENDED)
 
-sndright   = soundLoad("singe/"..MYDIR.."/right.wav")
-sndwrong   = soundLoad("singe/"..MYDIR.."/wrong.wav")
-snddeath   = soundLoad("singe/"..MYDIR.."/death.wav")
-sndvictory = soundLoad("singe/"..MYDIR.."/victory.wav")
-sndcoin    = soundLoad("singe/"..MYDIR.."/coin.wav")
-sndcredit  = soundLoad("singe/"..MYDIR.."/credit.wav")
-sndclear   = soundLoad("singe/"..MYDIR.."/clear.wav")
-sndroll   = soundLoad("singe/"..MYDIR.."/roll.wav")
+sndright   = soundLoad(MYDIR.."right.wav")
+sndwrong   = soundLoad(MYDIR.."wrong.wav")
+snddeath   = soundLoad(MYDIR.."death.wav")
+sndvictory = soundLoad(MYDIR.."victory.wav")
+sndcoin    = soundLoad(MYDIR.."coin.wav")
+sndcredit  = soundLoad(MYDIR.."credit.wav")
+sndclear   = soundLoad(MYDIR.."clear.wav")
+sndroll   = soundLoad(MYDIR.."roll.wav")
