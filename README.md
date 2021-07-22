@@ -14,6 +14,15 @@ Subsequent releases will likely not work correctly.
 
 Newer games, like Altered Carbon, will work from current releases as they were not original release games.
 
+Frame information from ``mediainfo`` will be provided for the Singe2 video files in each folder:
+
+    mediainfo --Inform='Video;%FrameCount%' <file>
+    mediainfo --Inform='Video;%Duration%' <file>
+
+This should allow you to know the correct video files required.
+
+### Conversion:
+
     ffmpeg -i <original>.mp4 -an -qscale:v 4 -b:v 6000k -codec:v mpeg2video <game>.m2v
     ffmpeg -i <original>.mp4 -vn -c:a libvorbis -ar 44100 -map a -b:a 160k <game>.ogg
 
