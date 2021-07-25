@@ -355,7 +355,7 @@ function drawLetters()
 
 		else
 
-			x1 = OVLW/3+NUMW + q*NUMW*3
+			x1 = OVLW/6+NUMW + q*NUMW*3
 
 		end
 
@@ -377,7 +377,7 @@ function drawLetters()
 
 			else
 
-				x1 = OVLW/3 + q*NUMW*3
+				x1 = OVLW/6 + q*NUMW*3
 
 			end
 					
@@ -453,17 +453,17 @@ function drawHS()
 
 			if k==10 then
 
-				fontPrint(OVLW/(5/2), OVLH/5 + k *LINEH*2, k)
+				fontPrint(OVLW/4, OVLH/5 + k *LINEH*2, k)
 
 			else
 
-				fontPrint(10+OVLW/(5/2), OVLH/5 + k *LINEH*2, k)
+				fontPrint(10+OVLW/4, OVLH/5 + k *LINEH*2, k)
 
 			end
 
-			fontPrint(20+OVLW/(5/2), OVLH/5 + k * LINEH*2, ".")
-			fontPrint(35+OVLW/(5/2), OVLH/5 + k * LINEH*2, highscore[k][1])
-			fontPrint(85+OVLW/(5/2), OVLH/5 + k * LINEH*2, highscore[k][2])
+			fontPrint(70+OVLW/4, OVLH/5 + k * LINEH*2, ".")
+			fontPrint(85+OVLW/4, OVLH/5 + k * LINEH*2, highscore[k][1])
+			fontPrint(125+OVLW/4, OVLH/5 + k * LINEH*2, highscore[k][2])
 
 		end
 
