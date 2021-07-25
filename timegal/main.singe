@@ -1928,8 +1928,8 @@ function drawCredits()     -- Draw the credits
 		
 			if (iCredits > 0) then			
 				
-				spriteDraw((OVLW/2)-SKIPW/2,ycoinpos,sprite[CREDIT])
-				drawSpriteNumber((OVLW/2)-SKIPW/2+CRDW+NUMW,ycoinpos,iCredits)
+				spriteDraw((OVLW/2)-SKIPW/2+15,ycoinpos,sprite[CREDIT])
+				drawSpriteNumber((OVLW/2)-SKIPW/2+CRDW+NUMW+15,ycoinpos,iCredits)
 				
 			else		
 				
@@ -2174,7 +2174,7 @@ function drawScore()       -- Draw score
 
 	if ShowTop then
 
-		spriteDraw((OVLW/2)-SKIPW/2,LINEH,sprite[TOP])
+		spriteDraw((OVLW/2)-SKIPW/2 + 5,LINEH,sprite[TOP])
 		drawSpriteNumber((OVLW/2)-NUMW*3, LINEH*3, iTop)
 
 	end
@@ -2205,7 +2205,7 @@ function drawSpriteNumber(thisx, thisy, thisAmt)       -- Draw the numbers as sp
 	for k=1,(string.len(s1)) do
 		
 		j = tonumber(string.sub(s1,k,k)) + 1	
-		spriteDraw((thisx + ((k-1) * NUMW)), thisy, sprNUM[j])
+		spriteDraw((thisx + ((k-1) * NUMW)) + 2, thisy, sprNUM[j])
 	
 	end
 
@@ -2303,18 +2303,13 @@ function initJob()      -- Initialization process
 	sprArrow[PW6] 		= spriteLoad(MYDIR .. "m6.png")
 	sprArrow[PWFULL] 	= spriteLoad(MYDIR .. "mfull.png")
 
-	--[[	
-	OVLW = vldpGetWidth()
-	OVLH = vldpGetHeight()
-	]]--
-	
-	OVLW = 320
+	OVLW = 360
 	OVLH = 240
 
 	LINEH = OVLH/80
 	LINEW = OVLW/80
 
-	fontGame = fontLoad(MYDIR .. "font.ttf", LINEW*2)
+	fontGame = fontLoad(MYDIR .. "font.ttf", LINEW*1.5)
 	fontLCD = fontLoad(MYDIR .. "font.ttf", LINEW*2)
 
 	fontSelect(fontGame)  

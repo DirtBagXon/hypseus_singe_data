@@ -2104,33 +2104,33 @@ function drawLives()       -- Draw Lives
 
 		if iLives==1 then
 
-			spriteDraw(OVLW-LINEW-LIVW,ylivpos,sprite[LIVES])
+			spriteDraw(OVLW-LINEW-LIVW+16,ylivpos,sprite[LIVES])
 
 		elseif iLives==2 then
 
-			spriteDraw(OVLW-LINEW-(LIVW*2),ylivpos,sprite[LIVES])
-			spriteDraw(OVLW-LINEW-LIVW,ylivpos,sprite[LIVES])
+			spriteDraw(OVLW-LINEW-(LIVW*2)+16,ylivpos,sprite[LIVES])
+			spriteDraw(OVLW-LINEW-LIVW+16,ylivpos,sprite[LIVES])
 
 		elseif iLives==3 then
 
-			spriteDraw(OVLW-LINEW-(LIVW*3),ylivpos,sprite[LIVES])
-			spriteDraw(OVLW-LINEW-(LIVW*2),ylivpos,sprite[LIVES])
-			spriteDraw(OVLW-LINEW-LIVW,ylivpos,sprite[LIVES])
+			spriteDraw(OVLW-LINEW-(LIVW*3)+16,ylivpos,sprite[LIVES])
+			spriteDraw(OVLW-LINEW-(LIVW*2)+16,ylivpos,sprite[LIVES])
+			spriteDraw(OVLW-LINEW-LIVW+16,ylivpos,sprite[LIVES])
 
 		elseif iLives==4 then
 			
-			spriteDraw(OVLW-LINEW-(LIVW*4),ylivpos,sprite[LIVES])
-			spriteDraw(OVLW-LINEW-(LIVW*3),ylivpos,sprite[LIVES])
-			spriteDraw(OVLW-LINEW-(LIVW*2),ylivpos,sprite[LIVES])
-			spriteDraw(OVLW-LINEW-LIVW,ylivpos,sprite[LIVES])
+			spriteDraw(OVLW-LINEW-(LIVW*4)+16,ylivpos,sprite[LIVES])
+			spriteDraw(OVLW-LINEW-(LIVW*3)+16,ylivpos,sprite[LIVES])
+			spriteDraw(OVLW-LINEW-(LIVW*2)+16,ylivpos,sprite[LIVES])
+			spriteDraw(OVLW-LINEW-LIVW+16,ylivpos,sprite[LIVES])
 
 		elseif iLives==5 then	
 
-			spriteDraw(OVLW-LINEW-(LIVW*5),ylivpos,sprite[LIVES])
-			spriteDraw(OVLW-LINEW-(LIVW*4),ylivpos,sprite[LIVES])
-			spriteDraw(OVLW-LINEW-(LIVW*3),ylivpos,sprite[LIVES])
-			spriteDraw(OVLW-LINEW-(LIVW*2),ylivpos,sprite[LIVES])
-			spriteDraw(OVLW-LINEW-LIVW,ylivpos,sprite[LIVES])
+			spriteDraw(OVLW-LINEW-(LIVW*5)+16,ylivpos,sprite[LIVES])
+			spriteDraw(OVLW-LINEW-(LIVW*4)+16,ylivpos,sprite[LIVES])
+			spriteDraw(OVLW-LINEW-(LIVW*3)+16,ylivpos,sprite[LIVES])
+			spriteDraw(OVLW-LINEW-(LIVW*2)+16,ylivpos,sprite[LIVES])
+			spriteDraw(OVLW-LINEW-LIVW+16,ylivpos,sprite[LIVES])
 		
 		end
 		
@@ -2303,19 +2303,15 @@ function initJob()      -- Initialization process
 	sprArrow[PW6] 		= spriteLoad(MYDIR .. "m6.png")
 	sprArrow[PWFULL] 	= spriteLoad(MYDIR .. "mfull.png")
 
-        --[[	
-	OVLW = vldpGetWidth()
-	OVLH = vldpGetHeight()
-	]]--
 
-	OVLW = 320
+	OVLW = 360
 	OVLH = 240
 	
 	LINEH = OVLH/80
-	LINEW = OVLW/80
+	LINEW = OVLW/40
 
-	fontGame = fontLoad(MYDIR .. "font.ttf", LINEW*1.5)
-	fontLCD = fontLoad(MYDIR .. "font.ttf", LINEW*1.5)
+	fontGame = fontLoad(MYDIR .. "font.ttf", LINEW*0.8)
+	fontLCD = fontLoad(MYDIR .. "font.ttf", LINEW)
 
 	fontSelect(fontGame)  
 	
@@ -2325,7 +2321,7 @@ function initJob()      -- Initialization process
 	TEXTH = spriteGetHeight(sprite[SKIPINTRO])
 	BUTW = spriteGetWidth(sprArrow[BUTTON1])
 	BUTH = spriteGetHeight(sprArrow[BUTTON1])
-	SKIPW = spriteGetWidth(sprite[SKIPINTRO])
+	SKIPW = spriteGetWidth(sprite[SKIPINTRO])-16
 	LVLW = spriteGetWidth(sprite[LEVEL])
 	SCNW = spriteGetWidth(sprite[SCENE])
 	CRDW = spriteGetWidth(sprite[CREDIT])
@@ -2793,7 +2789,7 @@ function onOverlayUpdate()     -- Manage the game and look for any given situati
 		initJob()				
 		
 	elseif (gameflow == flow_GameRunning) then	
-		
+	
 		if (currentLevel == levelIntro) then
 		
 			doIntro()		

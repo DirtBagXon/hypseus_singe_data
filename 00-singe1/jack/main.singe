@@ -920,12 +920,12 @@ end
 
 function resetArrows()
 
-	posxUDARROWS = 150
+	posxUDARROWS = 170
 	posyUARROW = 60
 	posyDARROW = 140
 
-	posxLARROW = 100
-	posxRARROW = 210
+	posxLARROW = 120
+	posxRARROW = 230
 	posyLRARROWS = 112
 
 end
@@ -940,7 +940,7 @@ function drawAction()
 		
 		if dip_ShowAction == false then
 		
-			spriteDraw(posxBUTTONS,posyBUTTONS,sprArrow[NOMOVES])
+			spriteDraw(posxBUTTONS+20,posyBUTTONS,sprArrow[NOMOVES])
 		
 		elseif thisMove == UP then
 			
@@ -1036,8 +1036,6 @@ function drawAction()
 
 			end
 
-
-			
 		elseif thisMove == ACTUP then
 			
 			spriteDraw(posxBUTTONS,posyBUTTONS,sprArrow[BUTTON1])
@@ -1063,7 +1061,7 @@ function drawAction()
 			end
 
 		elseif thisMove == ACTLEFT then
-			
+
 			spriteDraw(posxBUTTONS,posyBUTTONS,sprArrow[BUTTON1])
 			goTimer(1)
 	
@@ -1089,7 +1087,7 @@ function drawAction()
 		elseif thisMove == SKIP then
 
 			blinkTimer(0.4)
-			if heartbeat then spriteDraw(295,posyDOWNTEXT,sprite[SKIPINTRO]) end
+			if heartbeat then spriteDraw(170,posyDOWNTEXT,sprite[SKIPINTRO]) end
 		
 		end
 		
@@ -1105,7 +1103,7 @@ function drawCredits()
 	
 		if (iCredits > 0) then			
 		
-				spriteDraw(10,posyDOWNTEXT,sprite[CREDIT])
+				spriteDraw(30,posyDOWNTEXT,sprite[CREDIT])
 				drawSpriteNumber(80,posyDOWNTEXT,iCredits)
 			
 		end
@@ -1166,8 +1164,8 @@ function drawLives()
 
 	if (iLives > 0) then
 		
-		spriteDraw(280,posyDOWNTEXT-5,sprite[LIVES])
-		drawSpriteNumber(300,posyDOWNTEXT,( iLives ))
+		spriteDraw(320,posyDOWNTEXT-5,sprite[LIVES])
+		drawSpriteNumber(340,posyDOWNTEXT,( iLives ))
 
 		if dip_Debug then
 
@@ -1211,7 +1209,7 @@ function drawScore()
 	
 	local j = 0
 	
-	drawSpriteNumber(15,posyDOWNTEXT,iScore)
+	drawSpriteNumber(34,posyDOWNTEXT,iScore)
 	
 end
 
@@ -1222,7 +1220,7 @@ function drawSkip()
 	
 	if heartbeat then	
 	
-		spriteDraw(140,posyDOWNTEXT,sprite[SKIPINTRO])
+		spriteDraw(170,posyDOWNTEXT,sprite[SKIPINTRO])
 						
 	end
 
@@ -1239,7 +1237,7 @@ function drawSpriteNumber(thisx, thisy, thisAmt)
 	for k=1,(string.len(s1)) do
 		
 		j = tonumber(string.sub(s1,k,k)) + 1	
-		spriteDraw((thisx + ((k-1) * 16)), thisy, sprNUM[j])
+		spriteDraw((thisx + ((k-1) * 12)), thisy, sprNUM[j])
 	
 	end
 
@@ -1295,7 +1293,7 @@ function initJob()
 	mycolorMENUOFF = BLACK							-- Color for unselected item in the options menu
 													-- RED, BLUE, YELLOW, GREEN, ORANGE, WHITE, GREY, BLACK and LIGHTBLUE possible.
 	
-	posxBUTTONS = 110								-- Coordinates for the buttons
+	posxBUTTONS = 135								-- Coordinates for the buttons
 	posyBUTTONS = 112
 	posxPW0 = 0								    -- Coordinates for the buttons
 	

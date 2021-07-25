@@ -4148,7 +4148,7 @@ function drawLives()       -- Draw Lives
 
 			for k = 1,iLives do
 
-				spriteDraw(OVLW-LINEW-(LIVW*k),ylivpos,sprite[LIVES])
+				spriteDraw(OVLW-LINEW-(LIVW*k)+4,ylivpos,sprite[LIVES])
 
 			end
 
@@ -4177,7 +4177,7 @@ function drawLvl()       -- Draw current level
 
 			elseif iSegPointer == 1 and iCurPos ~= levelSecret then
 					
-				fontPrint(LINEW,ylvlpos, iCurPos .. ". " .. Level[iCurPos][TITLE])
+				fontPrint(LINEW+4,ylvlpos, iCurPos .. ". " .. Level[iCurPos][TITLE])
 			
 			else
 
@@ -4227,10 +4227,10 @@ end
 function getRes()
 	
 	overlaySetResolution(vldpGetWidth(), vldpGetHeight())
-	OVLW = 320
+	OVLW = 360
 	OVLH = 240
 	LINEH = OVLH/80
-	LINEW = OVLW/80
+	LINEW = OVLW/40
 	fontSizeNew = fontSize
 	local fontpath = MYDIR.."font.ttf"
 	local fontopt = MYDIR.."m39.ttf"
@@ -4365,10 +4365,10 @@ function getRes()
 	endyUARROW = LINEH*8
 	endyDARROW = OVLH-ARUH-(LINEH*8)
 
-	startxLARROW = LINEW*32
-	startxRARROW = OVLW-ARLW-(LINEW*32)
-	endxLARROW = LINEW*12
-	endxRARROW = OVLW-ARLW-(LINEW*12)
+	startxLARROW = LINEW*16
+	startxRARROW = OVLW-ARLW-(LINEW*16)
+	endxLARROW = LINEW*6
+	endxRARROW = OVLW-ARLW-(LINEW*6)
 	
 	posyLCD = LINEH	
 

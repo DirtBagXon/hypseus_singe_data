@@ -1817,12 +1817,7 @@ function initJob()
 	sprArrow[PW6] 		= spriteLoad(MYDIR .. "m6.png")
 	sprArrow[PWFULL] 	= spriteLoad(MYDIR .. "mfull.png")
 
-	--[[	
-	OVLW = overlayGetWidth()
-	OVLH = overlayGetHeight()
-	]]--
-
-	OVLW = 320
+	OVLW = 360
 	OVLH = 240
 	
 	if OVLH == 240 then
@@ -1961,7 +1956,7 @@ function initLCD()
 	sLCD[4] = "GRAND CHAMPION"	          	
 	sLCD[5] = string.format("%d.%s      %d", 1, highscore[1][1], highscore[1][2])
 	sLCD[6] = "-----------------"
-	sLCD[7] = "Instructions: Press Button or Ctrl"
+	sLCD[7] = "Press a Button or Ctrl"
 	sLCD[8] = "-----------------"
 	
 	iLCDline = 1; iLCDpointer = 1; iLCDx = 0; iLCDwait = 0.075

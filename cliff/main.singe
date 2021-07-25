@@ -3451,18 +3451,18 @@ function drawCredits()     -- Draw the credits
 		
 		if (dip_CoinsPerCredit == DOPT_FREEPLAY) then					
 			
-			spriteDraw((OVLW/2)-SKIPW/2,ycoinpos,sprite[FREEPLAY])
+			spriteDraw((OVLW/2)-SKIPW/2+4,ycoinpos,sprite[FREEPLAY])
 		
 		else
 		
 			if (iCredits > 0) then			
 				
-				spriteDraw((OVLW/2)-SKIPW/2,ycoinpos,sprite[CREDIT])
-				drawSpriteNumber((OVLW/2)-SKIPW/2+CRDW+NUMW,ycoinpos,iCredits)
+				spriteDraw((OVLW/2)-SKIPW/2+8,ycoinpos,sprite[CREDIT])
+				drawSpriteNumber((OVLW/2)-SKIPW/2+CRDW+NUMW+8,ycoinpos,iCredits)
 				
 			else		
 				
-				spriteDraw((OVLW/2)-SKIPW/2,ycoinpos,sprite[INSERTCOIN])
+				spriteDraw((OVLW/2)-SKIPW/2+4,ycoinpos,sprite[INSERTCOIN])
 				
 			end
 			
@@ -3751,27 +3751,17 @@ end
 
 function getRes()
 
-	OVLW = 320
+	OVLW = 360
 	OVLH = 240
 
 	if dip_Res == 0 or dip_Res == 1 then
 
 		MIDIRES = MYDIR .. ""
-		--[[
-		overlaySetResolution(vldpGetWidth(), vldpGetHeight())
-		OVLW = vldpGetWidth()
-		OVLH = vldpGetHeight()
-		]]--
 		if fontSize > 0 then fontSizeNew = fontSize end
 
 	else
 
 		MIDIRES = MYDIR .. "Lores/"
-		--[[
-		overlaySetResolution(vldpGetWidth()/2, vldpGetHeight()/2)
-		OVLW = vldpGetWidth()/2
-		OVLH = vldpGetHeight()/2
-		]]--
 		if fontSize > 0 then fontSizeNew = fontSize/2 end
 
 	end
@@ -3850,7 +3840,7 @@ function getRes()
 	sprArrow[SPECIALS]  = spriteLoad(MIDIRES.."special.png") 
 
 	LINEH = OVLH/80
-	LINEW = OVLW/80
+	LINEW = OVLW/100
 
 	iRatio = OVLW/OVLH
 

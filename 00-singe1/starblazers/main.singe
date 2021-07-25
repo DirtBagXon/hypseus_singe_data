@@ -284,7 +284,7 @@ function doFinish()
 			spriteDraw(OVLW/3,OVLH/3,sprite[LEVEL])
 			spriteDraw(OVLW/3+NUMW+LEVELW,OVLH/3,sprite[SCORE])
 			drawSpriteNumber(OVLW/2+NUMW+LEVELW, OVLH/3,iScoreTemp)
-			spriteDraw(OVLW/3,OVLH/2,sprite[BONUS])
+			spriteDraw(OVLW/3.2,OVLH/2,sprite[BONUS])
 			spriteDraw(OVLW/3+NUMW+LEVELW,OVLH/2,sprite[SCORE])
 			drawSpriteNumber(OVLW/2+NUMW+LEVELW, OVLH/2, iBonus)
 
@@ -316,7 +316,7 @@ function doFinish()
 			spriteDraw(OVLW/3,OVLH/3,sprite[LEVEL])
 			spriteDraw(OVLW/3+NUMW+LEVELW,OVLH/3,sprite[SCORE])
 			drawSpriteNumber(OVLW/2+NUMW+LEVELW, OVLH/3,iScoreTemp)
-			spriteDraw(OVLW/3,OVLH/2,sprite[BONUS])
+			spriteDraw(OVLW/3.2,OVLH/2,sprite[BONUS])
 			spriteDraw(OVLW/3+NUMW+LEVELW,OVLH/2,sprite[SCORE])
 			drawSpriteNumber(OVLW/2+NUMW+LEVELW, OVLH/2, iBonus)
 		
@@ -1482,8 +1482,8 @@ function drawCredits()
 	
 		if (iCredits > 0) then			
 		
-				spriteDraw(LINEW,OVLH-LINEH-LINEW,sprite[CREDIT])			--15
-				drawSpriteNumber(LINEW+CRDW+NUMW,OVLH-LINEH-LINEW,iCredits)		--70
+				spriteDraw(LINEW+10,OVLH-LINEH-LINEW,sprite[CREDIT])			--15
+				drawSpriteNumber(LINEW+CRDW+NUMW+10,OVLH-LINEH-LINEW,iCredits)		--70
 			
 		end
 		

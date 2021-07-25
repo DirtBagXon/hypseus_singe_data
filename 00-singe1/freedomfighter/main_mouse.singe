@@ -317,7 +317,7 @@ function doFinish()
 			spriteDraw(OVLW/3,OVLH/3,sprite[LEVEL])
 			spriteDraw(OVLW/3+NUMW+LEVELW,OVLH/3,sprite[SCORE])
 			drawSpriteNumber(OVLW/2+NUMW+LEVELW, OVLH/3,iScoreTemp)
-			spriteDraw(OVLW/3,OVLH/2,sprite[BONUS])
+			spriteDraw(OVLW/3.2,OVLH/2,sprite[BONUS])
 			spriteDraw(OVLW/3+NUMW+LEVELW,OVLH/2,sprite[SCORE])
 			drawSpriteNumber(OVLW/2+NUMW+LEVELW, OVLH/2, iBonus)
 
@@ -349,7 +349,7 @@ function doFinish()
 			spriteDraw(OVLW/3,OVLH/3,sprite[LEVEL])
 			spriteDraw(OVLW/3+NUMW+LEVELW,OVLH/3,sprite[SCORE])
 			drawSpriteNumber(OVLW/2+NUMW+LEVELW, OVLH/3,iScoreTemp)
-			spriteDraw(OVLW/3,OVLH/2,sprite[BONUS])
+			spriteDraw(OVLW/3.2,OVLH/2,sprite[BONUS])
 			spriteDraw(OVLW/3+NUMW+LEVELW,OVLH/2,sprite[SCORE])
 			drawSpriteNumber(OVLW/2+NUMW+LEVELW, OVLH/2, iBonus)
 		
@@ -2333,7 +2333,7 @@ spriteDraw(mouseX - crosshairCenterX, mouseY - crosshairCenterY, sprCross)
 --end	
 	
 	currentFrame = discGetFrame()
-	
+
 	if (gameflow == flow_VLDPStart) then
 	
 		initVLDP()

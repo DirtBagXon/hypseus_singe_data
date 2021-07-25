@@ -1187,8 +1187,8 @@ function drawCredits()     -- Draw the credits
 		
 			if (iCredits > 0) then			
 				
-				spriteDraw((OVLW/2)-SKIPW/2,ycoinpos,sprite[CREDIT])
-				drawSpriteNumber((OVLW/2)-SKIPW/2+CRDW+NUMW,ycoinpos,iCredits)
+				spriteDraw((OVLW/2)-SKIPW/2+20,ycoinpos,sprite[CREDIT])
+				drawSpriteNumber((OVLW/2)-SKIPW/2+CRDW+NUMW+20,ycoinpos,iCredits)
 				
 			else		
 				
@@ -1419,21 +1419,14 @@ end
 
 function getHiRes()
 
-	overlaySetResolution(vldpGetWidth(), vldpGetHeight())
-
-	--[[
-	OVLW = vldpGetWidth()
-	OVLH = vldpGetHeight()
-	]]--
-
-	OVLW = 320
+	OVLW = 360
 	OVLH = 240
 	
 	LINEH = OVLH/80
-	LINEW = OVLW/80
+	LINEW = OVLW/100
 
-	fontGame = fontLoad(MYDIR .. "font.otf", LINEW*2)
-	fontLCD = fontLoad(MYDIR .. "font.otf", LINEW*2.5)
+	fontGame = fontLoad(MYDIR .. "font.otf", LINEW*1.8)
+	fontLCD = fontLoad(MYDIR .. "font.otf", LINEW*2)
 
 	fontSelect(fontGame)  
 	setFontColor(RED)
@@ -1512,21 +1505,14 @@ end
 
 function getLoRes()
 
-	overlaySetResolution(vldpGetWidth()/2, vldpGetHeight()/2)
-
-	--[[
-	OVLW = vldpGetWidth()/2
-	OVLH = vldpGetHeight()/2
-	]]--
-
-	OVLW = 320
+	OVLW = 360
 	OVLH = 240
 	
 	LINEH = OVLH/80
 	LINEW = OVLW/80
 
-	fontGame = fontLoad(MYDIR .. "font.otf", LINEW*2)
-	fontLCD = fontLoad(MYDIR .. "font.otf", LINEW*2.5)
+	fontGame = fontLoad(MYDIR .. "font.otf", LINEW*1.8)
+	fontLCD = fontLoad(MYDIR .. "font.otf", LINEW*2)
 
 	fontSelect(fontGame)  
 	setFontColor(RED)
@@ -1643,19 +1629,14 @@ function initJob()
 
 		overlaySetResolution(vldpGetWidth(), vldpGetHeight())
 
-		--[[
-		OVLW = vldpGetWidth()
-		OVLH = vldpGetHeight()
-		]]--
-
-		OVLW = 320
+		OVLW = 360
 		OVLH = 240
 		
 		LINEH = OVLH/80
 		LINEW = OVLW/80
 
-		fontGame = fontLoad(MYDIR .. "font.otf", LINEW*2)
-		fontLCD = fontLoad(MYDIR .. "font.otf", LINEW*2.5)
+		fontGame = fontLoad(MYDIR .. "font.otf", LINEW*1.8)
+		fontLCD = fontLoad(MYDIR .. "font.otf", LINEW*2)
 
 		fontSelect(fontGame)  
 		setFontColor(RED)
@@ -1733,21 +1714,14 @@ function initJob()
 
 	elseif dip_Res == 1 then
 
-		overlaySetResolution(vldpGetWidth()/2, vldpGetHeight()/2)
-
-		--[[
-		OVLW = vldpGetWidth()/2
-		OVLH = vldpGetHeight()/2
-		]]--
-
-		OVLW = 320
+		OVLW = 360
 		OVLH = 240
 		
 		LINEH = OVLH/80
 		LINEW = OVLW/80
 
-		fontGame = fontLoad(MYDIR .. "font.otf", LINEW*2)
-		fontLCD = fontLoad(MYDIR .. "font.otf", LINEW*2.5)
+		fontGame = fontLoad(MYDIR .. "font.otf", LINEW*1.8)
+		fontLCD = fontLoad(MYDIR .. "font.otf", LINEW*2)
 
 		fontSelect(fontGame)  
 		setFontColor(RED)

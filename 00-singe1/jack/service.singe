@@ -381,7 +381,7 @@ function printOpts()
 	-- This function writes the options on the service menu screen.
 	local k = 0
 	local ypos = 0
-	local fntx = 200
+	local fntx = 220
 	local smenu = {}; 
 	
 	smenu[1] = "Difficulty"
@@ -397,16 +397,16 @@ function printOpts()
 	smenu[11] = "Debug Mode"	
 	smenu[12] = "EXIT"	
 	
-	textPrint("Poiu versione 1.0",105,210,fontDebug6pt,mycolorTITMENU,BLACK)
-	fontSelect(fontDebug8pt)	
+	textPrint("Poiu versione 1.0",125,210,fontDigital,mycolorTITMENU,BLACK)
+	fontSelect(fontDigital)	
 	setFontColor(YELLOW)
-	fontPrint(105,45, "Opzions Menu")	
+	fontPrint(130,45, "Options Menu")	
 	
 	for k=1,12 do
 		
 		ypos = 53+k*10
 		if k == optSel then setFontColor(mycolorMENUON) else setFontColor(mycolorMENUOFF) end		
-		if k == 12 then fontPrint(135,180, "EXIT") else fontPrint(55, ypos, smenu[k]) end
+		if k == 12 then fontPrint(170,180, "EXIT") else fontPrint(105, ypos, smenu[k]) end
 		
 		if (k == 1) then
 

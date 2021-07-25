@@ -174,7 +174,7 @@ function setCursor(overHere)
 	
 	elseif (overHere == level02) then -- level02
 	
-	    curx = 140; cury = 25
+	    curx = 180; cury = 25
 	
 	elseif (overHere == level03) then -- level03
 	
@@ -182,11 +182,11 @@ function setCursor(overHere)
 	
 	elseif (overHere == level04) then -- level04
 	
-		curx = 140; cury = 94
+		curx = 180; cury = 94
 	
 	elseif (overHere == level05) then -- level05
 	
-		curx = 75; cury = 152
+		curx = 100; cury = 152
 		
 	end	
 	
@@ -253,12 +253,12 @@ function doLevelSelect()
 				p1BUTTON1 = false			
 				lvlState = lvlEnd
 			else
-				if levelMap[level01] == true then spriteDraw(125, 36, sprite[CROSSMAP]) end
-				if levelMap[level02] == true then spriteDraw(405, 36, sprite[CROSSMAP]) end
-				if levelMap[level03] == true then spriteDraw(125, 105, sprite[CROSSMAP]) end
-				if levelMap[level04] == true then spriteDraw(405, 105, sprite[CROSSMAP]) end
-				if levelMap[level05] == true then spriteDraw(350, 125, sprite[CROSSMAP]) end
-				
+				if levelMap[level01] == true then spriteDraw(70, 40, sprite[CROSSMAP]) end
+				if levelMap[level02] == true then spriteDraw(230, 40, sprite[CROSSMAP]) end
+				if levelMap[level03] == true then spriteDraw(70, 120, sprite[CROSSMAP]) end
+				if levelMap[level04] == true then spriteDraw(230, 120, sprite[CROSSMAP]) end
+				if levelMap[level05] == true then spriteDraw(150, 175, sprite[CROSSMAP]) end
+
 				moveCursor(iCurPos)			
 				setCursor(iCurPos)
 				spriteDraw(curx, cury, sprBox)

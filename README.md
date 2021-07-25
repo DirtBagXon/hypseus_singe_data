@@ -1,23 +1,45 @@
 # Hypseus Singe anomaly files +
 # Support for Singe 2 games
 
-#### Firstly, ensure you are running at least version 2.5.6 of Hypseus Singe, this version has an important fix.
+#### Firstly, ensure you are running at least version 2.6.4 of Hypseus Singe.
 
 ### Singe 1 replacement files
 
-Due to tighter frame reporting changes in Hypsesus Singe, some of the original Singe games can get stuck, particularly at the end of levels. This is mostly down to unforgiving LUA coding where ``==`` has been specified, rather than ``>=`` for frame references. These errors are infrequent and random. The files in the ``00-singe1`` folder of this repository can be dropped in as replacements over the originals. They simply allow detection of level changes through corrected operator assignment. No fundamental changes other than operators have been made. These files should therefore work in Hypseus and original Singe.
+Due to more accurate frame reporting in Hypsesus Singe, some of the original Singe games have a function that can skip and miss frame number checks, particularly at the end of levels. This usually results in a constant video pause. This is down to unforgiving coding in the game LUA (*.singe*) files where ``==`` has been specified, rather than ``>=`` for frame number comparisions. These issues are infrequent and random. The files in the ``00-singe1`` folder of this repository can be dropped in as replacements over the originals Singe files. Only the ``.singe`` files themselves are needed as a replacement, however all files have been provided for convenience. These changes simply allow detection of level end through corrected comparison operator assignments looking for any frame number higher than, or equal to, the level end frame. No fundamental changes other than operators have been made. These files should therefore work in Hypseus and original Singe.
 
-### Recode Singe 2 video files for Hypseus Singe
+# Using this repository
 
-Files in this repository are based around the first release of Singe 2 games on archive.org \
-Subsequent releases will likely not work correctly.
+This repo does not contain Copyrighted &copy; material, purely fan made graphics, sounds and LUA scripts.
 
-Newer games, like Altered Carbon, will work from current releases as they were not original release games.
+All data in the subdirectories of this repository has been ported according to the processes below.
 
-Frame information from ``mediainfo`` will be provided for the Singe2 video files in each folder:
+You do not **need** to alter any of the peripheral data in these subdirectories.
+
+The **only required** step is to obtain the video files for your required game and perform a video conversion as detailed below using *ffmpeg*. This can be performed on any PC including Windows: https://ffmpeg.org/download.html
+
+Once you have the new **.m2v** and **.ogg** video and audio files: 
+
+* Check the duration and frame numbers match ``FRAMEINFO.md`` (*see below*).
+* Move them into the relevant subdirectory from this repository.
+* Install the subdirectory into your Hypseus Singe ROM folder location.
+* Play the game.
+
+### Recoding Singe 2 mp4 video files for Hypseus Singe
+
+Singe 2 files in this repository are mostly based around the first release of Singe 2 games on archive.org \
+Check ``FRAMEINFO.md`` for the required video for each game, it may be situated elsewhere.
+
+Newer games, like Altered Carbon, will work from current releases as they were not original release games.  
+But again check ``FRAMEINFO.md``.
+
+Frame information from ``mediainfo`` will be provided for the Singe2 video files in a file called ``FRAMEINFO.md`` in each folder:
 
     mediainfo --Inform='Video;%FrameCount%' <file>
     mediainfo --Inform='Video;%Duration%' <file>
+
+``mediainfo`` can usually be installed via:
+
+    sudo apt-get install mediainfo
 
 This should allow you to know the correct video files required.
 
@@ -35,21 +57,6 @@ If your device is struggling with the HD content, you can resize in this operati
 
     ffmpeg -i FaI.mp4 -an -qscale:v 4 -b:v 6000k -vf scale=640:480 -codec:v mpeg2video fireandice.m2v
 
-### Using this repository
-
-This repo does not contain Copyrighted &copy; material, purely fan made graphics, sounds and LUA scripts.
-
-All data in the subdirectories of this repository has been ported according to the processes below.
-
-You do not **need** to alter any of the peripheral data in these subdirectories.
-
-The **only required** step is to obtain the video files for your required game and perform a video conversion as detailed above using *ffmpeg*. This can be performed on any PC including Windows: https://ffmpeg.org/download.html
-
-Once you have the new **.m2v** and **.ogg** video and audio files: 
-
-* Move them into the relevant subdirectory from this repository.
-* Install the subdirectory into your Hypseus Singe ROM folder location.
-
 
 ## Details below are only required for porting new games
 
@@ -64,7 +71,7 @@ Usually in *main.singe*, comment existing and hardcode Singe 320x240 overlay:
     OVLH = vldpGetHeight()
     ]]--
 
-    OVLW = 320
+    OVLW = 360
     OVLH = 240
 
 ### Resize PNG's
@@ -106,18 +113,6 @@ However below are scripts to help you do this if porting over.
     perl -p -i -e 's/MYDIR\ \.\. \"\/Sounds/\"singe\/'$GAME'/g' *.singe
     perl -p -i -e 's/MYDIR\ \.\. \"\/Overlay/\"singe\/'$GAME'/g' *.singe
 
-    perl -p -i -e 's/MYDIR\.\."\/Script/\"singe\/'$GAME'/g' *.singe
-    perl -p -i -e 's/MYDIR\.\."\/Cfg/\"singe\/'$GAME'/g' *.singe
-    perl -p -i -e 's/MYDIR\.\."\/Fonts/\"singe\/'$GAME'/g' *.singe
-    perl -p -i -e 's/MYDIR\.\."\/Sounds/\"singe\/'$GAME'/g' *.singe
-    perl -p -i -e 's/MYDIR\.\."\/Overlay/\"singe\/'$GAME'/g' *.singe
-
-    perl -p -i -e 's/\/Script/singe\/'$GAME'/g' *.singe
-    perl -p -i -e 's/\/Cfg/singe\/'$GAME'/g' *.singe
-    perl -p -i -e 's/\/Fonts/singe\/'$GAME'/g' *.singe
-    perl -p -i -e 's/\/Sounds/singe\/'$GAME'/g' *.singe
-    perl -p -i -e 's/\/Overlay/singe\/'$GAME'/g' *.singe
-    
 
 ### These Singe 2 games have known issues:
 
