@@ -1885,8 +1885,8 @@ function drawChoose()      -- Specific drawings for the choose action
 			fontPrint(OVLW/2.5, OVLH/3, choice[optorder[1]][1])
 			fontPrint(OVLW/2.5, OVLH/3+LINEH*6, choice[optorder[2]][1])
 				
-			if     iChoice == 1 then spriteDraw(OVLW/2.5 - SELCW -10, OVLH/3+5, sprite[ARROWSEL])
-			elseif iChoice == 2 then spriteDraw(OVLW/2.5 - SELCW -10, OVLH/3+LINEH*6+5, sprite[ARROWSEL]) end
+			if     iChoice == 1 then spriteDraw(OVLW/2.5 - SELCW -16, OVLH/3-2, sprite[ARROWSEL])
+			elseif iChoice == 2 then spriteDraw(OVLW/2.5 - SELCW -16, OVLH/3+LINEH*6-2, sprite[ARROWSEL]) end
 
 		elseif move[currentMove][moveDeath] == 3 then
 
@@ -1894,9 +1894,9 @@ function drawChoose()      -- Specific drawings for the choose action
 			fontPrint(OVLW/2.5, OVLH/3+LINEH*6, choice[optorder[2]][1])
 			fontPrint(OVLW/2.5, OVLH/3+LINEH*12, choice[optorder[3]][1])	
 	
-			if     iChoice == 1 then spriteDraw(OVLW/2.5 - SELCW -10, OVLH/3+5, sprite[ARROWSEL])
-			elseif iChoice == 2 then spriteDraw(OVLW/2.5 - SELCW -10, OVLH/3+LINEH*6+5, sprite[ARROWSEL])
-			elseif iChoice == 3 then spriteDraw(OVLW/2.5 - SELCW -10, OVLH/3+LINEH*12+5, sprite[ARROWSEL]) end
+			if     iChoice == 1 then spriteDraw(OVLW/2.5 - SELCW -16, OVLH/3-2, sprite[ARROWSEL])
+			elseif iChoice == 2 then spriteDraw(OVLW/2.5 - SELCW -16, OVLH/3+LINEH*6-2, sprite[ARROWSEL])
+			elseif iChoice == 3 then spriteDraw(OVLW/2.5 - SELCW -16, OVLH/3+LINEH*12-2, sprite[ARROWSEL]) end
 		
 		elseif move[currentMove][moveDeath] == 4 then
 
@@ -1905,10 +1905,10 @@ function drawChoose()      -- Specific drawings for the choose action
 			fontPrint(OVLW/2.5, OVLH/3+LINEH*12, choice[optorder[3]][1])
 			fontPrint(OVLW/2.5, OVLH/3+LINEH*18, choice[optorder[4]][1])	
 	
-			if     iChoice == 1 then spriteDraw(OVLW/2.5 - SELCW -10, OVLH/3+5, sprite[ARROWSEL])
-			elseif iChoice == 2 then spriteDraw(OVLW/2.5 - SELCW -10, OVLH/3+LINEH*6+5, sprite[ARROWSEL])
-			elseif iChoice == 3 then spriteDraw(OVLW/2.5 - SELCW -10, OVLH/3+LINEH*12+5, sprite[ARROWSEL])
-			elseif iChoice == 4 then spriteDraw(OVLW/2.5 - SELCW -10, OVLH/3+LINEH*18+5, sprite[ARROWSEL]) end
+			if     iChoice == 1 then spriteDraw(OVLW/2.5 - SELCW -16, OVLH/3-2, sprite[ARROWSEL])
+			elseif iChoice == 2 then spriteDraw(OVLW/2.5 - SELCW -16, OVLH/3+LINEH*6-2, sprite[ARROWSEL])
+			elseif iChoice == 3 then spriteDraw(OVLW/2.5 - SELCW -16, OVLH/3+LINEH*12-2, sprite[ARROWSEL])
+			elseif iChoice == 4 then spriteDraw(OVLW/2.5 - SELCW -16, OVLH/3+LINEH*18-2, sprite[ARROWSEL]) end
 
 	end
 
