@@ -250,7 +250,7 @@ function drawHStable()
 	local s2 = ""
 	
 	colorForeground(0, 255, 0)
-	fontSelect(fontDebug8pt)    
+	fontSelect(fontScore)    
 	
 	--spriteDraw(hsx, hsy, sprHSTitle)
 	--fontSelect(fontDebug8pt)
@@ -259,7 +259,7 @@ function drawHStable()
 	
 		s1 = tostring(k) .. ". " .. highscore[k][1]
 		s2 = highscore[k][2]
-		fontPrint(120,posy, s1)
+		fontPrint(100,posy, s1)
 		fontPrint(230,posy, s2)
 		posy = posy + 10
 	
