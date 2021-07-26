@@ -329,13 +329,13 @@ function drawCredits()
 		
 		if (dip_CoinsPerCredit == DOPT_FREEPLAY) then
 		
-			spriteDraw(crx, cry, sprFreePlay)
+			spriteDraw(crx+10, cry, sprFreePlay)
 		
 		else
 		
 			if (iCredits > 0) then
 				
-				fontPrint(tx,ty, string.format('CREDITS: %d',iCredits))
+				fontPrint(tx+10,ty, string.format('CREDITS: %d',iCredits))
 				
 			end
 			
@@ -354,14 +354,14 @@ function drawLives()
 	
 	if iLives > 3 then
 	
-		for k = 4,iLives do	spriteDraw(livex + 12*(k-4), 204, sprHatSmall)	end
-		for k = 1,3 do	spriteDraw(livex + 12*(k-1), 214, sprHatSmall)	end
+		for k = 4,iLives do	spriteDraw(livex + 12*(k-3), 204, sprHatSmall)	end
+		for k = 1,3 do	spriteDraw(livex + 12*(k), 214, sprHatSmall)	end
 	
 	else
 	
 		for k = 1,iLives do
 		
-			spriteDraw(livex + 18*(k-1), 207, sprHatBig)
+			spriteDraw(livex + 18*(k), 207, sprHatBig)
 		end
 	
 	end
