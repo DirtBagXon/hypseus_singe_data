@@ -365,11 +365,11 @@ function drawLetters()
 
 		if OVLW == 320 then
 	
-			x1 = OVLW/6+NUMW + q*NUMW*3
+			x1 = OVLW/6+NUMW-40 + q*NUMW*3
 
 		else
 
-			x1 = OVLW/3+NUMW + q*NUMW*3
+			x1 = OVLW/3+NUMW-40 + q*NUMW*3
 
 		end
 
@@ -398,13 +398,13 @@ function drawLetters()
 		
 			if k == 43 then 		
 				
-				fontPrint(x1+NUMW, y1, "CLR")				
+				fontPrint(x1+NUMW-50, y1, "CLR")
 				
 			end
 			
 			if k == 44 then			
 				
-				fontPrint(x1+NUMW*2, y1, "END")
+				fontPrint(x1+NUMW*2-40, y1, "END")
 			
 			
 			end
@@ -467,17 +467,17 @@ function drawHS()
 
 			if k==10 then
 
-				fontPrint(OVLW/(5/2), OVLH/5 + k *LINEH*2, k)
+				fontPrint(OVLW/(5/1.5), OVLH/5 + k *LINEH*2, k)
 
 			else
 
-				fontPrint(10+OVLW/(5/2), OVLH/5 + k *LINEH*2, k)
+				fontPrint(10+OVLW/(5/1.5), OVLH/5 + k *LINEH*2, k)
 
 			end
 
-			fontPrint(20+OVLW/(5/2), OVLH/5 + k * LINEH*2, ".")
-			fontPrint(35+OVLW/(5/2), OVLH/5 + k * LINEH*2, highscore[k][1])
-			fontPrint(85+OVLW/(5/2), OVLH/5 + k * LINEH*2, highscore[k][2])
+			fontPrint(20+OVLW/(5/1.5), OVLH/5 + k * LINEH*2, ".")
+			fontPrint(35+OVLW/(5/1.5), OVLH/5 + k * LINEH*2, highscore[k][1])
+			fontPrint(85+OVLW/(5/1.5), OVLH/5 + k * LINEH*2, highscore[k][2])
 
 		end
 
