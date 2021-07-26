@@ -1,6 +1,6 @@
 #!/bin/bash
 
-scale=3
+scale=2.5
 
 for x in $(ls *.png); do
 	s=$(file $x | awk '{print $5}')
