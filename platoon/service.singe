@@ -318,7 +318,7 @@ function printOpts()
 	
 	spriteDraw(sxmsg, symsg, sprmsg)
 	
-	fontSelect(fontDebug16pt)
+	fontSelect(fontDebug12pt)
 	
 	
 	for k=1,8 do
@@ -326,6 +326,8 @@ function printOpts()
 		fontPrint(fntx-150, 52 + k*17, smenu[k])
 	
 	end	
+
+	colorForeground(0, 255, 0)
 	
 	for k=1,9 do
 		
