@@ -94,7 +94,7 @@ function doIntro()
 		
 	elseif (lvlState == branch01) then
 	
-		if currentFrame >= iFrameEnd then 
+		if currentFrame == iFrameEnd then 
 		
 			doFillerFrame()	
 			bShowLCD = true							
@@ -104,7 +104,7 @@ function doIntro()
 	
 	elseif (lvlState == branch02) then
 	
-		if (currentFrame >= iFrameEnd or p1BUTTON1) then -- HTT Logo
+		if (currentFrame == iFrameEnd or p1BUTTON1) then -- HTT Logo
 	
 			p1BUTTON1 = false
 			discSkipToFrame(frameLogo) --offsetMenus + 32)
@@ -136,7 +136,7 @@ function doIntro()
 		
 	elseif (lvlState == branch04) then
 	
-		if currentFrame >= iFrameEnd then lvlState = lvlSetup end
+		if currentFrame == iFrameEnd then lvlState = lvlSetup end
 		
 	elseif (lvlState == branch05) then
 	
@@ -227,7 +227,7 @@ function doContinue()
 	
 	elseif (lvlState == lvlRunning) then
 
-		if currentFrame >= iFrameEnd then
+		if currentFrame == iFrameEnd then
 			
 			lvlState = lvlEnd
 		
@@ -659,7 +659,7 @@ function initVLDP()
 	
 	elseif (lvlState == lvlRunning) then
 	
-		if (currentFrame >= iFrameEnd) then
+		if (currentFrame == iFrameEnd) then
 		
 			discPause()
 			lvlState = lvlEnd

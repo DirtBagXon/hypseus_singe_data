@@ -327,7 +327,7 @@ function doLevelArmybase()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 			
 				bLevelComplete = true
 				lvlState = lvlEnd
@@ -475,7 +475,7 @@ function doLevelBonus()
 		
 	elseif (lvlState == lvlPlayClip1) then
 	
-		if currentFrame >= levelFrameEnd then
+		if currentFrame == levelFrameEnd then
 		
 			bLevelComplete = true			
 			lvlState = lvlEnd
@@ -733,7 +733,7 @@ function doLevelCactus1()
 		
 	elseif (lvlState == lvlPlayClip1) then
 	
-		if (currentFrame >= iFrameEnd) then
+		if (currentFrame == iFrameEnd) then
 		
 			discSkipToFrame(levelFrameStart)		
 			lvlState = lvlRunning
@@ -804,7 +804,7 @@ function doLevelCactus1()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 	
 				bLevelComplete = true				
 				lvlState = lvlEnd
@@ -1039,7 +1039,7 @@ function doLevelCactus2()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 	
 				bLevelComplete = true				
 				lvlState = lvlEnd
@@ -1262,7 +1262,7 @@ function doLevelCactus3()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 	
 				bLevelComplete = true				
 				lvlState = lvlEnd
@@ -1517,7 +1517,7 @@ function doLevelCactus4()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 	
 				bLevelComplete = true				
 				lvlState = lvlEnd
@@ -2120,7 +2120,7 @@ function doLevelCactus6()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 	
 				if panel[STAGE_CACTUS] == DEAD and not bAdviceGiven then
 				
@@ -2325,7 +2325,7 @@ function doLevelDan1()
 		
 	elseif (lvlState == lvlPlayClip1) then
 	
-		if currentFrame >= levelFrameEnd then
+		if currentFrame == levelFrameEnd then
 		
 			bLevelComplete = true			
 			lvlState = lvlEnd
@@ -2587,7 +2587,7 @@ function doLevelDan2()
 		
 	elseif (lvlState == lvlPlayClip1) then
 	
-		if currentFrame >= levelFrameEnd then
+		if currentFrame == levelFrameEnd then
 		
 			bLevelComplete = true			
 			lvlState = lvlEnd
@@ -2626,7 +2626,7 @@ function doLevelDan2()
 	
 		if (currentMove > totalMoves) then		
 		
-			if currentFrame >= levelFrameEnd then
+			if currentFrame == levelFrameEnd then
 		
 				bLevelComplete = true
 				lvlState = lvlEnd
@@ -2847,7 +2847,7 @@ function doLevelDan3()
 	
 		if (currentMove > totalMoves) then
 		
-			if currentFrame >= levelFrameEnd then
+			if currentFrame == levelFrameEnd then
 			
 				if panel[STAGE_DAN] == DEAD and not bAdviceGiven then
 				
@@ -3130,7 +3130,7 @@ function doLevelFinal1()
 	
 		if (currentMove > totalMoves) then		
 		
-			if currentFrame >= levelFrameEnd then
+			if currentFrame == levelFrameEnd then
 			
 				bLevelComplete = true
 				lvlState = lvlEnd
@@ -3340,7 +3340,7 @@ function doLevelFinal2()
 
 	elseif (lvlState == lvlPlayClip3) then
 	
-		if currentFrame >= iFrameEnd then
+		if currentFrame == iFrameEnd then
 		
 			bLevelComplete = true			
 			lvlState = lvlEnd
@@ -3641,8 +3641,7 @@ function doLevelHarry1()
 		end
 		
 	elseif (lvlState == lvlPlayClip3) then
-	debugPrint("D1")
-		if (currentFrame >= iFrameEnd) then
+		if (currentFrame == iFrameEnd) then
 		debugPrint("D2")
 			lvlState = lvlRunning
 			discSkipToFrame(levelFrameStart)
@@ -4308,7 +4307,7 @@ function doLevelHarry3()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 				
 				if panel[STAGE_HARRY] == DEAD and not bAdviceGiven then
 				
@@ -4580,7 +4579,7 @@ function doLevelHarry4()
 		
 	elseif (lvlState == lvlPlayClip3) then
 	
-		if (currentFrame >= levelFrameEnd) then
+		if (currentFrame == levelFrameEnd) then
 		
 			bLevelComplete = true
 			lvlState = lvlEnd
@@ -4802,7 +4801,7 @@ function doLevelLoco1()
 		
 	elseif (lvlState == lvlPlayClip1) then
 	
-		if currentFrame >= levelFrameEnd then
+		if currentFrame == levelFrameEnd then
 		
 			bLevelComplete = true			
 			lvlState = lvlEnd
@@ -4861,7 +4860,7 @@ function doLevelLoco1()
 	
 	elseif (lvlState == lvlPlayClip3) then
 	
-		if (currentFrame >= iFrameEnd) then
+		if (currentFrame == iFrameEnd) then
 		
 			discSkipToFrame(levelFrameStart)		
 			lvlState = lvlRunning
@@ -5137,7 +5136,7 @@ function doLevelLoco2()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 	
 				bLevelComplete = true				
 				lvlState = lvlEnd
@@ -5401,7 +5400,7 @@ function doLevelLoco3()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 			
 				if panel[STAGE_LOCO] == DEAD and not bAdviceGiven then
 				
@@ -5925,7 +5924,7 @@ function doLevelShowdown()
 		
 	elseif (lvlState == lvlPlayClip4) then
 	
-		if currentFrame >= iFrameEnd then
+		if currentFrame == iFrameEnd then
 		
 			lvlState = lvlEnd
 		
@@ -6111,7 +6110,7 @@ function doMenu()
 		
 	elseif (lvlState == lvlRunning) then	
 		
-		if currentFrame >= iFrameEnd then
+		if currentFrame == iFrameEnd then
 		
 			if panel[STAGE_HARRY] == ATLARGE then
 					

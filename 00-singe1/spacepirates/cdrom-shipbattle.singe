@@ -249,7 +249,7 @@ function doCannonPractice()
 		
 	elseif (lvlState == lvlPlayClip2) then
 	
-		if (currentFrame >= iFrameEnd) then
+		if (currentFrame == iFrameEnd) then
 		
 			setupClip(24439, 24652)
 			lvlState = lvlPlayClip3
@@ -258,7 +258,7 @@ function doCannonPractice()
 		
 	elseif (lvlState == lvlPlayClip3) then
 	
-		if (currentFrame >= iFrameEnd or (currentFrame > (iFrameStart + 30) and p1BUTTON3)) then		
+		if (currentFrame == iFrameEnd or (currentFrame > (iFrameStart + 30) and p1BUTTON3)) then		
 			
 			p1BUTTON3 = false
 			discSkipToFrame(levelFrameStart)		
@@ -480,7 +480,7 @@ function doShipBattle()
 		
 	elseif (lvlState == lvlPlayClip3) then
 	
-		if (currentFrame >= iFrameEnd or (currentFrame > (iFrameStart + 30) and p1BUTTON3)) then		
+		if (currentFrame == iFrameEnd or (currentFrame > (iFrameStart + 30) and p1BUTTON3)) then		
 		
 			currentMove = currentMove + 1
 			p1BUTTON3 = false
@@ -500,7 +500,7 @@ function doShipBattle()
 		
 	elseif (lvlState == lvlPlayClip4) then
 	
-		if (currentFrame >= iFrameEnd or (currentFrame > (iFrameStart + 30) and p1BUTTON3)) then
+		if (currentFrame == iFrameEnd or (currentFrame > (iFrameStart + 30) and p1BUTTON3)) then
 		
 			p1BUTTON3 = false	
 			bLevelComplete = true

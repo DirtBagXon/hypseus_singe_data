@@ -318,7 +318,7 @@ function doContinue()
 	
 	elseif (lvlState == lvlPlayClip1) then
 	
-		if (currentFrame >= levelFrameEnd) then
+		if (currentFrame == levelFrameEnd) then
 			lvlState = lvlEnd
 			
 		else
@@ -387,7 +387,7 @@ function doGameOver()
 	
 	elseif (lvlState == lvlPlayClip1) then
 	
-		if (currentFrame >= levelFrameEnd) then
+		if (currentFrame == levelFrameEnd) then
 			lvlState = lvlEnd
 		
 		end
@@ -488,7 +488,7 @@ function doIntro()
 		
 	elseif (lvlState == lvlPlayClip7) then
 	
-		if currentFrame >= iFrameEnd then
+		if currentFrame == iFrameEnd then
 		
 			if iFrameEnd == offsetMenus + 4980 then
 			
@@ -606,7 +606,7 @@ function doLevelBeaver()
 		
 	elseif (lvlState == lvlPlayClip2) then
 	
-		if (currentFrame >= iFrameEnd) then
+		if (currentFrame == iFrameEnd) then
 		
 			bLevelComplete = true
 			lvlState = lvlEnd		
@@ -660,7 +660,7 @@ function doLevelBeaver()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 				
 				lvlState = lvlPlayClip2
 				discSkipToFrame(iFrameStart)
@@ -674,7 +674,7 @@ function doLevelBeaver()
 				timerON(iDelay)
 				lvlState = lvlPauseAction
 			
-		elseif (currentFrame == move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
 			
 			if (p1BUTTON3 and iBullets > 0) then
 				p1BUTTON3 = false
@@ -727,7 +727,7 @@ function doLevelBeaver()
 		
 	elseif (lvlState == lvlPlayDeath) then
 		
-		if (currentFrame == move[currentMove][deathFrameEnd]) then
+		if (currentFrame >= move[currentMove][deathFrameEnd]) then
 
 			getUndertakerClip(UNDERTKR_ANYCLIP)
 			discSkipToFrame(undertkrFrmStart)
@@ -843,7 +843,7 @@ function doLevelBonnie()
 		
 	elseif (lvlState == lvlPlayClip1) then
 	
-		if (currentFrame >= iFrameEnd) then
+		if (currentFrame == iFrameEnd) then
 		
 			bLevelComplete = true
 			lvlState = lvlEnd		
@@ -901,7 +901,7 @@ function doLevelBonnie()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 				
 				lvlState = lvlPlayClip1
 				discSkipToFrame(iFrameStart)
@@ -928,7 +928,7 @@ function doLevelBonnie()
 				
 			end
 			
-		elseif (currentFrame == move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
 		
 			if (currentMove >= 12 and currentMove <= 14) then
 			
@@ -1017,7 +1017,7 @@ function doLevelBonnie()
 		
 	elseif (lvlState == lvlPlayDeath) then
 		
-		if (currentFrame == move[currentMove][deathFrameEnd]) then
+		if (currentFrame >= move[currentMove][deathFrameEnd]) then
 
 			getUndertakerClip(UNDERTKR_ANYCLIP)
 			discSkipToFrame(undertkrFrmStart)
@@ -1093,7 +1093,7 @@ function doLevelFinalBeaver()
 		
 	elseif (lvlState == lvlPlayClip1) then
 		
-		if (currentFrame >= iFrameEnd) then
+		if (currentFrame == iFrameEnd) then
 		
 			bLevelComplete = true
 			lvlState = lvlEnd
@@ -1133,7 +1133,7 @@ function doLevelFinalBeaver()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 				
 				discSkipToFrame(iFrameStart)
 				lvlState = lvlPlayClip1
@@ -1147,7 +1147,7 @@ function doLevelFinalBeaver()
 			timerON(iDelay)
 			lvlState = lvlPauseAction
 
-		elseif (currentFrame == move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
 			
 			if (p1BUTTON3 and iBullets > 0) then
 				
@@ -1167,7 +1167,7 @@ function doLevelFinalBeaver()
 		
 	elseif (lvlState == lvlPlayDeath) then
 		
-		if (currentFrame == move[currentMove][deathFrameEnd]) then
+		if (currentFrame >= move[currentMove][deathFrameEnd]) then
 
 			getUndertakerClip(UNDERTKR_ANYCLIP)
 			discSkipToFrame(undertkrFrmStart)
@@ -1238,7 +1238,7 @@ function doLevelFinalBonnie()
 		
 	elseif (lvlState == lvlPlayClip1) then
 	
-		if (currentFrame >= iFrameEnd) then
+		if (currentFrame == iFrameEnd) then
 		
 			bLevelComplete = true
 			lvlState = lvlEnd		
@@ -1278,7 +1278,7 @@ function doLevelFinalBonnie()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 				
 				lvlState = lvlPlayClip1
 				discSkipToFrame(iFrameStart)
@@ -1292,7 +1292,7 @@ function doLevelFinalBonnie()
 			timerON(iDelay)
 			lvlState = lvlPauseAction
 			
-		elseif (currentFrame == move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
 			
 			if (p1BUTTON3 and iBullets > 0) then
 				p1BUTTON3 = false
@@ -1311,7 +1311,7 @@ function doLevelFinalBonnie()
 		
 	elseif (lvlState == lvlPlayDeath) then
 		
-		if (currentFrame == move[currentMove][deathFrameEnd]) then
+		if (currentFrame >= move[currentMove][deathFrameEnd]) then
 
 			getUndertakerClip(UNDERTKR_ANYCLIP)
 			discSkipToFrame(undertkrFrmStart)
@@ -1382,7 +1382,7 @@ function doLevelItem1()
 		
 	elseif (lvlState == lvlPlayClip1) then
 		
-		if (currentFrame >= iFrameEnd) then
+		if (currentFrame == iFrameEnd) then
 		
 			bLevelComplete = true
 			lvlState = lvlEnd
@@ -1471,7 +1471,7 @@ function doLevelItem1()
 		
 	elseif (lvlState == lvlPlayClip5) then
 	
-		if (currentFrame >= levelFrameEnd) then
+		if (currentFrame == levelFrameEnd) then
 			
 			discSkipToFrame(iFrameStart)
 			lvlState = lvlPlayClip1
@@ -1520,7 +1520,7 @@ function doLevelItem1()
 			timerON(iDelay)
 			lvlState = lvlPauseAction
 
-		elseif (currentFrame == move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
 			
 			if (p1BUTTON3 and iBullets > 0) then
 				p1BUTTON3 = false
@@ -1538,7 +1538,7 @@ function doLevelItem1()
 		
 	elseif (lvlState == lvlPlayDeath) then
 		
-		if (currentFrame == move[currentMove][deathFrameEnd]) then
+		if (currentFrame >= move[currentMove][deathFrameEnd]) then
 
 			getUndertakerClip(UNDERTKR_ANYCLIP)
 			discSkipToFrame(undertkrFrmStart)
@@ -1608,7 +1608,7 @@ function doLevelItem2()
 		
 	elseif (lvlState == lvlPlayClip1) then
 		
-		if (currentFrame >= iFrameEnd) then
+		if (currentFrame == iFrameEnd) then
 		
 			bLevelComplete = true
 			lvlState = lvlEnd
@@ -1676,7 +1676,7 @@ function doLevelItem2()
 			timerON(iDelay)
 			lvlState = lvlPauseAction
 
-		elseif (currentFrame == move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
 			
 			if (p1BUTTON3 and iBullets > 0) then
 				p1BUTTON3 = false
@@ -1694,7 +1694,7 @@ function doLevelItem2()
 		
 	elseif (lvlState == lvlPlayDeath) then
 		
-		if (currentFrame == move[currentMove][deathFrameEnd]) then
+		if (currentFrame >= move[currentMove][deathFrameEnd]) then
 			
 			getUndertakerClip(UNDERTKR_ANYCLIP)
 			discSkipToFrame(undertkrFrmStart)
@@ -1800,7 +1800,7 @@ function doLevelMaddog()
 	
 	elseif (lvlState == lvlPlayClip2) then
 	
-		if (currentFrame >= iFrameEnd) then
+		if (currentFrame == iFrameEnd) then
 		
 			bLevelComplete = true
 			lvlState = lvlEnd
@@ -1866,7 +1866,7 @@ function doLevelMaddog()
 			timerON(iDelay)
 			lvlState = lvlPauseAction
 
-		elseif (currentFrame == move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
 			
 			if (p1BUTTON3 and iBullets > 0) then
 				p1BUTTON3 = false
@@ -1889,7 +1889,7 @@ function doLevelMaddog()
 		
 	elseif (lvlState == lvlPlayDeath) then
 		
-		if (currentFrame == move[currentMove][deathFrameEnd]) then
+		if (currentFrame >= move[currentMove][deathFrameEnd]) then
 
 			getUndertakerClip(UNDERTKR_ANYCLIP)
 			discSkipToFrame(undertkrFrmStart)
@@ -2206,7 +2206,7 @@ function doLevelProf1()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 				
 				bLevelComplete = true
 				lvlState = lvlEnd
@@ -2228,7 +2228,7 @@ function doLevelProf1()
 				timerON(iDelay)
 				lvlState = lvlPauseAction
 				
-		elseif (currentFrame == move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
 			
 			if (p1BUTTON3 and iBullets > 0) then
 				p1BUTTON3 = false
@@ -2295,7 +2295,7 @@ function doLevelProf1()
 		
 	elseif (lvlState == lvlPlayDeath) then
 		
-		if (currentFrame == move[currentMove][deathFrameEnd]) then
+		if (currentFrame >= move[currentMove][deathFrameEnd]) then
 
 			getUndertakerClip(UNDERTKR_ANYCLIP)
 			discSkipToFrame(undertkrFrmStart)
@@ -2409,7 +2409,7 @@ function doLevelProf2()
 	
 	elseif (lvlState == lvlPlayClip1) then
 	
-		if (currentFrame >= iFrameEnd) then
+		if (currentFrame == iFrameEnd) then
 		
 			bLevelComplete = true
 			lvlState = lvlEnd		
@@ -2507,7 +2507,7 @@ function doLevelProf2()
 	
 		if (currentMove > totalMoves) then
 
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 			
 				lvlState = lvlPlayClip1
 				discSkipToFrame(iFrameStart)
@@ -2529,7 +2529,7 @@ function doLevelProf2()
 			
 			end
 				
-		elseif (currentFrame == move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
 			
 			if (p1BUTTON3 and iBullets > 0) then
 				p1BUTTON3 = false
@@ -2629,7 +2629,7 @@ function doLevelProf2()
 		
 	elseif (lvlState == lvlPlayDeath) then
 		
-		if (currentFrame == move[currentMove][deathFrameEnd]) then
+		if (currentFrame >= move[currentMove][deathFrameEnd]) then
 
 			getUndertakerClip(UNDERTKR_ANYCLIP)
 			discSkipToFrame(undertkrFrmStart)
@@ -2707,7 +2707,7 @@ function doLevelProspector1()
 		
 	elseif (lvlState == lvlPlayClip1) then
 		
-		if (currentFrame >= iFrameEnd) then
+		if (currentFrame == iFrameEnd) then
 			
 			discPause()
 			
@@ -2871,7 +2871,7 @@ function doLevelProspector1()
 			timerON(iDelay)
 			lvlState = lvlPauseAction
 
-		elseif (currentFrame == move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
 			
 			if (p1BUTTON3 and iBullets > 0) then
 				p1BUTTON3 = false
@@ -2889,7 +2889,7 @@ function doLevelProspector1()
 		
 	elseif (lvlState == lvlPlayDeath) then
 		
-		if (currentFrame == move[currentMove][deathFrameEnd]) then
+		if (currentFrame >= move[currentMove][deathFrameEnd]) then
 			
 			getUndertakerClip(UNDERTKR_ANYCLIP)
 			discSkipToFrame(undertkrFrmStart)
@@ -2958,7 +2958,7 @@ function doLevelProspector2()
 		
 	elseif (lvlState == lvlPlayClip1) then
 	
-		if (currentFrame >= levelFrameEnd) then
+		if (currentFrame == levelFrameEnd) then
 		
 			bLevelComplete = true
 			lvlState = lvlEnd
@@ -3028,7 +3028,7 @@ function doLevelProspector2()
 			timerON(iDelay)
 			lvlState = lvlPauseAction
 
-		elseif (currentFrame == move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
 			
 			if (p1BUTTON3 and iBullets > 0) then
 				p1BUTTON3 = false
@@ -3055,7 +3055,7 @@ function doLevelProspector2()
 		
 	elseif (lvlState == lvlPlayDeath) then
 		
-		if (currentFrame == move[currentMove][deathFrameEnd]) then
+		if (currentFrame >= move[currentMove][deathFrameEnd]) then
 
 			getUndertakerClip(UNDERTKR_ANYCLIP)
 			discSkipToFrame(undertkrFrmStart)
@@ -3131,7 +3131,7 @@ function doLevelStart()
 		
 	elseif (lvlState == lvlPlayClip1) then
 		
-		if (currentFrame >= iFrameEnd) then
+		if (currentFrame == iFrameEnd) then
 		
 			discSkipToFrame(move[currentMove][7])  -- Index 7 is a special case. Skips the "you missed it!" comments.			
 			currentMove = currentMove + 1
@@ -3198,7 +3198,7 @@ function doLevelStart()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 				
 				bLevelComplete = true
 				lvlState = lvlEnd
@@ -3247,7 +3247,7 @@ function doLevelStart()
 				
 			end
 			
-		elseif (currentFrame == move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
 			
 			if (p1BUTTON3) then
 				p1BUTTON3 = false
@@ -3311,7 +3311,7 @@ function doLevelStart()
 		
 	elseif (lvlState == lvlPlayDeath) then
 		
-		if (currentFrame == move[currentMove][deathFrameEnd]) then
+		if (currentFrame >= move[currentMove][deathFrameEnd]) then
 
 			getUndertakerClip(UNDERTKR_ANYCLIP)
 			discSkipToFrame(undertkrFrmStart)
@@ -3378,7 +3378,7 @@ function doLevelTown1()
 		
 	elseif (lvlState == lvlPlayClip1) then
 	
-		if (currentFrame >= levelFrameEnd) then
+		if (currentFrame == levelFrameEnd) then
 		
 			bLevelComplete = true
 			lvlState = lvlEnd
@@ -3457,7 +3457,7 @@ function doLevelTown1()
 				
 			end
 
-		elseif (currentFrame == move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
 			
 			if (p1BUTTON3 and iBullets > 0) then
 				p1BUTTON3 = false
@@ -3525,7 +3525,7 @@ function doLevelTown1()
 		
 	elseif (lvlState == lvlPlayDeath) then
 		
-		if (currentFrame == move[currentMove][deathFrameEnd]) then
+		if (currentFrame >= move[currentMove][deathFrameEnd]) then
 
 			if (currentMove == 13) then
 			
@@ -3594,7 +3594,7 @@ function doLevelTown2()
 		
 	elseif (lvlState == lvlPlayClip1) then
 	
-		if (currentFrame >= levelFrameEnd) then
+		if (currentFrame == levelFrameEnd) then
 		
 			bLevelComplete = true
 			lvlState = lvlEnd
@@ -3651,7 +3651,7 @@ function doLevelTown2()
 				
 			end
 
-		elseif (currentFrame == move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
 			
 			if (p1BUTTON3 and iBullets > 0) then
 				p1BUTTON3 = false
@@ -3707,7 +3707,7 @@ function doLevelTown2()
 		
 	elseif (lvlState == lvlPlayDeath) then
 		
-		if (currentFrame == move[currentMove][deathFrameEnd]) then
+		if (currentFrame >= move[currentMove][deathFrameEnd]) then
 
 			if (currentMove == 1 or currentMove == 4 or currentMove == 7 or currentMove == 8) then
 			
@@ -3827,7 +3827,7 @@ function doLevelShowdown()
 
 	elseif (lvlState == lvlPlayClip1) then
 	
-		if (currentFrame >= levelFrameEnd) then 
+		if (currentFrame == levelFrameEnd) then 
 			
 			bLevelComplete = true		
 			lvlState = lvlEnd		
@@ -3882,7 +3882,7 @@ function doLevelShowdown()
 					timerON(iDelay)
 					lvlState = lvlPauseAction
 				
-			elseif (currentFrame == move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+			elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
 			
 				if (p1BUTTON3) then						
 					p1BUTTON3 = false

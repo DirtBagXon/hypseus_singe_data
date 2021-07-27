@@ -140,7 +140,7 @@ function doLevelSaloon()
 		
 	elseif (lvlState == lvlPlayClip4) then
 	
-		if currentFrame >= iFrameEnd or p1BUTTON3 then
+		if currentFrame == iFrameEnd or p1BUTTON3 then
 		
 			p1BUTTON3 = false
 			bLevelComplete = true
@@ -270,7 +270,7 @@ function doLevelSaloon()
 				
 			end
 		
-		elseif (currentFrame == move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
 		
 			if (p1BUTTON3) then
 			

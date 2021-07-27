@@ -95,7 +95,7 @@ function doHighScore()
 		
 	elseif (lvlState == branch01) then
 	
-		if (currentFrame >= iFrameEnd or p1BUTTON1) then
+		if (currentFrame == iFrameEnd or p1BUTTON1) then
 		
 			p1BUTTON1 = false		
 			setupClip(offsetEnterHScore, offsetEnterHScoreend)		
@@ -105,7 +105,7 @@ function doHighScore()
 		
 	elseif (lvlState == branch02) then
 		
-		if currentFrame >= iFrameEnd then 
+		if currentFrame == iFrameEnd then 
 
 			lvlState = lvlEnd 
 
@@ -117,7 +117,7 @@ function doHighScore()
 
 	elseif (lvlState == branch03) then
 		
-		if currentFrame >= iFrameEnd then 
+		if currentFrame == iFrameEnd then 
 
 			lvlState = lvlEnd 
 
@@ -129,7 +129,7 @@ function doHighScore()
 		
 	elseif (lvlState == lvlRunning) then
 	
-		if currentFrame >= iFrameEnd then	
+		if currentFrame == iFrameEnd then	
 			
 			if dip_GameType == 4 then
 

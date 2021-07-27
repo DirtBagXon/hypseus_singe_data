@@ -38,7 +38,7 @@ function reverseTime()
 		
 	elseif altState == branch01 then
 	
-		if currentFrame >= iFrameEnd then
+		if currentFrame == iFrameEnd then
 		
 			if currentMove > 1 then currentMove = currentMove - 1 end
 			discSkipToFrame(iPauseFrame)
@@ -113,7 +113,7 @@ function doLevel()
 		
 	elseif (lvlState == branch01) then
 	
-		if (currentFrame >= iFrameEnd) then		
+		if (currentFrame == iFrameEnd) then		
 		
 			discSkipToFrame(segmentStart)			
 			lvlState = lvlRunning
@@ -134,7 +134,7 @@ function doLevel()
 		
 	elseif (lvlState == branch05) then	
 		
-		if currentFrame >= iFrameEnd then
+		if currentFrame == iFrameEnd then
 		
 			local j = 0
 			for j=1,stage[thisLevel][SEGMENTCOUNT] do	
@@ -172,11 +172,11 @@ function doLevel()
 		
 	elseif (lvlState == branch07) then
 	
-		if currentFrame >= iFrameEnd then lvlState = lvlEnd end
+		if currentFrame == iFrameEnd then lvlState = lvlEnd end
 		
 	elseif (lvlState == branch08) then
 	
-		if currentFrame >= iFrameEnd then 
+		if currentFrame == iFrameEnd then 
 		
 			bExtendedPlay = true
 			startGame()
@@ -300,7 +300,7 @@ function doLevel()
 		
 	elseif (lvlState == lvlPlayDeath) then
 	
-		if (currentFrame >= iFrameEnd) then
+		if (currentFrame == iFrameEnd) then
 		
 			iLives = iLives - 1			
 			stage[thisLevel][DEATHCOUNT] = stage[thisLevel][DEATHCOUNT] + 1

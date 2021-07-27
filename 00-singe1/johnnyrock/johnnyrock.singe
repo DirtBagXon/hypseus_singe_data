@@ -881,7 +881,7 @@ function doLevelFinal1()
 	
 		if (currentMove > totalMoves) then
 		
-			if currentFrame >= levelFrameEnd then
+			if currentFrame == levelFrameEnd then
 			
 				iFillerIndex = iFillerIndex + 1
 				if (iFillerIndex > 4) then				
@@ -1043,7 +1043,7 @@ function doLevelFinal2()
 		
 	elseif (lvlState == lvlPlayClip1) then
 	
-		if currentFrame >= iFrameEnd then
+		if currentFrame == iFrameEnd then
 			
 			bLevelComplete = true
 			lvlState = lvlEnd
@@ -1082,7 +1082,7 @@ function doLevelFinal2()
 	
 		if (currentMove > totalMoves) then
 		
-			if currentFrame >= levelFrameEnd then
+			if currentFrame == levelFrameEnd then
 			
 				setupClip(37954, 39008)
 				lvlState = lvlPlayClip1	
@@ -1221,7 +1221,7 @@ function doLevelGarage()
 		
 	elseif (lvlState == lvlPlayClip1) then
 	
-		if (currentFrame >= iFrameEnd) or (p1BUTTON3 and (currentFrame > iFrameStart + 30)) then
+		if (currentFrame == iFrameEnd) or (p1BUTTON3 and (currentFrame > iFrameStart + 30)) then
 		
 			discSkipToFrame(levelFrameStart)
 			lvlState = lvlRunning
@@ -1238,7 +1238,7 @@ function doLevelGarage()
 		
 	elseif (lvlState == lvlPlayClip4) then
 	
-		if (currentFrame >= iFrameEnd) then 
+		if (currentFrame == iFrameEnd) then 
 		
 			lvlState = lvlPlayClip5
 			altState = lvlSetup
@@ -1300,7 +1300,7 @@ function doLevelGarage()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 			
 				lvlState = lvlPlayClip4				
 				setupClip(17684, 18146)				
@@ -1634,7 +1634,7 @@ function doLevelMansion2()
 		
 	elseif (lvlState == lvlPlayClip1) then
 	
-		if currentFrame >= iFrameEnd then
+		if currentFrame == iFrameEnd then
 		
 			lvlState = lvlRunning			
 		
@@ -1664,7 +1664,7 @@ function doLevelMansion2()
 	
 	elseif (lvlState == lvlRunning) then
 	
-		if currentFrame >= levelFrameEnd then
+		if currentFrame == levelFrameEnd then
 		
 			lvlState = lvlPlayDeath
 			setupClip(thisOffset + 1120, thisOffset + 1249)			
@@ -1703,7 +1703,7 @@ function doLevelMansion2()
 		
 	elseif (lvlState == lvlPlayDeath) then
 	
-		if currentFrame >= iFrameEnd then
+		if currentFrame == iFrameEnd then
 		
 			getNags(NAG_NORMAL)
 			discSkipToFrame(nagFrameStart)
@@ -1837,7 +1837,7 @@ function doLevelMansion3()
 		
 	elseif (lvlState == lvlPlayClip3) then
 	
-		if currentFrame >= iFrameEnd then
+		if currentFrame == iFrameEnd then
 		
 			lvlState = lvlRunning
 			currentMove = 4
@@ -1886,7 +1886,7 @@ function doLevelMansion3()
 	
 		if (currentMove > totalMoves) then
 		
-			if currentFrame >= levelFrameEnd then
+			if currentFrame == levelFrameEnd then
 			
 				bLevelComplete = true
 				lvlState = lvlEnd
@@ -2042,7 +2042,7 @@ function doLevelMansion4()
 	
 	elseif (lvlState == lvlPlayClip1) then
 	
-		if currentFrame >= iFrameEnd then
+		if currentFrame == iFrameEnd then
 			
 			getSafeClip(iSafeNumber)			
 			lvlState = lvlRunning
@@ -2051,7 +2051,7 @@ function doLevelMansion4()
 
 	elseif (lvlState == lvlPlayClip2) then
 	
-		if currentFrame >= iFrameEnd then
+		if currentFrame == iFrameEnd then
 		
 			discSkipToFrame((iFrameEnd-1))
 			discPause()
@@ -2072,7 +2072,7 @@ function doLevelMansion4()
 	
 	elseif (lvlState == lvlRunning) then
 		
-		if currentFrame >= iFrameEnd then
+		if currentFrame == iFrameEnd then
 		
 			setupClip(35351, 35392)
 			lvlState = lvlPlayDeath
@@ -2122,7 +2122,7 @@ function doLevelMansion4()
 		
 	elseif (lvlState == lvlPlayDeath) then
 	
-		if currentFrame >= iFrameEnd then
+		if currentFrame == iFrameEnd then
 		
 			getNags(NAG_NORMAL)
 			discSkipToFrame(nagFrameStart)
@@ -2361,7 +2361,7 @@ function doLevelRandom()
 		
 	elseif (lvlState == lvlPlayClip5) then
 	
-		if (currentFrame >= iFrameEnd) then
+		if (currentFrame == iFrameEnd) then
 		
 			currentMove = currentMove + 1
 			
@@ -2490,7 +2490,7 @@ function doLevelRandom()
 	
 		if (currentMove > totalMoves) then
 		
-			if currentFrame >= levelFrameEnd then
+			if currentFrame == levelFrameEnd then
 			
 				bLevelComplete = true
 				lvlState = lvlEnd
@@ -2691,7 +2691,7 @@ function doLevelPool()
 		
 	elseif (lvlState == lvlPlayClip1) then
 	
-		if (currentFrame >= iFrameEnd) or (p1BUTTON3 and (currentFrame > iFrameStart + 30)) then
+		if (currentFrame == iFrameEnd) or (p1BUTTON3 and (currentFrame > iFrameStart + 30)) then
 		
 			discSkipToFrame(levelFrameStart)
 			lvlState = lvlRunning
@@ -2708,7 +2708,7 @@ function doLevelPool()
 		
 	elseif (lvlState == lvlPlayClip4) then
 	
-		if (currentFrame >= iFrameEnd) then
+		if (currentFrame == iFrameEnd) then
 		
 			lvlState = lvlPlayClip5
 			altState = lvlSetup
@@ -2770,7 +2770,7 @@ function doLevelPool()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) or (p1BUTTON3 and (currentFrame > thisOffset + 1147)) then
+			if (currentFrame == levelFrameEnd) or (p1BUTTON3 and (currentFrame > thisOffset + 1147)) then
 			
 				lvlState = lvlPlayClip4				
 				setupClip(24328, 24640)				
@@ -2911,7 +2911,7 @@ function doLevelStart()
 		
 	elseif (lvlState == lvlPlayClip1) then
 	
-		if (currentFrame >= iFrameEnd) then
+		if (currentFrame == iFrameEnd) then
 			discSkipToFrame(thisOffset + 2352)
 			lvlState = lvlPlayClip2
 		end
@@ -2945,7 +2945,7 @@ function doLevelStart()
 		
 	elseif (lvlState == lvlPlayClip5) then
 	
-		if (currentFrame >= (thisOffset + 4850) and p1BUTTON3) or (currentFrame >= levelFrameEnd) then
+		if (currentFrame >= (thisOffset + 4850) and p1BUTTON3) or (currentFrame == levelFrameEnd) then
 		
 			p1BUTTON3 = false
 			bLevelComplete = true
@@ -3176,7 +3176,7 @@ function doLevelWarehouse1()
 		
 	elseif (lvlState == lvlPlayClip1) then
 	
-		if (currentFrame >= levelFrameEnd) or (p1BUTTON3 and (currentFrame > thisOffset + 355)) then
+		if (currentFrame == levelFrameEnd) or (p1BUTTON3 and (currentFrame > thisOffset + 355)) then
 		
 			bLevelComplete = true
 			lvlState = lvlEnd
@@ -3401,7 +3401,7 @@ function doLevelWarehouse2()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 			
 				bLevelComplete = true
 				lvlState = lvlEnd			
@@ -3542,7 +3542,7 @@ function doLevelWarehouse3()
 		
 	elseif (lvlState == lvlPlayClip4) then
 	
-		if (currentFrame >= iFrameEnd) then
+		if (currentFrame == iFrameEnd) then
 		
 			lvlState = lvlPlayClip5
 			altState = lvlSetup
@@ -3603,7 +3603,7 @@ function doLevelWarehouse3()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 			
 				lvlState = lvlPlayClip4				
 				setupClip(26132, 26676)				
@@ -3782,7 +3782,7 @@ function doKillClip(thisPlace)
 	
 	elseif (altState == lvlRunning) then
 	
-		if currentFrame >= iFrameEnd then
+		if currentFrame == iFrameEnd then
 		
 			if (thisPlace == PLACE_OFFICE and iOfficeVisits >= 3) or (not (thisPlace == PLACE_OFFICE)) then
 		
@@ -3934,7 +3934,7 @@ function doMenu()
 	
 	elseif (lvlState == lvlRunning) then
 	
-		if currentFrame >= iFrameEnd then
+		if currentFrame == iFrameEnd then
 
 			if bMapWarning then
 
@@ -4275,7 +4275,7 @@ function doPuzzleCans()
 		
 	elseif (altState == lvlPlayClip1) then
 	
-		if currentFrame >= levelFrameEnd then
+		if currentFrame == levelFrameEnd then
 			
 			altState = lvlEnd
 			bLevelComplete = true
@@ -4294,7 +4294,7 @@ function doPuzzleCans()
 	
 		if (currentMove > totalMoves) then
 		
-			if currentFrame >= levelFrameEnd then
+			if currentFrame == levelFrameEnd then
 			
 				altState = lvlEnd
 				bLevelComplete = true
@@ -4405,7 +4405,7 @@ function doPuzzleCasino1()
 	
 		if (currentMove > totalMoves) then
 		
-			if currentFrame >= levelFrameEnd then
+			if currentFrame == levelFrameEnd then
 			
 				altState = lvlEnd
 				bLevelComplete = true
@@ -4505,7 +4505,7 @@ function doPuzzleCasino2()
 			
 	elseif (altState == lvlRunning) then
 	
-		if ((currentFrame >= levelFrameEnd) or (currentMove > totalMoves)) then
+		if ((currentFrame == levelFrameEnd) or (currentMove > totalMoves)) then
 			
 			altState = lvlEnd
 			bLevelComplete = true
@@ -4602,7 +4602,7 @@ function doPuzzleElevator()
 	
 		if (currentMove > totalMoves) then
 		
-			if currentFrame >= levelFrameEnd then
+			if currentFrame == levelFrameEnd then
 			
 				altState = lvlEnd
 				bLevelComplete = true
@@ -4692,7 +4692,7 @@ function doPuzzleGarage1()
 		
 	elseif (altState == lvlPlayClip1) then
 		
-		if (currentFrame >= iFrameEnd) then
+		if (currentFrame == iFrameEnd) then
 		
 			altState = lvlEnd
 			bLevelComplete = true
@@ -4712,7 +4712,7 @@ function doPuzzleGarage1()
 	
 		local b1 = false
 		
-		if currentFrame >= iFrameEnd then		
+		if currentFrame == iFrameEnd then		
 			
 			altState = lvlEnd
 			bLevelComplete = true
@@ -4772,7 +4772,7 @@ function doPuzzlePool1()
 		
 	elseif (altState == lvlPlayClip1) then
 	
-		if (currentFrame >= iFrameEnd) then
+		if (currentFrame == iFrameEnd) then
 		
 			altState = lvlEnd
 			bLevelComplete = true			
@@ -4861,7 +4861,7 @@ function doPuzzlePool2()
 		
 	elseif (altState == lvlRunning) then
 	
-		if currentFrame >= levelFrameEnd or currentMove > totalMoves then
+		if currentFrame == levelFrameEnd or currentMove > totalMoves then
 			
 			altState = lvlEnd
 			bLevelComplete = true
@@ -5117,7 +5117,7 @@ function doHint()
 		
 	elseif (altState == lvlRunning) then
 	
-		if currentFrame >= iFrameEnd or (p1BUTTON3 and (currentFrame > (iFrameStart + 30))) then
+		if currentFrame == iFrameEnd or (p1BUTTON3 and (currentFrame > (iFrameStart + 30))) then
 		
 			altState = lvlEnd
 		
@@ -5125,7 +5125,7 @@ function doHint()
 		
 	elseif (altState == lvlPlayDeath) then
 	
-		if (currentFrame >= iFrameEnd) then
+		if (currentFrame == iFrameEnd) then
 
 			lvlState = lvlSetup			
 			if (newScore(iScore) == false) then
@@ -5160,7 +5160,7 @@ function doStore()
 		
 	elseif (lvlState == lvlPlayClip1) then
 	
-		if currentFrame >= iFrameEnd then
+		if currentFrame == iFrameEnd then
 		
 			discSkipToFrame(offsetMenus + 2863)
 			discPause()
@@ -5170,7 +5170,7 @@ function doStore()
 		
 	elseif (lvlState == lvlPlayClip2) then
 	
-		if (currentFrame >= iFrameEnd) then
+		if (currentFrame == iFrameEnd) then
 		
 			lvlState = lvlEnd
 		

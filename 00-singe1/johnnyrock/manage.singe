@@ -42,7 +42,7 @@ function doContinue()
 	
 	elseif (lvlState == lvlPlayClip1) then
 	
-		if (currentFrame >= levelFrameEnd) then
+		if (currentFrame == levelFrameEnd) then
 			lvlState = lvlEnd
 			
 		else
@@ -113,7 +113,7 @@ function doGameOver()
 	
 	elseif (lvlState == lvlPlayClip1) then
 	
-		if (currentFrame >= levelFrameEnd) then
+		if (currentFrame == levelFrameEnd) then
 			lvlState = lvlEnd
 		
 		end
@@ -143,7 +143,7 @@ function doIntro()
 		
 	elseif (lvlState == lvlPlayClip1) then
 	
-		if currentFrame >= iFrameEnd then
+		if currentFrame == iFrameEnd then
 		
 			discSkipToFrame(1)
 			lvlState = lvlPlayClip2
@@ -183,7 +183,7 @@ function doIntro()
 		
 	elseif (lvlState == lvlPlayClip5) then
 	
-		if (currentFrame >= iFrameEnd) then
+		if (currentFrame == iFrameEnd) then
 		
 			bShowCredits = false			
 			discSkipToFrame(offsetMenus + 515)
