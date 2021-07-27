@@ -2643,7 +2643,7 @@ function doLevelPractice()
 		
 	elseif (lvlState == lvlPlayClip4) then
 	
-		if (currentFrame == levelFrameEnd) then
+		if (currentFrame >= levelFrameEnd) then
 		
 			bLevelComplete = true
 			lvlState = lvlEnd
@@ -3723,7 +3723,7 @@ function doLevelScrapyard3()
 		
 	elseif (lvlState == lvlPlayClip3) then
 
-		if (currentFrame == levelFrameEnd) then
+		if (currentFrame >= levelFrameEnd) then
 		
 			bLevelComplete = true
 			lvlState = lvlEnd		

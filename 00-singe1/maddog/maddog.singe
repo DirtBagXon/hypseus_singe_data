@@ -1290,7 +1290,7 @@ if (lvlState == lvlSetup) then
 						
 				end
 				
-			elseif (currentFrame >= move[currentMove][frameShootStart] and currentFrame <= move[currentMove][frameShootEnd]) then					
+			elseif (currentFrame == move[currentMove][frameShootStart] and currentFrame <= move[currentMove][frameShootEnd]) then					
 				
 				-- Is player firing gun?
 				
@@ -1615,7 +1615,7 @@ function doLevelCanyon()
 	
 	elseif (lvlState == lvlRunning) then
 	
-		if (currentFrame == emptyPlateau and currentFrame >= move[currentMove][frameShootStart]) then
+		if (currentFrame == emptyPlateau and currentFrame == move[currentMove][frameShootStart]) then
 			
 			discPause()
 			lvlState = lvlPauseAction				
@@ -1630,7 +1630,7 @@ function doLevelCanyon()
 				waitFor(0,false,true)
 
 				
-			elseif (currentFrame >= move[currentMove][frameShootStart] and currentFrame <= move[currentMove][frameShootEnd]) then					
+			elseif (currentFrame == move[currentMove][frameShootStart] and currentFrame <= move[currentMove][frameShootEnd]) then					
 				
 				-- Is player firing gun?
 				
@@ -1875,7 +1875,7 @@ function doLevelCliff()
 	
 	elseif (lvlState == lvlRunning) then
 
-		if (currentFrame == emptyPlateau and currentFrame >= move[currentMove][frameShootStart]) then
+		if (currentFrame == emptyPlateau and currentFrame == move[currentMove][frameShootStart]) then
 		
 			discPause()
 			lvlState = lvlPauseAction				
@@ -1888,7 +1888,7 @@ function doLevelCliff()
 				lvlState = lvl2ndChance
 				waitFor(0,false,true)				
 			
-			elseif (currentFrame >= move[currentMove][frameShootStart] and currentFrame <= move[currentMove][frameShootEnd]) then					
+			elseif (currentFrame == move[currentMove][frameShootStart] and currentFrame <= move[currentMove][frameShootEnd]) then					
 				
 				-- Is player firing gun?
 				
@@ -2168,7 +2168,7 @@ function doLevelCorral()
 				waitFor(iDelay, false, true) 
 				discPause()				
 				
-			elseif (currentFrame >= move[currentMove][frameShootStart] and currentFrame <= move[currentMove][frameShootEnd]) then					
+			elseif (currentFrame == move[currentMove][frameShootStart] and currentFrame <= move[currentMove][frameShootEnd]) then					
 				
 				-- Is player firing gun?
 				
@@ -2409,7 +2409,7 @@ function doLevelFuse()
 					discPlay()					
 					lvlState = lvlPlayDeath
 				
-				elseif (currentFrame >= move[currentMove][frameShootStart] and currentFrame <= move[currentMove][frameShootEnd]) then					
+				elseif (currentFrame == move[currentMove][frameShootStart] and currentFrame <= move[currentMove][frameShootEnd]) then					
 					
 					-- Is player firing gun?
 					
@@ -2649,7 +2649,7 @@ function doLevelHideout()
 
 					end
 				
-				elseif (currentFrame >= move[currentMove][frameShootStart] and currentFrame <= move[currentMove][frameShootEnd]) then					
+				elseif (currentFrame == move[currentMove][frameShootStart] and currentFrame <= move[currentMove][frameShootEnd]) then					
 					
 					-- Is player firing gun?
 					
@@ -2889,7 +2889,7 @@ function doLevelHouse()
 				discPlay()					
 				lvlState = lvlPlayDeath
 				
-			elseif (currentFrame >= move[currentMove][frameShootStart] and currentFrame <= move[currentMove][frameShootEnd]) then					
+			elseif (currentFrame == move[currentMove][frameShootStart] and currentFrame <= move[currentMove][frameShootEnd]) then					
 				
 				-- Is player firing gun?
 				
@@ -3115,7 +3115,7 @@ function doLevelMaddog()
 				elseif (currentFrame == (move[currentMove][frameShootStart] - 5)) then
 					bReloadDisabled = false
 					
-				elseif (currentFrame >= move[currentMove][frameShootStart] and currentFrame <= move[currentMove][frameShootEnd]) then					
+				elseif (currentFrame == move[currentMove][frameShootStart] and currentFrame <= move[currentMove][frameShootEnd]) then					
 					
 					-- Is player firing gun?
 					
@@ -3612,7 +3612,7 @@ function doLevelPlateau()
 	
 	elseif (lvlState == lvlRunning) then
 		
-		if (currentFrame == emptyPlateau and currentFrame >= move[currentMove][frameShootStart]) then
+		if (currentFrame == emptyPlateau and currentFrame == move[currentMove][frameShootStart]) then
 			
 			discPause()
 			lvlState = lvlPauseAction				
@@ -3625,7 +3625,7 @@ function doLevelPlateau()
 				lvlState = lvl2ndChance 
 				waitFor(0,false,true)
 				
-			elseif (currentFrame >= move[currentMove][frameShootStart] and currentFrame <= move[currentMove][frameShootEnd]) then					
+			elseif (currentFrame == move[currentMove][frameShootStart] and currentFrame <= move[currentMove][frameShootEnd]) then					
 				
 				-- Is player firing gun?
 				
@@ -3824,7 +3824,7 @@ function doLevelPond()
 					lvlState = lvl2ndChance 
 					waitFor(0,false,true)
 				
-				elseif (currentFrame >= move[currentMove][frameShootStart] and currentFrame <= move[currentMove][frameShootEnd]) then					
+				elseif (currentFrame == move[currentMove][frameShootStart] and currentFrame <= move[currentMove][frameShootEnd]) then					
 					
 					-- Is player firing gun?
 					 
@@ -4141,7 +4141,7 @@ function doLevelSheriff()
 						
 					end
 						
-				elseif (currentFrame >= move[currentMove][frameShootStart] and currentFrame <= move[currentMove][frameShootEnd]) then					
+				elseif (currentFrame == move[currentMove][frameShootStart] and currentFrame <= move[currentMove][frameShootEnd]) then					
 					
 					-- Is player firing gun?
 					
@@ -4399,7 +4399,7 @@ function doLevelShowdown()
 				elseif (currentFrame == (move[currentMove][frameShootStart] - 5)) then
 					bReloadDisabled = false
 					
-				elseif (currentFrame >= move[currentMove][frameShootStart] and currentFrame <= move[currentMove][frameShootEnd]) then
+				elseif (currentFrame == move[currentMove][frameShootStart] and currentFrame <= move[currentMove][frameShootEnd]) then
 				
 					-- Is player firing gun?
 					
@@ -4552,7 +4552,7 @@ function doLevelStart()
 					discPlay()					
 					lvlState = lvlPlayDeath
 				
-				elseif (currentFrame >= move[currentMove][frameShootStart] and currentFrame <= move[currentMove][frameShootEnd]) then					
+				elseif (currentFrame == move[currentMove][frameShootStart] and currentFrame <= move[currentMove][frameShootEnd]) then					
 					
 					-- Is player firing gun?
 					
@@ -5171,7 +5171,7 @@ function doShootTheBottle()
 						
 					end
 				
-				elseif (currentFrame >= move[currentMove][frameShootStart] and currentFrame <= move[currentMove][frameShootEnd]) then					
+				elseif (currentFrame == move[currentMove][frameShootStart] and currentFrame <= move[currentMove][frameShootEnd]) then					
 					
 					-- Is player firing gun?
 					
