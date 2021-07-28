@@ -7,6 +7,8 @@
 
 **Update:** Version **2.6.6** improved framerate in think_delay() calls. Single frames are now reported twice to LUA. The original SDL1 Singe seemed to have had each frame reported three times in the main loop, so still some differential, but should be improved.
 
+**Update #2: v2.6.6** Most Singe 1 games are now running without >= changes - only alignment changes are in there now. LBH seems to have an issue on menu.
+
 Due to increased framerate, version 2.6.6, should make gameplay in gun games much smoother than previous versions.
 
 Because of more accurate frame reporting in Hypsesus Singe, some of the original Singe games have comparisions that can skip and miss frame number checks, particularly at the end of levels. **get_current_frame** calls within games would receive the same frame number multiple times in the main loop. I am not certain if this was by design or just exploited in games. 
