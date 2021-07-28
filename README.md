@@ -3,25 +3,29 @@
 
 #### Firstly, ensure you are running at least version 2.6.6 of Hypseus Singe.
 
-Feel free to submit pull requests for any fixes for original, or new Singe 2 ported, games.
+Feel free to submit pull requests for any fixes or improvements.
 
-### Singe 1 replacement files
+## Singe 1 replacement files
 
-``think_delay()`` issues have been resolved in version 2.6.6, so replacement files are no longer needed for this issue.
+``think_delay()`` has resolved ``discGetFrame()`` calls in version **2.6.6**, so replacement files are no longer needed for timing issues.
 
 Singe 1 files within the ``00-singe1`` folder now only contain minor alignment changes. These are optional.
 
-Last Bounty Hunter (lbh) has pre-existing issues on __Handsome Harry__ completion in menu. Pull requests accepted ``:)``
+The Fan games have some other minor changes for completeness.
 
-# Using this repository
+Last Bounty Hunter (*lbh*) has pre-existing issues on __Handsome Harry__ completion in menu.  
+
+Pull requests accepted for any fixes or improvements ``:)``
+
+## Using this repository (Singe 2)
 
 This repo does not contain Copyrighted &copy; material, purely fan made graphics, sounds and LUA scripts.
 
-All data in the subdirectories of this repository has been ported according to the processes below.
+All data in the subdirectories of this repository has been ported from Singe 2 *LUA*.
 
-You do not **need** to alter any of the peripheral data in these subdirectories.
+You should not **need** to alter any of the peripheral data in these subdirectories.
 
-The **only required** step is to obtain the video files for your required game and perform a video conversion as detailed below using *ffmpeg*. This can be performed on any PC including Windows: https://ffmpeg.org/download.html
+The **only required** step is to obtain the video files from Singe 2 for your required game and perform a video conversion as detailed below using *ffmpeg*. This can be performed on any PC including Windows: https://ffmpeg.org/download.html
 
 Once you have the new **.m2v** and **.ogg** video and audio files: 
 
@@ -32,7 +36,7 @@ Once you have the new **.m2v** and **.ogg** video and audio files:
 
 ### Recoding Singe 2 mp4 video files for Hypseus Singe
 
-Singe 2 files in this repository are mostly based around the first release of Singe 2 games on archive.org \
+Singe 2 game files in this repository are mostly based around the first release of Singe 2 games on archive.org \
 Check ``FRAMEINFO.md`` for the required video for each game, it may be situated elsewhere.
 
 Newer games, like Altered Carbon, will work from current releases as they were not original release games.  
