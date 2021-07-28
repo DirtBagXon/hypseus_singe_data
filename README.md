@@ -1,11 +1,19 @@
 # Hypseus Singe anomaly files +
 # Support for Singe 2 games
 
-#### Firstly, ensure you are running at least version 2.6.4 of Hypseus Singe.
+#### Firstly, ensure you are running at least version 2.6.6 of Hypseus Singe.
 
 ### Singe 1 replacement files
 
-Due to more accurate frame reporting in Hypsesus Singe, some of the original Singe games have a function that can skip and miss frame number checks, particularly at the end of levels. This usually results in a constant video pause. This is down to unforgiving coding in the game LUA (*.singe*) files where ``==`` has been specified, rather than ``>=`` for frame number comparisions. These issues are infrequent and random. The files in the ``00-singe1`` folder of this repository can be dropped in as replacements over the originals Singe files. Only the ``.singe`` files themselves are needed as a replacement, however all files have been provided for convenience. These changes simply allow detection of level end through corrected comparison operator assignments looking for any frame number higher than, or equal to, the level end frame. No fundamental changes other than operators have been made. These files should therefore work in Hypseus and original Singe.
+**Update:** Version **2.6.6** improved framerate in think_delay() calls. Single frames are now reported twice to LUA. The original SDL1 Singe seemed to have had each frame reported three times in the main loop, so still some differential, but should be improved.
+
+Due to increased framerate, version 2.6.6, should make gameplay in gun games much smoother than previous versions.
+
+Because of more accurate frame reporting in Hypsesus Singe, some of the original Singe games have comparisions that can skip and miss frame number checks, particularly at the end of levels. **get_current_frame** calls within games would receive the same frame number multiple times in the main loop. I am not certain if this was by design or just exploited in games. 
+
+Some issues can arise that result in a constant video pause in game. This is down to unforgiving coding in the game LUA (*.singe*) files where ``==`` has been specified, rather than ``>=`` for frame number comparisions. These issues are infrequent and random. However, some of the original games seem to rely on this fact and also use ``==`` as a comparison operator to check frame numbers. The files in the ``00-singe1`` folder of this repository can be dropped in as replacements over the original Singe files. (Only the ``.singe`` files themselves are needed as a replacement, however all files have been provided for convenience). These changes simply allow detection of stage/level end through corrected comparison operator assignments looking for any frame number higher than, or equal to, the level end frame. No fundamental changes other than comparison operators have been made. These files should therefore work in Hypseus and original Singe.
+
+Feel free to submit pull requests for any fixes for original, or new Singe 2 ported, games.
 
 # Using this repository
 
