@@ -427,7 +427,7 @@ function doContinue()
 	
 	elseif (lvlState == lvlPlayClip1) then
 	
-		if (currentFrame >= levelFrameEnd) then
+		if (currentFrame == levelFrameEnd) then
 			lvlState = lvlEnd
 			
 		else
@@ -512,7 +512,7 @@ function doGameOver()
 	
 	elseif (lvlState == lvlPlayClip1) then
 	
-		if (currentFrame >= levelFrameEnd) then
+		if (currentFrame == levelFrameEnd) then
 			lvlState = lvlEnd
 		
 		end
@@ -1023,7 +1023,7 @@ function doLevelDoor1()
 		
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 				
 				bLevelComplete = true
 				lvlState = lvlEnd
@@ -1339,7 +1339,7 @@ function doLevelDoor2()
 		
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 				
 				bLevelComplete = true
 				lvlState = lvlEnd
@@ -1611,7 +1611,7 @@ function doLevelDoor3()
 		
 	elseif (lvlState == lvlPlayClip7) then -- Level ended. Re-direct program flow.
 	
-		if (currentFrame >= levelFrameEnd) then
+		if (currentFrame == levelFrameEnd) then
 		
 			bLevelComplete = true
 			lvlState = lvlEnd
@@ -2643,7 +2643,7 @@ function doLevelPractice()
 		
 	elseif (lvlState == lvlPlayClip4) then
 	
-		if (currentFrame >= levelFrameEnd) then
+		if (currentFrame == levelFrameEnd) then
 		
 			bLevelComplete = true
 			lvlState = lvlEnd
@@ -3723,7 +3723,7 @@ function doLevelScrapyard3()
 		
 	elseif (lvlState == lvlPlayClip3) then
 
-		if (currentFrame >= levelFrameEnd) then
+		if (currentFrame == levelFrameEnd) then
 		
 			bLevelComplete = true
 			lvlState = lvlEnd		

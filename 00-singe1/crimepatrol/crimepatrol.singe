@@ -394,7 +394,7 @@ function doLevelAirport()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 			
 				bLevelComplete = true
 				lvlState = lvlEnd
@@ -630,7 +630,7 @@ function doLevelAirTerrorists()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 			
 				bLevelComplete = true
 				lvlState = lvlEnd
@@ -1052,7 +1052,7 @@ function doLevelDrugs1()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 			
 				discSkipToFrame(40499)
 				lvlState = lvlPlayClip3			
@@ -1218,7 +1218,7 @@ function doLevelDrugs2()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 			
 				bLevelComplete = true
 				lvlState = lvlEnd
@@ -1371,7 +1371,7 @@ function doLevelGang()
 		
 	elseif (lvlState == lvlPlayClip3) then
 	
-		if currentFrame >= iFrameEnd then
+		if currentFrame == iFrameEnd then
 		
 			discSkipToFrame(move[currentMove][rndMoveStart])
 			lvlState = lvlRunning
@@ -1409,7 +1409,7 @@ function doLevelGang()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 			
 				bLevelComplete = true
 				lvlState = lvlEnd
@@ -1589,7 +1589,7 @@ function doLevelGarage()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 			
 				bLevelComplete = true
 				lvlState = lvlEnd
@@ -1756,7 +1756,7 @@ function doLevelHangar1()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 			
 				bLevelComplete = true
 				lvlState = lvlEnd
@@ -1937,7 +1937,7 @@ function doLevelHangar2()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 			
 				bLevelComplete = true
 				lvlState = lvlEnd
@@ -2111,7 +2111,7 @@ function doLevelHangar3()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 			
 				discSkipToFrame(4544)
 				lvlState = lvlPlayClip1				
@@ -2279,7 +2279,7 @@ function dolevelNuclearPlant1()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 			
 				bLevelComplete = true
 				lvlState = lvlEnd
@@ -2496,7 +2496,7 @@ function dolevelNuclearPlant2()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 			
 				bLevelComplete = true
 				lvlState = lvlEnd
@@ -2658,7 +2658,7 @@ function dolevelNuclearPlant3()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 			
 				bLevelComplete = true
 				lvlState = lvlEnd
@@ -2965,7 +2965,7 @@ function doLevelRobbery()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 			
 				bLevelComplete = true
 				lvlState = lvlEnd
@@ -3122,7 +3122,7 @@ function doLevelStore()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 			
 				bLevelComplete = true
 				lvlState = lvlEnd
@@ -3367,7 +3367,7 @@ function doLevelStripclub()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 			
 				discSkipToFrame(40934)
 				lvlState = lvlPlayClip3			
@@ -3571,7 +3571,7 @@ function doLevelWarehouse1()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 			
 				bLevelComplete = true
 				lvlState = lvlEnd
@@ -3762,7 +3762,7 @@ function doLevelWarehouse2()
 	
 		if (currentMove > totalMoves) then
 		
-			if (currentFrame >= levelFrameEnd) then
+			if (currentFrame == levelFrameEnd) then
 			
 				bLevelComplete = true
 				lvlState = lvlEnd
@@ -3908,7 +3908,7 @@ function doMenuDelta()
 		
 	elseif (lvlState == lvlRunning) then
 	
-		if (currentFrame >= iFrameEnd) then
+		if (currentFrame == iFrameEnd) then
 		
 			if not panel[STAGE_HANGAR] then
 			
@@ -4030,7 +4030,7 @@ function doMenuRookie()
 		
 	elseif (lvlState == lvlRunning) then
 	
-		if (currentFrame >= iFrameEnd) then
+		if (currentFrame == iFrameEnd) then
 		
 			if not panel[STAGE_PRACTICE] then
 			
@@ -4356,7 +4356,7 @@ function doMenuSWAT()
 		
 	elseif (lvlState == lvlRunning) then
 	
-		if (currentFrame >= iFrameEnd) then
+		if (currentFrame == iFrameEnd) then
 		
 			if not panel[STAGE_DRUGS1] then
 			
@@ -4462,7 +4462,7 @@ function doMenuUndercover()
 		
 	elseif (lvlState == lvlRunning) then
 	
-		if (currentFrame >= iFrameEnd) then
+		if (currentFrame == iFrameEnd) then
 		
 			if not panel[STAGE_AIRPORT] then
 			
