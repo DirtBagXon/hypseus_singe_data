@@ -3,6 +3,8 @@
 
 #### Firstly, ensure you are running at least version 2.6.6 of Hypseus Singe.
 
+##### If you are upgrading from < 2.6.4 you will need the latest files from this repo to align sprites correctly in ported games.
+
 Feel free to submit pull requests for any fixes or improvements.
 
 ## Singe 1 replacement files
