@@ -136,7 +136,7 @@ function doContinue()
 	
 	elseif (lvlState == lvlRunning) then
 
-		if currentFrame >= iFrameEnd then
+		if currentFrame == iFrameEnd then
 			
 			lvlState = lvlEnd
 		
@@ -272,7 +272,7 @@ function doGameOver()
 	
 	elseif (lvlState == lvlRunning) then
 	
-		if (currentFrame >= iFrameEnd) then
+		if (currentFrame == iFrameEnd) then
 			
 			bShowScore = false
 			lvlState = lvlEnd		
@@ -307,7 +307,7 @@ function doIntro()
 
 	elseif (lvlState == branch01) then
 
-		if (currentFrame >= iFrameEnd or p1BUTTON1) then
+		if (currentFrame == iFrameEnd or p1BUTTON1) then
 			
 			p1BUTTON1 = false
 			discSkipToFrame(frameCommands)
@@ -341,7 +341,7 @@ function doIntro()
 		
 	elseif (lvlState == branch03) then
 		
-		if (currentFrame >= iFrameEnd or p1BUTTON1) then
+		if (currentFrame == iFrameEnd or p1BUTTON1) then
 
 			p1BUTTON1 = false
 			setupClip(offsetIntro01, offsetIntro01end)
@@ -352,7 +352,7 @@ function doIntro()
 		
 	elseif (lvlState == branch04) then
 		
-		if currentFrame >= iFrameEnd then lvlState = lvlSetup end
+		if currentFrame == iFrameEnd then lvlState = lvlSetup end
 		
 	elseif (lvlState == branch05) then
 		
@@ -461,7 +461,7 @@ function doLevel()
 		
 	elseif (lvlState == branch01) then
 			
-		if (currentFrame >= iFrameEnd or p1BUTTON1) then		
+		if (currentFrame == iFrameEnd or p1BUTTON1) then		
 			
 			p1BUTTON1 = false
 			bShowLvl = false
@@ -491,7 +491,7 @@ function doLevel()
 		
 	elseif (lvlState == branch05) then	
 			
-		if currentFrame >= iFrameEnd then
+		if currentFrame == iFrameEnd then
 		
 			local j = 0
 			for j=1,stage[thisLevel][SEGMENTCOUNT] do	
@@ -542,7 +542,7 @@ function doLevel()
 		
 	elseif (lvlState == branch07) then
 		
-		if currentFrame >= iFrameEnd then lvlState = lvlEnd end
+		if currentFrame == iFrameEnd then lvlState = lvlEnd end
 		
 	elseif (lvlState == branch08) then
 		
@@ -831,7 +831,7 @@ function doLevel()
 		
 	elseif (lvlState == lvlPlayDeath) then
 			
-		if (currentFrame >= iFrameEnd) then
+		if (currentFrame == iFrameEnd) then
 		
 			iLives = iLives - 1
 						
@@ -1451,7 +1451,7 @@ function initVLDP()
 	
 	elseif (lvlState == lvlRunning) then
 	
-		if (currentFrame >= iFrameEnd) then
+		if (currentFrame == iFrameEnd) then
 		
 			discPause()
 			lvlState = lvlEnd
@@ -2617,7 +2617,7 @@ function startMovie()
 	
 	elseif (lvlState == lvlRunning) then
 	
-		if (currentFrame >= iFrameEnd or p1START1) then
+		if (currentFrame == iFrameEnd or p1START1) then
 			
 			p1START1 = false
 
