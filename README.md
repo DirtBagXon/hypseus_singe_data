@@ -13,7 +13,7 @@ Singe 1 files within the ``00-singe1`` folder now only contain minor alignment c
 
 The Fan games have some other minor changes for completeness.
 
-Last Bounty Hunter (*lbh*) has pre-existing issues on __Handsome Harry__ completion in menu.  
+Last Bounty Hunter (*lbh*) now has a **fix** that shows Handsome Harry as captured.....
 
 Pull requests accepted for any fixes or improvements ``:)``
 

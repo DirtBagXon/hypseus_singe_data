@@ -4304,7 +4304,7 @@ function doLevelHarry3()
 		end
 	
 	elseif (lvlState == lvlRunning) then
-	
+
 		if (currentMove > totalMoves) then
 		
 			if (currentFrame == levelFrameEnd) then
@@ -4318,6 +4318,7 @@ function doLevelHarry3()
 				else
 				
 					bLevelComplete = true
+					panel[STAGE_HARRY] = CAPTURED -- Has this always been screwed ?
 					iScore = iScore + SCORE_BOUNTY
 					lvlState = lvlEnd
 				
@@ -4461,7 +4462,7 @@ function doLevelHarry3()
 		else
 			
 			if bLevelComplete or currentMove >= totalMoves then  -- Special case. After capturing Harry there is one more move.
-																 -- This is to avoid capturing Harry multiple times if player misses last move.
+									     -- This is to avoid capturing Harry multiple times if player misses last move.
 				
 				stage[levelHarry3] = true
 				currentLevel = levelMenu
