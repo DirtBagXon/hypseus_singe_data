@@ -1551,8 +1551,8 @@ end
 
 function resetArrows()     -- Reset arrows position in  between moves
 
-	posxUDARROWS = (OVLW/2)-(ARUW/2)
-	posyLRARROWS = (OVLH/2)-(ARLH/2)
+	posxUDARROWS = (OVLW/2)-(ARUW/3)
+	posyLRARROWS = (OVLH/2)-(ARLH/3)
 	posyUARROW = startyUARROW
 	posyDARROW = startyDARROW
 	posxLARROW = startxLARROW
@@ -2341,10 +2341,10 @@ function initJob()      -- Initialization process
 	DISKW = spriteGetWidth(sprite[D1])
 	DISKH = spriteGetHeight(sprite[D1])	
 
-	posxBUTTONS = (OVLW/2)-(BUTW/2)								-- Coordinates for the buttons
+	posxBUTTONS = (OVLW/2)-(BUTW/2.5)								-- Coordinates for the buttons
 	posyBUTTONS = (OVLH/2)-(BUTH/2)
 
-	posxUDARROWS = (OVLW/2)-(ARUW/2)
+	posxUDARROWS = (OVLW/2)-(ARUW/3)
 	posyLRARROWS = (OVLH/2)-(ARLH/2)
 	startyUARROW = LINEH*32
 	startyDARROW = OVLH-ARUH-(LINEH*32)
@@ -2352,9 +2352,9 @@ function initJob()      -- Initialization process
 	endyDARROW = OVLH-ARUH-(LINEH*12)
 
 	startxLARROW = LINEW*36
-	startxRARROW = OVLW-ARLW-(LINEW*36)
+	startxRARROW = OVLW-ARLW-(LINEW*34)
 	endxLARROW = LINEW*16
-	endxRARROW = OVLW-ARLW-(LINEW*16)
+	endxRARROW = OVLW-ARLW-(LINEW*14)
 	
 	posyLCD = LINEH	
 
