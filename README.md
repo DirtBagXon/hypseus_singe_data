@@ -49,9 +49,16 @@ Frame information from ``mediainfo`` will be provided for the Singe2 video files
     mediainfo --Inform='Video;%FrameCount%' <file>
     mediainfo --Inform='Video;%Duration%' <file>
 
-``mediainfo`` can usually be installed via:
+``mediainfo`` can usually be installed in Linux via packaging, e.g.:
 
     sudo apt-get install mediainfo
+    
+In Windows: https://mediaarea.net/en/MediaInfo/Download/Windows
+
+    View  -> Tree
+    Debug -> Advanced Mode
+
+Look for '*Duration*' and '*Frame Count*'
 
 This should allow you to know the correct video files required.
 
