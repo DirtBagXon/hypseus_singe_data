@@ -15,7 +15,8 @@ Singe 1 files within the ``00-singe1`` folder now only contain minor alignment c
 
 The Fan games have some other minor changes for completeness.
 
-Last Bounty Hunter (*lbh*) now has a **fix** that shows Handsome Harry as captured.....
+Last Bounty Hunter (*lbh*) now has a **fix** that shows Handsome Harry as captured.....  
+Maddog McCree has **fix** for nil value error loop in doLevelPond()
 
 Pull requests accepted for any fixes or improvements ``:)``
 

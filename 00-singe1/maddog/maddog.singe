@@ -3568,7 +3568,7 @@ function doLevelPlateau()
 	elseif (lvlState == lvl2ndChance) then
 	
 		if (waitFor(iDelay, false, false) == true) then
-			
+
 			discSearch(move[currentMove][frameDeathStart])					
 			discPlay()					
 			lvlState = lvlPlayDeath
@@ -3754,6 +3754,12 @@ function doLevelPond()
 	elseif (lvlState == lvl2ndChance ) then
 	
 		if (waitFor(iDelay, false, false) == true) then
+
+			-- FIX nil value error loop
+			if currentMove == nil or frameDeathStart == nil then
+				currentMove = 1
+				frameDeathStart = 3
+			end
 		
 			discSearch(move[currentMove][frameDeathStart])
 			discPlay()					
@@ -6309,7 +6315,7 @@ function onOverlayUpdate()
 			doIntro()
 		
 		elseif (currentLevel == levelTownSelect) then
-		
+
 			doTownSelect()	
 
 		elseif (currentLevel == levelSignSelect) then
