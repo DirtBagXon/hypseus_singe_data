@@ -9,16 +9,17 @@ Feel free to submit pull requests for any fixes or improvements.
 
 ## Singe 1 replacement files
 
-``think_delay()`` has resolved ``discGetFrame()`` calls in version **2.6.6**, so replacement files are no longer needed for timing issues.
+Version **2.6.6** fixed several timing issues, so replacement files are no longer needed for this.
 
-Singe 1 files within the ``00-singe1`` folder now only contain minor alignment changes. These are optional.
+Singe 1 files within the ``00-singe1`` folder now only contain alignment changes and fixes:
+
+- Last Bounty Hunter (*lbh*) now has a **fix** that shows Handsome Harry as captured.....  
+- Maddog McCree (maddog) has **fix** for nil value error loop in doLevelPond()
+- Space Pirates (spacepirates) has a **fix** for nil value index error.
 
 The Fan games have some other minor changes for completeness.
 
-Last Bounty Hunter (*lbh*) now has a **fix** that shows Handsome Harry as captured.....  
-Maddog McCree has **fix** for nil value error loop in doLevelPond()
-
-Pull requests accepted for any fixes or improvements ``:)``
+These are optional. Pull requests accepted for any fixes or improvements ``:)``
 
 ## Using this repository (Singe 2)
 
@@ -28,7 +29,7 @@ All data in the subdirectories of this repository has been ported from Singe 2 *
 
 You should not **need** to alter any of the peripheral data in these subdirectories.
 
-The **only required** step is to obtain the video files from Singe 2 for your required game and perform a video conversion as detailed below using *ffmpeg*. This can be performed on any PC including Windows: https://ffmpeg.org/download.html
+The **only required** step is to obtain the video files from Singe 2 for your required game and perform a video conversion as detailed **below** using *ffmpeg*. This can be performed on any PC including Windows: https://ffmpeg.org/download.html
 
 Once you have the new **.m2v** and **.ogg** video and audio files: 
 
