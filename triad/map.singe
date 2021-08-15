@@ -1,0 +1,925 @@
+--[[
+
+PROGRAM NAME:	LUA SINGE ENGINE
+VERSION:		2.11
+AUTHOR:			KARIS (2020)
+
+This file is part of LUA SINGE ENGINE.
+
+	LUA SINGE ENGINE is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation.
+
+	LUA SINGE ENGINE is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+	Thanks to Scott Duensing, RDG.
+
+]]--
+
+curx = 0; cury = 0;
+
+dip_2 = false -- 2 made alone
+dip_5 = false
+dip_67 = false
+dip_8 = false
+dip_9 = false
+dip_s1 = false
+dip_s2 = false
+dip_s3 = false
+shiftMap = 0
+
+
+function moveCursor(overHere)  
+
+	if bIgnoreJoy then 
+			
+		if joyDelayDue() then bIgnoreJoy = false end
+		
+	else
+		
+		if (iCurPos == level01) then  -- If the cursor is on level 1 position (on the map)
+		
+			if (p1RIGHT) then
+
+				soundPlay(sndblip2)
+				discSkipToFrame(offsetMap+819+shiftMap)
+				discPause()
+				iCurPos = level02
+							
+			elseif (p1DOWN) then
+
+				soundPlay(sndblip2)
+				discSkipToFrame(offsetMap+828+shiftMap)
+				discPause()
+				iCurPos = level03
+										
+			end
+
+		elseif (iCurPos == level02) then  -- If the cursor is on level 2 position (on the map)
+		
+			if (p1RIGHT) then
+
+				soundPlay(sndblip2)
+				discSkipToFrame(offsetMap+837+shiftMap)
+				discPause()
+				iCurPos = level04
+						
+			elseif (p1DOWN) then
+				
+				soundPlay(sndblip2)
+				discSkipToFrame(offsetMap+828+shiftMap)
+				discPause()
+				iCurPos = level03
+					
+			end
+	
+		elseif (iCurPos == level03) then 	-- level03
+		
+			if (p1UP) then
+
+				soundPlay(sndblip2)
+				discSkipToFrame(offsetMap+819+shiftMap)
+				discPause()
+				iCurPos = level02
+											
+			elseif (p1RIGHT) then
+
+				if dip_67 then
+					
+					soundPlay(sndblip2)
+					discSkipToFrame(offsetMap+855+shiftMap-3)
+					discPause()
+					
+					if levelMap[level05] == true then
+
+						iCurPos = level08
+
+					else
+
+						iCurPos = level09
+
+					end
+														
+				end
+				
+			end
+			
+		elseif (iCurPos == level04) then 	-- level04
+		
+			if (p1LEFT) then
+
+				soundPlay(sndblip2)
+				discSkipToFrame(offsetMap+819+shiftMap)
+				discPause()
+				iCurPos = level02
+										
+			elseif (p1DOWN) then
+
+
+				if dip_67 then
+					
+					soundPlay(sndblip2)
+					discSkipToFrame(offsetMap+849+shiftMap-3) 
+					discPause()
+					
+					if levelMap[level05] == true then
+
+						iCurPos = level06
+
+					else
+
+						iCurPos = level07
+
+					end
+													
+				end
+
+			end
+
+		elseif (iCurPos == level05) then 	-- level05
+		
+			if (p1UP) then
+
+				soundPlay(sndblip2)
+				discSkipToFrame(offsetMap+855+shiftMap-3)
+				discPause()
+					
+				if levelMap[level05] == true then
+
+					iCurPos = level08
+
+				else
+
+					iCurPos = level09
+
+				end
+
+			elseif (p1LEFT) then
+
+
+				soundPlay(sndblip2)
+				discSkipToFrame(offsetMap+828+shiftMap)
+				discPause()
+				iCurPos = level03
+				
+
+			elseif (p1RIGHT) then
+
+
+				soundPlay(sndblip2)
+				discSkipToFrame(offsetMap+849+shiftMap-3) 
+				discPause()
+					
+				if levelMap[level05] == true then
+
+					iCurPos = level06
+
+				else
+
+					iCurPos = level07
+
+				end
+		
+			end
+
+		elseif (iCurPos == level06) or (iCurPos == level07) then 	-- mountains
+		
+			if (p1UP) then
+
+				soundPlay(sndblip2)
+				discSkipToFrame(offsetMap+837+shiftMap)
+				discPause()
+				iCurPos = level04
+							
+			elseif (p1LEFT) then
+
+
+				soundPlay(sndblip2)
+				discSkipToFrame(offsetMap+855+shiftMap-3)
+				discPause()
+					
+				if levelMap[level05] == true then
+
+					iCurPos = level08
+
+				else
+
+					iCurPos = level09
+
+				end
+									
+			end
+
+		elseif (iCurPos == level08) or (iCurPos == level09) then 	--prairie
+		
+			if (p1DOWN) then
+
+				if 	dip_5 then
+						
+					soundPlay(sndblip2)
+					discSkipToFrame(offsetMap+846)
+					discPause()
+					iCurPos = level05
+												
+				end
+
+			elseif (p1LEFT) then
+
+
+				soundPlay(sndblip2)
+				discSkipToFrame(offsetMap+828+shiftMap)
+				discPause()
+				iCurPos = level03
+			
+			elseif (p1RIGHT) then
+
+				soundPlay(sndblip2)
+				discSkipToFrame(offsetMap+849+shiftMap-3) 
+				discPause()
+					
+				if levelMap[level05] == true then
+
+					iCurPos = level06
+
+				else
+
+					iCurPos = level07
+
+				end
+
+			end	
+				
+		end
+					
+		if p1UP or p1DOWN or p1LEFT or p1RIGHT or p1BUTTON1 then
+			bIgnoreJoy = true
+			joyDelayON(0.200)
+		end
+		
+		p1UP      = false		
+		p1DOWN    = false		
+		p1LEFT    = false
+		p1RIGHT   = false
+		p1BUTTON1 = false
+			
+	end
+
+end
+
+function OpenLvl5()
+
+	if (levelMap[level02] == true and levelMap[level03] == true and levelMap[level04] == true) then 
+
+	 	dip_5 = true
+
+	elseif (levelMap[level07] == true or levelMap[level09] == true) then
+		
+		dip_5 = true
+
+	end
+
+end
+
+function OpenLvl67()
+
+	local j = 0
+	local k = 0
+
+	for j = 1, 4 do
+
+		if levelMap[j] == true then k = k + 1 end
+
+	end
+	
+	if k >= 3 then
+		
+		dip_67 = true
+
+	end
+
+end
+
+function ShowComplete()
+
+
+	if levelMap[level02] == true then
+
+		spriteDraw(OVLW/4,OVLH/3,sprite[OKMAP])
+
+	end
+
+	if levelMap[level03] == true then
+
+		spriteDraw(OVLW/5,OVLH/2,sprite[OKMAP])
+
+	end
+
+	if levelMap[level04] == true then
+
+		spriteDraw(3*OVLW/4,OVLH/4,sprite[OKMAP])
+
+	end
+
+	if levelMap[level05] == true then
+
+		spriteDraw(4.7*OVLW/10,6.3*OVLH/10,sprite[OKMAP])
+
+	end
+
+	if levelMap[level06] == true or levelMap[level07] == true then
+
+		spriteDraw(8*OVLW/10,OVLH/2,sprite[OKMAP])
+
+	end
+
+	if levelMap[level08] == true or levelMap[level09] == true then
+
+		spriteDraw(4.5*OVLW/10,OVLH/2,sprite[OKMAP])
+
+	end
+
+	if levelMap[level10] == true then
+
+		spriteDraw(OVLW/2,OVLH/5,sprite[OKMAP])
+
+	end
+
+end	
+
+function AllowLvlQuartz()
+
+	if (levelMap[level01] == true and levelMap[level02] == true and levelMap[level03] == true and levelMap[level04] == true and levelMap[level05] == true and (levelMap[level06] == true or levelMap[level07] == true) and (levelMap[level08] == true or levelMap[level09] == true)) then
+		
+		return true
+
+	else
+		
+		return false
+
+	end
+
+end
+
+function AllowLvlEnd()
+
+
+	if (levelMap[level10] == true) then
+		
+		return true
+
+	else
+		
+		return false
+
+	end
+
+end
+
+function doLevelSelect()
+
+
+	if (lvlState == lvlSetup) then
+	
+		bShowScore = false
+		bShowLives = false
+		bIgnoreJoy = false
+		iSegPointer = 0
+
+		discSkipToFrame(offsetMap+816)
+		sndmap  = soundLoad(MYDIR.."map2.wav")
+		sndHandle = soundPlay(sndmap)
+		
+		if dip_5 == false then OpenLvl5() end
+		if dip_67 == false then OpenLvl67() end
+
+		if (AllowLvlEnd() == true) then
+				
+				setupClip(offsetMap+227, offsetMap+338)
+				lvlState = branch01
+
+		elseif (AllowLvlQuartz() == true) then
+				if soundStop ~= nil then		
+					soundStop(sndHandle)
+				end
+
+				setupClip(offsetMap+648, offsetMap+812)
+				lvlState = branch01
+
+		else
+			
+			if dip_s2 then
+
+				
+                          
+				setupClip(offsetMap+159, offsetMap+224)
+				lvlState = branch01
+
+			elseif dip_s1 and not dip_5 then
+
+				
+
+				setupClip(offsetMap+44, offsetMap+154)
+				lvlState = branch01
+
+			elseif dip_5 and dip_67 and not dip_s2 then
+				
+				shiftMap = 6
+				dip_s2 = true                                                 
+				setupClip(offsetMap, offsetMapend)
+				lvlState = branch01
+
+			elseif dip_67 and not dip_5 and not dip_s1 then
+				
+				shiftMap = 3
+				dip_s1 = true
+				setupClip(offsetMap, offsetMapend)
+				lvlState = branch01
+
+			else
+
+				setupClip(offsetMap, offsetMapend)
+				lvlState = branch01
+
+			end	
+
+		end
+
+	elseif (lvlState == branch01) then
+				
+		if (currentFrame == iFrameEnd) then 
+
+			if (AllowLvlEnd() == true) then
+				
+				discSkipToFrame(offsetMap+915)
+				discPause()
+				iCurPos = level11
+				lvlState = branch03  --endgame
+
+			elseif (AllowLvlQuartz() == true) then
+
+				discSkipToFrame(offsetMap+912)
+				discPause()
+				iCurPos = level10
+				lvlState = branch03  --endgame
+				
+			else
+
+				if iCurPos == level01 then
+
+					discSkipToFrame(offsetMap+870)
+					discPause()
+					lvlState = branch02  --basic
+
+				elseif iCurPos == level02 and levelMap[level03] == false and levelMap[level04] ==  false then
+
+					discSkipToFrame(offsetMap+873)
+					discPause()
+					lvlState = branch02  --basic
+
+				elseif iCurPos == level03 and levelMap[level02] == false and levelMap[level04] ==  false then
+
+					discSkipToFrame(offsetMap+876)
+					discPause()
+					lvlState = branch02  --basic
+
+				elseif iCurPos == level04 and levelMap[level02] == false and levelMap[level03] ==  false then
+
+					discSkipToFrame(offsetMap+879)
+					discPause()
+					lvlState = branch02  --basic
+
+				elseif (iCurPos == level02 and levelMap[level03] == true and levelMap[level04] ==  false) then
+
+					shiftMap = 3
+					discSkipToFrame(offsetMap+885)
+					discPause()
+					lvlState = branch04  --reveal 6/7
+
+				elseif (iCurPos == level02 and levelMap[level03] == false and levelMap[level04] ==  true) then
+
+					shiftMap = 3
+					discSkipToFrame(offsetMap+903)
+					discPause()
+					lvlState = branch04  --reveal 6/7
+						
+				elseif (iCurPos == level03 and levelMap[level02] == false and levelMap[level04] ==  true) then
+
+					shiftMap = 3
+					discSkipToFrame(offsetMap+882)
+					discPause()
+					lvlState = branch04  --reveal 6/7
+
+				elseif (iCurPos == level03 and levelMap[level02] == true and levelMap[level04] ==  false)  then
+
+					shiftMap = 3
+					discSkipToFrame(offsetMap+906)
+					discPause()
+					lvlState = branch04  --reveal 6/7
+
+
+				elseif (iCurPos == level04 and levelMap[level02] == true and levelMap[level03] ==  false) then
+
+					shiftMap = 3
+					discSkipToFrame(offsetMap+921)
+					discPause()
+					lvlState = branch04  --reveal 6/7
+
+				elseif (iCurPos == level04 and levelMap[level02] == false and levelMap[level03] ==  true) then
+
+					shiftMap = 3
+					discSkipToFrame(offsetMap+909)
+					discPause()
+					lvlState = branch04  --reveal 6/7
+
+				elseif iCurPos == level05 then
+
+					shiftMap = 6
+					discSkipToFrame(offsetMap+900)
+					discPause()
+					lvlState = branch02 --basic
+
+				elseif iCurPos == level06 then
+
+					shiftMap = 6
+					discSkipToFrame(offsetMap+927)
+					discPause()
+					lvlState = branch02 --basic
+
+				elseif iCurPos == level07 then
+
+					shiftMap = 6
+					
+					if dip_s3 then
+
+						discSkipToFrame(offsetMap+927)
+						discPause()
+   	        			lvlState = branch02  --basic
+
+   	        		else
+
+   	        			discSkipToFrame(offsetMap+891)
+						discPause()
+   	        			lvlState = branch06  --reveal 5 curse
+   	        		
+   	        		end
+	
+				elseif iCurPos == level08 then
+
+					shiftMap = 6
+					discSkipToFrame(offsetMap+924)
+					discPause()
+					lvlState = branch02  --basic
+
+				elseif iCurPos == level09 then
+
+					shiftMap = 6
+					
+					if dip_s3 then
+
+						discSkipToFrame(offsetMap+924)
+						discPause()
+   	        			lvlState = branch02  --basic
+
+   	        		else
+
+   	        			discSkipToFrame(offsetMap+888)
+						discPause()
+   	        			lvlState = branch06  --reveal 5 curse
+   	        		
+   	        		end
+	
+
+				elseif iCurPos == level10 then
+
+					discSkipToFrame(offsetMap+912)
+					discPause()
+					lvlState = branch03 --endgame
+
+				elseif iCurPos == level11 then
+
+					discSkipToFrame(offsetMap+915)
+					discPause()
+					lvlState = branch03  --endgame
+
+				elseif (levelMap[level02] and levelMap[level03] == true and levelMap[level04] ==  true) then
+
+					shiftMap = 6
+					
+   	        		if dip_s3 then
+
+   	        			discSkipToFrame(offsetMap+933)
+						discPause()
+   	        			lvlState = branch02  --basic
+
+   	        		else
+
+   	        			discSkipToFrame(offsetMap+918)
+						discPause()
+   	        			lvlState = branch05  --reveal 5
+   	        		
+   	        		end
+
+				end
+
+			end
+			
+		end		
+		
+	elseif (lvlState == branch02) then
+		
+		if p1BUTTON1 then
+
+			soundPlay(sndcredit)
+			p1BUTTON1 = false
+
+			if iCurPos == level01 then
+		
+				discSkipToFrame(offsetMap+816)
+				discPause()
+
+			elseif iCurPos == level02 then
+
+				discSkipToFrame(offsetMap+819+shiftMap)
+				discPause()
+
+			elseif iCurPos == level03 then
+
+				discSkipToFrame(offsetMap+828+shiftMap)
+				discPause()
+
+			elseif iCurPos == level04 then
+
+				discSkipToFrame(offsetMap+837+shiftMap)
+				discPause()
+
+			elseif iCurPos == level05 then
+
+				discSkipToFrame(offsetMap+846)
+				discPause()
+
+			elseif iCurPos == level06 then
+
+				discSkipToFrame(offsetMap+849+shiftMap-3)
+				discPause()
+
+			elseif iCurPos == level07 then
+
+				discSkipToFrame(offsetMap+849+shiftMap-3)
+				discPause()
+
+			elseif iCurPos == level08 then
+
+				discSkipToFrame(offsetMap+855+shiftMap-3)
+				discPause()
+
+			elseif iCurPos == level09 then
+
+				discSkipToFrame(offsetMap+855+shiftMap-3)
+				discPause()
+
+			end
+
+			if soundStop ~= nil then 
+				soundStop(sndHandle)
+			end
+
+			sndmap  = soundLoad(MYDIR.."map.wav")
+			sndHandle = soundPlay(sndmap)
+			
+			lvlState = lvlRunning
+		
+		end
+
+	elseif (lvlState == branch03) then --endgame
+		
+
+		if p1BUTTON1 then
+
+			p1BUTTON1 = false
+
+			if iCurPos == level10 then
+
+				discSkipToFrame(offsetMap+861)
+				discPause()
+
+				if soundStop ~= nil then 
+					soundStop(sndHandle)
+				end
+				sndmap  = soundLoad(MYDIR.."map.wav")
+				sndHandle = soundPlay(sndmap)
+				lvlState = lvlRunning
+
+			elseif iCurPos == level11 then
+
+				discSkipToFrame(offsetMap+864)
+				discPause()
+				if soundStop ~= nil then 
+					soundStop(sndHandle)
+				end
+				sndmap  = soundLoad(MYDIR.."map.wav")
+				sndHandle = soundPlay(sndmap)
+				lvlState = lvlRunning
+
+			end
+
+		end
+
+	elseif (lvlState == branch04) then --reveal 6/7 part 1
+		
+		if p1BUTTON1 then
+			if soundStop ~= nil then 
+				soundStop(sndHandle)
+			end
+			soundPlay(sndcredit)
+			p1BUTTON1 = false
+			setupClip(offsetMap+342, offsetMap+507)
+			lvlState = branch07
+						
+		end
+
+	elseif (lvlState == branch05) then --reveal 5 part 1
+		
+		if p1BUTTON1 then
+			if soundStop ~= nil then 
+				soundStop(sndHandle)
+			end
+			dip_s3 = true
+			soundPlay(sndcredit)
+			p1BUTTON1 = false
+			setupClip(offsetMap+511, offsetMap+643)
+			lvlState = branch08
+						
+		end
+
+	elseif (lvlState == branch06) then --reveal 5 curse part 1
+		
+		if p1BUTTON1 then
+			if soundStop ~= nil then 
+				soundStop(sndHandle)
+			end
+			dip_s3 = true
+			soundPlay(sndcredit)
+			p1BUTTON1 = false
+			setupClip(offsetMap+511, offsetMap+643)
+			lvlState = branch08
+						
+		end
+
+	elseif (lvlState == branch07) then --reveal 6/7 part 2
+
+		if (currentFrame == iFrameEnd) then
+
+			if iCurPos == level02 then
+
+				discSkipToFrame(offsetMap+822)
+				discPause()
+
+			elseif iCurPos == level03 then
+
+				discSkipToFrame(offsetMap+831)
+				discPause()
+
+			elseif iCurPos == level04 then
+
+				discSkipToFrame(offsetMap+840)
+				discPause()
+
+			end
+
+			if soundStop ~= nil then		
+				soundStop(sndHandle)
+			end
+
+			sndmap  = soundLoad(MYDIR.."map.wav")
+			sndHandle = soundPlay(sndmap)
+
+			lvlState = lvlRunning
+			
+		end
+
+	elseif (lvlState == branch08) then --reveal 5 part 2
+
+		if (currentFrame == iFrameEnd) then
+
+			if iCurPos == level06 then
+
+				discSkipToFrame(offsetMap+897)
+				discPause()
+
+			elseif iCurPos == level08 then
+
+				discSkipToFrame(offsetMap+894)
+				discPause()
+
+			else
+
+				discSkipToFrame(offsetMap+930)
+				discPause()
+
+			
+			end
+
+			lvlState = branch09
+
+		end
+
+	elseif (lvlState == branch09) then --reveal 5 part 3
+
+		if p1BUTTON1 then
+			
+			soundPlay(sndcredit)
+			p1BUTTON1 = false
+		
+			if iCurPos == level02 then
+
+				discSkipToFrame(offsetMap+825)
+				discPause()
+
+			elseif iCurPos == level03 then
+
+				discSkipToFrame(offsetMap+834)
+				discPause()
+
+			elseif iCurPos == level04 then
+
+				discSkipToFrame(offsetMap+843)
+				discPause()
+
+			elseif iCurPos == level05 then
+
+				discSkipToFrame(offsetMap+846)
+				discPause()
+
+			elseif iCurPos == level06 then
+
+				discSkipToFrame(offsetMap+852)
+				discPause()
+
+			elseif iCurPos == level07 then
+
+				discSkipToFrame(offsetMap+852)
+				discPause()
+
+			elseif iCurPos == level08 then
+
+				discSkipToFrame(offsetMap+858)
+				discPause()
+
+			elseif iCurPos == level09 then
+
+				discSkipToFrame(offsetMap+858)
+				discPause()
+
+			end
+
+			if soundStop ~= nil then		
+				soundStop(sndHandle)
+			end
+
+			sndmap  = soundLoad(MYDIR.."map.wav")
+			sndHandle = soundPlay(sndmap)
+
+			lvlState = lvlRunning	
+
+		end
+		
+
+	elseif (lvlState == lvlRunning) then
+
+		if p1BUTTON1 then
+			
+			
+			p1BUTTON1 = false
+
+			if levelMap[iCurPos] == true then
+
+				soundPlay(sndmablock)
+
+			else
+
+				soundPlay(sndcredit)
+				lvlState = lvlEnd
+
+			end
+
+		else
+				ShowComplete()
+				moveCursor(iCurPos)			
+											
+		end
+        	
+	elseif (lvlState == lvlEnd) then	
+
+		if soundStop ~= nil then		
+			soundStop(sndHandle)
+		end
+
+		discSkipToFrame(offsetMap+157)
+		lvlState = lvlSetup	
+		currentLevel = levelNormal
+			
+	end
+
+end

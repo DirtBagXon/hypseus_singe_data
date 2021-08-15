@@ -1,0 +1,67 @@
+--[[
+
+PROGRAM NAME:	LUA SINGE ENGINE
+VERSION:		2.21
+AUTHOR:			KARIS (2020)
+
+This file is part of LUA SINGE ENGINE.
+
+	LUA SINGE ENGINE is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation.
+
+	LUA SINGE ENGINE is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+	Thanks to Scott Duensing, RDG.
+
+]]--
+
+
+
+function doTrophy() -- Manage trophies
+
+	if BeatGame() then --trophy 1 (finish the game)
+		
+		if t1 < dip_Difficulty + 1 then
+			
+			t1 = dip_Difficulty + 1
+			writeConfig()
+
+		end
+
+		if BeatGameWithOneCredit() then --trophy 2 (finish the game with 1 credit)
+
+			if t2 < dip_Difficulty + 1 then
+
+				t2 = dip_Difficulty + 1
+				writeConfig()
+
+			end
+
+		end	
+
+	elseif BeatLevelWithOneLife(3) then --trophy 3 (finish level 3 without dying)
+
+		if t3 < dip_Difficulty + 1 then
+
+			t3 = dip_Difficulty + 1
+			numTrophy = dip_Difficulty + 1
+			writeConfig()
+			
+		end
+
+	elseif BeatLevelWithOneLife(5) then --trophy 4 (finish level 5 without dying)
+
+		if t4 < dip_Difficulty + 1 then
+
+			t4 = dip_Difficulty + 1
+			numTrophy = dip_Difficulty + 1
+			writeConfig()
+			
+		end
+
+	end
+
+end
