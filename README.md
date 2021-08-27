@@ -21,7 +21,7 @@ The Fan games have some other minor changes for completeness.
 
 These are optional. Pull requests accepted for any fixes or improvements ``:)``
 
-## Using this repository (Singe 2)
+## Using this repository (Singe 2) ported games
 
 This repo does not contain Copyrighted &copy; material, purely fan made graphics, sounds and LUA scripts.
 
@@ -29,7 +29,7 @@ All data in the subdirectories of this repository has been ported from Singe 2 *
 
 You should not **need** to alter any of the peripheral data in these subdirectories.
 
-The **only required** step is to obtain the video files from Singe 2 for your required game and perform a video conversion as detailed **below** using *ffmpeg*. This can be performed on any PC including Windows: https://ffmpeg.org/download.html
+The **only required step** is to obtain the video files from Singe 2 for your required game and perform a video conversion as detailed **below** using *ffmpeg*. This can be performed on any PC including Windows: https://ffmpeg.org/download.html
 
 Once you have the new **.m2v** and **.ogg** video and audio files: 
 
