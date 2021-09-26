@@ -1,0 +1,2675 @@
+--[[
+
+NOME PROGRAMMA: L'imbattibile Daitern 3 singe edition
+VERSIONE:		1.0
+AUTORE:			POIU (2019)
+
+Questo file fa parte di L'imbattibile Daitern 3 singe edition
+
+L'imbattibile Daitern 3 singe edition è un software gratuito: 
+puoi ridistribuirlo e / o modificarlo
+secondo i termini della GNU General Public License 
+come pubblicato da la Fondazione per il software libero.
+
+L'imbattibile Daitern 3 singe edition è distribuito nella speranza che possa essere utile,
+ma SENZA ALCUNA GARANZIA; senza nemmeno la garanzia implicita di
+COMMERCIABILITÀ o IDONEITÀ A UNO SCOPO PARTICOLARE.
+
+Un sentito ringraziamento a RDG (autore originale del programma)
+
+]]--
+
+function addPoints(thisMuch)
+
+	iScore = iScore + thisMuch
+	
+	if (iScore > 99999999) then iScore = 99999999 end	
+
+end
+
+function BeatGameWithOneLife()
+
+	local k = 0
+	local j = 0
+	local q = 0
+	
+	if dip_Debug then debugPrint("Entering BeatGameWithOneLife()") end
+	
+	for q=level01,finalstage do
+	
+		j = j + stage[q][DEATHCOUNT]
+		
+	end
+	
+	if dip_Debug then debugPrint("Leaving BeatGameWithOneLife()") end
+	
+	return (j == 0)
+
+end
+
+function BeatGameWithOneCredit()
+
+	local j = 0
+	
+	j = j + iContinues
+			
+	return (j == 0)
+
+end
+
+function checkMash(playerMove, curMove)
+
+	local z = MOVEPENDING
+					
+	if (playerMove == BUTTON1) then	
+
+		p1BUTTON1 = false
+
+		if iMash >= mashCounter + dip_Difficulty then
+					
+			iMash = 0
+			z = curMove
+			soundPlay(sndright)
+			p1BUTTON1 = false
+
+		end
+
+	else
+		
+		if playerMove ~= NOMOVE then 
+
+			iMash = 0
+			z = MOVEFAIL
+														
+		end	
+
+	end	
+
+	return z
+
+end
+
+function checkSkip(playerMove, curMove)
+
+	local z = curMove
+		
+	if (playerMove == BUTTON1 or playerMove == BUTTON2 or playerMove == BUTTON3 or playerMove == UP or playerMove == DOWN or playerMove == LEFT or playerMove == RIGHT) then 
+			
+			p1BUTTON1 = false
+			p1BUTTON2 = false
+			p1BUTTON3 = false
+			p1UP = false
+			p1DOWN = false
+			p1LEFT = false
+			p1RIGHT = false
+
+			bShowAction = false
+			discSkipToFrame(move[currentMove][inputFrmEnd])
+			
+	else
+
+														
+	end	
+
+	return z
+
+end
+
+function doContinue()
+
+	if (lvlState == lvlSetup) then
+	
+		if dip_Debug then debugPrint("Entering doContinue()") end		
+		
+		
+		setupClip(offsetContinue,offsetContinueend)		
+		bShowLives = false
+		bShowLvl = false
+		bShowScene = false
+		bShowScore = false
+		bShowCredits = true
+		bShowAction = false
+		bTestMash = false
+		iMash = 0
+		
+		lvlState = lvlRunning		
+	
+	elseif (lvlState == lvlRunning) then
+
+		if currentFrame == iFrameEnd then
+			
+			lvlState = lvlEnd
+		
+		elseif (p1START1) then
+		
+			p1START1 = false
+			
+			if (iCredits > 0 or dip_CoinsPerCredit == DOPT_FREEPLAY) then
+
+				bSkipIntroClip = true
+				if iSegPointer > 0 then iSegPointer = iSegPointer - 1 end
+				startGame()								
+				if dip_Debug then debugPrint("Leaving doContinue(). Continuing game.") end
+			
+			end
+		
+		end
+		
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		bSkipIntroClip = false
+				
+		if newScore(iScore) then -- Has player achieved a high score?							
+			
+			currentLevel = levelHighScore
+			bGOAlt = true	
+			
+		else							
+			
+			currentLevel = levelGameOver		
+		
+		end		
+		
+		if dip_Debug then debugPrint("Leaving doContinue().") end
+	
+	end
+
+end
+
+function doFillerFrame()
+
+	if dip_Debug then debugPrint("Entering doFillerFrame()") end
+	
+	local b1 = true
+	local k = 0
+	
+	for k=1,2 do
+		b1 = b1 and filler[k]
+	end
+	
+	if b1 then
+	
+		for k=1,2 do
+		
+			if k ~= iLastFiller then filler[k] = false end
+		
+		end
+
+	end
+	b1 = false
+	repeat
+	
+		k = rndegg:value(1,2)
+		if filler[k] == false then
+		
+			iLastFiller = k
+			filler[k] = true
+			b1 = true
+		
+		end
+		
+	until b1	
+	
+	if     iLastFiller  == 1 then setupClip(offsetIntro02, offsetIntro02end)
+	elseif iLastFiller  == 2 then setupClip(offsetIntro03, offsetIntro03end)
+
+	end
+		
+	if dip_Debug then debugPrint("Leaving doFillerFrame()") end
+
+end
+
+function doFinish()
+	
+	if (lvlState == lvlSetup) then
+
+		timerON(1.5)		
+		lvlState = branch02			
+	
+	elseif (lvlState == branch02) then
+		
+		drawSum()	
+		
+		if timerDue() then 
+			
+			NextLevel(iCurPos)
+			lvlState = lvlSetup
+			currentLevel = levelNormal
+
+		end
+
+	end
+
+end
+
+function doGameOver()
+
+	if (lvlState == lvlSetup) then
+
+		if dip_Debug then debugPrint("Entering doGameOver()") end
+		bShowLives = false
+		bShowLvl = false
+		bShowScene = false
+		bShowScore = true
+		bShowCredits = false
+		bShowAction = false	
+		bTestMash = false
+		iMash = 0
+
+		if bGOAlt == true then
+
+			setupClip(offsetGameOverAlt, offsetGameOverAltend)
+			bGOAlt = false
+
+		else
+		
+			setupClip(offsetGameOver, offsetGameOverend)
+
+		end	
+
+		
+		lvlState = lvlRunning
+	
+	elseif (lvlState == lvlRunning) then
+	
+		if (currentFrame == iFrameEnd) then
+			
+			bShowScore = false
+			lvlState = lvlEnd		
+
+		end	
+	
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		currentLevel = levelIntro	
+		if dip_Debug then debugPrint("Leaving doGameOver()") end
+	
+	end
+
+end
+
+function doIntro()
+	
+	if (lvlState == lvlSetup) then
+		
+		if dip_Debug then debugPrint("Entering doIntro()") end	
+		
+		setupClip(offsetIntro01, offsetIntro01end)  -- ATTRACT	
+		initLCD()
+		lvlState = branch01		
+		
+		bShowCredits = true
+		bShowLCD = true
+		bShowLives = false
+		bShowCubes = false
+		bCheckForCredits = true
+
+	elseif (lvlState == branch01) then
+
+		if (currentFrame == iFrameEnd or p1BUTTON1) then
+			
+			p1BUTTON1 = false
+			discSkipToFrame(frameCommands)
+			discPause()
+			bShowLCD = false			
+			timerON(15)			
+			lvlState = branch02			
+	
+		end
+			
+	elseif (lvlState == branch02) then
+		
+		if timerDue() then
+
+			doFillerFrame()	
+			bShowLCD = true							
+			lvlState = branch03
+
+		elseif (p1BUTTON2 and p1BUTTON3 and p1UP and p1DOWN and bAllowSecret) then
+
+			p1BUTTON2 = false
+			p1BUTTON3 = false
+			p1UP = false
+			p1DOWN = false
+				
+			bExtendedPlay = true
+			startGame()
+			bShowCredits = false
+		
+		end	
+		
+	elseif (lvlState == branch03) then
+		
+		if (currentFrame == iFrameEnd or p1BUTTON1) then
+
+			p1BUTTON1 = false
+			setupClip(offsetIntro01, offsetIntro01end)
+
+			lvlState = branch01		
+		
+		end	
+		
+	elseif (lvlState == branch04) then
+		
+		if currentFrame == iFrameEnd then lvlState = lvlSetup end
+		
+	elseif (lvlState == branch05) then
+		
+		if timerDue() then
+		
+			gameflow = flow_GameInit
+			
+		elseif (p1START1) then
+		
+			p1START1 = false
+			
+			if ((iCredits > 0 or dip_CoinsPerCredit == DOPT_FREEPLAY) and dip_Movie == false) then 			
+				
+				startGame()
+				bShowCredits = false
+
+			elseif dip_Movie == true then
+
+				lvlState = lvlSetup 
+				currentLevel = levelMovie
+				bShowCredits = false
+			
+			end
+	
+		end
+	
+	elseif (lvlState == lvlEnd) then
+		
+		-- no end. loop indefinitely until player does something.			
+	
+	end
+	
+	if (dip_CoinsPerCredit == DOPT_FREEPLAY) or (bShowCredits == true and iCredits > 0) then
+	
+		if (p1START1 and dip_Movie == false) then
+		
+			p1START1 = false
+			bShowCredits = false				
+			startGame()	
+
+		elseif (p1START1 and dip_Movie == true) then
+
+			p1START1 = false
+			lvlState = lvlSetup 
+			bShowCredits = false				
+			currentLevel = levelMovie
+			
+		end
+				
+	end
+
+end
+
+function doLevel()
+	
+	local thisLevel = iCurPos
+
+	if (lvlState == lvlSetup) then		
+		
+		if dip_Debug then debugPrint("Entering doLevel(). Playing stage " .. thisLevel) end	
+		
+		bPlayPrompt = true				
+		bShowLives = true
+		bShowLvl = false
+		bShowScene = false
+		bShowScore = true
+		bShowAction = false
+		bAct = false
+		bTestMash = false
+		iMash = 0
+		resetArrows()			
+		currentMove = 1				
+		setupLevel(thisLevel)
+		
+			
+		if not stage[thisLevel][LEVELSTARTED] then
+			
+			stage[thisLevel][LEVELSTARTED] = true
+			
+			if bSkipIntroClip == false and (dip_StartLevel ~= thisLevel or dip_StartSegment == 1) then
+
+				bShowLvl = true
+				bShowSkip = true
+				getIntroClip(thisLevel)
+				lvlState = branch01	
+
+			else
+							
+				discSkipToFrame(segmentStart)			
+				lvlState = lvlRunning
+
+			end
+
+			
+		else		
+			
+			if currentFrame +1 ~= segmentStart then
+
+					discSkipToFrame(segmentStart)					
+			
+			end
+			
+			lvlState = lvlRunning
+		
+		end			
+		
+	elseif (lvlState == branch01) then
+			
+		if (currentFrame == iFrameEnd or p1BUTTON1) then		
+			
+			p1BUTTON1 = false
+			bShowLvl = false
+			bShowSkip = false
+
+			if currentFrame ~= iFrameEnd then
+
+					discSkipToFrame(segmentStart)					
+			
+			end
+						
+			lvlState = lvlRunning
+		
+		end
+	
+	elseif (lvlState == branch02) then
+			
+		
+	
+	elseif (lvlState == branch03) then
+			
+		if currentFrame == move[currentMove][moveFrmStart] then lvlState = lvlRunning end
+	
+	elseif (lvlState == branch04) then
+			
+		if currentFrame >= segmentEnd then lvlState = lvlEnd end
+		
+	elseif (lvlState == branch05) then	
+			
+		if currentFrame == iFrameEnd then
+		
+			local j = 0
+			for j=1,stage[thisLevel][SEGMENTCOUNT] do	
+	
+				segment[thisLevel][j][SEGMENTCOMPLETE] = true
+			
+			end		
+			lvlState = lvlEnd
+			
+		end			
+		
+	elseif (lvlState == branch06) then
+		
+		if timerDue() then
+
+			bGOAlt = true
+		
+			if BeatGameWithOneLife() and thisLevel ~= 18 and bAllowSecret and dip_StartLevel == 1 and dip_StartSegment == 1 then
+				
+				soundPlay(sndvictory)
+				addPoints(SCORESECRET)
+				discSkipToFrame(frameExtendedPlay)
+				discPause()
+				timerON(4)
+				lvlState = branch08
+
+			elseif BeatGameWithOneCredit() and thisLevel ~= 18 and bAllowSecret and dip_StartLevel == 1 and dip_StartSegment == 1 then
+
+				soundPlay(sndvictory)
+				discSkipToFrame(frameExtendedPlay)
+				discPause()
+				timerON(4)
+				lvlState = branch08
+		
+			elseif newScore(iScore) then -- Has player achieved a high score?			
+			
+				lvlState = lvlSetup  
+				currentLevel = levelHighScore	
+			
+			else			
+			
+				lvlState = lvlSetup
+				currentLevel = levelGameOver		
+			
+			end
+			
+		end
+		
+	elseif (lvlState == branch07) then
+		
+		if currentFrame == iFrameEnd then lvlState = lvlEnd end
+		
+	elseif (lvlState == branch08) then
+		
+		if timerDue() then 
+				
+			bExtendedPlay = true
+			iSegPointer = 0
+			startGame()
+			
+		end
+		
+	elseif (lvlState == lvlPlayRest) then
+
+		thisMove = scanInput()
+		if (thisMove ~= NOMOVE) then soundPlay(sndwrong) end
+		
+		if (currentFrame == move[currentMove][moveFrmEnd]) then
+		
+			currentMove = currentMove + 1
+			if dip_Debug then debugPrint("Current Move is now: " .. currentMove) end
+			
+			if (currentMove <= totalMoves) then			
+				
+				-- If next move's start frame is right next to
+				-- current move's end frame
+				-- then don't skip to frame, let it flow...
+				
+				if ((currentFrame + 1) ~= move[currentMove][moveFrmStart]) then					
+					discSkipToFrame(move[currentMove][moveFrmStart])					
+				end
+				
+				bShowAction = false
+				bPlayPrompt = true
+				bAct = false
+				bTestMash = false
+				iMash = 0
+				resetArrows()	
+				lvlState = lvlRunning				
+				
+			else
+				
+				-- segment beat! do some logic. move on to next segment.
+				segment[thisLevel][iSegPointer][SEGMENTCOMPLETE] = true	
+				
+				if (thisLevel == finalstage and stageBeat(finalstage)) or thisLevel == 18 then
+					
+						
+					if dip_StartLevel == 1 and dip_StartSegment ==1 then
+
+						addPoints(SCORESCENE - (stage[thisLevel][DEATHCOUNT] * DEATHPENALTY))
+						addPoints(SCOREGAME)
+						
+					else
+
+						addPoints(SCORESCENE - (stage[thisLevel][DEATHCOUNT] * DEATHPENALTY))
+						addPoints(SCORELEVEL)
+
+					end
+					
+					if thisLevel == 18 then
+
+						discPause()
+						timerON(0.1)
+						lvlState = branch06	
+
+					else
+						
+						soundPlay(sndvictory)
+						discSkipToFrame(frameVictory)
+						discPause()
+						timerON(3)
+						lvlState = branch06	
+					
+					end
+
+				else
+				
+					if stage[thisLevel][DEATHCOUNT] < 5 then 
+					
+						addPoints(SCORESCENE - (stage[thisLevel][DEATHCOUNT] * DEATHPENALTY))
+
+					end
+
+					lvlState = branch04					
+					
+				end
+					
+			end
+			
+		end
+	
+	elseif (lvlState == lvlRunning) then
+
+		if dip_Difficulty == 0 and (move[currentMove][correctMove] >= 6 and move[currentMove][correctMove] <= 12) then 
+
+			if move[currentMove][correctMove] == 8 then move[currentMove][inputFrmStart] = move[currentMove][inputFrmStart]+10 end
+			move[currentMove][correctMove] = 5
+
+		elseif dip_Kidmode then
+
+			if move[currentMove][correctMove] == 8 then move[currentMove][inputFrmStart] = move[currentMove][inputFrmStart]+10 end
+			move[currentMove][correctMove] = 5
+
+		end
+			
+		if (currentFrame > move[currentMove][inputFrmEnd] and move[currentMove][correctMove] ~= SKIP) then
+			
+			iPauseFrame = move[currentMove][inputFrmEnd] --currentFrame			
+			bShowAction = false
+			bTestMash = false
+			iMash = 0
+			setupDeathClip(thisMove)
+
+		elseif (currentFrame > move[currentMove][inputFrmEnd] and move[currentMove][correctMove] == SKIP) then
+
+			bShowAction = false
+			lvlState = lvlPlayRest
+
+		elseif (currentFrame >= move[currentMove][inputFrmStart] and currentFrame <= move[currentMove][inputFrmEnd]) and (move[currentMove][correctMove] >= 9 and move[currentMove][correctMove] <= 12) then
+			
+			bShowAction = true
+			
+			if (move[currentMove][correctMove] == ACTUP) then
+
+				timerON((move[currentMove][inputFrmEnd]-currentFrame)/MovieFPS)
+				bAct = true
+
+				if bAct == true then
+				
+					if timerDue() or p1DOWN or p1LEFT or p1RIGHT or p1BUTTON2 or p1BUTTON3 then
+					
+						iPauseFrame = move[currentMove][inputFrmEnd] --currentFrame			
+						bShowAction = false				
+						setupDeathClip(thisMove)
+
+					elseif p1BUTTON1 and p1UP then 
+
+						bShowAction = false
+						bAct = false
+						p1BUTTON1 = false
+						p1UP = false
+						soundPlay(sndright)
+						addPoints(SCOREMOVE + dip_Difficulty * BUFFMOVE) 
+						lvlState = lvlPlayRest
+
+					end
+				end
+
+			elseif (move[currentMove][correctMove] == ACTDOWN) then
+
+				timerON((move[currentMove][inputFrmEnd]-currentFrame)/MovieFPS)
+				bAct = true
+
+				if bAct == true then
+				
+					if timerDue() or p1UP or p1LEFT or p1RIGHT or p1BUTTON2 or p1BUTTON3 then
+					
+						iPauseFrame = move[currentMove][inputFrmEnd] --currentFrame			
+						bShowAction = false				
+						setupDeathClip(thisMove)
+
+					elseif p1BUTTON1 and p1DOWN then 
+
+						bShowAction = false
+						bAct = false
+						p1BUTTON1 = false
+						p1DOWN = false
+						soundPlay(sndright)
+						addPoints(SCOREMOVE + dip_Difficulty * BUFFMOVE) 
+						lvlState = lvlPlayRest
+
+					end
+				end
+
+			elseif (move[currentMove][correctMove] == ACTLEFT) then
+
+				timerON((move[currentMove][inputFrmEnd]-currentFrame)/MovieFPS)
+				bAct = true
+
+				if bAct == true then
+				
+					if timerDue() or p1UP or p1DOWN or p1RIGHT or p1BUTTON2 or p1BUTTON3 then
+					
+						iPauseFrame = move[currentMove][inputFrmEnd] --currentFrame			
+						bShowAction = false				
+						setupDeathClip(thisMove)
+
+					elseif p1BUTTON1 and p1LEFT then 
+
+						bShowAction = false
+						bAct = false
+						p1BUTTON1 = false
+						p1LEFT = false
+						soundPlay(sndright)
+						addPoints(SCOREMOVE + dip_Difficulty * BUFFMOVE) 
+						lvlState = lvlPlayRest
+
+					end
+				end
+
+			elseif (move[currentMove][correctMove] == ACTRIGHT) then
+
+				timerON((move[currentMove][inputFrmEnd]-currentFrame)/MovieFPS)
+				bAct = true
+
+				if bAct == true then
+				
+					if timerDue() or p1UP or p1DOWN or p1LEFT or p1BUTTON2 or p1BUTTON3 then
+					
+						iPauseFrame = move[currentMove][inputFrmEnd] --currentFrame			
+						bShowAction = false				
+						setupDeathClip(thisMove)
+
+					elseif p1BUTTON1 and p1RIGHT then 
+
+						bShowAction = false
+						bAct = false
+						p1BUTTON1 = false
+						p1RIGHT = false
+						soundPlay(sndright)
+						addPoints(SCOREMOVE + dip_Difficulty * BUFFMOVE) 
+						lvlState = lvlPlayRest
+
+					end
+				end	 
+			end
+				
+		elseif (currentFrame >= move[currentMove][inputFrmStart] and currentFrame <= move[currentMove][inputFrmEnd]) and (move[currentMove][correctMove] < 9 or move[currentMove][correctMove] > 12) then
+			
+			thisMove = scanInput()
+			bShowScene = false
+			bShowLvl = false
+					
+			if (bShowAction == false) then 
+				bShowAction = true
+			end
+
+			if bPlayPrompt then
+			
+				soundPlay(sndprompt) 
+				bPlayPrompt = false
+
+			end
+
+			if (thisMove ~= NOMOVE) then
+
+				if (move[currentMove][correctMove] == MASH) then
+					
+					bTestMash = true
+					thisMove = checkMash(thisMove, move[currentMove][correctMove])
+
+				elseif (move[currentMove][correctMove] == SKIP) then
+
+					thisMove = checkSkip(thisMove, move[currentMove][correctMove])
+
+				end	
+							
+				if (thisMove == move[currentMove][correctMove]) then									
+			
+					bShowAction = false
+					bTestMash = false
+					iMash = 0
+
+					if (move[currentMove][correctMove] ~= SKIP) then 
+
+						soundPlay(sndright)
+						addPoints(SCOREMOVE + dip_Difficulty * BUFFMOVE) 
+
+					end				
+					
+					lvlState = lvlPlayRest
+									
+				elseif (thisMove ~= MOVEPENDING) then		
+				
+					iPauseFrame = move[currentMove][inputFrmEnd] --currentFrame			
+					bShowAction = false				
+					setupDeathClip(thisMove)					
+				
+				end
+				
+			end	
+		
+		else scanInput() -- Prevents joystick from getting 'stuck' in one position.
+		
+		end
+		
+	elseif (lvlState == lvlPlayDeath) then
+			
+		if (currentFrame == iFrameEnd) then
+		
+			iLives = iLives - 1
+						
+			stage[thisLevel][DEATHCOUNT] = stage[thisLevel][DEATHCOUNT] + 1
+		
+			if iLives > 0 then
+				
+				lvlState = branch07
+				
+			else
+				
+				lvlState = lvlEnd
+			
+			end
+					
+		end
+		
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		
+		if (iLives == 0) then -- game over			
+			
+			if dip_AllowContinue and ((iContinues < dip_LimitContinue) or (dip_LimitContinue == DOPT_INFINITE_CONTINUES))  then
+				
+				iTempLevel = currentLevel	
+
+				currentLevel = levelContinue			
+				iContinues = iContinues + 1
+				
+			else
+				
+				if newScore(iScore) then -- Has player achieved a high score?							
+					
+					currentLevel = levelHighScore	
+				
+				else							
+					
+					currentLevel = levelGameOver		
+				
+				end				
+				
+			end			
+			
+		else		
+			
+			lvlState = lvlSetup
+			
+			if stageBeat(thisLevel) then
+				
+				stage[thisLevel][BEATSTATUS] = true
+				levelMap[thisLevel] = true
+				iSegPointer = 0
+				soundPlay(sndvictory)
+				addPoints(SCORELEVEL)
+				bSkipIntroClip = false
+				discPause()
+				lvlState = lvlSetup
+				currentLevel = levelFinish
+					
+						
+			else
+				
+				if not segment[thisLevel][iSegPointer][SEGMENTCOMPLETE] then				
+					
+					if iSegPointer > 0 then iSegPointer = iSegPointer - 1 end
+															
+				end				
+			
+			end
+			
+			bShowLives = false
+			bShowLvl = false
+			bShowScene = false
+			bShowAction = false
+			bTestMash = false
+			iMash = 0
+
+		end
+	
+		if dip_Debug then debugPrint("Leaving doLevel()") end
+	
+	end
+	
+end
+
+function resetArrows()
+
+	posxUDARROWS = 320/2
+	posyUARROW = 60
+	posyDARROW = 140
+
+	posxLARROW = 145/2
+	posxRARROW = 445/2
+	posyLRARROWS = 95
+
+end
+
+function drawAction()
+	
+	setFontColor(RED)
+
+	if currentMove <= totalMoves then
+
+		local thisMove = move[currentMove][correctMove]
+		
+		if dip_ShowAction == false then
+		
+			spriteDraw(posxBUTTONS,posyBUTTONS,sprArrow[NOMOVES])
+		
+		elseif thisMove == UP then
+			
+			goTimer(1)
+	
+			if heartbeat then
+
+				if posyUARROW > 20 then posyUARROW = posyUARROW-2 end
+				spriteDraw(posxUDARROWS,posyUARROW,sprArrow[UP])
+				
+
+			end
+			
+		elseif thisMove == DOWN then
+
+			goTimer(1)
+	
+			if heartbeat then	
+
+				if posyDARROW < 180 then posyDARROW = posyDARROW+2 end
+				spriteDraw(posxUDARROWS,posyDARROW,sprArrow[DOWN])
+						
+			end
+		
+		elseif thisMove == LEFT then
+
+			goTimer(1)
+	
+			if heartbeat then	
+				
+				if posxLARROW > 50/2 then posxLARROW = posxLARROW-5 end
+				spriteDraw(posxLARROW,posyLRARROWS,sprArrow[LEFT])
+						
+			end
+
+				
+		elseif thisMove == RIGHT then
+
+			goTimer(1)
+	
+			if heartbeat then	
+
+				if posxRARROW < 580/2 then posxRARROW = posxRARROW+5 end
+				spriteDraw(posxRARROW,posyLRARROWS,sprArrow[RIGHT])
+						
+			end
+				
+		elseif thisMove == BUTTON1 then
+		
+			spriteDraw(posxBUTTONS,posyBUTTONS,sprArrow[BUTTON1])
+
+		elseif thisMove == BUTTON2 then
+		
+			spriteDraw(posxBUTTONS,posyBUTTONS,sprArrow[BUTTON2])
+
+		elseif thisMove == BUTTON3 then
+		
+			spriteDraw(posxBUTTONS,posyBUTTONS,sprArrow[BUTTON3])
+
+		elseif thisMove == MASH then
+			
+			blinkTimer(0.1)
+	
+			if heartbeat then	
+	
+				spriteDraw(posxBUTTONS,posyBUTTONS,sprArrow[MASH])
+						
+			end
+			
+		elseif thisMove == ACTUP then
+			
+			spriteDraw(posxBUTTONS,posyBUTTONS,sprArrow[BUTTON1])
+			goTimer(1)
+	
+			if heartbeat then
+
+				if posyUARROW > 20 then posyUARROW = posyUARROW-2 end
+				spriteDraw(posxUDARROWS,posyUARROW,sprArrow[UP])
+
+			end
+
+		elseif thisMove == ACTDOWN then
+			
+			spriteDraw(posxBUTTONS,posyBUTTONS,sprArrow[BUTTON1])
+			goTimer(1)
+	
+			if heartbeat then	
+
+				if posyDARROW < 180 then posyDARROW = posyDARROW+2 end
+				spriteDraw(posxUDARROWS,posyDARROW,sprArrow[DOWN])
+						
+			end
+
+		elseif thisMove == ACTLEFT then
+			
+			spriteDraw(posxBUTTONS,posyBUTTONS,sprArrow[BUTTON1])
+			goTimer(1)
+	
+			if heartbeat then	
+				
+				if posxLARROW > 45/2 then posxLARROW = posxLARROW-5 end
+				spriteDraw(posxLARROW,posyLRARROWS,sprArrow[LEFT])
+						
+			end
+
+		elseif thisMove == ACTRIGHT then
+			
+			spriteDraw(posxBUTTONS,posyBUTTONS,sprArrow[BUTTON1])
+			goTimer(1)
+	
+			if heartbeat then	
+
+				if posxRARROW < 545/2 then posxRARROW = posxRARROW+5 end
+				spriteDraw(posxRARROW,posyLRARROWS,sprArrow[RIGHT])
+						
+			end
+
+		elseif thisMove == SKIP then
+
+			blinkTimer(0.4)
+			if heartbeat then spriteDraw(295/2,posyDOWNTEXT,sprite[SKIPINTRO]) end
+		
+		end
+		
+	end
+
+end
+
+function drawCredits()
+	
+	blinkTimer(0.4)
+	
+	if heartbeat then	
+	
+		if (iCredits > 0) then			
+		
+				spriteDraw(15,posyDOWNTEXT,sprite[CREDIT])
+				drawSpriteNumber(70,posyDOWNTEXT,iCredits)
+			
+		end
+		
+	end
+
+end
+
+function drawLCD()
+
+	if altState == lvlSetup then
+	
+		timerON(iLCDwait)
+		iLCDpointer = 1
+		iLCDline = 1
+		iLCDx = getMiddle(sLCD[iLCDline])
+		altState = lvlRunning
+	
+	elseif altState == lvlRunning then	
+		
+		if timerDue() then
+		
+			if iLCDpointer < string.len(sLCD[iLCDline]) then 
+				iLCDpointer = iLCDpointer + 1 
+				timerON(iLCDwait)
+			else			
+				
+				timerON(1)
+				altState = branch01
+				
+			end		
+		
+		end
+		
+	elseif altState == branch01 then
+	
+		if timerDue() then
+		
+			if iLCDline < 12 then
+				iLCDline = iLCDline + 1
+			else
+				iLCDline = 1
+			end
+			iLCDpointer = 1
+			iLCDx = getMiddle(sLCD[iLCDline])
+			timerON(iLCDwait)
+			altState = lvlRunning
+		
+		end
+		
+	end
+	
+	textPrint(string.sub(sLCD[iLCDline],1,iLCDpointer),iLCDx,posyLCD,fontDebug10pt,RED,BLACK)	
+
+end
+
+function drawLives()
+
+	if (iLives > 0) then
+		
+		spriteDraw(620/2,posyDOWNTEXT-3,sprite[LIVES])
+		drawSpriteNumber(667/2,posyDOWNTEXT,( iLives ))
+
+		if dip_Debug then
+
+			fontSelect(fontDebug8pt)
+			spriteDraw(511/2,posyUPTEXT,fontToSprite("L:"))
+			drawSpriteNumber(527/2,posyUPTEXT,( iCurPos ))
+			spriteDraw(556/2,posyUPTEXT,fontToSprite("S:"))
+			drawSpriteNumber(572/2,posyUPTEXT,( iSegPointer ))
+			spriteDraw(601/2,posyUPTEXT,fontToSprite("M:"))
+			drawSpriteNumber(617/2,posyUPTEXT,( currentMove ))
+
+		end
+		
+	end
+
+end
+
+function drawLvl()
+
+	if iCurPos == 18 then
+
+		spriteDraw(15,posyUPTEXT,sprite[SECRET])
+
+	else	
+		
+		spriteDraw(15,posyUPTEXT,sprite[LEVEL])
+		drawSpriteNumber(60,posyUPTEXT,( iCurPos ))
+		
+	end
+		
+end
+
+function drawScene()
+
+	spriteDraw(15,posyUPTEXT,sprite[SCENE])
+	drawSpriteNumber(60,posyUPTEXT,( iSegPointer ))
+		
+end
+
+function drawScore()
+	
+	local j = 0
+	
+	drawSpriteNumber(15,posyDOWNTEXT,iScore)
+	
+end
+
+function drawSkip()
+
+
+	blinkTimer(0.4)
+	
+	if heartbeat then	
+	
+		spriteDraw(320/2,posyDOWNTEXT,sprite[SKIPINTRO])
+						
+	end
+
+end
+
+function drawSpriteNumber(thisx, thisy, thisAmt)
+
+	local j = 0
+	local k = 0
+	local s1 = ""
+	
+	s1 = tostring(thisAmt)
+	
+	for k=1,(string.len(s1)) do
+		
+		j = tonumber(string.sub(s1,k,k)) + 1	
+		spriteDraw((thisx + ((k-1) * 8)), thisy, sprNUM[j])
+	
+	end
+
+end
+
+function drawSum()
+
+	if iCurPos == 18 then
+
+		
+
+	else	
+		
+		spriteDraw(246,50,sprite[LEVEL])
+		drawSpriteNumber(294,50,( iCurPos ))
+		spriteDraw(310,50,sprite[COMPLETE])
+
+
+	end
+		
+end
+
+function initJob()
+
+	debugPrint("L'imbattibile Daitarn 3 VERSION 1.0")
+
+	readConfig()
+	if dip_Debug then debugPrint ("Entering initJob()") end
+
+	OVLW = 360
+	OVLH = 240
+	resetChannels()
+	fontQuality(FONT_QUALITY_SOLID)
+	fontSelect(fontDebug8pt)  
+	gameflow = flow_GameRunning
+	currentLevel = levelIntro
+	lvlState = lvlSetup
+	iCoins = 0
+	iScore = 0
+	iSegPointer = 0
+	rndegg = random.new(os.clock() * 100000)
+	bShowCredits = true
+	bShowScore = false
+	bShowLives = false
+	bShowAction = false
+	bAct = false
+	bTestMash = false
+	iMash = 0
+	bShowLvl = false
+	bShowScene = false
+	bShowSkip = false
+	mycolorTEXT = RED 								-- Color for the texts.	
+	mycolorTITMENU = YELLOW							-- Color for title in the options menu
+	mycolorMENUON = RED 							-- Color for selected item in the options menu
+	mycolorMENUOFF = BLACK							-- Color for unselected item in the options menu
+													-- RED, BLUE, YELLOW, GREEN, ORANGE, WHITE, GREY, BLACK and LIGHTBLUE possible.
+	
+	posxBUTTONS = 135								-- Coordinates for the buttons
+	posyBUTTONS = 112
+	
+	posyUPTEXT = 8									-- Coordinates for the various texts.
+	posyDOWNTEXT = 225
+	posyLCD = 10												
+			
+	setFontColor(RED)
+	
+	sprNUM = nil; sprNUM = {}
+	sprNUM[1]  = spriteLoad(MYDIR .. "num00.png")
+	sprNUM[2]  = spriteLoad(MYDIR .. "num01.png")
+	sprNUM[3]  = spriteLoad(MYDIR .. "num02.png")
+	sprNUM[4]  = spriteLoad(MYDIR .. "num03.png")
+	sprNUM[5]  = spriteLoad(MYDIR .. "num04.png")
+	sprNUM[6]  = spriteLoad(MYDIR .. "num05.png")
+	sprNUM[7]  = spriteLoad(MYDIR .. "num06.png")
+	sprNUM[8]  = spriteLoad(MYDIR .. "num07.png")
+	sprNUM[9]  = spriteLoad(MYDIR .. "num08.png")
+	sprNUM[10] = spriteLoad(MYDIR .. "num09.png")
+	
+	filler = nil; filler = {false,false,false,false}			
+	sprite = nil; sprite = {}									
+	sprite[INSERTCOIN] = spriteLoad(MYDIR .. "insertcoin.png")			
+	sprite[FREEPLAY] = spriteLoad(MYDIR .. "freeplay.png")
+	sprite[CREDIT] = spriteLoad(MYDIR .. "credit.png")
+	sprite[LIVES] = spriteLoad(MYDIR .. "live.png")				
+	sprite[LEVEL] = spriteLoad(MYDIR .. "level.png")		
+	sprite[SKIPINTRO] = spriteLoad(MYDIR .. "skip.png")
+	sprite[SECRET] = spriteLoad(MYDIR .. "secret.png")
+	sprite[COMPLETE] = spriteLoad(MYDIR .. "complete.png")
+	sprite[SCENE] = spriteLoad(MYDIR .. "scene.png")
+
+
+	sprArrow = nil; sprArrow = {}											
+	sprArrow[UP] 		= spriteLoad(MYDIR .. "arrowup.png")
+	sprArrow[DOWN] 		= spriteLoad(MYDIR .. "arrowdown.png")
+	sprArrow[LEFT]	 	= spriteLoad(MYDIR .. "arrowleft.png")
+	sprArrow[RIGHT] 	= spriteLoad(MYDIR .. "arrowright.png")										
+	sprArrow[BUTTON1] 	= spriteLoad(MYDIR .. "action.png")							
+	sprArrow[BUTTON2] 	= spriteLoad(MYDIR .. "action2.png")								
+	sprArrow[BUTTON3] 	= spriteLoad(MYDIR .. "action3.png")	
+	sprArrow[MASH] 		= spriteLoad(MYDIR .. "mash.png") 							
+	sprArrow[NOMOVES] 	= spriteLoad(MYDIR .. "nomoves.png")
+
+	initLCD()
+	
+	if dip_Debug then debugPrint ("Leaving initJob()") end
+	
+end
+
+function initLCD()
+
+	sLCD = nil; sLCD = {}
+	setFontColor(RED)
+				  
+	if dip_Movie then
+
+		sLCD[1] = "MOVIE MODE"
+		sLCD[2] = "PRESS 1P TO START"
+
+	elseif dip_CoinsPerCredit == DOPT_FREEPLAY then
+	
+		sLCD[1] = "FREE PLAY MODE"
+		sLCD[2] = "PRESS 1P TO START"
+		
+	else
+
+		if bShowCredits and iCredits > 0 then
+
+			sLCD[1] = "PRESS 1P TO START"
+			
+			if dip_LivesPerCredit == 1 then
+
+				sLCD[2] = string.format("FOR   %d   LIFE", dip_LivesPerCredit)	
+
+			else
+
+				sLCD[2] = string.format("FOR   %d   LIVES", dip_LivesPerCredit)		
+			
+			end
+
+		else
+
+			if dip_CoinsPerCredit == 1 then
+
+				sLCD[1] = string.format("INSERT  %d  COIN", dip_CoinsPerCredit)	
+
+			else
+
+				sLCD[1] = string.format("INSERT  %d  COINS", dip_CoinsPerCredit)		
+			
+			end
+
+			if dip_LivesPerCredit == 1 then
+
+				sLCD[2] = string.format("FOR   %d   LIFE", dip_LivesPerCredit)	
+
+			else
+
+				sLCD[2] = string.format("FOR   %d   LIVES", dip_LivesPerCredit)		
+			
+			end
+			
+		end	
+		
+	end
+	
+	sLCD[3] = "-----------------"
+	sLCD[4] = "PUNTEGGI MIGLIORI"	          	
+	
+	local k = 0
+	for k=1,5 do
+	
+		sLCD[k+4] = string.format("%d.%s      %d", k, highscore[k][1], highscore[k][2])
+		
+	end
+	sLCD[10] = "-----------------"
+	sLCD[11] = "Premi il pulsante action"
+	sLCD[12] = "-----------------"
+	
+	iLCDline = 1; iLCDpointer = 1; iLCDx = 0; iLCDwait = 0.075
+	altState = lvlSetup 
+
+end
+
+function EndOfStageReached(thisLevel)
+
+	return (iSegPointer == stage[thisLevel][SEGMENTCOUNT])
+
+end
+
+function initVLDP()	
+ 
+	-- VLDP has to run before any sprite drawing takes place.
+	
+	if (lvlState == lvlSetup) then
+	
+		if dip_Debug then debugPrint("Entering initVLDP()") end
+	
+		discSetFPS(MovieFPS)				
+		setupClip(offsetTitle, offsetTitleend)
+		bPause = true
+		lvlState = lvlRunning
+	
+	elseif (lvlState == lvlRunning) then
+	
+		if (currentFrame == iFrameEnd) then
+		
+			discPause()
+			lvlState = lvlEnd
+		
+		end
+	
+	elseif (lvlState == lvlEnd) then
+		bPause = false
+		gameflow = flow_GameInit
+		lvlState = lvlSetup
+		
+		if dip_Debug then debugPrint("Leaving initVLDP()") end
+	
+	end
+
+end
+
+function onInputPressed(intWhat)
+	
+	if not bPause then
+	
+		if (intWhat == SWITCH_BUTTON1) then
+
+			p1BUTTON1 = true
+			if bTestMash then iMash = iMash + 1 end
+									
+		elseif (intWhat == SWITCH_BUTTON2) then
+
+			p1BUTTON2 = true
+
+		elseif (intWhat == SWITCH_BUTTON3) then
+
+			p1BUTTON3 = true
+		
+		elseif (intWhat == SWITCH_UP) then
+			
+			p1UP = true
+			
+		elseif (intWhat == SWITCH_DOWN) then
+			
+			p1DOWN = true
+			
+		elseif (intWhat == SWITCH_LEFT) then
+			
+			p1LEFT = true
+			
+		elseif (intWhat == SWITCH_RIGHT) then
+			
+			p1RIGHT = true	
+
+		elseif (intWhat == SWITCH_SERVICE) then
+			
+			p1SERVICE = true
+			
+		elseif (intWhat == SWITCH_COIN1) then
+			
+			p1COIN1 = true
+			
+		elseif (intWhat == SWITCH_COIN2) then
+			
+			p1COIN2 = true	
+			
+		elseif (intWhat == SWITCH_START1) then
+			
+			p1START1 = true			
+			
+		elseif (intWhat == SWITCH_START2) then
+			
+			p1START2 = true
+			
+		end
+		
+	end
+
+end
+
+function onInputReleased(intWhat)
+
+	if (intWhat == SWITCH_PAUSE) then bPause = not bPause end
+	
+	if (gameflow == flow_GameRunning and not bPause) then	
+	
+		if (intWhat == SWITCH_COIN1 or intWhat == SWITCH_COIN2) then 
+			
+			if (currentLevel ~= levelService and currentLevel ~= levelNormal) then
+			
+				p1COIN1 = false
+				p1COIN2 = false
+		
+				if not (dip_CoinsPerCredit == DOPT_FREEPLAY) then
+					
+					if (iCredits < 9) then
+					
+						iCoins = iCoins + 1			
+						
+						if (iCoins >= dip_CoinsPerCredit) then
+						
+							iCoins = iCoins - dip_CoinsPerCredit
+							iCredits = iCredits + 1
+							soundPlay(sndcredit)
+							
+						else
+						
+							soundPlay(sndcoin)					
+						
+						end
+						if currentLevel == levelContinue then bResetContinue = true end
+					
+					end
+					
+				end
+				
+			end
+			
+		elseif (intWhat == SWITCH_UP) then
+		
+			p1UP = false
+		
+		elseif (intWhat == SWITCH_DOWN) then
+		
+			p1DOWN = false
+		
+		elseif (intWhat == SWITCH_LEFT) then
+		
+			p1LEFT = false
+		
+		elseif (intWhat == SWITCH_RIGHT) then
+		
+			p1RIGHT = false
+			
+		elseif (intWhat == SWITCH_BUTTON1) then
+		
+			p1BUTTON1 = false
+						
+		elseif (intWhat == SWITCH_BUTTON2) then
+
+			p1BUTTON2 = false
+
+		elseif (intWhat == SWITCH_BUTTON3) then
+
+			p1BUTTON3 = false
+			
+		elseif (intWhat == SWITCH_SERVICE and gameflow == flow_GameRunning) then
+		
+			p1SERVICE = false
+			lvlState = lvlSetup
+			currentLevel = levelService
+			
+		elseif (intWhat == SWITCH_START1) then
+			
+			p1START1 = false
+			
+		elseif (intWhat == SWITCH_START2) then
+			
+			p1START2 = false
+		
+		end	
+	
+	end		
+	
+end
+
+function onMouseMoved(intX, intY, intXrel, intYrel)
+
+	-- leave empty
+
+end
+
+function onOverlayUpdate()
+
+	overlayClear()
+	
+	currentFrame = discGetFrame()
+	
+	if (gameflow == flow_VLDPStart) then
+	
+		initVLDP()
+	
+	elseif (gameflow == flow_GameInit) then
+	
+		initJob()				
+		
+	elseif (gameflow == flow_GameRunning) then	
+		
+		if (currentLevel == levelIntro) then
+		
+			doIntro()		
+			
+		elseif (currentLevel == levelNormal) then
+		
+			doLevel()			
+			
+		elseif (currentLevel == levelMenuScreen) then
+		
+			doLevelSelect()	
+			
+		elseif (currentLevel == levelContinue) then
+		
+			doContinue()
+			
+		elseif (currentLevel == levelGameOver) then
+		
+			doGameOver()
+			
+		elseif (currentLevel == levelHighScore) then
+		
+			doHighScore()
+
+		elseif (currentLevel == levelService) then
+		
+			doServiceMenu()
+
+		elseif (currentLevel == levelMovie) then
+		
+			startMovie()
+
+		elseif (currentLevel == levelFinish) then
+		
+			doFinish()
+		
+		end
+	
+		if bShowAction    then drawAction()     end
+		if bShowScore 	  then drawScore() 		end
+		if bShowLvl		  then drawLvl()  	    end
+		if bShowScene	  then drawScene() 	    end
+		if bShowLives 	  then drawLives() 		end
+		if bShowCredits   then drawCredits() 	end	
+		if bShowLCD       then drawLCD() 	    end	
+		if bShowSkip      then drawSkip() 	    end	
+			
+	end
+	
+	return(OVERLAY_UPDATED)
+	
+end
+
+function onShutdown()
+	
+	discStop()	
+	if (dip_Debug == true) then debugPrint ("Leaving game!") end
+	
+end
+
+function onSoundCompleted(intWhich)
+
+	-- leave empty	
+	
+end
+
+function stageBeat(thisLevel)
+
+	local k = 0
+	local b1 = true
+
+	k = stage[thisLevel][SEGMENTCOUNT]
+	
+	if dip_Debug then debugPrint("Entering stageBeat()") end
+	
+	b1 = b1 and segment[thisLevel][k][SEGMENTCOMPLETE]
+	
+	if dip_Debug then debugPrint("Leaving stageBeat()") end
+	
+	return b1
+
+end
+
+function scanInput()
+
+	local iResult = NOMOVE
+
+	if     p1UP      then iResult = UP
+	elseif p1DOWN    then iResult = DOWN
+	elseif p1LEFT    then iResult = LEFT
+	elseif p1RIGHT   then iResult = RIGHT
+	elseif p1BUTTON1 then iResult = BUTTON1 
+	elseif p1BUTTON2 then iResult = BUTTON2
+	elseif p1BUTTON3 then iResult = BUTTON3 end
+	
+	p1UP      = false		
+	p1DOWN    = false		
+	p1LEFT    = false
+	p1RIGHT   = false
+	p1BUTTON1 = false
+	p1BUTTON2 = false
+	p1BUTTON3 = false
+	
+	return iResult
+	
+end
+
+-------------------------------------------------------------------------------------------------------
+-- If you need more than 10 levels, you will need to edit (add lines) the functions below this point --
+-------------------------------------------------------------------------------------------------------
+
+function createLevel01(thisStage) -- Nekron Attacks
+	
+	stage[level01] = {}; stage[level01] = {false, false, TotalScenesLevel01, 0}
+	segment[level01][1] = {}; segment[level01][1] = {SEGMENT01, false, "Tough Wake Up"}
+	segment[level01][2] = {}; segment[level01][2] = {SEGMENT02, false, "The Tree part 1"}
+	segment[level01][3] = {}; segment[level01][3] = {SEGMENT03, false, "The Tree part 2"}
+	segment[level01][4] = {}; segment[level01][4] = {SEGMENT04, false, ""}
+	segment[level01][5] = {}; segment[level01][5] = {SEGMENT05, false, ""}
+	segment[level01][6] = {}; segment[level01][6] = {SEGMENT06, false, ""}
+	segment[level01][7] = {}; segment[level01][7] = {SEGMENT07, false, ""}
+	segment[level01][8] = {}; segment[level01][8] = {SEGMENT08, false, ""}
+	segment[level01][9] = {}; segment[level01][9] = {SEGMENT09, false, ""}
+	segment[level01][10] = {}; segment[level01][10] = {SEGMENT10, false, ""}
+		
+end
+
+function createLevel02(thisStage) -- In the Wild
+	
+	stage[level02] = {}; stage[level02] = {false, false, TotalScenesLevel02, 0}
+	segment[level02][1] = {}; segment[level02][1] = {SEGMENT01, false, "Diplomacy fails"}
+	segment[level02][2] = {}; segment[level02][2] = {SEGMENT02, false, "Tygra escapes"}
+	segment[level02][3] = {}; segment[level02][3] = {SEGMENT03, false, "In the Wild"}
+	segment[level02][4] = {}; segment[level02][4] = {SEGMENT04, false, "Wolves"}
+	segment[level02][5] = {}; segment[level02][5] = {SEGMENT05, false, ""}
+	segment[level02][6] = {}; segment[level02][6] = {SEGMENT06, false, ""}
+	segment[level02][7] = {}; segment[level02][7] = {SEGMENT07, false, ""}
+	segment[level02][8] = {}; segment[level02][8] = {SEGMENT08, false, ""}
+	segment[level02][9] = {}; segment[level02][9] = {SEGMENT09, false, ""}
+	segment[level02][10] = {}; segment[level02][10] = {SEGMENT10, false, ""}
+
+end
+
+function createLevel03(thisStage) -- Ancient City
+	
+	stage[level03] = {}; stage[level03] = {false, false, TotalScenesLevel03, 0}
+	segment[level03][1] = {}; segment[level03][1] = {SEGMENT01, false, "Larn enters the City"}
+	segment[level03][2] = {}; segment[level03][2] = {SEGMENT02, false, "Reunion"}
+	segment[level03][3] = {}; segment[level03][3] = {SEGMENT03, false, "The Monster"}
+	segment[level03][4] = {}; segment[level03][4] = {SEGMENT04, false, ""}
+	segment[level03][5] = {}; segment[level03][5] = {SEGMENT05, false, ""}
+	segment[level03][6] = {}; segment[level03][6] = {SEGMENT06, false, ""}
+	segment[level03][7] = {}; segment[level03][7] = {SEGMENT07, false, ""}
+	segment[level03][8] = {}; segment[level03][8] = {SEGMENT08, false, ""}
+	segment[level03][9] = {}; segment[level03][9] = {SEGMENT09, false, ""}
+	segment[level03][10] = {}; segment[level03][10] = {SEGMENT10, false, ""}
+
+end
+
+function createLevel04(thisStage) -- In the Mist
+	
+	stage[level04] = {}; stage[level04] = {false, false, TotalScenesLevel04, 0}
+	segment[level04][1] = {}; segment[level04][1] = {SEGMENT01, false, "In the Mist"}
+	segment[level04][2] = {}; segment[level04][2] = {SEGMENT02, false, "Darkwolf Attacks"}
+	segment[level04][3] = {}; segment[level04][3] = {SEGMENT03, false, "The Rocks"}
+	segment[level04][4] = {}; segment[level04][4] = {SEGMENT04, false, ""}
+	segment[level04][5] = {}; segment[level04][5] = {SEGMENT05, false, ""}
+	segment[level04][6] = {}; segment[level04][6] = {SEGMENT06, false, ""}
+	segment[level04][7] = {}; segment[level04][7] = {SEGMENT07, false, ""}
+	segment[level04][8] = {}; segment[level04][8] = {SEGMENT08, false, ""}
+	segment[level04][9] = {}; segment[level04][9] = {SEGMENT09, false, ""}
+	segment[level04][10] = {}; segment[level04][10] = {SEGMENT10, false, ""}
+
+end
+
+function createLevel05(thisStage) -- Ice Peak
+
+	stage[level05] = {}; stage[level05] = {false, false, TotalScenesLevel05, 0}
+	segment[level05][1] = {}; segment[level05][1] = {SEGMENT01, false, "Entering Ice Peak"}
+	segment[level05][2] = {}; segment[level05][2] = {SEGMENT02, false, "Nekron's Magic"}
+	segment[level05][3] = {}; segment[level05][3] = {SEGMENT03, false, "Swordfight"}
+	segment[level05][4] = {}; segment[level05][4] = {SEGMENT04, false, "Larn's Escape"}
+	segment[level05][5] = {}; segment[level05][5] = {SEGMENT05, false, "The Rescue"}
+	segment[level05][6] = {}; segment[level05][6] = {SEGMENT06, false, ""}
+	segment[level05][7] = {}; segment[level05][7] = {SEGMENT07, false, ""}
+	segment[level05][8] = {}; segment[level05][8] = {SEGMENT08, false, ""}
+	segment[level05][9] = {}; segment[level05][9] = {SEGMENT09, false, ""}
+	segment[level05][10] = {}; segment[level05][10] = {SEGMENT10, false, ""}
+	
+end
+
+function createLevel06(thisStage) -- Final Battle
+
+	stage[level06] = {}; stage[level06] = {false, false, TotalScenesLevel06, 0}
+	segment[level06][1] = {}; segment[level06][1] = {SEGMENT01, false, "Fly to Icepeak"}
+	segment[level06][2] = {}; segment[level06][2] = {SEGMENT02, false, "Rocks and Bows"}
+	segment[level06][3] = {}; segment[level06][3] = {SEGMENT03, false, "Darwolf Strikes"}
+	segment[level06][4] = {}; segment[level06][4] = {SEGMENT04, false, "Rescuing Tygra"}
+	segment[level06][5] = {}; segment[level06][5] = {SEGMENT05, false, "Final Fight"}
+	segment[level06][6] = {}; segment[level06][6] = {SEGMENT06, false, "The End"}
+	segment[level06][7] = {}; segment[level06][7] = {SEGMENT07, false, ""}
+	segment[level06][8] = {}; segment[level06][8] = {SEGMENT08, false, ""}
+	segment[level06][9] = {}; segment[level06][9] = {SEGMENT09, false, ""}
+	segment[level06][10] = {}; segment[level06][10] = {SEGMENT10, false, ""}
+
+end
+
+function createLevel07(thisStage) -- Not Used. 
+
+	stage[level07] = {}; stage[level07] = {false, false, TotalScenesLevel07, 0}
+	segment[level07][1] = {}; segment[level07][1] = {SEGMENT01, false, "Segment Title"}
+	segment[level07][2] = {}; segment[level07][2] = {SEGMENT02, false, ""}
+	segment[level07][3] = {}; segment[level07][3] = {SEGMENT03, false, ""}
+	segment[level07][4] = {}; segment[level07][4] = {SEGMENT04, false, ""}
+	segment[level07][5] = {}; segment[level07][5] = {SEGMENT05, false, ""}
+	segment[level07][6] = {}; segment[level07][6] = {SEGMENT06, false, ""}
+	segment[level07][7] = {}; segment[level07][7] = {SEGMENT07, false, ""}
+	segment[level07][8] = {}; segment[level07][8] = {SEGMENT08, false, ""}
+	segment[level07][9] = {}; segment[level07][9] = {SEGMENT09, false, ""}
+	segment[level07][10] = {}; segment[level07][10] = {SEGMENT10, false, ""}
+
+end
+
+function createLevel08(thisStage) -- Not Used. 
+
+	stage[level08] = {}; stage[level08] = {false, false, TotalScenesLevel08, 0}
+	segment[level08][1] = {}; segment[level08][1] = {SEGMENT01, false, "Segment Title"}
+	segment[level08][2] = {}; segment[level08][2] = {SEGMENT02, false, ""}
+	segment[level08][3] = {}; segment[level08][3] = {SEGMENT03, false, ""}
+	segment[level08][4] = {}; segment[level08][4] = {SEGMENT04, false, ""}
+	segment[level08][5] = {}; segment[level08][5] = {SEGMENT05, false, ""}
+	segment[level08][6] = {}; segment[level08][6] = {SEGMENT06, false, ""}
+	segment[level08][7] = {}; segment[level08][7] = {SEGMENT07, false, ""}
+	segment[level08][8] = {}; segment[level08][8] = {SEGMENT08, false, ""}
+	segment[level08][9] = {}; segment[level08][9] = {SEGMENT09, false, ""}
+	segment[level08][10] = {}; segment[level08][10] = {SEGMENT10, false, ""}
+
+end
+
+function createLevel09(thisStage) -- Not Used. 
+
+	stage[level09] = {}; stage[level09] = {false, false, TotalScenesLevel09, 0}
+	segment[level09][1] = {}; segment[level09][1] = {SEGMENT01, false, "Segment Title"}
+	segment[level09][2] = {}; segment[level09][2] = {SEGMENT02, false, ""}
+	segment[level09][3] = {}; segment[level09][3] = {SEGMENT03, false, ""}
+	segment[level09][4] = {}; segment[level09][4] = {SEGMENT04, false, ""}
+	segment[level09][5] = {}; segment[level09][5] = {SEGMENT05, false, ""}
+	segment[level09][6] = {}; segment[level09][6] = {SEGMENT06, false, ""}
+	segment[level09][7] = {}; segment[level09][7] = {SEGMENT07, false, ""}
+	segment[level09][8] = {}; segment[level09][8] = {SEGMENT08, false, ""}
+	segment[level09][9] = {}; segment[level09][9] = {SEGMENT09, false, ""}
+	segment[level09][10] = {}; segment[level09][10] = {SEGMENT10, false, ""}
+
+end
+
+function createLevel10(thisStage) -- Not Used. 
+
+	stage[level10] = {}; stage[level10] = {false, false, TotalScenesLevel10, 0}
+	segment[level10][1] = {}; segment[level10][1] = {SEGMENT01, false, "Segment Title"}
+	segment[level10][2] = {}; segment[level10][2] = {SEGMENT02, false, ""}
+	segment[level10][3] = {}; segment[level10][3] = {SEGMENT03, false, ""}
+	segment[level10][4] = {}; segment[level10][4] = {SEGMENT04, false, ""}
+	segment[level10][5] = {}; segment[level10][5] = {SEGMENT05, false, ""}
+	segment[level10][6] = {}; segment[level10][6] = {SEGMENT06, false, ""}
+	segment[level10][7] = {}; segment[level10][7] = {SEGMENT07, false, ""}
+	segment[level10][8] = {}; segment[level10][8] = {SEGMENT08, false, ""}
+	segment[level10][9] = {}; segment[level10][9] = {SEGMENT09, false, ""}
+	segment[level10][10] = {}; segment[level10][10] = {SEGMENT10, false, ""}
+
+end
+
+function createLevelExt(thisStage)
+
+	stage[levelExt] = {}; stage[levelExt] = {false, false, TotalScenesLevelExt, 0}
+	segment[levelExt][1] = {}; segment[levelExt][1] = {SEGMENT01, false, "Segment Title"}
+	segment[levelExt][2] = {}; segment[levelExt][2] = {SEGMENT02, false, ""}
+	segment[levelExt][3] = {}; segment[levelExt][3] = {SEGMENT03, false, ""}
+	segment[levelExt][4] = {}; segment[levelExt][4] = {SEGMENT04, false, ""}
+	segment[levelExt][5] = {}; segment[levelExt][5] = {SEGMENT05, false, ""}
+	segment[levelExt][6] = {}; segment[levelExt][6] = {SEGMENT06, false, ""}
+	segment[levelExt][7] = {}; segment[levelExt][7] = {SEGMENT07, false, ""}
+	segment[levelExt][8] = {}; segment[levelExt][8] = {SEGMENT08, false, ""}
+	segment[levelExt][9] = {}; segment[levelExt][9] = {SEGMENT09, false, ""}
+	segment[levelExt][10] = {}; segment[levelExt][10] = {SEGMENT10, false, ""}
+
+end
+
+function getIntroClip(thisValue)
+
+	local a = 0
+	local b = 1
+		
+	if thisValue == level01 then
+	
+		a = offsetLevel01 
+		b = offsetLevel01Clipend
+		
+	elseif thisValue == level02 then
+	
+		a = offsetLevel02 
+		b = offsetLevel02Clipend
+	
+	elseif thisValue == level03 then
+	
+		a = offsetLevel03
+		b = offsetLevel03Clipend
+	
+	elseif thisValue == level04 then
+	
+		a = offsetLevel04
+		b = offsetLevel04Clipend
+	
+	elseif thisValue == level05 then
+	
+		a = offsetLevel05
+		b = offsetLevel05Clipend
+
+	elseif thisValue == level06 then
+	
+		a = offsetLevel06
+		b = offsetLevel06Clipend
+
+	elseif thisValue == level07 then
+	
+		a = offsetLevel07
+		b = offsetLevel07Clipend
+
+	elseif thisValue == level08 then
+	
+		a = offsetLevel08
+		b = offsetLevel08Clipend
+
+	elseif thisValue == level09 then
+	
+		a = offsetLevel09
+		b = offsetLevel09Clipend
+
+	elseif thisValue == level10 then
+	
+		a = offsetLevel10
+		b = offsetLevel10Clipend
+
+	elseif thisValue == levelExt then
+	
+		a = offsetLevelExt
+		b = offsetLevelExtClipend
+			
+	end
+
+	setupClip(a,b)
+
+end
+
+
+function initStages()
+
+	local k = 0	
+
+	stage = nil; stage = {}	
+	segment = nil; segment = {}
+	for k=level01,levelExt do
+		
+		segment[k] = {}
+	
+		if k == level01 then
+		
+			createLevel01(k)
+			
+		elseif k == level02 then
+		
+			createLevel02(k)
+			
+		elseif k == level03 then
+		
+			createLevel03(k)
+			
+		elseif k == level04 then
+		
+			createLevel04(k)
+			
+		elseif k == level05 then
+		
+			createLevel05(k)
+			
+		elseif k == level06 then
+		
+			createLevel06(k)
+
+		elseif k == level07 then
+		
+			createLevel07(k)
+
+		elseif k == level08 then
+		
+			createLevel08(k)
+
+		elseif k == level09 then
+		
+			createLevel09(k)
+
+		elseif k == level10 then
+		
+			createLevel10(k)
+
+		elseif k == levelExt then
+		
+			createLevelExt(k)
+			
+		end
+		
+
+
+	end
+
+end
+
+
+function NextLevel(thisLevel)
+
+	if thisLevel == level01 then
+
+		iCurPos = level02
+		iSegPointer = 0	
+
+	elseif thisLevel == level02 then
+
+		iCurPos = level03
+		iSegPointer = 0	
+				
+	elseif thisLevel == level03 then
+
+		iCurPos = level04
+		iSegPointer = 0	
+
+	elseif thisLevel == level04 then
+
+		iCurPos = level05
+		iSegPointer = 0	
+			
+	elseif thisLevel == level05 then
+
+		iCurPos = level06
+		iSegPointer = 0
+
+	elseif thisLevel == level06 then
+
+		iCurPos = level07
+		iSegPointer = 0
+
+	elseif thisLevel == level07 then
+
+		iCurPos = level08
+		iSegPointer = 0	
+
+	elseif thisLevel == level08 then
+
+		iCurPos = level09
+		iSegPointer = 0
+
+	elseif thisLevel == level09 then
+
+		iCurPos = level10
+		iSegPointer = 0
+														
+	end
+
+end
+
+
+function setupDeathClip(playerMove)								
+ 
+	local bPlayBuzzer = true 									
+	lvlState = lvlPlayDeath	
+
+	if move[currentMove][moveDeath] == 1 then
+
+		setupClip(offsetDeath01, offsetDeath01end)
+
+	elseif move[currentMove][moveDeath] == 2 then
+
+		setupClip(offsetDeath02, offsetDeath02end)
+
+	elseif move[currentMove][moveDeath] == 3 then
+
+		setupClip(offsetDeath03, offsetDeath03end)
+
+	elseif move[currentMove][moveDeath] == 4 then
+
+		setupClip(offsetDeath04, offsetDeath04end)
+
+	elseif move[currentMove][moveDeath] == 5 then
+
+		setupClip(offsetDeath05, offsetDeath05end)
+
+	elseif move[currentMove][moveDeath] == 6 then
+
+		setupClip(offsetDeath06, offsetDeath06end)
+
+	elseif move[currentMove][moveDeath] == 7 then
+
+		setupClip(offsetDeath07, offsetDeath07end)
+
+	elseif move[currentMove][moveDeath] == 8 then
+
+		setupClip(offsetDeath08, offsetDeath08end)
+
+	elseif move[currentMove][moveDeath] == 9 then
+
+		setupClip(offsetDeath09, offsetDeath09end)
+
+	elseif move[currentMove][moveDeath] == 10 then
+
+		setupClip(offsetDeath10, offsetDeath10end)
+
+	elseif move[currentMove][moveDeath] == 11 then
+
+		setupClip(offsetDeath11, offsetDeath11end)
+
+	elseif move[currentMove][moveDeath] == 12 then
+
+		setupClip(offsetDeath12, offsetDeath12end)
+
+	elseif move[currentMove][moveDeath] == 13 then
+
+		setupClip(offsetDeath13, offsetDeath13end)
+
+	elseif move[currentMove][moveDeath] == 14 then
+
+		setupClip(offsetDeath14, offsetDeath14end)
+
+	elseif move[currentMove][moveDeath] == 15 then
+
+		setupClip(offsetDeath15, offsetDeath15end)
+
+	elseif move[currentMove][moveDeath] == 16 then
+
+		setupClip(offsetDeath16, offsetDeath16end)
+
+	elseif move[currentMove][moveDeath] == 17 then
+
+		setupClip(offsetDeath17, offsetDeath17end)
+
+	elseif move[currentMove][moveDeath] == 18 then
+
+		setupClip(offsetDeath18, offsetDeath18end)
+
+	elseif move[currentMove][moveDeath] == 19 then
+
+		setupClip(offsetDeath19, offsetDeath19end)
+
+	elseif move[currentMove][moveDeath] == 20 then
+
+		setupClip(offsetDeath20, offsetDeath20end)
+
+	elseif move[currentMove][moveDeath] == 21 then
+
+		setupClip(offsetDeath21, offsetDeath21end)
+
+	elseif move[currentMove][moveDeath] == 22 then
+
+		setupClip(offsetDeath22, offsetDeath22end)
+
+	elseif move[currentMove][moveDeath] == 23 then
+
+		setupClip(offsetDeath23, offsetDeath23end)
+
+	elseif move[currentMove][moveDeath] == 24 then
+
+		setupClip(offsetDeath24, offsetDeath24end)
+
+	elseif move[currentMove][moveDeath] == 25 then
+
+		setupClip(offsetDeath25, offsetDeath25end)
+
+	elseif move[currentMove][moveDeath] == 26 then
+
+		setupClip(offsetDeath26, offsetDeath26end)
+
+	elseif move[currentMove][moveDeath] == 27 then
+
+		setupClip(offsetDeath27, offsetDeath27end)
+
+	elseif move[currentMove][moveDeath] == 28 then
+
+		setupClip(offsetDeath28, offsetDeath28end)
+
+	elseif move[currentMove][moveDeath] == 29 then
+
+		setupClip(offsetDeath29, offsetDeath29end)
+
+	elseif move[currentMove][moveDeath] == 30 then
+
+		setupClip(offsetDeath30, offsetDeath30end)
+
+	elseif move[currentMove][moveDeath] == 31 then
+
+		setupClip(offsetDeath31, offsetDeath31end)
+
+	elseif move[currentMove][moveDeath] == 32 then
+
+		setupClip(offsetDeath32, offsetDeath32end)
+
+	elseif move[currentMove][moveDeath] == 33 then
+
+		setupClip(offsetDeath33, offsetDeath33end)
+
+	elseif move[currentMove][moveDeath] == 34 then
+
+		setupClip(offsetDeath34, offsetDeath34end)
+
+	elseif move[currentMove][moveDeath] == 35 then
+
+		setupClip(offsetDeath35, offsetDeath35end)
+
+	elseif move[currentMove][moveDeath] == 36 then
+
+		setupClip(offsetDeath36, offsetDeath36end)
+
+	elseif move[currentMove][moveDeath] == 37 then
+
+		setupClip(offsetDeath37, offsetDeath37end)
+
+	elseif move[currentMove][moveDeath] == 38 then
+
+		setupClip(offsetDeath38, offsetDeath38end)
+
+	elseif move[currentMove][moveDeath] == 39 then
+
+		setupClip(offsetDeath39, offsetDeath39end)
+
+	elseif move[currentMove][moveDeath] == 40 then
+
+		setupClip(offsetDeath40, offsetDeath40end)
+
+	end	
+	
+	if bPlayBuzzer then soundPlay(sndwrong) end   							
+
+end 	
+
+
+function SetupFramesLevel(thisLevel)
+
+	local k = 0																 
+	local q = 0
+	
+	for k=1,totalMoves do
+
+		if thisLevel == level01 then
+
+			move[k][5] = move[k][1] + offsetLevel01
+			move[k][1] = move[k][1] + offsetLevel01 + (dip_Difficulty * 2 -2)
+			move[k][2] = move[k][2] + offsetLevel01
+
+		elseif thisLevel == level02 then
+
+			move[k][5] = move[k][1] + offsetLevel02
+			move[k][1] = move[k][1] + offsetLevel02 + (dip_Difficulty * 2 -2)
+			move[k][2] = move[k][2] + offsetLevel02
+		
+		elseif thisLevel == level03 then
+
+			move[k][5] = move[k][1] + offsetLevel03
+			move[k][1] = move[k][1] + offsetLevel03 + (dip_Difficulty * 2 -2)
+			move[k][2] = move[k][2] + offsetLevel03
+
+		elseif thisLevel == level04 then
+
+			move[k][5] = move[k][1] + offsetLevel04
+			move[k][1] = move[k][1] + offsetLevel04 + (dip_Difficulty * 2 -2)
+			move[k][2] = move[k][2] + offsetLevel04
+
+		elseif thisLevel == level05 then
+
+			move[k][5] = move[k][1] + offsetLevel05
+			move[k][1] = move[k][1] + offsetLevel05 + (dip_Difficulty * 2 -2)
+			move[k][2] = move[k][2] + offsetLevel05
+
+		elseif thisLevel == level06 then
+
+			move[k][5] = move[k][1] + offsetLevel06
+			move[k][1] = move[k][1] + offsetLevel06 + (dip_Difficulty * 2 -2)
+			move[k][2] = move[k][2] + offsetLevel06
+
+		elseif thisLevel == level07 then
+
+			move[k][5] = move[k][1] + offsetLevel07
+			move[k][1] = move[k][1] + offsetLevel07 + (dip_Difficulty * 2 -2)
+			move[k][2] = move[k][2] + offsetLevel07
+
+		elseif thisLevel == level08 then
+
+			move[k][5] = move[k][1] + offsetLevel08
+			move[k][1] = move[k][1] + offsetLevel08 + (dip_Difficulty * 2 -2)
+			move[k][2] = move[k][2] + offsetLevel08
+
+		elseif thisLevel == level09 then
+
+			move[k][5] = move[k][1] + offsetLevel09
+			move[k][1] = move[k][1] + offsetLevel09 + (dip_Difficulty * 2 -2)
+			move[k][2] = move[k][2] + offsetLevel09
+
+		elseif thisLevel == level10 then
+
+			move[k][5] = move[k][1] + offsetLevel10
+			move[k][1] = move[k][1] + offsetLevel10 + (dip_Difficulty * 2 -2)
+			move[k][2] = move[k][2] + offsetLevel10
+
+		elseif thisLevel == levelExt then
+
+			move[k][5] = move[k][1] + offsetLevelExt
+			move[k][1] = move[k][1] + offsetLevelExt + (dip_Difficulty * 2 -2)
+			move[k][2] = move[k][2] + offsetLevelExt
+
+		end
+
+	end
+
+	for q=1,totalMoves do
+
+		if q < totalMoves then
+
+			move[q][6] = move[q+1][5] - 1
+		
+		else
+			
+			move[q][6] = segmentEnd
+								
+		end
+
+	end
+	
+end
+
+
+function setupLevel(thisLevel)
+
+	if dip_Debug then debugPrint("Entering setupLevel() thisLevel = " .. thisLevel) end
+	
+	local thisSegment = 0
+	local bSegFound = false
+
+	iSegPointer	= iSegPointer + 1
+	if iSegPointer == 1 then 
+
+		bShowLvl = true
+
+	else
+	
+		bShowScene = true 
+
+	end
+
+	if dip_Debug then debugPrint( "iSegPointer: " .. iSegPointer .. " - stage segment total: " .. stage[thisLevel][SEGMENTCOUNT] ) end	
+	if iSegPointer > stage[thisLevel][SEGMENTCOUNT] then iSegPointer = iSegPointer - 1 end	
+	
+
+	for thisSegment=iSegPointer,stage[thisLevel][SEGMENTCOUNT] do			
+		
+		if segment[thisLevel][thisSegment][SEGMENTCOMPLETE] == false then
+		
+			segID = segment[thisLevel][thisSegment][SEGMENTID]
+			iSegPointer = thisSegment
+			bSegFound = true
+	
+			if dip_Debug then debugPrint("Setting up segment #" .. segID .. " - '" .. segment[thisLevel][thisSegment][SEGMENTNAME] .. "'") end
+			
+			if     (thisLevel == level01)  then setupLevel01(segID)		
+			elseif (thisLevel == level02)  then setupLevel02(segID)						
+			elseif (thisLevel == level03)  then setupLevel03(segID)			
+			elseif (thisLevel == level04)  then setupLevel04(segID)
+			elseif (thisLevel == level05)  then setupLevel05(segID)
+			elseif (thisLevel == level06)  then setupLevel06(segID)
+			elseif (thisLevel == level07)  then setupLevel07(segID)			
+			elseif (thisLevel == level08)  then setupLevel08(segID)
+			elseif (thisLevel == level09)  then setupLevel09(segID)
+			elseif (thisLevel == level10)  then setupLevel10(segID)
+			elseif (thisLevel == levelExt)  then setupLevelExt(segID) end 
+			SetupFramesLevel(thisLevel)	
+						
+			break
+			
+		end
+	
+	end
+	
+	if not bSegFound then
+		
+		iSegPointer = 1
+	
+		for thisSegment=1,stage[thisLevel][SEGMENTCOUNT] do			
+			
+			if segment[thisLevel][thisSegment][SEGMENTCOMPLETE] == false then
+			
+				segID = segment[thisLevel][thisSegment][SEGMENTID]
+				iSegPointer = thisSegment
+				bSegFound = true
+		
+				if dip_Debug then debugPrint("Setting up segment #" .. segID .. " - '" .. segment[thisLevel][thisSegment][SEGMENTNAME] .. "'") end
+				
+				if (thisLevel == level01)      then setupLevel01(segID)
+				elseif (thisLevel == level02)  then setupLevel02(segID)
+				elseif (thisLevel == level03)  then setupLevel03(segID)
+				elseif (thisLevel == level04)  then setupLevel04(segID)
+				elseif (thisLevel == level05)  then setupLevel05(segID)
+				elseif (thisLevel == level06)  then setupLevel06(segID)
+				elseif (thisLevel == level07)  then setupLevel07(segID)			
+				elseif (thisLevel == level08)  then setupLevel08(segID)
+				elseif (thisLevel == level09)  then setupLevel09(segID)
+				elseif (thisLevel == level10)  then setupLevel10(segID)
+				elseif (thisLevel == levelExt)  then setupLevelExt(segID) end 
+				SetupFramesLevel(thisLevel)	
+
+				break
+				
+			end
+		
+		end	
+		
+	end
+	
+	if dip_Debug then debugPrint("Leaving setupLevel()") end
+
+end
+
+function startGame()
+
+	if dip_Debug then debugPrint ("Entering startGame()") end
+	
+	initStages()
+
+	if bExtendedPlay then 
+
+		currentLevel = levelNormal
+		iCurPos = levelExt
+		levelMap = nil; levelMap = {true, false, false, false, false, false, false, false, true}
+	
+	else
+		
+		if iCredits > 0 then iCredits = iCredits - 1 end
+		iScore = 0	
+		
+		if (currentLevel == levelContinue) then	
+	        
+			currentLevel = iTempLevel
+			
+		else		
+			
+			iContinues = 0
+			iSegPointer = 0
+
+			if dip_StartLevel == 1 then
+
+				iCurPos = level01					
+			
+			elseif dip_StartLevel == 2 then
+			
+				iCurPos = level02	
+
+			elseif dip_StartLevel == 3 then
+			
+				iCurPos = level03
+
+			elseif dip_StartLevel == 4 then
+			
+				iCurPos = level04
+
+			elseif dip_StartLevel == 5 then
+			
+				iCurPos = level05
+
+			elseif dip_StartLevel == 6 then
+			
+				iCurPos = level06
+
+			elseif dip_StartLevel == 7 then
+			
+				iCurPos = level07
+
+			elseif dip_StartLevel == 8 then
+			
+				iCurPos = level08
+
+			elseif dip_StartLevel == 9 then
+			
+				iCurPos = level09
+
+			elseif dip_StartLevel == 10 then
+			
+				iCurPos = level10
+
+			end
+
+			if dip_StartSegment == 1 then
+
+				iSegPointer = 0					
+			
+			elseif dip_StartSegment == 2 then
+			
+				iSegPointer = 1	
+
+			elseif dip_StartSegment == 3 then
+			
+				iSegPointer = 2
+
+			elseif dip_StartSegment == 4 then
+			
+				iSegPointer = 3
+
+			elseif dip_StartSegment == 5 then
+			
+				iSegPointer = 4
+
+			elseif dip_StartSegment == 6 then
+			
+				iSegPointer = 5	
+
+			elseif dip_StartSegment == 7 then
+			
+				iSegPointer = 6	
+
+			elseif dip_StartSegment == 8 then
+			
+				iSegPointer = 7
+
+			elseif dip_StartSegment == 9 then
+			
+				iSegPointer = 8
+
+			elseif dip_StartSegment == 10 then
+			
+				iSegPointer = 9	
+
+			end
+
+			rndegg = random.new(os.clock() * 100000)						
+			levelMap = nil; levelMap = {true, false, false, false, false, false, false, false, true}					
+			currentLevel = levelNormal			
+		
+		end		
+		
+	end
+	
+	lvlState = lvlSetup
+	
+	
+	bShowLives = true
+	bShowAction = true
+	bShowScore = true
+
+	
+	iLives = dip_LivesPerCredit	
+	bShowAction = false
+	bTestMash = false
+	iMash = 0
+	bShowCredits = false
+	bShowLCD = false
+	bResetContinue = false	
+	bExtendedPlay = false	
+	
+	if dip_Debug then debugPrint ("Leaving startGame()") end
+
+end
+
+function startMovie()
+	
+	if dip_Debug then debugPrint ("Entering startMovie()") end
+	
+	if (lvlState == lvlSetup) then
+
+		iScore = 0	
+		iContinues = 0
+		iSegPointer = 0
+	
+		setupClip(offsetLevel01, offsetLevelExt -1)					
+		
+		bShowLives = false
+		bShowAction = false
+		bShowScore = false
+		bShowLvl = false
+		bShowCredits = false
+		bShowLCD = false
+
+		lvlState = lvlRunning
+	
+	elseif (lvlState == lvlRunning) then
+	
+		if (currentFrame == iFrameEnd or p1START1) then
+			
+			p1START1 = false
+
+			lvlState = lvlEnd	
+
+		elseif p1RIGHT then
+
+			p1RIGHT = false
+
+			iMovie = iMovie + 1
+
+			if iMovie == 2 then
+
+				setupClip(offsetLevel02, offsetLevelExt -1)
+
+			elseif iMovie == 3 then
+
+				setupClip(offsetLevel03, offsetLevelExt -1)
+
+			elseif iMovie == 4 then
+
+				setupClip(offsetLevel04, offsetLevelExt -1)
+
+			elseif iMovie == 5 then
+
+				setupClip(offsetLevel05, offsetLevelExt -1)	
+
+			elseif iMovie == 6 then
+
+				setupClip(offsetLevel06, offsetLevelExt -1)
+
+			elseif iMovie == 7 or iMovie == 1 then
+
+				iMovie = 1
+				setupClip(offsetLevel01, offsetLevelExt -1)	
+
+			end
+
+		elseif p1LEFT then
+
+			p1LEFT = false
+
+			iMovie = iMovie - 1
+
+			if iMovie == 2 then
+
+				setupClip(offsetLevel02, offsetLevelExt -1)
+
+			elseif iMovie == 3 then
+
+				setupClip(offsetLevel03, offsetLevelExt -1)
+
+			elseif iMovie == 4 then
+
+				setupClip(offsetLevel04, offsetLevelExt -1)
+
+			elseif iMovie == 5 then
+
+				setupClip(offsetLevel05, offsetLevelExt -1)	
+
+			elseif iMovie == 6 or iMovie == 0 then
+
+				iMovie = 6
+				setupClip(offsetLevel06, offsetLevelExt -1)
+
+			elseif iMovie == 1 then
+
+				setupClip(offsetLevel01, offsetLevelExt -1)	
+
+			end
+
+
+		end	
+	
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		currentLevel = levelIntro	
+		if dip_Debug then debugPrint ("Leaving startMovie()") end
+
+	end
+
+end
