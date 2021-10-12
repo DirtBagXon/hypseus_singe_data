@@ -1,0 +1,360 @@
+--[[
+
+PROGRAM NAME:	MAD DOG 2 THE LOST GOLD (SINGE EDITION)
+AUTHOR:			RDG2010
+
+This file is part of MAD DOG 2 THE LOST GOLD (TYPING EDITION)
+
+    MAD DOG 2 THE LOST GOLD (SINGE EDITION) is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation.
+
+    MAD DOG 2 THE LOST GOLD (SINGE EDITION) is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+    Read COPYING.TXT for more info.
+
+
+]]--
+
+sprmsg = nil
+servx = 0
+servy = 0	
+
+function readConfig()
+
+	local s1
+	local hsName = ""
+	local hdScore = ""
+	local k = 0
+	local h1 = io.input("singe/typing-md2/maddog2te.cfg")	
+
+	if (bDebug) then debugPrint ("Entering readConfig()") end
+
+		local s1 = io.read("*line")			
+		
+		if (s1 ~= nil) then
+		
+			dip_LivesPerCredit = tonumber(string.sub(s1,string.find(s1,"=")+1))
+			
+		end
+		
+		s1 = io.read("*line")
+		
+		if (s1 ~= nil) then
+
+			dip_Difficulty = tonumber(string.sub(s1,string.find(s1,"=")+1))
+			
+		end
+		
+		s1 = io.read("*line")
+		
+		s1 = tonumber(string.sub(s1,string.find(s1,"=")+1))	
+		
+		if (s1 ~= nil) then
+		
+			if (s1 == 1) then
+				dip_Undertaker = true
+			else
+				dip_Undertaker = false
+			end
+		end
+		
+		s1 = io.read("*line")
+		
+		s1 = tonumber(string.sub(s1,string.find(s1,"=")+1))	
+		
+		if (s1 ~= nil) then
+
+			if (s1 == 1) then
+				dip_Showdown = true
+			else
+				dip_Showdown = false
+			end
+		end	
+		
+		s1 = io.read("*line")
+		highscore = nil; highscore = {}
+		for k=1,6 do
+			s1 = io.read("*line")
+			
+			hsName = string.sub(s1,1,string.find(s1,",")-1)
+			hsScore = string.sub(s1,string.find(s1,",")+1, string.len(s1))
+			
+			highscore[k] = {}
+			highscore[k] = {hsName, hsScore}
+		
+		end
+		
+		io.close(h1)
+		
+		if (bDebug) then debugPrint ("Leaving readConfig()") end
+
+end
+
+function writeConfig()
+
+	-- This function writes the values of the dip variables
+	-- into an external data file.
+
+	local sNewLine = "\n"
+	local s1 = ""
+
+	local h1 = io.output("singe/typing-md2/maddog2te.cfg")	
+	
+	io.write("dip_LivesPerCredit = " .. dip_LivesPerCredit .. sNewLine)
+	io.write("dip_Difficulty = " .. dip_Difficulty .. sNewLine)		
+	
+	if (dip_Undertaker == true) then
+		io.write("dip_Undertaker = 1" .. sNewLine)
+	else
+		io.write("dip_Undertaker = 0" .. sNewLine)
+	end	
+	
+	if (dip_Showdown == true) then
+		io.write("dip_Showdown = 1" .. sNewLine)
+	else
+		io.write("dip_Showdown = 0" .. sNewLine)
+	end	
+	
+	io.write(sNewLine)
+	
+	for k=1,6 do
+		
+		
+		s1 = highscore[k][1] .. "," .. highscore[k][2]
+		io.write(s1 .. sNewLine)
+	
+	end
+	
+	io.close(h1)
+
+end
+
+function updateOpts(thisIndex)
+
+	if (thisIndex == 1) then
+	
+		dip_LivesPerCredit = dip_LivesPerCredit + 1
+	
+		if (dip_LivesPerCredit > 6) then
+		
+			dip_LivesPerCredit = 3
+			
+		end
+		
+
+	elseif (thisIndex == 2) then
+	
+		if (dip_Difficulty == DOPT_EASY) then
+		
+			dip_Difficulty = DOPT_MEDIUM
+		
+		elseif (dip_Difficulty == DOPT_MEDIUM) then
+		
+			dip_Difficulty = DOPT_HARD
+			
+		elseif (dip_Difficulty == DOPT_HARD) then
+		
+			dip_Difficulty = DOPT_EASY
+		
+		end
+	
+	elseif (thisIndex == 3) then
+	
+		dip_Undertaker = not dip_Undertaker
+		
+	elseif (thisIndex == 4) then	
+		
+		dip_Showdown = not dip_Showdown
+		
+	elseif (thisIndex == 5) then
+		
+
+		lvlState = lvlEnd
+		
+	end
+
+end
+
+function printOpts()
+
+	-- This function writes the options on the service menu screen.
+	local k = 0
+	local ypos = 45
+	local fntx = 255; fnty = 52
+	local smenu = {}; 
+		
+	smenu[1] = "Lives per Game"
+	smenu[2] = "Difficulty"	
+	smenu[3] = "Show Undertaker"
+	smenu[4] = "Play Showdowns"		
+	smenu[5] = "EXIT"
+	
+	colorForeground(0, 255, 0)	
+	
+	spriteDraw(servx, servy, sprmsg)
+	
+	fontSelect(fontDebug8pt)
+	
+	
+	for k=1,5 do
+	
+		fontPrint(fntx-150, 52 + k*17, smenu[k])
+	
+	end		
+	
+	for k=1,5 do
+		
+		if (k == 1) then
+		
+			fontPrint(fntx, (52+k*17), dip_LivesPerCredit)			
+	
+		elseif (k == 2) then
+	
+			if (dip_Difficulty == DOPT_EASY) then
+			
+				fontPrint(fntx, (52+k*17), "EASY")	
+			
+			elseif (dip_Difficulty == DOPT_MEDIUM) then
+			
+				fontPrint(fntx, (52+k*17), "MEDIUM")	
+			
+			elseif (dip_Difficulty == DOPT_HARD) then
+			
+				fontPrint(fntx, (52+k*17), "HARD")	
+			
+			end
+			
+		elseif (k == 3) then
+		
+			if dip_Undertaker then			
+			
+				fontPrint(fntx, (52+k*17), "YES")	
+				
+			
+			else
+			
+				fontPrint(fntx, (52+k*17), "NO")	
+				
+			
+			end
+		
+		elseif (k == 4) then		
+			
+			if dip_Showdown then
+			
+				fontPrint(fntx, (52+k*17), "YES")	
+				
+			
+			else
+			
+				fontPrint(fntx, (52+k*17), "NO")
+				
+			
+			end
+			
+
+		end
+
+	end
+
+end
+
+function doServiceMenu()
+
+	-- This is the main function for the service menu screen.
+
+	local j = overlayGetWidth() * 0.5
+	local h = j - 80
+	local k = 80
+	local gunx = 52
+	
+	if (lvlState == lvlSetup) then
+	
+		if (bDebug) then debugPrint ("Entering doServiceMenu()") end
+
+		discSearch(offsetMenus + 3430)
+		discPause()		
+		timerOFF()
+		
+		optSel = 1
+		readConfig()
+		
+		bShowScore = false		
+		bShowCredits = false
+		
+		colorForeground(0, 255, 0)
+		fontSelect(fontOldWest24pt)
+		sprmsg = fontToSprite ("OPTIONS")
+		servx = (overlayGetWidth()  * 0.5) - (spriteGetWidth(sprmsg) * 0.5) 
+		servy = 20		
+		iKey = SWITCH_NONE
+		lvlState = lvlRunning
+	
+	elseif (lvlState == lvlRunning) then
+	
+		if (iKey == SWITCH_RETURN) then
+		
+			iKey = SWITCH_NONE			
+			if optSel ~= 5 then	playMe(sndBonus01) end			
+			updateOpts(optSel)					
+		
+		else
+		
+			if (iKey == SWITCH_UARROW) then
+			
+				iKey = SWITCH_NONE
+				playMe(sndFX01)
+				if optSel > 1 then optSel = optSel - 1 end
+				
+			elseif (iKey == SWITCH_DARROW) then
+			
+				iKey = SWITCH_NONE
+				playMe(sndFX01)
+				if optSel < 5 then optSel = optSel + 1 end
+			
+			end
+		
+			if (optSel == 1) then	-- Lives per credit
+			
+				spriteDraw(gunx, (52+optSel*17), sprArrow)
+				
+			
+			elseif (optSel == 2) then	-- Difficulty
+			
+				spriteDraw(gunx, (52+optSel*17), sprArrow)
+				
+			
+			elseif (optSel == 3) then -- show undertaker
+			
+				spriteDraw(gunx, (52+optSel*17), sprArrow)
+				
+			
+			elseif (optSel == 4) then -- play showdowns
+			
+				spriteDraw(gunx, (52+optSel*17), sprArrow)			
+				
+			elseif (optSel == 5) then -- exit			
+				
+				spriteDraw(gunx, (52+optSel*17), sprArrow)
+				
+				
+			end		
+			printOpts()
+			
+			
+		end
+
+	elseif (lvlState == lvlEnd) then
+	
+		writeConfig()
+		iScore = 0						
+		lvlState = lvlSetup
+		currentLevel = levelTitle
+		if (bDebug) then debugPrint ("Leaving doServiceMenu()") end	
+
+	end
+
+end

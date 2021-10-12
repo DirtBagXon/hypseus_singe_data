@@ -1,0 +1,6493 @@
+--[[
+
+PROGRAM NAME:	MAD DOG 2 THE LOST GOLD (SINGE EDITION)
+AUTHOR:			RDG2010
+
+This file is part of MAD DOG 2 THE LOST GOLD (TYPING EDITION)
+
+    MAD DOG 2 THE LOST GOLD (SINGE EDITION) is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation.
+
+    MAD DOG 2 THE LOST GOLD (SINGE EDITION) is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+    Read COPYING.TXT for more info.
+
+
+]]--
+
+
+sVersion = "0.20b"
+sType = "CDROM"
+
+dofile("singe/typing-md2/te-globals.singe")
+dofile("singe/typing-md2/te-setuplevel.singe")
+dofile("singe/typing-md2/te-setuptype.singe")
+dofile("singe/typing-md2/te-hscore.singe")
+dofile("singe/typing-md2/te-service.singe")
+dofile("singe/typing-md2/te-toolbox.singe")
+dofile("singe/typing-md2/te-typewriter.singe")
+dofile("singe/typing-md2/te-hitbox-train.singe")
+
+function drawPausePanel()
+
+	spriteDraw(85,95,sprPanel6)
+	fontSelect(fontDebug8pt)
+	if pIndex == 1 then 
+		setFontColor(GREEN) 
+		fontPrint(156,110,"RESUME")
+		setFontColor(GREY)
+		fontPrint(132,126,"BACK TO MAIN")
+	else
+		setFontColor(GREY)
+		fontPrint(156,110,"RESUME")
+		setFontColor(GREEN) 			
+		fontPrint(132,126,"BACK TO MAIN")		
+	
+	end
+
+end
+
+function doPause()
+
+	if (pStatus == pSetup) then
+	
+		discPause()	
+		pIndex = 1
+		pStatus = pRunning
+		pKey = SWITCH_NONE
+		bShowPausePanel = true
+	
+	elseif (pStatus == pRunning) then
+	
+		if (pKey == SWITCH_RETURN) then
+		
+			pKey = SWITCH_NONE
+			if pIndex == 1 then
+				pStatus = pEnd
+			else
+				currentLevel = levelTitle				
+			
+			end
+			lvlState = lvlSetup
+			bPause = false
+			bShowPausePanel = false
+			if not singeGetPauseFlag() then discPlay() end			
+			
+		elseif (pKey == SWITCH_UARROW) then
+		
+			pKey = SWITCH_NONE			
+			pIndex = pIndex - 1
+			if pIndex < 1 then pIndex = 2 end		
+		
+		elseif (pKey == SWITCH_DARROW) then
+		
+			pKey = SWITCH_NONE
+			pIndex = pIndex + 1
+			if pIndex > 2 then pIndex = 1 end
+			
+		
+		end
+		
+		
+		
+	
+	elseif (pStatus == pEnd) then
+	
+		currentLevel = tempLevel
+		pStatus = pSetup		
+	
+	end
+
+end
+
+function doContinue()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint ("Entering doContinue()") end
+	
+		bShowScore = false		
+		bShowCredits = true
+		
+		levelFrameStart = offsetMenus + 1990
+		levelFrameEnd = offsetMenus + 2289		
+		discSkipToFrame(levelFrameStart)
+		
+		bShowMouse = false		
+		lvlState = lvlPlayClip1
+	
+	elseif (lvlState == lvlPlayClip1) then
+	
+		if (currentFrame == levelFrameEnd) then
+			lvlState = lvlEnd
+			
+		else
+		
+			if (iKey == SWITCH_RETURN) then
+			
+				iKey = SWITCH_NONE
+					
+				if iCredits > 0 then iCredits = iCredits - 1 end
+				lvlState = lvlSetup					-- Set state for said level
+				iLives = dip_LivesPerCredit			-- Reset lives for new game 				
+				iContinues = iContinues + 1
+				bShowCredits = false
+				bShowScore = true
+				currentLevel = tempLevel				
+				bShowDown = true
+				iScore = 0				
+				
+			end
+		
+		end
+	
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		if newScore(iScore) == true then
+		
+			currentLevel = levelHighScore
+			
+		else
+		
+			currentLevel = levelGameOver
+			
+		end
+		if bDebug then debugPrint ("Leaving doContinue()") end
+	
+	end
+
+end
+
+function doGameOver()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint ("Entering doGameOver()") end
+		
+		bShowCredits = true
+		bShowScore = false
+		levelFrameStart = offsetMenus + 2290
+		levelFrameEnd = offsetMenus + 2409
+		
+		discSkipToFrame(levelFrameStart)
+		lvlState = lvlPlayClip1
+	
+	elseif (lvlState == lvlPlayClip1) then
+	
+		if (currentFrame == levelFrameEnd) then
+			lvlState = lvlEnd
+		
+		end
+	
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		currentLevel = levelIntro
+		if bDebug then debugPrint ("Leaving doGameOver()") end
+	
+	end
+
+end
+
+function doIntro()
+
+	if (lvlState == lvlSetup) then
+	
+		bPlaySound = true
+		bReloadDisabled = true
+		bShowMouse = false
+		bShowScore = false
+		bShowCredits = true
+
+		lvlState = lvlPlayClip6
+	
+	elseif (lvlState == lvlPlayClip1) then
+	
+		if (currentFrame == 2988) then
+		
+			p1BUTTON3 = false
+			discSkipToFrame(53331)
+			discPause()
+			timerON(9)
+			lvlState = lvlPlayClip2
+		
+		end		
+		
+	elseif (lvlState == lvlPlayClip2) then
+	
+		if timerDue() then
+		
+			discSkipToFrame(offsetMenus + 1418)
+			lvlState = lvlPlayClip3
+		
+		end	
+		
+	elseif (lvlState == lvlPlayClip3) then
+	
+		if (currentFrame == offsetMenus + 1986) then
+		
+			discSkipToFrame(offsetMenus + 3515)				
+			lvlState = lvlPlayClip4			
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip4) then
+	
+		if (currentFrame == offsetMenus + 3885) then
+		
+			discSkipToFrame(offsetMenus)
+			discPause()
+			timerON(2)
+			lvlState = lvlPlayClip5
+			
+		else
+		
+			drawHStable()
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip5) then
+	
+		if timerDue() then
+		
+			discSkipToFrame(offsetMenus + 3890)
+			lvlState = lvlEnd
+		end
+		
+	elseif (lvlState == lvlPlayClip6) then			
+		
+		if iALG == 1 then		
+			
+			setupClip(offsetMenus + 4660, offsetMenus + 4980)
+			
+		elseif iALG == 2 then
+		
+			setupClip(offsetMenus + 4270, offsetMenus + 4655)
+			
+		else
+		
+			setupClip(offsetMenus + 3890, offsetMenus + 4270)
+		end
+		iALG = iALG + 1
+		if iALG > 3 then iALG = 1 end
+		lvlState = lvlPlayClip7
+		
+	elseif (lvlState == lvlPlayClip7) then
+	
+		if currentFrame == iFrameEnd then
+		
+			if iFrameEnd == offsetMenus + 4980 then
+			
+				discSkipToFrame(1)
+				lvlState = lvlPlayClip1
+			
+			else
+				discPause()
+				timerON(2)
+				lvlState = lvlPlayClip8
+				
+			end
+			
+			
+		end
+		
+	elseif (lvlState == lvlPlayClip8) then
+	
+		if timerDue() then
+		
+			discSkipToFrame(1)
+			lvlState = lvlPlayClip1
+		
+		end
+	
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		currentLevel = levelTitle
+	
+	end
+	
+	if iKey == SWITCH_RETURN then
+	
+		iKey = SWITCH_NONE
+		lvlState = lvlSetup
+		currentLevel = levelTitle
+	
+	end
+
+end
+
+function doLevelBeaver()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint("Entering doLevelBeaver()") end
+		
+		setupLevel(levelBeaver)
+		bLevelComplete = false
+		
+		if bSection01Reached and not bSection02Reached and not bSection03Reached then
+		
+			levelFrameStart = thisOffset + 910
+			currentMove = 6
+			
+		elseif bSection02Reached and not bSection03Reached then
+		
+			levelFrameStart = thisOffset + 1738
+			currentMove = 10
+			
+		elseif bSection03Reached then
+		
+			levelFrameStart = thisOffset + 2632
+			currentMove = 14
+			
+		else
+			
+			levelFrameStart = thisOffset
+			currentMove = 1
+			
+		end	
+		
+		levelFrameEnd   = thisOffset + 3476		
+		discSkipToFrame(levelFrameStart)
+		lvlState = lvlRunning
+		
+		bShowWord = false
+		bShowBonus = false
+		bToggle01 = true
+		swrongletter = ""
+		splayerword = ""
+		iKey = SWITCH_NONE
+		iKeyIndex = 1
+		iKeyLen = string.len(move[currentMove][wordval])
+
+	elseif (lvlState == lvlPlayClip1) then
+	
+		if (currentFrame == move[currentMove][rndMoveEnd]) then
+		
+			currentMove = currentMove + 1
+			discSkipToFrame(move[currentMove][rndMoveStart])			
+			lvlState = lvlRunning		
+			
+		end	
+		
+	elseif (lvlState == lvlPlayClip2) then
+	
+		if (currentFrame == move[currentMove][rndMoveEnd]) then
+		
+			currentMove = currentMove + 1
+
+			if currentMove <= totalMoves then
+			
+				discSkipToFrame(move[currentMove][rndMoveStart])
+				iSecs = 0
+				iKeyIndex = 1
+				iKeyPresses = 0
+				iKeyLen = string.len(move[currentMove][wordval])
+				splayerword = ""
+				
+				if bDebug then  debugPrint("The Word is: " .. move[currentMove][wordval]) end
+				
+			
+			end
+			
+			if currentMove == 6  then bSection01Reached = true end
+			if currentMove == 10 then bSection02Reached = true end
+			if currentMove == 15 then bSection03Reached = true end
+			
+			lvlState = lvlRunning
+			bToggle01 = true
+		
+		end		
+		
+	elseif (lvlState == lvlPlayClip3) then
+	
+		if (currentFrame == iFrameEnd) then
+		
+			bLevelComplete = true
+			lvlState = lvlEnd	
+
+		else		
+			
+			spriteDraw(40, 55, sprPanel3)			
+			drawWord(102, 65,fontDebug6pt, GREY, "The secret word is")
+			drawWord(102, 77,fontDebug8pt, YELLOW, sMagicWord)
+		
+		end		
+		
+	elseif (lvlState == lvlPauseAction) then
+
+		if timerDue() then		
+			
+			discSkipToFrame(move[currentMove][deathFrameStart])
+			bShowWord = false				
+			lvlState = lvlPlayDeath
+		
+		else		
+			
+			if validKey() then			
+				
+				if (iKey == string.byte(move[currentMove][wordval],iKeyIndex)) then			
+					
+					playMe(sndGunshot)
+					iScore = iScore + SCORE_LETTER
+					splayerword = splayerword .. string.sub(move[currentMove][wordval],iKeyIndex, iKeyIndex)
+					iKeyIndex = iKeyIndex + 1					
+					swrongletter = ""
+					
+				else
+				
+					playMe(sndBullet[rndegg:value(1,6)])
+					swrongletter = string.char(iKey)
+					iKeyPresses = iKeyPresses + 1
+				
+				end				
+				
+				iKey = SWITCH_NONE
+				
+				if (iKeyIndex > iKeyLen) then
+					
+					calcScore(move[currentMove][wordval], iKeyPresses, iSecs)
+					discSkipToFrame(move[currentMove][moveFrameEnd]+1)					
+					bShowWord = false
+					
+					if currentMove <= totalMoves then					
+						
+						lvlState = lvlPlayClip2
+					
+					else
+					
+						lvlState = lvlRunning				
+						
+					end
+					
+				end
+			
+			end		
+
+		end
+
+	elseif (lvlState == lvlRunning) then
+	
+		if (currentMove > totalMoves) then
+		
+			if (currentFrame == levelFrameEnd) then
+			
+				local w = rndegg:value(0,8)
+				
+				if (w >= 0 and w <= 2) then
+				
+					iItemBeaver = ITEM_AMMOBOX
+					iFrameStart = thisOffset + 3477
+					iFrameEnd = thisOffset + 3660
+					
+				elseif (w >= 3 and w <= 5) then
+				
+					iItemBeaver = ITEM_LANTERN
+					iFrameStart = thisOffset + 3849
+					iFrameEnd = thisOffset + 4032
+					
+				else
+				
+					iItemBeaver = ITEM_MOONSHINE
+					iFrameStart = thisOffset + 3661
+					iFrameEnd = thisOffset + 3848
+				
+				end
+				
+				sMagicWord = getMagicWord()
+				setupClip(iFrameStart, iFrameEnd)
+				lvlState = lvlPlayClip3
+				
+			end
+			
+		elseif (currentFrame > move[currentMove][moveFrameEnd]) then -- death to player!
+		
+			if (move[currentMove][moveType] == SKULLBONUS) then			
+				
+				bShowBonus = false
+				lvlState = lvlPlayClip2
+				bToggle01 = true
+			
+			else
+
+				discSkipToFrame(move[currentMove][moveFrameEnd])
+				discPause()					
+				timerON(iDelay)
+				lvlState = lvlPauseAction
+				
+			end
+			
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+		
+			if bToggle01 then
+		
+				if (move[currentMove][moveType] == SKULLBONUS) then
+			
+					bShowBonus = true
+					bShowWord = false
+					
+				else
+				
+					bShowBonus = false
+					bShowWord = true
+				end
+				bToggle01 = false
+				
+			end
+
+			if validKey() then
+			
+				if (iKey == string.byte(move[currentMove][wordval],iKeyIndex)) then					
+			
+					iKey = SWITCH_NONE					
+					
+					if (move[currentMove][moveType] == SKULLBONUS) then
+					
+						playMe(sndTing)
+						iScore = iScore + SCORE_BONUS
+					else
+					
+						playMe(sndGunshot)
+						iScore = iScore + SCORE_LETTER
+					end
+					splayerword = splayerword .. string.sub(move[currentMove][wordval],iKeyIndex, iKeyIndex)
+					iKeyIndex = iKeyIndex + 1
+					swrongletter = ""
+					
+				else
+				
+					playMe(sndBullet[rndegg:value(1,6)])
+					swrongletter = string.char(iKey)
+					iKeyPresses = iKeyPresses + 1
+				
+				end				
+				
+				iKey = SWITCH_NONE
+				
+				if (iKeyIndex > iKeyLen) then
+					
+					if (move[currentMove][moveType] == SKULLBONUS) then
+						
+						bShowBonus = false
+						bShowWord = false
+					else
+					
+						calcScore(move[currentMove][wordval], iKeyPresses, iSecs)
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)							
+						bShowWord = false
+						
+					end
+					--currentMove = currentMove + 1						
+					
+					if currentMove <= totalMoves then
+						
+						lvlState = lvlPlayClip2
+						
+					end
+					
+				end
+			
+			end	
+
+		end
+
+	elseif (lvlState == lvlPlayDeath) then
+		
+		if (currentFrame >= move[currentMove][deathFrameEnd]) then
+
+			getUndertakerClip(UNDERTAKER_ANYCLIP)
+			discSkipToFrame(undertkrFrmStart)
+			lvlState = lvlPlayUndertaker
+		
+		end
+		
+	elseif (lvlState == lvlPlayUndertaker) then
+	
+		if (currentFrame == undertkrFrmEnd or iKey == SWITCH_RETURN) then
+		
+			iKey = SWITCH_NONE
+			lvlState = lvlEnd
+		
+		end
+	
+	elseif (lvlState == lvlEnd) then
+		
+		lvlState = lvlSetup
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft
+			
+		else
+		
+			if bLevelComplete then
+				
+				currentLevel = levelFinalBeaver
+				iThisItem = iItemBeaver
+				stage[levelBeaver] = true
+				bSection01Reached = false
+				bSection02Reached = false				
+				bSection03Reached = false
+				bShowdown = true
+			
+			else
+			
+				currentLevel = levelMenu
+			
+			end
+			
+		end
+	
+		if bDebug then debugPrint("Leaving doLevelBeaver()") end
+	
+	end
+
+end
+
+function doLevelBonnie()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint("Entering doLevelBonnie()") end
+		
+		setupLevel(levelBonnie)
+		bLevelComplete = false		
+		
+		local w = rndegg:value(0,8)
+		
+		if (w >= 0 and w <= 2) then
+		
+			iItemBonnie = ITEM_AMMOBOX
+			iFrameStart = thisOffset + 4983
+			iFrameEnd = thisOffset + 5218
+			
+		elseif (w >= 3 and w <= 5) then
+		
+			iItemBonnie = ITEM_LANTERN
+			iFrameStart = thisOffset + 5219
+			iFrameEnd = thisOffset + 5445
+			
+		else
+		
+			iItemBonnie = ITEM_MOONSHINE
+			iFrameStart = thisOffset + 5447
+			iFrameEnd = thisOffset + 5688
+		
+		end
+		
+		sMagicWord = getMagicWord()
+		levelFrameEnd  = thisOffset + 4981		
+		
+		if bSection01Reached and not bSection02Reached then
+		
+			levelFrameStart = thisOffset + 1272
+			currentMove = 6
+			
+		elseif bSection02Reached and not bSection03Reached then
+		
+			levelFrameStart = thisOffset + 2458
+			currentMove = 14
+			
+		elseif bSection03Reached then
+		
+			levelFrameStart = thisOffset + 4423
+			currentMove = 19
+		
+		else
+		
+			levelFrameStart = thisOffset
+			currentMove = 1
+			
+		end	
+		
+		discSkipToFrame(levelFrameStart)		
+		lvlState = lvlRunning
+		
+		bShowWord = false
+		bShowBonus = false
+		bToggle01 = true
+		swrongletter = ""
+		splayerword = ""
+		iKey = SWITCH_NONE
+		iKeyIndex = 1
+		iKeyLen = string.len(move[currentMove][wordval])
+		
+	elseif (lvlState == lvlPlayClip1) then
+	
+		if (currentFrame == iFrameEnd) then
+		
+			bLevelComplete = true
+			lvlState = lvlEnd		
+			
+		else
+		
+			spriteDraw(40, 55, sprPanel3)			
+			drawWord(102, 65,fontDebug6pt, GREY, "The secret word is")
+			drawWord(102, 77,fontDebug8pt, YELLOW, sMagicWord)
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip2) then
+	
+		if (currentFrame == move[currentMove][rndMoveEnd]) then
+		
+			currentMove = currentMove + 1
+
+			if currentMove <= totalMoves then
+			
+				discSkipToFrame(move[currentMove][rndMoveStart])
+				iSecs = 0
+				iKeyIndex = 1
+				iKeyPresses = 0
+				iKeyLen = string.len(move[currentMove][wordval])
+				splayerword = ""
+				
+				lvlState = lvlRunning
+				bToggle01 = true
+				
+				if bDebug then  debugPrint("The Word is: " .. move[currentMove][wordval]) end
+				
+			else
+		
+				getGuideClip(iCurrentGuide)
+				lvlState = lvlPlayClip1
+				discSkipToFrame(iFrameStart)
+			
+			end
+			
+			if currentMove == 6 then  bSection01Reached = true end
+			if currentMove == 14 then bSection02Reached = true end
+			if currentMove == 19 then bSection03Reached = true end
+			
+		end
+		
+	elseif (lvlState == lvlPauseAction) then
+	
+		if timerDue() then		
+			
+			discSkipToFrame(move[currentMove][deathFrameStart])
+			bShowWord = false				
+			lvlState = lvlPlayDeath
+		
+		else		
+			
+			if validKey() then			
+				
+				if (iKey == string.byte(move[currentMove][wordval],iKeyIndex)) then			
+					
+					playMe(sndGunshot)
+					iScore = iScore + SCORE_LETTER
+					splayerword = splayerword .. string.sub(move[currentMove][wordval],iKeyIndex, iKeyIndex)
+					iKeyIndex = iKeyIndex + 1					
+					swrongletter = ""
+					
+				else
+				
+					playMe(sndBullet[rndegg:value(1,6)])
+					swrongletter = string.char(iKey)
+					iKeyPresses = iKeyPresses + 1
+				
+				end				
+				
+				iKey = SWITCH_NONE
+				
+				if (iKeyIndex > iKeyLen) then
+					
+					calcScore(move[currentMove][wordval], iKeyPresses, iSecs)
+					discSkipToFrame(move[currentMove][moveFrameEnd]+1)					
+					bShowWord = false
+					
+					if currentMove <= totalMoves then					
+						
+						lvlState = lvlPlayClip2
+					
+					else
+					
+						lvlState = lvlRunning				
+						
+					end
+					
+				end
+			
+			end		
+
+		end
+
+	elseif (lvlState == lvlRunning) then
+	
+		if (currentFrame == thisOffset + 2460) then
+		
+			iBullets = 0
+			bReloadDisabled = true				
+			
+		elseif (currentFrame > move[currentMove][moveFrameEnd]) then -- death to player!
+			
+			if (move[currentMove][moveType] == GOODGUY) then
+				
+				lvlState = lvlPlayClip2
+				
+			elseif (move[currentMove][moveType] == SKULLBONUS) then
+			
+				lvlState = lvlPlayClip2
+				bShowBonus = false
+				bToggle01 = true
+			
+			else
+				
+				discSkipToFrame(move[currentMove][moveFrameEnd])
+				discPause()					
+				timerON(iDelay)
+				lvlState = lvlPauseAction
+				
+			end
+			
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+		
+			if bToggle01 then
+		
+				if (move[currentMove][moveType] == SKULLBONUS) then
+			
+					bShowBonus = true
+					bShowWord = false
+					
+				else
+				
+					bShowBonus = false
+					bShowWord = true
+				end
+				bToggle01 = false
+				
+			end
+
+			if validKey() then
+			
+				if (iKey == string.byte(move[currentMove][wordval],iKeyIndex)) then					
+			
+					iKey = SWITCH_NONE					
+					
+					if (move[currentMove][moveType] == SKULLBONUS) then
+					
+						playMe(sndTing)
+						iScore = iScore + SCORE_BONUS
+						
+					elseif (move[currentMove][moveType] == GOODGUY) then
+					
+						iScore = iScore - SCORE_LETTER
+						playMe(sndBullet[rndegg:value(1,6)])
+						
+					else
+					
+						playMe(sndGunshot)
+						iScore = iScore + SCORE_LETTER
+					end
+					splayerword = splayerword .. string.sub(move[currentMove][wordval],iKeyIndex, iKeyIndex)
+					iKeyIndex = iKeyIndex + 1
+					swrongletter = ""
+					
+				else
+				
+					playMe(sndBullet[rndegg:value(1,6)])
+					swrongletter = string.char(iKey)
+					iKeyPresses = iKeyPresses + 1
+				
+				end				
+				
+				iKey = SWITCH_NONE
+				
+				if (iKeyIndex > iKeyLen) then
+					
+					if (move[currentMove][moveType] == SKULLBONUS) then
+						
+						bShowBonus = false
+						bShowWord = false
+						
+					elseif (move[currentMove][moveType] == GOODGUY) then
+					
+						-- Player killed civilian!
+						playMe(sndGunshot)
+						discSkipToFrame(move[currentMove][deathFrameStart])
+						bShowWord = false				
+						lvlState = lvlPlayDeath
+					
+					else
+					
+						calcScore(move[currentMove][wordval], iKeyPresses, iSecs)
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)							
+						bShowWord = false
+						
+					end
+					
+					if (currentMove <= totalMoves) and not (lvlState == lvlPlayDeath) then
+						
+						lvlState = lvlPlayClip2
+						
+					end
+					
+				end
+			
+			end	
+		
+		end
+		
+	elseif (lvlState == lvlPlayDeath) then
+		
+		if (currentFrame >= move[currentMove][deathFrameEnd]) then
+			
+			getUndertakerClip(UNDERTAKER_ANYCLIP)
+			discSkipToFrame(undertkrFrmStart)
+			lvlState = lvlPlayUndertaker
+			iKey = SWITCH_NONE
+		
+		end
+		
+	elseif (lvlState == lvlPlayUndertaker) then
+	
+		if (currentFrame == undertkrFrmEnd or iKey == SWITCH_RETURN) then
+		
+			iKey = SWITCH_NONE
+			lvlState = lvlEnd
+		
+		end
+	
+	elseif (lvlState == lvlEnd) then
+		
+		lvlState = lvlSetup
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft			
+			
+		else
+		
+			if bLevelComplete then
+				
+				currentLevel = levelFinalBonnie
+				iThisItem = iItemBonnie
+				stage[levelBonnie] = true
+				bSection01Reached = false
+				bSection02Reached = false				
+				bSection03Reached = false
+				bShowdown = true
+
+			else
+			
+				currentLevel = levelMenu
+			
+			end
+			
+		end
+	
+		if bDebug then debugPrint("Leaving doLevelBonnie()") end
+	
+	end
+
+end
+
+function doLevelFinalBeaver()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint ("Entering doLevelFinalBeaver()") end
+	
+		setupLevel(levelFinalBeaver)		
+
+		iFrameStart = 28292
+		iFrameEnd   = 28398		
+		levelFrameStart = 29510
+		levelFrameEnd = 30049
+		bLevelComplete = false
+		currentMove = 1
+		bShowWord = false
+		bShowBonus = false
+		bToggle01 = false
+		bPlayHurry = false
+		iKey = SWITCH_NONE
+		iKeyIndex = 1
+		iBadGuysShot = 0
+		iKeyPresses = 0
+		iBonusHits = 0
+		iLettersTyped = 0
+		iBadLettersTyped = 0		
+		iKeyLen = string.len(move[currentMove][wordval])
+		swrongletter = ""
+		splayerword = ""
+		
+		
+		discSkipToFrame(offsetType + 98)		
+		bShowCounter = false
+		lvlState = lvlPlayClip1
+		
+	elseif (lvlState == lvlPlayClip1) then
+	
+		if (currentFrame == offsetType + 350) or (iKey == SWITCH_RETURN) then
+		
+			if (iKey == SWITCH_RETURN) then discSkipToFrame(offsetType + 351) end
+			iKey = SWITCH_NONE		
+			lvlState = lvlPlayClip8
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip8) then
+	
+		if (currentFrame == offsetType + 474) then
+		
+			bShowCounter = true
+			muteAudio()
+			
+			if (move[currentMove][moveType] ~= SKULLBONUS) then	discChangeSpeed(3,1) end
+			discSkipToFrame(move[currentMove][rndMoveStart])			
+			soundPlay(sndHurry)			
+			bPlayHurry = true
+			timerON(30)
+			lvlState = lvlRunning
+			
+		end
+		
+	elseif (lvlState == lvlPlayClip2) then
+	
+		if timerDue() then		
+			
+			lvlState = lvlPlayClip4
+	
+		elseif (currentFrame >= move[currentMove][rndMoveEnd]) then
+		
+			currentMove = currentMove + 1
+			
+			if currentMove <= totalMoves then
+			
+				discSkipToFrame(move[currentMove][rndMoveStart])				
+				iKeyIndex = 1
+				iKeyPresses = 0
+				iKeyLen = string.len(move[currentMove][wordval])
+				splayerword = ""
+				swrongletter = ""
+				
+				if bDebug then  debugPrint("The Word is: " .. move[currentMove][wordval]) end
+				
+				if (move[currentMove][moveType] == SKULLBONUS) then
+				
+					discChangeSpeed(1,1)
+				
+				else
+				
+					discChangeSpeed(3,1)				
+				
+				end
+				
+			
+			end
+			
+			lvlState = lvlRunning
+			bToggle01 = false
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip3) then
+		
+		if (currentFrame == iFrameEnd) then
+		
+			bLevelComplete = true
+			lvlState = lvlEnd
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip4) then
+	
+		lvlState = lvlResults
+		discChangeSpeed(1, 1)
+		bShowCounter = false
+		bShowWord = false
+		bShowBonus = false
+		bPlayHurry = false
+		resetChannels()
+		discSkipToFrame(offsetType + 1252)
+		discPause()
+		iKey = SWITCH_NONE
+		timerON(6)
+
+	elseif (lvlState == lvlPauseAction) then
+	
+		if timerDue() then
+		
+			lvlState = lvlPlayClip4					
+		
+		else
+		
+			if validKey() then			
+				
+				if (iKey == string.byte(move[currentMove][wordval],iKeyIndex)) then			
+					
+					playMe(sndGunshot)
+					iScore = iScore + SCORE_LETTER
+					splayerword = splayerword .. string.sub(move[currentMove][wordval],iKeyIndex, iKeyIndex)
+					iKeyIndex = iKeyIndex + 1					
+					swrongletter = ""
+					iLettersTyped = iLettersTyped + 1
+					
+				else				
+					
+					playMe(sndBullet[rndegg:value(1,6)])
+					swrongletter = string.char(iKey)
+					iKeyPresses = iKeyPresses + 1
+					iBadLettersTyped = iBadLettersTyped + 1
+				
+				end				
+				
+				iKey = SWITCH_NONE
+				
+				if (iKeyIndex > iKeyLen) then
+					
+					calcScore(move[currentMove][wordval], iKeyPresses, iSecs)
+					discSkipToFrame(move[currentMove][moveFrameEnd]+1)				
+					bShowWord = false
+					iBadGuysShot = iBadGuysShot + 1
+					
+					if currentMove <= totalMoves then					
+						
+						lvlState = lvlPlayClip2
+					
+					else
+					
+						lvlState = lvlRunning				
+						
+					end
+					
+				end
+
+			end	
+		
+		end
+	
+	elseif (lvlState == lvlRunning) then
+		
+		if timerDue() or (currentMove > totalMoves) then
+		
+			lvlState = lvlPlayClip4
+			
+		elseif (currentFrame > move[currentMove][moveFrameEnd]) then -- death to player!
+
+			if (move[currentMove][moveType] == SKULLBONUS) then
+			
+				lvlState = lvlPlayClip2
+				bShowBonus = false
+				bToggle01 = true
+			
+			else
+
+				discSkipToFrame(move[currentMove][moveFrameEnd])
+				discPause()
+				lvlState = lvlPauseAction
+				
+			end
+
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame <= move[currentMove][moveFrameEnd]) then
+		
+			if bToggle01 == false then
+				
+			
+				if (move[currentMove][moveType] == SKULLBONUS) then
+			
+					bShowBonus = true
+					bShowWord = false
+					discChangeSpeed(1,1)
+					bToggle01 = true
+					
+				else
+				
+					bShowBonus = false
+					bShowWord = true
+					bToggle01 = true
+					
+				end
+				
+			end
+
+			if validKey() then
+			
+				if (iKey == string.byte(move[currentMove][wordval],iKeyIndex)) then					
+			
+					iKey = SWITCH_NONE					
+					
+					if (move[currentMove][moveType] == SKULLBONUS) then
+					
+						playMe(sndTing)
+						iScore = iScore + SCORE_BONUS
+						iBonusHits = iBonusHits + 1
+						--iSecs = iSecs - 5
+					else
+					
+						playMe(sndGunshot)
+						iScore = iScore + SCORE_LETTER
+					end
+					splayerword = splayerword .. string.sub(move[currentMove][wordval],iKeyIndex, iKeyIndex)
+					iKeyIndex = iKeyIndex + 1
+					iLettersTyped = iLettersTyped + 1
+					swrongletter = ""
+					
+				else
+					
+					playMe(sndBullet[rndegg:value(1,6)])
+					swrongletter = string.char(iKey)
+					iKeyPresses = iKeyPresses + 1
+					iBadLettersTyped = iBadLettersTyped + 1
+				
+				end				
+				
+				iKey = SWITCH_NONE
+				
+				if (iKeyIndex > iKeyLen) then
+					
+					if (move[currentMove][moveType] == SKULLBONUS) then
+						
+						bShowBonus = false
+						bShowWord = false
+					else
+					
+						calcScore(move[currentMove][wordval], iKeyPresses, iSecs)
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)							
+						bShowWord = false
+						iBadGuysShot = iBadGuysShot + 1
+						
+					end					
+					
+					if currentMove <= totalMoves then
+						
+						lvlState = lvlPlayClip2
+						
+					end
+					
+				end
+			
+			end				
+			
+		end
+		
+	elseif (lvlState == lvlResults) then	
+	
+		if timerDue() or iKey == SWITCH_RETURN then
+		
+			iKey = SWITCH_NONE
+			lvlState = lvlEnd
+			iScore = iScore + (iBadGuysShot*100 + iLettersTyped*25)
+
+			if iBadLettersTyped == 0 and iBadGuysShot > 0 then
+			
+				iScore = iScore + 1000
+			
+			else
+			
+				iScore = iScore - (iBadLettersTyped*-10)
+			
+			end
+		
+		else		
+			
+			setFontColor(RED)
+			fontSelect(fontOldWest24pt)
+			fontPrint(147, 35, "RESULTS")			
+			
+			setFontColor(GREY)
+			fontSelect(fontOldWest20pt)
+			fontPrint(60,65, "Bad Guys Shot:")			
+			fontPrint(200,65, "x")			
+			fontPrint(165,65, iBadGuysShot)
+			fontPrint(225,65, "100 = " .. iBadGuysShot*100)
+			
+			
+			fontPrint(60,89, "Letters Typed:")			
+			fontPrint(200,89, "x")			
+			fontPrint(165,89, iLettersTyped)
+			fontPrint(225,89, "10  = " .. iLettersTyped*25)
+			
+			if iBadLettersTyped == 0 and iBadGuysShot > 0 then
+			
+				fontPrint(60,113, "Perfect Typing Bonus!")							
+				fontPrint(240,113, "1000" )			
+				
+			else
+			
+				fontPrint(60,113, "Typos Penalty:")			
+				fontPrint(200,113, "x")			
+				fontPrint(165,113, iBadLettersTyped)
+				fontPrint(225,113, "10  = " .. iBadLettersTyped*10)			
+				
+			end
+			
+			setFontColor(RED)
+			fontPrint(220,137, "========")
+			
+			
+			setFontColor(GREEN)
+			fontSelect(fontOldWest24pt)
+			fontPrint(170,161, "Total: ")			
+			
+			fontPrint(240,161, (iBadGuysShot*100 + iLettersTyped*25 - iBadLettersTyped*-10))
+			
+		end		
+		
+	elseif (lvlState == lvlEnd) then
+		
+		lvlState = lvlSetup		
+		
+		stage[levelFinalBeaver] = true
+		currentLevel = levelItem1
+		bShowdown = true
+		
+		if bDebug then debugPrint ("Leaving doLevelFinalBeaver()") end
+	
+	end
+
+end
+
+function doLevelFinalBonnie()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint("Entering doLevelFinalBonnie()") end
+		
+		setupLevel(levelFinalBonnie)
+		levelFrameStart  = 30326
+		levelFrameEnd  = 30970
+		iFrameStart  = 28738
+		iFrameEnd  = 28857
+		bLevelComplete = false
+		
+		currentMove = 1		
+		
+		bShowWord = false
+		bShowBonus = false
+		bToggle01 = true
+		swrongletter = ""
+		splayerword = ""
+		iBonusHits = 0
+		iLettersTyped = 0
+		iBadLettersTyped = 0
+		iKey = SWITCH_NONE
+		iKeyIndex = 1
+		iKeyLen = string.len(move[currentMove][wordval])
+		
+		discSkipToFrame(offsetType + 480)
+		lvlState = lvlPlayClip1
+		
+	elseif (lvlState == lvlPlayClip1) then
+	
+		if (currentFrame == offsetType + 740) or (iKey == SWITCH_RETURN) then
+		
+			if (iKey == SWITCH_RETURN) then discSkipToFrame(offsetType + 741) end
+			iKey = SWITCH_NONE		
+			lvlState = lvlPlayClip8
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip8) then
+	
+		if (currentFrame == offsetType + 857) then
+		
+			bShowCounter = true
+			muteAudio()
+			
+			if (move[currentMove][moveType] ~= SKULLBONUS) then	discChangeSpeed(3,1) end
+			discSkipToFrame(move[currentMove][rndMoveStart])			
+			soundPlay(sndHurry)			
+			bPlayHurry = true
+			timerON(30)
+			lvlState = lvlRunning
+			
+		end
+		
+	elseif (lvlState == lvlPlayClip2) then
+	
+		if timerDue() then		
+			
+			lvlState = lvlPlayClip4
+	
+		elseif (currentFrame >= move[currentMove][rndMoveEnd]) then
+		
+			currentMove = currentMove + 1
+			
+			if currentMove <= totalMoves then
+			
+				discSkipToFrame(move[currentMove][rndMoveStart])				
+				iKeyIndex = 1
+				iKeyPresses = 0
+				iKeyLen = string.len(move[currentMove][wordval])
+				splayerword = ""
+				swrongletter = ""
+				
+				if bDebug then  debugPrint("The Word is: " .. move[currentMove][wordval]) end
+				
+				if (move[currentMove][moveType] == SKULLBONUS) then
+				
+					discChangeSpeed(1,1)
+				
+				else
+				
+					discChangeSpeed(3,1)				
+				
+				end
+				
+			
+			end
+			
+			lvlState = lvlRunning			
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip4) then
+	
+		lvlState = lvlResults
+		discChangeSpeed(1, 1)
+		bShowCounter = false
+		bShowWord = false
+		bShowBonus = false
+		bPlayHurry = false
+		resetChannels()
+		discSkipToFrame(offsetType + 1256)
+		discPause()
+		iKey = SWITCH_NONE
+		timerON(6)
+		
+	elseif (lvlState == lvlPauseAction) then
+	
+		if timerDue() then		
+			
+			lvlState = lvlPlayClip4
+		
+		else		
+			
+			if validKey() then			
+				
+				if (iKey == string.byte(move[currentMove][wordval],iKeyIndex)) then			
+					
+					playMe(sndGunshot)
+					iScore = iScore + SCORE_LETTER
+					splayerword = splayerword .. string.sub(move[currentMove][wordval],iKeyIndex, iKeyIndex)
+					iKeyIndex = iKeyIndex + 1					
+					swrongletter = ""
+					iLettersTyped = iLettersTyped + 1
+					
+				else
+				
+					playMe(sndBullet[rndegg:value(1,6)])
+					swrongletter = string.char(iKey)
+					iKeyPresses = iKeyPresses + 1
+					iBadLettersTyped = iBadLettersTyped + 1
+				
+				end				
+				
+				iKey = SWITCH_NONE				
+				
+				if (iKeyIndex > iKeyLen) then
+				
+					bToggle01 = true
+					calcScore(move[currentMove][wordval], iKeyPresses, iSecs)
+					discSkipToFrame(move[currentMove][moveFrameEnd]+1)					
+					bShowWord = false
+					bShowBonus = false
+					iBadGuysShot = iBadGuysShot + 1
+					if currentMove <= totalMoves then					
+						
+						lvlState = lvlPlayClip2
+					
+					else
+					
+						lvlState = lvlRunning				
+						
+					end
+					
+				end
+			
+			end		
+
+		end
+	
+	elseif (lvlState == lvlRunning) then
+	
+		if timerDue() then
+		
+			lvlState = lvlPlayClip4
+			
+		elseif (currentFrame > move[currentMove][moveFrameEnd]) then -- death to player!
+			
+			discSkipToFrame(move[currentMove][moveFrameEnd])
+			discPause()								
+			lvlState = lvlPauseAction
+			
+			if (move[currentMove][moveType] == SKULLBONUS and bShowBonus == false) then bShowBonus = true end
+			if (move[currentMove][moveType] == BAGUY and bShowWord == false) then bShowWord = true end
+			
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+			
+			if bToggle01 then
+				
+				if (move[currentMove][moveType] == SKULLBONUS) then
+			
+					bShowBonus = true
+					bShowWord = false
+					
+				else
+				
+					bShowBonus = false
+					bShowWord = true
+				end
+				bToggle01 = false
+				
+			end
+
+			if validKey() then
+			
+			
+				if (iKey == string.byte(move[currentMove][wordval],iKeyIndex)) then					
+				
+					iKey = SWITCH_NONE					
+					
+					if (move[currentMove][moveType] == SKULLBONUS) then
+					
+						playMe(sndTing)
+						iScore = iScore + SCORE_BONUS
+						iBonusHits = iBonusHits + 1
+					else
+					
+						playMe(sndGunshot)
+						iScore = iScore + SCORE_LETTER
+					end
+					splayerword = splayerword .. string.sub(move[currentMove][wordval],iKeyIndex, iKeyIndex)
+					iKeyIndex = iKeyIndex + 1
+					swrongletter = ""
+					iLettersTyped = iLettersTyped + 1
+					
+				else
+				
+					playMe(sndBullet[rndegg:value(1,6)])
+					swrongletter = string.char(iKey)
+					iKeyPresses = iKeyPresses + 1
+					iBadLettersTyped = iBadLettersTyped + 1
+				
+				end				
+				
+				iKey = SWITCH_NONE
+				
+				if (iKeyIndex > iKeyLen) then
+				
+					iBadGuysShot = iBadGuysShot + 1
+					if (move[currentMove][moveType] == SKULLBONUS) then
+						
+						bShowBonus = false
+						bShowWord = false						
+					else
+					
+						calcScore(move[currentMove][wordval], iKeyPresses, iSecs)
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)							
+						bShowWord = false
+						
+					end					
+					bToggle01 = true
+					if currentMove <= totalMoves then
+						
+						lvlState = lvlPlayClip2
+						
+					end
+					
+				end
+			
+			end			
+			
+		end
+		
+	elseif (lvlState == lvlResults) then	
+	
+		if timerDue() or iKey == SWITCH_RETURN then
+		
+			iKey = SWITCH_NONE
+			lvlState = lvlEnd
+			iScore = iScore + (iBadGuysShot*100 + iLettersTyped*25)
+
+			if iBadLettersTyped == 0 and iBadGuysShot > 0 then
+			
+				iScore = iScore + 1000
+			
+			else
+			
+				iScore = iScore - (iBadLettersTyped*-10)
+			
+			end
+		
+		else		
+			
+			setFontColor(RED)
+			fontSelect(fontOldWest24pt)
+			fontPrint(147, 35, "RESULTS")			
+			
+			setFontColor(GREY)
+			fontSelect(fontOldWest20pt)
+			fontPrint(60,65, "Bad Guys Shot:")			
+			fontPrint(200,65, "x")			
+			fontPrint(165,65, iBadGuysShot)
+			fontPrint(225,65, "100 = " .. iBadGuysShot*100)
+			
+			
+			fontPrint(60,89, "Letters Typed:")			
+			fontPrint(200,89, "x")			
+			fontPrint(165,89, iLettersTyped)
+			fontPrint(225,89, "10  = " .. iLettersTyped*25)
+			
+			if iBadLettersTyped == 0 and iBadGuysShot > 0 then
+			
+				fontPrint(60,113, "Perfect Typing Bonus!")							
+				fontPrint(240,113, "1000" )			
+				
+			else
+			
+				fontPrint(60,113, "Typos Penalty:")			
+				fontPrint(200,113, "x")			
+				fontPrint(165,113, iBadLettersTyped)
+				fontPrint(225,113, "10  = " .. iBadLettersTyped*10)			
+				
+			end
+			
+			setFontColor(RED)
+			fontPrint(220,137, "========")
+			
+			
+			setFontColor(GREEN)
+			fontSelect(fontOldWest24pt)
+			fontPrint(170,161, "Total: ")			
+			
+			fontPrint(240,161, (iBadGuysShot*100 + iLettersTyped*25 - iBadLettersTyped*-10))
+			
+		end	
+	
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		currentLevel = levelItem1
+		stage[levelFinalBonnie] = true
+		
+		if bDebug then debugPrint("Leaving doLevelFinalBonnie()") end
+	
+	end
+
+end
+
+function doLevelItem1()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint ("Entering doLevelItem1()") end
+	
+		setupLevel(levelItem1)				
+		currentMove = 1			
+		levelFrameStart = 32630
+		levelFrameEnd = 33175	
+		bLevelComplete = false		
+		bItemShot = false		
+		
+		discSkipToFrame(move[currentMove][rndMoveStart])
+		lvlState = lvlRunning
+		bMagicWord = false
+		bShowWord = false
+		bShowBonus = false
+		bToggle01 = true
+		splayerword = ""
+		swrongletter = ""
+		iKey = SWITCH_NONE
+		iKeyIndex = 1
+		iKeyLen = string.len(move[currentMove][wordval])
+		
+	elseif (lvlState == lvlPlayClip1) then
+		
+		if (currentFrame == iFrameEnd) then
+		
+			bLevelComplete = true
+			lvlState = lvlEnd
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip2) then
+	
+		if (currentFrame == move[currentMove][rndMoveEnd]) then
+		
+			currentMove = currentMove + 1
+
+			if currentMove <= totalMoves then
+			
+				discSkipToFrame(move[currentMove][rndMoveStart])
+				iSecs = 0
+				iKeyIndex = 1
+				iKeyPresses = 0
+				iKeyLen = string.len(move[currentMove][wordval])
+				splayerword = ""
+				
+				if bDebug then  debugPrint("The Word is: " .. move[currentMove][wordval]) end
+				
+			else
+			
+				discPause()
+				timerON(5)
+				bMagicWord = true
+				iSecs = 0
+				iKeyIndex = 1
+				iKeyPresses = 0
+				iKeyLen = string.len(sMagicWord)
+				splayerword = ""
+				sWrongLetter = ""
+				
+				lvlState = lvlPlayClip3
+				
+			
+			end
+			
+			lvlState = lvlRunning
+			bToggle01 = true
+		
+		end	
+		
+	elseif (lvlState == lvlPlayClip3) then	
+	
+		if timerDue() then
+		
+			lvlState = lvlPlayClip4
+			discSkipToFrame(34232)
+			bMagicWord = false
+		
+		else
+		
+			if validKey() then			
+				
+				if (iKey == string.byte(sMagicWord,iKeyIndex)) then			
+					
+					playMe(sndGunshot)
+					iScore = iScore + SCORE_LETTER
+					splayerword = splayerword .. string.sub(sMagicWord, iKeyIndex, iKeyIndex)
+					iKeyIndex = iKeyIndex + 1					
+					swrongletter = ""
+					
+				else
+				
+					playMe(sndBullet[rndegg:value(1,6)])
+					swrongletter = string.char(iKey)
+					iKeyPresses = iKeyPresses + 1
+				
+				end				
+				
+				iKey = SWITCH_NONE
+				
+				if (iKeyIndex > iKeyLen) then
+					
+					discSkipToFrame (thisOffset + 346)
+					lvlState = lvlPlayClip5
+					bMagicWord = false
+					
+				end
+			
+			end
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip4) then
+	
+		if (currentFrame == 34402) then
+		
+			getUndertakerClip(UNDERTKR_ANYCLIP)
+			discSkipToFrame(undertkrFrmStart)
+			lvlState = lvlPlayUndertaker
+			
+		end
+		
+	elseif (lvlState == lvlPlayClip5) then
+	
+		if (currentFrame == levelFrameEnd) then
+			
+			getGuideClip(iCurrentGuide)
+			discSkipToFrame(iFrameStart)
+			lvlState = lvlPlayClip1
+			
+		end
+		
+	elseif (lvlState == lvlPauseAction) then
+	
+		if timerDue() then		
+			
+			discSkipToFrame(move[currentMove][deathFrameStart])
+			bShowWord = false				
+			lvlState = lvlPlayDeath
+		
+		else		
+			
+			if validKey() then			
+				
+				if (iKey == string.byte(move[currentMove][wordval],iKeyIndex)) then			
+					
+					playMe(sndGunshot)
+					iScore = iScore + SCORE_LETTER
+					splayerword = splayerword .. string.sub(move[currentMove][wordval],iKeyIndex, iKeyIndex)
+					iKeyIndex = iKeyIndex + 1					
+					swrongletter = ""
+					
+				else
+				
+					playMe(sndBullet[rndegg:value(1,6)])
+					swrongletter = string.char(iKey)
+					iKeyPresses = iKeyPresses + 1
+				
+				end				
+				
+				iKey = SWITCH_NONE
+				
+				if (iKeyIndex > iKeyLen) then
+					
+					calcScore(move[currentMove][wordval], iKeyPresses, iSecs)
+					discSkipToFrame(move[currentMove][moveFrameEnd]+1)					
+					bShowWord = false
+					
+					if currentMove <= totalMoves then					
+						
+						lvlState = lvlPlayClip2
+					
+					else
+					
+						lvlState = lvlRunning				
+						
+					end
+					
+				end
+			
+			end		
+
+		end
+	
+	elseif (lvlState == lvlRunning) then
+	
+		if (currentMove > totalMoves) then
+			
+			discPause()
+			timerON(5)
+			lvlState = lvlPlayClip3
+			
+		elseif (currentFrame > move[currentMove][moveFrameEnd]) then -- death to player!
+		
+			discSkipToFrame(move[currentMove][moveFrameEnd])
+			discPause()					
+			timerON(iDelay)
+			lvlState = lvlPauseAction			
+
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+			
+			if bToggle01 then
+		
+				if (move[currentMove][moveType] == SKULLBONUS) then
+			
+					bShowBonus = true
+					bShowWord = false
+					
+				else
+				
+					bShowBonus = false
+					bShowWord = true
+				end
+				bToggle01 = false
+				
+			end
+
+			if validKey() then
+			
+				if (iKey == string.byte(move[currentMove][wordval],iKeyIndex)) then					
+			
+					iKey = SWITCH_NONE					
+					
+					if (move[currentMove][moveType] == SKULLBONUS) then
+					
+						playMe(sndTing)
+						iScore = iScore + SCORE_BONUS
+					else
+					
+						playMe(sndGunshot)
+						iScore = iScore + SCORE_LETTER
+					end
+					splayerword = splayerword .. string.sub(move[currentMove][wordval],iKeyIndex, iKeyIndex)
+					iKeyIndex = iKeyIndex + 1
+					swrongletter = ""
+					
+				else
+				
+					playMe(sndBullet[rndegg:value(1,6)])
+					swrongletter = string.char(iKey)
+					iKeyPresses = iKeyPresses + 1
+				
+				end				
+				
+				iKey = SWITCH_NONE
+				
+				if (iKeyIndex > iKeyLen) then
+					
+					if (move[currentMove][moveType] == SKULLBONUS) then
+						
+						bShowBonus = false
+						bShowWord = false
+					else
+					
+						calcScore(move[currentMove][wordval], iKeyPresses, iSecs)
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)							
+						bShowWord = false
+						
+					end
+					--currentMove = currentMove + 1						
+					
+					if currentMove <= totalMoves then
+						
+						lvlState = lvlPlayClip2
+						
+					end
+					
+				end
+			
+			end	
+			
+		end
+		
+	elseif (lvlState == lvlPlayDeath) then
+		
+		if (currentFrame >= move[currentMove][deathFrameEnd]) then
+
+			getUndertakerClip(UNDERTKR_ANYCLIP)
+			discSkipToFrame(undertkrFrmStart)
+			lvlState = lvlPlayUndertaker
+		
+		end
+		
+	elseif (lvlState == lvlPlayUndertaker) then
+	
+		if (currentFrame == undertkrFrmEnd or iKey == SWITCH_RETURN) then
+		
+			iKey = SWITCH_NONE
+			lvlState = lvlEnd
+		
+		end
+	
+	elseif (lvlState == lvlEnd) then
+		
+		lvlState = lvlSetup
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft			
+			
+		else
+		
+			if bLevelComplete then
+				
+				stage[levelItem1] = true
+				currentLevel = levelItem2
+				
+			else
+			
+				currentLevel = levelMenu
+			
+			end
+			
+		end
+		
+		if bDebug then debugPrint ("Leaving doLevelItem1()") end
+	
+	end
+
+
+end
+
+function doLevelItem2()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint ("Entering doLevelItem2()") end
+	
+		setupLevel(levelItem2)		
+		
+		currentMove = 1			
+		levelFrameStart = 33176
+		levelFrameEnd = 34049
+		bLevelComplete = false
+		
+		discSkipToFrame(move[currentMove][rndMoveStart])
+		lvlState = lvlRunning
+		bCenter = true
+		bShowWord = false
+		bShowBonus = false
+		bToggle01 = true
+		swrongletter = ""
+		splayerword = ""
+		iKey = SWITCH_NONE
+		iKeyIndex = 1
+		iKeyLen = string.len(move[currentMove][moveType])
+		
+		if bDebug then  debugPrint("The Word is: " .. move[currentMove][moveType]) end
+		
+	elseif (lvlState == lvlPlayClip1) then
+		
+		if (currentFrame == iFrameEnd) then
+		
+			bLevelComplete = true
+			lvlState = lvlEnd
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip2) then
+	
+		if (currentFrame == move[currentMove][rndMoveEnd]) then
+		
+			currentMove = currentMove + 1
+
+			if currentMove <= totalMoves then
+			
+				discSkipToFrame(move[currentMove][rndMoveStart])
+				iSecs = 0
+				iKeyIndex = 1
+				iKeyPresses = 0
+				iKeyLen = string.len(move[currentMove][moveType])
+				splayerword = ""
+				swrongletter = ""
+				lvlState = lvlRunning
+				
+				if bDebug then  debugPrint("The Word is: " .. move[currentMove][moveType]) end
+				
+			else
+			
+				getGuideClip(iCurrentGuide)
+				discSkipToFrame(iFrameStart)
+				lvlState = lvlPlayClip1				
+			
+			end			
+			
+			bToggle01 = true
+		
+		end
+
+	elseif (lvlState == lvlPauseAction) then
+	
+		if timerDue() then
+		
+			discSkipToFrame(move[currentMove][deathFrameStart])			
+			bShowWord = false
+			lvlState = lvlPlayDeath
+		
+		else
+		
+			if validKey() then			
+				
+				if (iKey == string.byte(move[currentMove][moveType],iKeyIndex)) then			
+					
+					playMe(sndGunshot)
+					iScore = iScore + SCORE_LETTER
+					splayerword = splayerword .. string.sub(move[currentMove][moveType],iKeyIndex, iKeyIndex)
+					iKeyIndex = iKeyIndex + 1					
+					swrongletter = ""
+					
+				else
+				
+					playMe(sndBullet[rndegg:value(1,6)])
+					swrongletter = string.char(iKey)
+					iKeyPresses = iKeyPresses + 1
+				
+				end				
+				
+				iKey = SWITCH_NONE
+				
+				if (iKeyIndex > iKeyLen) then
+					
+					calcScore(move[currentMove][moveType], iKeyPresses, iSecs)
+					discSkipToFrame(move[currentMove][moveFrameEnd]+1)					
+					bShowWord = false
+					
+					if currentMove <= totalMoves then					
+						
+						lvlState = lvlPlayClip2
+					
+					else
+					
+						lvlState = lvlRunning				
+						
+					end
+					
+				end
+			
+			end		
+		
+		end
+	
+	elseif (lvlState == lvlRunning) then
+		
+		if (currentMove > totalMoves) then
+			
+			discSkipToFrame(iFrameStart)
+			lvlState = lvlPlayClip1
+			
+		elseif (currentFrame > move[currentMove][moveFrameEnd]) then -- death to player!
+			
+			discSkipToFrame(move[currentMove][moveFrameEnd])
+			discPause()					
+			timerON(iDelay)
+			lvlState = lvlPauseAction
+
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+			
+			if bToggle01 then
+		
+				if (move[currentMove][moveType] == SKULLBONUS) then
+			
+					bShowBonus = true
+					bShowWord = false
+					
+				else
+				
+					bShowBonus = false
+					bShowWord = true
+				end
+				bToggle01 = false
+				
+			end
+
+			if validKey() then
+			
+				if (iKey == string.byte(move[currentMove][moveType],iKeyIndex)) then					
+			
+					iKey = SWITCH_NONE					
+					
+					if (move[currentMove][moveType] == SKULLBONUS) then
+					
+						playMe(sndTing)
+						iScore = iScore + SCORE_BONUS
+					else
+					
+						playMe(sndGunshot)
+						iScore = iScore + SCORE_LETTER
+					end
+					splayerword = splayerword .. string.sub(move[currentMove][moveType], iKeyIndex, iKeyIndex)
+					iKeyIndex = iKeyIndex + 1
+					swrongletter = ""
+					
+				else
+				
+					playMe(sndBullet[rndegg:value(1,6)])
+					swrongletter = string.char(iKey)
+					iKeyPresses = iKeyPresses + 1
+				
+				end				
+				
+				iKey = SWITCH_NONE
+				
+				if (iKeyIndex > iKeyLen) then
+					
+					if (move[currentMove][moveType] == SKULLBONUS) then
+						
+						bShowBonus = false
+						bShowWord = false
+					else
+					
+						calcScore(move[currentMove][moveType], iKeyPresses, iSecs)
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)							
+						bShowWord = false
+						
+					end
+					--currentMove = currentMove + 1						
+					
+					if currentMove <= totalMoves then
+						
+						lvlState = lvlPlayClip2
+						
+					end
+					
+				end
+			
+			end	
+			
+		end
+		
+	elseif (lvlState == lvlPlayDeath) then
+		
+		if (currentFrame >= move[currentMove][deathFrameEnd]) then
+			
+			getUndertakerClip(UNDERTKR_ANYCLIP)
+			discSkipToFrame(undertkrFrmStart)
+			lvlState = lvlPlayUndertaker
+		
+		end
+		
+	elseif (lvlState == lvlPlayUndertaker) then
+		
+		if (currentFrame == undertkrFrmEnd or iKey == SWITCH_RETURN) then
+		
+			iKey = SWITCH_NONE		
+			lvlState = lvlEnd
+		
+		end
+	
+	elseif (lvlState == lvlEnd) then
+		
+		lvlState = lvlSetup
+		bCenter = false
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft			
+			
+		else
+		
+			if bLevelComplete then
+				
+				stage[levelItem2] = true				
+				currentLevel = levelProspector1
+				bShowdown = true
+				
+			end
+			
+		end
+		
+		if bDebug then debugPrint ("Leaving doLevelItem2()") end
+	
+	end
+
+
+end
+
+function doLevelMaddog()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint ("Entering doLevelMaddog()") end
+	
+		setupLevel(levelMaddog)		
+
+		currentMove = 1			
+		thisOffset = 46613
+		levelFrameEnd = 48135
+		bLevelComplete = false	
+		bReloadDisabled = true	
+		iBullets = 0
+		
+		setupClip(thisOffset, thisOffset + 419)
+		lvlState = lvlPlayClip1
+		
+		bShowWord = false
+		bShowBonus = false
+		bShowSprinkles = false
+		bToggle01 = true
+		swrongletter = ""
+		splayerword = ""
+		iKey = SWITCH_NONE
+		iKeyIndex = 1
+		iKeyLen = 1
+		iSprinkleMax = 18
+		
+		setLetterArray(iSprinkleMax)
+		
+	elseif (lvlState == lvlPlayClip1) then
+	
+		if (currentFrame == iFrameEnd or iKey == SWITCH_RETURN) then
+			
+			iKey = SWITCH_NONE
+			discSkipToFrame(move[currentMove][rndMoveStart])
+			lvlState = lvlRunning
+		
+		end
+	
+	elseif (lvlState == lvlPlayClip2) then
+	
+		if (currentFrame == move[currentMove][rndMoveEnd]) then
+		
+			currentMove = currentMove + 1
+
+			if currentMove <= totalMoves then
+			
+				discSkipToFrame(move[currentMove][rndMoveStart])
+				iSecs = 0
+				iKeyIndex = 1
+				iKeyPresses = 0
+				iKeyLen = 1							
+				setLetterArray(iSprinkleMax)				
+				lvlState = lvlRunning
+				bToggle01 = true
+				
+			
+			else			
+				
+				lvlState = lvlPlayClip3
+			
+			end
+			
+		end
+		
+	elseif (lvlState == lvlPlayClip3) then
+		
+	
+		local k = 0
+		local j = 0
+		
+		-- Count how many guide paths have been completed.
+		
+		for k=GUIDE_BEAVER,GUIDE_PROF do
+		
+			if panel[k] == true then j = j + 1 end
+		
+		end
+		
+		-- if 2 out of three paths are complete, then trigger the good ending (regardless of continues).
+		
+		if j >= 2 then iContinues = 0 end
+		
+		if (iContinues == 0) then
+		
+			iFrameStart = 47467
+			iFrameEnd   = 48134
+			iEnding 	= GOOD_ENDING
+			
+		else
+		
+			iFrameStart = 51343
+			iFrameEnd   = 52759
+			iEnding 	= BAD_ENDING
+			
+		end
+		iContinues = 0 -- Reset counter for next guide path.
+		discSkipToFrame(iFrameStart)
+		lvlState = lvlPlayClip4
+	
+			
+	elseif (lvlState == lvlPlayClip4) then
+	
+		if iEnding == BAD_ENDING then
+	
+			if (currentFrame == iFrameStart + 1160 or iKey == SWITCH_RETURN) then
+			
+				iKey = SWITCH_NONE
+				lvlState = lvlPlayClip5
+			
+			end
+			
+		elseif iEnding == GOOD_ENDING then
+		
+			if (currentFrame == iFrameStart + 410 or iKey == SWITCH_RETURN) then
+		
+				iKey = SWITCH_NONE
+				lvlState = lvlPlayClip5
+			
+			end		
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip5) then
+	
+		if (currentFrame == iFrameEnd) then
+		
+			bLevelComplete = true
+			lvlState = lvlEnd
+		
+		end		
+		
+	elseif (lvlState == lvlPauseAction) then
+	
+		if timerDue() then		
+			
+			discSkipToFrame(move[currentMove][deathFrameStart])
+			
+			bShowSprinkles = false
+			lvlState = lvlPlayDeath
+		
+		else		
+			
+			if validKey() then			
+				
+				if (sprinkleSearch(iKey, iSprinkleMax) == true) then
+					
+					playMe(sndGunshot)
+					iScore = iScore + SCORE_LETTER					
+					iKeyIndex = iKeyIndex + 1					
+					swrongletter = ""
+					
+				else
+				
+					playMe(sndBullet[rndegg:value(1,6)])
+					swrongletter = string.char(iKey)
+					iKeyPresses = iKeyPresses + 1
+				
+				end				
+				
+				iKey = SWITCH_NONE
+				
+				if (sprinkleCount(iSprinkleMax) == iSprinkleMax) then
+					
+					calcScore(move[currentMove][wordval], iKeyPresses, iSecs)
+					discSkipToFrame(move[currentMove][moveFrameEnd]+1)					
+					bShowSprinkles = false
+					
+					if currentMove <= totalMoves then					
+						
+						lvlState = lvlPlayClip2
+					
+					else
+					
+						lvlState = lvlRunning				
+						
+					end
+					
+				end
+			
+			end		
+
+		end
+		
+	elseif (lvlState == lvlRunning) then
+	
+		if (currentFrame > move[currentMove][moveFrameEnd]) then -- death to player!
+
+			if (move[currentMove][moveType] == SKULLBONUS) then			
+				
+				bShowSprinkles = false
+				lvlState = lvlPlayClip2
+				bToggle01 = true
+			
+			else
+
+				discSkipToFrame(move[currentMove][moveFrameEnd])
+				discPause()					
+				timerON(iDelay)
+				lvlState = lvlPauseAction
+				
+			end
+
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+			
+			if bToggle01 then
+		
+				bShowSprinkles = true				
+				bToggle01 = false
+				
+			end
+
+			if validKey() then
+			
+				if (sprinkleSearch(iKey, iSprinkleMax) == true) then				
+			
+					iKey = SWITCH_NONE					
+					
+					playMe(sndGunshot)
+					iScore = iScore + SCORE_LETTER
+					
+					
+					iKeyIndex = iKeyIndex + 1
+					swrongletter = ""
+					
+				else
+				
+					playMe(sndBullet[rndegg:value(1,6)])
+					swrongletter = string.char(iKey)
+					iKeyPresses = iKeyPresses + 1
+				
+				end				
+				
+				iKey = SWITCH_NONE				
+				
+				if (sprinkleCount(iSprinkleMax) == iSprinkleMax) then
+					
+					calcScore(move[currentMove][wordval], iKeyPresses, iSecs)
+					discSkipToFrame(move[currentMove][moveFrameEnd]+1)							
+					bShowSprinkles = false
+					lvlState = lvlPlayClip2
+					
+				end
+			
+			end	
+			
+		end
+		
+	elseif (lvlState == lvlPlayDeath) then
+		
+		if (currentFrame >= move[currentMove][deathFrameEnd]) then
+
+			getUndertakerClip(UNDERTKR_ANYCLIP)
+			discSkipToFrame(undertkrFrmStart)
+			lvlState = lvlPlayUndertaker
+		
+		end
+		
+	elseif (lvlState == lvlPlayUndertaker) then
+	
+		if (currentFrame == undertkrFrmEnd or iKey == SWITCH_RETURN) then
+		
+			iKey = SWITCH_NONE
+			lvlState = lvlEnd
+		
+		end
+	
+	elseif (lvlState == lvlEnd) then
+		
+		lvlState = lvlSetup
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft			
+			
+		else
+		
+			if bLevelComplete then
+			
+				updateLevelTracking(iCurrentGuide)
+				if iEnding == BAD_ENDING then
+				
+					currentLevel = levelMenu
+				
+				else
+				
+					if newScore(iScore) == false then
+				
+						currentLevel = levelGameOver
+						
+					else				
+					
+						currentLevel = levelHighScore
+						
+					end
+				
+				end
+				
+			else
+			
+				bShowdown = true
+			
+			end
+			
+		end
+		
+		if bDebug then debugPrint ("Leaving doLevelMaddog()") end
+	
+	end
+
+end
+
+function doLevelMenu()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint ("Entering doLevelMenu()") end		
+		
+		local b1 = true
+		
+		bShowScore = false
+		bShowCredits = false
+		doLevelMenuSelectFrame()
+		timerON(10)
+		lvlState = lvlRunning
+		iTempGuide = iCurrentGuide
+		iKey = SWITCH_NONE
+		
+		if iCurrentGuide ~= GUIDE_NONE then
+		
+			if not panel[iCurrentGuide] then 
+				iCursorPos = iCurrentGuide			
+				b1 = false
+			
+			end
+			
+		end
+		
+		if b1 then
+		
+			if panel[GUIDE_BEAVER] == false then
+			
+				iCursorPos = GUIDE_BEAVER
+				
+			elseif panel[GUIDE_BONNIE] == false then
+			
+				iCursorPos = GUIDE_BONNIE
+				
+			elseif panel[GUIDE_PROF] == false then
+			
+				iCursorPos = GUIDE_PROF
+				
+			end
+		
+		end
+	
+	elseif (lvlState == lvlRunning) then
+		
+		if timerDue() then
+		
+			if iCursorPos == GUIDE_BEAVER then
+			
+				tempLevel = getLevel(GUIDE_BEAVER)	
+				iCurrentGuide = GUIDE_BEAVER				
+				
+			elseif iCursorPos == GUIDE_BONNIE then
+
+				tempLevel = getLevel(GUIDE_BONNIE)
+				iCurrentGuide = GUIDE_BONNIE
+				
+			elseif iCursorPos == GUIDE_PROF then
+
+				tempLevel = getLevel(GUIDE_PROF)
+				iCurrentGuide = GUIDE_PROF
+				
+			end
+		
+			lvlState = lvlEnd
+		
+		else
+		
+			if (iKey == SWITCH_RARROW) then
+			
+				iKey = SWITCH_NONE
+				playMe(sndFX02)
+				
+				if iCursorPos == GUIDE_BEAVER then
+				
+					if panel[GUIDE_BONNIE] == false then
+			
+						iCursorPos = GUIDE_BONNIE
+						
+					elseif panel[GUIDE_PROF] == false then
+					
+						iCursorPos = GUIDE_PROF
+						
+					end
+
+				elseif iCursorPos == GUIDE_BONNIE then
+				
+					if panel[GUIDE_PROF] == false then
+					
+						iCursorPos = GUIDE_PROF
+						
+					end
+				
+				end			
+			
+			
+			elseif (iKey == SWITCH_LARROW) then
+			
+				iKey = SWITCH_NONE
+				playMe(sndFX02)
+				
+				if iCursorPos == GUIDE_PROF then
+				
+					if panel[GUIDE_BONNIE] == false then
+					
+						iCursorPos = GUIDE_BONNIE
+						
+					elseif panel[GUIDE_BEAVER] == false then
+					
+						iCursorPos = GUIDE_BEAVER
+						
+					end
+					
+				elseif iCursorPos == GUIDE_BONNIE then
+				
+					if panel[GUIDE_BEAVER] == false then
+					
+						iCursorPos = GUIDE_BEAVER
+					
+					end
+				
+				end			
+			
+			elseif (iKey == SWITCH_RETURN) then
+			
+				iCurrentGuide = iCursorPos
+				iKey = SWITCH_NONE
+				
+				if iCursorPos == GUIDE_BEAVER then
+			
+					tempLevel = getLevel(GUIDE_BEAVER)
+					iCurrentGuide = GUIDE_BEAVER
+					lvlState = lvlEnd			
+					
+				elseif iCursorPos == GUIDE_BONNIE then
+
+					tempLevel = getLevel(GUIDE_BONNIE)
+					iCurrentGuide = GUIDE_BONNIE
+					lvlState = lvlEnd
+					
+				elseif iCursorPos == GUIDE_PROF then
+
+					tempLevel = getLevel(GUIDE_PROF)
+					iCurrentGuide = GUIDE_PROF
+					lvlState = lvlEnd
+					
+				end
+				
+			else
+			
+				if iCursorPos == GUIDE_BEAVER then
+				
+					spriteDraw(46,61,sprBox)
+					
+				elseif iCursorPos == GUIDE_BONNIE then
+				
+					spriteDraw(141,61,sprBox)
+					
+				elseif iCursorPos == GUIDE_PROF then
+				
+					spriteDraw(236,61,sprBox)
+					
+				end
+				
+				
+				spriteDraw(55, 204, sprMenu)
+			
+			end
+
+		end
+	
+	elseif (lvlState == lvlEnd) then
+
+		if not (iTempGuide == iCurrentGuide) then
+			
+			stage[levelItem1] = false
+			stage[levelItem2] = false
+			bSection01Reached = false
+			bSection02Reached = false
+			bSection03Reached = false
+		
+		end
+		
+		
+		lvlState = lvlSetup
+		currentLevel = tempLevel		
+		bShowScore = true
+		bShowCredits = false		
+		
+		if not bFirstTimeAround then
+		
+			bFirstTimeAround = false
+			bShowdown = true
+			
+		end
+		
+		if bDebug then debugPrint ("Leaving doLevelMenu()") end
+		
+	end
+
+end
+
+function doLevelMenuSelectFrame()
+
+	local thisFrame = offsetMenus 
+	
+	local w = clockRnd()
+	
+	if (w >= 0 and w <3) then
+	
+		thisFrame = thisFrame + 2438
+	
+	elseif (w >= 3 and w <6) then
+	
+		thisFrame = thisFrame + 2453	
+	
+	elseif (w >= 6 and w <=8) then
+	
+		thisFrame = thisFrame + 2467	
+		
+	else
+	
+		thisFrame = thisFrame + 2423
+	
+	end
+
+	if panel[GUIDE_BEAVER] == false and panel[GUIDE_BONNIE] == false and panel[GUIDE_PROF] == false then
+	
+		thisFrame = thisFrame + 0
+	
+	elseif panel[GUIDE_BEAVER] == true and panel[GUIDE_BONNIE] == false and panel[GUIDE_PROF] == false then
+	
+		thisFrame = thisFrame + 2
+	
+	elseif panel[GUIDE_BEAVER] == false and panel[GUIDE_BONNIE] == true and panel[GUIDE_PROF] == false then
+	
+		thisFrame = thisFrame + 4
+	
+	elseif panel[GUIDE_BEAVER] == false and panel[GUIDE_BONNIE] == false and panel[GUIDE_PROF] == true then
+	
+		thisFrame = thisFrame + 6
+	
+	elseif panel[GUIDE_BEAVER] == false and panel[GUIDE_BONNIE] == true and panel[GUIDE_PROF] == true then
+	
+		thisFrame = thisFrame + 8
+		
+	elseif panel[GUIDE_BEAVER] == true and panel[GUIDE_BONNIE] == false and panel[GUIDE_PROF] == true then
+	
+		thisFrame = thisFrame + 10
+		
+	elseif panel[GUIDE_BEAVER] == true and panel[GUIDE_BONNIE] == true and panel[GUIDE_PROF] == false then
+	
+		thisFrame = thisFrame + 12
+		
+	end
+	
+	discSkipToFrame(thisFrame)
+	discPause()
+	
+
+end
+
+function doLevelProf1()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint("Entering doLevelProf1()") end
+		
+		setupLevel(levelProf1)
+		bLevelComplete = false
+		bNoMoreBonuses = false
+	
+		if bSection01Reached and not bSection02Reached then
+		
+			levelFrameStart = thisOffset + 1112
+			currentMove = 9
+			discSkipToFrame(levelFrameStart)
+			lvlState = lvlRunning
+			
+		elseif bSection02Reached then
+		
+			levelFrameStart = thisOffset + 2064
+			currentMove = 14
+			discSkipToFrame(levelFrameStart)
+			lvlState = lvlRunning
+			
+		else
+			
+			setupClip(thisOffset + 0, thisOffset + 240)
+			currentMove = 1			
+			lvlState = lvlPlayClip1			
+			
+		end	
+		
+		levelFrameEnd = 23189	
+		
+		bShowWord = false
+		bShowBonus = false
+		bToggle01 = true
+		swrongletter = ""
+		splayerword = ""
+		iKey = SWITCH_NONE
+		iKeyIndex = 1
+		iKeyLen = string.len(move[currentMove][wordval])
+		
+	elseif (lvlState == lvlPlayClip1) then
+	
+		if (currentFrame == iFrameEnd or iKey == SWITCH_RETURN) then
+		
+			iKey = SWITCH_NONE
+			discSkipToFrame(move[currentMove][rndMoveStart])
+			lvlState = lvlRunning
+			
+		end		
+		
+	elseif (lvlState == lvlPlayClip2) then
+	
+		if (currentFrame == move[currentMove][rndMoveEnd]) then
+		
+			if currentMove == 13 then
+			
+				lvlState = lvlPlayClip3
+				setupClip(thisOffset + 1571, thisOffset + 2064)
+				
+			else
+			
+				currentMove = currentMove + 1
+				
+				if currentMove <= totalMoves then
+				
+					discSkipToFrame(move[currentMove][rndMoveStart])
+					iSecs = 0
+					iKeyIndex = 1
+					iKeyPresses = 0
+					iKeyLen = string.len(move[currentMove][wordval])
+					splayerword = ""
+					
+					if bDebug then  debugPrint("The Word is: " .. move[currentMove][wordval]) end
+					
+					lvlState = lvlRunning
+					bToggle01 = true
+					
+				else
+				
+					bLevelComplete = true
+					lvlState = lvlEnd
+					
+				end
+				
+				if currentMove == 9 then  bSection01Reached = true end
+				if currentMove == 14 then bSection02Reached = true end
+				
+			end
+		
+		end	
+		
+	elseif (lvlState == lvlPlayClip3) then
+	
+		if (currentFrame == iFrameEnd or iKey == SWITCH_RETURN) then		
+		
+			iKey = SWITCH_NONE
+			currentMove = 14
+			discSkipToFrame (move[currentMove][rndMoveStart])			
+			
+			iSecs = 0
+			iKeyIndex = 1
+			iKeyPresses = 0
+			iKeyLen = string.len(move[currentMove][wordval])
+			splayerword = ""		
+			
+			lvlState = lvlRunning
+			bToggle01 = true
+		
+		end
+		
+	elseif (lvlState == lvlPauseAction) then
+
+		if timerDue() then		
+			
+			discSkipToFrame(move[currentMove][deathFrameStart])
+			bShowWord = false				
+			lvlState = lvlPlayDeath
+		
+		else		
+			
+			if validKey() then			
+				
+				if (iKey == string.byte(move[currentMove][wordval],iKeyIndex)) then			
+					
+					playMe(sndGunshot)
+					iScore = iScore + SCORE_LETTER
+					splayerword = splayerword .. string.sub(move[currentMove][wordval],iKeyIndex, iKeyIndex)
+					iKeyIndex = iKeyIndex + 1					
+					swrongletter = ""
+					
+				else
+				
+					playMe(sndBullet[rndegg:value(1,6)])
+					swrongletter = string.char(iKey)
+					iKeyPresses = iKeyPresses + 1
+				
+				end				
+				
+				iKey = SWITCH_NONE
+				
+				if (iKeyIndex > iKeyLen) then
+					
+					calcScore(move[currentMove][wordval], iKeyPresses, iSecs)
+					discSkipToFrame(move[currentMove][moveFrameEnd]+1)					
+					bShowWord = false
+					
+					if currentMove <= totalMoves then					
+						
+						lvlState = lvlPlayClip2
+					
+					else
+					
+						lvlState = lvlRunning				
+						
+					end
+					
+				end
+			
+			end		
+
+		end
+
+	elseif (lvlState == lvlRunning) then
+	
+		if (currentFrame > move[currentMove][moveFrameEnd]) then -- death to player!
+		
+			if (move[currentMove][moveType] == SKULLBONUS) then			
+				
+				bShowBonus = false
+				lvlState = lvlPlayClip2
+				bToggle01 = true
+				
+			elseif (move[currentMove][moveType] == GOODGUY) then
+			
+				lvlState = lvlPlayClip2
+				bShowWord = false
+			
+			else
+
+				discSkipToFrame(move[currentMove][moveFrameEnd])
+				discPause()					
+				timerON(iDelay)
+				lvlState = lvlPauseAction
+				
+			end
+				
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+			
+			if bToggle01 then
+		
+				if (move[currentMove][moveType] == SKULLBONUS) then
+			
+					bShowBonus = true
+					bShowWord = false
+					
+				else
+				
+					bShowBonus = false
+					bShowWord = true
+				end
+				bToggle01 = false
+				
+			end
+
+			if validKey() then
+			
+				if (iKey == string.byte(move[currentMove][wordval],iKeyIndex)) then					
+			
+					iKey = SWITCH_NONE					
+					
+					if (move[currentMove][moveType] == SKULLBONUS) then
+					
+						playMe(sndTing)
+						iScore = iScore + SCORE_BONUS
+					elseif (move[currentMove][moveType] == GOODGUY) then
+					
+						playMe(sndBullet[rndegg:value(1,6)])
+						iScore = iScore - SCORE_LETTER
+						
+					else
+					
+						playMe(sndGunshot)
+						iScore = iScore + SCORE_LETTER
+					end
+					splayerword = splayerword .. string.sub(move[currentMove][wordval],iKeyIndex, iKeyIndex)
+					iKeyIndex = iKeyIndex + 1
+					swrongletter = ""
+					
+				else
+				
+					playMe(sndBullet[rndegg:value(1,6)])
+					swrongletter = string.char(iKey)
+					iKeyPresses = iKeyPresses + 1
+				
+				end				
+				
+				iKey = SWITCH_NONE
+				
+				if (iKeyIndex > iKeyLen) then
+					
+					if (move[currentMove][moveType] == SKULLBONUS) then
+						
+						bShowBonus = false
+						bShowWord = false
+						
+					elseif (move[currentMove][moveType] == GOODGUY) then
+					
+						discSkipToFrame(move[currentMove][deathFrameStart])
+						bShowWord = false
+						playMe(sndGunshot)				
+						lvlState = lvlPlayDeath						
+						
+					else
+					
+						calcScore(move[currentMove][wordval], iKeyPresses, iSecs)
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)							
+						bShowWord = false
+						
+					end					
+					
+					if (currentMove <= totalMoves) and not (lvlState == lvlPlayDeath) then
+						
+						lvlState = lvlPlayClip2
+						
+					end
+					
+				end
+			
+			end		
+			
+		end
+			
+	elseif (lvlState == lvlPlayDeath) then
+		
+		if (currentFrame >= move[currentMove][deathFrameEnd]) then
+			
+			if (move[currentMove][moveType] == GOODGUY) then
+			
+				if currentMove == 6 then
+					getUndertakerClip(UNDERTKR_SHOTGUY)
+				else
+					getUndertakerClip(UNDERTKR_SHOTWOMAN)
+				end
+				
+			else
+			
+				getUndertakerClip(UNDERTKR_ANYCLIP)
+				
+			end
+			discSkipToFrame(undertkrFrmStart)
+			lvlState = lvlPlayUndertaker
+		
+		end
+		
+	elseif (lvlState == lvlPlayUndertaker) then
+	
+		if (currentFrame == undertkrFrmEnd or iKey == SWITCH_RETURN) then
+		
+			iKey = SWITCH_NONE
+			lvlState = lvlEnd
+		
+		end
+	
+	elseif (lvlState == lvlEnd) then
+		
+		lvlState = lvlSetup
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft			
+			
+		else
+		
+			if bLevelComplete then
+				
+				currentLevel = levelProf2
+				stage[levelProf1] = true
+				bSection01Reached = false
+				bSection02Reached = false
+				bShowdown = true
+				
+			else
+			
+				currentLevel = levelMenu
+			
+			end
+			
+		end
+	
+		if bDebug then debugPrint("Leaving doLevelProf1()") end
+	
+	end
+
+end
+
+function doLevelProf2()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint("Entering doLevelProf2()") end
+		currentMove = 1				
+		setupLevel(levelProf2)
+		bLevelComplete = false		
+		bShowMoving = false
+		bShowWord = false
+		bShowBonus = false
+		bToggle01 = true
+		swrongletter = ""
+		splayerword = ""
+		iKey = SWITCH_NONE
+		iKeyIndex = 1
+		iKeyLen = string.len(move[currentMove][wordval])
+		
+		
+		setupClip(thisOffset, thisOffset + 240)
+		lvlState = lvlPlayClip1
+	
+	elseif (lvlState == lvlPlayClip1) then
+	
+		if (currentFrame == iFrameEnd or iKey == SWITCH_RETURN) then
+		
+			iKey = SWITCH_NONE	
+			discSkipToFrame(move[currentMove][rndMoveStart])
+			lvlState = lvlRunning
+		
+		end	
+		
+	elseif (lvlState == lvlPlayClip2) then
+	
+		if (currentFrame == move[currentMove][rndMoveEnd]) then
+		
+			currentMove = currentMove + 1
+
+			if currentMove <= totalMoves then
+			
+				discSkipToFrame(move[currentMove][rndMoveStart])
+				iSecs = 0
+				iKeyIndex = 1
+				iKeyPresses = 0
+				iKeyLen = string.len(move[currentMove][wordval])
+				splayerword = ""
+				
+				if bDebug then  debugPrint("The Word is: " .. move[currentMove][wordval]) end
+				
+				lvlState = lvlRunning
+				bToggle01 = true
+				
+			else
+			
+				local w = rndegg:value(0,8)
+		
+				if (w >= 0 and w <= 2) then
+				
+					iItemProf = ITEM_AMMOBOX
+					iFrameStart = thisOffset + 2087
+					iFrameEnd = thisOffset + 2341
+					
+				elseif (w >= 3 and w <= 5) then
+				
+					iItemProf = ITEM_MOONSHINE
+					iFrameStart = thisOffset + 2342
+					iFrameEnd = thisOffset + 2583
+					
+				else
+				
+					iItemProf = ITEM_LANTERN
+					iFrameStart = thisOffset + 2584
+					iFrameEnd = thisOffset + 2813
+				
+				end				
+				
+				sMagicWord = getMagicWord()
+				setupClip(iFrameStart, iFrameEnd)
+				lvlState = lvlPlayClip3
+			
+			end
+		
+		end		
+		
+	elseif (lvlState == lvlPlayClip3) then
+	
+		if (currentFrame == iFrameEnd) then
+		
+			bLevelComplete = true
+			lvlState = lvlEnd	
+
+		else		
+			
+			spriteDraw(40, 55, sprPanel3)			
+			drawWord(102, 65,fontDebug6pt, GREY, "The secret word is")
+			drawWord(102, 77,fontDebug8pt, YELLOW, sMagicWord)
+		
+		end
+		
+	elseif (lvlState == lvlPauseAction) then
+	
+		if timerDue() then		
+			
+			discSkipToFrame(move[currentMove][deathFrameStart])
+			bShowMoving = false				
+			lvlState = lvlPlayDeath
+		
+		else		
+			
+			if validKey() then			
+				
+				if (iKey == string.byte(move[currentMove][wordval],iKeyIndex)) then			
+					
+					playMe(sndGunshot)
+					iScore = iScore + SCORE_LETTER
+					splayerword = splayerword .. string.sub(move[currentMove][wordval],iKeyIndex, iKeyIndex)
+					iKeyIndex = iKeyIndex + 1					
+					swrongletter = ""
+					
+				else
+				
+					playMe(sndBullet[rndegg:value(1,6)])
+					swrongletter = string.char(iKey)
+					iKeyPresses = iKeyPresses + 1
+				
+				end				
+				
+				iKey = SWITCH_NONE
+				
+				if (iKeyIndex > iKeyLen) then
+					
+					calcScore(move[currentMove][wordval], iKeyPresses, iSecs)
+					discSkipToFrame(move[currentMove][moveFrameEnd]+1)										
+					bShowMoving = false
+					lvlState = lvlPlayClip2			
+					
+				end
+			
+			end		
+
+		end
+	
+	elseif (lvlState == lvlRunning) then
+	
+		if (currentFrame > move[currentMove][moveFrameEnd]) then -- death to player!
+		
+			if (move[currentMove][moveType] == GOODGUY) then			
+				
+				bShowMoving = false
+				lvlState = lvlPlayClip2
+			
+			else
+			
+				if (dip_Difficulty == DOPT_EASY) then
+				
+					discSkipToFrame(move[currentMove][moveFrameEnd])
+					discPause()					
+					timerON(2)
+					lvlState = lvlPauseAction
+					
+				elseif (dip_Difficulty == DOPT_MEDIUM) then
+				
+					discSkipToFrame(move[currentMove][moveFrameEnd])
+					discPause()					
+					timerON(1)
+					lvlState = lvlPauseAction
+					
+				else
+				
+					discSkipToFrame(move[currentMove][deathFrameStart])
+					bShowWord = false				
+					lvlState = lvlPlayDeath
+				end
+				
+			end
+				
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+			
+			if bToggle01 then
+				
+				bShowMoving = true
+				bToggle01 = false
+				
+			end
+
+			if validKey() then
+			
+				if (iKey == string.byte(move[currentMove][wordval],iKeyIndex)) then					
+			
+					iKey = SWITCH_NONE					
+					
+					if (move[currentMove][moveType] == GOODGUY) then
+					
+						playMe(sndBullet[rndegg:value(1,6)])
+						iScore = iScore - SCORE_LETTER
+					else
+					
+						playMe(sndGunshot)
+						iScore = iScore + SCORE_LETTER
+					end
+					splayerword = splayerword .. string.sub(move[currentMove][wordval],iKeyIndex, iKeyIndex)
+					iKeyIndex = iKeyIndex + 1
+					swrongletter = ""
+					
+				else
+				
+					playMe(sndBullet[rndegg:value(1,6)])
+					swrongletter = string.char(iKey)
+					iKeyPresses = iKeyPresses + 1
+				
+				end				
+				
+				iKey = SWITCH_NONE
+				
+				if (iKeyIndex > iKeyLen) then
+					
+					if (move[currentMove][moveType] == GOODGUY) then
+						
+						playMe(sndGunshot)
+						discSkipToFrame(move[currentMove][deathFrameStart])						
+						lvlState = lvlPlayDeath
+						
+					else
+					
+						calcScore(move[currentMove][wordval], iKeyPresses, iSecs)
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)	
+						
+					end					
+					bShowMoving = false
+					if (currentMove <= totalMoves) and not (lvlState == lvlPlayDeath) then
+						
+						lvlState = lvlPlayClip2
+						
+					end
+					
+				end
+			
+			end	
+			
+		end
+		
+	elseif (lvlState == lvlPlayDeath) then
+		
+		if (currentFrame >= move[currentMove][deathFrameEnd]) then
+
+			getUndertakerClip(UNDERTAKER_ANYCLIP)
+			discSkipToFrame(undertkrFrmStart)
+			lvlState = lvlPlayUndertaker
+		
+		end
+		
+	elseif (lvlState == lvlPlayUndertaker) then
+	
+		if (currentFrame == undertkrFrmEnd or iKey == SWITCH_RETURN) then
+		
+			iKey = SWITCH_NONE	
+			lvlState = lvlEnd
+		
+		end
+	
+	elseif (lvlState == lvlEnd) then
+		
+		lvlState = lvlSetup
+		bShowMoving = false
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft			
+			
+		else
+		
+			if bLevelComplete then
+				
+				currentLevel = levelProf3				
+				stage[levelProf2] = true				
+				bShowdown = true
+
+			else
+			
+				currentLevel = levelMenu
+			
+			end
+			
+		end
+	
+		if bDebug then debugPrint("Leaving doLevelProf2()") end
+	
+	end
+	
+end
+
+function doLevelProf3()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint ("Entering doLevelProf3()") end
+		
+		setupLevel(levelProf3)
+		
+		bLevelComplete = false
+		currentMove = 1
+		bShowWord = false
+		bShowBonus = false
+		bToggle01 = false
+		bPlayHurry = false
+		iKey = SWITCH_NONE
+		iKeyIndex = 1
+		iBadGuysShot = 0
+		iKeyPresses = 0
+		iBonusHits = 0
+		iLettersTyped = 0
+		iBadLettersTyped = 0		
+		iKeyLen = string.len(move[currentMove][wordval])
+		swrongletter = ""
+		splayerword = ""
+		
+		
+		setupClip(offsetType + 865, offsetType + 1243)
+		bShowCounter = false
+		lvlState = lvlPlayClip1
+		
+	elseif (lvlState == lvlPlayClip1) then
+	
+		if (currentFrame == offsetType + 1125) or (iKey == SWITCH_RETURN) then
+		
+			if (iKey == SWITCH_RETURN) then discSkipToFrame(offsetType + 1126) end
+			iKey = SWITCH_NONE		
+			lvlState = lvlPlayClip8
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip8) then
+	
+		if (currentFrame == offsetType + 1244) then
+		
+			bShowCounter = true
+			muteAudio()
+			
+			if (move[currentMove][moveType] ~= SKULLBONUS) then	discChangeSpeed(3,1) end
+			discSkipToFrame(move[currentMove][rndMoveStart])			
+			soundPlay(sndHurry)			
+			bPlayHurry = true
+			timerON(30)
+			lvlState = lvlRunning
+			
+		end
+		
+	elseif (lvlState == lvlPlayClip2) then
+	
+		if timerDue() then		
+			
+			lvlState = lvlPlayClip4
+	
+		elseif (currentFrame >= move[currentMove][rndMoveEnd]) then
+		
+			currentMove = currentMove + 1
+			
+			if currentMove <= totalMoves then
+			
+				discSkipToFrame(move[currentMove][rndMoveStart])				
+				iKeyIndex = 1
+				iKeyPresses = 0
+				iKeyLen = string.len(move[currentMove][wordval])
+				splayerword = ""
+				swrongletter = ""
+				
+				if bDebug then  debugPrint("The Word is: " .. move[currentMove][wordval]) end
+				
+				if (move[currentMove][moveType] == SKULLBONUS) then
+				
+					discChangeSpeed(1,1)
+				
+				else
+				
+					discChangeSpeed(3,1)				
+				
+				end
+				
+			
+			end
+			
+			lvlState = lvlRunning
+			bToggle01 = false
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip3) then
+		
+		if (currentFrame == iFrameEnd) then
+		
+			bLevelComplete = true
+			lvlState = lvlEnd
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip4) then
+	
+		lvlState = lvlResults
+		discChangeSpeed(1, 1)
+		bShowCounter = false
+		bShowWord = false
+		bShowBonus = false
+		bPlayHurry = false
+		resetChannels()
+		discSkipToFrame(offsetType + 1248)
+		discPause()
+		iKey = SWITCH_NONE
+		timerON(6)
+
+	elseif (lvlState == lvlPauseAction) then
+	
+		if timerDue() then
+		
+			lvlState = lvlPlayClip4					
+		
+		else
+		
+			if validKey() then			
+				
+				if (iKey == string.byte(move[currentMove][wordval],iKeyIndex)) then			
+					
+					playMe(sndGunshot)
+					iScore = iScore + SCORE_LETTER
+					splayerword = splayerword .. string.sub(move[currentMove][wordval],iKeyIndex, iKeyIndex)
+					iKeyIndex = iKeyIndex + 1					
+					swrongletter = ""
+					iLettersTyped = iLettersTyped + 1
+					
+				else				
+					
+					playMe(sndBullet[rndegg:value(1,6)])
+					swrongletter = string.char(iKey)
+					iKeyPresses = iKeyPresses + 1
+					iBadLettersTyped = iBadLettersTyped + 1
+				
+				end				
+				
+				iKey = SWITCH_NONE
+				
+				if (iKeyIndex > iKeyLen) then
+					
+					calcScore(move[currentMove][wordval], iKeyPresses, iSecs)
+					discSkipToFrame(move[currentMove][moveFrameEnd]+1)				
+					bShowWord = false
+					iBadGuysShot = iBadGuysShot + 1
+					
+					if currentMove <= totalMoves then					
+						
+						lvlState = lvlPlayClip2
+					
+					else
+					
+						lvlState = lvlRunning				
+						
+					end
+					
+				end
+
+			end	
+		
+		end
+	
+	elseif (lvlState == lvlRunning) then
+		
+		if timerDue() or (currentMove > totalMoves) then
+		
+			lvlState = lvlPlayClip4
+			
+		elseif (currentFrame > move[currentMove][moveFrameEnd]) then -- death to player!
+
+			if (move[currentMove][moveType] == SKULLBONUS) then
+			
+				lvlState = lvlPlayClip2
+				bShowBonus = false
+				bToggle01 = true
+			
+			else
+
+				discSkipToFrame(move[currentMove][moveFrameEnd])
+				discPause()
+				lvlState = lvlPauseAction
+				
+			end
+
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame <= move[currentMove][moveFrameEnd]) then
+		
+			if bToggle01 == false then
+				
+			
+				if (move[currentMove][moveType] == SKULLBONUS) then
+			
+					bShowBonus = true
+					bShowWord = false
+					discChangeSpeed(1,1)
+					bToggle01 = true
+					
+				else
+				
+					bShowBonus = false
+					bShowWord = true
+					bToggle01 = true
+					
+				end
+				
+			end
+
+			if validKey() then
+			
+				if (iKey == string.byte(move[currentMove][wordval],iKeyIndex)) then					
+			
+					iKey = SWITCH_NONE					
+					
+					if (move[currentMove][moveType] == SKULLBONUS) then
+					
+						playMe(sndTing)
+						iScore = iScore + SCORE_BONUS
+						iBonusHits = iBonusHits + 1
+						--iSecs = iSecs - 5
+					else
+					
+						playMe(sndGunshot)
+						iScore = iScore + SCORE_LETTER
+					end
+					splayerword = splayerword .. string.sub(move[currentMove][wordval],iKeyIndex, iKeyIndex)
+					iKeyIndex = iKeyIndex + 1
+					iLettersTyped = iLettersTyped + 1
+					swrongletter = ""
+					
+				else
+					
+					playMe(sndBullet[rndegg:value(1,6)])
+					swrongletter = string.char(iKey)
+					iKeyPresses = iKeyPresses + 1
+					iBadLettersTyped = iBadLettersTyped + 1
+				
+				end				
+				
+				iKey = SWITCH_NONE
+				
+				if (iKeyIndex > iKeyLen) then
+					
+					if (move[currentMove][moveType] == SKULLBONUS) then
+						
+						bShowBonus = false
+						bShowWord = false
+					else
+					
+						calcScore(move[currentMove][wordval], iKeyPresses, iSecs)
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)							
+						bShowWord = false
+						iBadGuysShot = iBadGuysShot + 1
+						
+					end					
+					
+					if currentMove <= totalMoves then
+						
+						lvlState = lvlPlayClip2
+						
+					end
+					
+				end
+			
+			end				
+			
+		end
+		
+	elseif (lvlState == lvlResults) then	
+	
+		if timerDue() or iKey == SWITCH_RETURN then
+		
+			iKey = SWITCH_NONE
+			lvlState = lvlEnd
+			iScore = iScore + (iBadGuysShot*100 + iLettersTyped*25)
+
+			if iBadLettersTyped == 0 and iBadGuysShot > 0 then
+			
+				iScore = iScore + 1000
+			
+			else
+			
+				iScore = iScore - (iBadLettersTyped*-10)
+			
+			end
+		
+		else		
+			
+			setFontColor(RED)
+			fontSelect(fontOldWest24pt)
+			fontPrint(147, 35, "RESULTS")			
+			
+			setFontColor(GREY)
+			fontSelect(fontOldWest20pt)
+			fontPrint(60,65, "Bad Guys Shot:")			
+			fontPrint(200,65, "x")			
+			fontPrint(165,65, iBadGuysShot)
+			fontPrint(225,65, "100 = " .. iBadGuysShot*100)
+			
+			
+			fontPrint(60,89, "Letters Typed:")			
+			fontPrint(200,89, "x")			
+			fontPrint(165,89, iLettersTyped)
+			fontPrint(225,89, "10  = " .. iLettersTyped*25)
+			
+			if iBadLettersTyped == 0 and iBadGuysShot > 0 then
+			
+				fontPrint(60,113, "Perfect Typing Bonus!")							
+				fontPrint(240,113, "1000" )			
+				
+			else
+			
+				fontPrint(60,113, "Typos Penalty:")			
+				fontPrint(200,113, "x")			
+				fontPrint(165,113, iBadLettersTyped)
+				fontPrint(225,113, "10  = " .. iBadLettersTyped*10)			
+				
+			end
+			
+			setFontColor(RED)
+			fontPrint(220,137, "========")
+			
+			
+			setFontColor(GREEN)
+			fontSelect(fontOldWest24pt)
+			fontPrint(170,161, "Total: ")			
+			
+			fontPrint(240,161, (iBadGuysShot*100 + iLettersTyped*25 - iBadLettersTyped*-10))
+			
+		end		
+		
+	elseif (lvlState == lvlEnd) then
+		
+		lvlState = lvlSetup		
+		
+		stage[levelProf3] = true
+		currentLevel = levelItem1
+		bShowdown = true
+		
+		if bDebug then debugPrint ("Leaving doLevelProf3()") end
+	
+	end
+
+end
+
+function doLevelProspector1()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint ("Entering doLevelProspector1()") end
+	
+		setupLevel(levelProspector1)				
+		
+		currentMove = 1			
+		levelFrameStart = 34995
+		levelFrameEnd = 36101
+		iFrameStart = thisOffset + 886
+		iFrameEnd   = levelFrameEnd
+		bLevelComplete = false
+		
+		discSkipToFrame(levelFrameStart)		
+		lvlState = lvlPlayClip3
+		
+		
+		bShowWord = false
+		bShowBonus = false
+		bToggle01 = true
+		swrongletter = ""
+		splayerword = ""
+		iKey = SWITCH_NONE
+		iKeyIndex = 1
+		iBadGuysShot = 0
+		iKeyLen = string.len(move[currentMove][wordval])
+		
+	
+	elseif (lvlState == lvlPlayClip1) then
+		
+		bLevelComplete = true
+		lvlState = lvlEnd
+		
+	elseif (lvlState == lvlPlayClip2) then
+	
+		if (currentFrame == move[currentMove][rndMoveEnd]) then
+		
+			currentMove = currentMove + 1
+
+			if currentMove <= totalMoves then
+			
+				discSkipToFrame(move[currentMove][rndMoveStart])
+				iSecs = 0
+				iKeyIndex = 1
+				iKeyPresses = 0
+				iKeyLen = string.len(move[currentMove][wordval])
+				splayerword = ""
+				
+				if bDebug then  debugPrint("The Word is: " .. move[currentMove][wordval]) end
+				
+			
+				lvlState = lvlRunning				
+				bToggle01 = true
+				
+			else
+			
+				if iBadGuysShot >= 3 then
+					
+					setupClip(thisOffset + 886, levelFrameEnd)
+					lvlState = lvlPlayClip1
+					
+				else
+				
+					setupClip(38950, 39133)
+					lvlState = lvlPlayClip6
+					
+				end
+				
+			end
+			
+		end	
+
+	elseif (lvlState == lvlPlayClip3) then
+	
+		if (currentFrame == thisOffset + 310) or (iKey == SWITCH_RETURN) then
+		
+			iKey = SWITCH_NONE
+			setupClip(offsetType + 1350, offsetType + 1520)
+			lvlState = lvlPlayClip4			
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip4) then
+	
+		if (currentFrame == iFrameEnd or iKey == SWITCH_RETURN) then
+		
+			iKey = SWITCH_NONE
+			discSkipToFrame(move[currentMove][rndMoveStart])
+			lvlState = lvlRunning			
+		
+		end
+	
+		
+	elseif (lvlState == lvlPlayClip5) then
+	
+		if (currentFrame == 39133) then
+			
+			getUndertakerClip(UNDERTKR_ANYCLIP)
+			discSkipToFrame(undertkrFrmStart)
+			lvlState = lvlPlayUndertaker
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip6) then
+	
+		if (currentFrame == iFrameEnd) then
+		
+			getUndertakerClip(UNDERTKR_ANYCLIP)
+			discSkipToFrame(undertkrFrmStart)
+			lvlState = lvlPlayUndertaker
+		
+		end
+		
+	elseif (lvlState == lvlPauseAction) then
+	
+		if timerDue() then		
+			
+			setupClip(38950, 39133)
+			lvlState = lvlPlayClip6
+		
+		else		
+			
+			if validKey() then			
+				
+				if (iKey == string.byte(move[currentMove][wordval],iKeyIndex)) then			
+					
+					playMe(sndGunshot)
+					iScore = iScore + SCORE_LETTER
+					splayerword = splayerword .. string.sub(move[currentMove][wordval],iKeyIndex, iKeyIndex)
+					iKeyIndex = iKeyIndex + 1					
+					swrongletter = ""
+					
+				else
+				
+					playMe(sndBullet[rndegg:value(1,6)])
+					swrongletter = string.char(iKey)
+					iKeyPresses = iKeyPresses + 1
+				
+				end				
+				
+				iKey = SWITCH_NONE
+				
+				if (iKeyIndex > iKeyLen) then
+					
+					calcScore(move[currentMove][wordval], iKeyPresses, iSecs)
+					discSkipToFrame(move[currentMove][moveFrameEnd]+1)					
+					bShowWord = false
+					
+					if currentMove <= totalMoves then					
+						
+						lvlState = lvlPlayClip2
+						if iKeyPresses == 0 then
+				
+							playMe(sndTing)
+							iBadGuysShot = iBadGuysShot + 1
+							iScore = iScore + SCORE_BONUS
+						
+						end
+					
+					else
+					
+						lvlState = lvlRunning				
+						
+					end
+					
+				end
+			
+			end		
+
+		end
+	
+	elseif (lvlState == lvlRunning) then
+			
+		if (currentFrame > move[currentMove][moveFrameEnd]) then -- death to player!
+			
+			discSkipToFrame(move[currentMove][moveFrameEnd])
+			discPause()					
+			timerON(iDelay)
+			lvlState = lvlPauseAction
+
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+			
+			if bToggle01 then
+		
+				if (move[currentMove][moveType] == SKULLBONUS) then
+			
+					bShowBonus = true
+					bShowWord = false
+					
+				else
+				
+					bShowBonus = false
+					bShowWord = true
+				end
+				bToggle01 = false
+				
+			end
+
+			if validKey() then
+			
+				if (iKey == string.byte(move[currentMove][wordval],iKeyIndex)) then					
+			
+					iKey = SWITCH_NONE					
+					
+					if (move[currentMove][moveType] == SKULLBONUS) then
+					
+						playMe(sndTing)
+						iScore = iScore + SCORE_BONUS
+					else
+					
+						playMe(sndGunshot)
+						iScore = iScore + SCORE_LETTER
+					end
+					splayerword = splayerword .. string.sub(move[currentMove][wordval],iKeyIndex, iKeyIndex)
+					iKeyIndex = iKeyIndex + 1
+					swrongletter = ""
+					
+				else
+				
+					playMe(sndBullet[rndegg:value(1,6)])
+					swrongletter = string.char(iKey)
+					iKeyPresses = iKeyPresses + 1
+				
+				end				
+				
+				iKey = SWITCH_NONE
+				
+				if (iKeyIndex > iKeyLen) then
+					
+					if (move[currentMove][moveType] == SKULLBONUS) then
+						
+						bShowBonus = false
+						bShowWord = false
+					else
+					
+						calcScore(move[currentMove][wordval], iKeyPresses, iSecs)
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)							
+						bShowWord = false
+						
+					end
+					
+					if currentMove <= totalMoves then
+						
+						lvlState = lvlPlayClip2
+						if iKeyPresses == 0 then
+				
+							playMe(sndTing)
+							iBadGuysShot = iBadGuysShot + 1
+							iScore = iScore + SCORE_BONUS
+						
+						end
+						
+					end
+					
+				end
+			
+			end	
+			
+		end
+		
+	elseif (lvlState == lvlPlayDeath) then
+		
+		if (currentFrame >= move[currentMove][deathFrameEnd]) then
+			
+			getUndertakerClip(UNDERTKR_ANYCLIP)
+			discSkipToFrame(undertkrFrmStart)
+			lvlState = lvlPlayUndertaker
+		
+		end
+		
+	elseif (lvlState == lvlPlayUndertaker) then
+		
+		if (currentFrame == undertkrFrmEnd or iKey == SWITCH_RETURN) then
+		
+			iKey = SWITCH_NONE
+			lvlState = lvlEnd
+		
+		end
+	
+	elseif (lvlState == lvlEnd) then
+		
+		lvlState = lvlSetup
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft			
+			
+		else
+		
+			if bLevelComplete then currentLevel = levelProspector2 end			
+			
+		end
+		
+		if bDebug then debugPrint ("Leaving doLevelProspector1()") end
+	
+	end
+
+
+end
+
+function doLevelProspector2()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint ("Entering doLevelProspector2()") end
+	
+		setupLevel(levelProspector2)		
+
+		currentMove = 1
+		if bSection01Reached then
+		
+			levelFrameStart = thisOffset + 460
+			discSkipToFrame(levelFrameStart)
+			lvlState = lvlRunning
+		
+		else
+			setupClip(thisOffset, thisOffset + 999)
+			lvlState = lvlPlayClip1
+		
+		end
+		
+		levelFrameEnd = 38616
+		bLevelComplete = false	
+		bShowWord = false
+		bShowBonus = false
+		bToggle01 = true
+		swrongletter = ""
+		splayerword = ""
+		iKey = SWITCH_NONE
+		iKeyIndex = 1
+		iKeyLen = string.len(move[currentMove][wordval])
+		
+	elseif (lvlState == lvlPlayClip1) then
+	
+		if (currentFrame == iFrameEnd  or iKey == SWITCH_RETURN) then
+		
+			iKey = SWITCH_NONE	
+			discSkipToFrame(move[currentMove][rndMoveStart])
+			lvlState = lvlRunning
+			bSection01Reached = true
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip2) then
+	
+		if (currentFrame == move[currentMove][rndMoveEnd]) then
+		
+			currentMove = currentMove + 1
+
+			if currentMove <= totalMoves then
+			
+				discSkipToFrame(move[currentMove][rndMoveStart])
+				iSecs = 0
+				iKeyIndex = 1
+				iKeyPresses = 0
+				iKeyLen = string.len(move[currentMove][wordval])
+				splayerword = ""
+				
+				if bDebug then  debugPrint("The Word is: " .. move[currentMove][wordval]) end
+				
+				lvlState = lvlRunning
+				bToggle01 = true
+				
+			else
+			
+				setupClip(thisOffset + 2137, thisOffset + 2514)
+				lvlState = lvlPlayClip3				
+			
+			end
+			
+		end	
+
+	elseif (lvlState == lvlPlayClip3) then
+	
+		if (currentFrame == iFrameEnd or iKey == SWITCH_RETURN) then
+		
+			iKey = SWITCH_NONE	
+			bLevelComplete = true
+			lvlState = lvlEnd
+		
+		end
+		
+	elseif (lvlState == lvlPauseAction) then
+	
+		if timerDue() then		
+			
+			discSkipToFrame(move[currentMove][deathFrameStart])
+			bShowWord = false				
+			lvlState = lvlPlayDeath
+		
+		else		
+			
+			if validKey() then			
+				
+				if (iKey == string.byte(move[currentMove][wordval],iKeyIndex)) then			
+					
+					playMe(sndGunshot)
+					iScore = iScore + SCORE_LETTER
+					splayerword = splayerword .. string.sub(move[currentMove][wordval], iKeyIndex, iKeyIndex)
+					iKeyIndex = iKeyIndex + 1					
+					swrongletter = ""
+					
+				else
+				
+					playMe(sndBullet[rndegg:value(1,6)])
+					swrongletter = string.char(iKey)
+					iKeyPresses = iKeyPresses + 1
+				
+				end				
+				
+				iKey = SWITCH_NONE
+				
+				if (iKeyIndex > iKeyLen) then
+					
+					calcScore(move[currentMove][wordval], iKeyPresses, iSecs)					
+					bShowWord = false
+					
+					if currentMove == 8 then
+					
+						discSkipToFrame(thisOffset + 2086)
+					
+					else
+					
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)
+						
+					end
+					
+					if currentMove <= totalMoves then					
+						
+						lvlState = lvlPlayClip2						
+					
+					else
+					
+						lvlState = lvlRunning				
+						
+					end
+					
+				end
+			
+			end		
+
+		end
+		
+	elseif (lvlState == lvlRunning) then
+	
+		if (currentMove > totalMoves) then
+
+			lvlState = lvlPlayClip1
+			
+		elseif (currentFrame >= thisOffset + 235 and currentFrame <= thisOffset + 460) then
+		
+			if (p1BUTTON3) then
+			
+				bSection01Reached = true
+				discSkipToFrame(thisOffset + 890)
+			
+			end
+			
+		elseif (currentFrame == thisOffset + 460) then
+		
+			bSection01Reached = true
+			
+		elseif (currentFrame > move[currentMove][moveFrameEnd]) then -- death to player!
+
+			if (move[currentMove][moveType] == SKULLBONUS) then			
+				
+				bShowBonus = false
+				lvlState = lvlPlayClip2
+				bToggle01 = true
+			
+			else
+
+				discSkipToFrame(move[currentMove][moveFrameEnd])
+				discPause()					
+				timerON(iDelay)
+				lvlState = lvlPauseAction
+				
+			end
+
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+			
+			if bToggle01 then
+		
+				if (move[currentMove][moveType] == SKULLBONUS) then
+			
+					bShowBonus = true
+					bShowWord = false
+					
+				else
+				
+					bShowBonus = false
+					bShowWord = true
+				end
+				bToggle01 = false
+				
+			end
+
+			if validKey() then
+			
+				if (iKey == string.byte(move[currentMove][wordval],iKeyIndex)) then					
+			
+					iKey = SWITCH_NONE					
+					
+					if (move[currentMove][moveType] == SKULLBONUS) then
+					
+						playMe(sndTing)
+						iScore = iScore + SCORE_BONUS
+					else
+					
+						playMe(sndGunshot)
+						iScore = iScore + SCORE_LETTER
+					end
+					splayerword = splayerword .. string.sub(move[currentMove][wordval],iKeyIndex, iKeyIndex)
+					iKeyIndex = iKeyIndex + 1
+					swrongletter = ""
+					
+				else
+				
+					playMe(sndBullet[rndegg:value(1,6)])
+					swrongletter = string.char(iKey)
+					iKeyPresses = iKeyPresses + 1
+				
+				end				
+				
+				iKey = SWITCH_NONE
+				
+				if (iKeyIndex > iKeyLen) then
+					
+					if (move[currentMove][moveType] == SKULLBONUS) then
+						
+						bShowBonus = false
+						bShowWord = false
+					else
+					
+						calcScore(move[currentMove][wordval], iKeyPresses, iSecs)						
+						bShowWord = false
+						if currentMove == 8 then
+					
+							discSkipToFrame(thisOffset + 2086)
+						
+						else
+						
+							discSkipToFrame(move[currentMove][moveFrameEnd]+1)
+							
+						end
+						
+					end				
+					
+					if currentMove <= totalMoves then
+						
+						lvlState = lvlPlayClip2
+						
+					end
+					
+				end
+			
+			end	
+			
+		end
+		
+	elseif (lvlState == lvlPlayDeath) then
+		
+		if (currentFrame >= move[currentMove][deathFrameEnd]) then
+
+			getUndertakerClip(UNDERTKR_ANYCLIP)
+			discSkipToFrame(undertkrFrmStart)
+			lvlState = lvlPlayUndertaker
+		
+		end
+		
+	elseif (lvlState == lvlPlayUndertaker) then
+	
+		if (currentFrame == undertkrFrmEnd or iKey == SWITCH_RETURN) then
+		
+			iKey = SWITCH_NONE
+			lvlState = lvlEnd
+		
+		end
+	
+	elseif (lvlState == lvlEnd) then
+		
+		lvlState = lvlSetup
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft			
+			
+		else
+		
+			if bLevelComplete then currentLevel = levelTown1 end
+			bShowdown = true
+			
+		end
+		
+		if bDebug then debugPrint ("Leaving doLevelProspector2()") end
+	
+	end
+
+end
+
+function doLevelStart()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint ("Entering doLevelStart()") end
+	
+		setupLevel(levelStart)
+		
+		if bSection01Reached and not bSection02Reached then			
+			
+			levelFrameStart = 3798
+			currentMove = 4
+			
+		elseif bSection02Reached then
+		
+			levelFrameStart = 5070 --5133
+			currentMove = 8			
+		
+		else
+			levelFrameStart = 2988
+			currentMove = 1
+		
+		end
+
+		levelFrameEnd = 6675
+		iKey = SWITCH_NONE	
+		discSkipToFrame(levelFrameStart)		
+		lvlState = lvlRunning
+		bShowWord = false
+		bShowBonus = false
+		
+		iKeyIndex = 1
+		iKeyPresses = 0
+		iKeyLen = string.len(move[currentMove][wordval])
+		splayerword = ""
+		swrongletter = ""
+		bToggle = true
+		if bDebug then debugPrint("The Word is: " .. move[currentMove][wordval] .. " - lenght: " .. iKeyLen) end
+		
+	elseif (lvlState == lvlPlayClip1) then
+		
+		if (currentFrame == iFrameEnd) then
+		
+			discSkipToFrame(move[currentMove][7])  -- Index 7 is a special case. Skips the "you missed it!" comments.			
+			currentMove = currentMove + 1
+			iKeyIndex = 1
+			iKeyLen = string.len(move[currentMove][wordval])
+			splayerword = ""
+			lvlState = lvlRunning
+			discPlay()
+			bShowWord = false			
+			
+			if bDebug then  debugPrint("The Word is: " .. move[currentMove][wordval]) end
+			if currentMove == 4 then bSection01Reached = false end
+			
+		end
+		
+	elseif (lvlState == lvlPauseAction) then		
+	
+		if timerDue() then
+	
+			if currentMove <= 3 then						
+				
+				currentMove = currentMove + 1
+				discPlay()
+				iKeyIndex = 1
+				iKeyPresses = 0
+				iKeyLen = string.len(move[currentMove][wordval])
+				splayerword = ""
+				swongletter = ""
+				bShowWord = false
+				bToggle = true
+				lvlState = lvlRunning
+				
+			else
+			
+			
+				discSkipToFrame(move[currentMove][deathFrameStart])				
+				bShowWord = false				
+				lvlState = lvlPlayDeath
+			
+			end
+			
+		else		
+		
+			if validKey() then			
+				
+				if (iKey == string.byte(move[currentMove][wordval],iKeyIndex)) then			
+					
+					playMe(sndGunshot)
+					iScore = iScore + SCORE_LETTER
+					splayerword = splayerword .. string.sub(move[currentMove][wordval],iKeyIndex, iKeyIndex)
+					iKeyIndex = iKeyIndex + 1					
+					swrongletter = ""
+					
+				else
+				
+					playMe(sndBullet[rndegg:value(1,6)])
+					swrongletter = string.char(iKey)
+					iKeyPresses = iKeyPresses + 1
+				
+				end				
+				
+				iKey = SWITCH_NONE
+				
+				if (iKeyIndex > iKeyLen) then
+					
+					if (currentMove <= 3) then
+						
+						calcScore(move[currentMove][wordval], iKeyPresses, iSecs)
+						setupClip(move[currentMove][deathFrameStart], move[currentMove][deathFrameEnd])						
+						lvlState = lvlPlayClip1
+						bToggle = true
+						iSecs = 0
+						
+					else
+					
+						calcScore(move[currentMove][wordval], iKeyPresses, iSecs)
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)
+						currentMove = currentMove + 1
+						bShowWord = false
+						
+						if currentMove <= totalMoves then
+						
+							iSecs = 0
+							iKeyIndex = 1
+							iKeyPresses = 0
+							iKeyLen = string.len(move[currentMove][wordval])
+							splayerword = ""
+							lvlState = lvlRunning
+							discPlay()
+							bToggle = true
+							
+							
+							if currentMove == 4 then bSection01Reached = true end
+							if currentMove == 8 then bSection02Reached = true end
+							
+							if bDebug then  debugPrint("The Word is: " .. move[currentMove][wordval]) end
+							
+						else						
+							
+							lvlState = lvlRunning
+						
+						end
+					
+					end
+				
+				end
+			
+			end		
+			
+		end			
+		
+	elseif (lvlState == lvlRunning) then
+	
+		if (currentMove > totalMoves) then
+	
+			if (currentFrame == levelFrameEnd) then
+				
+				bLevelComplete = true
+				lvlState = lvlEnd
+				
+			end
+			
+		elseif (currentFrame >= thisOffset + 15 and currentFrame <= thisOffset + 300) then	-- Skip shoot the signs
+		
+			if (iKey == SWITCH_RETURN) then
+			
+				iKey = SWITCH_NONE
+				p1BUTTON3 = false
+				discSkipToFrame(thisOffset + 340)
+			
+			end
+		
+		elseif (currentFrame >= thisOffset + 830 and currentFrame <= thisOffset + 1150) then	-- Skip to first bad guys
+		
+			if (iKey == SWITCH_RETURN) then
+			
+				iKey = SWITCH_NONE
+				p1BUTTON3 = false
+				discSkipToFrame(thisOffset + 1204)
+			
+			end
+			
+		elseif (currentFrame >= thisOffset + 1815 and currentFrame <= thisOffset + 2125) then	-- Skip to first bad guys
+		
+			if (iKey == SWITCH_RETURN) then
+			
+				iKey = SWITCH_NONE
+				p1BUTTON3 = false
+				discSkipToFrame(thisOffset + 2145)
+			
+			end
+			
+		elseif (currentFrame > move[currentMove][moveFrameEnd]) then -- death to player!			
+			
+			if (move[currentMove][moveType] == SKULLBONUS) then
+			
+				currentMove = currentMove + 1
+				
+				if currentMove <= totalMoves then
+				
+					iKeyIndex = 1
+					iKeyPresses = 0
+					iKeyLen = string.len(move[currentMove][wordval])
+					splayerword = ""														
+					
+				end			
+				
+				bShowBonus = false
+				bToggle = true
+			
+			else
+				
+				discSkipToFrame(move[currentMove][moveFrameEnd])
+				discPause()					
+				timerON(iDelay)
+				lvlState = lvlPauseAction				
+			end
+				
+			
+			
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then		
+		
+			if bToggle then
+		
+				if (move[currentMove][moveType] == SKULLBONUS) then
+			
+					bShowBonus = true
+					bShowWord = false
+					
+				else
+				
+					bShowBonus = false
+					bShowWord = true
+				end
+				
+				bToggle = false
+				
+			end			
+			
+			if validKey() then
+			
+				if (iKey == string.byte(move[currentMove][wordval],iKeyIndex)) then					
+			
+					iKey = SWITCH_NONE					
+					
+					if (move[currentMove][moveType] == SKULLBONUS) then
+					
+						playMe(sndTing)
+						iScore = iScore + SCORE_BONUS
+					else
+					
+						playMe(sndGunshot)
+						iScore = iScore + SCORE_LETTER
+					end
+					splayerword = splayerword .. string.sub(move[currentMove][wordval],iKeyIndex, iKeyIndex)
+					iKeyIndex = iKeyIndex + 1
+					swrongletter = ""
+					
+				else
+				
+					playMe(sndBullet[rndegg:value(1,6)])
+					swrongletter = string.char(iKey)
+					iKeyPresses = iKeyPresses + 1
+				
+				end				
+				
+				iKey = SWITCH_NONE
+				
+				if (iKeyIndex > iKeyLen) then
+					
+					if (currentMove <= 3) then						
+					
+						calcScore(move[currentMove][wordval], iKeyPresses, iSecs)						
+						setupClip(move[currentMove][deathFrameStart], move[currentMove][deathFrameEnd])						
+						lvlState = lvlPlayClip1
+						bToggle = true
+						
+					else					
+					
+						if (move[currentMove][moveType] == SKULLBONUS) then
+							
+							bShowBonus = false
+							bShowWord = false
+						else
+						
+							calcScore(move[currentMove][wordval], iKeyPresses, iSecs)
+							discSkipToFrame(move[currentMove][moveFrameEnd]+1)							
+							bShowWord = false
+							
+						end
+						currentMove = currentMove + 1						
+						
+						if currentMove <= totalMoves then
+						
+							iKeyIndex = 1
+							iKeyPresses = 0
+							iKeyLen = string.len(move[currentMove][wordval])
+							splayerword = ""
+							bToggle = true
+							
+							if currentMove == 4 then bSection01Reached = true end
+							if currentMove == 8 then bSection02Reached = true end
+							
+							if bDebug then  debugPrint("The Word is: " .. move[currentMove][wordval]) end
+							
+						end
+					
+					end
+				
+				end
+			
+			end		
+			
+		end
+		
+	elseif (lvlState == lvlPlayDeath) then
+		
+		if (currentFrame >= move[currentMove][deathFrameEnd]) then
+
+			getUndertakerClip(UNDERTKR_ANYCLIP)
+			discSkipToFrame(undertkrFrmStart)
+			lvlState = lvlPlayUndertaker
+		
+		end
+		
+	elseif (lvlState == lvlPlayUndertaker) then
+	
+		if (currentFrame == undertkrFrmEnd or iKey == SWITCH_RETURN) then
+		
+			iKey = SWITCH_NONE
+			lvlState = lvlEnd
+		
+		end
+	
+	elseif (lvlState == lvlEnd) then
+		
+		lvlState = lvlSetup
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft			
+			
+		else
+		
+			if bLevelComplete then
+				
+				currentLevel = levelMenu
+				bSection01Reached = false
+				bSection02Reached = false
+				bShowdown = true		
+			
+			end
+			
+		end
+		
+		if bDebug then debugPrint ("Leaving doLevelStart()") end
+	
+	end
+
+end
+
+function doLevelTown1()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint ("Entering doLevelTown1()") end
+	
+		setupLevel(levelTown1)		
+
+		currentMove = 1			
+		levelFrameStart = 39949
+		levelFrameEnd = 41723
+		bLevelComplete = false		
+		
+		discSkipToFrame(move[currentMove][rndMoveStart])
+		lvlState = lvlRunning
+		
+		bShowWord = false
+		bShowPhrase = false
+		bShowBonus = false
+		bToggle01 = true
+		swrongletter = ""
+		splayerword = ""
+		iKey = SWITCH_NONE
+		iKeyIndex = 1
+		iKeyLen = string.len(move[currentMove][wordval])
+		if bDebug then  debugPrint("The phrase is: " .. move[currentMove][wordval]) end
+		
+	elseif (lvlState == lvlPlayClip2) then
+	
+		if (currentFrame == move[currentMove][rndMoveEnd]) then
+		
+			currentMove = currentMove + 1
+
+			if currentMove <= totalMoves then
+			
+				discSkipToFrame(move[currentMove][rndMoveStart])
+				iSecs = 0
+				iKeyIndex = 1
+				iKeyPresses = 0
+				iKeyLen = string.len(move[currentMove][wordval])
+				splayerword = ""
+				lvlState = lvlRunning
+				bToggle01 = true
+				
+				if bDebug then  debugPrint("The phrase is: " .. move[currentMove][wordval]) end
+			
+			else
+			
+				bLevelComplete = true
+				lvlState = lvlEnd
+			
+			end
+			
+			
+		
+		end	
+		
+	elseif (lvlState == lvlPauseAction) then
+	
+		if timerDue() then		
+			
+			discSkipToFrame(move[currentMove][deathFrameStart])
+			bShowPhrase = false				
+			lvlState = lvlPlayDeath
+		
+		else		
+			
+			if validKey() then			
+				
+				if (iKey == string.byte(move[currentMove][wordval],iKeyIndex)) then			
+					
+					playMe(sndGunshot)
+					iScore = iScore + SCORE_LETTER
+					splayerword = splayerword .. string.sub(move[currentMove][wordval],iKeyIndex, iKeyIndex)
+					iKeyIndex = iKeyIndex + 1					
+					swrongletter = ""
+					
+				else
+				
+					playMe(sndBullet[rndegg:value(1,6)])
+					swrongletter = string.char(iKey)
+					iKeyPresses = iKeyPresses + 1
+				
+				end				
+				
+				iKey = SWITCH_NONE
+				
+				if (iKeyIndex > iKeyLen) then
+					
+					calcScore(move[currentMove][wordval], iKeyPresses, iSecs)
+					discSkipToFrame(move[currentMove][moveFrameEnd]+1)					
+					bShowPhrase = false
+					
+					if currentMove <= totalMoves then					
+						
+						lvlState = lvlPlayClip2
+					
+					else
+					
+						lvlState = lvlRunning				
+						
+					end
+					
+				end
+			
+			end		
+
+		end
+		
+	elseif (lvlState == lvlRunning) then
+	
+		if (currentFrame > move[currentMove][moveFrameEnd]) then -- death to player!
+
+			if (move[currentMove][moveType] == GOODGUY) then			
+				
+				bShowPhrase = false
+				lvlState = lvlPlayClip2
+			
+			else
+
+				discSkipToFrame(move[currentMove][moveFrameEnd])
+				discPause()					
+				timerON(iPhraseDelay)
+				lvlState = lvlPauseAction
+				
+			end
+
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+			
+			if bToggle01 then
+		
+				if (move[currentMove][moveType] == SKULLBONUS) then
+			
+					bShowBonus = true
+					bShowPhrase = false
+					
+				else
+				
+					bShowBonus = false
+					bShowPhrase = true
+				end
+				bToggle01 = false
+				
+			end
+
+			if validKey() then
+			
+				if (iKey == string.byte(move[currentMove][wordval],iKeyIndex)) then					
+			
+					iKey = SWITCH_NONE					
+					
+					if (move[currentMove][moveType] == SKULLBONUS) then
+					
+						playMe(sndTing)
+						iScore = iScore + SCORE_BONUS
+						
+					elseif (move[currentMove][moveType] == GOODGUY) then
+					
+						playMe(sndBullet[rndegg:value(1,6)])
+						iScore = iScore - SCORE_LETTER
+						
+					else
+					
+						playMe(sndGunshot)
+						iScore = iScore + SCORE_LETTER
+					end
+					splayerword = splayerword .. string.sub(move[currentMove][wordval],iKeyIndex, iKeyIndex)
+					iKeyIndex = iKeyIndex + 1
+					swrongletter = ""
+					
+				else
+				
+					playMe(sndBullet[rndegg:value(1,6)])
+					swrongletter = string.char(iKey)
+					iKeyPresses = iKeyPresses + 1
+				
+				end				
+				
+				iKey = SWITCH_NONE
+				
+				if (iKeyIndex > iKeyLen) then
+					
+					if (move[currentMove][moveType] == SKULLBONUS) then
+						
+						bShowBonus = false
+						bShowPhrase = false
+						
+					elseif (move[currentMove][moveType] == GOODGUY) then
+					
+						discSkipToFrame(move[currentMove][deathFrameStart])
+						bShowPhrase = false
+						playMe(sndGunshot)				
+						lvlState = lvlPlayDeath						
+						
+					else
+					
+						calcScore(move[currentMove][wordval], iKeyPresses, iSecs)
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)							
+						bShowPhrase = false
+						
+					end					
+					
+					if (currentMove <= totalMoves) and not (lvlState == lvlPlayDeath) then
+						
+						lvlState = lvlPlayClip2
+						
+					end
+					
+				end
+			
+			end
+			
+		end
+		
+	elseif (lvlState == lvlPlayDeath) then
+		
+		if (currentFrame >= move[currentMove][deathFrameEnd]) then
+			
+			if (move[currentMove][moveType] == GOODGUY) then
+			
+				getUndertakerClip(UNDERTKR_SHOTWOMAN)
+				
+			else
+			
+				getUndertakerClip(UNDERTKR_ANYCLIP)
+				
+			end
+			discSkipToFrame(undertkrFrmStart)
+			lvlState = lvlPlayUndertaker
+		
+		end
+		
+	elseif (lvlState == lvlPlayUndertaker) then
+	
+		if (currentFrame == undertkrFrmEnd or iKey == SWITCH_RETURN) then
+		
+			iKey = SWITCH_NONE
+			lvlState = lvlEnd
+		
+		end
+	
+	elseif (lvlState == lvlEnd) then
+		
+		lvlState = lvlSetup
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft			
+			
+		elseif (bLevelComplete == true) then 
+		
+			currentLevel = levelTown2 	
+			
+		end
+		
+		if bDebug then debugPrint ("Leaving doLevelTown1()") end
+	
+	end
+
+end
+
+function doLevelTown2()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint ("Entering doLevelTown2()") end
+	
+		setupLevel(levelTown2)		
+
+		currentMove = 1			
+		levelFrameStart = 39949
+		levelFrameEnd = 41723
+		bLevelComplete = false		
+		
+		discPause()
+		discSkipToFrame(move[currentMove][rndMoveStart])
+		lvlState = lvlRunning
+		
+		bShowWord = false
+		bShowPhrase = false
+		bShowBonus = false
+		bToggle01 = true
+		swrongletter = ""
+		splayerword = ""
+		iKey = SWITCH_NONE
+		iKeyIndex = 1
+		iKeyLen = string.len(move[currentMove][wordval])
+		
+		if bDebug then  debugPrint("The phrase is: " .. move[currentMove][wordval]) end
+		
+		
+	elseif (lvlState == lvlPlayClip2) then
+	
+		if (currentFrame == move[currentMove][rndMoveEnd]) then
+		
+			currentMove = currentMove + 1
+
+			if currentMove <= totalMoves then
+			
+				discSkipToFrame(move[currentMove][rndMoveStart])
+				iSecs = 0
+				iKeyIndex = 1
+				iKeyPresses = 0
+				iKeyLen = string.len(move[currentMove][wordval])
+				splayerword = ""
+				lvlState = lvlRunning
+				bToggle01 = true
+				
+				if bDebug then  debugPrint("The phrase is: " .. move[currentMove][wordval]) end
+			
+			else
+			
+				bLevelComplete = true
+				lvlState = lvlEnd
+			
+			end
+			
+			
+		
+		end	
+		
+	elseif (lvlState == lvlPauseAction) then
+	
+		if timerDue() then		
+			
+			discSkipToFrame(move[currentMove][deathFrameStart])
+			bShowPhrase = false				
+			lvlState = lvlPlayDeath
+		
+		else		
+			
+			if validKey() then			
+				
+				if (iKey == string.byte(move[currentMove][wordval],iKeyIndex)) then			
+					
+					playMe(sndGunshot)
+					iScore = iScore + SCORE_LETTER
+					splayerword = splayerword .. string.sub(move[currentMove][wordval],iKeyIndex, iKeyIndex)
+					iKeyIndex = iKeyIndex + 1					
+					swrongletter = ""
+					
+				else
+				
+					playMe(sndBullet[rndegg:value(1,6)])
+					swrongletter = string.char(iKey)
+					iKeyPresses = iKeyPresses + 1
+				
+				end				
+				
+				iKey = SWITCH_NONE
+				
+				if (iKeyIndex > iKeyLen) then
+					
+					calcScore(move[currentMove][wordval], iKeyPresses, iSecs)
+					discSkipToFrame(move[currentMove][moveFrameEnd]+1)					
+					bShowPhrase = false
+					
+					if currentMove <= totalMoves then					
+						
+						lvlState = lvlPlayClip2
+					
+					else
+					
+						lvlState = lvlRunning				
+						
+					end
+					
+				end
+			
+			end		
+
+		end
+		
+	elseif (lvlState == lvlRunning) then
+	
+		if (currentFrame > move[currentMove][moveFrameEnd]) then -- death to player!
+
+			if (move[currentMove][moveType] == GOODGUY) then			
+				
+				bShowPhrase = false
+				lvlState = lvlPlayClip2
+			
+			else
+
+				discSkipToFrame(move[currentMove][moveFrameEnd])
+				discPause()					
+				timerON(iPhraseDelay)
+				lvlState = lvlPauseAction
+				
+			end
+
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+			
+			if bToggle01 then
+		
+				if (move[currentMove][moveType] == SKULLBONUS) then
+			
+					bShowBonus = true
+					bShowPhrase = false
+					
+				else
+				
+					bShowBonus = false
+					bShowPhrase = true
+				end
+				bToggle01 = false
+				
+			end
+
+			if validKey() then
+			
+				if (iKey == string.byte(move[currentMove][wordval],iKeyIndex)) then					
+			
+					iKey = SWITCH_NONE					
+					
+					if (move[currentMove][moveType] == SKULLBONUS) then
+					
+						playMe(sndTing)
+						iScore = iScore + SCORE_BONUS
+						
+					elseif (move[currentMove][moveType] == GOODGUY) then
+					
+						playMe(sndBullet[rndegg:value(1,6)])
+						iScore = iScore - SCORE_LETTER
+						
+					else
+					
+						playMe(sndGunshot)
+						iScore = iScore + SCORE_LETTER
+					end
+					splayerword = splayerword .. string.sub(move[currentMove][wordval],iKeyIndex, iKeyIndex)
+					iKeyIndex = iKeyIndex + 1
+					swrongletter = ""
+					
+				else
+				
+					playMe(sndBullet[rndegg:value(1,6)])
+					swrongletter = string.char(iKey)
+					iKeyPresses = iKeyPresses + 1
+				
+				end				
+				
+				iKey = SWITCH_NONE
+				
+				if (iKeyIndex > iKeyLen) then
+					
+					if (move[currentMove][moveType] == SKULLBONUS) then
+						
+						bShowBonus = false
+						bShowPhrase = false
+						
+					elseif (move[currentMove][moveType] == GOODGUY) then
+					
+						discSkipToFrame(move[currentMove][deathFrameStart])
+						bShowPhrase = false
+						playMe(sndGunshot)				
+						lvlState = lvlPlayDeath						
+						
+					else
+					
+						calcScore(move[currentMove][wordval], iKeyPresses, iSecs)
+						discSkipToFrame(move[currentMove][moveFrameEnd]+1)							
+						bShowPhrase = false
+						
+					end					
+					
+					if (currentMove <= totalMoves) and not (lvlState == lvlPlayDeath) then
+						
+						lvlState = lvlPlayClip2
+						
+					end
+					
+				end
+			
+			end
+			
+		end
+		
+	elseif (lvlState == lvlPlayDeath) then
+		
+		if (currentFrame >= move[currentMove][deathFrameEnd]) then
+			
+			if (move[currentMove][moveType] == GOODGUY) then
+			
+				getUndertakerClip(UNDERTKR_SHOTWOMAN)
+				
+			else
+			
+				getUndertakerClip(UNDERTKR_ANYCLIP)
+				
+			end
+			discSkipToFrame(undertkrFrmStart)
+			lvlState = lvlPlayUndertaker
+		
+		end
+		
+	elseif (lvlState == lvlPlayUndertaker) then
+	
+		if (currentFrame == undertkrFrmEnd or iKey == SWITCH_RETURN) then
+		
+			iKey = SWITCH_NONE
+			lvlState = lvlEnd
+		
+		end
+	
+	elseif (lvlState == lvlEnd) then
+		
+		lvlState = lvlSetup
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft			
+			
+		elseif (bLevelComplete == true) then 
+		
+			currentLevel = levelMaddog
+			
+		end
+		
+		if bDebug then debugPrint ("Leaving doLevelTown2()") end
+	
+	end
+
+end
+
+function doLivesLeft()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint ("Entering doLivesLeft()") end
+	
+		
+		bPlaySound = false
+		bShowScore = false
+	
+		timerON(3)
+		discPause()
+		discSearch(offsetMenus + 2410 + ((iLives-1) * 2))	
+		lvlState = lvlPlayClip1			
+		
+
+	elseif (lvlState == lvlPlayClip1) then
+	
+		if timerDue() then		
+			
+			lvlState = lvlEnd
+		
+		end
+	
+	elseif (lvlState == lvlEnd) then			
+		
+		bPlaySound = true
+		bShowScore = true
+
+		lvlState = lvlSetup
+		if (tempLevel == levelProspector1 or tempLevel == levelProspector2 or tempLevel == levelTown1  or tempLevel == levelTown2 or tempLevel == levelMaddog  or tempLevel == levelStart) then
+		
+			currentLevel = tempLevel
+			
+		else
+		
+			currentLevel = levelMenu		
+			
+		end
+		
+		if bDebug then debugPrint ("Leaving doLivesLeft()") end
+	
+	end
+
+
+end
+
+function doLevelShowdown()
+
+	if (lvlState == lvlSetup) then
+		
+		if (bDebug) then debugPrint("Entering doLevelShowdown()") end	
+		
+		local q = rndegg:value(1,100)
+		
+		if (q > 90) then
+		
+			bShowdown = false
+			return true
+		
+		end
+		
+		setupLevel(levelShowdown)		
+		iBullets = 0		
+		bShowScore = true		
+		bReloadDisabled = true
+		bLevelComplete = false		
+		currentMove = 1		
+		discSkipToFrame (move[1][rndMoveStart])	
+		lvlState = lvlRunning
+		
+		bShowWord = false
+		bShowBonus = false
+		bShowSprinkles = false
+		bToggle01 = true
+		swrongletter = ""
+		splayerword = ""
+		iKey = SWITCH_NONE
+		iKeyIndex = 1
+		iKeyLen = 1
+		iSprinkleMax = 6
+		
+		setLetterArray(iSprinkleMax)
+
+	elseif (lvlState == lvlPlayClip2) then
+	
+		if (currentFrame == move[currentMove][rndMoveEnd]) then
+		
+			currentMove = currentMove + 1
+			
+			if currentMove <= totalMoves then
+			
+				discSkipToFrame(move[currentMove][rndMoveStart])
+				iSecs = 0
+				iKeyIndex = 1
+				iKeyPresses = 0
+				iKeyLen = 1
+				--splayerword = ""			
+				setLetterArray(iSprinkleMax)				
+				lvlState = lvlRunning
+				bToggle01 = true
+				
+			
+			else			
+				
+				lvlState = lvlEnd
+				bLevelComplete = true
+			
+			end
+			
+		end
+		
+	elseif (lvlState == lvlPauseAction) then
+	
+		if timerDue() then		
+			
+			discSkipToFrame(move[currentMove][deathFrameStart])
+			
+			bShowSprinkles = false
+			lvlState = lvlPlayDeath
+		
+		else		
+			
+			if validKey() then			
+				
+				if (sprinkleSearch(iKey, iSprinkleMax) == true) then
+					
+					playMe(sndGunshot)
+					iScore = iScore + SCORE_LETTER					
+					iKeyIndex = iKeyIndex + 1					
+					swrongletter = ""
+					
+				else
+				
+					playMe(sndBullet[rndegg:value(1,6)])
+					swrongletter = string.char(iKey)
+					iKeyPresses = iKeyPresses + 1
+				
+				end				
+				
+				iKey = SWITCH_NONE
+				
+				if (sprinkleCount(iSprinkleMax) == iSprinkleMax) then
+					
+					calcScore(move[currentMove][wordval], iKeyPresses, iSecs)
+					discSkipToFrame(move[currentMove][moveFrameEnd]+1)					
+					bShowSprinkles = false
+					lvlState = lvlPlayClip2
+					
+				end
+			
+			end		
+
+		end
+		
+	elseif (lvlState == lvlRunning) then
+	
+		if (currentFrame > move[currentMove][moveFrameEnd]) then -- death to player!
+
+			discSkipToFrame(move[currentMove][moveFrameEnd])
+			discPause()					
+			timerON(iDelay)
+			lvlState = lvlPauseAction
+
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+			
+			if bToggle01 then
+		
+				bShowSprinkles = true				
+				bToggle01 = false
+				
+			end
+
+			if validKey() then
+			
+				if (sprinkleSearch(iKey, iSprinkleMax) == true) then				
+			
+					iKey = SWITCH_NONE					
+					
+					playMe(sndGunshot)
+					iScore = iScore + SCORE_LETTER
+					iKeyIndex = iKeyIndex + 1
+					swrongletter = ""
+					
+				else
+				
+					playMe(sndBullet[rndegg:value(1,6)])
+					swrongletter = string.char(iKey)
+					iKeyPresses = iKeyPresses + 1
+				
+				end				
+				
+				iKey = SWITCH_NONE				
+				
+				if (sprinkleCount(iSprinkleMax) == iSprinkleMax) then
+					
+					calcScore(move[currentMove][wordval], iKeyPresses, iSecs)
+					discSkipToFrame(move[currentMove][moveFrameEnd]+1)							
+					bShowSprinkles = false
+					lvlState = lvlPlayClip2
+					
+				end
+			
+			end	
+			
+		end
+		
+	elseif (lvlState == lvlPlayDeath) then
+		
+		if (currentFrame == move[currentMove][deathFrameEnd]) then
+			
+			
+			getUndertakerClip(UNDERTKR_ANYCLIP)			
+			lvlState = lvlUndertaker			
+			discSkipToFrame(undertkrFrmStart)			
+		
+		end
+		
+	elseif (lvlState == lvlUndertaker) then
+		
+		if (currentFrame == undertkrFrmEnd or iKey == SWITCH_RETURN) then
+		
+			iKey = SWITCH_NONE
+			lvlState = lvlEnd
+		
+		end
+		
+	elseif (lvlState == lvlEnd) then
+		
+		lvlState = lvlSetup
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft			
+		
+		end
+		bShowdown = false
+		
+		if (bDebug) then debugPrint("Leaving doLevelShowdown()") end
+
+	end
+
+end
+
+function doTitleScreen()
+
+	if lvlState == lvlSetup then
+	
+		if bDebug then debugPrint("Entering doTitleScreen()") end
+		
+		bShowCredits = false
+		iTitleSel = SEL_PLAY
+		setupClip(offsetType + 1260, offsetType + 1280)
+		lvlState = lvlPlayClip1	
+	
+	elseif lvlState == lvlPlayClip1 then
+	
+		if currentFrame == iFrameEnd then
+		
+			discPause()
+			lvlState = lvlRunning
+			timerON(15)
+		
+		end	
+	
+	elseif lvlState == lvlPlayClip2 then
+	
+		if currentFrame == iFrameEnd then
+	
+			if iTitleSel == SEL_PLAY then
+				
+				startGame()				
+			
+			elseif iTitleSel == SEL_OPTIONS then
+			
+				lvlState = lvlSetup
+				currentLevel = levelService				
+			
+			elseif iTitleSel == SEL_EXIT then
+			
+				singeQuit()
+			
+			end
+			
+		end
+	
+	elseif lvlState == lvlPlayClip3 then
+	
+		if currentFrame == iFrameEnd then
+		
+			lvlState = lvlSetup
+			currentLevel = levelIntro			
+		
+		end
+	
+	elseif lvlState == lvlRunning then
+	
+		if iKey == SWITCH_UARROW then
+			
+			iKey = SWITCH_NONE
+			if iTitleSel > 0 then iTitleSel = iTitleSel - 1 end
+			playMe(sndFX01)
+		
+		elseif iKey == SWITCH_DARROW then
+			
+			iKey = SWITCH_NONE
+			if iTitleSel < 2 then iTitleSel = iTitleSel + 1 end
+			playMe(sndFX01)
+		
+		elseif iKey == SWITCH_RETURN then
+			
+			iKey = SWITCH_NONE			
+			if iTitleSel ~= SEL_EXIT then playMe(sndFX03) end
+			setupClip(offsetType + 1280, offsetType + 1340)	
+			lvlState = lvlPlayClip2		
+		
+		elseif timerDue() then
+		
+			setupClip(offsetType + 1280, offsetType + 1340)
+			lvlState = lvlPlayClip3	
+			
+		else
+		
+			printTitleMenu()
+		
+		end	
+	
+	end
+
+end
+
+function drawCredits()
+
+	blinkTimer(1)
+		
+	if heartbeat then
+	
+		colorForeground(255,0,0)
+		fontSelect(fontOldWest28pt)
+		spriteDraw(tx, ty, sprCredits)
+	
+	end
+
+end
+
+function drawLives()
+
+	local k
+	local yy
+
+	
+	for k=1,iLives do
+	
+		if k<=5 then
+		
+			spriteDraw (starPos[k][POSX]-5, starPos[k][POSY], sprStar)
+		
+		end
+	
+	end
+	
+end
+
+function drawScore()
+
+	local yy = 0
+
+	colorForeground(255, 0, 0)
+	fontSelect(fontOldWest36pt)
+	
+	if (iScore > 999999) then iScore = 999999 end
+	
+	sprScore = fontToSprite(string.format('%06d',iScore))	
+	
+	
+	spriteDraw(sx, sy, sprScore)
+
+end
+
+function getGuideClip(thisGuide)
+
+	if thisGuide == GUIDE_BEAVER then
+	
+		if (currentLevel == levelItem1) then
+	
+			iFrameStart = 28399
+			iFrameEnd   = 28496	
+			
+		elseif (currentLevel == levelItem2) then
+		
+			iFrameStart = 28497
+			iFrameEnd   = 28737		
+		end
+	
+	elseif thisGuide == GUIDE_BONNIE then
+	
+		if (currentLevel == levelItem1) then
+	
+			iFrameStart = 28858
+			iFrameEnd   = 29025
+			
+		elseif (currentLevel == levelItem2) then
+		
+			iFrameStart = 29026
+			iFrameEnd   = 29157		
+		end
+	
+	elseif thisGuide == GUIDE_PROF then
+	
+		if (currentLevel == levelItem1) then
+		
+			iFrameStart = 29264
+			iFrameEnd   = 29321
+			
+		elseif (currentLevel == levelItem2) then
+		
+			iFrameStart = 29322
+			iFrameEnd   = 29509		
+		end
+	
+	end
+
+end
+
+function getLevel(thisGuide)
+
+	local thisLevel = 0	
+	
+	if bDebug then debugPrint ("Entering getLevel()") end
+	
+	if thisGuide == GUIDE_BEAVER then
+	
+		if not stage[levelBeaver] then
+		
+			thisLevel = levelBeaver
+			
+		elseif not stage[levelFinalBeaver] then
+		
+			thisLevel = levelFinalBeaver
+			
+		elseif not stage[levelItem1] then
+		
+			thisLevel = levelItem1
+			
+		elseif not stage[levelItem2] then
+		
+			thisLevel = levelItem2
+			
+		end				
+			
+		
+	elseif thisGuide == GUIDE_BONNIE then
+
+		if not stage[levelBonnie] then
+		
+			thisLevel = levelBonnie
+			
+		elseif not stage[levelFinalBonnie] then
+		
+			thisLevel = levelFinalBonnie
+			
+		elseif not stage[levelItem1] then
+		
+			thisLevel = levelItem1
+			
+		elseif not stage[levelItem2] then
+		
+			thisLevel = levelItem2
+			
+		end
+		
+	elseif thisGuide == GUIDE_PROF then
+		
+		if not stage[levelProf1] then
+			
+			thisLevel = levelProf1
+			
+		elseif not stage[levelProf2] then
+			
+			thisLevel = levelProf2
+			
+		elseif not stage[levelProf3] then
+			
+			thisLevel = levelProf3
+			
+		elseif not stage[levelItem1] then
+			
+			thisLevel = levelItem1
+			
+		elseif not stage[levelItem2] then
+			
+			thisLevel = levelItem2
+			
+		end
+		
+	end
+	
+	if bDebug then debugPrint ("Leaving getLevel()") end
+	return thisLevel
+
+end
+
+function getUndertakerClip(thisClip)
+
+	local w = 0
+	local k = 0			
+	local b1 = true
+	local b2 = true	
+	
+	if bDebug then debugPrint ("Entering getUndertakerFrames()") end
+	
+	iLives = iLives - 1
+	if iLives < 0 then iLives = 0 end
+	
+	if dip_Undertaker then
+		
+		if (thisClip == UNDERTKR_SHOTWOMAN and iLives > 0) then
+			
+			undertkrFrmStart = 51056
+			undertkrFrmEnd = 51206
+		
+		elseif (thisClip == UNDERTKR_SHOTGUY and iLives > 0) then
+			
+			undertkrFrmStart = 50941
+			undertkrFrmEnd = 51055
+			
+		elseif (iLives == 0) then
+			
+			w = clockRnd()
+			
+			if w >= 5 then
+			
+				undertkrFrmStart = 51207
+				undertkrFrmEnd = 51342		
+				
+			else
+			
+				undertkrFrmStart = 50736
+				undertkrFrmEnd = 50940
+			
+			
+			end
+		
+		elseif (iLives == 1) then
+			
+			undertkrFrmStart = 50605
+			undertkrFrmEnd = 50735
+		
+		elseif (iLives == 2) then
+			
+			undertkrFrmStart = 50438
+			undertkrFrmEnd = 50604
+		
+		else
+		
+			-- Make program play all undertaker clips before repeating
+			b2 = true
+			for k = 1, 6 do
+			
+				b2 = b2 and underClips[k]
+			
+			end
+			
+			if b2 == true then
+				
+				for k = 1, 6 do
+				
+					underClips[k] = false
+				
+				end
+				
+			end
+			
+			while b1 do
+			
+				while b2 do
+					w = clockRnd()
+					if (w == nil) then w = 1 end
+					if w > 0 and w <= 6 then
+						b2 = false
+					end
+				end
+				
+				if underClips[w] == false then
+					b1 = false
+					underClips[w] = true
+				else
+					b2 = true
+				end
+			
+			end		
+			
+			if w == 1 then
+			
+				undertkrFrmStart = 49606
+				undertkrFrmEnd = 49741
+				
+			elseif w == 2 then
+			
+				undertkrFrmStart = 49742
+				undertkrFrmEnd = 49869
+				
+			elseif w == 3 then
+			
+				undertkrFrmStart = 49870
+				undertkrFrmEnd = 49973
+				
+			elseif w == 4 then
+			
+				undertkrFrmStart = 49974
+				undertkrFrmEnd = 50108
+				
+			elseif w == 5 then
+			
+				undertkrFrmStart = 50109
+				undertkrFrmEnd = 50279
+				
+			elseif w == 6 then
+			
+				undertkrFrmStart = 50280
+				undertkrFrmEnd = 50437
+				
+			end
+		
+		end
+		
+	else
+	
+		undertkrFrmStart = offsetMenus
+		undertkrFrmEnd = offsetMenus + 2
+	end
+
+	if bDebug then debugPrint ("Leaving getUndertakerFrames()") end
+
+end
+
+function initJob()
+
+	fontQuality(FONT_QUALITY_SOLID)		
+		
+	readConfig()	
+	
+	if (dip_Difficulty == DOPT_EASY) then
+	
+		iDelay = 7
+		iPhraseDelay = 9
+		iShowDownDelay = 6
+		SCORE_BADGUY = 100
+		SCORE_BOTTLE = 50
+		SCORE_MADDOG = 500
+		SCORE_SHOWDOWN = 500		
+	
+	elseif (dip_Difficulty == DOPT_MEDIUM) then
+		
+		iDelay = 5
+		iPhraseDelay = 7
+		iShowDownDelay = 5
+		SCORE_BADGUY = 200
+		SCORE_BOTTLE = 100
+		SCORE_MADDOG = 1000
+		SCORE_SHOWDOWN = 600
+		
+	elseif (dip_Difficulty == DOPT_HARD) then
+	
+		iDelay = 3
+		iPhraseDelay = 6
+		iShowDownDelay = 5
+		SCORE_BADGUY = 250
+		SCORE_BOTTLE = 200
+		SCORE_MADDOG = 1750
+		SCORE_SHOWDOWN = 750
+		
+	elseif (dip_Difficulty == DOPT_EXTREME) then
+	
+		iDelay = 2
+		iPhraseDelay = 6
+		iShowDownDelay = 5
+		SCORE_BADGUY = 300
+		SCORE_BOTTLE = 250
+		SCORE_MADDOG = 1850
+		SCORE_SHOWDOWN = 850
+	
+	end
+	
+	
+	sndBullet = nil; sndBullet = {}
+	sndBullet[1] = soundLoad("singe/typing-md2/bullet01.wav")
+	sndBullet[2] = soundLoad("singe/typing-md2/bullet02.wav")
+	sndBullet[3] = soundLoad("singe/typing-md2/bullet03.wav")
+	sndBullet[4] = soundLoad("singe/typing-md2/bullet04.wav")
+	sndBullet[5] = soundLoad("singe/typing-md2/bullet05.wav")
+	sndBullet[6] = soundLoad("singe/typing-md2/bullet06.wav")	
+	
+	fontSelect(fontOldWest36pt)
+	sprScore = fontToSprite(string.format('%06d',iScore))		
+
+	sx = overlayGetWidth() - spriteGetWidth(sprScore) - 10
+	sy = 10
+	
+	starPos = nil; starPos = {}
+	starPos[1] = {}; starPos[1] = {sx-20, sy+15}
+	starPos[2] = {}; starPos[2] = {sx-28, sy}
+	starPos[3] = {}; starPos[3] = {sx-37, sy+15}
+	starPos[4] = {}; starPos[4] = {sx-45, sy}
+	starPos[5] = {}; starPos[5] = {sx-54, sy+15}
+	
+	colorForeground(255,0,0)
+	fontSelect(fontOldWest24pt)
+	sprCredits = fontToSprite("PRESS ENTER TO PLAY")	
+	
+	tx = (overlayGetWidth()  * 0.5) - (spriteGetWidth(sprCredits) * 0.5)
+	ty = (overlayGetHeight() * 0.85) - (spriteGetHeight(sprCredits) * 0.5)
+	tx2 = tx + 80
+	
+	colorForeground(240,215,145)
+	sprMenu =   fontToSprite("Use arrows to move, Enter to Play.")	
+	
+	fontSelect(fontDebug8pt)
+	setFontColor(GREY)
+	sprCTL = nil; sprCTL = fontToSprite("Clear the Letters!")
+	
+	setPhraseArray()
+	setWordArray()
+	keyboardSetMode(MODE_FULL)
+	bShowCredits = false
+	rndegg = random.new(os.clock() * 100000)
+	iALG = math.modf(rndegg:value(1000,3999) / 1000)	
+	
+end
+
+function initVLDP()
+
+	if (lvlState == lvlSetup) then
+	
+		playMe(sndCoin)		
+		setupClip(offsetType + 1300, offsetType + 1350)
+		lvlState = lvlRunning
+	
+	elseif (lvlState == lvlRunning) then
+	
+		if currentFrame == iFrameEnd then
+		
+			lvlState = lvlEnd
+		
+		end
+	
+	elseif (lvlState == lvlEnd) then	
+		
+		discPause()
+		lvlState = lvlSetup
+		gameflow = stateStartup
+	
+	end
+
+end
+
+function onInputPressed(intWhat)
+	
+	--Have to leave this function even when not monitoring the event.
+
+end
+
+function onInputReleased(intWhat)
+	
+	if bDebug then debugPrint ("You pressed SDL_Key: " .. intWhat) end
+	
+	if (intWhat == SWITCH_F1) then
+	
+		if not (currentLevel == levelPause or currentLevel == levelTitle or currentLevel == levelFinalBeaver or currentLevel == levelMaddog or currentLevel == levelFinalBonnie or currentLevel == levelProf3) then
+		
+			bPause = not bPause
+			if bPause then 
+			
+				playMe(sndPause)
+				if discGetState() == VLDP_PLAYING then 
+					discPause() 
+					singeSetPauseFlag(false)
+					tempLevel = currentLevel
+					currentLevel = levelPause
+					pStatus = pSetup
+				end
+			else 			
+				
+				if not singeGetPauseFlag() then discPlay() end
+				
+			end
+		
+		end
+
+	end
+	
+	if bPause then pKey = intWhat else iKey = intWhat end
+	
+	
+	return true
+	
+end
+
+function onMouseMoved(intX, intY, intXrel, intYrel)
+
+	mousex = intX
+	mousey = intY
+	cursorx = intX - cursoroffsetx
+	cursory = intY - cursoroffsety
+	revsetx = intX - 3
+	revsety = intY - 3
+
+end
+
+function onOverlayUpdate()
+
+	-- The main game loop.
+
+	overlayClear()
+	
+	currentFrame = discGetFrame()
+	
+	if (gameflow == stateVLDPwake) then
+	
+		initVLDP()		
+	
+	elseif (gameflow == stateStartup) then
+	
+		debugPrint ("Playing CDROM version " .. sVersion)	
+		
+		initJob()		
+		gameflow = statePlaying
+		currentLevel = levelTitle
+		lvlState = lvlSetup				
+
+	elseif (gameflow == statePlaying) then
+	
+		if (bShowdown and dip_Showdown) then
+		
+			doLevelShowdown()
+	
+		elseif (currentLevel == levelIntro) then
+			
+			doIntro()
+			
+		elseif (currentLevel == levelTitle) then
+		
+			doTitleScreen()
+			
+		elseif (currentLevel == levelStart) then
+		
+			doLevelStart()
+			
+		elseif (currentLevel == levelMenu) then
+		
+			doLevelMenu()
+			
+		elseif (currentLevel == levelBonnie) then
+		
+			doLevelBonnie()
+			
+		elseif (currentLevel == levelFinalBonnie) then
+		
+			doLevelFinalBonnie()
+			
+		elseif (currentLevel == levelBeaver) then
+		
+			doLevelBeaver()
+			
+		elseif (currentLevel == levelFinalBeaver) then
+		
+			doLevelFinalBeaver()
+			
+		elseif (currentLevel == levelProf1) then
+		
+			doLevelProf1()
+			
+		elseif (currentLevel == levelProf2) then
+		
+			doLevelProf2()
+			
+		elseif (currentLevel == levelProf3) then
+		
+			doLevelProf3()
+			
+		elseif (currentLevel == levelItem1) then
+		
+			doLevelItem1()
+			
+		elseif (currentLevel == levelItem2) then
+		
+			doLevelItem2()
+			
+		elseif (currentLevel == levelProspector1) then
+		
+			doLevelProspector1()
+			
+		elseif (currentLevel == levelProspector2) then
+		
+			doLevelProspector2()
+			
+		elseif (currentLevel == levelTown1) then
+		
+			doLevelTown1()
+			
+		elseif (currentLevel == levelTown2) then
+		
+			doLevelTown2()
+			
+		elseif (currentLevel == levelMaddog) then
+		
+			doLevelMaddog()
+			
+		elseif (currentLevel == levelContinue) then
+		
+			doContinue()
+			
+		elseif (currentLevel == levelPause) then
+		
+			doPause()
+			
+		elseif (currentLevel == levelGameOver) then
+		
+			doGameOver()
+			
+		elseif (currentLevel == levelLivesLeft) then
+		
+			doLivesLeft()
+			
+		elseif (currentLevel == levelHighScore) then
+		
+			doHighScore()
+			
+		elseif (currentLevel == levelService) then
+		
+			doServiceMenu()
+		
+		end	
+	
+	end
+
+	if (bShowScore) then
+	
+		drawScore()
+		drawLives()
+		
+	end
+	
+	
+	if bShowCredits then
+	
+		drawCredits()
+	
+	end
+	
+	
+	if bShowWord then
+	
+		spriteDraw(75, 200, sprPanel)
+		showWord(move[currentMove][wordval], iWordYY1)
+		showPlayerWord(splayerword, iWordYY2, swrongletter, bCenter)	
+		
+	elseif bShowBonus then 
+	
+		showBonus()
+		
+	elseif bMagicWord then
+	
+		spriteDraw(75, 200, sprPanel)
+		showWord(sMagicWord, iWordYY1)
+		showPlayerWord(splayerword, iWordYY2, swrongletter, bCenter)
+		
+	elseif bShowMoving then
+	
+		showTrainWord((currentFrame - thisOffset), move[currentMove][wordval])
+		
+	elseif bShowPhrase then	
+	
+		spriteDraw(0, 200, sprPanel5)
+		showPhrase(move[currentMove][wordval], iWordYY1)
+		showPlayerPhrase(splayerword, iWordYY2, swrongletter, bCenter)	
+		
+	elseif bShowSprinkles then
+	
+		showSprinkles()
+		
+	elseif bShowPausePanel then
+	
+		drawPausePanel()
+	
+	end
+	
+	if bShowCounter then	
+
+		revcount = 30 - iSecs
+		revcount = math.modf(revcount)
+		
+		colorForeground(255,0,0)
+		fontSelect(fontOldWest24pt)
+		fontPrint(170, 50, revcount) 
+		
+	end
+	
+	
+	if bDebug then showDebugInfo() end
+	
+	return(OVERLAY_UPDATED)
+	
+end
+
+function onSoundCompleted(intWhich)
+
+	--leave empty	
+	
+end
+
+function onShutdown()
+	
+	discStop()	
+	if (bDebug == true) then debugPrint ("Leaving game!") end
+	
+end
+
+function playMe(thisSound)
+
+	if (bPlaySound == true) then
+	
+		if (bDebug) then debugPrint ("Playing sound") end		
+		soundPlay(thisSound)
+		return true
+		
+	else
+	
+		return false
+		
+	end
+	
+end
+
+function printTitleMenu()
+
+	-- This function writes the options on the service menu screen.
+	local k = 0
+	local ypos = 150
+	local fntx = 155
+	local smenu = {}; 
+		
+	smenu[1] = "START GAME"
+	smenu[2] = "OPTIONS"		
+	smenu[3] = "EXIT"
+	
+	setFontColor(GREEN)
+	fontSelect(fontDebug8pt)	
+	
+	for k=1,3 do
+	
+		fontPrint(fntx, 145 + k*17, smenu[k])				
+	
+	end		
+	spriteDraw(105, (162+iTitleSel*17), sprArrow)
+	
+end
+
+function startGame()
+
+	currentLevel = levelStart
+	lvlState = lvlSetup
+	panel = nil; panel = {false, false, false}
+	underClips = nil; underClips = {false, false, false, false, false, false}
+	showdowns = nil; showdowns = {false, false, false, false, false, false}
+	stage = nil; stage = {false, false, false, false, false, false, false, false, false, false}
+	
+	bShowdown = false
+	bShowCredits = false
+	bPlaySound = true
+	bLevelComplete = false
+	bShowScore = true
+	bSection01Reached = false
+	bSection02Reached = false
+	bSection03Reached = false
+	bFirstTimeAround = true
+	
+	iCurrentGuide = GUIDE_NONE
+	iTempGuide = GUIDE_NONE
+	iLives = dip_LivesPerCredit
+	iScore = 0
+	iContinues = 0
+	
+	rndegg = random.new(os.clock() * 100000)
+
+end
+
+function updateLevelTracking(thisGuide)
+
+	currentLevel = levelMenu
+
+	if thisGuide == GUIDE_BEAVER then
+	
+		if stage[levelBeaver] and stage[levelFinalBeaver] and stage[levelItem1] and stage[levelItem2] then
+		
+			panel[GUIDE_BEAVER] = true			
+		
+		end	
+	
+	elseif thisGuide == GUIDE_BONNIE then
+	
+		if stage[levelBonnie] and stage[levelFinalBonnie] and stage[levelItem1] and stage[levelItem2] then
+		
+			panel[GUIDE_BONNIE] = true
+			
+		end	
+	
+	elseif thisGuide == GUIDE_PROF then
+	
+		if stage[levelProf1] and stage[levelProf2] and stage[levelItem1] and stage[levelItem2] then
+		
+			panel[GUIDE_PROF] = true
+			
+		end	
+	
+	end
+	
+	stage[levelItem1] = false
+	stage[levelItem2] = false
+
+end
+
+function showDebugInfo()
+
+end
