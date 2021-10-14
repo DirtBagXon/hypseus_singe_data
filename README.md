@@ -3,23 +3,22 @@
 
 #### Firstly, ensure you are running at least version 2.6.6 of Hypseus Singe.
 
-##### If you are upgrading from < 2.6.4 you will need the latest files from this repo to align sprites correctly in ported games.
+##### If you are upgrading from < 2.6.4 you will need the latest files from this repo to correct alignment in ported games.
 
 Feel free to submit pull requests for any fixes or improvements.
 
 ## Singe 1 replacement files
 
-Version **2.6.6** fixed several timing issues, so replacement files are no longer needed for this.
-
-Singe 1 files within the ``00-singe1`` folder now only contain alignment changes and fixes:
+Singe 1 files within the ``00-singe1`` folder contain alignment changes and fixes to original games:
 
 - Last Bounty Hunter (*lbh*) now has a **fix** that shows Handsome Harry as captured.....  
-- Maddog McCree (maddog) has **fix** for nil value error loop in doLevelPond()
-- Space Pirates (spacepirates) has a **fix** for nil value index error.
+- Maddog McCree (*maddog*) has **fix** for nil value error loop in doLevelPond()
+- Space Pirates (*spacepirates*) has a **fix** for nil value index error.
+- Mad Dog II: Typing Edition (*typing-md2*) has SDL2 keycode porting changes.
 
-The Fan games have some other minor changes for completeness.
+Fan games have some other changes for alignment and completeness.
 
-These are optional. Pull requests accepted for any fixes or improvements ``:)``
+These updates are advised for best experience. Pull requests accepted for any fixes or improvements ``:)``
 
 ## Using this repository (Singe 2) ported games
 
@@ -37,6 +36,20 @@ Once you have the new **.m2v** and **.ogg** video and audio files:
 * Move them into the relevant subdirectory from this repository.
 * Install the subdirectory into your Hypseus Singe ROM folder location.
 * Play the game.
+
+## Instructions (Video and audio files)
+
+Download the latest complete repository via [**Releases**](https://github.com/DirtBagXon/hypseus_singe_data/releases) (*zip* or *tgz*).
+
+The files in this repository should be installed alongside the required game video (*m2v*) and audio (*ogg*) files.
+
+Refer to the game framefile (*txt*) for video file layout structure.
+
+This repository does not contain any game video or audio files.
+
+You are required to aquire these files from the original sources, in the case of Singe 1.
+
+Or follow the recoding instructions for Singe 2 below:
 
 ### Recoding Singe 2 mp4 video files for Hypseus Singe
 
