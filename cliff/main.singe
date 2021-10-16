@@ -3700,12 +3700,12 @@ function drawLvl()       -- Draw current level
 
 			if iSegPointer == 1 then
 				
-				spriteDraw(LINEW,ylvlpos,sprite[LEVEL])
+				spriteDraw(LINEW+4,ylvlpos,sprite[LEVEL])
 				drawSpriteNumber(LINEW+LVLW+NUMW,ylvlpos,( iCurPos ))
 
 			else
 
-				spriteDraw(LINEW,ylvlpos,sprite[SCENES])
+				spriteDraw(LINEW+4,ylvlpos,sprite[SCENES])
 				drawSpriteNumber(LINEW+SCNW+NUMW,ylvlpos,( iSegPointer ))
 
 			end
@@ -3718,7 +3718,7 @@ end
 
 function drawScore()       -- Draw score
 
-	drawSpriteNumber(LINEW,yscopos,iScore)	
+	drawSpriteNumber(LINEW+5,yscopos,iScore)
 
 	if bShowTop then
 

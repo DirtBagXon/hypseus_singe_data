@@ -3,8 +3,6 @@
 
 #### Firstly, ensure you are running at least version 2.6.6 of Hypseus Singe.
 
-##### If you are upgrading from < 2.6.4 you will need the latest files from this repo to correct alignment in ported games.
-
 Feel free to submit pull requests for any fixes or improvements.
 
 ## Singe 1 replacement files
@@ -26,7 +24,8 @@ This repo does not contain Copyrighted &copy; material, purely fan made graphics
 
 All data in the subdirectories of this repository has been ported from Singe 2 *LUA*.
 
-You should not **need** to alter any of the peripheral data in these subdirectories.
+You should not **need** to alter any of the peripheral data in these subdirectories. However, these \
+are customizable games. If you make improvements please consider contributing back to the repository.
 
 The **only required step** is to obtain the video files from Singe 2 for your required game and perform a video conversion as detailed **below** using *ffmpeg*. This can be performed on any PC including Windows: https://ffmpeg.org/download.html
 
@@ -45,11 +44,10 @@ The files in this repository should be installed alongside the required game vid
 
 Refer to the game framefile (*txt*) for video file layout structure.
 
-This repository does not contain any game video or audio files.
+This repository does not contain any game video or audio files. You are required to aquire these files from other \
+sources, in the case of Singe 1, archive.org may help.
 
-You are required to aquire these files from the original sources, in the case of Singe 1.
-
-Or follow the recoding instructions for Singe 2 below:
+For Singe 2 follow the recoding instructions below:
 
 ### Recoding Singe 2 mp4 video files for Hypseus Singe
 
@@ -98,7 +96,7 @@ If your device is struggling with the HD content, you can resize in this operati
 
 Find the **OVLW** and **OVLH** definitions. (*Only HD video games will likely contain this*).
 
-Usually in *main.singe*, comment existing and hardcode Singe 320x240 overlay:
+Usually in *main.singe*, comment existing and hardcode Singe 360x240 overlay:
 
     --[[
     OVLW = vldpGetWidth()
