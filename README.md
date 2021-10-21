@@ -80,6 +80,10 @@ This should allow you to know the correct video files required.
     ffmpeg -i <original>.mp4 -an -qscale:v 4 -b:v 6000k -codec:v mpeg2video <game>.m2v
     ffmpeg -i <original>.mp4 -vn -c:a libvorbis -ar 44100 -map a -b:a 160k <game>.ogg
 
+In some cases audio is delayed in the original MP4, check with VLC. If so use `-ss` to delay encode start:
+
+    ffmpeg -i <original>.mp4 -ss 00:00:00.330 -vn -c:a libvorbis -ar 44100 -map a -b:a 160k <game>.ogg
+
 **e.g.**
 
     ffmpeg -i FaI.mp4 -an -qscale:v 4 -b:v 6000k -codec:v mpeg2video fireandice.m2v
@@ -89,6 +93,18 @@ If your device is struggling with the HD content, you can resize in this operati
 
     ffmpeg -i FaI.mp4 -an -qscale:v 4 -b:v 6000k -vf scale=640:480 -codec:v mpeg2video fireandice.m2v
 
+If sound is out of sync, use `-ss` to delay audio encode start in `ms` *(hh:mm:ss.SSS)*:
+
+    ffmpeg -i DL2E.mp4 -ss 00:00:00.330 -vn -c:a libvorbis -ar 44100 -map a -b:a 160k dl2e.ogg
+
+### Audio Delay
+
+Games where audio sync issues have thus far been observed: `carbon`, `dl2e`, `asterix` and `cliff`
+
+You can **fix** any existing `.ogg` files with delay easily, using:
+
+    mv dl2e.ogg dl2e_delayed.ogg
+    ffmpeg -i dl2e_delayed.ogg -ss 00:00:00.330 -c copy dl2e.ogg
 
 ## Details below are only required for porting new games
 
