@@ -1,0 +1,378 @@
+--[[
+
+PROGRAM NAME:	MAD DOG 2 THE LOST GOLD (SINGE EDITION)
+AUTHOR:			RDG2010
+CONVERTED FOR SINGE 2: POIU2020
+This file is part of MAD DOG 2 THE LOST GOLD (SINGE EDITION)
+
+    MAD DOG 2 THE LOST GOLD (SINGE EDITION) is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation.
+
+    MAD DOG 2 THE LOST GOLD (SINGE EDITION) is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+    Read COPYING.TXT for more info.
+
+
+]]--
+
+
+
+--Framework.singe....
+
+discSetFPS(29.97)
+discSkipToFrame(54768)
+discPause()
+
+SWITCH_UP         =  0
+SWITCH_LEFT       =  1
+SWITCH_DOWN       =  2
+SWITCH_RIGHT      =  3
+SWITCH_START1     =  4
+SWITCH_START2     =  5
+SWITCH_BUTTON1    =  6
+SWITCH_BUTTON2    =  7
+SWITCH_BUTTON3    =  8
+SWITCH_COIN1      =  9
+SWITCH_COIN2      = 10
+SWITCH_SKILL1     = 11
+SWITCH_SKILL2     = 12
+SWITCH_SKILL3     = 13
+SWITCH_SERVICE    = 14
+SWITCH_TEST       = 15
+SWITCH_RESET      = 16
+SWITCH_SCREENSHOT = 17
+SWITCH_QUIT       = 18
+SWITCH_PAUSE      = 19
+SWITCH_CONSOLE    = 20
+
+KEYBOARD_NORMAL = 0
+KEYBOARD_FULL   = 1
+
+FONT_QUALITY_SOLID   = 1
+FONT_QUALITY_SHADED  = 2
+FONT_QUALITY_BLENDED = 3
+
+SOUND_ERROR_INVALID = -1
+SOUND_ERROR_FULL    = -2
+
+OVERLAY_NOT_UPDATED = 0
+OVERLAY_UPDATED     = 1
+
+
+--End Framework
+
+
+
+bDebug = false
+bPause = false
+bPlaySound = true
+bLevelComplete = false
+bShowMouse = true
+bSection01Reached = false
+bSection02Reached = false
+bSection03Reached = false
+bItemShot = false
+bShowdown = false
+bFirstTimeAround = false
+bNoMoreBonuses = false
+bShowCredits = false
+bShowScore = false
+bResetContinue = false
+bReloadDisabled = false
+bAmmo = false
+
+DOPT_EASY = 1
+DOPT_MEDIUM = 2
+DOPT_HARD = 3
+DOPT_EXTREME = 4
+DOPT_IMMEDIATE = 100
+DOPT_ONEMPTY = 101
+DOPT_BORDERS = 102
+DOPT_FREEPLAY = 4
+
+dip_LivesPerCredit = 6
+dip_CoinsPerCredit = 1
+dip_CoinsPerContinue = 1
+dip_Difficulty = DOPT_EASY
+dip_MaxBullets = 6
+dip_ReloadTrigger = DOPT_BORDERS
+dip_Crosshair = 1
+dip_Showdown = true
+dip_Undertaker = false
+
+statePlaying = 0
+stateStartup = 1
+stateQuit = 2
+stateVLDPwake = 3
+
+gameflow = stateVLDPwake 
+
+GOOD_ENDING = 1
+BAD_ENDING = 2
+
+iLives = 0
+iScore = 0
+iBullets = 0
+iDelay = 0
+iCredits = 0
+iCoins = 0
+iLastRndClip = 0
+iItemBonnie = 0
+iItemBeaver = 0
+iItemProf = 0
+iTempGuide = 0
+iThisItem = 0
+iCurrentGuide = 0
+iSkull = 0
+iContinues = 0
+iEnding = 0
+iALG = 1
+
+SCORE_BADGUY = 100
+SCORE_BONUS = 50
+SCORE_SHOWDOWN = 200
+SCORE_MADDOG = 0
+SCORE_BOTTLE = 0
+
+ITEM_AMMOBOX = 1
+ITEM_LANTERN = 2
+ITEM_MOONSHINE = 3
+
+GUIDE_BEAVER = 1
+GUIDE_BONNIE = 2
+GUIDE_PROF   = 3
+GUIDE_NONE   = 4
+
+UNDERTKR_GOINGUP = 1
+UNDERTKR_LASTLONG = 2
+UNDERTKR_BOOTHILL = 3
+UNDERTKR_1SIZEFITSALL = 4
+UNDERTKR_URHISTORY = 5
+UNDERTKR_TRIMUP = 6
+UNDERTKR_SHOTGUY = 7
+UNDERTKR_SHOTWOMAN = 8
+UNDERTKR_2LIVES = 9
+UNDERTKR_1LIFE = 10
+UNDERTKR_LETDOWN = 11
+UNDERTKR_MOREMONEY = 12
+UNDERTKR_ANYCLIP = 13
+
+mousex = 0
+mousey = 0
+cursorx = 0
+cursory = 0
+
+currentFrame = 0
+currentMove = 0
+currentLevel = 0
+tempLevel = 0
+thisOffset = 0
+offsetMenus = 51343
+sName = ""
+sNicks = ""
+
+
+move = nil
+totalMoves = 0
+hitmapTotal = 0
+moveFrameStart = 1
+moveFrameEnd = 2
+deathFrameStart = 3
+deathFrameEnd = 4
+hitboxStart = 5
+hitboxEnd = 6
+rndMoveStart = 7
+rndMoveEnd = 8
+levelFrameStart = 0
+levelFrameEnd = 0
+iFrameStart = 0
+iFrameEnd = 0
+undertkrFrmStart = 0
+undertkrFrmEnd = 0
+
+levelIntro = 0
+levelBeaver = 1
+levelBonnie = 2
+levelProf1 = 3
+levelProf2 = 4
+levelFinalBeaver = 5
+levelFinalBonnie = 6
+levelFinalProf = 7
+levelItem1 = 8
+levelItem2 = 9
+levelProspector1 = 10
+levelProspector2 = 11
+levelTown1 = 12
+levelTown2 = 13
+levelMaddog = 14
+levelShowdown = 15
+levelStart = 104
+levelGameOver = 105
+levelContinue = 106
+levelMenu = 107
+levelService = 108
+levelLivesLeft = 109
+levelHighScore = 110
+levelInit = 111
+currentLevel = levelInit
+
+
+lvlSetup = 1
+lvlRunning = 2
+lvlEnd = 3
+lvlPlayDeath = 4
+lvlPlayClip1 = 5
+lvlPlayClip2 = 6
+lvlPlayClip3 = 7
+lvlPlayClip4 = 8
+lvlPlayClip5 = 9
+lvlPlayClip6 = 10
+lvlPlayClip7 = 11
+lvlPlayClip8 = 12
+lvlPlayUndertaker = 13
+lvlPauseAction = 14
+lvlState = lvlSetup
+
+-- Labels for elements in the hitbox arrays
+
+bbx1 = 1	-- Box coordinates
+bby1 = 2
+bbx2 = 3
+bby2 = 4
+
+hitmapFrame = 1		
+hitmapIndex = 2		
+hitmapCount = 3		
+hitmapBonus = 4		
+hitmapCivStart = 5	
+hitmapCivCount = 6	
+
+-- booleans for joystick input
+
+p1UP = false		-- Used for level select menu. 
+p1DOWN = false		-- Used to quickly test if a joy direction or button is being pressed.
+p1LEFT = false
+p1RIGHT = false
+p1BUTTON3 = false
+p1COIN1 = false
+p1COIN2 = false
+p1SERVICE = false
+p1START1 = false
+
+bulletSprtX  = 0
+bulletSprtY  = 0
+bulletSprtY2 = 0
+
+
+underClips = nil; underClips = {false, false, false, false, false, false}
+stage = nil; stage = {false, false, false, false, false, false, false, false, false}
+panel = nil; panel = {false, false, false}
+showdowns = nil; showdowns = {false, false, false, false, false, false}
+starPos = nil; POSX = 1; POSY = 2
+crx = 0; cry = 0; rndegg = 0
+
+sprScore   = nil
+sprCredits = nil
+sprFreePlay = nil
+
+sndCoin      = soundLoad(MYDIR .. "coin.wav")
+sndCredit    = soundLoad(MYDIR .. "credit.wav")
+sndEmpty     = soundLoad(MYDIR .. "empty.wav")
+sndReload    = soundLoad(MYDIR .. "reload.wav")
+sndGunshot   = soundLoad(MYDIR .. "shot.wav")
+sndTing      = soundLoad(MYDIR .. "arcadecoin.wav")
+sndBreak     = soundLoad(MYDIR .. "bottlebreak.wav")
+sndHandle    = ""
+
+fontQuality(FONT_QUALITY_SOLID)
+
+overlaySetResolution(vldpGetWidth(), vldpGetHeight())
+
+sprBullet  = spriteLoad(MYDIR .. "bullet.png")
+sprStar    = spriteLoad(MYDIR .. "star.png")
+sprCredits = spriteLoad(MYDIR .. "credits.png")
+sprReload  = spriteLoad(MYDIR .. "reload.png")
+sprArrow  = spriteLoad(MYDIR .. "pistol.png")
+sprRev = spriteLoad(MYDIR .. "hit.png")
+sprHole  = spriteLoad(MYDIR .. "hole.png")
+sprShot  = spriteLoad(MYDIR .. "shot.png")
+--sprUL  = spriteLoad(MYDIR .. "ul.png")
+--sprDR  = spriteLoad(MYDIR .. "dr.png")
+sprName = nil
+
+sprNUM = nil; sprNUM = {}
+sprNUM[0] = spriteLoad(MYDIR .. "num0.png")
+sprNUM[1] = spriteLoad(MYDIR .. "num1.png")
+sprNUM[2] = spriteLoad(MYDIR .. "num2.png")
+sprNUM[3] = spriteLoad(MYDIR .. "num3.png")
+sprNUM[4] = spriteLoad(MYDIR .. "num4.png")
+sprNUM[5] = spriteLoad(MYDIR .. "num5.png")
+sprNUM[6] = spriteLoad(MYDIR .. "num6.png")
+sprNUM[7] = spriteLoad(MYDIR .. "num7.png")
+sprNUM[8] = spriteLoad(MYDIR .. "num8.png")
+sprNUM[9] = spriteLoad(MYDIR .. "num9.png")
+
+resX = overlayGetWidth() 
+resY = overlayGetHeight() 
+UnX = resX/1584
+UnY = resY/1080
+meanx = 0
+meany = 0
+cx = 0
+cy = 0
+
+fontDebug = fontLoad(MYDIR .. "gambler.ttf", 24*UnY)
+fontOldWest = fontLoad(MYDIR .. "gambler.ttf", 72*UnY)
+fontOldWestBig = fontLoad(MYDIR .. "gambler.ttf", 144*UnY)
+
+starPos = nil; starPos = {}
+starPos[1] = {}; starPos[1] = {overlayGetWidth()-100*UnX, 30*UnY}
+starPos[2] = {}; starPos[2] = {overlayGetWidth()-160*UnX, 30*UnY}
+starPos[3] = {}; starPos[3] = {overlayGetWidth()-220*UnX, 30*UnY}
+starPos[4] = {}; starPos[4] = {overlayGetWidth()-280*UnX, 30*UnY}
+starPos[5] = {}; starPos[5] = {overlayGetWidth()-340*UnX, 30*UnY}
+starPos[6] = {}; starPos[6] = {overlayGetWidth()-400*UnX, 30*UnY}
+
+tx = (overlayGetWidth()  * 0.5) - (spriteGetWidth(sprCredits) * 0.5)
+ty = (overlayGetHeight() * 0.85) - (spriteGetHeight(sprCredits) * 0.5)
+tx2 = (overlayGetWidth()  * 0.5) + (spriteGetWidth(sprCredits) * 0.5) +10
+
+sx = 50*UnX
+sy = 20*UnY
+
+bulletSprtX = 40*UnX
+bulletSprtY = 960*UnY
+bulletSprtY2 = 940*UnY
+shotX = 580*UnX
+shotY = 300*UnY
+
+sprCursor = nil
+if (dip_Crosshair == 1) then
+
+	sprCursor  = spriteLoad(MYDIR .. "crosshaira.png")
+	
+elseif (dip_Crosshair == 2) then
+
+	sprCursor  = spriteLoad(MYDIR .. "crosshairb.png")
+	
+elseif (dip_Crosshair == 3) then
+
+	sprCursor  = spriteLoad(MYDIR .. "crosshairc.png")
+
+elseif (dip_Crosshair == 4) then
+
+	sprCursor  = spriteLoad(MYDIR .. "crosshaird.png")
+
+elseif (dip_Crosshair == 5) then
+
+	sprCursor  = spriteLoad(MYDIR .. "crosshaire.png")
+
+end
+
+cursoroffsetx = 40*UnX
+cursoroffsety = 40*UnY
+	
+

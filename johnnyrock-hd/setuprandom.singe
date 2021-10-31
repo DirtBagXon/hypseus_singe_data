@@ -1,0 +1,418 @@
+--[[
+
+PROGRAM NAME:	WHO SHOT JOHNNY ROCK? (SINGE EDITION)
+AUTHOR:			RDG2010
+CONVERTED FOR SINGE 2: POIU2020
+This file is part of WHO SHOT JOHNNY ROCK? (SINGE EDITION)
+
+    WHO SHOT JOHNNY ROCK? (SINGE EDITION) is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation.
+
+    WHO SHOT JOHNNY ROCK? (SINGE EDITION) is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+    Read COPYING.TXT for more info.
+
+
+]]--
+
+
+function SetupLevelRandom(thisScene)
+
+		if bDebug then debugPrint ("Entering setupLevelRandom()") end
+		
+		local r = 0
+		local t = 0
+		local k = 0		
+		local ww = 0
+		local b1 = true
+		move = nil; move = {}
+		
+		if (thisScene == PLAY_ANY) then
+		
+			for r=1,14 do
+			
+				b1 = b1 and rndscene[r]		
+			
+			end
+			
+			if b1 then
+			
+				rndscene = nil; rndscene = {false, false, false, false, false, false, false, false, false, false, false, false, false, false}
+			
+			end
+			
+			b1 = true
+			--singeRandomize()
+			
+			while b1 do
+			
+				--r,t = math.modf(math.random(1000, 14999)/1000)
+				r = math.random(1,14)
+				
+				if not rndscene[r] then 
+					rndscene[r] = true
+					b1 = false
+				end
+				
+			end
+			
+		else
+		
+			r = thisScene			
+			
+		end
+		
+		if r == 1 then
+	
+			move[1] = {}; move[1] = {122, 160, 165, 44341, 44451, 1, 39, 0, 406, BADGUY}
+			t = 1
+			
+		elseif r == 2 then
+			
+			poporder = nil; poporder = {}
+			poporder = {"123","132","213","231","312","321","123","132","213","231"}
+			
+			--singeRandomize()
+			--t, ww = math.modf(math.random(10000,109999)/10000)
+			t = math.random(3)
+			local d = 0 		
+			local j = 1
+			
+			for k=1,3 do
+				
+				d = tonumber(string.sub(poporder[t],k,k))
+				if (d == 1) then
+				
+					move[j] = {}; move[j] = {471, 482, 487, 44462, 44493, 40, 51, 408, 535, BADGUY}
+				
+				elseif (d == 2) then
+				
+					move[j] = {}; move[j] = {551, 557, 562, 44504, 44572, 52, 58, 536, 594, BADGUY}
+					
+				elseif (d == 3) then
+				
+					move[j] = {}; move[j] = {605, 620, 626, 44583, 44619, 59, 74, 595, 772, BADGUY}
+					
+				end		
+				j = j + 1
+				
+			end
+			t = 3
+			
+		elseif r == 3 then
+		
+			poporder = nil; poporder = {}
+			poporder = {"12345","54321","13425","52431","25413","34512","41253","53412","23145","21345"}
+			
+			--singeRandomize()
+			--t, ww = math.modf(math.random(10000,109999)/10000)
+			t = math.random(6)
+			local d = 0 		
+			local j = 1
+			
+			for k=1,5 do
+				
+				d = tonumber(string.sub(poporder[t],k,k))
+				if (d == 1) then
+				
+					move[j] = {}; move[j] = { 801,  812,  817, 44630, 44666,  75,  86,  774,  881, BADGUY}
+				
+				elseif (d == 2) then
+				
+					move[j] = {}; move[j] = { 887,  900,  906, 44677, 44697,  87, 100,  882,  953, BADGUY}
+					
+				elseif (d == 3) then
+				
+					move[j] = {}; move[j] = { 959,  966,  972, 44708, 44760, 101, 108,  954, 1019, BADGUY}
+					
+				elseif (d == 4) then
+				
+					move[j] = {}; move[j] = {1038, 1062, 1068, 44771, 44803, 109, 133, 1020, 1115, BADGUY}
+					
+				elseif (d == 5) then
+				
+					move[j] = {}; move[j] = {1122, 1130, 1136, 44814, 44878, 134, 142, 1116, 1187, BADGUY}
+					
+				end		
+				j = j + 1
+				
+			end
+			
+			move[6] = {}; move[6] = {1196, 1205, 1211, 44889, 44925, 143, 152, 1188, 1425, BADGUY}
+			t = 6
+
+		elseif r == 4 then
+		
+			poporder = nil; poporder = {}
+			poporder = {"12456","65421","13465","56431","25416","34516","64125","53461","21465","13645"}
+			
+			--singeRandomize()
+			--t, ww = math.modf(math.random(10000,109999)/10000)
+			t = math.random(5)
+			local d = 0 		
+			local j = 1
+			
+			for k=1,5 do
+				
+				d = tonumber(string.sub(poporder[t],k,k))
+				if (d == 1) then
+				
+					move[j] = {}; move[j] = {1441, 1455, 1461, 44936, 44980, 153, 167, 1427, 1520, BADGUY}
+				
+				elseif (d == 2) then
+				
+					move[j] = {}; move[j] = {1545, 1634, 1640, 44991, 45035, 168, 257, 1521, 1680, GOODGUY}
+					
+				elseif (d == 3) then
+				
+					move[j] = {}; move[j] = {1700, 1711, 1716, 45046, 45101, 258, 269, 1681, 1764, BADGUY}
+					
+				elseif (d == 4) then
+				
+					move[j] = {}; move[j] = {1774, 1779, 1785, 45112, 45148, 270, 275, 1765, 1845, BADGUY}
+					
+				elseif (d == 5) then
+				
+					move[j] = {}; move[j] = {1856, 1865, 1871, 45159, 45179, 276, 285, 1846, 1910, BADGUY}
+					
+				elseif (d == 6) then
+				
+					move[j] = {}; move[j] = {1949, 1973, 1979, 45190, 45218, 286, 310, 1911, 2030, BADGUY}
+					
+				end		
+				j = j + 1
+				
+			end
+			
+			t = 5
+			
+	    elseif r == 5 then
+			
+			poporder = nil; poporder = {}
+			poporder = {"1234567","6543217","1346257","5624317","2541637","3451267","6412537","5346127","2314657","2136457"}
+			
+			--singeRandomize()
+			--t, ww = math.modf(math.random(10000,109999)/10000)
+			t = math.random(8)
+			local d = 0 		
+			local j = 1
+			
+			for k=1,7 do
+				
+				d = tonumber(string.sub(poporder[t],k,k))
+				if (d == 1) then
+				
+					move[j] = {}; move[j] = {2040, 2049, 2055, 45229, 45305, 311, 320, 2031, 2098, BADGUY}
+				
+				elseif (d == 2) then
+				
+					move[j] = {}; move[j] = {2106, 2118, 2124, 45316, 45388, 321, 333, 2099, 2151, BADGUY}
+					
+				elseif (d == 3) then
+				
+					move[j] = {}; move[j] = {2161, 2174, 2180, 45399, 45463, 334, 347, 2152, 2215, BADGUY}
+					
+				elseif (d == 4) then
+				
+					move[j] = {}; move[j] = {2221, 2234, 2240, 45474, 45518, 348, 361, 2216, 2275, BADGUY}
+					
+				elseif (d == 5) then
+				
+					move[j] = {}; move[j] = {2285, 2294, 2300, 45529, 45573, 362, 371, 2276, 2335, BADGUY}
+					
+				elseif (d == 6) then
+				
+					move[j] = {}; move[j] = {2344, 2354, 2360, 45584, 45640, 372, 382, 2336, 2423, BADGUY}
+					
+				elseif (d == 7) then
+				
+					move[j] = {}; move[j] = {2432, 2444, 2450, 45651, 45759, 383, 395, 2424, 2521, BADGUY}
+					
+				end		
+				j = j + 1
+				
+			end
+			
+			move[8] = {}; move[8] = {2526, 2540, 2546, 45770, 45892, 396, 410, 2522, 2604, BADGUY}
+			
+			t = 8
+			
+		elseif r == 6 then
+		
+			poporder = nil; poporder = {}
+			poporder = {"1234","1324","2413","2431","3142","3214","1243","1432","2413","2314"}
+			
+			--singeRandomize()
+			--t, ww = math.modf(math.random(10000,109999)/10000)
+			t = math.random(4)
+			local d = 0 		
+			local j = 1
+			
+			for k=1,4 do
+				
+				d = tonumber(string.sub(poporder[t],k,k))
+				if (d == 1) then
+				
+					move[j] = {}; move[j] = {2613, 2622, 2628, 45903, 45943, 411, 420, 2606, 2665, BADGUY}
+				
+				elseif (d == 2) then
+				
+					move[j] = {}; move[j] = {2673, 2680, 2686, 45954, 46002, 421, 428, 2666, 2710, BADGUY}
+					
+				elseif (d == 3) then
+				
+					move[j] = {}; move[j] = {2725, 2740, 2746, 46013, 46053, 429, 444, 2711, 2785, BADGUY}
+					
+				elseif (d == 4) then
+				
+					move[j] = {}; move[j] = {2792, 2800, 2808, 46064, 46120, 918, 927, 2787, 2883, SPECIAL}
+					
+				end		
+				j = j + 1
+				
+			end
+			
+			t = 4
+			
+		elseif r == 7 then
+		
+			poporder = nil; poporder = {}
+			poporder = {"123413","432142","134213","243123","241341","341234","412321","341243","231434","213431"}
+			
+			--singeRandomize()
+			--t, ww = math.modf(math.random(10000,109999)/10000)
+			t = math.random(6)
+			local d = 0 		
+			local j = 1
+			
+			for k=1,6 do
+				
+				d = tonumber(string.sub(poporder[t],k,k))
+				if (d == 1) then
+				
+					move[j] = {}; move[j] = {3060, 3071, 3077, 46197, 46225, 445, 456, 3043, 3112, BADGUY}
+				
+				elseif (d == 2) then
+				
+					move[j] = {}; move[j] = {3133, 3148, 3154, 46236, 46260, 457, 472, 3113, 3172, GOODGUY}
+					
+				elseif (d == 3) then
+				
+					move[j] = {}; move[j] = {3183, 3191, 3197, 46271, 46315, 473, 481, 3173, 3236, BADGUY}
+					
+				elseif (d == 4) then
+				
+					move[j] = {}; move[j] = {3250, 3259, 3265, 46326, 46358, 482, 491, 3237, 3304, BADGUY}
+					
+				end		
+				j = j + 1
+				
+			end			
+			t = 6
+
+		elseif r == 8 then
+
+			move[1] = {}; move[1] = {3360, 3414, 3420, 35351, 35382, 492, 546, 3305, 3432, BADGUY}			
+			t=1
+			
+		elseif r == 9 then
+		
+
+			poporder = nil; poporder = {}
+			poporder = {"1234","4321","1342","2431","2413","3412","4123","3412","2314","2134"}
+			
+			--singeRandomize()
+			--t, ww = math.modf(math.random(10000,109999)/10000)
+			t = math.random(4)
+			local d = 0 		
+			local j = 1			
+
+			for k=1,4 do
+				
+				d = tonumber(string.sub(poporder[t],k,k))
+				if (d == 1) then
+				
+					move[j] = {}; move[j] = {3442, 3450, 3456, 46369, 46397, 547, 555, 3433, 3491, BADGUY}
+				
+				elseif (d == 2) then
+				
+					move[j] = {}; move[j] = {3506, 3517, 3523, 46408, 46464, 556, 567, 3492, 3560, BADGUY}
+					
+				elseif (d == 3) then
+				
+					move[j] = {}; move[j] = {3586, 3617, 3623, 46475, 46507, 568, 599, 3561, 3638, GOODGUY}
+					
+				elseif (d == 4) then
+				
+					move[j] = {}; move[j] = {3650, 3655, 3661, 46475, 46507, 600, 605, 3639, 3696, BADGUY}
+					
+				end		
+				j = j + 1
+				
+			end
+			
+			t = 4
+			
+		elseif r == 10 then
+
+			move[1] = {}; move[1] = {3700, 3705, 3711, 46518, 46550, 606, 611, 3697, 3763, BADGUY}
+			move[2] = {}; move[2] = {3777, 3783, 3789, 46561, 46580, 612, 618, 3764, 3800, BADGUY}
+			move[3] = {}; move[3] = {3868, 3912, 3918, 46591, 46630, 619, 663, 3801, 3914, GOODGUY}
+			move[4] = {}; move[4] = {3917, 3931, 3937, 46591, 46630, 664, 679, 3915, 4017, BADGUY}
+			t=4
+			
+		elseif r == 11 then
+
+			move[1] = {}; move[1] = {4099, 4109, 4115, 46641, 46655, 680, 690, 4018, 4200, BADGUY}
+			move[2] = {}; move[2] = {4214, 4223, 4229, 46666, 46690, 691, 700, 4201, 4268, BADGUY}
+			move[3] = {}; move[3] = {4288, 4302, 4308, 46701, 46723, 701, 715, 4269, 4330, BADGUY}
+			move[4] = {}; move[4] = {4371, 4387, 4393, 46734, 46749, 716, 732, 4331, 4464, BADGUY}
+			t=4
+			
+		elseif r == 12 then
+
+			move[1] = {}; move[1] = {4493, 4508, 4514, 46760, 46804, 733, 748, 4465, 4580, BADGUY}
+			t=1
+			
+		elseif r == 13 then
+		
+			
+				
+			move[1] = {}; move[1] = {4867, 4906, 4912, 46815, 46827, 749, 788, 4858, 4919, GOODGUY}
+			move[2] = {}; move[2] = {4927, 4937, 4943, 46838, 46866, 789, 799, 4920, 4958, BADGUY}
+			move[3] = {}; move[3] = {4963, 4974, 4979, 46877, 46893, 800, 811, 4959, 4991, BADGUY}
+			move[4] = {}; move[4] = {4998, 5042, 5048, 46904, 46916, 812, 856, 4992, 5043, GOODGUY}
+			move[5] = {}; move[5] = {5053, 5065, 5071, 46927, 46943, 857, 869, 5044, 5094, BADGUY}
+			move[6] = {}; move[6] = {5106, 5129, 5135, 46954, 46982, 870, 893, 5095, 5162, BADGUY}
+			t=6	
+		
+		elseif r == 14 then
+
+			move[1] = {}; move[1] = {5264, 5286, 5292, 46993, 47045, 894, 916, 5163, 5332, BADGUY}
+			t=1
+			
+		end
+			
+	totalMoves = t
+	hitmapTotal = 927	
+	thisOffset  = 39009
+	GetArrayRandom()
+	
+	for k=1,totalMoves do
+		
+		move[k][1] = move[k][1] + thisOffset
+		move[k][2] = move[k][2] + thisOffset
+		move[k][3] = move[k][3] + thisOffset		
+		move[k][8] = move[k][8] + thisOffset		
+		move[k][9] = move[k][9] + thisOffset		
+		
+	end
+	
+	if bDebug then debugPrint ("Leaving setupLevelRandom()") end
+	
+	return r
+
+end

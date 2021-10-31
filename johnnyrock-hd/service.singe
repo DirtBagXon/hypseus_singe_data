@@ -1,0 +1,566 @@
+--[[
+
+PROGRAM NAME:	WHO SHOT JOHNNY ROCK? (SINGE EDITION)
+AUTHOR:			RDG2010
+CONVERTED FOR SINGE 2: POIU2020
+This file is part of WHO SHOT JOHNNY ROCK? (SINGE EDITION)
+
+    WHO SHOT JOHNNY ROCK? (SINGE EDITION) is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation.
+
+    WHO SHOT JOHNNY ROCK? (SINGE EDITION) is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+    Read COPYING.TXT for more info.
+
+
+]]--
+
+
+sprLine1 = nil
+sprLine2 = nil
+sprLine3 = nil
+qx = {}
+qy = {}
+--highscore = nil
+
+sprmsg = nil
+sprmsg2 = nil
+sprmsg3 = nil
+ssx = 0
+ssy = 0	
+dx = 0
+dy = 0	
+fx = 0
+fy = 0
+gx = 0
+gy = 0
+
+function readConfig()
+
+	local s1
+	local hsName = ""
+	local hdScore = ""
+	local k = 0
+	local h1 = io.input(MYDIR .. "johnnyrock.cfg")	
+
+	if (bDebug) then debugPrint ("Entering readConfig()") end
+
+		local s1 = io.read("*line")		
+
+		if (s1 ~= nil) then
+
+			dip_CoinsPerCredit = tonumber(string.sub(s1,string.find(s1,"=")+1))			
+			
+		end
+		
+		s1 = io.read("*line")
+		
+		if (s1 ~= nil) then
+
+			dip_CoinsPerContinue = tonumber(string.sub(s1,string.find(s1,"=")+1))
+			
+		end
+		
+		s1 = io.read("*line")
+		
+		if (s1 ~= nil) then
+		
+			dip_LivesPerCredit = tonumber(string.sub(s1,string.find(s1,"=")+1))
+			
+		end
+		
+		s1 = io.read("*line")
+		
+		if (s1 ~= nil) then
+
+			dip_Difficulty = tonumber(string.sub(s1,string.find(s1,"=")+1))
+			
+		end
+		
+		s1 = io.read("*line")
+		
+		if (s1 ~= nil) then
+
+			dip_MaxBullets = tonumber(string.sub(s1,string.find(s1,"=")+1))
+			
+		end
+		
+		s1 = io.read("*line")
+		
+		if (s1 ~= nil) then
+
+			dip_Crosshair = tonumber(string.sub(s1,string.find(s1,"=")+1))
+			
+			if dip_Crosshair == 5 then
+				bReversePointer = true
+				
+			else
+			
+				bReversePointer = false
+			end
+			
+		end
+		
+		s1 = io.read("*line")
+		s1 = tonumber(string.sub(s1,string.find(s1,"=")+1))	
+		
+		if (s1 ~= nil) then
+		
+			if (s1 == 1) then
+				dip_Undertaker = true
+			else
+				dip_Undertaker = false
+			end
+		end
+		
+		s1 = io.read("*line")
+		s1 = tonumber(string.sub(s1,string.find(s1,"=")+1))	
+		
+		if (s1 ~= nil) then
+
+			if (s1 == 1) then
+				dip_Showdown = true
+			else
+				dip_Showdown = false
+			end
+		end
+		
+		s1 = io.read("*line")
+		s1 = tonumber(string.sub(s1,string.find(s1,"=")+1))	
+		
+		if (s1 ~= nil) then
+
+			dip_PoolIndex = s1
+		end
+		
+		s1 = io.read("*line")
+		
+		highscore = nil; highscore = {}
+		for k=1,6 do
+			s1 = io.read("*line")
+			
+			hsName = string.sub(s1,1,string.find(s1,",")-1)
+			hsScore = string.sub(s1,string.find(s1,",")+1, string.len(s1))
+			
+			highscore[k] = {}
+			highscore[k] = {hsName, hsScore}			
+		
+		end
+		
+		io.close(h1)
+		
+		if (bDebug) then debugPrint ("Leaving readConfig()") end
+
+end
+
+function writeConfig()
+
+	-- This function writes the values of the dip variables
+	-- into an external data file.
+
+	local sNewLine = "\n"
+	local s1 = ""
+
+	local h1 = io.output(MYDIR .. "johnnyrock.cfg")
+	
+	io.write("dip_CoinsPerCredit = " .. dip_CoinsPerCredit .. sNewLine)
+	io.write("dip_CoinsPerContinue = " .. dip_CoinsPerContinue .. sNewLine)
+	io.write("dip_LivesPerCredit = " .. dip_LivesPerCredit .. sNewLine)
+	io.write("dip_Difficulty = " .. dip_Difficulty .. sNewLine)	
+	io.write("dip_MaxBullets = " .. dip_MaxBullets .. sNewLine) 
+	io.write("dip_Crosshair = " .. dip_Crosshair .. sNewLine)
+	
+	if (dip_Undertaker == true) then
+		io.write("dip_Undertaker = 1" .. sNewLine)
+	else
+		io.write("dip_Undertaker = 0" .. sNewLine)
+	end	
+	
+	if (dip_Showdown == true) then
+		io.write("dip_Showdown = 1" .. sNewLine)
+	else
+		io.write("dip_Showdown = 0" .. sNewLine)
+	end
+	
+	io.write("dip_PoolIndex = " .. dip_PoolIndex .. sNewLine)
+	io.write(sNewLine)
+	
+	for k=1,6 do
+		
+		
+		s1 = highscore[k][1] .. "," .. highscore[k][2]
+		io.write(s1 .. sNewLine)
+	
+	end
+	
+	io.close(h1)
+
+end
+
+function updateOpts(thisIndex)
+
+	if (thisIndex == 1) then
+	
+		dip_CoinsPerCredit = dip_CoinsPerCredit + 1
+		
+		if (dip_CoinsPerCredit > 4) then
+		
+			dip_CoinsPerCredit = 1
+		
+		end
+
+	elseif (thisIndex == 2) then
+	
+		dip_CoinsPerContinue = dip_CoinsPerContinue + 1
+		
+		if (dip_CoinsPerContinue > 4) then
+		
+			dip_CoinsPerContinue = 1
+		
+		end
+
+	elseif (thisIndex == 3) then
+	
+		dip_LivesPerCredit = dip_LivesPerCredit + 200
+	
+		if (dip_LivesPerCredit > 2000) then
+		
+			dip_LivesPerCredit = 200
+			
+		end
+		
+
+	elseif (thisIndex == 4) then
+	
+		if (dip_Difficulty == DOPT_EASY) then
+		
+			dip_Difficulty = DOPT_MEDIUM
+		
+		elseif (dip_Difficulty == DOPT_MEDIUM) then
+		
+			dip_Difficulty = DOPT_HARD
+			
+		elseif (dip_Difficulty == DOPT_HARD) then
+		
+			dip_Difficulty = DOPT_EXTREME
+		
+		else	
+		
+			dip_Difficulty = DOPT_EASY
+		
+		end
+
+	elseif (thisIndex == 5) then
+	
+		dip_MaxBullets = dip_MaxBullets + 100
+	
+		if (dip_MaxBullets > 500) then
+		
+			dip_MaxBullets = 100
+			
+		end
+	
+	elseif (thisIndex == 6) then
+	
+		dip_Undertaker = not dip_Undertaker
+		
+	elseif (thisIndex == 7) then	
+		
+		dip_Showdown = not dip_Showdown
+		
+	elseif (thisIndex == 8) then
+	
+		if (dip_Crosshair == 1) then
+		
+			dip_Crosshair = 2
+			
+		elseif (dip_Crosshair == 2) then
+		
+			dip_Crosshair = 3
+			
+		elseif (dip_Crosshair == 3) then
+		
+			dip_Crosshair = 4
+			
+		elseif (dip_Crosshair == 4) then
+		
+			dip_Crosshair = 5
+			
+		elseif (dip_Crosshair == 5) then
+		
+			dip_Crosshair = 1
+			
+		end
+		
+	elseif (thisIndex == 9) then
+		
+
+		lvlState = lvlEnd
+		
+	end
+
+end
+
+function printOpts()
+
+	-- This function writes the options on the service menu screen.
+	local k = 0
+	local ypos = 45
+	local fntx = 250
+	local smenu = {}; 
+	
+	smenu[1] = "Coins per Credit"
+	smenu[2] = "Coins per Continue"
+	smenu[3] = "Money per Credit"
+	smenu[4] = "Difficulty"
+	smenu[5] = "Starting Bullets"
+	smenu[6] = "Show Nag Clips"
+	smenu[7] = "Show Secretary"	
+	smenu[8] = "Crosshair"
+	smenu[9] = "EXIT"
+	
+	colorForeground(255, 255, 0)
+	
+	spriteDraw(sxmsg, symsg, sprmsg)
+	
+	fontSelect(fontDebug8pt)
+	
+	
+	for k=1,9 do
+	
+		fontPrint(fntx-150, 52 + k*17, smenu[k])
+	
+	end	
+	
+	for k=1,9 do
+		
+		if (k == 1) then
+		
+			if (dip_CoinsPerCredit == DOPT_FREEPLAY) then
+				
+				fontPrint(fntx,69, "FREE PLAY")
+				
+			else
+			
+				fontPrint(fntx,69, dip_CoinsPerCredit)
+			end
+	
+		elseif (k == 2) then
+		
+			fontPrint(fntx, 86, dip_CoinsPerContinue)			
+	
+		elseif (k == 3) then
+		
+			fontPrint(fntx, 103, dip_LivesPerCredit)			
+	
+		elseif (k == 4) then
+	
+			if (dip_Difficulty == DOPT_EASY) then
+			
+				fontPrint(fntx, 120, "EASY")	
+			
+			elseif (dip_Difficulty == DOPT_MEDIUM) then
+			
+				fontPrint(fntx, 120, "MEDIUM")	
+			
+			elseif (dip_Difficulty == DOPT_HARD) then
+			
+				fontPrint(fntx, 120, "HARD")	
+				
+			else	
+			
+				fontPrint(fntx, 120, "VERY HARD")	
+			
+			end
+	
+		elseif (k == 5) then
+		
+			fontPrint(fntx, 137, dip_MaxBullets)				
+	
+		elseif (k == 6) then
+		
+			if dip_Undertaker then			
+			
+				fontPrint(fntx, 154, "YES")	
+				
+			
+			else
+			
+				fontPrint(fntx, 154, "NO")	
+				
+			
+			end
+		
+		elseif (k == 7) then		
+			
+			if dip_Showdown then
+			
+				fontPrint(fntx, 171, "YES")	
+				
+			
+			else
+			
+				fontPrint(fntx, 171, "NO")
+				
+			
+			end
+			
+		elseif (k == 8) then
+	
+			sprCursor = nil
+			if (dip_Crosshair == 1) then
+	
+				sprCursor  = spriteLoad(MYDIR .. "crosshaira.png")
+				cursoroffsetx = 6; cursoroffsety = 6
+				
+			elseif (dip_Crosshair == 2) then
+			
+				sprCursor  = spriteLoad(MYDIR .. "crosshairb.png")
+				cursoroffsetx = 6; cursoroffsety = 6
+				
+			elseif (dip_Crosshair == 3) then
+			
+				sprCursor  = spriteLoad(MYDIR .. "crosshairc.png")
+				cursoroffsetx = 0; cursoroffsety = 0
+				
+			elseif (dip_Crosshair == 4) then
+			
+				sprCursor  = spriteLoad(MYDIR .. "crosshaird.png")
+				cursoroffsetx = 6; cursoroffsety = 6
+				
+			elseif (dip_Crosshair == 5) then
+			
+				sprCursor  = spriteLoad(MYDIR .. "crosshaire.png")
+				fontPrint(fntx, 189, "TRIGGER")
+				fontPrint(fntx-7, 197, "ACTIVATED")	
+				cursoroffsetx = 0; cursoroffsety = 0
+				
+			end
+			
+			spriteDraw(fntx, 188, sprCursor)
+				
+		end
+
+	end
+
+end
+
+function doServiceMenu()
+
+	-- This is the main function for the service menu screen.
+
+	local j = overlayGetWidth() * 0.5
+	local h = j - 80
+	local k = 80
+	local gunx = 25
+	
+	if (lvlState == lvlSetup) then
+	
+		if (bDebug) then debugPrint ("Entering doServiceMenu()") end
+
+		discSkipToFrame(offsetMenus + 3)
+		discPause()		
+		timerOFF()
+		
+		optSel = 1
+		readConfig()
+		
+		bShowScore = false
+		bPlaySound = false
+		bReloadDisabled = true
+		bShowMouse = false
+		bShowCredits = false
+		bShowdown = false
+		bBonusLevel = false
+		
+		colorForeground(255, 255, 0)
+		fontSelect(fontDebug8pt)
+		sprmsg = fontToSprite ("OPTIONS MENU")
+		sxmsg = (overlayGetWidth()  * 0.5) - (spriteGetWidth(sprmsg) * 0.5) 
+		symsg = 40		
+		
+		lvlState = lvlRunning
+	
+	elseif (lvlState == lvlRunning) then
+	
+		if (p1BUTTON3) then
+		
+			p1BUTTON3 = false
+			soundPlay(sndCoin)
+			updateOpts(optSel)	
+			
+		elseif p1BUTTON1 then
+		
+			p1BUTTON1 = false	
+			lvlState = lvlEnd		
+			soundPlay(sndCoin)
+			
+		else
+		
+			if (mousey <= 84) then		-- Coins per credit
+			
+				spriteDraw(gunx, 69, sprArrow)
+				optSel = 1
+			
+			elseif  (mousey >= 85 and mousey <= 100) then	-- Coins per continue
+			
+				spriteDraw(gunx, 86, sprArrow)
+				optSel = 2			
+			
+			elseif  (mousey >= 101 and mousey <= 117) then	-- Lives per credit
+			
+				spriteDraw(gunx, 103, sprArrow)
+				optSel = 3
+			
+			elseif  (mousey >= 118 and mousey <= 134) then	-- Difficulty
+			
+				spriteDraw(gunx, 119, sprArrow)
+				optSel = 4
+			
+			elseif (mousey >= 135 and mousey <= 151) then	-- reload mode
+			
+				spriteDraw(gunx, 135, sprArrow)
+				optSel = 5
+			
+			elseif (mousey >= 152 and mousey <= 165) then -- show undertaker
+			
+				spriteDraw(gunx, 153, sprArrow)
+				optSel = 6
+			
+			elseif  (mousey >= 166 and mousey <= 182) then -- Play Showdowns
+			
+				spriteDraw(gunx, 171, sprArrow)			
+				optSel = 7
+			
+			elseif  (mousey >= 183 and mousey <= 207) then -- Crosshair
+			
+				spriteDraw(gunx, 189, sprArrow)
+				optSel = 8		
+				
+			elseif  (mousey >= 208 and mousey <= 239) then -- exit
+			
+				spriteDraw(gunx, 204, sprArrow)
+				optSel = 9
+				
+			end		
+			printOpts()
+			
+			
+		end
+
+	elseif (lvlState == lvlEnd) then
+	
+		writeConfig()
+		bShowMouse = true
+		iScore = 0
+		iCoins = 0
+		iCredits = 0
+		gameflow = stateStartup
+		if (bDebug) then debugPrint ("Leaving doServiceMenu()") end	
+
+	end
+
+end

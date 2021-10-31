@@ -1,0 +1,568 @@
+--[[
+
+PROGRAM NAME:	WHO SHOT JOHNNY ROCK? (SINGE EDITION)
+AUTHOR:			RDG2010
+v
+This file is part of WHO SHOT JOHNNY ROCK? (SINGE EDITION)
+
+    WHO SHOT JOHNNY ROCK? (SINGE EDITION) is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation.
+
+    WHO SHOT JOHNNY ROCK? (SINGE EDITION) is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+    Read COPYING.TXT for more info.
+
+
+]]--
+
+function GetArrayPool1()
+
+hitbox = nil; hitbox = {}
+
+-- \s-0673-00.mdg
+
+hitbox[1] = {}; hitbox[1] = {54, 15, 79, 37}
+hitbox[2] = {}; hitbox[2] = {35, 44, 93, 130}
+hitbox[3] = {}; hitbox[3] = {52, 36, 93, 62}
+hitbox[4] = {}; hitbox[4] = {94, 38, 116, 53}
+
+-- \s-0673-01.mdg
+
+hitbox[5] = {}; hitbox[5] = {54, 15, 79, 37}
+hitbox[6] = {}; hitbox[6] = {35, 44, 93, 130}
+hitbox[7] = {}; hitbox[7] = {52, 36, 93, 62}
+hitbox[8] = {}; hitbox[8] = {91, 46, 113, 61}
+
+-- \s-0673-02.mdg
+
+hitbox[9] = {}; hitbox[9] = {54, 15, 79, 37}
+hitbox[10] = {}; hitbox[10] = {35, 44, 93, 130}
+hitbox[11] = {}; hitbox[11] = {92, 54, 114, 69}
+
+-- \s-0673-03.mdg
+
+hitbox[12] = {}; hitbox[12] = {54, 15, 79, 37}
+hitbox[13] = {}; hitbox[13] = {35, 44, 93, 130}
+hitbox[14] = {}; hitbox[14] = {92, 54, 114, 69}
+
+-- \s-0673-04.mdg
+
+hitbox[15] = {}; hitbox[15] = {53, 19, 78, 41}
+hitbox[16] = {}; hitbox[16] = {41, 44, 73, 130}
+hitbox[17] = {}; hitbox[17] = {63, 59, 90, 140}
+hitbox[18] = {}; hitbox[18] = {88, 63, 110, 78}
+
+-- \s-0673-05.mdg
+
+hitbox[19] = {}; hitbox[19] = {53, 19, 78, 41}
+hitbox[20] = {}; hitbox[20] = {41, 48, 73, 141}
+hitbox[21] = {}; hitbox[21] = {63, 59, 90, 140}
+
+-- \s-0673-06.mdg
+
+hitbox[22] = {}; hitbox[22] = {53, 19, 78, 41}
+hitbox[23] = {}; hitbox[23] = {41, 48, 73, 141}
+hitbox[24] = {}; hitbox[24] = {67, 75, 87, 139}
+
+-- \s-0673-07.mdg
+
+hitbox[25] = {}; hitbox[25] = {53, 19, 78, 41}
+hitbox[26] = {}; hitbox[26] = {41, 48, 73, 141}
+hitbox[27] = {}; hitbox[27] = {67, 75, 87, 139}
+
+-- \s-0673-08.mdg
+
+hitbox[28] = {}; hitbox[28] = {53, 19, 78, 41}
+hitbox[29] = {}; hitbox[29] = {41, 48, 73, 141}
+hitbox[30] = {}; hitbox[30] = {67, 75, 87, 139}
+
+-- \s-0673-09.mdg
+
+hitbox[31] = {}; hitbox[31] = {48, 24, 73, 47}
+hitbox[32] = {}; hitbox[32] = {38, 48, 71, 141}
+hitbox[33] = {}; hitbox[33] = {60, 73, 80, 137}
+
+-- \s-0673-10.mdg
+
+hitbox[34] = {}; hitbox[34] = {48, 24, 73, 47}
+hitbox[35] = {}; hitbox[35] = {35, 59, 68, 142}
+hitbox[36] = {}; hitbox[36] = {60, 73, 80, 137}
+
+-- \s-0673-11.mdg
+
+hitbox[37] = {}; hitbox[37] = {46, 33, 72, 61}
+hitbox[38] = {}; hitbox[38] = {35, 59, 74, 142}
+
+-- \s-0673-12.mdg
+
+hitbox[39] = {}; hitbox[39] = {46, 33, 72, 61}
+hitbox[40] = {}; hitbox[40] = {35, 59, 74, 142}
+
+-- \s-0673-13.mdg
+
+hitbox[41] = {}; hitbox[41] = {46, 33, 72, 61}
+hitbox[42] = {}; hitbox[42] = {35, 59, 74, 142}
+
+-- \s-0673-14.mdg
+
+hitbox[43] = {}; hitbox[43] = {46, 33, 72, 61}
+hitbox[44] = {}; hitbox[44] = {35, 59, 74, 142}
+
+-- \s-0673-15.mdg
+
+hitbox[45] = {}; hitbox[45] = {42, 33, 67, 61}
+hitbox[46] = {}; hitbox[46] = {32, 59, 71, 142}
+
+-- \s-0673-16.mdg
+
+hitbox[47] = {}; hitbox[47] = {42, 33, 67, 61}
+hitbox[48] = {}; hitbox[48] = {32, 59, 71, 142}
+
+-- \s-0673-17.mdg
+
+hitbox[49] = {}; hitbox[49] = {42, 33, 67, 61}
+hitbox[50] = {}; hitbox[50] = {32, 59, 71, 142}
+
+-- \s-0673-18.mdg
+
+hitbox[51] = {}; hitbox[51] = {41, 36, 67, 64}
+hitbox[52] = {}; hitbox[52] = {32, 62, 71, 138}
+
+-- \s-0673-19.mdg
+
+hitbox[53] = {}; hitbox[53] = {41, 36, 67, 64}
+hitbox[54] = {}; hitbox[54] = {32, 62, 71, 138}
+
+-- \s-0812-00.mdg
+
+hitbox[55] = {}; hitbox[55] = {104, 36, 116, 54}
+hitbox[56] = {}; hitbox[56] = {99, 57, 123, 102}
+
+-- \s-0812-01.mdg
+
+hitbox[57] = {}; hitbox[57] = {104, 36, 116, 54}
+hitbox[58] = {}; hitbox[58] = {99, 57, 123, 102}
+
+-- \s-0812-02.mdg
+
+hitbox[59] = {}; hitbox[59] = {104, 36, 116, 54}
+hitbox[60] = {}; hitbox[60] = {99, 57, 123, 102}
+
+-- \s-0812-03.mdg
+
+hitbox[61] = {}; hitbox[61] = {104, 36, 116, 54}
+hitbox[62] = {}; hitbox[62] = {99, 57, 123, 102}
+
+-- \s-0812-04.mdg
+
+hitbox[63] = {}; hitbox[63] = {104, 36, 116, 54}
+hitbox[64] = {}; hitbox[64] = {99, 57, 123, 102}
+
+-- \s-0812-05.mdg
+
+hitbox[65] = {}; hitbox[65] = {104, 36, 116, 54}
+hitbox[66] = {}; hitbox[66] = {99, 57, 123, 102}
+
+-- \s-0812-06.mdg
+
+hitbox[67] = {}; hitbox[67] = {104, 36, 116, 54}
+hitbox[68] = {}; hitbox[68] = {99, 57, 123, 102}
+
+-- \s-0812-07.mdg
+
+hitbox[69] = {}; hitbox[69] = {104, 36, 116, 54}
+hitbox[70] = {}; hitbox[70] = {99, 57, 123, 102}
+
+-- \s-0812-08.mdg
+
+hitbox[71] = {}; hitbox[71] = {104, 36, 116, 54}
+hitbox[72] = {}; hitbox[72] = {99, 57, 123, 102}
+
+-- \s-0812-09.mdg
+
+hitbox[73] = {}; hitbox[73] = {104, 36, 116, 54}
+hitbox[74] = {}; hitbox[74] = {99, 57, 123, 102}
+
+-- \s-0812-10.mdg
+
+hitbox[75] = {}; hitbox[75] = {104, 36, 116, 54}
+hitbox[76] = {}; hitbox[76] = {99, 57, 123, 102}
+
+-- \s-0812-11.mdg
+
+hitbox[77] = {}; hitbox[77] = {104, 36, 116, 54}
+hitbox[78] = {}; hitbox[78] = {99, 57, 123, 102}
+
+-- \s-0812-12.mdg
+
+hitbox[79] = {}; hitbox[79] = {104, 36, 116, 54}
+hitbox[80] = {}; hitbox[80] = {99, 57, 123, 102}
+
+-- \s-0812-13.mdg
+
+hitbox[81] = {}; hitbox[81] = {104, 36, 116, 54}
+hitbox[82] = {}; hitbox[82] = {99, 57, 123, 102}
+
+-- \s-0812-14.mdg
+
+hitbox[83] = {}; hitbox[83] = {104, 36, 116, 54}
+hitbox[84] = {}; hitbox[84] = {99, 57, 123, 102}
+
+-- \s-0910-00.mdg
+
+hitbox[85] = {}; hitbox[85] = {121, 27, 127, 37}
+hitbox[86] = {}; hitbox[86] = {120, 39, 134, 70}
+
+-- \s-0910-01.mdg
+
+hitbox[87] = {}; hitbox[87] = {121, 27, 127, 37}
+hitbox[88] = {}; hitbox[88] = {120, 39, 134, 70}
+
+-- \s-0910-02.mdg
+
+hitbox[89] = {}; hitbox[89] = {121, 27, 127, 37}
+hitbox[90] = {}; hitbox[90] = {120, 39, 134, 70}
+
+-- \s-0910-03.mdg
+
+hitbox[91] = {}; hitbox[91] = {121, 27, 127, 37}
+hitbox[92] = {}; hitbox[92] = {120, 39, 134, 70}
+
+-- \s-0910-04.mdg
+
+hitbox[93] = {}; hitbox[93] = {121, 27, 127, 37}
+hitbox[94] = {}; hitbox[94] = {120, 39, 134, 70}
+
+-- \s-0910-05.mdg
+
+hitbox[95] = {}; hitbox[95] = {121, 27, 127, 37}
+hitbox[96] = {}; hitbox[96] = {120, 37, 134, 68}
+
+-- \s-0910-06.mdg
+
+hitbox[97] = {}; hitbox[97] = {121, 27, 127, 37}
+hitbox[98] = {}; hitbox[98] = {120, 37, 134, 68}
+
+-- \s-0910-07.mdg
+
+hitbox[99] = {}; hitbox[99] = {121, 27, 127, 37}
+hitbox[100] = {}; hitbox[100] = {120, 37, 134, 68}
+
+-- \s-0910-08.mdg
+
+hitbox[101] = {}; hitbox[101] = {121, 28, 127, 38}
+hitbox[102] = {}; hitbox[102] = {116, 39, 131, 69}
+
+-- \s-0910-09.mdg
+
+hitbox[103] = {}; hitbox[103] = {121, 28, 127, 38}
+hitbox[104] = {}; hitbox[104] = {116, 39, 131, 69}
+
+-- \s-0910-10.mdg
+
+hitbox[105] = {}; hitbox[105] = {121, 28, 127, 38}
+hitbox[106] = {}; hitbox[106] = {116, 39, 131, 69}
+
+-- \s-0910-11.mdg
+
+hitbox[107] = {}; hitbox[107] = {121, 28, 127, 38}
+hitbox[108] = {}; hitbox[108] = {116, 39, 131, 69}
+
+-- \s-0910-12.mdg
+
+hitbox[109] = {}; hitbox[109] = {121, 28, 127, 38}
+hitbox[110] = {}; hitbox[110] = {116, 39, 131, 69}
+
+-- \s-0910-13.mdg
+
+hitbox[111] = {}; hitbox[111] = {121, 28, 127, 38}
+hitbox[112] = {}; hitbox[112] = {116, 39, 131, 69}
+
+-- \s-0910-14.mdg
+
+hitbox[113] = {}; hitbox[113] = {121, 28, 127, 38}
+hitbox[114] = {}; hitbox[114] = {116, 39, 131, 69}
+
+-- \s-0910-15.mdg
+
+hitbox[115] = {}; hitbox[115] = {121, 28, 127, 38}
+hitbox[116] = {}; hitbox[116] = {116, 39, 131, 69}
+
+-- \s-0910-16.mdg
+
+hitbox[117] = {}; hitbox[117] = {121, 28, 127, 38}
+hitbox[118] = {}; hitbox[118] = {116, 39, 131, 69}
+
+-- \s-0910-17.mdg
+
+hitbox[119] = {}; hitbox[119] = {121, 28, 127, 38}
+hitbox[120] = {}; hitbox[120] = {116, 39, 131, 69}
+
+-- \s-0910-18.mdg
+
+hitbox[121] = {}; hitbox[121] = {121, 28, 127, 38}
+hitbox[122] = {}; hitbox[122] = {116, 39, 131, 69}
+
+-- \s-0910-19.mdg
+
+hitbox[123] = {}; hitbox[123] = {121, 28, 127, 38}
+hitbox[124] = {}; hitbox[124] = {116, 39, 131, 69}
+
+-- \s-1037-00.mdg
+
+hitbox[125] = {}; hitbox[125] = {260, 44, 266, 54}
+hitbox[126] = {}; hitbox[126] = {264, 52, 271, 71}
+
+-- \s-1037-01.mdg
+
+hitbox[127] = {}; hitbox[127] = {260, 44, 266, 54}
+hitbox[128] = {}; hitbox[128] = {264, 52, 271, 71}
+
+-- \s-1037-02.mdg
+
+hitbox[129] = {}; hitbox[129] = {259, 41, 265, 52}
+hitbox[130] = {}; hitbox[130] = {254, 50, 269, 57}
+hitbox[131] = {}; hitbox[131] = {264, 56, 273, 71}
+
+-- \s-1037-03.mdg
+
+hitbox[132] = {}; hitbox[132] = {259, 41, 265, 52}
+hitbox[133] = {}; hitbox[133] = {254, 50, 269, 57}
+hitbox[134] = {}; hitbox[134] = {264, 56, 273, 71}
+
+-- \s-1037-04.mdg
+
+hitbox[135] = {}; hitbox[135] = {259, 41, 265, 52}
+hitbox[136] = {}; hitbox[136] = {254, 50, 269, 57}
+hitbox[137] = {}; hitbox[137] = {264, 56, 273, 71}
+
+-- \s-1037-05.mdg
+
+hitbox[138] = {}; hitbox[138] = {259, 41, 265, 52}
+hitbox[139] = {}; hitbox[139] = {254, 50, 269, 57}
+hitbox[140] = {}; hitbox[140] = {264, 56, 273, 71}
+
+-- \s-1037-06.mdg
+
+hitbox[141] = {}; hitbox[141] = {258, 40, 265, 50}
+hitbox[142] = {}; hitbox[142] = {254, 50, 269, 57}
+hitbox[143] = {}; hitbox[143] = {264, 56, 273, 71}
+
+-- \s-1037-07.mdg
+
+hitbox[144] = {}; hitbox[144] = {258, 40, 265, 50}
+hitbox[145] = {}; hitbox[145] = {254, 50, 269, 57}
+hitbox[146] = {}; hitbox[146] = {264, 56, 273, 71}
+
+-- \s-1037-08.mdg
+
+hitbox[147] = {}; hitbox[147] = {258, 40, 265, 50}
+hitbox[148] = {}; hitbox[148] = {254, 50, 269, 57}
+hitbox[149] = {}; hitbox[149] = {264, 56, 273, 71}
+
+-- \s-1037-09.mdg
+
+hitbox[150] = {}; hitbox[150] = {258, 40, 265, 50}
+hitbox[151] = {}; hitbox[151] = {254, 50, 269, 57}
+hitbox[152] = {}; hitbox[152] = {264, 56, 273, 71}
+
+-- \s-1037-10.mdg
+
+hitbox[153] = {}; hitbox[153] = {258, 40, 265, 50}
+hitbox[154] = {}; hitbox[154] = {254, 50, 269, 57}
+hitbox[155] = {}; hitbox[155] = {264, 56, 273, 71}
+
+-- \s-1037-11.mdg
+
+hitbox[156] = {}; hitbox[156] = {258, 40, 265, 50}
+hitbox[157] = {}; hitbox[157] = {254, 50, 269, 57}
+hitbox[158] = {}; hitbox[158] = {264, 56, 273, 71}
+
+-- \s-1037-12.mdg
+
+hitbox[159] = {}; hitbox[159] = {258, 40, 265, 50}
+hitbox[160] = {}; hitbox[160] = {254, 50, 269, 57}
+hitbox[161] = {}; hitbox[161] = {264, 56, 273, 71}
+
+-- \s-1037-13.mdg
+
+hitbox[162] = {}; hitbox[162] = {258, 40, 265, 50}
+hitbox[163] = {}; hitbox[163] = {254, 50, 269, 57}
+hitbox[164] = {}; hitbox[164] = {264, 56, 273, 71}
+
+-- \s-1037-14.mdg
+
+hitbox[165] = {}; hitbox[165] = {258, 40, 265, 50}
+hitbox[166] = {}; hitbox[166] = {254, 50, 269, 57}
+hitbox[167] = {}; hitbox[167] = {264, 56, 273, 71}
+
+-- \s-1037-15.mdg
+
+hitbox[168] = {}; hitbox[168] = {258, 40, 265, 50}
+hitbox[169] = {}; hitbox[169] = {254, 50, 269, 57}
+hitbox[170] = {}; hitbox[170] = {264, 56, 273, 71}
+
+-- \s-1037-16.mdg
+
+hitbox[171] = {}; hitbox[171] = {258, 40, 265, 50}
+hitbox[172] = {}; hitbox[172] = {254, 50, 269, 57}
+hitbox[173] = {}; hitbox[173] = {264, 56, 273, 71}
+
+-- \s-1037-17.mdg
+
+hitbox[174] = {}; hitbox[174] = {258, 40, 265, 50}
+hitbox[175] = {}; hitbox[175] = {254, 50, 269, 57}
+hitbox[176] = {}; hitbox[176] = {264, 56, 273, 71}
+
+-- \s-1037-18.mdg
+
+hitbox[177] = {}; hitbox[177] = {258, 40, 265, 50}
+hitbox[178] = {}; hitbox[178] = {254, 50, 269, 57}
+hitbox[179] = {}; hitbox[179] = {264, 57, 270, 72}
+
+-- \s-1037-19.mdg
+
+hitbox[180] = {}; hitbox[180] = {258, 40, 265, 50}
+hitbox[181] = {}; hitbox[181] = {254, 50, 269, 57}
+hitbox[182] = {}; hitbox[182] = {264, 57, 270, 72}
+
+-- \s-1037-20.mdg
+
+hitbox[183] = {}; hitbox[183] = {258, 40, 265, 50}
+hitbox[184] = {}; hitbox[184] = {254, 50, 269, 57}
+hitbox[185] = {}; hitbox[185] = {264, 57, 270, 72}
+
+-- \s-1037-21.mdg
+
+hitbox[186] = {}; hitbox[186] = {258, 40, 265, 50}
+hitbox[187] = {}; hitbox[187] = {254, 50, 269, 57}
+hitbox[188] = {}; hitbox[188] = {264, 57, 270, 72}
+
+-- \s-1037-22.mdg
+
+hitbox[189] = {}; hitbox[189] = {258, 40, 265, 50}
+hitbox[190] = {}; hitbox[190] = {254, 50, 269, 57}
+hitbox[191] = {}; hitbox[191] = {264, 57, 270, 72}
+
+-- \s-1037-23.mdg
+
+hitbox[192] = {}; hitbox[192] = {258, 40, 265, 50}
+hitbox[193] = {}; hitbox[193] = {254, 50, 269, 57}
+hitbox[194] = {}; hitbox[194] = {264, 57, 270, 72}
+
+-- \s-1037-24.mdg
+
+hitbox[195] = {}; hitbox[195] = {258, 40, 265, 50}
+hitbox[196] = {}; hitbox[196] = {254, 50, 269, 57}
+hitbox[197] = {}; hitbox[197] = {264, 57, 270, 72}
+
+
+
+hitmap = nil; hitmap = {}
+
+hitmap[1] = {}; hitmap[1] = {673, 1, 4, 0, 0, 0}
+hitmap[2] = {}; hitmap[2] = {674, 5, 4, 0, 0, 0}
+hitmap[3] = {}; hitmap[3] = {675, 9, 3, 0, 0, 0}
+hitmap[4] = {}; hitmap[4] = {676, 12, 3, 0, 0, 0}
+hitmap[5] = {}; hitmap[5] = {677, 15, 4, 0, 0, 0}
+hitmap[6] = {}; hitmap[6] = {678, 19, 3, 0, 0, 0}
+hitmap[7] = {}; hitmap[7] = {679, 22, 3, 0, 0, 0}
+hitmap[8] = {}; hitmap[8] = {680, 25, 3, 0, 0, 0}
+hitmap[9] = {}; hitmap[9] = {681, 28, 3, 0, 0, 0}
+hitmap[10] = {}; hitmap[10] = {682, 31, 3, 0, 0, 0}
+hitmap[11] = {}; hitmap[11] = {683, 34, 3, 0, 0, 0}
+hitmap[12] = {}; hitmap[12] = {684, 37, 2, 0, 0, 0}
+hitmap[13] = {}; hitmap[13] = {685, 39, 2, 0, 0, 0}
+hitmap[14] = {}; hitmap[14] = {686, 41, 2, 0, 0, 0}
+hitmap[15] = {}; hitmap[15] = {687, 43, 2, 0, 0, 0}
+hitmap[16] = {}; hitmap[16] = {688, 45, 2, 0, 0, 0}
+hitmap[17] = {}; hitmap[17] = {689, 47, 2, 0, 0, 0}
+hitmap[18] = {}; hitmap[18] = {690, 49, 2, 0, 0, 0}
+hitmap[19] = {}; hitmap[19] = {691, 51, 2, 0, 0, 0}
+hitmap[20] = {}; hitmap[20] = {692, 53, 2, 0, 0, 0}
+
+
+-- 673, 692
+
+hitmap[21] = {}; hitmap[21] = {812, 55, 2, 0, 0, 0}
+hitmap[22] = {}; hitmap[22] = {813, 57, 2, 0, 0, 0}
+hitmap[23] = {}; hitmap[23] = {814, 59, 2, 0, 0, 0}
+hitmap[24] = {}; hitmap[24] = {815, 61, 2, 0, 0, 0}
+hitmap[25] = {}; hitmap[25] = {816, 63, 2, 0, 0, 0}
+hitmap[26] = {}; hitmap[26] = {817, 65, 2, 0, 0, 0}
+hitmap[27] = {}; hitmap[27] = {818, 67, 2, 0, 0, 0}
+hitmap[28] = {}; hitmap[28] = {819, 69, 2, 0, 0, 0}
+hitmap[29] = {}; hitmap[29] = {820, 71, 2, 0, 0, 0}
+hitmap[30] = {}; hitmap[30] = {821, 73, 2, 0, 0, 0}
+hitmap[31] = {}; hitmap[31] = {822, 75, 2, 0, 0, 0}
+hitmap[32] = {}; hitmap[32] = {823, 77, 2, 0, 0, 0}
+hitmap[33] = {}; hitmap[33] = {824, 79, 2, 0, 0, 0}
+hitmap[34] = {}; hitmap[34] = {825, 81, 2, 0, 0, 0}
+hitmap[35] = {}; hitmap[35] = {826, 83, 2, 0, 0, 0}
+
+
+-- 812, 826
+
+hitmap[36] = {}; hitmap[36] = {910, 85, 2, 0, 0, 0}
+hitmap[37] = {}; hitmap[37] = {911, 87, 2, 0, 0, 0}
+hitmap[38] = {}; hitmap[38] = {912, 89, 2, 0, 0, 0}
+hitmap[39] = {}; hitmap[39] = {913, 91, 2, 0, 0, 0}
+hitmap[40] = {}; hitmap[40] = {914, 93, 2, 0, 0, 0}
+hitmap[41] = {}; hitmap[41] = {915, 95, 2, 0, 0, 0}
+hitmap[42] = {}; hitmap[42] = {916, 97, 2, 0, 0, 0}
+hitmap[43] = {}; hitmap[43] = {917, 99, 2, 0, 0, 0}
+hitmap[44] = {}; hitmap[44] = {918, 101, 2, 0, 0, 0}
+hitmap[45] = {}; hitmap[45] = {919, 103, 2, 0, 0, 0}
+hitmap[46] = {}; hitmap[46] = {920, 105, 2, 0, 0, 0}
+hitmap[47] = {}; hitmap[47] = {921, 107, 2, 0, 0, 0}
+hitmap[48] = {}; hitmap[48] = {922, 109, 2, 0, 0, 0}
+hitmap[49] = {}; hitmap[49] = {923, 111, 2, 0, 0, 0}
+hitmap[50] = {}; hitmap[50] = {924, 113, 2, 0, 0, 0}
+hitmap[51] = {}; hitmap[51] = {925, 115, 2, 0, 0, 0}
+hitmap[52] = {}; hitmap[52] = {926, 117, 2, 0, 0, 0}
+hitmap[53] = {}; hitmap[53] = {927, 119, 2, 0, 0, 0}
+hitmap[54] = {}; hitmap[54] = {928, 121, 2, 0, 0, 0}
+hitmap[55] = {}; hitmap[55] = {929, 123, 2, 0, 0, 0}
+
+
+-- 910, 929
+
+hitmap[56] = {}; hitmap[56] = {1037, 125, 2, 0, 0, 0}
+hitmap[57] = {}; hitmap[57] = {1038, 127, 2, 0, 0, 0}
+hitmap[58] = {}; hitmap[58] = {1039, 129, 3, 0, 0, 0}
+hitmap[59] = {}; hitmap[59] = {1040, 132, 3, 0, 0, 0}
+hitmap[60] = {}; hitmap[60] = {1041, 135, 3, 0, 0, 0}
+hitmap[61] = {}; hitmap[61] = {1042, 138, 3, 0, 0, 0}
+hitmap[62] = {}; hitmap[62] = {1043, 141, 3, 0, 0, 0}
+hitmap[63] = {}; hitmap[63] = {1044, 144, 3, 0, 0, 0}
+hitmap[64] = {}; hitmap[64] = {1045, 147, 3, 0, 0, 0}
+hitmap[65] = {}; hitmap[65] = {1046, 150, 3, 0, 0, 0}
+hitmap[66] = {}; hitmap[66] = {1047, 153, 3, 0, 0, 0}
+hitmap[67] = {}; hitmap[67] = {1048, 156, 3, 0, 0, 0}
+hitmap[68] = {}; hitmap[68] = {1049, 159, 3, 0, 0, 0}
+hitmap[69] = {}; hitmap[69] = {1050, 162, 3, 0, 0, 0}
+hitmap[70] = {}; hitmap[70] = {1051, 165, 3, 0, 0, 0}
+hitmap[71] = {}; hitmap[71] = {1052, 168, 3, 0, 0, 0}
+hitmap[72] = {}; hitmap[72] = {1053, 171, 3, 0, 0, 0}
+hitmap[73] = {}; hitmap[73] = {1054, 174, 3, 0, 0, 0}
+hitmap[74] = {}; hitmap[74] = {1055, 177, 3, 0, 0, 0}
+hitmap[75] = {}; hitmap[75] = {1056, 180, 3, 0, 0, 0}
+hitmap[76] = {}; hitmap[76] = {1057, 183, 3, 0, 0, 0}
+hitmap[77] = {}; hitmap[77] = {1058, 186, 3, 0, 0, 0}
+hitmap[78] = {}; hitmap[78] = {1059, 189, 3, 0, 0, 0}
+hitmap[79] = {}; hitmap[79] = {1060, 192, 3, 0, 0, 0}
+hitmap[80] = {}; hitmap[80] = {1061, 195, 3, 0, 0, 0}
+
+-- 1037, 1060
+
+
+
+powerup = nil; powerup = {}
+
+civillian = nil; civillian = {}
+
+
+end
