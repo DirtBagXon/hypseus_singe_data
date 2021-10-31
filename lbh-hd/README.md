@@ -2,8 +2,14 @@
 
 * Required `-oversize_overlay`
 * Recommended `-manymouse`
-* Recommended `-blend_sprites`
+* Optional `-blend_sprites`
 * Optional `-nolinear_scale`
+
+Supports mutiple HUD overlays via `lbh.cfg`
+
+    dip_HUD = 1      - Standard HUD
+    dip_HUD = 2      - Compact HUD
+
 
 Encode mp4 with:
 
