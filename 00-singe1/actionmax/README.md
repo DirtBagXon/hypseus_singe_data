@@ -100,7 +100,8 @@ The issue then is that the CPU has to handle this heavy texture switching and re
 
 ActionMax works as expected on (**x86_64**) and (**i386**) RetroPie builds using hardware acceleration in X11.
 
-The Windows version (no X11) requires **-nohwaccel** but CPU grunt handles it fine from there.
+<strike>The Windows version (no X11) requires **-nohwaccel** but CPU grunt handles it fine from there.</strike>  
+Using the **64bit** Windows executable and **SDL 2.0.16** libraries, **-nohwaccel** is **no longer required** or recommended.
 
-Without a major rewrite of the overlay codebase, this is a casualty of the SDL1 to SDL2 porting, until better X11 support is  
-implemented or SDL2 matures.
+
+Without a major rewrite of the overlay codebase, this is a casualty of the SDL1 to SDL2 porting, until SDL2 matures.
