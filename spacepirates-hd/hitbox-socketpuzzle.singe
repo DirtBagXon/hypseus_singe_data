@@ -1,0 +1,47 @@
+--[[
+
+PROGRAM NAME:	SPACE PIRATES (SINGE EDITION)
+AUTHOR:			RDG2010
+CONVERTED FOR SINGE 2: POIU2020
+This file is part of SPACE PIRATES (SINGE EDITION)
+
+    SPACE PIRATES (SINGE EDITION) is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation.
+
+    SPACE PIRATES (SINGE EDITION) is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+    Read COPYING.TXT for more info.
+
+
+]]--
+
+
+SOCKET_EMPTY = 0
+SOCKET_RED   = 1
+SOCKET_GREEN = 2
+SOCKET_BLUE  = 3
+
+socket = nil; socket = {false, false, false}
+sorder = nil; sorder = {0, 0, 0}
+
+function GetArrayPanel()
+
+    hole = nil; hole = {}
+
+    hole[1] = {} -- Red Socket
+
+    hole[1][1] = {}; hole[1][1] = {160, 157, 207, 176}
+
+    hole[2] = {} -- Green hole
+
+    hole[2][1] = {}; hole[2][1] = {78, 174, 130, 199}
+
+
+    hole[3] = {} -- Blue hole
+
+    hole[3][1] = {}; hole[3][1] = {239, 173, 294, 197}
+
+end

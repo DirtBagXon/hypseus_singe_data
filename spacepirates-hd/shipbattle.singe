@@ -1,0 +1,434 @@
+--[[
+
+PROGRAM NAME:	SPACE PIRATES (SINGE EDITION)
+AUTHOR:			RDG2010
+CONVERTED FOR SINGE 2: POIU2020
+This file is part of SPACE PIRATES (SINGE EDITION)
+
+    SPACE PIRATES (SINGE EDITION) is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation.
+
+    SPACE PIRATES (SINGE EDITION) is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+    Read COPYING.TXT for more info.
+
+
+]]--
+
+bCannonFired = false
+
+function cLine(thisx,thaty)
+
+local i = 0
+local x1 = 712*UnX
+local y1 = 166*UnY
+local x2 = 205*UnX
+local y2 = 647*UnY
+local x3 = 1204*UnX
+local y3 = 647*UnY
+c1x = (thisx-x1)/18
+c1y = (thaty-y1)/18
+c2x = (thisx-x2)/18
+c2y = (thaty-y2)/18
+c3x = (thisx-x3)/18
+c3y = (thaty-y3)/18
+
+	for i=0,18 do
+
+		spriteDraw(x1+c1x*i,y1+c1y*i,sprCanon)
+		spriteDraw(x2+c2x*i,y2+c2y*i,sprCanon)
+		spriteDraw(x3+c3x*i,y3+c3y*i,sprCanon)
+
+	end
+
+end
+
+
+function doCannonPractice()
+
+	if lvlState == lvlSetup then
+
+		bReloadDisabled = true
+	
+		if bDebug then debugPrint("Entering doCannonPractice()") end
+		
+		setupLevel(levelFirePractice)
+		bLevelComplete = false
+		levelFrameStart = thisOffset + 2740
+		levelFrameEnd = thisOffset + 3515
+		currentMove = 1		
+		
+		setupClip(offsetMenus + 5034, offsetMenus + 5183)
+		lvlState = lvlPlayClip2
+		
+	elseif lvlState == lvlRunning then
+	
+		if (currentMove > totalMoves) then
+	
+			if (currentFrame == levelFrameEnd) then
+		
+				bLevelComplete = true
+				lvlState = lvlEnd
+				
+			end
+			
+		elseif (currentFrame > move[currentMove][moveFrameEnd]) then -- End of move
+	
+			discSkipToFrame(move[currentMove][rndMoveEnd])			
+			currentMove = currentMove + 1			
+	
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+	
+			if p1BUTTON3 then
+			
+				p1BUTTON3 = false; bCannonFired = true
+								
+				cLine(cursorx,cursory)
+								
+				soundPlay(sndCredit)
+								
+				lvlState = lvlPlayClip1
+			
+			end
+			
+		end
+		
+	elseif lvlState == lvlPlayClip1 then	
+	
+		if (shooterHit((currentFrame - thisOffset), currentMove) == true) then  -- Player Hit!
+			
+			iScore = iScore + SCORE_BADGUY				
+			discSkipToFrame(move[currentMove][rndMoveEnd])
+			if currentMove < totalMoves then soundPlay(sndGoodShot) end
+			currentMove = currentMove + 1								
+			
+		end
+		
+			lvlState = lvlRunning
+			bCannonFired = false
+				
+	elseif (lvlState == lvlPlayClip2) then
+	
+		if (currentFrame == iFrameEnd) then
+		
+			setupClip(24439, 24652)
+			lvlState = lvlPlayClip3
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip3) then
+	
+		if (currentFrame == iFrameEnd or (currentFrame > (iFrameStart + 30) and p1BUTTON3)) then		
+			
+			p1BUTTON3 = false
+			discSkipToFrame(levelFrameStart)		
+			lvlState = lvlRunning			
+		
+		end
+	
+	elseif lvlState == lvlEnd then
+	
+		
+		lvlState = lvlSetup
+		currentLevel = levelMenu
+		bSection01Reached = false
+		bSection02Reached = false
+		bSection03Reached = false
+		bSection04Reached = false
+		bSection05Reached = false
+		bLevelComplete = true
+		stage[levelFirePractice] = true
+		
+		if bDebug then debugPrint("Leaving doCannonPractice()") end
+	
+	end
+	
+end
+
+function doShipBattle()
+
+	if lvlState == lvlSetup then
+
+		bReloadDisabled = true
+	
+		if bDebug then debugPrint("Entering doShipBattle()") end
+		
+		setupLevel(levelShipBattle)
+		bLevelComplete = false
+		levelFrameStart = thisOffset + 4220
+		levelFrameEnd = thisOffset + 4647
+		bCannonFired = false
+		lvlState = lvlRunning	
+		
+		if bSection01Reached and (not bSection02Reached) then
+		
+			currentMove = 2
+			discSkipToFrame(move[currentMove][rndMoveStart])		
+		
+		
+		elseif bSection02Reached and (not bSection03Reached) then
+		
+			currentMove = 3
+			discSkipToFrame(move[currentMove][rndMoveStart])		
+		
+			
+		elseif totalMoves >= 4 and bSection03Reached and (not bSection04Reached) then
+		
+			currentMove = 4
+			discSkipToFrame(move[currentMove][rndMoveStart])		
+		
+			
+		elseif totalMoves == 5 and bSection04Reached and (not bSection05Reached) then
+		
+			currentMove = 5
+			discSkipToFrame(move[currentMove][rndMoveStart])
+
+		else
+		
+			currentMove = 1
+			discSkipToFrame(move[currentMove][rndMoveStart])			
+		
+		end
+		
+	elseif lvlState == lvlRunning then
+	
+		if (currentMove > totalMoves) then
+	
+			-- nothing is done in this branch.
+			
+		elseif (currentFrame > move[currentMove][moveFrameEnd]) then -- End of move
+		
+			getDeathFrames(TALLON_NEXTTIMERANGER)
+			discSkipToFrame(move[currentMove][deathFrameStart])
+			lvlState = lvlPlayDeath
+	
+		elseif (currentFrame >= move[currentMove][moveFrameStart] and currentFrame < move[currentMove][moveFrameEnd]) then
+		
+			if p1BUTTON3 then
+		
+				p1BUTTON3 = false; bCannonFired = true				
+				
+				cLine(cursorx,cursory)
+								
+				soundPlay(sndCredit)				
+							
+				lvlState = lvlPlayClip1
+			
+			end
+			
+		end
+		
+	elseif lvlState == lvlPlayClip1 then
+	
+	
+		if (currentFrame > move[currentMove][moveFrameEnd]) then -- End of move
+		
+			getDeathFrames(TALLON_NEXTTIMERANGER)
+			discSkipToFrame(move[currentMove][deathFrameStart])
+			lvlState = lvlPlayDeath
+	
+		else
+		
+			if (shooterHit((currentFrame - thisOffset), currentMove) == true) then  -- Player Hit!
+		
+				iScore = iScore + SCORE_BADGUY	
+
+				if totalMoves == 3 then			
+				
+					if currentMove == 1 then
+				
+						setupClip(25207, 25386)
+						bSection01Reached = true
+						
+					elseif currentMove == 2 then
+					
+						setupClip(25452, 25630)
+						bSection02Reached = true
+						
+					elseif currentMove == 3 then
+				
+						setupClip(25659, 25838)
+						bSection03Reached = true
+						
+					end
+					
+				elseif totalMoves == 4 then			
+				
+					if currentMove == 1 then
+				
+						setupClip(25207, 25269)
+						bSection01Reached = true
+						
+					elseif currentMove == 2 then
+					
+						setupClip(25452, 25630)
+						bSection02Reached = true
+						
+					elseif currentMove == 3 then
+				
+						setupClip(25659, 25838)
+						bSection03Reached = true
+						
+					elseif currentMove == 4 then
+				
+						setupClip(25659, 25838)
+						bSection04Reached = true
+						
+					end
+					
+				elseif totalMoves == 5 then			
+				
+					if currentMove == 1 then
+				
+						setupClip(25207, 25269)
+						bSection01Reached = true
+						
+					elseif currentMove == 2 then
+					
+						setupClip(25452, 25514)
+						bSection02Reached = true
+						
+					elseif currentMove == 3 then
+				
+						setupClip(25659, 25719)
+						bSection03Reached = true
+						
+					elseif currentMove == 4 then
+				
+						setupClip(25207, 25386)
+						bSection04Reached = true
+						
+					elseif currentMove == 5 then
+					
+						setupClip(25452, 25630)
+						bSection05Reached = true						
+					
+					end
+					
+				end
+					
+					
+				lvlState = lvlPlayClip3
+			
+			else
+			
+				lvlState = lvlRunning
+			
+			end
+			bCannonFired = false
+			
+		
+		end		
+		
+	elseif (lvlState == lvlPlayClip3) then
+	
+		if (currentFrame == iFrameEnd or (currentFrame > (iFrameStart + 30) and p1BUTTON3)) then		
+		
+			currentMove = currentMove + 1
+			p1BUTTON3 = false
+			
+			if currentMove <= totalMoves then
+				discSkipToFrame(move[currentMove][rndMoveStart])
+				lvlState = lvlRunning			
+			else
+			
+				setupClip(25840, 26652)
+				lvlState = lvlPlayClip4
+			
+			end
+			
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip4) then
+	
+		if (currentFrame == iFrameEnd or (currentFrame > (iFrameStart + 30) and p1BUTTON3)) then
+		
+			p1BUTTON3 = false	
+			bLevelComplete = true
+			lvlState = lvlEnd
+			
+		end
+		
+	elseif (lvlState == lvlPlayDeath) then
+
+		if (currentFrame == move[currentMove][deathFrameEnd]) then			
+	
+			discSkipToFrame(undertkrFrmStart)
+			lvlState = lvlPlayNag
+		
+		end	
+	
+	elseif (lvlState == lvlPlayNag) then
+
+		if (currentFrame == undertkrFrmEnd or p1BUTTON3) then
+
+			p1BUTTON3 = false
+			lvlState = lvlEnd
+		
+		end	
+	
+	elseif lvlState == lvlEnd then
+
+		lvlState = lvlSetup
+		if (iLives == 0) then --Game Over 
+			
+			tempLevel = currentLevel		
+			currentLevel = levelContinue
+			
+		elseif (iLives > 0 and dip_Undertaker == false and not bLevelComplete) then
+			
+			tempLevel = currentLevel
+			currentLevel = levelLivesLeft			
+			
+		else
+			
+			if bLevelComplete then
+				
+				currentLevel = levelTallon
+				bSection01Reached = false
+				bSection02Reached = false
+				bSection03Reached = false
+				bSection04Reached = false
+				bSection05Reached = false
+				
+			end
+			
+		end	
+	
+		if bDebug then debugPrint("Leaving doShipBattle()") end
+	
+	end
+
+
+end
+
+function whereisthecannon()
+
+	if bDebug then debugPrint("Entering whereisthecannon()") end
+
+	local q = 0
+	local w	= 0
+	
+	-- Choose a random stage to place the cannon.
+	-- Do not repeat from previous game.
+	
+	repeat
+	
+		q = math.random(4)
+		
+		if q == 1 then w = STAGE_FELLINA end
+		if q == 2 then w = STAGE_REAPER end
+		if q == 3 then w = STAGE_SCRAPYARD end
+		if q == 4 then w = STAGE_MOUNTAIN end		
+		
+	until (w ~= iLevelWithCannon)
+	
+	if bDebug then debugPrint("Leaving whereisthecannon()") end
+	
+	iLevelWithCannon = w
+
+end

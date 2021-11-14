@@ -1,0 +1,525 @@
+--[[
+
+PROGRAM NAME:	SPACE PIRATES (SINGE EDITION)
+AUTHOR:			RDG2010
+CONVERTED FOR SINGE 2: POIU2020
+This file is part of SPACE PIRATES (SINGE EDITION)
+
+    SPACE PIRATES (SINGE EDITION) is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation.
+
+    SPACE PIRATES (SINGE EDITION) is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+    Read COPYING.TXT for more info.
+
+
+]]--
+
+sprLine1 = nil
+sprLine2 = nil
+sprLine3 = nil
+qx = {}
+qy = {}
+
+sprmsg = nil
+sprmsg2 = nil
+sprmsg3 = nil
+ssx = 0
+ssy = 0	
+dx = 0
+dy = 0	
+fx = 0
+fy = 0
+gx = 0
+gy = 0
+
+function readConfig()
+
+	local s1
+	local hsName = ""
+	local hdScore = ""
+	local k = 0
+	local h1 = io.input(MYDIR .. "spacepirates.cfg")	
+
+	if (bDebug) then debugPrint ("Entering readConfig()") end
+
+		local s1 = io.read("*line")		
+
+		if (s1 ~= nil) then
+
+			dip_StartAtPart = tonumber(string.sub(s1,string.find(s1,"=")+1))			
+			
+		end
+		
+		s1 = io.read("*line")
+		
+		if (s1 ~= nil) then
+		
+			dip_LivesPerCredit = tonumber(string.sub(s1,string.find(s1,"=")+1))
+			
+		end
+		
+		s1 = io.read("*line")
+		
+		if (s1 ~= nil) then
+
+			dip_Difficulty = tonumber(string.sub(s1,string.find(s1,"=")+1))
+			
+		end
+		
+		s1 = io.read("*line")
+		
+		if (s1 ~= nil) then
+
+			dip_ReloadTrigger = tonumber(string.sub(s1,string.find(s1,"=")+1))
+			
+		end
+		
+		s1 = io.read("*line")
+		
+		if (s1 ~= nil) then
+
+			dip_Crosshair = tonumber(string.sub(s1,string.find(s1,"=")+1))
+			
+			if dip_Crosshair == 5 then
+				bReversePointer = true
+				
+			else
+			
+				bReversePointer = false
+			end
+			
+		end
+		
+		s1 = io.read("*line")
+		s1 = tonumber(string.sub(s1,string.find(s1,"=")+1))	
+		
+		if (s1 ~= nil) then
+		
+			if (s1 == 1) then
+				dip_Undertaker = true
+			else
+				dip_Undertaker = false
+			end
+		end
+		
+		s1 = io.read("*line")
+		s1 = tonumber(string.sub(s1,string.find(s1,"=")+1))	
+		
+		if (s1 ~= nil) then
+
+			if (s1 == 1) then
+				dip_Practice = true
+			else
+				dip_Practice = false
+			end
+		end
+		
+		s1 = io.read("*line")
+		highscore = nil; highscore = {}
+		for k=1,6 do
+			s1 = io.read("*line")
+			
+			hsName = string.sub(s1,1,string.find(s1,",")-1)
+			hsScore = string.sub(s1,string.find(s1,",")+1, string.len(s1))
+			
+			highscore[k] = {}
+			highscore[k] = {hsName, hsScore}			
+		
+		end
+		
+		io.close(h1)
+		
+		if (bDebug) then debugPrint ("Leaving readConfig()") end
+
+end
+
+function writeConfig()
+
+	-- This function writes the values of the dip variables
+	-- into an external data file.
+
+	local sNewLine = "\n"
+	local s1 = ""
+
+	local h1 = io.output(MYDIR .. "spacepirates.cfg")
+	
+	io.write("dip_StartAtPart = " .. dip_StartAtPart .. sNewLine)
+	io.write("dip_LivesPerCredit = " .. dip_LivesPerCredit .. sNewLine)
+	io.write("dip_Difficulty = " .. dip_Difficulty .. sNewLine)	
+	io.write("dip_ReloadTrigger = " .. dip_ReloadTrigger .. sNewLine) 
+	io.write("dip_Crosshair = " .. dip_Crosshair .. sNewLine)
+	
+	if (dip_Undertaker == true) then
+		io.write("dip_Undertaker = 1" .. sNewLine)
+	else
+		io.write("dip_Undertaker = 0" .. sNewLine)
+	end	
+	
+	if (dip_Practice == true) then
+		io.write("dip_Practice = 1" .. sNewLine)
+	else
+		io.write("dip_Practice = 0" .. sNewLine)
+	end
+	
+	io.write(sNewLine)
+	
+	for k=1,6 do
+		
+		
+		s1 = highscore[k][1] .. "," .. highscore[k][2]
+		io.write(s1 .. sNewLine)
+	
+	end
+	
+	io.close(h1)
+
+end
+
+function updateOpts(thisIndex)
+
+	if (thisIndex == 1) then
+	
+		dip_StartAtPart = dip_StartAtPart + 1
+		
+		if (dip_StartAtPart > 2) then
+		
+			dip_StartAtPart = 1
+		
+		end
+
+	elseif (thisIndex == 2) then
+	
+		dip_LivesPerCredit = dip_LivesPerCredit + 1
+	
+		if (dip_LivesPerCredit > 6) then
+		
+			dip_LivesPerCredit = 3
+			
+		end
+		
+
+	elseif (thisIndex == 3) then
+	
+		if (dip_Difficulty == DOPT_EASY) then
+		
+			dip_Difficulty = DOPT_MEDIUM
+		
+		elseif (dip_Difficulty == DOPT_MEDIUM) then
+		
+			dip_Difficulty = DOPT_HARD
+			
+		elseif (dip_Difficulty == DOPT_HARD) then
+		
+			dip_Difficulty = DOPT_EXTREME
+		
+		else	
+		
+			dip_Difficulty = DOPT_EASY
+		
+		end
+
+	elseif (thisIndex == 4) then
+	
+		if (dip_ReloadTrigger == DOPT_IMMEDIATE) then
+		
+			dip_ReloadTrigger = DOPT_ONEMPTY
+		
+		elseif (dip_ReloadTrigger == DOPT_ONEMPTY) then
+		
+			dip_ReloadTrigger = DOPT_BORDERS
+		
+		else	
+		
+			dip_ReloadTrigger = DOPT_IMMEDIATE
+		
+		end
+	
+	elseif (thisIndex == 5) then
+	
+		dip_Undertaker = not dip_Undertaker
+
+	elseif (thisIndex == 6) then
+	
+		dip_Practice = not dip_Practice
+		
+	elseif (thisIndex == 7) then
+	
+		if (dip_Crosshair == 1) then
+		
+			dip_Crosshair = 2
+			
+		elseif (dip_Crosshair == 2) then
+		
+			dip_Crosshair = 3
+			
+		elseif (dip_Crosshair == 3) then
+		
+			dip_Crosshair = 4
+			
+		elseif (dip_Crosshair == 4) then
+		
+			dip_Crosshair = 5
+			
+		elseif (dip_Crosshair == 5) then
+		
+			dip_Crosshair = 1
+			
+		end
+		
+	elseif (thisIndex == 8) then
+		
+
+		lvlState = lvlEnd
+		
+	end
+
+end
+
+function printOpts()
+
+	-- This function writes the options on the service menu screen.
+	local k = 0
+	local smenu = {}; 
+	
+	smenu[1] = "Start at Part"
+	smenu[2] = "Lives per Credit"
+	smenu[3] = "Difficulty"
+	smenu[4] = "Reload Mode"
+	smenu[5] = "Show Death Clips"
+	smenu[6] = "Play Practice"
+	smenu[7] = "Crosshair"	
+		
+	colorForeground(0, 255, 0)
+	
+	--spriteDraw(sx, ssy, sprmsg)
+	
+	fontSelect(font60)
+	
+	
+	for k=1,7 do
+	
+		fontPrint(340*UnX, 182*UnY + k*99*UnY, smenu[k])
+	
+	end	
+
+	fontPrint(getMiddle("EXIT"),974*UnY, "EXIT")
+	
+	for k=1,7 do
+		
+		if (k == 1) then
+		
+			fontPrint(1205*UnX, 281*UnY, dip_StartAtPart)
+			
+		elseif (k == 2) then
+		
+			fontPrint(1205*UnX, 380*UnY, dip_LivesPerCredit)			
+	
+		elseif (k == 3) then
+	
+			if (dip_Difficulty == DOPT_EASY) then
+			
+				fontPrint(1205*UnX, 479*UnY, "EASY")	
+			
+			elseif (dip_Difficulty == DOPT_MEDIUM) then
+			
+				fontPrint(1205*UnX, 479*UnY, "MEDIUM")	
+			
+			elseif (dip_Difficulty == DOPT_HARD) then
+			
+				fontPrint(1205*UnX, 479*UnY, "HARD")	
+				
+			else	
+			
+				fontPrint(1205*UnX, 479*UnY, "VERY HARD")	
+			
+			end
+	
+		elseif (k == 4) then
+		
+			if (dip_ReloadTrigger == DOPT_IMMEDIATE) then
+		
+				fontPrint(1205*UnX, 578*UnY, "IMMEDIATE")	
+			
+			elseif (dip_ReloadTrigger == DOPT_ONEMPTY) then
+			
+				fontPrint(1205*UnX, 578*UnY, "ON EMPTY")	
+			
+			else	
+			
+				fontPrint(1205*UnX, 578*UnY, "ON BORDERS")	
+			
+			end		
+			
+	
+		elseif (k == 5) then
+		
+			if dip_Undertaker then			
+			
+				fontPrint(1205*UnX, 677*UnY, "YES")	
+				
+			
+			else
+			
+				fontPrint(1205*UnX, 677*UnY, "NO")	
+				
+			
+			end
+
+		elseif (k == 6) then
+		
+			if dip_Practice then			
+			
+				fontPrint(1205*UnX, 776*UnY, "YES")	
+				
+			
+			else
+			
+				fontPrint(1205*UnX, 776*UnY, "NO")	
+				
+			
+			end
+		
+		elseif (k == 7) then
+	
+			sprCursor = nil
+			if (dip_Crosshair == 1) then
+	
+				sprCursor  = spriteLoad(MYDIR .. "crosshaira.png")
+							
+			elseif (dip_Crosshair == 2) then
+			
+				sprCursor  = spriteLoad(MYDIR .. "crosshairb.png")
+				
+			elseif (dip_Crosshair == 3) then
+			
+				sprCursor  = spriteLoad(MYDIR .. "crosshairc.png")
+				
+			elseif (dip_Crosshair == 4) then
+			
+				sprCursor  = spriteLoad(MYDIR .. "crosshaird.png")
+				
+			elseif (dip_Crosshair == 5) then
+			
+				sprCursor  = spriteLoad(MYDIR .. "crosshaire.png")
+				fontPrint(1105*UnX, 875*UnY, "ON TRIGGER")
+									
+			end
+			
+			spriteDraw(1105*UnX, 875*UnY, sprCursor)
+				
+		end
+
+	end
+
+end
+
+function doServiceMenu()
+
+	-- This is the main function for the service menu screen.
+
+	local j = overlayGetWidth() * 0.5
+	local h = j - 80
+	local k = 80
+	local gunx = 42
+	
+	if (lvlState == lvlSetup) then
+	
+		if (bDebug) then debugPrint ("Entering doServiceMenu()") end
+
+		discSkipToFrame(offsetMenus + 834)
+		discPause()		
+		timerOFF()
+		
+		optSel = 1
+		readConfig()
+		
+		bShowScore = false
+		bPlaySound = false
+		bReloadDisabled = true
+		bShowMouse = false
+		bShowCredits = false
+		
+		colorForeground(255, 0, 0)
+		
+		
+		lvlState = lvlRunning
+	
+	elseif (lvlState == lvlRunning) then
+	
+		if (p1BUTTON3) then
+		
+			p1BUTTON3 = false
+			soundPlay(sndCoin)
+			updateOpts(optSel)	
+			
+		elseif p1BUTTON1 then
+		
+			p1BUTTON1 = false	
+			lvlState = lvlEnd		
+			soundPlay(sndCoin)
+			
+		else
+		
+			if (mousey >= 0*UnY and mousey <= 256*UnY) then		-- Coins per credit
+			
+				spriteDraw(25*UnX, 290*UnY, sprArrow)
+				optSel = 1
+			
+			elseif  (mousey >= 257*UnY and mousey <= 355*UnY) then	-- Lives per credit
+
+				spriteDraw(25*UnX, 389*UnY, sprArrow)
+				optSel = 2
+
+			elseif  (mousey >= 356*UnY and mousey <= 454*UnY) then	-- Difficulty
+				
+				spriteDraw(25*UnX, 488*UnY, sprArrow)
+				optSel = 3
+
+			elseif  (mousey >= 455*UnY and mousey <= 553*UnY) then	-- Reload mode
+
+				spriteDraw(25*UnX, 587*UnY, sprArrow)
+				optSel = 4
+
+			elseif (mousey >= 554*UnY and mousey <= 652*UnY) then	-- Show undertaker
+
+				spriteDraw(25*UnX, 686*UnY, sprArrow)
+				optSel = 5
+
+			elseif (mousey >= 653*UnY and mousey <= 751*UnY) then -- Play showdowns
+
+				spriteDraw(25*UnX, 785*UnY, sprArrow)
+				optSel = 6
+
+			elseif  (mousey >= 752*UnY and mousey <= 850*UnY) then -- Play practice
+
+				spriteDraw(70*UnX, 884*UnY, sprArrow)
+				optSel = 7
+			
+			elseif  (mousey >= 851*UnY and mousey <= 1080*UnY) then -- exit
+
+				spriteDraw(252*UnX, 983*UnY, sprArrow)
+				optSel = 8
+
+			end
+			printOpts()
+			
+			
+		end
+
+	elseif (lvlState == lvlEnd) then
+	
+		writeConfig()
+		bShowMouse = true	
+		iScore = 0
+		iCoins = 0
+		iCredits = 0
+		gameflow = stateStartup
+		if (bDebug) then debugPrint ("Leaving doServiceMenu()") end	
+
+	end
+
+end
