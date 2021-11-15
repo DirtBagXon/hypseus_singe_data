@@ -4489,7 +4489,8 @@ function drawBullets()
 			end
 			
 			spriteDraw(gunx, guny, sprCharge)
-			gunx = gunx + 8
+			if gunx == 223.5 then gunx = gunx + 8
+			else gunx = gunx + 8.5 end
 		
 		end
 
@@ -4508,7 +4509,8 @@ function drawBullets()
 			end
 			
 			spriteDraw(gunx, guny, sprCharge)
-			gunx = gunx + 8
+			if gunx == 223.5 then gunx = gunx + 8
+			else gunx = gunx + 8.5 end
 		
 		end
 	end
@@ -4574,21 +4576,21 @@ function drawLives()
 			spriteDraw(livex, 212, sprLifebarSGreen)
 			spriteDraw(livex, 216, sprLifebarSYellow)
 			spriteDraw(livex, 220, sprLifebarSYellow)
-			spriteDraw(livex, 224, sprLifebarSRed)
+			spriteDraw(livex-2, 224, sprLifebarSRed)
 			
 		elseif iLives == 5 then
 			spriteDraw(livex, 208, sprLifebarSGreen)
 			spriteDraw(livex, 212, sprLifebarSGreen)
 			spriteDraw(livex, 216, sprLifebarSYellow)
 			spriteDraw(livex, 220, sprLifebarSYellow)
-			spriteDraw(livex, 224, sprLifebarSRed)
+			spriteDraw(livex-2, 224, sprLifebarSRed)
 			
 		elseif iLives == 4 then
 			spriteDraw(livex, 208, sprLifebarSEmpty)
 			spriteDraw(livex, 212, sprLifebarSGreen)
 			spriteDraw(livex, 216, sprLifebarSYellow)
 			spriteDraw(livex, 220, sprLifebarSYellow)
-			spriteDraw(livex, 224, sprLifebarSRed)			
+			spriteDraw(livex-2, 224, sprLifebarSRed)
 			
 		end
 	
@@ -4634,7 +4636,11 @@ function drawScore()
 	for w=k,5 do
 	
 		j = tonumber(string.sub(s1,w,w))	
-		spriteDraw(scrx[w], sy, sprNUM[j])
+		if w == 5 then
+		    spriteDraw(scrx[w], sy, sprNUM[j])
+		else
+		    spriteDraw(scrx[w]+(-w/20), sy, sprNUM[j])
+		end
 	
 	end
 	
