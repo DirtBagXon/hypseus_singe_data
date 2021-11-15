@@ -13,6 +13,7 @@ Singe 1 files within the ``00-singe1`` folder contain alignment changes and fixe
 - Maddog McCree (*maddog*) has **fix** for nil value error loop in doLevelPond()
 - Space Pirates (*spacepirates*) has a **fix** for nil value index error.
 - Mad Dog II: Typing Edition (*typing-md2*) has SDL2 keycode porting changes.
+- Ninja Hayate: Death loop bug fix in bytecode (v1.15) - game now completable.
 
 Fan games have some other changes for alignment and completeness.
 
