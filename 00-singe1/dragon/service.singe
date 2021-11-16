@@ -391,21 +391,21 @@ function printOpts()
 	-- This function writes the options on the service menu screen.
 	local k = 0
 	local ypos = 0
-	local fntx = OVLW-OVLW/3
+	local fntx = OVLW-(OVLW/3)
 	local smenu = {}; 
 	
-	smenu[1] = "Difficulty"
-	smenu[2] = "Start at Level"
-	smenu[3] = "Start at Scene"
-	smenu[4] = "Death Rewind"
+	smenu[1] = "Difficulty      "
+	smenu[2] = "Start at Level  "
+	smenu[3] = "Start at Scene  "
+	smenu[4] = "Death Rewind    "
 	smenu[5] = "Coins per Credit"
 	smenu[6] = "Lives per Credit"
-	smenu[7] = "Allow Continue?"
-	smenu[8] = "Max Continues"
-	smenu[9] = "Show Moves?"
-	smenu[10] = "Kid Mode"
-	smenu[11] = "Movie Mode"
-	smenu[12] = "Map Demo"	
+	smenu[7] = "Allow Continue? "
+	smenu[8] = "Max Continues   "
+	smenu[9] = "Show Moves?     "
+	smenu[10] = "Kid Mode        "
+	smenu[11] = "Movie Mode      "
+	smenu[12] = "Map Demo        "	
 	smenu[13] = "EXIT"	
 
 	fontSelect(fontGame)	
@@ -426,17 +426,8 @@ function printOpts()
 		ypos = OVLH/6 + k *LINEH*2
 		if k == optSel then setFontColor(mycolor1) else setFontColor(mycolor2) end		
 		
-		if OVLW == 320 then
-
-			if k == 13 then fontPrint(getMiddle(smenu[13]), OVLH/6 + k *LINEH*2, "EXIT") else fontPrint(OVLW/9, ypos, smenu[k]) end
+		if k == 13 then fontPrint(getMiddle(smenu[13])-10, OVLH/6 + k *LINEH*2, "EXIT") else fontPrint(OVLW/9, ypos, smenu[k]) end
 		
-		else
-		
-			if k == 13 then fontPrint(getMiddle(smenu[13]), OVLH/6 + k *LINEH*2, "EXIT") else fontPrint(OVLW/4, ypos, smenu[k]) end
-
-		end
-
-
 		if (k == 1) then
 
 			if dip_Difficulty == 0 then

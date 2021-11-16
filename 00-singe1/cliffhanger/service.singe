@@ -415,19 +415,19 @@ function printOpts()
 	local fntx = OVLW-OVLW/3
 	local smenu = {}; 
 	
-	smenu[1] = "Difficulty"
-	smenu[2] = "Start at Level"
-	smenu[3] = "Start at Scene"
-	smenu[4] = "Death Rewind"
-	smenu[5] = "Coins per Credit"
-	smenu[6] = "Lives per Credit"
-	smenu[7] = "Allow Continue?"
-	smenu[8] = "Max Continues"
-	smenu[9] = "Show Hints"
-	smenu[10] = "Hang Scene"
-	smenu[11] = "Revive Scene"
-	smenu[12] = "Kid Mode"
-	smenu[13] = "Movie Mode"
+	smenu[1] = "Difficulty       "
+	smenu[2] = "Start at Level   "
+	smenu[3] = "Start at Scene   "
+	smenu[4] = "Death Rewind     "
+	smenu[5] = "Coins per Credit "
+	smenu[6] = "Lives per Credit "
+	smenu[7] = "Allow Continue?  "
+	smenu[8] = "Max Continues    "
+	smenu[9] = "Show Hints       "
+	smenu[10] = "Hang Scene       "
+	smenu[11] = "Revive Scene     "
+	smenu[12] = "Kid Mode         "
+	smenu[13] = "Movie Mode       "
 	smenu[14] = "EXIT"	
 
 	fontSelect(fontGame)	
@@ -463,15 +463,15 @@ function printOpts()
 
 			if dip_Difficulty == 0 then
 				
-				fontPrint(fntx, ypos, "EASY")
+				fontPrint(fntx, ypos, "EASY   ")
 
 			elseif dip_Difficulty == 1 then
 		
-				fontPrint(fntx, ypos, "NORMAL")	
+				fontPrint(fntx, ypos, "NORMAL ")	
 
 			elseif dip_Difficulty == 2 then
 		
-				fontPrint(fntx, ypos, "HARD")
+				fontPrint(fntx, ypos, "HARD   ")
 
 			elseif dip_Difficulty == 3 then
 		
@@ -483,7 +483,7 @@ function printOpts()
 
 			if dip_StartLevel == 1 then
 				
-				fontPrint(fntx, ypos, "1: CASINO")
+				fontPrint(fntx, ypos, "1: CASINO   ")
 
 			elseif dip_StartLevel == 2 then
 		
@@ -491,27 +491,27 @@ function printOpts()
 
 			elseif dip_StartLevel == 3 then
 		
-				fontPrint(fntx, ypos, "3: COPTER")
+				fontPrint(fntx, ypos, "3: COPTER   ")
 
 			elseif dip_StartLevel == 4 then
 		
-				fontPrint(fntx, ypos, "4: NINJA")	
+				fontPrint(fntx, ypos, "4: NINJA    ")	
 
 			elseif dip_StartLevel == 5 then
 		
-				fontPrint(fntx, ypos, "5: ESCAPE")	
+				fontPrint(fntx, ypos, "5: ESCAPE   ")	
 
 			elseif dip_StartLevel == 6 then
 		
-				fontPrint(fntx, ypos, "6: SEWERS")	
+				fontPrint(fntx, ypos, "6: SEWERS   ")	
 
 			elseif dip_StartLevel == 7 then
 		
-				fontPrint(fntx, ypos, "7: CASTLE")
+				fontPrint(fntx, ypos, "7: CASTLE   ")
 
 			elseif dip_StartLevel == 8 then
 		
-				fontPrint(fntx, ypos, "8: FINAL")
+				fontPrint(fntx, ypos, "8: FINAL    ")
 
 			end
 		
@@ -527,11 +527,11 @@ function printOpts()
 							
 			elseif dip_Rewind == 1 then
 		
-				fontPrint(fntx, ypos, "MOVE")
+				fontPrint(fntx, ypos, "MOVE ")
 				
 			elseif dip_Rewind == 2 then
 		
-				fontPrint(fntx, ypos, "NEXT")
+				fontPrint(fntx, ypos, "NEXT ")
 
 			elseif dip_Rewind == 3 then
 		
@@ -563,7 +563,7 @@ function printOpts()
 			
 			else
 			
-				fontPrint(fntx, ypos, "NO")
+				fontPrint(fntx, ypos, "NO ")
 				
 			
 			end
@@ -589,7 +589,7 @@ function printOpts()
 			
 			else
 			
-				fontPrint(fntx, ypos, "NO")	
+				fontPrint(fntx, ypos, "NO ")	
 				
 			
 			end	
@@ -603,7 +603,7 @@ function printOpts()
 			
 			else
 			
-				fontPrint(fntx, ypos, "NO")
+				fontPrint(fntx, ypos, "NO ")
 				
 			
 			end
@@ -617,7 +617,7 @@ function printOpts()
 			
 			else
 			
-				fontPrint(fntx, ypos, "NO")
+				fontPrint(fntx, ypos, "NO ")
 				
 			
 			end	
@@ -631,7 +631,7 @@ function printOpts()
 			
 			else
 			
-				fontPrint(fntx, ypos, "NO")
+				fontPrint(fntx, ypos, "NO ")
 				
 			
 			end
@@ -645,7 +645,7 @@ function printOpts()
 			
 			else
 			
-				fontPrint(fntx, ypos, "NO")
+				fontPrint(fntx, ypos, "NO ")
 				
 			
 			end
