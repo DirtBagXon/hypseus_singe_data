@@ -1,7 +1,11 @@
-# Hypseus Singe anomaly files +
-# Support for Singe 2 games
+# Hypseus Singe
+# Support for Singe 1 and 2 games
 
-#### Firstly, ensure you are running at least version 2.6.6 of Hypseus Singe.
+#### Firstly, ensure you are running at least version 2.6.18 of Hypseus Singe.
+
+If you have older game content, ensure you update the existing lua and other data with files from  
+this repository. Backup your existing data, then overwrite the metadata with repository files.  
+You only require the video and audio files from your existing version (_see below_).
 
 Feel free to submit pull requests for any fixes or improvements.
 
@@ -100,7 +104,7 @@ If sound is out of sync, use `-ss` to delay audio encode start in `ms` *(hh:mm:s
 
 ### Audio Delay
 
-Games where audio sync issues have thus far been observed: `carbon`, `dl2e`, `asterix` and `cliff`
+Due to an issue in the Singe 2 audio system, many of the games will have a delay in the MP4.
 
 You can **fix** any existing `.ogg` files with delay easily, using:
 
@@ -149,23 +153,25 @@ This has already been performed for data in this repo.
 
 However below are scripts to help you do this if porting over.
 
+Use the `MYDIR` variable to make all game content relative:
+
+    MYDIR = "singe/carbon/"
+
     #!/bin/bash
-  
-    export NAME="Puss_in_Boots_english_singe_2"
-    export GAME="pussinboots"
 
-    perl -p -i -e 's/'$NAME'//g' *.singe
+    perl -p -i -e 's/\/Cfg\///'g *
+    perl -p -i -e 's/\/Fonts\///'g *
+    perl -p -i -e 's/\/Overlay\///'g *
+    perl -p -i -e 's/\/Script\///'g *
+    perl -p -i -e 's/\/Sounds\///'g *
+    perl -p -i -e 's/\/Video\///'g *
 
-    perl -p -i -e 's/MYDIR\ \.\. \"\/Script/\"singe\/'$GAME'/g' *.singe
-    perl -p -i -e 's/MYDIR\ \.\. \"\/Cfg/\"singe\/'$GAME'/g' *.singe
-    perl -p -i -e 's/MYDIR\ \.\. \"\/Fonts/\"singe\/'$GAME'/g' *.singe
-    perl -p -i -e 's/MYDIR\ \.\. \"\/Sounds/\"singe\/'$GAME'/g' *.singe
-    perl -p -i -e 's/MYDIR\ \.\. \"\/Overlay/\"singe\/'$GAME'/g' *.singe
+### Alignment changes
 
+Due to the overlay size differences, some alignment changes will be required in the LUA.
 
-### These Singe 2 games have known issues:
+### Singe 2 game porting limitations:
 
-* ``maddog`` - **Singe 1 version works as expected**
 * Due to the **16-bit** limitation of *VLDP* a maximum of **65535** video frames are supported: \
   ``ERROR : current mpeg has too many frames, VLDP will ignore any frames above 65535``
 
