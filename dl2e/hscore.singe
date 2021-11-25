@@ -434,23 +434,23 @@ function drawHS()
 		if k==1 then
 
 			setFontColor(mycolor1)
-			fontPrint(LINEW*1.9+OVLW/2.8, OVLH/5 + k *LINEH*5, k ..".")
-			fontPrint(LINEW*2+OVLW/2.5, OVLH/5 + k *LINEH*5, highscore[k][1])
-			fontPrint(LINEW*2+OVLW/2, OVLH/5 + k *LINEH*5, highscore[k][2])
+			fontPrint(LINEW*1.9+OVLW/3.6, OVLH/5 + k *LINEH*5, padString(k,2) ..".")
+			fontPrint(LINEW*2+OVLW/2.65, OVLH/5 + k *LINEH*5, padString(highscore[k][1],3))
+			fontPrint(LINEW*2+OVLW/2.0, OVLH/5 + k *LINEH*5, padString(highscore[k][2],7))
 		
 		elseif k==10 then
 
 			setFontColor(mycolor2)
-			fontPrint(LINEW*2+OVLW/2.9, OVLH/5 + k *LINEH*5, k ..".")
-			fontPrint(LINEW*2+OVLW/2.5, OVLH/5 + k *LINEH*5, highscore[k][1])
-			fontPrint(LINEW*2+OVLW/2, OVLH/5 + k *LINEH*5, highscore[k][2])	
+			fontPrint(LINEW*2+OVLW/3.65, OVLH/5 + k *LINEH*5, padString(k,2) ..".")
+			fontPrint(LINEW*2+OVLW/2.65, OVLH/5 + k *LINEH*5, padString(highscore[k][1],3))
+			fontPrint(LINEW*2+OVLW/2.0, OVLH/5 + k *LINEH*5, padString(highscore[k][2],7))	
 
 		else
 
 			setFontColor(mycolor2)
-			fontPrint(LINEW*2+OVLW/2.8, OVLH/5 + k *LINEH*5, k ..".")
-			fontPrint(LINEW*2+OVLW/2.5, OVLH/5 + k *LINEH*5, highscore[k][1])
-			fontPrint(LINEW*2+OVLW/2, OVLH/5 + k *LINEH*5, highscore[k][2])
+			fontPrint(LINEW*2+OVLW/3.6, OVLH/5 + k *LINEH*5, padString(k,2) ..".")
+			fontPrint(LINEW*2+OVLW/2.65, OVLH/5 + k *LINEH*5, padString(highscore[k][1],3))
+			fontPrint(LINEW*2+OVLW/2.0, OVLH/5 + k *LINEH*5, padString(highscore[k][2],7))
 
 		end
 
