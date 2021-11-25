@@ -468,6 +468,8 @@ function drawHS()
 	setFontColor(mycolor2)
 	fontPrint(getMiddle("NORMAL MODE"),LINEH*11, "NORMAL MODE")
 	setFontColor(mycolor1)
+
+        fontSelect(fontServ)
 		
 	for k = 1, 10 do
 			
@@ -515,6 +517,8 @@ function drawHSLB()
 	fontPrint(getMiddle("LIFE BAR MODE"),LINEH*11, "LIFE BAR MODE")
 	setFontColor(mycolor1)
 	
+        fontSelect(fontServ)
+
 	for k = 1, 10 do
 			
 		if k==1 then
@@ -557,60 +561,42 @@ function drawPercent()
 		
 	end		
 
-	if OVLW >= 1920 then
-
-		fontSelect(fontBig)
-	
-	else
-
-		fontSelect(fontGame)
-
-	end
-
+	fontSelect(fontLCD)
 	j = 5.5
 
 	if finalstage > 11 then
-
-		if OVLW >= 1920 then
-
-			fontSelect(fontLCD)
-		
-		else
-
-			fontSelect(fontGame)
-
-		end
 
 		j = 3
 
 	elseif finalstage > 23 then
 
-		fontSelect(fontGame)
 		j = 1.5
 
 	end
-	
+
 	setFontColor(mycolor2)
 	fontPrint(getMiddle("BEST PERCENT"),LINEH*11, "BEST PERCENT")
 	setFontColor(mycolor1)
+
+	fontSelect(fontOpt)
 
 	for k = 1,finalstage,3 do
 		
 		if k + 2 < finalstage then
 
 			
-			fontPrint(getMiddle("L2: BAB 99 (E)    L2: BAB 99 (E)    L2: BAB 99 (E)"), OVLH/5 + k *LINEH*j, "L" .. k .. ": " .. percent[k][1] .. " " .. percent[k][2] .. " (" .. percent[k][3] .. ")    L" .. k+1 .. ": " .. percent[k+1][1] .. " " .. percent[k+1][2] .. " (" .. percent[k+1][3] .. ")    L" .. k+2 .. ": " .. percent[k+2][1] .. " " .. percent[k+2][2] .. " (" .. percent[k+2][3] .. ")")
+			fontPrint(getMiddle("L2: BAB 99 (E)  L2: BAB 99 (E)  L2: BAB 99 (E)"), OVLH/5 + k *LINEH*j, "L" .. k .. ": " .. percent[k][1] .. " " .. percent[k][2] .. " (" .. percent[k][3] .. ")  L" .. k+1 .. ": " .. percent[k+1][1] .. " " .. percent[k+1][2] .. " (" .. percent[k+1][3] .. ")  L" .. k+2 .. ": " .. percent[k+2][1] .. " " .. percent[k+2][2] .. " (" .. percent[k+2][3] .. ")")
 	
 		else
 
 			if k+2 == finalstage then 
 
-				fontPrint(getMiddle("L2: BAB 99 (E)    L2: BAB 99 (E)    L2: BAB 99 (E)"), OVLH/5 + k *LINEH*j, "L" .. k .. ": " .. percent[k][1] .. " " .. percent[k][2] .. " (" .. percent[k][3] .. ")    L" .. k+1 .. ": " .. percent[k+1][1] .. " " .. percent[k+1][2] .. " (" .. percent[k+1][3] .. ")    L" .. k+2 .. ": " .. percent[k+2][1] .. " " .. percent[k+2][2] .. " (" .. percent[k+2][3] .. ")")
+				fontPrint(getMiddle("L2: BAB 99 (E)  L2: BAB 99 (E)  L2: BAB 99 (E)"), OVLH/5 + k *LINEH*j, "L" .. k .. ": " .. percent[k][1] .. " " .. percent[k][2] .. " (" .. percent[k][3] .. ")  L" .. k+1 .. ": " .. percent[k+1][1] .. " " .. percent[k+1][2] .. " (" .. percent[k+1][3] .. ")  L" .. k+2 .. ": " .. percent[k+2][1] .. " " .. percent[k+2][2] .. " (" .. percent[k+2][3] .. ")")
 				break
 
 			elseif k+2 == finalstage + 1 then
 
-				fontPrint(getMiddle("L2: BAB 99 (E)    L2: BAB 99 (E)"), OVLH/5 + k *LINEH*j, "L" .. k .. ": " .. percent[k][1] .. " " .. percent[k][2] .. " (" .. percent[k][3].. ")    L" .. k+1 .. ": " .. percent[k+1][1] .. " " .. percent[k+1][2] .. " (" .. percent[k][3] .. ")")
+				fontPrint(getMiddle("L2: BAB 99 (E)  L2: BAB 99 (E)"), OVLH/5 + k *LINEH*j, "L" .. k .. ": " .. percent[k][1] .. " " .. percent[k][2] .. " (" .. percent[k][3].. ")  L" .. k+1 .. ": " .. percent[k+1][1] .. " " .. percent[k+1][2] .. " (" .. percent[k][3] .. ")")
 				break
 
 			elseif k+2 == finalstage + 2 then

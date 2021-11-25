@@ -2360,7 +2360,7 @@ function printSave()
 
 	
 	setFontColor(mycolor4)
-	fontSelect(fontLCD)
+	fontSelect(fontOpt)
 
 	for k=1,4 do
 
@@ -2370,11 +2370,11 @@ function printSave()
 
 			if k < 4 then
 
-				s1 = k .. ". Empty"
+				s1 = padString(k .. ". Empty", 46)
 			
 			else
 			
-				s1 = "A. Empty"	
+				s1 = padString("A. Empty", 46)
 
 			end	
 		
@@ -2402,11 +2402,11 @@ function printSave()
 
 				if k < 4 then
 
-					s1=k .. ". Lvl:" .. slotsave[k][1] .. ", Scn:" .. slotsave[k][2] .. ", Mov:" .. slotsave[k][3] .. ", Bar:" .. slotsave[k][4] .. ", " .. tempDif .. ", " .. slotsave[k][6]
+					s1=k .. ". Lvl:" .. padString(slotsave[k][1],2) .. ", Scn:" .. slotsave[k][2] .. ", Mov:" .. slotsave[k][3] .. ", Bar:" .. slotsave[k][4] .. ", " .. tempDif .. ", " .. slotsave[k][6]
 		
 				else
 				
-					s1="A. Lvl:" .. slotsave[k][1] .. ", Scn:" .. slotsave[k][2] .. ", Mov:" .. slotsave[k][3] .. ", Bar:" .. slotsave[k][4] .. ", " .. tempDif .. ", " .. slotsave[k][6]
+					s1="A. Lvl:" .. padString(slotsave[k][1],2) .. ", Scn:" .. slotsave[k][2] .. ", Mov:" .. slotsave[k][3] .. ", Bar:" .. slotsave[k][4] .. ", " .. tempDif .. ", " .. slotsave[k][6]
 
 				end	
 
@@ -2415,11 +2415,11 @@ function printSave()
 
 				if k < 4 then
 
-					s1=k .. ". Lvl:" .. slotsave[k][1] .. ", Scn:" .. slotsave[k][2] .. ", Mov:" .. slotsave[k][3] .. ", Liv:" .. slotsave[k][4] .. ", " .. tempDif .. ", " .. slotsave[k][6]
+					s1=k .. ". Lvl:" .. padString(slotsave[k][1],2) .. ", Scn:" .. slotsave[k][2] .. ", Mov:" .. slotsave[k][3] .. ", Liv:" .. slotsave[k][4] .. ", " .. tempDif .. ", " .. slotsave[k][6]
 		
 				else
 				
-					s1="A. Lvl:" .. slotsave[k][1] .. ", Scn:" .. slotsave[k][2] .. ", Mov:" .. slotsave[k][3] .. ", Liv:" .. slotsave[k][4] .. ", " .. tempDif .. ", " .. slotsave[k][6]
+					s1="A. Lvl:" .. padString(slotsave[k][1],2) .. ", Scn:" .. slotsave[k][2] .. ", Mov:" .. slotsave[k][3] .. ", Liv:" .. slotsave[k][4] .. ", " .. tempDif .. ", " .. slotsave[k][6]
 
 				end	
 
@@ -2434,7 +2434,7 @@ function printSave()
 	end
 
 	setFontColor(mycolor1)
-	fontSelect(fontLCD)
+	fontSelect(fontServ)
 	
 	for k=1,4 do
 		

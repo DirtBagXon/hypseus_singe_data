@@ -334,3 +334,10 @@ function getMiddle(thisPhrase)
 	return x
 
 end
+
+function padString(str, len, char)
+
+	if char == nil then char = ' ' end
+	if type(str) == "number" then str = tostring(str) end
+	return str .. string.rep(char, len - #str)
+end
