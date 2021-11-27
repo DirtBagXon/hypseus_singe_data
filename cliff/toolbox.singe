@@ -327,3 +327,20 @@ function getMiddle(thisPhrase)
 	return x
 
 end
+
+function lpadString(str, len, char)
+
+        if char == nil then char = ' ' end
+        if type(str) == "number" then str = tostring(str) end
+        return string.rep(char, len - #str) .. str
+
+end
+
+function rpadString(str, len, char)
+
+        if char == nil then char = ' ' end
+        if type(str) == "number" then str = tostring(str) end
+        return str .. string.rep(char, len - #str)
+
+end
+

@@ -434,23 +434,23 @@ function drawHS()
 		if k==1 then
 
 			setFontColor(mycolor1)
-			fontPrint(LINEW*1.9+OVLW/3.6, OVLH/5 + k *LINEH*5, padString(k,2) ..".")
-			fontPrint(LINEW*2+OVLW/2.65, OVLH/5 + k *LINEH*5, padString(highscore[k][1],3))
-			fontPrint(LINEW*2+OVLW/2.0, OVLH/5 + k *LINEH*5, padString(highscore[k][2],7))
+			fontPrint(LINEW*1.9+OVLW/3.6, OVLH/5 + k *LINEH*5, lpadString(k,2) ..".")
+			fontPrint(LINEW*2+OVLW/2.65, OVLH/5 + k *LINEH*5, lpadString(highscore[k][1],3))
+			fontPrint(LINEW*2+OVLW/2.0, OVLH/5 + k *LINEH*5, lpadString(highscore[k][2],7))
 		
 		elseif k==10 then
 
 			setFontColor(mycolor2)
-			fontPrint(LINEW*2+OVLW/3.65, OVLH/5 + k *LINEH*5, padString(k,2) ..".")
-			fontPrint(LINEW*2+OVLW/2.65, OVLH/5 + k *LINEH*5, padString(highscore[k][1],3))
-			fontPrint(LINEW*2+OVLW/2.0, OVLH/5 + k *LINEH*5, padString(highscore[k][2],7))	
+			fontPrint(LINEW*2+OVLW/3.65, OVLH/5 + k *LINEH*5, lpadString(k,2) ..".")
+			fontPrint(LINEW*2+OVLW/2.65, OVLH/5 + k *LINEH*5, lpadString(highscore[k][1],3))
+			fontPrint(LINEW*2+OVLW/2.0, OVLH/5 + k *LINEH*5, lpadString(highscore[k][2],7))	
 
 		else
 
 			setFontColor(mycolor2)
-			fontPrint(LINEW*2+OVLW/3.6, OVLH/5 + k *LINEH*5, padString(k,2) ..".")
-			fontPrint(LINEW*2+OVLW/2.65, OVLH/5 + k *LINEH*5, padString(highscore[k][1],3))
-			fontPrint(LINEW*2+OVLW/2.0, OVLH/5 + k *LINEH*5, padString(highscore[k][2],7))
+			fontPrint(LINEW*2+OVLW/3.6, OVLH/5 + k *LINEH*5, lpadString(k,2) ..".")
+			fontPrint(LINEW*2+OVLW/2.65, OVLH/5 + k *LINEH*5, lpadString(highscore[k][1],3))
+			fontPrint(LINEW*2+OVLW/2.0, OVLH/5 + k *LINEH*5, lpadString(highscore[k][2],7))
 
 		end
 
@@ -477,7 +477,7 @@ function drawPercent()
 
 	for k = 1, finalstage do
 			
-		fontPrint(getMiddle("Level 2 : BAB 99"), OVLH/10 + k *LINEH*4.5, "Level " .. k .. " : " .. percent[k][1] .. " " .. percent[k][2])
+		fontPrint(getMiddle("Level 2 : BAB 99"), OVLH/10 + k *LINEH*4.5, "Level " .. lpadString(k,2) .. " : " .. lpadString(percent[k][1],3) .. " " .. lpadString(percent[k][2],3))
 				
 	end
 
