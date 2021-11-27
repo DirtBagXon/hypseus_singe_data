@@ -428,12 +428,12 @@ function drawHS()
 		if k==1 then
 
 			setFontColor(mycolor1)
-			fontPrint(LINEW*2.3+OVLW/3.3, OVLH/6 + k *LINEH*5, padString(k,2) .."."..padString(highscore[k][1],3).."   ".. padString(highscore[k][2],7))
+			fontPrint(LINEW*2+OVLW/3.8, OVLH/6 + k *LINEH*5, lpadString(k,2) ..". "..lpadString(highscore[k][1],3).."   ".. lpadString(highscore[k][2],7))
 		
 		else
 
 			setFontColor(mycolor3)
-			fontPrint(LINEW*2+OVLW/3.3, OVLH/6 + k *LINEH*5, padString(k,2) .."."..padString(highscore[k][1],3).."   ".. padString(highscore[k][2],7))
+			fontPrint(LINEW*2+OVLW/3.8, OVLH/6 + k *LINEH*5, lpadString(k,2) ..". "..lpadString(highscore[k][1],3).."   ".. lpadString(highscore[k][2],7))
 
 		end
 
