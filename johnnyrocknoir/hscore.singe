@@ -239,6 +239,7 @@ function drawHStable()
 
 	local k = 0
 	local posy = 270*UnY
+	local xmod = 410
 	local s1 = ""
 	local s2 = ""
 
@@ -249,9 +250,12 @@ function drawHStable()
 	
 	for k=1,6 do
 
-		s1 = tostring(k) .. ".  " .. highscore[k][1]
-		s2 = highscore[k][2]
-		fontPrint(410*UnX,posy, s1)
+		if k == 6 then xmod = 415
+		else xmod = 420 end
+
+		s1 = tostring(k) .. ".  " .. rpadString(highscore[k][1],10)
+		s2 = lpadString(highscore[k][2],4)
+		fontPrint(xmod*UnX,posy, s1)
 		fontPrint(1100*UnY,posy, s2)
 		posy = posy + (100*UnY)
 

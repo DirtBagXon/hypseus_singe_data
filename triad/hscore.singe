@@ -443,23 +443,23 @@ function drawHS()
 		if k==1 then
 
 			setFontColor(mycolor2)
-			fontPrint(LINEW*-5+OVLW/3, OVLH/6 + k *LINEH*5+25, k ..".")
-			fontPrint(LINEW*-5+OVLW/2.2, OVLH/6 + k *LINEH*5+25, highscore[k][1])
-			fontPrint(LINEW*-5+OVLW/1.7, OVLH/6 + k *LINEH*5+25, highscore[k][2])
+			fontPrint(LINEW*-5+OVLW/3, OVLH/6 + k *LINEH*5+25, k ..". ")
+			fontPrint(LINEW*-5+OVLW/2.2, OVLH/6 + k *LINEH*5+25, lpadString(highscore[k][1],3))
+			fontPrint(LINEW*-5+OVLW/1.7, OVLH/6 + k *LINEH*5+25, lpadString(highscore[k][2],6))
 		
 		elseif k==10 then
 
 			setFontColor(mycolor1)
-			fontPrint(LINEW*-5+OVLW/3.1, OVLH/6 + k *LINEH*5+25, k ..".")
-			fontPrint(LINEW*-5+OVLW/2.2, OVLH/6 + k *LINEH*5+25, highscore[k][1])
-			fontPrint(LINEW*-5+OVLW/1.7, OVLH/6 + k *LINEH*5+25, highscore[k][2])	
+			fontPrint(LINEW*-5+OVLW/3.1, OVLH/6 + k *LINEH*5+25, k ..". ")
+			fontPrint(LINEW*-5+OVLW/2.2, OVLH/6 + k *LINEH*5+25, lpadString(highscore[k][1],3))
+			fontPrint(LINEW*-5+OVLW/1.7, OVLH/6 + k *LINEH*5+25, lpadString(highscore[k][2],6))	
 
 		else
 
 			setFontColor(mycolor1)
-			fontPrint(LINEW*-5+OVLW/3, OVLH/6 + k *LINEH*5+25, k ..".")
-			fontPrint(LINEW*-5+OVLW/2.2, OVLH/6 + k *LINEH*5+25, highscore[k][1])
-			fontPrint(LINEW*-5+OVLW/1.7, OVLH/6 + k *LINEH*5+25, highscore[k][2])
+			fontPrint(LINEW*-5+OVLW/3, OVLH/6 + k *LINEH*5+25, k ..". ")
+			fontPrint(LINEW*-5+OVLW/2.2, OVLH/6 + k *LINEH*5+25, lpadString(highscore[k][1],3))
+			fontPrint(LINEW*-5+OVLW/1.7, OVLH/6 + k *LINEH*5+25, lpadString(highscore[k][2],6))
 
 		end
 
@@ -486,7 +486,7 @@ function drawPercent()
 
 	for k = 1, finalstage do
 			
-		fontPrint(getMiddle("Level 2 : BAB 99"), OVLH/6 + k *LINEH*(5.5-finalstage/10)+30, "Level " .. k .. " : " .. percent[k][1] .. " " .. percent[k][2])
+		fontPrint(getMiddle("Level 2 : BAB 99"), OVLH/6 + k *LINEH*(5.5-finalstage/10)+30, "Level " .. lpadString(k,2) .. " : " .. lpadString(percent[k][1],3) .. " " .. lpadString(percent[k][2],3))
 				
 	end
 

@@ -7,6 +7,8 @@ If you have older game content, ensure you update the existing lua and other dat
 this repository. Backup your existing data, then overwrite the metadata with repository files.  
 You only require the video and audio files from your existing version (_see below_).
 
+These games are updated frequently, ensure files are up-to-date.
+
 Feel free to submit pull requests for any fixes or improvements.
 
 ## Singe 1 replacement files

@@ -1945,7 +1945,7 @@ function printSave()
 
 	
 	setFontColor(mycolor4)
-	fontSelect(fontLCD)
+	fontSelect(fontService)
 
 	for k=1,4 do
 
@@ -1955,11 +1955,11 @@ function printSave()
 
 			if k < 4 then
 
-				s1 = k .. ". Empty"
+				s1 = rpadString(k .. ". Empty",50)
 			
 			else
 			
-				s1 = "A. Empty"	
+				s1 = rpadString("A. Empty",50)
 
 			end	
 		
@@ -1987,17 +1987,17 @@ function printSave()
 
 			if k < 4 then
 
-				s1=k .. ". Lvl:" .. slotsave[k][1] .. ", Scn:" .. slotsave[k][2] .. ", Mov:" .. slotsave[k][3] .. ", Liv:" .. slotsave[k][4] .. ", " .. tempDif .. ", " .. slotsave[k][6]
+				s1=k .. ". Lvl:" .. rpadString(slotsave[k][1],2) .. ", Scn:" .. rpadString(slotsave[k][2],2) .. ", Mov:" .. rpadString(slotsave[k][3],2) .. ", Liv:" .. rpadString(slotsave[k][4],2) .. ", " .. rpadString(tempDif,7) .. ", " .. rpadString(slotsave[k][6],6)
 	
 			else
 			
-				s1="A. Lvl:" .. slotsave[k][1] .. ", Scn:" .. slotsave[k][2] .. ", Mov:" .. slotsave[k][3] .. ", Liv:" .. slotsave[k][4] .. ", " .. tempDif .. ", " .. slotsave[k][6]
+				s1="A. Lvl:" .. rpadString(slotsave[k][1],2) .. ", Scn:" .. rpadString(slotsave[k][2],2) .. ", Mov:" .. rpadString(slotsave[k][3],2) .. ", Liv:" .. rpadString(slotsave[k][4],2) .. ", " .. rpadString(tempDif,7) .. ", " .. rpadString(slotsave[k][6],6)
 
 			end	
 			
 		end
 
-		fontPrint(OVLW/3.5, ypos, s1)
+		fontPrint(OVLW/8, ypos, s1)
 
 	end
 
