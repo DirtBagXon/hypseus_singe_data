@@ -234,7 +234,7 @@ function doFinish()
 				
 		if (currentFrame == iFrameEnd) then 
 			
-			timerON(0.6)
+			timerON(1)
 			discPause()
 			lvlState = branch03
 			
@@ -244,7 +244,7 @@ function doFinish()
 				
 		if timerDue() then 
 			
-			timerON(0.3)
+			timerON(2)
 			discPause()
 			soundPlay(sndcredit)
 			lvlState = branch04
@@ -256,7 +256,7 @@ function doFinish()
 		
 		if timerDue() then
 
-			timerON(0.3)
+			timerON(2)
 			discPause()
 			soundPlay(sndcredit)
 			lvlState = branch05
@@ -274,7 +274,7 @@ function doFinish()
 		
 		if timerDue() then
 			
-			timerON(0.5)
+			timerON(1)
 			discPause()
 			soundPlay(sndvictory)
 			lvlState = branch06
@@ -396,7 +396,7 @@ function doIntro()
 			discSkipToFrame(frameCommands)
 			discPause()
 			bShowLCD = false			
-			timerON(0.5)
+			timerON(5)
 			lvlState = branch02	
 
 		elseif p1START1 and p1COIN1 then
