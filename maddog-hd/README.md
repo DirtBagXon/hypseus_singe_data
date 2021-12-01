@@ -1,4 +1,4 @@
-## (Singe 2) Maddog McGree  HD
+## (Singe 2) Maddog McCree  HD
 
 * Required `-oversize_overlay`
 * Recommended `-manymouse`
