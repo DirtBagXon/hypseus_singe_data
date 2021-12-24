@@ -364,9 +364,9 @@ function doLevelSelect()
 		
 		else	-- Here we draw the symbols for completed level.	
 			
-			if levelMap[level01] == true then spriteDraw(OVLW/4-SELW/2, OVLH/4, sprite[OKMAP]) end
-			if levelMap[level02] == true then spriteDraw(OVLW/2-SELW/2, OVLH/4, sprite[OKMAP]) end
-			if levelMap[level03] == true then spriteDraw(OVLW-OVLW/4-SELW/2, OVLH/4, sprite[OKMAP]) end
+			if levelMap[level01] == true then spriteDraw(OVLW/4-SELW/2, OVLH/3.2, sprite[OKMAP]) end
+			if levelMap[level02] == true then spriteDraw(OVLW/2-SELW/2, OVLH/3.2, sprite[OKMAP]) end
+			if levelMap[level03] == true then spriteDraw(OVLW-OVLW/4-SELW/2, OVLH/3.2, sprite[OKMAP]) end
 			if levelMap[level04] == true then spriteDraw(OVLW/4-SELW/2, OVLH-OVLH/3, sprite[OKMAP]) end
 			if levelMap[level05] == true then spriteDraw(OVLW/2-SELW/2, OVLH-OVLH/3, sprite[OKMAP]) end
 			
@@ -381,6 +381,7 @@ function doLevelSelect()
 				
 				moveCursor(iCurPos)			
 				setCursor(iCurPos)
+				if cury == 160 then cury = cury - 20 end
 				spriteDraw(curx, cury, sprite[SELMAP])
 				
 			end

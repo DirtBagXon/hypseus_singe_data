@@ -1,7 +1,7 @@
 # Hypseus Singe
 # Support for Singe 1 and 2 games
 
-#### Firstly, ensure you are running at least version 2.6.18 of Hypseus Singe.
+#### Firstly, ensure you are running at least version 2.6.21 of Hypseus Singe.
 
 If you have older game content, ensure you update the existing lua and other data with files from  
 this repository. Backup your existing data, then overwrite the metadata with repository files.  
@@ -52,13 +52,13 @@ The files in this repository should be installed alongside the required game vid
 Refer to the game framefile (*txt*) for video file layout structure.
 
 This repository does not contain any game video or audio files. You are required to aquire these files from other \
-sources, in the case of Singe 1, archive.org may help.
+sources, in the case of Singe 1, [archive.org](https://archive.org) may help.
 
 For Singe 2 follow the recoding instructions below:
 
 ### Recoding Singe 2 mp4 video files for Hypseus Singe
 
-Singe 2 game files in this repository are mostly based around the first release of Singe 2 games on archive.org \
+Singe 2 game files in this repository are mostly based around the first release of Singe 2 games on [archive.org](https://archive.org) \
 Check ``FRAMEINFO.md`` for the required video for each game, it may be situated elsewhere.
 
 Newer games, like Altered Carbon, will work from current releases as they were not original release games.  
