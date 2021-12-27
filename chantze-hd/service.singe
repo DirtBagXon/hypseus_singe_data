@@ -1,7 +1,7 @@
 --[[
 
 PROGRAM NAME:	LUA SINGE ENGINE
-VERSION:		3.3
+VERSION:		3.31c
 AUTHOR:			KARIS (2021)
 
 This file is part of LUA SINGE ENGINE.
@@ -1264,7 +1264,16 @@ function updateOpts(thisIndex)
 				
 	elseif (thisIndex == 14) then		
 
-		setDefault()
+               if bInPlayExit then
+
+			getRes()
+			startGame()
+
+		else
+
+			setDefault()
+
+		end
 
 	elseif (thisIndex == 15) then		
 
@@ -1564,7 +1573,16 @@ function updateOptsMin(thisIndex)
 		
 	elseif (thisIndex == 14) then		
 
-		setDefault()
+		if bInPlayExit then
+
+			getRes()
+			startGame()
+
+		else
+
+			setDefault()
+
+		end
 
 	elseif (thisIndex == 15) then		
 
@@ -1596,14 +1614,15 @@ function printOpts()
 	smenu[11] = "Show Moves      "
 	smenu[12] = "Show Hints      "
 	smenu[13] = "Run Action with "
-	smenu[14] = "Default"
 	
 	if bInPlayExit then
 
+		smenu[14] = "Restart"
 		smenu[15] = "BACK TO GAME"
 
 	else 
 	
+		smenu[14] = "Default"
 		smenu[15] = "EXIT"	
 
 	end
@@ -1634,7 +1653,7 @@ function printOpts()
 
 		elseif k == 14 then 
 
-			fontPrint(getMiddle(smenu[14]), OVLH/8 + 13.5*LINEH*4.2, "Default")
+			fontPrint(getMiddle(smenu[14]), OVLH/8 + 13.5*LINEH*4.2, smenu[14])
 
 		elseif k == 15 then 
 
@@ -2397,7 +2416,16 @@ function updateOptsG(thisIndex)
 				
 	elseif (thisIndex == 14) then		
 
-		setDefault()
+		if bInPlayExit then
+
+			getRes()
+			startGame()
+
+		else
+
+			setDefault()
+		end
+ 
 
 	elseif (thisIndex == 15) then		
 
@@ -2749,7 +2777,16 @@ function updateOptsMinG(thisIndex)
 					
 	elseif (thisIndex == 14) then		
 
-		setDefault()
+		if bInPlayExit then
+
+			getRes()
+			startGame()
+
+		else
+ 
+			setDefault()
+
+		end
 
 	elseif (thisIndex == 15) then		
 
@@ -2781,14 +2818,15 @@ function printOptsG()
 	smenu[11] = "Adjust Font Size"
 	smenu[12] = "Font Color      "
 	smenu[13] = "Highlight Color "
-	smenu[14] = "Default"
 	
 	if bInPlayExit then
 
+		smenu[14] = "Restart"
 		smenu[15] = "BACK TO GAME"
 
 	else 
 	
+		smenu[14] = "Default"
 		smenu[15] = "EXIT"	
 
 	end
@@ -2818,7 +2856,7 @@ function printOptsG()
 
 		elseif k == 14 then 
 
-			fontPrint(getMiddle(smenu[14]), OVLH/8 + 13.5*LINEH*4.2, "Default")
+			fontPrint(getMiddle(smenu[14]), OVLH/8 + 13.5*LINEH*4.2, smenu[14])
 
 		elseif k == 15 then 
 
@@ -3319,7 +3357,16 @@ function updateOptsP(thisIndex)
 
 	elseif (thisIndex == 9) then		
 
-		setDefault()
+		if bInPlayExit then
+
+			getRes()
+			startGame()
+
+		else
+
+			setDefault()
+
+		end
 
 	elseif (thisIndex == 10) then		
 
@@ -3460,13 +3507,15 @@ function printOptsP()
 	smenu[6] = "Score Typeo    "
 	smenu[7] = "Lives Type     "
 	smenu[8] = "Font Quality   "
-	smenu[9] = "Default"
+
 	if bInPlayExit then
 
+		smenu[9] = "Restart"
 		smenu[10] = "BACK TO GAME"
 
 	else 
 	
+		smenu[9] = "Default"
 		smenu[10] = "EXIT"	
 
 	end
@@ -3495,7 +3544,7 @@ function printOptsP()
 
 		elseif k == 9 then 
 
-			fontPrint(getMiddle(smenu[9]), OVLH/8 + 13.5*LINEH*4.2, "Default")
+			fontPrint(getMiddle(smenu[9]), OVLH/8 + 13.5*LINEH*4.2, smenu[9])
 
 		elseif k == 10 then 
 

@@ -1,6 +1,8 @@
 # Hypseus Singe
 # Support for Singe 1 and 2 games
 
+Checkout Hypseus Singe game demos on [Youtube](https://www.youtube.com/playlist?list=PLRLuhkf2c3OeRoXydn0upKyIBUXNMK13x)
+
 #### Firstly, ensure you are running at least version 2.6.21 of Hypseus Singe.
 
 If you have older game content, ensure you update the existing lua and other data with files from  
@@ -52,19 +54,19 @@ The files in this repository should be installed alongside the required game vid
 Refer to the game framefile (*txt*) for video file layout structure.
 
 This repository does not contain any game video or audio files. You are required to aquire these files from other \
-sources, in the case of Singe 1, [archive.org](https://archive.org) may help.
+sources, [archive.org](https://archive.org) may help.
 
-For Singe 2 follow the recoding instructions below:
+For Singe 2 recoding follow the instructions below:
 
 ### Recoding Singe 2 mp4 video files for Hypseus Singe
 
-Singe 2 game files in this repository are mostly based around the first release of Singe 2 games on [archive.org](https://archive.org) \
+Singe 2 game files in this repository are based around various releases of Singe 2 games on [archive.org](https://archive.org) \
 Check ``FRAMEINFO.md`` for the required video for each game, it may be situated elsewhere.
 
-Newer games, like Altered Carbon, will work from current releases as they were not original release games.  
+Newer games, like Altered Carbon, Chantze Stone work from current releases. \
 But again check ``FRAMEINFO.md``.
 
-Frame information from ``mediainfo`` will be provided for the Singe2 video files in a file called ``FRAMEINFO.md`` in each folder:
+Frame information from ``mediainfo`` will be provided for the Singe 2 video files in a file called ``FRAMEINFO.md`` in each folder:
 
     mediainfo --Inform='Video;%FrameCount%' <file>
     mediainfo --Inform='Video;%Duration%' <file>
@@ -145,7 +147,9 @@ Run **convert_png.sh** script within *'original'* subdirectory.
 
     ./convert_png.sh
     
-Alter *scale* in script for preference - 3 works for most games.    
+Alter *scale* in script for preference - 2.5 to 3 works for most games.
+
+Some graphics will not convert to 8-bit satisfactorily, these will need to be recreated.
 
 ### Converting .singe files
 

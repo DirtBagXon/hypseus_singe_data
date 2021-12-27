@@ -1,7 +1,7 @@
 --[[
 
 PROGRAM NAME:	LUA SINGE ENGINE
-VERSION:		3.3
+VERSION:		3.31c
 AUTHOR:			KARIS (2021)
 
 This file is part of LUA SINGE ENGINE.
@@ -686,6 +686,7 @@ function do2PEnd() -- 2 Players end of game
 
 		if timerDue() then
 
+			i2P = 0
 			lvlState = lvlSetup
 			currentLevel = levelGameOver
 
@@ -2232,6 +2233,12 @@ function doLevel()     -- Big process for level play
 							bSwap = true
 							currentMove = currentMove + 2
 
+						elseif dip_Rewind == 3 and move[currentMove][correctMove] == PATH then
+
+							iPathAend = path[currentMove][4] -1
+							iPathAjmp = path[currentMove][9]
+							currentMove = currentMove + 1
+
 						else	
 							
 							currentMove = currentMove + 1
@@ -2364,6 +2371,12 @@ function doLevel()     -- Big process for level play
 				
 				bSwap = true			
 				currentMove = currentMove + 2
+
+			elseif dip_Rewind == 3 and move[currentMove][correctMove] == PATH then
+
+				iPathAend = path[currentMove][4] -1
+				iPathAjmp = path[currentMove][9]
+				currentMove = currentMove + 1
 
 			else	
 								
@@ -3208,8 +3221,16 @@ function doLevel()     -- Big process for level play
 
 								if timed[tcount][5] ~= nil then 
 					
-									iPath = timed[tcount][5]
-									discSkipToFrame(move[currentMove][moveFrmEnd])
+									if timed[tcount][5] == 0 then
+
+										discSkipToFrame(move[currentMove][moveFrmEnd])
+
+									elseif timed[tcount][5] > 0 then
+
+										iPath = timed[tcount][5]
+										discSkipToFrame(move[currentMove][moveFrmEnd])
+
+									end
 																	
 								end	
 								
@@ -3222,15 +3243,20 @@ function doLevel()     -- Big process for level play
 								bShowAction = false
 								move[currentMove][moveDeath] = timed[tcount][4]	
 								lvlState = branch02	 -- Hints	(or setupDeathClip)
+								break
 								
 							end
 
 						else	
+
+							if tcount == j then
 							
-							iPauseFrame = move[currentMove][inputFrmEnd] --currentFrame
-							move[currentMove][moveDeath] = timed[tcount][4]
-							bShowAction = false	
-							lvlState = branch02	 -- Hints	(or setupDeathClip)
+								iPauseFrame = move[currentMove][inputFrmEnd] --currentFrame
+								move[currentMove][moveDeath] = timed[tcount][4]
+								bShowAction = false
+								lvlState = branch02	 -- Hints	(or setupDeathClip)
+
+							end
 																				
 						end	
 
@@ -3433,6 +3459,12 @@ function doLevel()     -- Big process for level play
 								
 								bSwap = true
 								currentMove = currentMove + 2
+
+							elseif dip_Rewind == 3 and move[currentMove][correctMove] == PATH then
+
+								iPathAend = path[currentMove][4] -1
+								iPathAjmp = path[currentMove][9]
+								currentMove = currentMove + 1
 
 							else	
 								
@@ -4320,6 +4352,8 @@ end
 function drawCredits()     -- Draw the credits
 
 	blinkTimer(0.3)
+
+	fontSelect(fontCredit)
 	
 	if heartbeat then	
 		
@@ -4570,6 +4604,11 @@ end
 function drawLives()       -- Draw Lives
 
 	local k = 0
+	local yad = 0
+
+	if ylivpos > 190 then
+		yad = 5
+	end
 	
 	if dip_GameType == 1 then
 
@@ -4610,7 +4649,7 @@ function drawLives()       -- Draw Lives
 				local s1=tostring("x".. iLives)
 				
 				spriteDraw(OVLW-2*LINEW-(LIVW*2)-5,ylivpos,sprite[LIVES])
-				spriteDraw(OVLW-LINEW-LIVW-5,ylivpos+LIVH/4,fontToSprite(s1))
+				spriteDraw(OVLW-LINEW-LIVW-5,(ylivpos-yad)+LIVH/4,fontToSprite(s1))
 
 			end
 
@@ -4624,6 +4663,14 @@ end
 function drawLvl()       -- Draw current level
 	
 	--if ShowLevel then
+
+		local xad = 2
+		local yad = 0
+
+		if ylvlpos > 190 then
+			yad = 4
+			xad = 7.5
+		end
 		
 		if currentFrame == Tlimit or currentMove > 1 then
 
@@ -4633,22 +4680,25 @@ function drawLvl()       -- Draw current level
 
 			if iScene == 1 and iLevel == levelSecret then
 
-				textPrint(Level[iLevel][TITLE], LINEW*4, ylvlpos, fontScore, RED, 0)
+				textPrint(Level[iLevel][TITLE], LINEW*4, ylvlpos, fontScore, LevelColor, 0)
 
 			elseif iScene == 1 and iLevel ~= levelSecret then
 					
-				textPrint(iLevel .. ". " .. Level[iLevel][TITLE], LINEW*4, ylvlpos, fontScore, RED, 0)
+				textPrint(iLevel .. ". " .. Level[iLevel][TITLE], LINEW*4, ylvlpos, fontScore, LevelColor, 0)
 			
 			else
 
-				spriteDraw(LINEW*4,ylvlpos-4,sprite[SCENES])
-				drawSpriteNumber((LINEW*4)+SCNW+NUMW,ylvlpos-4,iScene)
+				spriteDraw(LINEW*xad,ylvlpos-yad,sprite[SCENES])
+				drawSpriteNumber((LINEW*xad)+SCNW+NUMW,ylvlpos-yad,iScene)
 
 			end
 						
 		end
 
 	--end
+
+	setFontColor(mycolor2)
+	fontSelect(fontSave)
 		
 end
 
@@ -4663,15 +4713,11 @@ function drawScore()       -- Draw score
 		
 		if dip_GameType == 3 then
 
-			drawSpriteNumber((OVLW/2)-NUMW, LINEH*3.4, iTop)
+			drawSpriteNumber((OVLW/2)-NUMW, LINEH*3.8, iTop)
 
 		else	
 
-			if dip_LivType == 1 then
-				drawSpriteNumber((OVLW/2)-NUMW*3, LINEH*3.8, iTop)
-			else
-				drawSpriteNumber((OVLW/2)-NUMW*3, LINEH*3.4, iTop)
-			end
+			drawSpriteNumber((OVLW/2)-NUMW*3, LINEH*3.8, iTop)
 
 		end	
 
@@ -4730,6 +4776,7 @@ function getFont()
 	fontLCD = fontLoad(fontpath, fontSizeNew*5)
 	fontBig = fontLoad(fontpath, fontSizeNew*6)
 
+	fontCredit = fontLoad(fontpath, 14)
 	fontService = fontLoad(sfontpath, 8)
 	fontScore = fontLoad(sfontpath, 6)
 end
@@ -5418,7 +5465,7 @@ function onInputPressed(intWhat)      -- Confirm the pressing of all buttons (wi
 
 					bInPlayExit = true
 
-					if currentLevel == levelMap or ((currentMove < totalMoves and move[currentMove+1][correctMove]~=CHOOSE) and dip_GameType ~= 3) then
+					if currentLevel == levelMap or ((currentMove <= totalMoves) and dip_GameType ~= 3) then
 
 						autoSave(4)
 						altState = branch01 
@@ -5449,7 +5496,7 @@ function onInputPressed(intWhat)      -- Confirm the pressing of all buttons (wi
 
 					bInPlayExit = true
 
-					if currentLevel == levelMap or ((currentMove < totalMoves and move[currentMove+1][correctMove]~=CHOOSE) and dip_GameType ~= 3) then
+					if currentLevel == levelMap or ((currentMove <= totalMoves) and dip_GameType ~= 3) then
 
 						autoSave(4)
 						altState = branch01 
@@ -5589,7 +5636,7 @@ function onInputReleased(intWhat)      -- Confirm the release of all buttons (wi
 
 				bInPlayExit = true
 
-				if currentLevel == levelMap or ((currentMove < totalMoves and move[currentMove+1][correctMove]~=CHOOSE and dip_GameType ~= 3)) then
+				if currentLevel == levelMap or ((currentMove <= totalMoves and dip_GameType ~= 3)) then
 
 					autoSave(4)
 								
@@ -5618,7 +5665,7 @@ function onInputReleased(intWhat)      -- Confirm the release of all buttons (wi
 
 				bInPlayExit = true
 
-				if currentLevel == levelMap or ((currentMove < totalMoves and move[currentMove+1][correctMove]~=CHOOSE and dip_GameType ~= 3)) then
+				if currentLevel == levelMap or ((currentMove <= totalMoves and dip_GameType ~= 3)) then
 
 					autoSave(4)
 								
@@ -5666,14 +5713,14 @@ function onInputReleased(intWhat)      -- Confirm the release of all buttons (wi
 
 			if dip_GameType ~= 2 and dip_GameType ~= 3 then
 
-				if currentLevel == levelNormal and (currentMove < totalMoves and move[currentMove+1][correctMove]~=CHOOSE) and p1START1 == true then
+				if currentLevel == levelNormal and (currentMove <= totalMoves and p1START1) == true then
 
 					loadSave(1)
 					p1START1 = false
 					bShowDisk1 = true
 					altState = branch01
 
-				elseif currentLevel == levelNormal and (currentMove < totalMoves and move[currentMove+1][correctMove]~=CHOOSE) then
+				elseif currentLevel == levelNormal and (currentMove <= totalMoves) then
 
 					autoSave(1)
 					bShowDisk1 = true
@@ -5689,14 +5736,14 @@ function onInputReleased(intWhat)      -- Confirm the release of all buttons (wi
 
 			if dip_GameType ~= 2 and dip_GameType ~= 3 then
 
-				if currentLevel == levelNormal and (currentMove < totalMoves and move[currentMove+1][correctMove]~=CHOOSE) and p1START1 == true then
+				if currentLevel == levelNormal and (currentMove <= totalMoves) and p1START1 == true then
 
 					loadSave(2)
 					p1START1 = false
 					bShowDisk2 = true
 					altState = branch01
 					
-				elseif currentLevel == levelNormal and (currentMove < totalMoves and move[currentMove+1][correctMove]~=CHOOSE) then
+				elseif currentLevel == levelNormal and (currentMove <= totalMoves) then
 
 					autoSave(2)
 					bShowDisk2 = true
@@ -5712,14 +5759,14 @@ function onInputReleased(intWhat)      -- Confirm the release of all buttons (wi
 
 			if dip_GameType ~= 2 and dip_GameType ~= 3 then
 
-				if currentLevel == levelNormal and (currentMove < totalMoves and move[currentMove+1][correctMove]~=CHOOSE) and p1START1 == true then
+				if currentLevel == levelNormal and (currentMove <= totalMoves) and p1START1 == true then
 
 					loadSave(3)
 					p1START1 = false
 					bShowDisk3 = true
 					altState = branch01
 
-				elseif currentLevel == levelNormal and (currentMove < totalMoves and move[currentMove+1][correctMove]~=CHOOSE) then
+				elseif currentLevel == levelNormal and (currentMove <= totalMoves) then
 
 					autoSave(3)
 					bShowDisk3 = true
@@ -5735,7 +5782,7 @@ function onInputReleased(intWhat)      -- Confirm the release of all buttons (wi
 
 				bInPlayExit = true
 
-				if currentLevel == levelMap or ((currentMove < totalMoves and move[currentMove+1][correctMove]~=CHOOSE and dip_GameType ~= 3)) then
+				if currentLevel == levelMap or ((currentMove <= totalMoves and dip_GameType ~= 3)) then
 
 					autoSave(4)
 								
@@ -6040,7 +6087,7 @@ function setupDeathClip(playerMove)      -- Play the clip for each death (with m
 
 			if currentMove == 1 then
 
-				iPauseFrame = move[currentMove][inputFrmStart]-20
+				iPauseFrame = move[currentMove][inputFrmStart]-15
 				currentMove= 0
 
 			else
@@ -6053,17 +6100,17 @@ function setupDeathClip(playerMove)      -- Play the clip for each death (with m
 
 				elseif move[currentMove][correctMove] == LETGO then
 
-					iPauseFrame = move[currentMove-1][inputFrmStart]-20
+					iPauseFrame = move[currentMove-1][inputFrmStart]-15
 					currentMove=currentMove-2
 
 				elseif move[currentMove][correctMove] == PATH or move[currentMove][correctMove] == YESNO then 
 
-					iPauseFrame = move[currentMove][inputFrmStart]-20
+					iPauseFrame = move[currentMove][inputFrmStart]-15
 					currentMove=currentMove-1
 
 				else	
 
-					iPauseFrame = move[currentMove][inputFrmStart]-20
+					iPauseFrame = move[currentMove][inputFrmStart]-15
 					currentMove=currentMove-1
 
 				end
@@ -6166,12 +6213,12 @@ function setupFrames(thisLevel)       -- Set the frames for each level + mirror 
 
 			if path[q][1] == LEFT then path[q][1] = RIGHT
 			elseif path[q][1] == RIGHT then path[q][1] = LEFT	end
-			if path[q][2] == LEFT then path[q][2] = RIGHT
-			elseif path[q][2] == RIGHT then path[q][2] = LEFT	end
 			if path[q][3] == LEFT then path[q][3] = RIGHT
 			elseif path[q][3] == RIGHT then path[q][3] = LEFT	end
-			if path[q][4] == LEFT then path[q][4] = RIGHT
-			elseif path[q][4] == RIGHT then path[q][4] = LEFT	end
+			if path[q][5] == LEFT then path[q][5] = RIGHT
+			elseif path[q][5] == RIGHT then path[q][5] = LEFT       end
+			if path[q][7] == LEFT then path[q][7] = RIGHT
+			elseif path[q][7] == RIGHT then path[q][7] = LEFT       end
 						
 		elseif ((move[q][3] == TIMED) and bFlip) then
 
@@ -6256,6 +6303,9 @@ function setupLevel(thisLevel)      -- Setup each level (including mirrors)
 	local q =0
 	
 	iScene	= iScene + 1
+	iPath = 0
+	iPathAjmp = 0
+	iPathAend = 0
 	
 	if swapScene ~= nil then swapScene() end
 		
@@ -6396,6 +6446,9 @@ function startGame()      -- Starts the game according to each option
 			initStages()
 			bSkipIntroClip = false
 
+			iPath = 0
+			iPathAend = 0
+			iPathAjmp = 0
 			iContinues = 0
 			iScene = 0
 			currentMove = 1
