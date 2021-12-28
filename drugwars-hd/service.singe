@@ -235,6 +235,15 @@ function updateOpts(thisIndex)
 		dip_Undertaker = not dip_Undertaker
 		
 	elseif (thisIndex == 6) then
+
+		if dip_HUD >= 1 then
+
+			dip_HUD = 0
+		else
+			dip_HUD = 1
+		end
+
+	elseif (thisIndex == 7) then
 	
 		if (dip_Crosshair == 1) then
 		
@@ -258,7 +267,7 @@ function updateOpts(thisIndex)
 			
 		end
 		
-	elseif (thisIndex == 7) then
+	elseif (thisIndex == 8) then
 		
 
 		lvlState = lvlEnd
@@ -280,8 +289,9 @@ function printOpts()
 	smenu[3] = rpadString("Difficulty", 16)
 	smenu[4] = rpadString("Reload Mode", 16)
 	smenu[5] = rpadString("Show Nag Clips", 16)
-	smenu[6] = rpadString("Crosshair", 16)
-	smenu[7] = rpadString("EXIT", 16)
+	smenu[6] = rpadString("HUD", 16)
+	smenu[7] = rpadString("Crosshair", 16)
+	smenu[8] = rpadString("EXIT", 16)
 	
 	colorForeground(255, 255, 0)
 
@@ -292,9 +302,9 @@ function printOpts()
 	fontSelect(font42)
 	
 	
-	for k=1,7 do
+	for k=1,8 do
 	
-		fontPrint(290*UnX, 203*UnY + k*96*UnY, smenu[k])
+		fontPrint(290*UnX, 150*UnY + k*96*UnY, smenu[k])
 	
 	end	
 	
@@ -304,43 +314,43 @@ function printOpts()
 		
 			if (dip_StartAtPart == 1) then
 				
-				fontPrint(fntx,299*UnY, "1. SIERRA")
+				fontPrint(fntx,246*UnY, "1. SIERRA")
 				
 			elseif (dip_StartAtPart == 2) then
 				
-				fontPrint(fntx,299*UnY, "2. BIG CITY")
+				fontPrint(fntx,246*UnY, "2. BIG CITY")
 
 			elseif (dip_StartAtPart == 3) then
 				
-				fontPrint(fntx,299*UnY, "3. BORDER")
+				fontPrint(fntx,246*UnY, "3. BORDER")
 
 			elseif (dip_StartAtPart == 4) then
 				
-				fontPrint(fntx,299*UnY, "4. S AMERICA")
+				fontPrint(fntx,246*UnY, "4. S AMERICA")
 
 			end
 				
 		elseif (k == 2) then
 		
-			fontPrint(fntx, 395*UnY, dip_LivesPerCredit)			
+			fontPrint(fntx, 342*UnY, dip_LivesPerCredit)
 	
 		elseif (k == 3) then
 	
 			if (dip_Difficulty == DOPT_EASY) then
 			
-				fontPrint(fntx, 491*UnY, "EASY")	
+				fontPrint(fntx, 438*UnY, "EASY")
 			
 			elseif (dip_Difficulty == DOPT_MEDIUM) then
-			
-				fontPrint(fntx, 491*UnY, "MEDIUM")	
+
+				fontPrint(fntx, 438*UnY, "MEDIUM")
 			
 			elseif (dip_Difficulty == DOPT_HARD) then
 			
-				fontPrint(fntx, 491*UnY, "HARD")	
+				fontPrint(fntx, 438*UnY, "HARD")
 				
 			else	
 			
-				fontPrint(fntx, 491*UnY, "VERY HARD")	
+				fontPrint(fntx, 438*UnY, "VERY HARD")
 			
 			end
 	
@@ -348,15 +358,15 @@ function printOpts()
 		
 			if (dip_ReloadTrigger == DOPT_IMMEDIATE) then
 		
-				fontPrint(fntx, 587*UnY, "IMMEDIATE")	
+				fontPrint(fntx, 534*UnY, "IMMEDIATE")
 			
 			elseif (dip_ReloadTrigger == DOPT_ONEMPTY) then
 			
-				fontPrint(fntx, 587*UnY, "ON EMPTY")	
+				fontPrint(fntx, 534*UnY, "ON EMPTY")
 			
 			else	
 			
-				fontPrint(fntx, 587*UnY, "ON BORDERS")	
+				fontPrint(fntx, 534*UnY, "ON BORDERS")
 			
 			end		
 			
@@ -365,17 +375,27 @@ function printOpts()
 		
 			if dip_Undertaker then			
 			
-				fontPrint(fntx, 683*UnY, "YES")	
-				
-			
+				fontPrint(fntx, 630*UnY, "YES")
+
 			else
 			
-				fontPrint(fntx, 683*UnY, "NO")	
-				
-			
+				fontPrint(fntx, 630*UnY, "NO")
+
 			end
-		
+
 		elseif (k == 6) then
+
+			if dip_HUD == 1 then
+
+				fontPrint(fntx, 730*UnY, "Standard")
+
+			else
+
+				fontPrint(fntx, 730*UnY, "Alternate")
+
+		end
+
+		elseif (k == 7) then
 	
 			sprCursor = nil
 
@@ -400,7 +420,7 @@ function printOpts()
 				sprCursor  = spriteLoad(MYDIR .. "crosshaire.png")
 				fontSelect(font42)
 				colorForeground(255, 255, 255)
-				fontPrint(fntx, 779*UnY, "ON TRIGGER")
+				fontPrint(fntx, 823*UnY, "ON TRIGGER")
 				
 			end
 
@@ -461,38 +481,43 @@ function doServiceMenu()
 		
 			if  (mousey <= 399*UnY) then	-- Coins per continue
 			
-				spriteDraw(70*UnX, 290*UnY, sprArrow)
+				spriteDraw(70*UnX, 235*UnY, sprArrow)
 				optSel = 1			
 			
 			elseif  (mousey >= 400*UnY and mousey <= 500*UnY) then	-- Lives per credit
 			
-				spriteDraw(70*UnX, 385*UnY, sprArrow)
+				spriteDraw(70*UnX, 340*UnY, sprArrow)
 				optSel = 2
 			
 			elseif  (mousey >= 501*UnY and mousey <= 597*UnY) then	-- Difficulty
 			
-				spriteDraw(70*UnX, 485*UnY, sprArrow)
+				spriteDraw(70*UnX, 430*UnY, sprArrow)
 				optSel = 3
 			
 			elseif (mousey >= 598*UnY and mousey <= 699*UnY) then	-- reload mode
 			
-				spriteDraw(70*UnX, 585*UnY, sprArrow)
+				spriteDraw(70*UnX, 525*UnY, sprArrow)
 				optSel = 4
 			
 			elseif (mousey >= 700*UnY and mousey <= 799*UnY) then -- show undertaker
 			
-				spriteDraw(70*UnX, 675*UnY, sprArrow)
+				spriteDraw(70*UnX, 625*UnY, sprArrow)
 				optSel = 5
+
+			elseif  (mousey >= 800*UnY and mousey <= 899*UnY) then -- HUD
 			
-			elseif  (mousey >= 800*UnY and mousey <= 899*UnY) then -- Crosshair
-			
-				spriteDraw(70*UnX, 775*UnY, sprArrow)		
+				spriteDraw(70*UnX, 718*UnY, sprArrow)
 				optSel = 6
-			
-			elseif  (mousey >= 900*UnY and mousey <= 1080*UnY) then -- exit
-			
-				spriteDraw(110*UnX, 875*UnY, sprArrow)
+
+			elseif  (mousey >= 900*UnY and mousey <= 999*UnY) then -- Crosshair
+
+				spriteDraw(70*UnX, 810*UnY, sprArrow)
 				optSel = 7
+
+			elseif  (mousey >= 1000*UnY and mousey <= 1180*UnY) then -- exit
+
+				spriteDraw(110*UnX, 910*UnY, sprArrow)
+				optSel = 8
 				
 			end		
 			printOpts()
