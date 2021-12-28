@@ -5654,7 +5654,13 @@ function onOverlayUpdate()
 	
 	if (bShowScore) then
 		
-		drawScore()
+		if dip_HUD == 1 then
+			drawScore()
+		else
+			drawScore2()
+		end
+
+
 		drawLives()
 		drawBullets()
 	

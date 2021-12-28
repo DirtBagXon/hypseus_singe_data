@@ -1,17 +1,17 @@
 --[[
 
-PROGRAM NAME:	CRIME PATROL (SINGE EDITION)
+PROGRAM NAME:	DRUG WARS (SINGE EDITION)
 AUTHOR:			RDG2010
-CONVERTED FOR SINGE 2: POIU2020
-This file is part of CRIME PATROL (SINGE EDITION)
 
-    CRIME PATROL (SINGE EDITION) is free software: you can redistribute it and/or modify
+This file is part of DRUG WARS (SINGE EDITION)
+
+    DRUG WARS (SINGE EDITION) is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation.
 
-    CRIME PATROL (SINGE EDITION) is distributed in the hope that it will be useful,
+    DRUG WARS (SINGE EDITION) is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
     Read COPYING.TXT for more info.
 
@@ -21,7 +21,7 @@ This file is part of CRIME PATROL (SINGE EDITION)
 --Framework.singe....
 
 discSetFPS(29.97)
-discSkipToFrame(59444)
+discSkipToFrame(61959)
 discPause()
 
 SWITCH_UP         =  0
@@ -69,13 +69,8 @@ bShowMouse = true
 bSection01Reached = false
 bSection02Reached = false
 bSection03Reached = false
-bItemShot = false
-bShowdown = false
-bFirstTimeAround = false
-bNoMoreBonuses = false
 bShowCredits = false
 bShowScore = false
-bBandHit = false
 bResetContinue = false
 bFlip = false
 clockSecs = 0
@@ -92,23 +87,22 @@ DOPT_ONEMPTY = 101
 DOPT_BORDERS = 102
 DOPT_FREEPLAY = 4
 
-dip_LivesPerCredit = 5
+dip_LivesPerCredit = 6
 dip_CoinsPerCredit = 1
 dip_CoinsPerContinue = 1
 dip_Difficulty = DOPT_EASY
 dip_MaxBullets = 12
 dip_ReloadTrigger = DOPT_IMMEDIATE
 dip_Crosshair = 1
+dip_Showdown = true
 dip_Undertaker = true
 
 
 -- Indexes for pixel perfect detection
 
 lineStartX = 1
-lineStartY = 2
 lineEndX = 3
-lineEndY = 4
-lineY = 4
+lineY = 2
 
 iLives = 0
 iScore = 0
@@ -118,24 +112,21 @@ iCredits = 0
 iCoins = 0
 iLastRndClip = 0
 iChoice = 0
-iALG = 0
 
 
-MENU_ROOKIE = 1
-MENU_SWAT = 2
-MENU_UNDERCOVER = 3
-MENU_DELTA = 4
+
+MENU_SIERRA = 1
+MENU_CHICAGO = 2
+MENU_BORDER = 3
+MENU_SA = 4
 
 NAG_NORMAL = 1
 NAG_FRIENDLYKILLED = 2
 
-iCurrentMenu = MENU_ROOKIE
+iCurrentMenu = MENU_SIERRA
 
 
 SCORE_BADGUY = 100
-SCORE_URSULA = 500
-SCORE_TALLON = 1000
-SCORE_OBJECT = 50
 
 mousex = 0
 mousey = 0
@@ -167,27 +158,21 @@ iFrameEnd = 0
 nagFrameStart = 0
 nagFrameEnd = 0
 
-levelMenu = -1
-levelIntro = 0
-levelPractice = 1
-levelStore = 2
-levelGang = 3
-levelWarehouse1 = 4
-levelWarehouse2 = 5
-levelAirport = 6
-levelGarage = 7
-levelStripclub = 8
-levelDrugs1 = 9
-levelDrugs2 = 10
-levelRobbery = 11
-levelHangar1 = 12
-levelHangar2 = 13
-levelHangar3 = 14
-levelAmbush = 15
-levelAirTerrorists = 16
-levelNuclearPlant1 = 17
-levelNuclearPlant2 = 18
-levelNuclearPlant3 = 19
+levelMenu = 0
+levelBeach = 1
+levelCarchase = 2
+levelShipyard = 3
+levelHideout = 4
+levelBar = 5
+levelBuschase = 6
+levelHeli = 7
+levelBase = 8
+levelNightvision = 9
+levelCourtroom = 10
+levelBoathouse = 11
+levelTown = 12
+levelFinal = 13
+levelPractice = 14
 
 levelStart = 104
 levelGameOver = 105
@@ -203,24 +188,25 @@ currentMove = 0
 currentLevel = levelInit
 tempLevel = 0
 thisOffset = 0
-offsetMenus = 59441
+offsetMenus = 58959
 sName = ""
 sNicks = ""
 
 
-STAGE_PRACTICE = 1
-STAGE_STORE = 2
-STAGE_GANG = 3
-STAGE_WAREHOUSE = 4
-STAGE_AIRPORT = 5
-STAGE_GARAGE = 6
-STAGE_STRIPCLUB = 7
-STAGE_DRUGS1 = 8
-STAGE_DRUGS2 = 9
-STAGE_ROBBERY = 10
-STAGE_HANGAR = 11
-STAGE_AMBUSH = 12
-STAGE_AIRTERRORISTS = 13
+STAGE_BEACH = 1
+STAGE_CARCHASE = 2
+STAGE_SHIPYARD = 3
+STAGE_HIDEOUT = 4
+STAGE_BAR = 5
+STAGE_BUSCHASE = 6
+STAGE_HELI = 7
+STAGE_BASE = 8
+STAGE_NIGHTVISION = 9
+STAGE_COURTROOM = 10
+STAGE_BOATHOUSE = 11
+STAGE_TOWN = 12
+STAGE_FINAL = 13
+STAGE_PRACTICE = 14
 
 lvlSetup = 1
 lvlRunning = 2
@@ -240,7 +226,7 @@ statePlaying = 0
 stateStartup = 1
 stateQuit = 2
 stateVLDPwake = 3
-gameflow = stateVLDPwake 
+gameflow = stateVLDPwake  --stateStartup
 
 
 -- Labels for elements in the hitbox arrays
@@ -259,7 +245,7 @@ hitmapCivCount = 6
 
 -- booleans for joystick input
 
-p1UP = false		-- Used for level select menu. 
+p1UP = false		
 p1DOWN = false		-- Used to quickly test if a joy direction or button is being pressed.
 p1LEFT = false
 p1RIGHT = false
@@ -276,23 +262,23 @@ bulletSprtY2 = 0
 
 stage = nil; stage = {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}
 panel = nil; panel = {false, false, false, false, false, false, false, false, false, false, false, false, false, false}
-nagRookie = nil; nagRookie = {false, false, false, false, false, false}
-nagCover = nil; nagCover = {false, false, false, false}
-nagSwat  = nil; nagSwat  = {false, true, false, true, false, true, false, false, true, true}
-nagDelta = nil; nagDelta = {false, false, true, true, false, false, false, true, true, false, false, true, false, false}
+nagSierra = nil; nagSierra = {false, false, false, false, false}
+nagChicago = nil; nagChicago = {false, false, false, false}
+nagBorder = nil; nagBorder = {false, false, false}
+nagSA = nil; nagSA = {false, false, false}
 
 overlaySetResolution(vldpGetWidth(), vldpGetHeight())
 
-tx = 0; ty = 0; crx = 0; cry = 0
-rndegg = 0
 
-sprArrow    = spriteLoad(MYDIR .. "pistol.png")
-sprBadge    = spriteLoad(MYDIR .. "badge3.png")
-sprBadgeSmall =  spriteLoad(MYDIR .. "badge4.png")
+tx = 0; ty = 0; crx = 0; cry = 0; rndegg = 0
+
+sprArrow      = spriteLoad(MYDIR .. "pistol.png")
+sprBadge      = spriteLoad(MYDIR .. "badge3.png")
 sprShot  = spriteLoad(MYDIR .. "shot.png")
 sprRev = spriteLoad(MYDIR .. "hit.png")
-sprScore   = nil
-sprCredits = nil
+
+sprScore    = nil
+sprCredits  = nil
 sprFreePlay = nil
 
 sprBullet = nil; sprBullet = {}
@@ -310,28 +296,24 @@ sprBullet[11] = spriteLoad(MYDIR .. "bullets10.png")
 sprBullet[12] = spriteLoad(MYDIR .. "bullets11.png")
 sprBullet[13] = spriteLoad(MYDIR .. "bullets12.png")
 
+sprNUM = nil; sprNUM = {}
+sprNUM[0] = spriteLoad(MYDIR .. "num0.png")
+sprNUM[1] = spriteLoad(MYDIR .. "num1.png")
+sprNUM[2] = spriteLoad(MYDIR .. "num2.png")
+sprNUM[3] = spriteLoad(MYDIR .. "num3.png")
+sprNUM[4] = spriteLoad(MYDIR .. "num4.png")
+sprNUM[5] = spriteLoad(MYDIR .. "num5.png")
+sprNUM[6] = spriteLoad(MYDIR .. "num6.png")
+sprNUM[7] = spriteLoad(MYDIR .. "num7.png")
+sprNUM[8] = spriteLoad(MYDIR .. "num8.png")
+sprNUM[9] = spriteLoad(MYDIR .. "num9.png")
+
 sndCoin      = soundLoad(MYDIR .. "coin.wav")
 sndCredit    = soundLoad(MYDIR .. "gunhit.wav")
 sndGunshot   = soundLoad(MYDIR .. "gunshot.wav")
 sndEmpty     = soundLoad(MYDIR .. "gunempty.wav")
 sndReload    = soundLoad(MYDIR .. "gunreload.wav")
-sndBuzz      = soundLoad(MYDIR .. "buzzer.wav")
-sndBeep      = soundLoad(MYDIR .. "censoredbeep.wav")
-sndBreak      = soundLoad(MYDIR .. "break.wav")
-
-sprNUM = nil; sprNUM = {}
-	sprNUM[0] = spriteLoad(MYDIR .. "num0.png")
-	sprNUM[1] = spriteLoad(MYDIR .. "num1.png")
-	sprNUM[2] = spriteLoad(MYDIR .. "num2.png")
-	sprNUM[3] = spriteLoad(MYDIR .. "num3.png")
-	sprNUM[4] = spriteLoad(MYDIR .. "num4.png")
-	sprNUM[5] = spriteLoad(MYDIR .. "num5.png")
-	sprNUM[6] = spriteLoad(MYDIR .. "num6.png")
-	sprNUM[7] = spriteLoad(MYDIR .. "num7.png")
-	sprNUM[8] = spriteLoad(MYDIR .. "num8.png")
-	sprNUM[9] = spriteLoad(MYDIR .. "num9.png")
-
-colorForeground(0, 255, 0)
+sndBreak     = soundLoad(MYDIR .. "break.wav")
 
 iALG = math.random(3)
 
@@ -377,13 +359,13 @@ cry = (overlayGetHeight() * 0.85) - (spriteGetHeight(sprFreePlay) * 0.5)
 
 fontSelect(font72)
 sprScore = nil
-sprScore = fontToSprite(string.format('00000'))	
+sprScore = fontToSprite(string.format('00000')) 
 
 sx = ((overlayGetWidth()  * 0.5) - (spriteGetWidth(sprScore) * 0.5))
-sy = ((overlayGetHeight() * 0.9) - (spriteGetHeight(sprScore) * 0.5))	
+sy = ((overlayGetHeight() * 0.9) - (spriteGetHeight(sprScore) * 0.5))   
 
 sprHSTitle = nil
-sprHSTitle = fontToSprite(string.format('TOP COPS'))	
+sprHSTitle = fontToSprite(string.format('TOP COPS'))    
 
 hsx = ((overlayGetWidth()  * 0.5) - (spriteGetWidth(sprHSTitle) * 0.5))
 hsy = 20 
@@ -417,8 +399,3 @@ end
 
 cursoroffsetx = 50*UnX
 cursoroffsety = 50*UnY
-
-	
-
-
-	

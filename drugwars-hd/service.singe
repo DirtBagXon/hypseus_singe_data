@@ -1,17 +1,17 @@
 --[[
 
-PROGRAM NAME:	CRIME PATROL (SINGE EDITION)
+PROGRAM NAME:	DRUG WARS (SINGE EDITION)
 AUTHOR:			RDG2010
-CONVERTED FOR SINGE 2: POIU2020
-This file is part of CRIME PATROL (SINGE EDITION)
 
-    CRIME PATROL (SINGE EDITION) is free software: you can redistribute it and/or modify
+This file is part of DRUG WARS (SINGE EDITION)
+
+    DRUG WARS (SINGE EDITION) is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation.
 
-    CRIME PATROL (SINGE EDITION) is distributed in the hope that it will be useful,
+    DRUG WARS (SINGE EDITION) is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
     Read COPYING.TXT for more info.
 
@@ -43,7 +43,7 @@ function readConfig()
 	local hsName = ""
 	local hdScore = ""
 	local k = 0
-	local h1 = io.input(MYDIR .. "crimepatrol.cfg")	
+	local h1 = io.input(MYDIR .. "drugwars.cfg")	
 
 	if (bDebug) then debugPrint ("Entering readConfig()") end
 
@@ -141,7 +141,7 @@ function writeConfig()
 	local sNewLine = "\n"
 	local s1 = ""
 
-	local h1 = io.output(MYDIR .. "crimepatrol.cfg")
+	local h1 = io.output(MYDIR .. "drugwars.cfg")
 	
 	io.write("dip_StartAtPart = " .. dip_StartAtPart .. sNewLine)
 	io.write("dip_LivesPerCredit = " .. dip_LivesPerCredit .. sNewLine)
@@ -284,13 +284,17 @@ function printOpts()
 	smenu[7] = rpadString("EXIT", 16)
 	
 	colorForeground(255, 255, 0)
+
+	fontSelect(font72)
+
+	fontPrint(560*UnX, 20, "OPTIONS")
 	
 	fontSelect(font42)
 	
 	
 	for k=1,7 do
 	
-		fontPrint(300*UnX, 233*UnY + k*96*UnY, smenu[k])
+		fontPrint(290*UnX, 203*UnY + k*96*UnY, smenu[k])
 	
 	end	
 	
@@ -300,43 +304,43 @@ function printOpts()
 		
 			if (dip_StartAtPart == 1) then
 				
-				fontPrint(fntx,329*UnY, "ROOKIE")
+				fontPrint(fntx,299*UnY, "1. SIERRA")
 				
 			elseif (dip_StartAtPart == 2) then
 				
-				fontPrint(fntx,329*UnY, "UNDERCOVER")
+				fontPrint(fntx,299*UnY, "2. BIG CITY")
 
 			elseif (dip_StartAtPart == 3) then
 				
-				fontPrint(fntx,329*UnY, "SWAT")
+				fontPrint(fntx,299*UnY, "3. BORDER")
 
 			elseif (dip_StartAtPart == 4) then
 				
-				fontPrint(fntx,329*UnY, "DELTA")
+				fontPrint(fntx,299*UnY, "4. S AMERICA")
 
 			end
 				
 		elseif (k == 2) then
 		
-			fontPrint(fntx, 425*UnY, dip_LivesPerCredit)			
+			fontPrint(fntx, 395*UnY, dip_LivesPerCredit)			
 	
 		elseif (k == 3) then
 	
 			if (dip_Difficulty == DOPT_EASY) then
 			
-				fontPrint(fntx, 521*UnY, "EASY")	
+				fontPrint(fntx, 491*UnY, "EASY")	
 			
 			elseif (dip_Difficulty == DOPT_MEDIUM) then
 			
-				fontPrint(fntx, 521*UnY, "MEDIUM")	
+				fontPrint(fntx, 491*UnY, "MEDIUM")	
 			
 			elseif (dip_Difficulty == DOPT_HARD) then
 			
-				fontPrint(fntx, 521*UnY, "HARD")	
+				fontPrint(fntx, 491*UnY, "HARD")	
 				
 			else	
 			
-				fontPrint(fntx, 521*UnY, "VERY HARD")	
+				fontPrint(fntx, 491*UnY, "VERY HARD")	
 			
 			end
 	
@@ -344,15 +348,15 @@ function printOpts()
 		
 			if (dip_ReloadTrigger == DOPT_IMMEDIATE) then
 		
-				fontPrint(fntx, 617*UnY, "IMMEDIATE")	
+				fontPrint(fntx, 587*UnY, "IMMEDIATE")	
 			
 			elseif (dip_ReloadTrigger == DOPT_ONEMPTY) then
 			
-				fontPrint(fntx, 617*UnY, "ON EMPTY")	
+				fontPrint(fntx, 587*UnY, "ON EMPTY")	
 			
 			else	
 			
-				fontPrint(fntx, 617*UnY, "ON BORDERS")	
+				fontPrint(fntx, 587*UnY, "ON BORDERS")	
 			
 			end		
 			
@@ -361,12 +365,12 @@ function printOpts()
 		
 			if dip_Undertaker then			
 			
-				fontPrint(fntx, 713*UnY, "YES")	
+				fontPrint(fntx, 683*UnY, "YES")	
 				
 			
 			else
 			
-				fontPrint(fntx, 713*UnY, "NO")	
+				fontPrint(fntx, 683*UnY, "NO")	
 				
 			
 			end
@@ -396,11 +400,11 @@ function printOpts()
 				sprCursor  = spriteLoad(MYDIR .. "crosshaire.png")
 				fontSelect(font42)
 				colorForeground(255, 255, 255)
-				fontPrint(fntx, 809*UnY, "ON TRIGGER")
+				fontPrint(fntx, 779*UnY, "ON TRIGGER")
 				
 			end
 
-			spriteDraw(fntx, 813*UnY, sprCursor)
+			spriteDraw(fntx, 783*UnY, sprCursor)
 
 		end
 
@@ -421,7 +425,7 @@ function doServiceMenu()
 	
 		if (bDebug) then debugPrint ("Entering doServiceMenu()") end
 
-		discSkipToFrame(offsetMenus + 126)
+		discSkipToFrame(4025)
 		discPause()		
 		timerOFF()
 		
@@ -457,37 +461,37 @@ function doServiceMenu()
 		
 			if  (mousey <= 399*UnY) then	-- Coins per continue
 			
-				spriteDraw(70*UnX, 336*UnY, sprArrow)
+				spriteDraw(70*UnX, 290*UnY, sprArrow)
 				optSel = 1			
 			
 			elseif  (mousey >= 400*UnY and mousey <= 500*UnY) then	-- Lives per credit
 			
-				spriteDraw(70*UnX, 432*UnY, sprArrow)
+				spriteDraw(70*UnX, 385*UnY, sprArrow)
 				optSel = 2
 			
 			elseif  (mousey >= 501*UnY and mousey <= 597*UnY) then	-- Difficulty
 			
-				spriteDraw(70*UnX, 528*UnY, sprArrow)
+				spriteDraw(70*UnX, 485*UnY, sprArrow)
 				optSel = 3
 			
 			elseif (mousey >= 598*UnY and mousey <= 699*UnY) then	-- reload mode
 			
-				spriteDraw(70*UnX, 624*UnY, sprArrow)
+				spriteDraw(70*UnX, 585*UnY, sprArrow)
 				optSel = 4
 			
 			elseif (mousey >= 700*UnY and mousey <= 799*UnY) then -- show undertaker
 			
-				spriteDraw(70*UnX, 720*UnY, sprArrow)
+				spriteDraw(70*UnX, 675*UnY, sprArrow)
 				optSel = 5
 			
 			elseif  (mousey >= 800*UnY and mousey <= 899*UnY) then -- Crosshair
 			
-				spriteDraw(70*UnX, 816*UnY, sprArrow)		
+				spriteDraw(70*UnX, 775*UnY, sprArrow)		
 				optSel = 6
 			
 			elseif  (mousey >= 900*UnY and mousey <= 1080*UnY) then -- exit
 			
-				spriteDraw(110*UnX, 912*UnY, sprArrow)
+				spriteDraw(110*UnX, 875*UnY, sprArrow)
 				optSel = 7
 				
 			end		
