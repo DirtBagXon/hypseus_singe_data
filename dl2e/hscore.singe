@@ -1,8 +1,8 @@
 --[[
 
 PROGRAM NAME:	LUA SINGE ENGINE
-VERSION:		2.0
-AUTHOR:			KARIS (2020)
+VERSION:		3.31
+AUTHOR:			KARIS (2021)
 
 This file is part of LUA SINGE ENGINE.
 
@@ -30,8 +30,8 @@ joythisSeconds = 0
 
 function joyDelayOFF()
 
-joySecs = 0
-joyLimit = 0
+	joySecs = 0
+	joyLimit = 0
 
 end
 
@@ -75,6 +75,228 @@ function joyDelayDue()
 
 end
 
+function readScore()
+
+	local s0 = ""
+	local s1
+	local hsName = ""
+	local hsScore = ""
+	local hsDiff = ""
+	local hsNameLB = ""
+	local hsScoreLB = ""	
+	local hsNameS = ""
+	local hsScoreS = ""	
+	local k = 0
+
+	if altCfg == true then
+
+		s0 = MYDIR .."hscore2.cfg"
+
+	else
+
+		s0 = MYDIR .."hscore.cfg"
+
+	end		
+
+	local h1 = io.input(s0)
+
+	highscore = nil; highscore = {}
+	for k=1,10 do
+		s1 = io.read("*line")
+		
+		hsName = string.sub(s1,1,string.find(s1,",")-1)
+		hsScore = string.sub(s1,string.find(s1,",")+1, string.len(s1))
+		if k==1 then iTopN = tonumber(hsScore) end
+		
+		highscore[k] = {}
+		highscore[k] = {hsName, hsScore}
+	
+	end	
+
+	s1 = io.read("*line")
+	highscoreLB = nil; highscoreLB = {}
+	for k=1,10 do
+		s1 = io.read("*line")
+		
+		hsNameLB = string.sub(s1,1,string.find(s1,",")-1)
+		hsScoreLB = string.sub(s1,string.find(s1,",")+1, string.len(s1))
+		if k==1 then iTopLB = tonumber(hsScoreLB) end
+		
+		highscoreLB[k] = {}
+		highscoreLB[k] = {hsNameLB, hsScoreLB}
+	
+	end	
+
+	s1 = io.read("*line")
+	highscoreS = nil; highscoreS = {}
+	for k=1,10 do
+		s1 = io.read("*line")
+		
+		hsNameS = string.sub(s1,1,string.find(s1,",")-1)
+		hsScoreS = string.sub(s1,string.find(s1,",")+1, string.len(s1))
+		if k==1 then iTopS = tonumber(hsScoreS) end
+		
+		highscoreS[k] = {}
+		highscoreS[k] = {hsNameS, hsScoreS}
+	
+	end	
+
+	s1 = io.read("*line")
+	
+	s1 = io.read("*line")
+	
+	if (s1 ~= nil) then
+	
+		t1 = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end	
+
+	s1 = io.read("*line")
+	
+	if (s1 ~= nil) then
+	
+		t2 = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")
+	
+	if (s1 ~= nil) then
+	
+		t3 = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")
+	
+	if (s1 ~= nil) then
+	
+		t4 = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")
+	
+	s1 = io.read("*line")
+	
+	if (s1 ~= nil) then
+	
+		t1l = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end	
+
+	s1 = io.read("*line")
+	
+	if (s1 ~= nil) then
+	
+		t2l = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")
+	
+	if (s1 ~= nil) then
+	
+		t3l = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")
+	
+	if (s1 ~= nil) then
+	
+		t4l = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")
+	percent = nil; percent = {}
+	for k=1,finalstage do
+		s1 = io.read("*line")
+		
+		hsName = string.sub(s1,1,string.find(s1,",")-1)
+		hsScore = string.sub(s1,string.find(s1,",")+1, string.find(s1,"!")-1)
+		hsDiff = string.sub(s1,string.find(s1,"!")+1, string.len(s1))
+					
+		percent[k] = {}
+		percent[k] = {hsName, hsScore, hsDiff}
+	
+	end	
+
+	io.close(h1)
+
+end
+
+function writeScore()
+
+	local sNewLine = "\n"
+	local s0 = ""
+	local s1 = ""
+
+	if altCfg == true then
+
+		s0 = MYDIR .."hscore2.cfg"
+
+	else
+
+		s0 = MYDIR .."hscore.cfg"
+
+	end		
+
+	local h1 = io.output(s0)
+
+	for k=1,10 do
+		
+		s1 = highscore[k][1] .. "," .. highscore[k][2]
+		io.write(s1 .. sNewLine)
+	
+	end
+
+	io.write(sNewLine)	
+	
+	for k=1,10 do
+		
+		s1 = highscoreLB[k][1] .. "," .. highscoreLB[k][2]
+		io.write(s1 .. sNewLine)
+	
+	end
+
+	io.write(sNewLine)	
+	
+	for k=1,10 do
+		
+		s1 = highscoreS[k][1] .. "," .. highscoreS[k][2]
+		io.write(s1 .. sNewLine)
+	
+	end
+	
+	io.write(sNewLine)	
+
+	io.write("t1 = " .. t1 .. sNewLine)
+	io.write("t2 = " .. t2 .. sNewLine)
+	io.write("t3 = " .. t3 .. sNewLine)	
+	io.write("t4 = " .. t4 .. sNewLine)
+
+	io.write(sNewLine)	
+
+	io.write("t1l = " .. t1l .. sNewLine)
+	io.write("t2l = " .. t2l .. sNewLine)
+	io.write("t3l = " .. t3l .. sNewLine)	
+	io.write("t4l = " .. t4l .. sNewLine)
+
+	io.write(sNewLine)
+
+	for k=1,finalstage do
+		
+		s1 = percent[k][1] .. "," .. percent[k][2] .. "!" .. percent[k][3]
+		io.write(s1 .. sNewLine)
+	
+	end
+
+	io.close(h1)
+
+end
+
 function doHighScore()
 
 	if (lvlState == lvlSetup) then
@@ -90,33 +312,59 @@ function doHighScore()
 		sName = ""
 		initArray()
 		
-		discSkipToFrame(offsetEnterHScore)
-		discPause()
-		timerON(60)
+		setupClip(offsetNewHScore, offsetNewHScoreend)		
+		lvlState = branch01
+		
+	elseif (lvlState == branch01) then
+	
+		if (currentFrame == iFrameEnd or p1BUTTON1) then
+		
+			p1BUTTON1 = false		
+			
+			if iFrameEnd+1 ~= offsetEnterHScore then 
 
-		lvlState = lvlRunning
+				setupClip(offsetEnterHScore, offsetEnterHScoreend)		
+
+			else
+				
+				iFrameEnd = offsetEnterHScoreend
+
+			end	
+
+
+			lvlState = lvlRunning
+		
+		end
 		
 	elseif (lvlState == branch02) then
 		
-		if timerDue() then 
+		if currentFrame == iFrameEnd then 
 
-			discPause()
-			timerON(2)
 			lvlState = lvlEnd 
 
 		else
 
-			drawHS()
+			if dip_GameType == 1 then
+
+				drawHSLB()
+
+			elseif dip_GameType == 3 then
+
+				drawHSS()
+			
+			else
+
+				drawHS()
+
+			end
 
 		end
 
 	elseif (lvlState == branch03) then
 		
-		if timerDue() then  
+		if currentFrame == iFrameEnd then 
 
-			discPause()
-			timerON(2)
-			lvlState = lvlEnd
+			lvlState = lvlEnd 
 
 		else
 
@@ -126,19 +374,51 @@ function doHighScore()
 		
 	elseif (lvlState == lvlRunning) then
 	
-		if timerDue() then	
+		if currentFrame == iFrameEnd then	
 			
-			if dip_Rom == 2 then
+			if dip_GameType == 2 then
 
 				updatePercent(sName, math.floor(100*(iRightMv/(iRightMv+iWrongMv))))
-				setupClip(offsetRankings, offsetRankingsend)
+				
+				if iFrameEnd+1 ~= offsetRankings then 
+
+					setupClip(offsetRankings, offsetRankingsend)		
+
+				else
+				
+					iFrameEnd = offsetRankingsend
+
+				end	
+				
 				lvlState = branch03
 
 			else
 
-				updateHS(sName, iScore)
-				setupClip(offsetRankings, offsetRankingsend)
-				lvlState = branch02	
+				if dip_GameType == 1 then
+
+					updateHSLB(sName, iScore)
+
+				elseif dip_GameType == 3 then
+
+					updateHSS(sName, iScore)	
+
+				else
+
+					updateHS(sName, iScore)
+
+				end
+
+					if iFrameEnd+1 ~= offsetRankings then 
+
+						setupClip(offsetRankings, offsetRankingsend)		
+
+					else
+					
+						iFrameEnd = offsetRankingsend
+
+					end	
+
+					lvlState = branch02	
 
 			end
 			
@@ -161,9 +441,9 @@ function doHighScore()
 	elseif (lvlState == lvlEnd) then	
 				
 		
-		writeConfig()
+		writeScore()
 
-		if dip_Rom == 2 then
+		if dip_GameType == 2 then
 
 			lvlState = lvlSetup
 			currentLevel = levelIntro
@@ -179,6 +459,114 @@ function doHighScore()
 		
 		
 	end
+
+end
+
+function doTrophy() -- Manage trophies
+
+	if LvlTrophy3 ~= 0 then
+
+		if BeatGame() then --trophy 1 (finish the game)
+			
+			if dip_GameType == 1 then
+
+				if t1l < dip_Difficulty + 1 then 
+				
+					t1l = dip_Difficulty + 1
+					writeScore()	
+				
+				end
+			
+			else
+
+				if t1 < dip_Difficulty + 1 then 
+
+					t1 = dip_Difficulty + 1	
+					writeScore()
+
+				end
+
+			end	
+
+			if BeatGameWithOneCredit() then --trophy 2 (finish the game with 1 credit)
+
+				if dip_GameType == 1 then
+
+					if t2l < dip_Difficulty + 1 then	
+
+						t2l = dip_Difficulty + 1 
+						writeScore()
+
+					end
+		
+				else
+
+					if t2 < dip_Difficulty + 1 then	
+
+						t2 = dip_Difficulty + 1 
+						writeScore()
+
+					end
+
+				end
+
+			end
+
+		end	
+
+		if BeatLevelWithOneLife(LvlTrophy3) then --trophy 3 (finish level 1 without dying)
+
+			if dip_GameType == 1 then
+
+				if t3l < dip_Difficulty + 1 then
+
+					t3l = dip_Difficulty + 1
+					numTrophy = dip_Difficulty + 1
+					writeScore()
+					
+				end
+
+			else
+
+				if t3 < dip_Difficulty + 1 then
+
+					t3 = dip_Difficulty + 1
+					numTrophy = dip_Difficulty + 1
+					writeScore()
+					
+				end
+
+			end
+
+		end
+
+		if BeatLevelWithOneLife(LvlTrophy4) then --trophy 4 (finish level 2 without dying)
+
+			if dip_GameType == 1 then
+
+				if t4l < dip_Difficulty + 1 then
+
+					t4l = dip_Difficulty + 1
+					numTrophy = dip_Difficulty + 1
+					writeScore()
+					
+				end
+
+			else
+
+				if t4 < dip_Difficulty + 1 then
+
+					t4 = dip_Difficulty + 1
+					numTrophy = dip_Difficulty + 1
+					writeScore()
+					
+				end
+
+			end
+
+		end
+
+	end	
 
 end
 
@@ -271,21 +659,30 @@ function checkInput()
 		
 		elseif iCursor == 44 then
 			
-			if dip_Rom == 2 then
+			if dip_GameType == 2 then
 
 				updatePercent(sName, math.floor(100*(iRightMv/(iRightMv+iWrongMv))))
-				discSkipToFrame(offsetOKHScore)
-				discPause()
-				timerON(5)
+				setupClip(offsetRankings, offsetRankingsend)
 				lvlState = branch03
 
 			else
 
-				updateHS(sName, iScore)
-				discSkipToFrame(offsetOKHScore)
-				discPause()
-				timerON(5)
-				lvlState = branch02
+				if dip_GameType == 1 then
+
+					updateHSLB(sName, iScore)
+
+				elseif dip_GameType == 3 then
+
+					updateHSS(sName, iScore)
+					
+				else
+
+					updateHS(sName, iScore)
+
+				end	
+
+				setupClip(offsetRankings, offsetRankingsend)
+				lvlState = branch02	
 
 			end
 					
@@ -312,7 +709,7 @@ end
 function initArray()
 
 	sAlph = nil; sAlph = {}
-	local s1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ@123456789?!#$%*"
+	local s1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ@123456789?!#   "
 	
 	local k = 1
 	
@@ -347,9 +744,9 @@ function printLetters()
 	
 	end
 	
-	fontSelect(fontLCD)
-	setFontColor(mycolor4)
-	fontPrint(getMiddle(s1),OVLH/3,s1)
+	fontSelect(fontService)
+	setFontColor(mycolor2)
+	fontPrint(getMiddle(s1),OVLH/4,s1)
 	
 	
 
@@ -360,13 +757,23 @@ function drawLetters()
 	local k = 0
 	local q = 0
 	local x1 = 0
-	local y1 = OVLH/2.5
+	local y1 = OVLH/3
 		
 		
 
+	if ShowTitle == true then
+
+		setFontColor(mycolor2)
+		fontSelect(fontBig)
+		fontPrint(getMiddle("HIGH SCORE!!"),LINEH*4, "HIGH SCORE!!")
+		fontSelect(fontGame)
+		fontPrint(getMiddle("PLEASE ENTER YOUR NAME"),OVLH-LINEH*4, "PLEASE ENTER YOUR NAME")
+	
+	end		
+		
 	printLetters()		
 
-	fontSelect(fontLCD)
+	fontSelect(fontService)
 
 	for k = 1,44 do
 
@@ -396,7 +803,7 @@ function drawLetters()
 			
 			if k == 44 then			
 				
-				fontPrint(x1+(LINEW*2)+4, y1, "END")
+				fontPrint(x1+LINEW*2, y1, "END")
 
 			end
 			
@@ -415,43 +822,209 @@ function drawLetters()
 
 end
 
-function drawHS()
+function drawHSAll()
 
 	local k = 0
 	
-	if bShowTitle == true then
+	if ShowTitle == true then
 
 		fontSelect(fontBig)
-		setFontColor(mycolor3)
+		setFontColor(mycolor2)
 		fontPrint(getMiddle("RANKINGS"),LINEH*4, "RANKINGS")
 		
-	end		
+	end	
 
-	fontSelect(fontLCD)
+	fontSelect(fontService)
+
+	setFontColor(mycolor2)
+	fontPrint(getMiddle("NORMAL"),LINEH*15, "NORMAL")
+	
+	fontPrint(OVLW/11.9,LINEH*15, "LIFE BAR")
+	fontPrint(OVLW/1.34,LINEH*15, "SURVIVOR")
+
+	setFontColor(mycolor1)
 		
 	for k = 1, 10 do
 			
 		if k==1 then
 
-			setFontColor(mycolor1)
-			fontPrint(LINEW*1.9+OVLW/3.6, OVLH/5 + k *LINEH*5, lpadString(k,2) ..".")
-			fontPrint(LINEW*2+OVLW/2.65, OVLH/5 + k *LINEH*5, lpadString(highscore[k][1],3))
-			fontPrint(LINEW*2+OVLW/2.0, OVLH/5 + k *LINEH*5, lpadString(highscore[k][2],7))
+			setFontColor(mycolor2)
+			fontPrint(OVLW/2.56, OVLH/4.59 + k *LINEH*5, rpadString(k,4))
+			fontPrint(OVLW/2.37, OVLH/4.59 + k *LINEH*5, highscore[k][1])
+			fontPrint(OVLW/1.92, OVLH/4.59 + k *LINEH*5, highscore[k][2])
+			fontPrint(OVLW/21.8, OVLH/4.59 + k *LINEH*5, rpadString(k,4))
+			fontPrint(OVLW/13.33, OVLH/4.59 + k *LINEH*5, highscoreLB[k][1])
+			fontPrint(OVLW/5.69, OVLH/4.59 + k *LINEH*5, highscoreLB[k][2])
+			fontPrint(OVLW/1.34, OVLH/4.59 + k *LINEH*5, rpadString(k,4))
+			fontPrint(OVLW/1.28, OVLH/4.59 + k *LINEH*5, highscoreS[k][1])
+			fontPrint(OVLW/1.13, OVLH/4.59 + k *LINEH*5, lpadString(highscoreS[k][2],3))
 		
 		elseif k==10 then
 
-			setFontColor(mycolor2)
-			fontPrint(LINEW*2+OVLW/3.65, OVLH/5 + k *LINEH*5, lpadString(k,2) ..".")
-			fontPrint(LINEW*2+OVLW/2.65, OVLH/5 + k *LINEH*5, lpadString(highscore[k][1],3))
-			fontPrint(LINEW*2+OVLW/2.0, OVLH/5 + k *LINEH*5, lpadString(highscore[k][2],7))	
+			setFontColor(mycolor1)
+			fontPrint(OVLW/2.73, OVLH/4.59 + k *LINEH*5, rpadString(k,4))
+			fontPrint(OVLW/2.37, OVLH/4.59 + k *LINEH*5, highscore[k][1])
+			fontPrint(OVLW/1.92, OVLH/4.59 + k *LINEH*5, highscore[k][2])	
+			fontPrint(OVLW/43.64, OVLH/4.59 + k *LINEH*5, rpadString(k,4))
+			fontPrint(OVLW/13.33, OVLH/4.59 + k *LINEH*5, highscoreLB[k][1])
+			fontPrint(OVLW/5.69, OVLH/4.59 + k *LINEH*5, highscoreLB[k][2])
+			fontPrint(OVLW/1.37, OVLH/4.59 + k *LINEH*5, rpadString(k,4))
+			fontPrint(OVLW/1.28, OVLH/4.59 + k *LINEH*5, highscoreS[k][1])
+			fontPrint(OVLW/1.13, OVLH/4.59 + k *LINEH*5, lpadString(highscoreS[k][2],3))
 
 		else
 
-			setFontColor(mycolor2)
-			fontPrint(LINEW*2+OVLW/3.6, OVLH/5 + k *LINEH*5, lpadString(k,2) ..".")
-			fontPrint(LINEW*2+OVLW/2.65, OVLH/5 + k *LINEH*5, lpadString(highscore[k][1],3))
-			fontPrint(LINEW*2+OVLW/2.0, OVLH/5 + k *LINEH*5, lpadString(highscore[k][2],7))
+			setFontColor(mycolor1)
+			fontPrint(OVLW/2.64, OVLH/4.59 + k *LINEH*5, rpadString(k,3))
+			fontPrint(OVLW/2.37, OVLH/4.59 + k *LINEH*5, highscore[k][1])
+			fontPrint(OVLW/1.92, OVLH/4.59 + k *LINEH*5, highscore[k][2])
+			fontPrint(OVLW/29.4, OVLH/4.59 + k *LINEH*5, rpadString(k,3))
+			fontPrint(OVLW/13.33, OVLH/4.59 + k *LINEH*5, highscoreLB[k][1])
+			fontPrint(OVLW/5.69, OVLH/4.59 + k *LINEH*5, highscoreLB[k][2])
+			fontPrint(OVLW/1.36, OVLH/4.59 + k *LINEH*5, rpadString(k,3))
+			fontPrint(OVLW/1.28, OVLH/4.59 + k *LINEH*5, highscoreS[k][1])
+			fontPrint(OVLW/1.13, OVLH/4.59 + k *LINEH*5, lpadString(highscoreS[k][2],3))
+		
 
+		end
+
+	end
+
+end
+
+function drawHS()
+
+	local k = 0
+	
+	if ShowTitle == true then
+
+		fontSelect(fontBig)
+		setFontColor(mycolor2)
+		fontPrint(getMiddle("RANKINGS"),LINEH*4, "RANKINGS")
+		
+	end		
+
+	fontSelect(fontService)
+	setFontColor(mycolor2)
+	fontPrint(getMiddle("NORMAL MODE"),LINEH*11, "NORMAL MODE")
+	setFontColor(mycolor1)
+		
+	for k = 1, 10 do
+			
+		if k==1 then
+
+			setFontColor(mycolor2)
+			fontPrint(OVLW/2.56, OVLH/4.59 + k *LINEH*5, rpadString(k,4))
+			fontPrint(OVLW/2.37, OVLH/4.59 + k *LINEH*5, highscore[k][1])
+			fontPrint(OVLW/1.92, OVLH/4.59 + k *LINEH*5, highscore[k][2])
+					
+		elseif k==10 then
+
+			setFontColor(mycolor1)
+			fontPrint(OVLW/2.73, OVLH/4.59 + k *LINEH*5, rpadString(k,4))
+			fontPrint(OVLW/2.37, OVLH/4.59 + k *LINEH*5, highscore[k][1])
+			fontPrint(OVLW/1.92, OVLH/4.59 + k *LINEH*5, highscore[k][2])	
+			
+		else
+
+			setFontColor(mycolor1)
+			fontPrint(OVLW/2.64, OVLH/4.59 + k *LINEH*5, rpadString(k,3))
+			fontPrint(OVLW/2.37, OVLH/4.59 + k *LINEH*5, highscore[k][1])
+			fontPrint(OVLW/1.92, OVLH/4.59 + k *LINEH*5, highscore[k][2])
+			
+		end
+
+	end
+
+end
+
+function drawHSLB()
+
+	local k = 0
+	
+	if ShowTitle == true then
+
+		fontSelect(fontBig)
+		setFontColor(mycolor2)
+		fontPrint(getMiddle("RANKINGS"),LINEH*4, "RANKINGS")
+		
+	end		
+
+	fontSelect(fontService)
+	setFontColor(mycolor2)
+	fontPrint(getMiddle("LIFE BAR MODE"),LINEH*11, "LIFE BAR MODE")
+	setFontColor(mycolor1)
+	
+	for k = 1, 10 do
+			
+		if k==1 then
+
+			setFontColor(mycolor2)
+			fontPrint(OVLW/2.56, OVLH/4.59 + k *LINEH*5, rpadString(k,4))
+			fontPrint(OVLW/2.37, OVLH/4.59 + k *LINEH*5, highscoreLB[k][1])
+			fontPrint(OVLW/1.92, OVLH/4.59 + k *LINEH*5, highscoreLB[k][2])
+					
+		elseif k==10 then
+
+			setFontColor(mycolor1)
+			fontPrint(OVLW/2.73, OVLH/4.59 + k *LINEH*5, rpadString(k,4))
+			fontPrint(OVLW/2.37, OVLH/4.59 + k *LINEH*5, highscoreLB[k][1])
+			fontPrint(OVLW/1.92, OVLH/4.59 + k *LINEH*5, highscoreLB[k][2])	
+			
+		else
+
+			setFontColor(mycolor1)
+			fontPrint(OVLW/2.64, OVLH/4.59 + k *LINEH*5, rpadString(k,3))
+			fontPrint(OVLW/2.37, OVLH/4.59 + k *LINEH*5, highscoreLB[k][1])
+			fontPrint(OVLW/1.92, OVLH/4.59 + k *LINEH*5, highscoreLB[k][2])
+			
+		end
+
+
+	end
+
+end
+
+function drawHSS()
+
+	local k = 0
+	
+	if ShowTitle == true then
+
+		fontSelect(fontBig)
+		setFontColor(mycolor2)
+		fontPrint(getMiddle("RANKINGS"),LINEH*4, "RANKINGS")
+		
+	end		
+
+	fontSelect(fontService)
+	setFontColor(mycolor2)
+	fontPrint(getMiddle("SURVIVOR"),LINEH*11, "SURVIVOR")
+	setFontColor(mycolor1)
+		
+	for k = 1, 10 do
+			
+		if k==1 then
+
+			setFontColor(mycolor2)
+			fontPrint(OVLW/2.36, OVLH/4.59 + k *LINEH*5, rpadString(k,4))
+			fontPrint(OVLW/2.17, OVLH/4.59 + k *LINEH*5, highscoreS[k][1])
+			fontPrint(OVLW/1.72, OVLH/4.59 + k *LINEH*5, highscoreS[k][2]) 
+					
+		elseif k==10 then
+
+			setFontColor(mycolor1)
+			fontPrint(OVLW/2.53, OVLH/4.59 + k *LINEH*5, rpadString(k,4))
+			fontPrint(OVLW/2.17, OVLH/4.59 + k *LINEH*5, highscoreS[k][1])
+			fontPrint(OVLW/1.72, OVLH/4.59 + k *LINEH*5, highscoreS[k][2])	
+			
+		else
+
+			setFontColor(mycolor1)
+			fontPrint(OVLW/2.44, OVLH/4.59 + k *LINEH*5, rpadString(k,3))
+			fontPrint(OVLW/2.17, OVLH/4.59 + k *LINEH*5, highscoreS[k][1])
+			fontPrint(OVLW/1.72, OVLH/4.59 + k *LINEH*5, highscoreS[k][2])
+			
 		end
 
 	end
@@ -461,129 +1034,298 @@ end
 function drawPercent()
 
 	local k = 0
+	local j = 0
+	local pad = 20
 	
 	if ShowTitle == true then
 
 		fontSelect(fontBig)
-		setFontColor(mycolor3)
+		setFontColor(mycolor2)
 		fontPrint(getMiddle("RANKINGS"),LINEH*4, "RANKINGS")
 		
 	end		
 
-	fontSelect(fontLCD)
+	fontSelect(fontService)
+
+	j = 5.5
+
+	if finalstage > 11 then
+
+		fontSelect(fontService)
+
+		j = 3
+
+	elseif finalstage > 23 then
+
+		fontSelect(fontService)
+		j = 1.5
+
+	end
+	
 	setFontColor(mycolor2)
-	fontPrint(getMiddle("BEST PERCENT"),LINEH*2, "BEST PERCENT")
+	fontPrint(getMiddle("BEST PERCENT"),LINEH*14, "BEST PERCENT")
 	setFontColor(mycolor1)
 
-	for k = 1, finalstage do
-			
-		fontPrint(getMiddle("Level 2 : BAB 99"), OVLH/10 + k *LINEH*4.5, "Level " .. lpadString(k,2) .. " : " .. lpadString(percent[k][1],3) .. " " .. lpadString(percent[k][2],3))
+	fontSelect(fontScore)
+
+	for k = 1,finalstage,3 do
+		
+		if k + 2 < finalstage then
+
+			fontPrint(getMiddle("L2: BAB 99 (E)  L2: BAB 99 (E)  L2: BAB 99 (E)")-pad, OVLH/5 + k *LINEH*j, "L" .. lpadString(k,2) .. ": " .. lpadString(percent[k][1],3) .. " " .. lpadString(percent[k][2],3) .. " (" .. percent[k][3] .. ")  L" .. lpadString(k+1,2) .. ": " .. lpadString(percent[k+1][1],3) .. " " .. lpadString(percent[k+1][2],3) .. " (" .. percent[k+1][3] .. ")  L" .. lpadString(k+2,2) .. ": " .. lpadString(percent[k+2][1],3) .. " " .. lpadString(percent[k+2][2],3) .. " (" .. percent[k+2][3] .. ")")
+	
+		else
+
+			if k+2 == finalstage then 
+
+				fontPrint(getMiddle("L2: BAB 99 (E)  L2: BAB 99 (E)  L2: BAB 99 (E)")-pad, OVLH/5 + k *LINEH*j, "L" .. lpadString(k,2) .. ": " .. lpadString(percent[k][1],3) .. " " .. lpadString(percent[k][2],3) .. " (" .. percent[k][3] .. ")  L" .. lpadString(k+1,2) .. ": " .. lpadString(percent[k+1][1],3) .. " " .. lpadString(percent[k+1][2],3) .. " (" .. percent[k+1][3] .. ")  L" .. lpadString(k+2,2) .. ": " .. lpadString(percent[k+2][1],3) .. " " .. lpadString(percent[k+2][2],3) .. " (" .. percent[k+2][3] .. ")")
+				break
+
+			elseif k+2 == finalstage + 1 then
+
+				fontPrint(getMiddle("L2: BAB 99 (E)  L2: BAB 99 (E)")-pad, OVLH/5 + k *LINEH*j, "L" .. lpadString(k,2) .. ": " .. lpadString(percent[k][1],3) .. " " .. lpadString(percent[k][2],3) .. " (" .. percent[k][3].. ")  L" .. lpadString(k+1,2) .. ": " .. lpadString(percent[k+1][1],3) .. " " .. lpadString(percent[k+1][2],3) .. " (" .. percent[k][3] .. ")")
+				break
+
+			elseif k+2 == finalstage + 2 then
+
+				fontPrint(getMiddle("L2: BAB 99 (E)")-pad, OVLH/5 + k *LINEH*j, "L" .. lpadString(k,2) .. ": " .. lpadString(percent[k][1],3) .. " " .. lpadString(percent[k][2],3) .. " (" .. percent[k][3] .. ")")
+				break
+
+			end 
+					
+		end
 				
 	end
 
 end
 
-
 function drawTrophy()
 
 	local k = 0
-	
-	if bShowTitle == true then
 
-		fontSelect(fontBig)
-		setFontColor(mycolor3)
-		fontPrint(getMiddle("TROPHIES"),LINEH*4, "TROPHIES")
+	if LvlTrophy3 ~= 0 then
+	
+		if ShowTitle == true then
+
+			fontSelect(fontBig)
+			setFontColor(mycolor2)
+			fontPrint(getMiddle("TROPHIES"),LINEH*4, "TROPHIES")
+			
+		end	
+
+		fontSelect(fontService)
+
+		setFontColor(mycolor2)
+		fontPrint(getMiddle("NORMAL MODE"),OVLH-LINEH*5, "NORMAL MODE")
+
+		setFontColor(mycolor1)		
 		
-	end		
+		if t1 == 0 then
+
+			spriteDraw(3*OVLW/4,OVLH/4,sprite[TN])
+
+		elseif t1 == 1 then
+
+			spriteDraw(3*OVLW/4,OVLH/4,sprite[TB])
+
+		elseif t1 == 2 then
+
+			spriteDraw(3*OVLW/4,OVLH/4,sprite[TS])
+
+		elseif t1 == 3 then
+
+			spriteDraw(3*OVLW/4,OVLH/4,sprite[TG])
+
+		elseif t1 == 4 then
+
+			spriteDraw(3*OVLW/4,OVLH/4,sprite[TP])
+
+		end
+
+
+		if t2 == 0 then
+
+			spriteDraw(3*OVLW/4,1.72*OVLH/4,sprite[TN])
+
+		elseif t2 == 1 then
+
+			spriteDraw(3*OVLW/4,1.72*OVLH/4,sprite[TB])
+
+		elseif t2 == 2 then
+
+			spriteDraw(3*OVLW/4,1.72*OVLH/4,sprite[TS])
+
+		elseif t2 == 3 then
+
+			spriteDraw(3*OVLW/4,1.72*OVLH/4,sprite[TG])
+
+		elseif t2 == 4 then
+
+			spriteDraw(3*OVLW/4,1.72*OVLH/4,sprite[TP])
+
+		end
+
+
+		if t3 == 0 then
+
+			spriteDraw(3*OVLW/4,2.44*OVLH/4,sprite[TN])
+
+		elseif t3 == 1 then
+
+			spriteDraw(3*OVLW/4,2.44*OVLH/4,sprite[TB])
+
+		elseif t3 == 2 then
+
+			spriteDraw(3*OVLW/4,2.44*OVLH/4,sprite[TS])
+
+		elseif t3 == 3 then
+
+			spriteDraw(3*OVLW/4,2.44*OVLH/4,sprite[TG])
+
+		elseif t3 == 4 then
+
+			spriteDraw(3*OVLW/4,2.44*OVLH/4,sprite[TP])
+
+		end
+
+
+		if t4 == 0 then
+
+			spriteDraw(3*OVLW/4,3.16*OVLH/4,sprite[TN])
+
+		elseif t4 == 1 then
+
+			spriteDraw(3*OVLW/4,3.16*OVLH/4,sprite[TB])
+
+		elseif t4 == 2 then
+
+			spriteDraw(3*OVLW/4,3.16*OVLH/4,sprite[TS])
+
+		elseif t4 == 3 then
+
+			spriteDraw(3*OVLW/4,3.16*OVLH/4,sprite[TG])
+
+		elseif t4 == 4 then
+
+			spriteDraw(3*OVLW/4,3.16*OVLH/4,sprite[TP])
+
+		end
+
+	end
+
+end
+
+function drawTrophyLB()
+
+	local k = 0
 	
-	if t1 == 0 then
+	if LvlTrophy3 ~= 0 then
 
-		spriteDraw(3*OVLW/4,OVLH/4,sprite[TN])
+		if ShowTitle == true then
 
-	elseif t1 == 1 then
+			fontSelect(fontBig)
+			setFontColor(mycolor2)
+			fontPrint(getMiddle("TROPHIES"),LINEH*4, "TROPHIES")
+			
+		end	
 
-		spriteDraw(3*OVLW/4,OVLH/4,sprite[TB])
+		fontSelect(fontService)
+		
+		setFontColor(mycolor2)
+		fontPrint(getMiddle("LIFE BAR MODE"),OVLH-LINEH*5, "LIFE BAR MODE")
+				
+		setFontColor(mycolor1)	
+		
+		if t1l == 0 then
 
-	elseif t1 == 2 then
+			spriteDraw(3*OVLW/4,OVLH/4,sprite[TN])
 
-		spriteDraw(3*OVLW/4,OVLH/4,sprite[TS])
+		elseif t1l == 1 then
 
-	elseif t1 == 3 then
+			spriteDraw(3*OVLW/4,OVLH/4,sprite[TB])
 
-		spriteDraw(3*OVLW/4,OVLH/4,sprite[TG])
+		elseif t1l == 2 then
 
-	elseif t1 == 4 then
+			spriteDraw(3*OVLW/4,OVLH/4,sprite[TS])
 
-		spriteDraw(3*OVLW/4,OVLH/4,sprite[TP])
+		elseif t1l == 3 then
 
-	end
+			spriteDraw(3*OVLW/4,OVLH/4,sprite[TG])
 
+		elseif t1l == 4 then
 
-	if t2 == 0 then
+			spriteDraw(3*OVLW/4,OVLH/4,sprite[TP])
 
-		spriteDraw(3*OVLW/4,1.72*OVLH/4,sprite[TN])
-
-	elseif t2 == 1 then
-
-		spriteDraw(3*OVLW/4,1.72*OVLH/4,sprite[TB])
-
-	elseif t2 == 2 then
-
-		spriteDraw(3*OVLW/4,1.72*OVLH/4,sprite[TS])
-
-	elseif t2 == 3 then
-
-		spriteDraw(3*OVLW/4,1.72*OVLH/4,sprite[TG])
-
-	elseif t2 == 4 then
-
-		spriteDraw(3*OVLW/4,1.72*OVLH/4,sprite[TP])
-
-	end
+		end
 
 
-	if t3 == 0 then
+		if t2l == 0 then
 
-		spriteDraw(3*OVLW/4,2.44*OVLH/4,sprite[TN])
+			spriteDraw(3*OVLW/4,1.72*OVLH/4,sprite[TN])
 
-	elseif t3 == 1 then
+		elseif t2l == 1 then
 
-		spriteDraw(3*OVLW/4,2.44*OVLH/4,sprite[TB])
+			spriteDraw(3*OVLW/4,1.72*OVLH/4,sprite[TB])
 
-	elseif t3 == 2 then
+		elseif t2l == 2 then
 
-		spriteDraw(3*OVLW/4,2.44*OVLH/4,sprite[TS])
+			spriteDraw(3*OVLW/4,1.72*OVLH/4,sprite[TS])
 
-	elseif t3 == 3 then
+		elseif t2l == 3 then
 
-		spriteDraw(3*OVLW/4,2.44*OVLH/4,sprite[TG])
+			spriteDraw(3*OVLW/4,1.72*OVLH/4,sprite[TG])
 
-	elseif t3 == 4 then
+		elseif t2l == 4 then
 
-		spriteDraw(3*OVLW/4,2.44*OVLH/4,sprite[TP])
+			spriteDraw(3*OVLW/4,1.72*OVLH/4,sprite[TP])
 
-	end
+		end
 
 
-	if t4 == 0 then
+		if t3l == 0 then
 
-		spriteDraw(3*OVLW/4,3.16*OVLH/4,sprite[TN])
+			spriteDraw(3*OVLW/4,2.44*OVLH/4,sprite[TN])
 
-	elseif t4 == 1 then
+		elseif t3l == 1 then
 
-		spriteDraw(3*OVLW/4,3.16*OVLH/4,sprite[TB])
+			spriteDraw(3*OVLW/4,2.44*OVLH/4,sprite[TB])
 
-	elseif t4 == 2 then
+		elseif t3l == 2 then
 
-		spriteDraw(3*OVLW/4,3.16*OVLH/4,sprite[TS])
+			spriteDraw(3*OVLW/4,2.44*OVLH/4,sprite[TS])
 
-	elseif t4 == 3 then
+		elseif t3l == 3 then
 
-		spriteDraw(3*OVLW/4,3.16*OVLH/4,sprite[TG])
+			spriteDraw(3*OVLW/4,2.44*OVLH/4,sprite[TG])
 
-	elseif t4 == 4 then
+		elseif t3l == 4 then
 
-		spriteDraw(3*OVLW/4,3.16*OVLH/4,sprite[TP])
+			spriteDraw(3*OVLW/4,2.44*OVLH/4,sprite[TP])
+
+		end
+
+
+		if t4l == 0 then
+
+			spriteDraw(3*OVLW/4,3.16*OVLH/4,sprite[TN])
+
+		elseif t4l == 1 then
+
+			spriteDraw(3*OVLW/4,3.16*OVLH/4,sprite[TB])
+
+		elseif t4l == 2 then
+
+			spriteDraw(3*OVLW/4,3.16*OVLH/4,sprite[TS])
+
+		elseif t4l == 3 then
+
+			spriteDraw(3*OVLW/4,3.16*OVLH/4,sprite[TG])
+
+		elseif t4l == 4 then
+
+			spriteDraw(3*OVLW/4,3.16*OVLH/4,sprite[TP])
+
+		end
 
 	end
 
@@ -596,13 +1338,35 @@ function newScore(thisScore)
 	local k = 0
 	
 	for k=1,10 do
-	
-		if (tonumber(thisScore) >= tonumber(highscore[k][2])) then
-			
-			bResult = true			
-			break
 		
-		end	
+		if dip_GameType == 1 then	
+
+			if (tonumber(thisScore) >= tonumber(highscoreLB[k][2])) then
+				
+				bResult = true			
+				break
+			
+			end	
+
+		elseif dip_GameType == 3 then	
+
+			if (tonumber(thisScore) >= tonumber(highscoreS[k][2])) then
+				
+				bResult = true			
+				break
+			
+			end
+
+		else
+
+			if (tonumber(thisScore) >= tonumber(highscore[k][2])) then
+				
+				bResult = true			
+				break
+			
+			end	
+
+		end
 	
 	end
 	
@@ -613,8 +1377,27 @@ end
 function newPercent(thisPercent)
 
 	local bResult = false
+	local bDiff = 0
 
-	if (tonumber(thisPercent) > tonumber(percent[iCurPos][2])) then
+	if percent[iLevel][3] == "E" then
+
+		bDiff = 0
+
+	elseif percent[iLevel][3] == "N" then
+
+		bDiff = 1
+
+	elseif percent[iLevel][3] == "H" then
+
+		bDiff = 2
+
+	elseif percent[iLevel][3] == "X" then
+
+		bDiff = 3
+
+	end
+
+	if (tonumber(thisPercent) > tonumber(percent[iLevel][2])) or ((tonumber(thisPercent) == tonumber(percent[iLevel][2])) and dip_Difficulty >= bDiff) then
 			
 		bResult = true			
 			
@@ -624,12 +1407,11 @@ function newPercent(thisPercent)
 
 end
 
+
 function getRandomName()
 
-	singeRandomize()
 	local grabbag = {'CAL','AKI','DON','TYG','KIM','LAR','KOR','MOR','KAR','CYR'}
 	local q = math.random(10)
-	if dip_Debug then debugPrint("Random name is: " .. grabbag[q]) end
 	return grabbag[q]	
 
 end
@@ -685,9 +1467,129 @@ function updateHS(thisName, thisScore)
 	
 end
 
+function updateHSLB(thisName, thisScore)
+
+	local k = 0
+	local tempName = ""
+	local tempScore = ""
+	local tempHS = nil
+	local bFound = false
+	local fromHere = 0
+	
+	if (thisName == "") then thisName = getRandomName() end
+	
+	tempHS = {}
+	
+	for k=1,10 do
+	
+		tempHS[k] = {}
+		tempHS[k] = {highscoreLB[k][1], highscoreLB[k][2]}
+		
+	end
+		
+	for k=1,10 do
+	
+		tempName = highscoreLB[k][1]
+		tempScore = highscoreLB[k][2]
+	
+		if (tonumber(thisScore) >= tonumber(highscoreLB[k][2])) then
+		
+			bFound = true
+			highscoreLB[k][1] = thisName
+			highscoreLB[k][2] = thisScore
+			fromHere = k
+			break
+		
+		end
+	
+	
+	end
+	
+	if bFound then
+		
+		for k=fromHere,9 do
+		
+			highscoreLB[k+1][1] = tempHS[k][1]
+			highscoreLB[k+1][2] = tempHS[k][2]
+		
+		end	
+
+	end
+	
+end
+
+function updateHSS(thisName, thisScore)
+
+	local k = 0
+	local tempName = ""
+	local tempScore = ""
+	local tempHS = nil
+	local bFound = false
+	local fromHere = 0
+	
+	if (thisName == "") then thisName = getRandomName() end
+	
+	tempHS = {}
+	
+	for k=1,10 do
+	
+		tempHS[k] = {}
+		tempHS[k] = {highscoreS[k][1], highscoreS[k][2]}
+		
+	end
+		
+	for k=1,10 do
+	
+		tempName = highscoreS[k][1]
+		tempScore = highscoreS[k][2]
+	
+		if (tonumber(thisScore) >= tonumber(highscoreS[k][2])) then
+		
+			bFound = true
+			highscoreS[k][1] = thisName
+			highscoreS[k][2] = thisScore
+			fromHere = k
+			break
+		
+		end
+	
+	
+	end
+	
+	if bFound then
+		
+		for k=fromHere,9 do
+		
+			highscoreS[k+1][1] = tempHS[k][1]
+			highscoreS[k+1][2] = tempHS[k][2]
+		
+		end	
+
+	end
+	
+end
+
 function updatePercent(thisName, thisPercent)
 	
-	percent[iCurPos][1] = thisName
-	percent[iCurPos][2] = thisPercent
-		
+	percent[iLevel][1] = thisName
+	percent[iLevel][2] = thisPercent
+	
+	if dip_Difficulty == 0 then
+
+		percent[iLevel][3] = "E"
+
+	elseif dip_Difficulty == 1 then
+
+		percent[iLevel][3] = "N"
+
+	elseif dip_Difficulty == 3 then
+
+		percent[iLevel][3] = "H"
+
+	elseif dip_Difficulty == 4 then
+
+		percent[iLevel][3] = "H"
+
+	end
+
 end

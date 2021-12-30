@@ -1,7 +1,7 @@
 
     mediainfo --Inform='Video;%FrameCount%' dl2e.m2v
-    36910
+    38148
 
     mediainfo --Inform='Video;%Duration%' dl2e.m2v 
-    1539455
+    1591089
 

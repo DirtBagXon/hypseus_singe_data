@@ -1,16 +1,16 @@
 --[[
 
-PROGRAM NAME:	LUA SINGE
-VERSION:		2.0 (standalone)
-AUTHOR:			KARIS (2020)
+PROGRAM NAME:	LUA SINGE ENGINE
+VERSION:		3.31
+AUTHOR:			KARIS (2021)
 
-This file is part of LUA SINGE.
+This file is part of LUA SINGE ENGINE.
 
-	LUA SINGE is free software: you can redistribute it and/or modify
+	LUA SINGE ENGINE is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation.
 
-	LUA SINGE is distributed in the hope that it will be useful,
+	LUA SINGE ENGINE is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
@@ -64,13 +64,9 @@ WHITE = 5
 GREY = 6; GRAY = 6
 LIGHTBLUE = 7
 BLACK = 8
+PINK = 9
+MISC = 10
 
-function singeRandomize()
-
-	math.randomseed(os.time()) -- random initialize
-	math.random(); math.random(); math.random() -- warming up
-
-end
 
 function blinkTimer(thisMS)
 
@@ -112,53 +108,6 @@ function goTimer(thisMS)
 		
 	end	
 	
-end
-
-function clockRnd()
-
-	local j = 0
-	local q = 0
-	local w = 0	
-	local r = 0
-	local b1 = true
-
-	j = os.clock()
-	q, w = math.modf(j) 
-	
-	s2 = tostring(w)	
-	r = string.find(s2,".")
-	
-	if (r == nil) then
-	
-		s2 = tostring(q)
-		s2 = string.sub(s2,string.len(s2), string.len(s2))
-	
-	else
-	
-		s2 = string.sub(s2, r + 1)	
-		r = string.len(s2)
-		
-		if r == 0 then
-			
-			s2 = tostring(q)
-			s2 = string.sub(s2,string.len(s2), string.len(s2))
-			
-		
-		elseif r == 2 then
-			
-			s2 = string.sub(s2, 2, 2)
-		
-		elseif r >= 3 then
-			
-			s2 = string.sub(s2, 3, 3)		
-		
-		end	
-	
-	end
-
-	w = tonumber(s2)	
-	return w
-
 end
 
 function timerOFF()
@@ -227,6 +176,7 @@ function setupClip(thisA, thisB)
 
 	iFrameStart = thisA
 	iFrameEnd = thisB
+	
 	discSkipToFrame(thisA)					
 
 end
@@ -263,45 +213,53 @@ end
 
 function setFontColor(thisColor)
 
-	if thisColor == RED then
+	if thisColor == 1 then
+	
+		colorForeground(255, 255, 255)
+
+	elseif thisColor == 2 then
 
 		colorForeground(255, 0, 0)
 	
-	elseif thisColor == BLUE then
+	elseif thisColor == 3 then
 	
 		colorForeground(0, 0, 255)
 	
-	elseif thisColor == YELLOW then
+	elseif thisColor == 4 then
 	
 		colorForeground(255, 255, 0)
 	
-	elseif thisColor == GREEN then
+	elseif thisColor == 5 then
 	
 		colorForeground(0, 255, 0)
 	
-	elseif thisColor == ORANGE then
+	elseif thisColor == 6 then
 	
 		colorForeground(255, 150, 0)
-	
-	elseif thisColor == WHITE then
-	
-		colorForeground(255, 255, 255)
-		
-	elseif thisColor == GREY or thisColor == GRAY then
-	
-		colorForeground(128, 128, 128)
-		
-	elseif thisColor == LIGHTBLUE then
-	
-		colorForeground(30, 160, 250)
 
-	elseif thisColor == BLACK then
-
-		colorForeground(1,1,1)
-
-	elseif thisColor == PINK then
+	elseif thisColor == 7 then
 	
 		colorForeground(252,0,148)
+
+	elseif thisColor == 8 then
+	
+		colorForeground(127,0,255)
+
+	elseif thisColor == 9 then
+	
+		colorForeground(30, 160, 250)
+			
+	elseif thisColor == 10 then
+	
+		colorForeground(128, 128, 128)
+	
+	elseif thisColor == 11 then
+
+		colorForeground(1,0,0)
+
+	elseif thisColor == 12 then
+	
+		colorForeground(miscR,miscG,miscB)
 	
 	end
 
@@ -321,17 +279,8 @@ function getMiddle(thisPhrase)
 	local y = 0
 	
 	x = OVLW/2 - spriteGetWidth(fontToSprite(thisPhrase)) * 0.5
-	y = OVLH/2 - spriteGetHeight(fontToSprite(thisPhrase)) * 0.5
 	
 	return x
-
-end
-
-function lpadString(str, len, char)
-
-	if char == nil then char = ' ' end
-	if type(str) == "number" then str = tostring(str) end
-	return string.rep(char, len - #str) .. str
 
 end
 
@@ -340,5 +289,13 @@ function rpadString(str, len, char)
 	if char == nil then char = ' ' end
 	if type(str) == "number" then str = tostring(str) end
 	return str .. string.rep(char, len - #str)
+
+end
+
+function lpadString(str, len, char)
+
+	if char == nil then char = ' ' end
+	if type(str) == "number" then str = tostring(str) end
+	return string.rep(char, len - #str) .. str
 
 end
