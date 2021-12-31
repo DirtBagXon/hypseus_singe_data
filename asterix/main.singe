@@ -1603,7 +1603,7 @@ function doLevel()     -- Big process for level play
 
 		else
 
-			fontSelect(fontBig)
+			fontSelect(fontGame)
 			if (move[currentMove][correctMove] == UP) then
 				
 				fontPrint(getMiddle("YOU SHOULD HAVE GONE UP"), OVLH/2, "YOU SHOULD HAVE GONE UP")
@@ -4118,12 +4118,14 @@ end
 function drawLives()       -- Draw Lives
 
 	local k = 0
+	fontSelect(fontOpt)
+	setFontColor(mycolor2)
 	
 	if dip_GameType == 1 then
 
 		if iLifeBar > 0 then
 
-			for k = 1,iLifeBar do
+			for k = 1,iLifeBar,2 do
 
 				spriteDraw(OVLW-(LINEW*2)-(BARW*(BarSize+1))+((BARW+2)*k),ylivpos,sprite[BARFULL])
 
@@ -4133,7 +4135,7 @@ function drawLives()       -- Draw Lives
 
 				for k = iLifeBar,BarSize do
 
-					spriteDraw(OVLW-(LINEW*2)-(BARW*(BarSize+1))+((BARW+2)*k),ylivpos,sprite[BARNONE])
+					--spriteDraw(OVLW-(LINEW*2)-(BARW*(BarSize+1))+((BARW+2)*k),ylivpos,sprite[BARNONE])
 
 				end
 
@@ -4145,12 +4147,9 @@ function drawLives()       -- Draw Lives
 
 		if (iLives > 0) then
 
-
-			for k = 1,iLives do
-
-				spriteDraw(OVLW-LINEW-(LIVW*k)+12,ylivpos,sprite[LIVES])
-
-			end
+			sprLives = fontToSprite(string.format('%01dx',iLives))
+			spriteDraw(OVLW-LINEW-(LIVW*1.7), ylivpos+15, sprLives)
+			spriteDraw(OVLW-LINEW-(LIVW)+12,ylivpos,sprite[LIVES])
 
 		end
 	

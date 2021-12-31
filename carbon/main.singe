@@ -4123,7 +4123,7 @@ function drawLives()       -- Draw Lives
 
 		if iLifeBar > 0 then
 
-			for k = 1,iLifeBar do
+			for k = 1,iLifeBar,2 do
 
 				spriteDraw(OVLW-(LINEW*2)-(BARW*(BarSize+1))+((BARW+2)*k),ylivpos,sprite[BARFULL])
 
@@ -4133,7 +4133,7 @@ function drawLives()       -- Draw Lives
 
 				for k = iLifeBar,BarSize do
 
-					spriteDraw(OVLW-(LINEW*2)-(BARW*(BarSize+1))+((BARW+2)*k),ylivpos,sprite[BARNONE])
+					--spriteDraw(OVLW-(LINEW*2)-(BARW*(BarSize+1))+((BARW+2)*k),ylivpos,sprite[BARNONE])
 
 				end
 

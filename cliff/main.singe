@@ -453,12 +453,12 @@ function doClear()      -- Process the end of a NORMAL level (Cleared)
 
 			if stage[iCurPos][DEATHCOUNT] == 0 then
 
-				spriteDraw(OVLW/2 - 2*LEVELW-NUMW,OVLH/3+TEXTH*3+LINEH*6,sprite[PERFECT])
+				spriteDraw(OVLW/2 - 2*LEVELW-NUMW+5,OVLH/3+TEXTH*3+LINEH*6,sprite[PERFECT])
 				drawSpriteNumber(OVLW/2 + LEVELW, OVLH/3+TEXTH*3+LINEH*6,PERFECTBONUS)
 
 			else	
 
-				spriteDraw(OVLW/2 - 2*LEVELW-NUMW,OVLH/3+TEXTH*3+LINEH*6,sprite[DEATH])
+				spriteDraw(OVLW/2 - 2*LEVELW-NUMW+5,OVLH/3+TEXTH*3+LINEH*6,sprite[DEATH])
 				spriteDraw(OVLW/2 + LEVELW,OVLH/3+TEXTH*3+LINEH*6,sprite[MINUS])
 				drawSpriteNumber(OVLW/2 + LEVELW+NUMW, OVLH/3+TEXTH*3+LINEH*6,stage[iCurPos][DEATHCOUNT]*DEATHPENALTY)
 
@@ -2737,16 +2737,16 @@ function drawAction()     -- Draw all type of actions
 
 			if (thisMove >= 1 and thisMove <= 4) or (thisMove >= 9 and thisMove <= 12) then
 
-				spriteDraw(posxTEXT,posyBUTTONS,sprArrow[STICK])
+				spriteDraw(posxTEXT-14,posyBUTTONS,sprArrow[STICK])
 
 			elseif thisMove >= 5 and thisMove <= 8 then
 
-				spriteDraw(posxTEXT,posyBUTTONS,sprArrow[BUTTONS])
+				spriteDraw(posxTEXT-14,posyBUTTONS,sprArrow[BUTTONS])
 
 			elseif thisMove >= 13 and thisMove <= 16 then
 
-				spriteDraw(posxTEXT,posyBUTTONS+BUTH/2,sprArrow[BUTTONS])
-				spriteDraw(posxTEXT,posyBUTTONS-BUTH/2,sprArrow[STICK])
+				spriteDraw(posxTEXT-14,posyBUTTONS+BUTH/2,sprArrow[BUTTONS])
+				spriteDraw(posxTEXT-14,posyBUTTONS-BUTH/2,sprArrow[STICK])
 
 			elseif thisMove >= 17 and thisMove <= 24 then
 
@@ -2804,11 +2804,11 @@ function drawAction()     -- Draw all type of actions
 					
 			elseif thisMove == BUTTON1 then
 			
-				spriteDraw(posxBUTTONS,posyBUTTONS,sprArrow[BUTTON1])
+				spriteDraw(posxBUTTONS+14,posyBUTTONS,sprArrow[BUTTON1])
 
 			elseif thisMove == BUTTON2 then
 			
-				spriteDraw(posxBUTTONS,posyBUTTONS,sprArrow[BUTTON2])
+				spriteDraw(posxBUTTONS+14,posyBUTTONS,sprArrow[BUTTON2])
 
 			elseif thisMove == BUTTON3 then
 			
@@ -3652,38 +3652,15 @@ function drawLives()       -- Draw Lives
 
 	if (iLives > 0) then
 
-		if iLives==1 then
+		if iLives > 0 and iLives < 6  then
 
-			spriteDraw(OVLW-LINEW-LIVW,ylivpos,sprite[LIVES])
-
-		elseif iLives==2 then
-
-			spriteDraw(OVLW-LINEW-(LIVW*2),ylivpos,sprite[LIVES])
-			spriteDraw(OVLW-LINEW-LIVW,ylivpos,sprite[LIVES])
-
-		elseif iLives==3 then
-
-			spriteDraw(OVLW-LINEW-(LIVW*3),ylivpos,sprite[LIVES])
-			spriteDraw(OVLW-LINEW-(LIVW*2),ylivpos,sprite[LIVES])
-			spriteDraw(OVLW-LINEW-LIVW,ylivpos,sprite[LIVES])
-
-		elseif iLives==4 then
-			
-			spriteDraw(OVLW-LINEW-(LIVW*4),ylivpos,sprite[LIVES])
-			spriteDraw(OVLW-LINEW-(LIVW*3),ylivpos,sprite[LIVES])
-			spriteDraw(OVLW-LINEW-(LIVW*2),ylivpos,sprite[LIVES])
-			spriteDraw(OVLW-LINEW-LIVW,ylivpos,sprite[LIVES])
-
-		elseif iLives==5 then	
-
-			spriteDraw(OVLW-LINEW-(LIVW*5),ylivpos,sprite[LIVES])
-			spriteDraw(OVLW-LINEW-(LIVW*4),ylivpos,sprite[LIVES])
-			spriteDraw(OVLW-LINEW-(LIVW*3),ylivpos,sprite[LIVES])
-			spriteDraw(OVLW-LINEW-(LIVW*2),ylivpos,sprite[LIVES])
+			fontSelect(fontSmall)
+			setFontColor(mycolor4)
+			sprLives = fontToSprite(string.format('%01dx',iLives))
+			spriteDraw(OVLW-LINEW-(LIVW*2), ylivpos+10, sprLives)
 			spriteDraw(OVLW-LINEW-LIVW,ylivpos,sprite[LIVES])
 		
 		end
-		
 	end
 
 end
@@ -3754,17 +3731,8 @@ function getRes()
 	OVLW = 360
 	OVLH = 240
 
-	if dip_Res == 0 or dip_Res == 1 then
-
-		MIDIRES = MYDIR .. ""
-		if fontSize > 0 then fontSizeNew = fontSize end
-
-	else
-
-		MIDIRES = MYDIR .. "Lores/"
-		if fontSize > 0 then fontSizeNew = fontSize/2 end
-
-	end
+	MIDIRES = MYDIR .. ""
+	if fontSize > 0 then fontSizeNew = fontSize end
 
 	sprNUM = nil; sprNUM = {}
 	sprNUM[1]  = spriteLoad(MIDIRES.."num00.png")

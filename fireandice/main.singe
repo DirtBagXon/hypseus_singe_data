@@ -2102,36 +2102,14 @@ function drawLives()       -- Draw Lives
 
 	if (iLives > 0) then
 
-		if iLives==1 then
+		if iLives > 0 and iLives < 6  then
 
+			fontSelect(fontGame)
+			setFontColor(mycolor2)
+			sprLives = fontToSprite(string.format('%01dx',iLives))
+			spriteDraw(OVLW-LINEW-(LIVW*1.8), ylivpos+12, sprLives)
 			spriteDraw(OVLW-LINEW-LIVW+16,ylivpos,sprite[LIVES])
 
-		elseif iLives==2 then
-
-			spriteDraw(OVLW-LINEW-(LIVW*2)+16,ylivpos,sprite[LIVES])
-			spriteDraw(OVLW-LINEW-LIVW+16,ylivpos,sprite[LIVES])
-
-		elseif iLives==3 then
-
-			spriteDraw(OVLW-LINEW-(LIVW*3)+16,ylivpos,sprite[LIVES])
-			spriteDraw(OVLW-LINEW-(LIVW*2)+16,ylivpos,sprite[LIVES])
-			spriteDraw(OVLW-LINEW-LIVW+16,ylivpos,sprite[LIVES])
-
-		elseif iLives==4 then
-			
-			spriteDraw(OVLW-LINEW-(LIVW*4)+16,ylivpos,sprite[LIVES])
-			spriteDraw(OVLW-LINEW-(LIVW*3)+16,ylivpos,sprite[LIVES])
-			spriteDraw(OVLW-LINEW-(LIVW*2)+16,ylivpos,sprite[LIVES])
-			spriteDraw(OVLW-LINEW-LIVW+16,ylivpos,sprite[LIVES])
-
-		elseif iLives==5 then	
-
-			spriteDraw(OVLW-LINEW-(LIVW*5)+16,ylivpos,sprite[LIVES])
-			spriteDraw(OVLW-LINEW-(LIVW*4)+16,ylivpos,sprite[LIVES])
-			spriteDraw(OVLW-LINEW-(LIVW*3)+16,ylivpos,sprite[LIVES])
-			spriteDraw(OVLW-LINEW-(LIVW*2)+16,ylivpos,sprite[LIVES])
-			spriteDraw(OVLW-LINEW-LIVW+16,ylivpos,sprite[LIVES])
-		
 		end
 		
 	end

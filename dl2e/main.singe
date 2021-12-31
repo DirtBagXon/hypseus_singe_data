@@ -1189,7 +1189,7 @@ function doFinish()      -- Process the end of a PERCENT level
 
 		if numTrophy < iTemp then
 
-			for file in lfs.dir(MYDIR..MIDIRES) do
+			for file in lfs.dir(MYDIR) do
 
 				if file == "mash.png" then
 
@@ -1239,7 +1239,7 @@ function doFinish()      -- Process the end of a PERCENT level
 
 			fontPrint(getMiddle("99/100"),OVLH/2,numTrophy .. "/100")
 
-			for file in lfs.dir(MYDIR..MIDIRES) do
+			for file in lfs.dir(MYDIR) do
 
 				if file == "mash.png" then
 
@@ -3845,11 +3845,11 @@ function drawAction()     -- Draw all type of actions
 			
 				if heartbeat then
 
-					sprArrow[HOLD] = spriteLoad(MYDIR..MIDIRES.."hleft.png")
+					sprArrow[HOLD] = spriteLoad(MYDIR.."hleft.png")
 
 				else
 				
-					sprArrow[HOLD] = spriteLoad(MYDIR..MIDIRES.."hright.png")
+					sprArrow[HOLD] = spriteLoad(MYDIR.."hright.png")
 
 				end	
 
@@ -3885,11 +3885,11 @@ function drawAction()     -- Draw all type of actions
 		
 				if heartbeat then
 
-					sprArrow[MASH] = spriteLoad(MYDIR..MIDIRES.."mash.png")
+					sprArrow[MASH] = spriteLoad(MYDIR.."mash.png")
 
 				else
 
-					sprArrow[MASH] = spriteLoad(MYDIR..MIDIRES.."action.png") 
+					sprArrow[MASH] = spriteLoad(MYDIR.."action.png") 
 					
 				end
 
@@ -3902,11 +3902,11 @@ function drawAction()     -- Draw all type of actions
 				
 				if currentFrame > move[currentMove][inputFrmStart] + 5 then 
 
-					sprArrow[HOLD] = spriteLoad(MYDIR..MIDIRES.."hup.png")
+					sprArrow[HOLD] = spriteLoad(MYDIR.."hup.png")
 
 				else
 				
-					sprArrow[HOLD] = spriteLoad(MYDIR..MIDIRES.."hold.png")
+					sprArrow[HOLD] = spriteLoad(MYDIR.."hold.png")
 
 				end	
 				spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprArrow[HOLD])
@@ -3927,11 +3927,11 @@ function drawAction()     -- Draw all type of actions
 				
 				if currentFrame > move[currentMove][inputFrmStart] + 5 then 
 
-					sprArrow[HOLD] = spriteLoad(MYDIR..MIDIRES.."hdown.png")
+					sprArrow[HOLD] = spriteLoad(MYDIR.."hdown.png")
 
 				else
 				
-					sprArrow[HOLD] = spriteLoad(MYDIR..MIDIRES.."hold.png")
+					sprArrow[HOLD] = spriteLoad(MYDIR.."hold.png")
 
 				end	
 				spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprArrow[HOLD])
@@ -3952,11 +3952,11 @@ function drawAction()     -- Draw all type of actions
 
 				if currentFrame > move[currentMove][inputFrmStart] + 5 then 
 
-					sprArrow[HOLD] = spriteLoad(MYDIR..MIDIRES.."hleft.png")
+					sprArrow[HOLD] = spriteLoad(MYDIR.."hleft.png")
 
 				else
 				
-					sprArrow[HOLD] = spriteLoad(MYDIR..MIDIRES.."hold.png")
+					sprArrow[HOLD] = spriteLoad(MYDIR.."hold.png")
 
 				end			
 				spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprArrow[HOLD])
@@ -3977,11 +3977,11 @@ function drawAction()     -- Draw all type of actions
 
 				if currentFrame > move[currentMove][inputFrmStart] + 5 then 
 
-					sprArrow[HOLD] = spriteLoad(MYDIR..MIDIRES.."hright.png")
+					sprArrow[HOLD] = spriteLoad(MYDIR.."hright.png")
 
 				else
 				
-					sprArrow[HOLD] = spriteLoad(MYDIR..MIDIRES.."hold.png")
+					sprArrow[HOLD] = spriteLoad(MYDIR.."hold.png")
 
 				end	
 
@@ -4003,11 +4003,11 @@ function drawAction()     -- Draw all type of actions
 
 				if currentFrame > move[currentMove][inputFrmStart] + 5 then 
 
-					sprArrow[HOLD] = spriteLoad(MYDIR..MIDIRES.."mash.png")
+					sprArrow[HOLD] = spriteLoad(MYDIR.."mash.png")
 					
 				else
 				
-					sprArrow[HOLD] = spriteLoad(MYDIR..MIDIRES.."action.png")
+					sprArrow[HOLD] = spriteLoad(MYDIR.."action.png")
 
 				end	
 
@@ -4592,7 +4592,8 @@ function drawPause()
 	fontSelect(fontService)
 	setFontColor(2)
 	fontPrint(getMiddle("PAUSED"), OVLH/2-3*LINEH, "PAUSED")
-	--fontSelect(fontGame)
+	fontSelect(fontGame)
+	setFontColor(mycolor2)
 	--drawLives()
 	--drawScore()
 
@@ -4781,7 +4782,6 @@ end
 
 function getRes()
 
-	MIDIRES = ""
 	OVLW = 360
 	OVLH = 240
 	LINEH = OVLH/80
@@ -4790,106 +4790,106 @@ function getRes()
 	getFont()
 
 	sprNUM = nil; sprNUM = {}
-	sprNUM[1]  = spriteLoad(MYDIR..MIDIRES.."num00.png")
-	sprNUM[2]  = spriteLoad(MYDIR..MIDIRES.."num01.png")
-	sprNUM[3]  = spriteLoad(MYDIR..MIDIRES.."num02.png")
-	sprNUM[4]  = spriteLoad(MYDIR..MIDIRES.."num03.png")
-	sprNUM[5]  = spriteLoad(MYDIR..MIDIRES.."num04.png")
-	sprNUM[6]  = spriteLoad(MYDIR..MIDIRES.."num05.png")
-	sprNUM[7]  = spriteLoad(MYDIR..MIDIRES.."num06.png")
-	sprNUM[8]  = spriteLoad(MYDIR..MIDIRES.."num07.png")
-	sprNUM[9]  = spriteLoad(MYDIR..MIDIRES.."num08.png")
-	sprNUM[10] = spriteLoad(MYDIR..MIDIRES.."num09.png")
+	sprNUM[1]  = spriteLoad(MYDIR.."num00.png")
+	sprNUM[2]  = spriteLoad(MYDIR.."num01.png")
+	sprNUM[3]  = spriteLoad(MYDIR.."num02.png")
+	sprNUM[4]  = spriteLoad(MYDIR.."num03.png")
+	sprNUM[5]  = spriteLoad(MYDIR.."num04.png")
+	sprNUM[6]  = spriteLoad(MYDIR.."num05.png")
+	sprNUM[7]  = spriteLoad(MYDIR.."num06.png")
+	sprNUM[8]  = spriteLoad(MYDIR.."num07.png")
+	sprNUM[9]  = spriteLoad(MYDIR.."num08.png")
+	sprNUM[10] = spriteLoad(MYDIR.."num09.png")
 	
 	sprite = nil; sprite = {}									
-	sprite[CREDIT] = spriteLoad(MYDIR..MIDIRES.."credit.png")
-	sprite[LIVES] = spriteLoad(MYDIR..MIDIRES.."live.png")				
-	sprite[LEVEL] = spriteLoad(MYDIR..MIDIRES.."level.png")		
-	sprite[SKIPINTRO] = spriteLoad(MYDIR..MIDIRES.."skip.png")
-	sprite[SCENES] = spriteLoad(MYDIR..MIDIRES.."scene.png")
-	sprite[SCORE] = spriteLoad(MYDIR..MIDIRES.."score.png")
-	sprite[BONUS] = spriteLoad(MYDIR..MIDIRES.."bonus.png")
-	sprite[D1] = spriteLoad(MYDIR..MIDIRES.."disk1.png")
-	sprite[D2] = spriteLoad(MYDIR..MIDIRES.."disk2.png")
-	sprite[D3] = spriteLoad(MYDIR..MIDIRES.."disk3.png")
-	sprite[DA] = spriteLoad(MYDIR..MIDIRES.."diskA.png")
-	sprite[ARROWSELL] = spriteLoad(MYDIR..MIDIRES.."arrowsel1.png")
-	sprite[ARROWSELR] = spriteLoad(MYDIR..MIDIRES.."arrowsel2.png")
-	sprite[INSERTCOIN] = spriteLoad(MYDIR..MIDIRES.."insertcoin.png")
-	sprite[FREEPLAY] = spriteLoad(MYDIR..MIDIRES.."freeplay.png")
-	sprite[TOPSCORE] = spriteLoad(MYDIR..MIDIRES.."topscore.png")
-	sprite[TOTAL]  		= spriteLoad(MYDIR..MIDIRES.."total.png")
-	sprite[DEATH]  		= spriteLoad(MYDIR..MIDIRES.."death.png")
-	sprite[MINUS]  		= spriteLoad(MYDIR..MIDIRES.."minus.png")
-	sprite[PERFECT]  	= spriteLoad(MYDIR..MIDIRES.."perfect.png")
-	sprite[BARFULL]		= spriteLoad(MYDIR..MIDIRES.."barfull.png")
-	sprite[BARNONE]  	= spriteLoad(MYDIR..MIDIRES.."barnone.png")
+	sprite[CREDIT] = spriteLoad(MYDIR.."credit.png")
+	sprite[LIVES] = spriteLoad(MYDIR.."live.png")				
+	sprite[LEVEL] = spriteLoad(MYDIR.."level.png")		
+	sprite[SKIPINTRO] = spriteLoad(MYDIR.."skip.png")
+	sprite[SCENES] = spriteLoad(MYDIR.."scene.png")
+	sprite[SCORE] = spriteLoad(MYDIR.."score.png")
+	sprite[BONUS] = spriteLoad(MYDIR.."bonus.png")
+	sprite[D1] = spriteLoad(MYDIR.."disk1.png")
+	sprite[D2] = spriteLoad(MYDIR.."disk2.png")
+	sprite[D3] = spriteLoad(MYDIR.."disk3.png")
+	sprite[DA] = spriteLoad(MYDIR.."diskA.png")
+	sprite[ARROWSELL] = spriteLoad(MYDIR.."arrowsel1.png")
+	sprite[ARROWSELR] = spriteLoad(MYDIR.."arrowsel2.png")
+	sprite[INSERTCOIN] = spriteLoad(MYDIR.."insertcoin.png")
+	sprite[FREEPLAY] = spriteLoad(MYDIR.."freeplay.png")
+	sprite[TOPSCORE] = spriteLoad(MYDIR.."topscore.png")
+	sprite[TOTAL]  		= spriteLoad(MYDIR.."total.png")
+	sprite[DEATH]  		= spriteLoad(MYDIR.."death.png")
+	sprite[MINUS]  		= spriteLoad(MYDIR.."minus.png")
+	sprite[PERFECT]  	= spriteLoad(MYDIR.."perfect.png")
+	sprite[BARFULL]		= spriteLoad(MYDIR.."barfull.png")
+	sprite[BARNONE]  	= spriteLoad(MYDIR.."barnone.png")
 
 	if LvlTrophy3 ~= 0 then
 
-		sprite[TN]  		= spriteLoad(MYDIR..MIDIRES.."tno.png") 
-		sprite[TB]  		= spriteLoad(MYDIR..MIDIRES.."tbronze.png")
-		sprite[TS]  		= spriteLoad(MYDIR..MIDIRES.."tsilver.png")
-		sprite[TG]  		= spriteLoad(MYDIR..MIDIRES.."tgold.png")
-		sprite[TP]  		= spriteLoad(MYDIR..MIDIRES.."tplat.png")
+		sprite[TN]  		= spriteLoad(MYDIR.."tno.png") 
+		sprite[TB]  		= spriteLoad(MYDIR.."tbronze.png")
+		sprite[TS]  		= spriteLoad(MYDIR.."tsilver.png")
+		sprite[TG]  		= spriteLoad(MYDIR.."tgold.png")
+		sprite[TP]  		= spriteLoad(MYDIR.."tplat.png")
 
 	end
 	
 	sprArrow = nil; sprArrow = {}											
-	sprArrow[UP] 		= spriteLoad(MYDIR..MIDIRES.."arrowup.png")
-	sprArrow[DOWN] 		= spriteLoad(MYDIR..MIDIRES.."arrowdown.png")
-	sprArrow[LEFT]	 	= spriteLoad(MYDIR..MIDIRES.."arrowleft.png")
-	sprArrow[RIGHT] 	= spriteLoad(MYDIR..MIDIRES.."arrowright.png")										
-	sprArrow[BUTTON1] 	= spriteLoad(MYDIR..MIDIRES.."action.png")
-	sprArrow[NOMOVES] 	= spriteLoad(MYDIR..MIDIRES.."nomoves.png")
-	sprArrow[BUTTONS]   = spriteLoad(MYDIR..MIDIRES.."buttons.png")
-	sprArrow[STICK]     = spriteLoad(MYDIR..MIDIRES.."stick.png")
-	sprArrow[SPECIALS]  = spriteLoad(MYDIR..MIDIRES.."special.png") 
+	sprArrow[UP] 		= spriteLoad(MYDIR.."arrowup.png")
+	sprArrow[DOWN] 		= spriteLoad(MYDIR.."arrowdown.png")
+	sprArrow[LEFT]	 	= spriteLoad(MYDIR.."arrowleft.png")
+	sprArrow[RIGHT] 	= spriteLoad(MYDIR.."arrowright.png")										
+	sprArrow[BUTTON1] 	= spriteLoad(MYDIR.."action.png")
+	sprArrow[NOMOVES] 	= spriteLoad(MYDIR.."nomoves.png")
+	sprArrow[BUTTONS]   = spriteLoad(MYDIR.."buttons.png")
+	sprArrow[STICK]     = spriteLoad(MYDIR.."stick.png")
+	sprArrow[SPECIALS]  = spriteLoad(MYDIR.."special.png") 
 
-	for file in lfs.dir(MYDIR..MIDIRES) do
+	for file in lfs.dir(MYDIR) do
 
 		if file == "scanlines.png" then	
 
-			sprite[SCAN] = spriteLoad(MYDIR..MIDIRES.."scanlines.png") 
+			sprite[SCAN] = spriteLoad(MYDIR.."scanlines.png") 
 			bScan = false -- hypseus use: -scanlines
 
 		end
 
 		if file == "getready.png" then 
 
-			sprite[GETREADY]  	= spriteLoad(MYDIR..MIDIRES.."getready.png") 
+			sprite[GETREADY]  	= spriteLoad(MYDIR.."getready.png") 
 			bGR = true
 
 		end
 		
-		if file == "ok.png" then 	sprite[OKMAP] = spriteLoad(MYDIR..MIDIRES.."ok.png") end
+		if file == "ok.png" then 	sprite[OKMAP] = spriteLoad(MYDIR.."ok.png") end
 
-		if file == "action2.png" then sprArrow[BUTTON2] 	= spriteLoad(MYDIR..MIDIRES.."action2.png") end
-		if file == "action3.png" then sprArrow[BUTTON3] 	= spriteLoad(MYDIR..MIDIRES.."action3.png") end
-		if file == "action4.png" then sprArrow[BUTTON4] 	= spriteLoad(MYDIR..MIDIRES.."action4.png") end
-		if file == "time.png" then sprArrow[TIME] 	= spriteLoad(MYDIR..MIDIRES.."time.png") end
+		if file == "action2.png" then sprArrow[BUTTON2] 	= spriteLoad(MYDIR.."action2.png") end
+		if file == "action3.png" then sprArrow[BUTTON3] 	= spriteLoad(MYDIR.."action3.png") end
+		if file == "action4.png" then sprArrow[BUTTON4] 	= spriteLoad(MYDIR.."action4.png") end
+		if file == "time.png" then sprArrow[TIME] 	= spriteLoad(MYDIR.."time.png") end
 			
 		if file == "arrowul.png" then 
 
-			sprArrow[UPLEFT]   	= spriteLoad(MYDIR..MIDIRES.."arrowul.png")	
-			sprArrow[UPRIGHT]  	= spriteLoad(MYDIR..MIDIRES.."arrowur.png")
-			sprArrow[DOWNLEFT] 	= spriteLoad(MYDIR..MIDIRES.."arrowdl.png")
-			sprArrow[DOWNRIGHT]	= spriteLoad(MYDIR..MIDIRES.."arrowdr.png")				
+			sprArrow[UPLEFT]   	= spriteLoad(MYDIR.."arrowul.png")	
+			sprArrow[UPRIGHT]  	= spriteLoad(MYDIR.."arrowur.png")
+			sprArrow[DOWNLEFT] 	= spriteLoad(MYDIR.."arrowdl.png")
+			sprArrow[DOWNRIGHT]	= spriteLoad(MYDIR.."arrowdr.png")				
 
 		end
 
 		if file == "mash.png" then 
 
-			sprArrow[MASH] 		= spriteLoad(MYDIR..MIDIRES.."mash.png")
-			sprArrow[PW0] 		= spriteLoad(MYDIR..MIDIRES.."m0.png")
-			sprArrow[PW1] 		= spriteLoad(MYDIR..MIDIRES.."m1.png")
-			sprArrow[PW2] 		= spriteLoad(MYDIR..MIDIRES.."m2.png")
-			sprArrow[PW3] 		= spriteLoad(MYDIR..MIDIRES.."m3.png")
-			sprArrow[PW4] 		= spriteLoad(MYDIR..MIDIRES.."m4.png")
-			sprArrow[PW5] 		= spriteLoad(MYDIR..MIDIRES.."m5.png")
-			sprArrow[PW6] 		= spriteLoad(MYDIR..MIDIRES.."m6.png")
-			sprArrow[PW7] 		= spriteLoad(MYDIR..MIDIRES.."m7.png")
-			sprArrow[PWFULL] 	= spriteLoad(MYDIR..MIDIRES.."mfull.png")
+			sprArrow[MASH] 		= spriteLoad(MYDIR.."mash.png")
+			sprArrow[PW0] 		= spriteLoad(MYDIR.."m0.png")
+			sprArrow[PW1] 		= spriteLoad(MYDIR.."m1.png")
+			sprArrow[PW2] 		= spriteLoad(MYDIR.."m2.png")
+			sprArrow[PW3] 		= spriteLoad(MYDIR.."m3.png")
+			sprArrow[PW4] 		= spriteLoad(MYDIR.."m4.png")
+			sprArrow[PW5] 		= spriteLoad(MYDIR.."m5.png")
+			sprArrow[PW6] 		= spriteLoad(MYDIR.."m6.png")
+			sprArrow[PW7] 		= spriteLoad(MYDIR.."m7.png")
+			sprArrow[PWFULL] 	= spriteLoad(MYDIR.."mfull.png")
 
 			GAUW = spriteGetWidth(sprArrow[PW0])
 			posxGAUGE = (OVLW/2)-(GAUW/2)
@@ -4898,14 +4898,14 @@ function getRes()
 
 		if file == "hold.png" then
 
-			sprArrow[HOLD] 		= spriteLoad(MYDIR..MIDIRES.."hold.png") 
-			sprite[SELMAP] 		= spriteLoad(MYDIR..MIDIRES.."arrowsel.png")
+			sprArrow[HOLD] 		= spriteLoad(MYDIR.."hold.png") 
+			sprite[SELMAP] 		= spriteLoad(MYDIR.."arrowsel.png")
 
 			SELW = spriteGetWidth(sprite[SELMAP])
 
 		end
 
-		if file == "shoot.png" then sprArrow[LETGO] 	= spriteLoad(MYDIR..MIDIRES.."shoot.png") end
+		if file == "shoot.png" then sprArrow[LETGO] 	= spriteLoad(MYDIR.."shoot.png") end
 
 	end
 	

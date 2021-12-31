@@ -1944,7 +1944,7 @@ function doLevel()     -- Big process for level play
 
 		else
 
-			fontSelect(fontBig)
+			fontSelect(fontGame)
 			if (move[currentMove][correctMove] == UP) then
 				
 				fontPrint(getMiddle("YOU SHOULD HAVE GONE UP"), OVLH/2, "YOU SHOULD HAVE GONE UP")
@@ -4594,7 +4594,8 @@ function drawPause()
 	fontSelect(fontService)
 	setFontColor(2)
 	fontPrint(getMiddle("PAUSED"), OVLH/2-3*LINEH, "PAUSED")
-	--fontSelect(fontGame)
+	fontSelect(fontGame)
+	setFontColor(mycolor2)
 	--drawLives()
 	--drawScore()
 

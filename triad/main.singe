@@ -453,12 +453,12 @@ function doClear()      -- Process the end of a NORMAL level (Cleared)
 
 			if stage[iCurPos][DEATHCOUNT] == 0 then
 
-				spriteDraw(OVLW/2 - 2*LEVELW-NUMW,OVLH/3+TEXTH*3+LINEH*6,sprite[PERFECT])
+				spriteDraw(OVLW/2 - 2*LEVELW-NUMW+5,OVLH/3+TEXTH*3+LINEH*6,sprite[PERFECT])
 				drawSpriteNumber(OVLW/2 + LEVELW, OVLH/3+TEXTH*3+LINEH*6,PERFECTBONUS)
 
 			else	
 
-				spriteDraw(OVLW/2 - 2*LEVELW-NUMW,OVLH/3+TEXTH*3+LINEH*6,sprite[DEATH])
+				spriteDraw(OVLW/2 - 2*LEVELW-NUMW+5,OVLH/3+TEXTH*3+LINEH*6,sprite[DEATH])
 				spriteDraw(OVLW/2 + LEVELW,OVLH/3+TEXTH*3+LINEH*6+15,sprite[MINUS])
 				drawSpriteNumber(OVLW/2 + LEVELW+NUMW, OVLH/3+TEXTH*3+LINEH*6,stage[iCurPos][DEATHCOUNT]*DEATHPENALTY)
 
@@ -3769,12 +3769,12 @@ end
 function drawScore()       -- Draw score
 
     spriteDraw(LINEW+10,yscopos,sprite[PLAYER])  
-	drawSpriteNumber(spriteGetWidth(sprite[PLAYER])+22,yscopos,iScore)	
+	drawSpriteNumber(spriteGetWidth(sprite[PLAYER])+18,yscopos,iScore)
 
 	if bShowTop then
 
 		spriteDraw((OVLW/2)-SKIPW/2-12,LINEH,sprite[TOPSCORE])
-		drawSpriteNumber((OVLW/2)-NUMW*3+2, LINEH+10, iTop)
+		drawSpriteNumber((OVLW/2)-NUMW*3+1, LINEH+10, iTop)
 
 	end
 		
@@ -3908,7 +3908,7 @@ function getRes()
 
 	LIVW = spriteGetWidth(sprite[LIVES])
 	LIVH = spriteGetHeight(sprite[LIVES])
-	NUMW = spriteGetWidth(sprNUM[1])
+	NUMW = spriteGetWidth(sprNUM[1])+1
 	TEXTH = spriteGetHeight(sprite[SKIPINTRO])
 	BUTW = spriteGetWidth(sprArrow[BUTTON1])
 	BUTH = spriteGetHeight(sprArrow[BUTTON1])
