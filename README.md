@@ -3,7 +3,7 @@
 
 Checkout Hypseus Singe game demos on [Youtube](https://www.youtube.com/playlist?list=PLRLuhkf2c3OeRoXydn0upKyIBUXNMK13x)
 
-#### Firstly, ensure you are running at least version 2.6.21 of Hypseus Singe.
+#### Firstly, ensure you are running at least version 2.8.0 of Hypseus Singe.
 
 If you have older game content, ensure you update the existing lua and other data with files from  
 this repository. Backup your existing data, then overwrite the metadata with repository files.  
@@ -179,7 +179,9 @@ Due to the overlay size differences, some alignment changes will be required in 
 
 ### Singe 2 game porting limitations:
 
-* Due to the **16-bit** limitation of *VLDP* a maximum of **65535** video frames are supported: \
-  ``ERROR : current mpeg has too many frames, VLDP will ignore any frames above 65535``
+The Daphne VLDP has been upgraded to a **32bit** <sup>(_2_^_32_)</sup> frame limit as of version **2.8.0** of Hypseus Singe
 
-Games using video files collectively over this frame limit will have unpredictable results (**Singe 2 only**)
+<strike>Due to the **16-bit** limitation of *VLDP* a maximum of **65535** video frames are supported: \
+  ``ERROR : current mpeg has too many frames, VLDP will ignore any frames above 65535``</strike>
+
+<strike>Games using video files collectively over this frame limit will have unpredictable results (**Singe 2 only**)</strike>

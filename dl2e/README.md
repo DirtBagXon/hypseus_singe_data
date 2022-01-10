@@ -1,10 +1,12 @@
 ## (Singe 2) Dragon's Lair II: Time Warp Enhanced (dl2e)
 
+Details of DL2E can be found here: http://www.dragons-lair-project.com/tech/enhancements/dl2e.asp
+
 * This is the Singe 2 (_v3.31c_) version of Dragon's Lair II (dl2e) ROM
 * This game requires Hypseus Singe version **2.6.21**
 * Optional `-nolinear_scale`
 
-**Note:** This is second version of DL2e and therefore requires the latest mp4 from Singe 2 (_v3.31c_) to re-encode
+**Note:** This is the second version of DL2e and therefore requires the latest mp4 from Singe 2 (_v3.31c_) to re-encode
 
 Encode mp4 with:
 

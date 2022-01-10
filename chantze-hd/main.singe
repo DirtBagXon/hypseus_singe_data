@@ -876,7 +876,7 @@ function doClear()      -- Process the end of a NORMAL level (Cleared)
 				else	
 
 					spriteDraw(OVLW/2 - 2*LEVELW-NUMW,OVLH/3+TEXTH*3+LINEH*6,sprite[DEATH])
-					spriteDraw(OVLW/2 + LEVELW-NUMW,OVLH/3+TEXTH*3+LINEH*6,sprite[MINUS])
+					spriteDraw(OVLW/2 + LEVELW-NUMW-5,OVLH/3+TEXTH*3+LINEH*6,sprite[MINUS])
 					drawSpriteNumber(OVLW/2 + LEVELW, OVLH/3+TEXTH*3+LINEH*6, iTotDeath*DEATHPENALTY)
 	
 				end
@@ -891,7 +891,7 @@ function doClear()      -- Process the end of a NORMAL level (Cleared)
 				else	
 
 					spriteDraw(OVLW/2 - 2*LEVELW-NUMW,OVLH/3+TEXTH*3+LINEH*6,sprite[DEATH])
-					spriteDraw(OVLW/2 + LEVELW-NUMW,OVLH/3+TEXTH*3+LINEH*6,sprite[MINUS])
+					spriteDraw(OVLW/2 + LEVELW-NUMW-5,OVLH/3+TEXTH*3+LINEH*6,sprite[MINUS])
 					drawSpriteNumber(OVLW/2 + LEVELW, OVLH/3+TEXTH*3+LINEH*6, iTotDeath*DEATHPENALTY)
 
 				end
