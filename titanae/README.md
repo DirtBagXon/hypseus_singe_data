@@ -1,10 +1,15 @@
-## Titan AE Specific encoding (Removing (Demo) Level 5)
+## Titan AE (Full game and levels)
 
-This will decrease the frame number to Singe 1 status and become playable:
+* This is the Singe 2 (_v3.31c_) version of TitanAE
+* This version included all levels on the upgraded VLDP
+* This game requires Hypseus Singe version **2.8.0**
+* Optional `-nolinear_scale`
 
-    ffmpeg -i Titan_AE.mp4 -t 00:45:29 -an -qscale:v 4 -b:v 6000k -codec:v mpeg2video titanae.m2v
+**Note:** This is the full version of TitanAE and therefore requires the latest mp4 from Singe 2 (_v3.31c_) to re-encode
 
-    ffmpeg -i Titan_AE.mp4 -t 00:45:30 -vn -c:a libvorbis -ar 44100 -map a -b:a 160k titanae.ogg
+Encode mp4 with:
 
-    mediainfo --Inform='Video;%FrameCount%' titanae.m2v
-    65431
+    ffmpeg -i Titan_AE169.mp4 -vf tpad=stop_mode=clone:stop_duration=2 -qscale:v 4 -b:v 6000k -c:v mpeg2video titanae.m2v
+
+    ffmpeg -i Titan_AE169.mp4 -ss 00:00:00.33 -vn -c:a libvorbis -ar 44100 -map a -b:a 160k titanae.ogg
+

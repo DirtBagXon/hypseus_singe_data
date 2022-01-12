@@ -59,7 +59,7 @@ end
 function utilGetTableSize(t)
    local count = 0
    for _, __ in pairs(t) do
-      count = count + 1
+	  count = count + 1
    end
    return count
 end
@@ -468,3 +468,8 @@ MANY_MOUSE   = 200
 -- Make old random number calls still work
 random = {}
 random.new = math.random
+
+-- Map old Daphne calls to Singe calls
+daphneGetHeight  = singeGetHeight
+daphneGetWidth   = singeGetWidth
+daphneScreenshot = singeScreenshot
