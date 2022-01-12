@@ -4145,12 +4145,9 @@ function drawLives()       -- Draw Lives
 
 		if (iLives > 0) then
 
-
-			for k = 1,iLives do
-
-				spriteDraw(OVLW-LINEW-(LIVW*k)+4,ylivpos,sprite[LIVES])
-
-			end
+			local s1=tostring(iLives .. "x")
+			spriteDraw(OVLW-2*LINEW-(LIVW*1.4),(ylivpos)+LIVH/8,fontToSprite(s1))
+			spriteDraw(OVLW-LINEW-LIVW,ylivpos,sprite[LIVES])
 
 		end
 	

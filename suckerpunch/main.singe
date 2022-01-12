@@ -4357,7 +4357,7 @@ function drawCredits()     -- Draw the credits
 		
 		if (dip_CoinsPerCredit == DOPT_FREEPLAY) then					
 			
-			spriteDraw(posxUI,ycoinpos,sprite[FREEPLAY])
+			spriteDraw(posxUI+8,ycoinpos,sprite[FREEPLAY])
 		
 		else
 		
@@ -4705,6 +4705,8 @@ end
 
 
 function drawScore()       -- Draw score
+
+	fontSelect(fontService)
 
 	drawSpriteNumber(LINEW*2,yscopos,iScore)
 

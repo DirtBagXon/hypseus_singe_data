@@ -1,6 +1,6 @@
 ## (Singe 2) Dragon's Lair Television Show
 
-* This is the Singe 2 game based Dragon's Lair TV show
+* This is the Singe 2 game based on Dragon's Lair TV show
 * This release has several fixes for bugs found in the Singe 2 version
 * The game has an epic **4 hours** of video....
 * This game requires Hypseus Singe version **2.8.0**
