@@ -3,6 +3,8 @@
 
 Checkout Hypseus Singe game demos on [Youtube](https://www.youtube.com/playlist?list=PLRLuhkf2c3OeRoXydn0upKyIBUXNMK13x)
 
+See Hypseus Singe **game support discussion** in the main repo [here](https://github.com/DirtBagXon/hypseus-singe/discussions/60)
+
 #### Firstly, ensure you are running at least version 2.8.0 of Hypseus Singe.
 
 If you have older game content, ensure you update the existing lua and other data with files from  
@@ -21,7 +23,7 @@ Singe 1 files within the ``00-singe1`` folder contain alignment changes and fixe
 - Maddog McCree (*maddog*) has **fix** for nil value error loop in doLevelPond()
 - Space Pirates (*spacepirates*) has a **fix** for nil value index error.
 - Mad Dog II: Typing Edition (*typing-md2*) has SDL2 keycode porting changes.
-- Ninja Hayate: Death loop bug fix in bytecode (_v1.15_) - game now completable.
+- Ninja Hayate: Death loop bug **fix** in bytecode (_v1.15_) - game now completable.
 
 Fan games have some other changes for alignment and completeness.
 
@@ -87,28 +89,27 @@ This should allow you to know the correct video files required.
 ### Conversion:
 
     ffmpeg -i <original>.mp4 -an -qscale:v 4 -b:v 6000k -codec:v mpeg2video <game>.m2v
-    ffmpeg -i <original>.mp4 -vn -c:a libvorbis -ar 44100 -map a -b:a 160k <game>.ogg
 
-In some cases audio is delayed in the original MP4, check with VLC. If so use `-ss` to delay encode start:
+_Singe 2_ has an audio bug and audio is delayed in the original MP4, check with VLC. Use `-ss` to delay encode start:
 
     ffmpeg -i <original>.mp4 -ss 00:00:00.330 -vn -c:a libvorbis -ar 44100 -map a -b:a 160k <game>.ogg
 
 **e.g.**
 
     ffmpeg -i FaI.mp4 -an -qscale:v 4 -b:v 6000k -codec:v mpeg2video fireandice.m2v
-    ffmpeg -i FaI.mp4 -vn -c:a libvorbis -ar 44100 -map a -b:a 160k fireandice.ogg
+    ffmpeg -i FaI.mp4 -ss 00:00:00.330 -vn -c:a libvorbis -ar 44100 -map a -b:a 160k fireandice.ogg
 
-If your device is struggling with the HD content, you can resize in this operation:
+If your device is struggling with the HD content, _this is likely on a RPi_, you can resize HD in one of these operations:
 
-    ffmpeg -i FaI.mp4 -an -qscale:v 4 -b:v 6000k -vf scale=640:480 -codec:v mpeg2video fireandice.m2v
+    ffmpeg -i FaI.mp4 -an -qscale:v 4 -b:v 6000k -vf scale=1280:720 -codec:v mpeg2video fireandice.m2v
 
-If sound is out of sync, use `-ss` to delay audio encode start in `ms` *(hh:mm:ss.SSS)*:
-
-    ffmpeg -i DL2E.mp4 -ss 00:00:00.330 -vn -c:a libvorbis -ar 44100 -map a -b:a 160k dl2e.ogg
+    ffmpeg -i FaI.mp4 -an -qscale:v 4 -b:v 6000k -vf tpad=stop_mode=clone:stop_duration=2,scale=1280:720 -codec:v mpeg2video fireandice.m2v
 
 ### Audio Delay
 
-Due to an issue in the Singe 2 audio system, many of the games will have a delay in the MP4.
+If sound is out of sync, use `-ss` to delay audio encode start in `ms` *(hh:mm:ss.SSS)* on the orignal MP4:
+
+    ffmpeg -i DL2E.mp4 -ss 00:00:00.330 -vn -c:a libvorbis -ar 44100 -map a -b:a 160k dl2e.ogg
 
 You can **fix** any existing `.ogg` files with delay easily, using:
 
@@ -149,7 +150,7 @@ Run **convert_png.sh** script within *'original'* subdirectory.
     
 Alter *scale* in script for preference - 2.5 to 3 works for most games.
 
-Some graphics will not convert to 8-bit satisfactorily, these will need to be recreated.
+Some graphics will not convert to _8-bit_ satisfactorily, these will need to be recreated.
 
 ### Converting .singe files
 
@@ -161,8 +162,6 @@ However below are scripts to help you do this if porting over.
 
 Use the `MYDIR` variable to make all game content relative:
 
-    MYDIR = "singe/carbon/"
-
     #!/bin/bash
 
     perl -p -i -e 's/\/Cfg\///'g *.singe
@@ -172,6 +171,7 @@ Use the `MYDIR` variable to make all game content relative:
     perl -p -i -e 's/\/Sounds\///'g *.singe
     perl -p -i -e 's/\/Video\///'g *.singe
     perl -p -i -e 's/\/Movie\///'g *.singe
+    perl -p -i -e 's/\.\.MIDIRES//g' main.singe
 
 ### Alignment changes
 
