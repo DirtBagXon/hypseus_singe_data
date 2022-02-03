@@ -1308,7 +1308,7 @@ function doLevel()     -- Big process for level play
 
 		else
 
-			fontSelect(fontBig)
+			fontSelect(fontGame)
 			if (move[currentMove][correctMove] == UP) then
 				
 				fontPrint(getMiddle("YOU SHOULD HAVE GONE UP"), OVLH/2, "YOU SHOULD HAVE GONE UP")
@@ -1327,11 +1327,11 @@ function doLevel()     -- Big process for level play
 							
 			elseif (move[currentMove][correctMove] == BUTTON1) then
 							
-				fontPrint(getMiddle("YOU SHOULD HAVE HIT ACTION"), OVLH/2, "YOU SHOULD HAVE USE YOUR HANDS")
+				fontPrint(getMiddle("YOU SHOULD HAVE HIT ACTION"), OVLH/2, "YOU SHOULD HAVE USED YOUR HANDS")
 									
 			elseif (move[currentMove][correctMove] == BUTTON2) then	
 
-				fontPrint(getMiddle("YOU SHOULD HAVE HIT BUTTON 2"), OVLH/2, "YOU SHOULD HAVE USE YOUR FEET")
+				fontPrint(getMiddle("YOU SHOULD HAVE HIT BUTTON 2"), OVLH/2, "YOU SHOULD HAVE USED YOUR FEET")
 
 			elseif (move[currentMove][correctMove] == BUTTON3) then	
 
