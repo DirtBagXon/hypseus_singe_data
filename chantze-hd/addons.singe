@@ -19,6 +19,9 @@ This file is part of LUA SINGE ENGINE.
 ]]--
 
 
+sndmus1 = soundLoad(MYDIR.."music1.wav")
+sndmus2 = soundLoad(MYDIR.."music2.wav")
+
 function mapConf()
 	
 	dip_5 = false
@@ -285,6 +288,10 @@ function moveCursor(overHere)
 			
 		elseif p1SERVICE or p1CONSOLE or p1TEST then
 
+			if soundStop ~= nil then
+				soundStop(sndHandle)
+			end
+
 		end
 				
 	end
@@ -451,6 +458,10 @@ function doLevelSelect()
 		if iLevel == 1 or bFromSave then mapConf() end
 
 		discSkipToFrame(34068)
+
+		if soundStop ~= nil then
+			sndHandle = soundPlay(sndmus2)
+		end
 		
 		TestDips()
 		if bFromSave then TestState() end
@@ -461,6 +472,9 @@ function doLevelSelect()
 				lvlState = branch01
 
 		elseif (AllowLvlQuartz() == true) then
+				if soundStop ~= nil then
+					soundStop(sndHandle)
+				end
 				setupClip(33905, 34063)
 				lvlState = branch01
 
@@ -678,6 +692,10 @@ function doLevelSelect()
 
 		elseif p1SERVICE or p1CONSOLE or p1TEST  then
 
+			if soundStop ~= nil then
+				soundStop(sndHandle)
+			end
+
 		end		
 		
 	elseif (lvlState == branch02) then
@@ -734,9 +752,18 @@ function doLevelSelect()
 
 			end
 
+			if soundStop ~= nil then
+				soundStop(sndHandle)
+				sndHandle = soundPlay(sndmus1)
+			end
+
 			lvlState = lvlRunning
 
 		elseif p1SERVICE or p1CONSOLE or p1TEST  then
+
+			if soundStop ~= nil then
+				soundStop(sndHandle)
+			end
 
 		end
 
@@ -752,23 +779,38 @@ function doLevelSelect()
 				discSkipToFrame(34113)
 				discPause()
 
+				if soundStop ~= nil then
+					soundStop(sndHandle)
+					sndHandle = soundPlay(sndmus1)
+				end
 				lvlState = lvlRunning
 
 			elseif iLevel == 11 then
 
 				discSkipToFrame(34116)
 				discPause()
+				if soundStop ~= nil then
+					soundStop(sndHandle)
+					sndHandle = soundPlay(sndmus1)
+				end
 				lvlState = lvlRunning
 
 			end
 
 		elseif p1SERVICE or p1CONSOLE or p1TEST  then
 
+			if soundStop ~= nil then
+				soundStop(sndHandle)
+			end
+
 		end
 
 	elseif (lvlState == branch04) then --reveal 6/7 part 1
 		
 		if p1BUTTON1 then
+			if soundStop ~= nil then
+				soundStop(sndHandle)
+			end
 			dip_s1 = true
 			soundPlay(sndcredit)
 			p1BUTTON1 = false
@@ -777,11 +819,18 @@ function doLevelSelect()
 
 		elseif p1SERVICE or p1CONSOLE or p1TEST  then
 
+			if soundStop ~= nil then
+				soundStop(sndHandle)
+			end
+
 		end
 
 	elseif (lvlState == branch05) then --reveal 5 part 1
 		
 		if p1BUTTON1 then
+			if soundStop ~= nil then
+		    		soundStop(sndHandle)
+			end
 			dip_s2 = true
 			soundPlay(sndcredit)
 			p1BUTTON1 = false
@@ -789,12 +838,19 @@ function doLevelSelect()
 			lvlState = branch08
 
 		elseif p1SERVICE or p1CONSOLE or p1TEST  then
+
+			if soundStop ~= nil then
+				soundStop(sndHandle)
+			end
 
 		end
 
 	elseif (lvlState == branch06) then --reveal 5 curse part 1
 		
 		if p1BUTTON1 then
+			if soundStop ~= nil then
+		    		soundStop(sndHandle)
+			end
 			dip_s2 = true
 			soundPlay(sndcredit)
 			p1BUTTON1 = false
@@ -802,6 +858,10 @@ function doLevelSelect()
 			lvlState = branch08
 
 		elseif p1SERVICE or p1CONSOLE or p1TEST  then
+
+			if soundStop ~= nil then
+				soundStop(sndHandle)
+			end
 
 		end
 
@@ -826,9 +886,18 @@ function doLevelSelect()
 
 			end
 
+			if soundStop ~= nil then
+				soundStop(sndHandle)
+				sndHandle = soundPlay(sndmus1)
+			end
+
 			lvlState = lvlRunning
 
 		elseif p1SERVICE or p1CONSOLE or p1TEST  then
+
+			if soundStop ~= nil then
+				soundStop(sndHandle)
+			end
 
 		end
 
@@ -856,6 +925,10 @@ function doLevelSelect()
 			lvlState = branch09
 
 		elseif p1SERVICE or p1CONSOLE or p1TEST  then
+
+			if soundStop ~= nil then
+				soundStop(sndHandle)
+			end
 
 		end
 
@@ -908,9 +981,18 @@ function doLevelSelect()
 
 			end
 
+			if soundStop ~= nil then
+				soundStop(sndHandle)
+				sndHandle = soundPlay(sndmus1)
+			end
+
 			lvlState = lvlRunning
 
 		elseif p1SERVICE or p1CONSOLE or p1TEST  then
+
+			if soundStop ~= nil then
+				soundStop(sndHandle)
+			end
 
 		end
 		
@@ -935,6 +1017,9 @@ function doLevelSelect()
 
 		elseif p1SERVICE or p1CONSOLE or p1TEST  then
 
+			if soundStop ~= nil then
+				soundStop(sndHandle)
+			end
 			iLevel = iCurSave
 	
 		else
@@ -946,6 +1031,9 @@ function doLevelSelect()
         	
 	elseif (lvlState == lvlEnd) then	
 		
+		if soundStop ~= nil then
+			soundStop(sndHandle)
+		end
 		discSkipToFrame(33432)
 		lvlState = lvlSetup	
 		currentLevel = levelNormal

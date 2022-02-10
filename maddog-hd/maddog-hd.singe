@@ -421,6 +421,7 @@ sndCredit    = soundLoad(MYDIR .. "arcadecoin.wav")
 sndTing      = soundLoad(MYDIR .. "arcadecoin.wav")
 sndBreak     = soundLoad(MYDIR .. "bottlebreak.wav")
 sndHorns     = soundLoad(MYDIR .. "hs.wav")
+sndSign      = soundLoad(MYDIR .. "music.wav")
 sndHandle    = ""
 
 	sprBullet  = spriteLoad(MYDIR .. "bullet.png")
@@ -5253,6 +5254,9 @@ function doMazeSign(thisFrame, thisDir)
 		bMakeNoise = true
 		bLevelComplete = false
 		waitFor(0,false,true)
+		if soundStop ~= nil then
+			sndHandle = soundPlay(sndSign)
+		end
 		if iBullets < 6 then iBullets = 6 end
 
 		GetSignArray(thisFrame)
@@ -5302,12 +5306,20 @@ function doMazeSign(thisFrame, thisDir)
 	elseif (lvlState == lvlRunning) then
 
 		if waitFor(10, false, false) == true then
+
+			if soundStop ~= nil then
+				soundStop(sndHandle)
+			end
 			
 			lvlState = lvlPlayClip2
 
 		elseif (p1BUTTON3) then
 
 			p1BUTTON3 = false
+
+			if soundStop ~= nil then
+				soundStop(sndHandle)
+			end
 			
 			if (mazeHit(thisFrame, thisDir) == true) then
 
@@ -5645,6 +5657,9 @@ function doSignSelect()
 		bLevelComplete = false
 		bShowScore = false
 		bMakeNoise = true
+		if soundStop ~= nil then
+			sndHandle = soundPlay(sndSign)
+		end
 		GetSignPostArray()
 		discPause()
 		discSearch(signFrame)
@@ -5697,6 +5712,10 @@ function doSignSelect()
 
 	elseif (lvlState == lvlPlayClip) then
 
+		if soundStop ~= nil then
+			soundStop(sndHandle)
+		end
+
 		discPause()
 		lvlFrameStart = 35627
 		lvlFrameEnd = 35756
@@ -5745,7 +5764,10 @@ function doSignSelect()
 		end
 
 	elseif (lvlState == lvlEnd) then
-		
+
+		if soundStop ~= nil then
+			soundStop(sndHandle)
+		end
 		bShowScore = true
 		bAmmo = true
 		lvlState = lvlSetup
@@ -5788,7 +5810,9 @@ function doTownSelect()
 			currentLevel = levelSignSelect
 
 		else
-
+			if soundStop ~= nil then
+				sndHandle = soundPlay(sndSign)
+			end
 			selectMenuFrame()
 			discPause()
 			discSearch(menuFrame)
@@ -5873,6 +5897,9 @@ function doTownSelect()
 
 	elseif (lvlState == lvlEnd) then
 
+		if soundStop ~= nil then
+			soundStop(sndHandle)
+		end
 		bAmmo = true
 		lvlState = lvlSetup
 		currentLevel = tempMem

@@ -2144,6 +2144,9 @@ function doLevelMenu()
 		
 		bAmmo = true
 		bShowScore = false
+		if soundStop ~= nil then
+			sndHandle = soundPlay(sndSign)
+		end
 		doLevelMenuSelectFrame()
 		timerON(20)
 		lvlState = lvlRunning
@@ -2152,6 +2155,10 @@ function doLevelMenu()
 	elseif (lvlState == lvlRunning) then
 			
 		if timerDue() then
+
+			if soundStop ~= nil then
+				soundStop(sndHandle)
+			end
 
 			if panel[GUIDE_BEAVER] == false then
 			
@@ -2179,6 +2186,9 @@ function doLevelMenu()
 				if mousex >= ResHMx(48) and mousex <= ResHMy(132) then
 				
 					-- Shooting Beaver
+					if soundStop ~= nil then
+						soundStop(sndHandle)
+					end
 
 					if panel[GUIDE_BEAVER] == false then
 			
@@ -2191,6 +2201,9 @@ function doLevelMenu()
 				elseif mousex >= ResHMx(144) and mousex <= ResHMy(228) then
 				
 					-- Buckskin Bonnie
+					if soundStop ~= nil then
+						soundStop(sndHandle)
+					end
 					
 					if panel[GUIDE_BONNIE] == false then
 
@@ -2203,6 +2216,9 @@ function doLevelMenu()
 				elseif mousex >= ResHMx(240) and mousex <= ResHMy(324) then
 				
 					-- Nutty Professor
+					if soundStop ~= nil then
+						soundStop(sndHandle)
+					end
 					
 					if panel[GUIDE_PROF] == false then
 						
