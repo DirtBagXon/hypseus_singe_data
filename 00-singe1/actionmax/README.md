@@ -47,4 +47,4 @@ This can be achieved using SetRenderTarget and RenderReadPixels but is a 'slow' 
 
 ActionMax works as expected on _x86_64/i386_ Linux and with the **SDL 2.0.16** library on Windows..
 
-As of **SDL 2.0.20** ActionMax games have been confirmed as working on a Raspberry Pi4.
+As of **SDL 2.0.20** ActionMax games have been confirmed as working on a Raspberry Pi4 (_aarch64_).
