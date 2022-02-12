@@ -43,8 +43,8 @@ Reading information from SDL_Textures is problematic as it is contained in GPU m
 
 This can be achieved using SetRenderTarget and RenderReadPixels but is a 'slow' _read()_ call.  
 
-Currently SDL2 on _arm64/armhf_ Linux for the Raspberry Pi doesn't support this action.
+<strike>Currently SDL2 on _arm64/armhf_ Linux for the Raspberry Pi doesn't support this action.</strike>
 
 ActionMax works as expected on _x86_64/i386_ Linux and with the **SDL 2.0.16** library on Windows..
 
-As the SDL2 library matures this feature should, hopefully, become available on the RPi.
+As of **SDL 2.0.20** ActionMax games have been confirmed as working on a Raspberry Pi4.
