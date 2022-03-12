@@ -461,7 +461,7 @@ function onOverlayUpdate()
 	end
 	
 	-- Draw gun crosshair (This must be the last thing we draw so it's on top.)
-	if (singeWantsCrosshairs == nil or singeWantsCrosshairs()) then
+	if (singeWantsCrosshairs()) then
 		spriteDraw(mouseX - crosshairCenterX, mouseY - crosshairCenterY, sprCrosshair)
 	end
 	

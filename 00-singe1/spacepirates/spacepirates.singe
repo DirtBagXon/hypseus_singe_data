@@ -5324,7 +5324,7 @@ function onOverlayUpdate()
 	
 	end
 	
-	if (bShowMouse and (not bCannonFired)) then 
+	if (bShowMouse and (not bCannonFired) and singeWantsCrosshairs()) then 
 	
 		spriteDraw(cursorx, cursory, sprCursor) 
 		

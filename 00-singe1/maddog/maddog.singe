@@ -6402,7 +6402,7 @@ function onOverlayUpdate()
 	
 	end
 
-	if (bShowMouse) then 
+	if (bShowMouse and singeWantsCrosshairs()) then 
 		spriteDraw(cursorx, cursory, sprCursor) 
 		if (bReversePointer) then 
 			iRevFrames = iRevFrames + 1

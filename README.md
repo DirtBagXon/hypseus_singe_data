@@ -5,7 +5,7 @@ Checkout Hypseus Singe game demos on [Youtube](https://www.youtube.com/playlist?
 
 See Hypseus Singe **game support discussion** in the main repo [here](https://github.com/DirtBagXon/hypseus-singe/discussions/60)
 
-#### Firstly, ensure you are running at least version 2.8.0 of Hypseus Singe.
+#### Firstly, ensure you are running at least version 2.8.2 of Hypseus Singe.
 
 If you have older game content, ensure you update the existing lua and other data with files from  
 this repository. Backup your existing data, then overwrite the metadata with repository files.  
@@ -19,6 +19,7 @@ Feel free to submit pull requests for any fixes or improvements.
 
 Singe 1 files within the ``00-singe1`` folder contain alignment changes and fixes to original games:
 
+- *singeWantsCrosshairs()* function check added to Singe 1 gun games.
 - Last Bounty Hunter (*lbh*) now has a **fix** that shows Handsome Harry as captured.....  
 - Maddog McCree (*maddog*) has **fix** for nil value error loop in doLevelPond()
 - Space Pirates (*spacepirates*) has a **fix** for nil value index error.
