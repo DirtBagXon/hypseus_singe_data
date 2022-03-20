@@ -306,7 +306,6 @@ function checkMash(playerMove, curMove)     -- Test if the mash value is ok
 	if (playerMove == BUTTON1) then	
 
 		bTestMash = false
-		p1BUTTON1 = false
 	
 		if iMash >= mashCounter then
 			
@@ -341,7 +340,6 @@ function checkMash2(playerMove, curMove)     -- Test if the mash 2 buttons value
 
 		bTestMashL = false
 		bTestMashR = true
-		p1BUTTON1 = false
 	
 		if iMash >= mashCounter then
 			
@@ -354,7 +352,6 @@ function checkMash2(playerMove, curMove)     -- Test if the mash 2 buttons value
 
 		bTestMashR = false
 		bTestMashL = true
-		p1BUTTON2 = false
 	
 		if iMash >= mashCounter then
 			
@@ -1144,7 +1141,15 @@ function doDiffSelect() -- Ingame selection for the difficulty
 		
 		end	
 
-		currentLevel = levelNormal
+		if dip_PlayStyle == 3 and MapStart == 0 then
+
+			currentLevel = levelMap
+
+		else
+
+			currentLevel = levelNormal
+
+		end
 	
 	end
 
@@ -1178,7 +1183,7 @@ function doFinish()      -- Process the end of a PERCENT level
 	if currentFrame > offsetClear and lvlState ~= lvlEnd then -- Draw the things
 
 		setFontColor(mycolor1)
-		fontPrint(getMiddle("99 completed moves out of 99"),OVLH/3,iRightMv .. " completed moves out of " .. iRightMv+iWrongMv)
+		fontPrint(getMiddle("99 completed out of 99"),OVLH/3,iRightMv .. " completed out of " .. iRightMv+iWrongMv)
 
 		if ShowTitle == true then
 
@@ -6351,6 +6356,7 @@ function startGame()      -- Starts the game according to each option
 	
 	if bExtendedPlay then 
 
+		initStages()
 		currentLevel = levelNormal
 		iLevel = levelSecret
 			

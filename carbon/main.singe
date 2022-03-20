@@ -278,7 +278,6 @@ function checkMash(playerMove, curMove)     -- Test if the mash value is ok
 	if (playerMove == BUTTON1) then	
 
 		bTestMash = false
-		p1BUTTON1 = false
 	
 		if iMash >= mashCounter then
 			
@@ -312,7 +311,6 @@ function checkMash2(playerMove, curMove)     -- Test if the mash 2 buttons value
 
 		bTestMashL = false
 		bTestMashR = true
-		p1BUTTON1 = false
 	
 		if iMash >= mashCounter then
 			
@@ -325,7 +323,6 @@ function checkMash2(playerMove, curMove)     -- Test if the mash 2 buttons value
 
 		bTestMashR = false
 		bTestMashL = true
-		p1BUTTON2 = false
 	
 		if iMash >= mashCounter then
 			

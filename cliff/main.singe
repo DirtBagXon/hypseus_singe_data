@@ -694,7 +694,7 @@ function doFinish()      -- Process the end of a PERCENT level
 	if lvlState ~= lvlEnd then -- Draw the things
 
 		setFontColor(mycolor1)
-		fontPrint(getMiddle("99 completed moves out of 99"),OVLH/3,iRightMv .. " completed moves out of " .. iRightMv+iWrongMv)
+		fontPrint(getMiddle("99 completed out of 99"),OVLH/3,iRightMv .. " completed out of " .. iRightMv+iWrongMv)
 
 		if numTrophy < iTemp then
 

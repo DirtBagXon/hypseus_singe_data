@@ -7,6 +7,8 @@
 * Optional `-nolinear_scale`
 * Optional `-bootsilent`
 
+An additional `dltv-oversize.singe` file is provided for use with `-oversize_overlay`.
+
 Grab the MP4 (7z) from archive.org: https://archive.org/download/singe-dl-tv
 
 Encode mp4 with:
