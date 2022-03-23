@@ -22,11 +22,10 @@ This file is part of DRAGON'S LAIR IIe
 -- 1. General settings --
 -------------------------
 
-MYDIR = "singe/dl2e/"							
-MovieFPS = 23.976									
+MYDIR = "singe/dl2e/"
+MovieFPS = 23.976
 
-dofile(MYDIR .. "globals.singe")					
-
+dofile(MYDIR .. "globals.singe")
 
 SCOREMOVE = 500									
 BUFFMOVE = 0									
@@ -37,9 +36,6 @@ SCOREGAME = 0
 SCORESECRET = 1
 PERFECTBONUS = 1
 EXTRALIFE = 70000
-
-finalstage = 14	     		     				
-bAllowSecret = false
 
 PenalNormal = 0									
 PenalHard = 2									
@@ -101,7 +97,7 @@ frameSave = offsetMenus +7
 frameRankings = offsetMenus +10				
 frameControls = offsetMenus +13						
 frameSpecial = offsetMenus +13						
-frameSecret = 0
+frameSecret = offsetMenus +16
 frameTrophy = 0	
 frameHints = 36888		
 
@@ -332,11 +328,22 @@ Death[184] = {36505, 36550}
 Death[185] = {36553, 36598}
 Death[186] = {36601, 36646}
 Death[187] = {36649, 36694}
+Death[188] = {42095, 42134}
+Death[189] = {42153, 42206}
+Death[190] = {42222, 42252}
+Death[191] = {42268, 42308}
+Death[192] = {42324, 42348}
+Death[193] = {42364, 42393}
+Death[194] = {42409, 42437}
+Death[195] = {42453, 42484}
+Death[196] = {42500, 42529}
+Death[197] = {42545, 42580}
+Death[198] = {42596, 42631}
 
 
 finalstage = 9
 PlayOrder = {1,2,3,4,5,6,7,8,9}
-AllowSecret = false	
+AllowSecret = true	
 RelativeFrames = true 
 
 Level[1] = {"Singe's Castle", 1800, 1801, 3, 0, 0, -1}
@@ -348,6 +355,7 @@ Level[6] = {"Ancient Egypt", 26117, 26118, 3, 2911, 2911, -1}
 Level[7] = {"The Ring (short)", 31951, 31952, 1, 0, 0, -1}
 Level[8] = {"The Ring", 32983, 32984, 2, 0, 0, -1}
 Level[9] = {"Daphne", 34670, 34671, 1, 0, 0, -1}
+Level[1000] = {"Curse", 38227, 38228, 5, 0, 0, -1}
 		
 
 ------------------------------------------------------------------------------------------
@@ -912,6 +920,121 @@ function setupMoves(thisLevel, thisScene)
 			move[18] = {1072, 1087, BUTTON1, 187}
 			move[19] = {1144, 1159, RIGHT, 187}
 						
+		end
+
+	elseif thisLevel == 1000 then
+
+		if thisScene == 1 then  
+
+			sceneStart = 2
+			sceneEnd   = 494
+			totalMoves   = 5
+				
+			move[1] = {173, 188, UP, 188}
+			move[2] = {191, 206, BUTTON1, 188}
+			move[3] = {259, 274, BUTTON1, 188}
+			move[4] = {373, 388, RIGHT, 189}
+			move[5] = {452, 467, BUTTON1, 192}
+		
+
+		elseif thisScene == 2 then  
+
+			sceneStart = 495
+			sceneEnd   = 1532
+			totalMoves   = 19	
+
+
+			move[1] = {529, 544, BUTTON1, 192}
+			move[2] = {660, 675, LEFT, 190}
+			move[3] = {729, 744, LEFT, 190}
+			move[4] = {766, 781, UP, 190}
+			move[5] = {794, 809, DOWN, 190}
+			move[6] = {845, 860, BUTTON1, 190}
+			move[7] = {881, 896, RIGHT, 190}
+			move[8] = {908, 923, BUTTON1, 190}
+			move[9] = {963, 978, LEFT, 190}
+			move[10] = {1006, 1021, BUTTON1, 190}
+			move[11] = {1062, 1077, UP, 190}
+			move[12] = {1109, 1124, LEFT, 190}
+			move[13] = {1155, 1170, RIGHT, 190}
+			move[14] = {1242, 1257, BUTTON1, 191}
+			move[15] = {1286, 1301, LEFT, 191}
+			move[16] = {1318, 1333, UP, 191}
+			move[17] = {1364, 1379, RIGHT, 191}
+			move[18] = {1400, 1415, LEFT, 191}
+			move[19] = {1500, 1515, BUTTON1, 192}
+			
+
+		elseif thisScene == 3 then  
+
+			sceneStart = 1533
+			sceneEnd   = 2115
+			totalMoves   = 14	
+
+
+			move[1] = {1594, 1609, UP, 192}
+			move[2] = {1638, 1653, LEFT, 193}
+			move[3] = {1659, 1674, DOWN, 193}
+			move[4] = {1687, 1702, RIGHT, 193}
+			move[5] = {1704, 1719, RIGHT, 193}
+			move[6] = {1733, 1748, DOWN, 193}
+			move[7] = {1768, 1783, BUTTON1, 192}
+			move[8] = {1797, 1812, UP, 193}
+			move[9] = {1829, 1844, LEFT, 193}
+			move[10] = {1855, 1870, DOWN, 193}
+			move[11] = {1887, 1902, RIGHT, 193}
+			move[12] = {1923, 1938, BUTTON1, 193}
+			move[13] = {1979, 1994, BUTTON1, 193}
+			move[14] = {2057, 2072, BUTTON1, 193}
+			
+
+		elseif thisScene == 4 then  
+
+			sceneStart = 2116
+			sceneEnd   = 2576
+			totalMoves   = 9	
+
+
+			move[1] = {2155, 2170, LEFT, 194}
+			move[2] = {2244, 2259, BUTTON1, 194}
+			move[3] = {2310, 2325, DOWN, 194}
+			move[4] = {2329, 2344, RIGHT, 194}
+			move[5] = {2394, 2409, RIGHT, 194}
+			move[6] = {2413, 2428, UP, 195}
+			move[7] = {2449, 2464, BUTTON1, 194}
+			move[8] = {2478, 2493, UP, 194}
+			move[9] = {2543, 2558, BUTTON1, 192}
+			
+
+		elseif thisScene == 5 then  
+
+			sceneStart = 2577
+			sceneEnd   = 3801
+			totalMoves   = 21	
+
+
+			move[1] = {2618, 2633, BUTTON1, 196}
+			move[2] = {2635, 2650, BUTTON1, 196}
+			move[3] = {2714, 2729, DOWN, 196}
+			move[4] = {2731, 2744, BUTTON1, 196}
+			move[5] = {2778, 2793, BUTTON1, 196}
+			move[6] = {2838, 2853, LEFT, 196}
+			move[7] = {2885, 2900, UP, 196}
+			move[8] = {2934, 2949, UP, 196}
+			move[9] = {2973, 2988, RIGHT, 197}
+			move[10] = {2999, 3014, RIGHT, 197}
+			move[11] = {3033, 3048, RIGHT, 196}
+			move[12] = {3092, 3107, RIGHT, 198}
+			move[13] = {3143, 3154, UP, 198}
+			move[14] = {3189, 3204, RIGHT, 196}
+			move[15] = {3211, 3226, RIGHT, 196}
+			move[16] = {3320, 3335, DOWN, 198}
+			move[17] = {3343, 3358, LEFT, 198}
+			move[18] = {3444, 3459, UP, 198}
+			move[19] = {3461, 3474, RIGHT, 198}
+			move[20] = {3487, 3502, RIGHT, 198}
+			move[21] = {3556, 3571, BUTTON1, 196}
+					
 		end
 
 	end
