@@ -46,6 +46,23 @@ function startConf()
 end
 
 
+function swapScene()
+
+	if iLevel == 1000 then
+
+		offsetGetReady = 38158
+		offsetGetReadyEnd = 38209
+
+	else
+
+		offsetGetReady = 36844
+		offsetGetReadyEnd = 36900
+
+	end
+
+end
+
+
 function swapLevel()  
 
 	local i = 0
@@ -212,32 +229,36 @@ end
 
 function writeSavePlus(thisSlot)
 
-	local k = thisSlot
-	local sNewLine = "\n"
-	local s1 = ""
-	local s0
+	if iLevel ~= 1000 then
 
-	s0 = MYDIR.."s" .. thisSlot .. "p.cfg"
-	
-	local h1 = io.output(s0)
-			
-	for i = 1, 11 do
+		local k = thisSlot
+		local sNewLine = "\n"
+		local s1 = ""
+		local s0
 
-		if Obj[i] == true then
+		s0 = MYDIR.."s" .. thisSlot .. "p.cfg"
 
-			s1 = "true" .. "A"
+		local h1 = io.output(s0)
 
-		else	
+		for i = 1, 11 do
 
-			s1 = "false" .. "A"
+			if Obj[i] == true then
+
+				s1 = "true" .. "A"
+
+			else
+
+				s1 = "false" .. "A"
+
+			end
+
+			io.write(s1 .. sNewLine)
 
 		end
 
-		io.write(s1 .. sNewLine)
+		io.close(h1)
 
 	end
-		
-	io.close(h1)
 
 end
 
