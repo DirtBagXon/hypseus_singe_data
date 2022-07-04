@@ -4813,6 +4813,13 @@ end
 function drawLvl()       -- Draw current level
 	
 	--if ShowLevel then
+
+        local yad = 0
+
+        if ylvlpos > 190 then
+                yad = 5
+        end
+
 		
 		if currentFrame == Tlimit or currentMove > 1 then
 
@@ -4822,16 +4829,16 @@ function drawLvl()       -- Draw current level
 
 			if iScene == 1 and iLevel == levelSecret then
 
-				fontPrint(LINEW,ylvlpos, Level[iLevel][TITLE])
+				fontPrint(LINEW+6,ylvlpos, Level[iLevel][TITLE])
 
 			elseif iScene == 1 and iLevel ~= levelSecret then
 					
-				fontPrint(LINEW,ylvlpos, iLevel .. ". " .. Level[iLevel][TITLE])
+				fontPrint(LINEW+6,ylvlpos, iLevel .. ". " .. Level[iLevel][TITLE])
 			
 			else
 
-				spriteDraw(LINEW,ylvlpos,sprite[SCENES])
-				drawSpriteNumber(LINEW+SCNW+NUMW,ylvlpos,iScene)
+				spriteDraw(LINEW+6,ylvlpos-yad,sprite[SCENES])
+				drawSpriteNumber(LINEW+SCNW+NUMW,ylvlpos-yad,iScene)
 
 			end
 						
