@@ -1,0 +1,499 @@
+--[[		]]--
+
+MYDIR = "singe/oeil/"					
+dofile(MYDIR.."globals.singe")
+
+MovieFPS = 24
+
+SCOREMOVE = 700									
+BUFFMOVE = 300									
+SCORESCENE = 10000								
+DEATHPENALTY = 1000								
+SCORELEVEL = 50000								
+SCOREGAME = 250000								
+PERFECTBONUS = 10000							
+EXTRALIFE = 0									
+SCORESECRET = 1	
+
+PenalNormal = 0									
+PenalHard = 2									
+PenalExtreme  = 4
+
+altCfg = false  								
+											
+miscR = 153			--[[	????????????????	]]--							
+miscG = 76										
+miscB = 0
+
+AllowRandom = false								
+
+AllowTier = false								
+
+
+AllowMap = false								
+MapStart = 0									
+
+IngameDiffchoice = false		
+
+BarSize = 10	
+BarMin = 2		
+BarBonus = 3	
+
+LvlTrophy3 = 0
+LvlTrophy4 = 0	    							
+
+offsetTitle = 0						--[[***********titre************]]--
+offsetTitleend = offsetTitle + 80			--[[***********duree du titre************]]--
+
+offsetIntro01 = 81						--[[***********debut intro******124******]]--
+offsetIntro01end = offsetIntro01 + 300			--[[***********duree intro******521******]]--
+
+
+
+			
+
+offsetMenus = 301				--[[***********image fixe apres intro************]]--																	
+											
+frameOptions = offsetMenus +0
+frameVictory = offsetMenus +3  					
+frameSave = offsetMenus +6					
+frameRankings =offsetMenus +9				
+frameControls = offsetMenus +15
+frameSpecial = offsetMenus +18			
+frameSecret = offsetMenus +22
+frameTrophy = offsetMenus +15
+frameHints = offsetMenus +12			
+
+offsetGameOver = offsetMenus +161				--[[     ]]--
+offsetGameOverend = offsetMenus +439
+
+offsetGameOverAlt = offsetMenus +30			--[[     ]]--
+offsetGameOverAltend = offsetMenus +245 		
+
+offsetNewHScore = offsetMenus +1526				
+offsetNewHScoreend = offsetMenus +1648			--[[     ]]--
+
+offsetEnterHScore = offsetMenus +1649		
+offsetEnterHScoreend = offsetMenus +2986		
+
+offsetRankings = offsetMenus +2987			
+offsetRankingsend = offsetMenus +3037        --[[     ]]--
+
+offsetContinue = offsetMenus +455				
+offsetContinueend = offsetMenus +1341			
+
+offsetClear = offsetMenus +1357					
+offsetClearend = offsetMenus +1510
+
+offsetGetReady = 0							
+offsetGetReadyEnd = 1						
+
+offsetSupDeath = 0							
+offsetSupDeathEnd = 1					
+
+offsetMap = offsetMenus +10						
+offsetMapend = offsetMenus +11
+
+offsetMovieEnd = 55530	
+
+			
+
+totalDeath = 1
+offsetDeath = 675							
+
+Death[1] = {220, 245}
+
+
+finalstage = 5 	
+PlayOrder = {1,2,3,4,5}     		     				
+AllowSecret = false	
+RelativeFrames = true 
+
+Level[1] = {"lv 1", 355, 2189, 2, 0, 0, -1}
+Level[2] = {"lv 2", 2190, 3426, 2, 0, 0, -1}
+Level[3] = {"lev 3", 3427, 5205, 3, 0, 0, -1}
+Level[4] = {"lv4", 5206, 6727, 2, 0, 0, -1}
+Level[5] = {"lv5", 6728, 8560, 1, 0, 0, -1}
+
+
+function setupMoves(thisLevel, thisScene)							
+															
+		if thisLevel == 1 then --[[*niveau 11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111]]--
+
+		if thisScene == 1 then 							
+
+			sceneStart = 1 							--[[MODIF du niv 1 est = a la valeur en negatif du debut lv1 -355]]--				
+			sceneEnd   = 1213		--[[  ANCIENNE VALEUR 1817   ]]--					
+			totalMoves   = 31			--[[  nombre d action par scenes   ]]--							
+				
+			
+
+            	move[1] = {95, 115, BUTTON1, 1} -- --			
+            	move[2] = {135, 145, UP, 1}	
+            	move[3] = {148, 158, DOWN, 1}		
+         		move[4] = {257, 305, HOLDBUT, 1}		-- bandeau pirate --
+	       	move[5] = {315, 325, UP, 1}
+			move[6] = {380, 390, BUTTON1, 1}
+			move[7] = {452, 462, BUTTON1, 1}
+			move[8] = {511, 521, BUTTON1, 1}
+			move[9] = {525, 535, DOWN, 1}
+			move[10] = {560, 568, UP, 1}
+			move[11] = {589, 599, BUTTON1, 1}	
+ 			move[12] = {653, 663, UP, 1}           
+			move[13] = {672, 682, RIGHT, 1}
+			move[14] = {689, 721, MASH, 1}  -- tape verre --
+			move[15] = {723, 735, DOWN, 1}
+			move[16] = {745, 755, DOWN, 1}
+			move[17] = {813, 823, DOWN, 1}
+			move[18] = {833, 843, DOWN, 1}
+			move[19] = {858, 868, DOWN, 1}
+			move[20] = {873, 885, BUTTON1, 1}
+			move[21] = {903, 913, UP, 1}			
+			move[22] = {948, 958, RIGHT, 1}
+			move[23] = {975, 985, ACTUP, 1}
+			move[24] = {990, 1000, SKIP, 1}
+			move[25] = {1026, 1036, UP, 1}
+			move[26] = {1033, 1043, UP, 1}
+			move[27] = {1107, 1117, BUTTON1, 1}
+			move[28] = {1122, 1132, BUTTON1, 1}
+			move[29] = {1152, 1162, UP, 1}
+			move[30] = {1163, 1173, DOWN, 1}
+			move[31] = {1212, 1217, LEFT, 1}
+
+elseif thisScene == 2 then 	
+	                
+	        sceneStart = 1214							
+			sceneEnd   = 1834
+			totalMoves   = 17
+
+			move[1] = {1583-355, 1593-355, DOWN, 1}
+			move[2] = {1634-355, 1644-355, UP, 1}
+			move[3] = {1649-355, 1659-355, UP, 1}
+			move[4] = {1663-355, 1673-355, UP, 1}
+			move[5] = {1694-355, 1704-355, RIGHT, 1}
+			move[6] = {1729-355, 1739-355, DOWN, 1}
+			move[7] = {1749-355, 1760-355, MASH, 1}
+			move[8] = {1769-355, 1785-355, RIGHT, 1}
+			move[9] = {1812-355, 1822-355, BUTTON1, 1}
+			move[10] = {1839-355, 1863-355, ACTLEFT, 1}
+			move[11] = {1865-355, 1875-355, ACTRIGHT, 1}
+			move[12] = {1896-355, 1906-355, RIGHT, 1}
+			move[13] = {1962-355, 1972-355, DOWN, 1}
+			move[14] = {1980-355, 1990-355, RIGHT, 1}
+			move[15] = {2000-355, 2006-355, UP, 1}			
+			move[16] = {2014-355, 2088-355, HOLDDOWN, 1}
+			move[17] = {2115-355, 2122-355, DOWN, 1}
+
+
+
+
+
+			end
+
+
+
+
+  elseif thisLevel == 2 then	--[[*niveau 22222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222]]--								
+		
+		if thisScene == 1 then   		--[[MODIF du niv 2 est = a la valeur en negatif du debut lv2 -2190]] --								
+
+			sceneStart = 1			--[[ ANCIENNE VALEUR 898]]--
+			sceneEnd   = 427			--[[ ANCIENNE VALEUR 1933]]--
+			totalMoves   = 14
+					
+			move[1] = {110, 120, BUTTON1, 1}
+			move[2] = {140, 150, DOWN, 1}		
+			move[3] = {172, 182, UP, 1}
+			move[4] = {187, 197, DOWN, 1}
+			move[5] = {207, 219, BUTTON1, 1}
+			move[6] = {221, 231, DOWN, 1} --[[ BIERRE DANS VERRE]]--
+			move[7] = {239, 252, DOWN, 1} --[[ GOUTE QUI TOMBE]]--
+			move[8] = {266, 278, ACTDOWN, 1} --[[ DESCENTE BIERRE]]--
+
+
+
+
+move[9] = {290, 302, UP, 1} --[[ SERVEUSE LEVE TETE]]--
+move[10] = {308, 318, RIGHT, 1}
+move[11] = {334, 344, UP, 1}
+move[12] = {378, 388, BUTTON1, 1}
+move[13] = {395, 403, UPRIGHT, 1}
+move[14] = {410, 420, DOWN, 1}
+
+  elseif thisScene == 2 then 	
+	                
+	        sceneStart = 428							
+			sceneEnd   = 1236
+			totalMoves   = 24
+
+
+
+
+move[1] = {466, 483, HOLDBUT, 1}--[[ FREIN]]--
+move[2] = {506, 512, DOWN, 1}
+move[3] = {517, 525, RIGHT, 1}
+move[4] = {551, 561, UP, 1}    --[[ FONCE VERS LE LARGE]]--
+move[5] = {578, 588, RIGHT, 1}
+move[6] = {611, 621, RIGHT, 1}
+move[7] = {660, 720, HOLDLEFT, 1}   --[[ ARRRIERE]]--
+move[8] = {752, 762, UP, 1}--[[ LEVER CARTE]]--
+move[9] = {773, 783, RIGHT, 1}--[[ DEPLI CARTE 2953]]--
+move[10] = {785, 795, RIGHT, 1}    
+move[11] = {790, 806, BUTTON1, 1}
+move[12] = {819, 829, DOWN, 1} --[[ RANGER CARTE]]--
+
+move[13] = {832, 841, LEFT, 1}
+move[14] = {842, 852, LEFT, 1} --[[ TOURNE BATEAU]]--
+move[15] = {853, 863, UP, 1} --[[ FONCE VERS CARTE]]--
+
+
+
+
+move[16] = {865, 875, ACTDOWN, 1}
+move[17] = {891, 898, DOWN, 1}
+move[18] = {899, 909, DOWN, 1}
+move[19] = {927, 937, UP, 1}
+move[20] = {967, 994, MASH, 1}
+move[21] = {1015, 1025, BUTTON1, 1}
+move[22] = {1130, 1136, LEFT, 1}
+move[23] = {1137, 1147, BUTTON1, 1}
+move[24] = {1149, 1159, DOWN, 1}
+
+
+		end
+	
+	elseif thisLevel == 3 then	--[[*niveau 3 modif -3427 3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333]]--
+
+		if thisScene == 1 then --[[MODIF du niv 3 est = a la valeur en negatif du debut lv3 -3427]]--
+
+			sceneStart = 1
+			sceneEnd   = 362            -- 1778 --
+			totalMoves   = 13
+
+		
+			
+			move[1] = {80, 90, BUTTON1, 1}
+			move[2] = {3532-3427, 3542-3427, DOWN, 1}
+			move[3] = {3564-3427, 3574-3427, DOWN, 1}
+			move[4] = {3582-3427, 3592-3427, BUTTON1, 1}
+			move[5] = {3590-3427, 3600-3427, DOWN, 1}
+			move[6] = {3608-3427, 3618-3427, ACTDOWN, 1}  -- POSE VERRE --
+			move[7] = {3630-3427, 3639-3427, ACTDOWN, 1}
+			move[8] = {3650-3460, 3658-3427, BUTTON1, 1}		-- GUEULE --
+			move[9] = {3670-3427, 3690-3427, BUTTON1, 1}
+			move[10] = {3701-3427, 3708-3427, BUTTON1, 1}	-- SELECTION --
+			move[11] = {3709-3427, 3717-3427, RIGHT, 1}
+			move[12] = {3718-3427, 3733-3427, LEFT, 1}
+			move[13] = {3780-3427, 3789-3427, HOLDBUT, 1}
+
+  elseif thisScene == 2 then 	
+	                
+	        sceneStart = 363							
+			sceneEnd   = 1037
+			totalMoves   = 24
+
+
+			move[1] = {3815-3427, 3825-3427, UP, 1}
+			move[2] = {3873-3427, 3883-3427, DOWN, 1}
+			
+			move[3] = {3884-3427, 3901-3427, HOLDDOWN, 1}
+			move[4] = {3939-3427, 3949-3427, UP, 1}
+			move[5] = {3978-3427, 3988-3427, LEFT, 1}
+			move[6] = {4042-3427, 4050-3427, ACTLEFT, 1}
+			
+
+			move[7] = {4057-3427, 4065-3427, UPLEFT, 1}
+			move[8] = {4066-3427, 4074-3427, BUTTON1, 1}
+			move[9] = {4075-3427, 4085-3427, UP, 1}
+
+			move[10] = {4110-3427, 4183-3427, HOLDUP, 1}
+			move[11] = {4193-3427, 4205-3427, DOWN, 1}
+			move[12] = {4207-3427, 4221-3427, HOLDRIGHT, 1}
+			move[13] = {4234-3427, 4244-3427, DOWN, 1}
+			move[14] = {4252-3427, 4262-3427, UP, 1}
+			move[15] = {4275-3427, 4285-3427, BUTTON1, 1}
+			move[16] = {4295-3427, 4305-3427, UP, 1}
+			move[17] = {4312-3427, 4322-3427, DOWN, 1}
+			move[18] = {4322-3427, 4332-3427, RIGHT, 1}
+			move[19] = {4341-3427, 4351-3427, UP, 1}
+			move[20] = {4363-3427, 4373-3427, UP, 1}
+			move[21] = {4375-3427, 4385-3427, RIGHT, 1}
+			move[22] = {4429-3427, 4439-3427, LEFT, 1}
+			move[23] = {4440-3427, 4450-3427, DOWN, 1}
+			move[24] = {1027, 1037, DOWN, 1}
+
+
+  elseif thisScene == 3 then 	
+	                
+	        sceneStart = 1038							
+			sceneEnd   = 1778
+			totalMoves   = 16
+
+
+
+
+
+			move[1] = {1055, 4539-3427, HOLDLEFT, 1}
+			move[2] = {4549-3427, 4559-3427, UP, 1}
+			move[3] = {4565-3427, 4575-3427, BUTTON1, 1}
+			move[4] = {4610-3427, 4620-3427, ACTRIGHT, 1}
+		  
+
+
+			move[5] = {4678-3427, 4685-3427, LEFT, 1}
+			move[6] = {4686-3427, 4695-3427, DOWN, 1}
+			move[7] = {4730-3427, 4740-3427, DOWNLEFT, 1}
+			move[8] = {4784-3427, 4794-3427, BUTTON1, 1}
+			move[9] = {4846-3427, 4856-3427, DOWNLEFT, 1}
+			move[10] = {4878-3427, 4962-3427, HOLDUP, 1} -- ANCRE --
+		
+
+
+
+			move[11] = {4976-3427, 4986-3427, UP, 1}
+			move[12] = {4990-3427, 5000-3427, RIGHT, 1}
+			move[13] = {5016-3427, 5020-3427, UP, 1}
+			move[14] = {5056-3427, 5066-3427, BUTTON1, 1}
+			move[15] = {5122-3427, 5130-3427, DOWN, 1}
+			move[16] = {5133-3427, 5143-3427, UP, 1}
+
+
+
+
+
+
+
+
+
+
+
+
+end                                                 --[[fin lvl : 3 ]]--
+
+
+
+	
+	elseif thisLevel == 4 then 			--[[*niveau 4444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444]]--
+
+		if thisScene == 1 then
+
+		sceneStart = 1	--[[MODIF du niv 4 est = a la valeur en negatif du debut lv4 -5206]]--
+		sceneEnd   = 260
+		totalMoves   = 7  
+
+			
+			move[1] = {5250-5206, 5260-5206, LEFT, 1}	--[[ DEFONCE PORTE ]]--
+			move[2] = {5277-5206, 5287-5206, DOWN, 1}	
+			move[3] = {5305-5206, 5315-5206, DOWN, 1}	
+			move[4] = {5337-5206, 5347-5206, DOWN, 1}			
+			move[5] = {5352-5206, 5362-5206, ACTDOWN, 1}
+			move[6] = {5394-5206, 5404-5206, DOWN, 1}
+			move[7] = {5445-5206, 5455-5206, BUTTON1, 1} -- SELECTION TLM --
+
+
+elseif thisScene == 2 then 	
+	                
+	        sceneStart = 261							
+			sceneEnd   = 1521
+			totalMoves   = 28
+
+
+
+
+
+
+
+
+
+			move[1] = {5467-5206, 5477-5206, DOWNRIGHT, 1}
+
+			move[2] = {5564-5206, 5574-5206, UPLEFT, 1}
+			move[3] = {5661-5206, 5671-5206, ACTLEFT, 1} -- JETTE --
+			move[4] = {5706-5206, 5715-5206, ACTLEFT, 1} -- JETTE --
+			move[5] = {5725-5206, 5735-5206, BUTTON1, 1} -- KLAXON --
+
+
+
+			move[6] = {5758-5206, 5768-5206, ACTUP, 1} ---- SE RETOURNE --
+
+
+
+			move[7] = {5779-5206, 5789-5206, UP, 1}
+			move[8] = {5828-5206, 5836-5206, BUTTON1, 1}
+			move[9] = {5841-5206, 5851-5206, DOWNLEFT, 1}
+			move[10] = {5877-5206, 5887-5206, ACTUP, 1}  --- LEVE POING --
+			move[11] = {5906-5206, 5916-5206, UP, 1}
+
+			move[12] = {5923-5206, 5931-5206, ACTUP, 1}
+			move[13] = {5932-5206, 5942-5206, UP, 1}
+			move[14] = {5943-5206, 5960-5206, MASH, 1}
+			move[15] = {5963-5206, 6000-5206, HOLDBUT, 1}
+			move[16] = {6004-5206, 6014-5206, DOWN, 1}
+			move[17] = {6025-5206, 6035-5206, UP, 1}
+			move[18] = {6146-5206, 6156-5206, ACTUP, 1}
+			move[19] = {6191-5206, 6201-5206, UP, 1}
+			move[20] = {6286-5206, 6296-5206, LEFT, 1}
+			move[21] = {6318-5206, 6328-5206, UP, 1}
+
+
+			move[22] = {6342-5206, 6352-5206, UPRIGHT, 1}
+			move[23] = {6378-5206, 6388-5206, UP, 1}
+			move[24] = {6422-5206, 6432-5206, DOWN, 1}
+			move[25] = {6440-5206, 6450-5206, RIGHT, 1}
+			move[26] = {6514-5206, 6524-5206, BUTTON1, 1}
+			move[27] = {6540-5206, 6550-5206, UP, 1}
+			move[28] = {6610-5206, 6620-5206, ACTDOWN, 1}
+
+
+
+
+		end
+	
+	elseif thisLevel == 5 then	--[[*niveau 5555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555]]--
+
+		if thisScene == 1 then
+
+			sceneStart = 1		--[[MODIF du niv 5 est = a la valeur en negatif du debut lv 5 -6728]]--
+			sceneEnd   = 1832
+			totalMoves   = 24
+					
+			
+move[1] = {114, 124,  BUTTON1, 1}  --toc toc verre--
+move[2] = {6860-6728, 6870-6728,  DOWN, 1} --- verre casse --
+move[3] = {6909-6728, 6919-6728,  DOWN, 1}			
+move[4] = {6934-6728, 6955-6728,  HOLDBUT, 1} ---colere serveuse ---
+move[5] = {6975-6728, 6985-6728,  DOWN, 1}
+move[6] = {6995-6728, 7015-6728,  UP, 1}
+
+move[7] = {7122-6728, 7135-6728,  ACTDOWN, 1} -- soupir --
+
+move[8] = {7160-6728, 7173-6728,  UP, 1}
+move[9] = {7185-6728, 7201-6728,  DOWN, 1}
+move[10] = {7232-6728, 7242-6728,  ACTDOWN, 1}
+move[11] = {7255-6728, 7275-6728,  UP, 1}
+move[12] = {7326-6728, 7336-6728,  DOWN, 1}
+move[13] = {7350-6728, 7360-6728,  LEFT, 1}
+move[14] = {7392-6728, 7402-6728,  RIGHT, 1}
+
+
+move[15] = {7467-6728, 7477-6728,  LEFT, 1}
+move[16] = {7561-6728, 7571-6728,  ACTUP, 1}
+move[17] = {7597-6728, 7607-6728,  UP, 1}
+move[18] = {7659-6728, 7691-6728,  HOLDRIGHT, 1}
+move[19] = {7703-6728, 7713-6728,  UP, 1}
+move[20] = {7720-6728, 7735-6728,  RIGHT, 1}
+move[21] = {7770-6728, 7780-6728,  BUTTON1, 1}
+move[22] = {7802-6728, 7812-6728,  ACTUP, 1} -- met chapeau --
+move[23] = {7819-6728, 7829-6728,  BUTTON1, 1}
+move[24] = {7941-6728, 8500-6728,  SKIP, 1}
+
+
+
+
+		end	
+	
+	
+
+	end
+	
+end
