@@ -1508,13 +1508,9 @@ function doGameOver()     -- Process game over
 		lvlState = lvlRunning
 	
 	elseif (lvlState == lvlRunning) then
-	
-		if (currentFrame == iFrameEnd) then
-			
-			bShowScore = false
-			lvlState = lvlEnd		
 
-		end	
+		lvlState = lvlSetup
+		currentLevel = levelIntro
 	
 	elseif (lvlState == lvlEnd) then
 	
