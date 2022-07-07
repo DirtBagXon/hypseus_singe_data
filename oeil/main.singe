@@ -1544,7 +1544,7 @@ function doIntro()     -- Process attract mode
 			discPause()
 			bShowLCD = false
 			bShowCredits = false			
-			timerON(10)
+			timerON(0.01) --[[ We really don't want to wait here.... ]]
 
 			if frameSpecial ~= frameControls then
 
