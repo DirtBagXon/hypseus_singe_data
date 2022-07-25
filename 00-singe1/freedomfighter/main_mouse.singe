@@ -2323,15 +2323,10 @@ function onOverlayUpdate()
 
 	overlayClear()
 
-spriteDraw(mouseX - crosshairCenterX, mouseY - crosshairCenterY, sprCross)
---if (myButton==8) then	
---overlayPrint(1, 2, "X " .. mouseX .. " Y " .. mouseY .. " State " .. getPixelState(mouseX,mouseY) .. " R " .. r1 .. " G " .. g1 .. " B " .. b1.. " HR " .. 255-r1 .. " HG " .. 255-g1 .. " HB " .. 255-b1)
---	if (currentMove>=1) then
---		overlayPrint (1,2, "zone " .. checkZone().. "  7=  " .. move[currentMove][7] .. "  8=  " ..  move[currentMove][8] .. "  9=  " .. move[currentMove][9] .. " 10=  " .. move[currentMove][10])
---		overlayPrint (1,4, "move " .. currentMove .. "mouseX" .. mouseX .. "  mouseY  " .. mouseY)
---	end
---end	
-	
+	if (singeWantsCrosshairs()) then
+		spriteDraw(mouseX - crosshairCenterX, mouseY - crosshairCenterY, sprCross)
+	end
+
 	currentFrame = discGetFrame()
 
 	if (gameflow == flow_VLDPStart) then
