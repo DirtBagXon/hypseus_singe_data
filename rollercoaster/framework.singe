@@ -69,6 +69,12 @@ function utilTrim(s)
 	return (s:gsub("^%s*(.-)%s*$", "%1"))
 end
 
+function framePad(f)
+   while(string.len(f) < 5) do
+	f = "0" .. f
+   end
+   return f
+end
 
 SCANCODE = {
 	A = { name = "A", value = 4 },

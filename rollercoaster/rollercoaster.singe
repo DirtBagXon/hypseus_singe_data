@@ -50,6 +50,10 @@ JPEG         = 1    -- Loaded JPG images
 SHOW_JPG     = -1   -- If not -1, the id of the JPG to display
 END_FRAME    = -1   -- If not -1, play video until this frame is reached
 DELAY        = 0    -- How long to sit before next state, in roughly half seconds
+INTRO        = 0    -- Intro count
+INTROLEN     = 400  -- Intro length
+TITLE        = 31   -- Title frame
+BLANK        = 38   -- Blank frame
 
 -- Game Engine States
 STATE_NONE          = 0  -- Lua tables start at 1, so this is an invalid state
@@ -284,6 +288,24 @@ end
 
 function onOverlayUpdate()
 
+	if INTRO < INTROLEN then
+
+		if INTRO > (INTROLEN / 2) then
+			discSkipToFrame(framePad(TITLE + 2))
+		else
+			discSkipToFrame(framePad(TITLE))
+		end
+
+		INTRO = INTRO + 1
+		return(OVERLAY_UPDATED)
+	end
+
+	if not introDone then
+		pioneer(STATE, "FR2818SE/")
+		introDone = true
+	end
+
+
 	local cursor = "_"  -- Can't use the nice Apple II cursor - it's outside the ASCII range on this font!
 		
 	if SHOW_JPG ~= -1 then
@@ -402,12 +424,13 @@ function pioneer(newstate, command)
 		end
 
 		-- Ensure frame numbers are zero padded to 5 digits.
-		while(string.len(temp) < 5) do
-			temp = "0" .. temp
-		end
+		temp = framePad(temp)
+
 		table.insert(frames, temp)
 		count = count + 1
 	end
+
+	discSearch(framePad(BLANK))
 
 	-- All used commands in this program are either a single
 	-- seek to display a JPG or a seek and then a play to
@@ -1342,5 +1365,3 @@ screenClear()
 
 NEXT_STATE = STATE_NONE
 STATE      = STATE_GET_NAME
-
-pioneer(STATE, "FR2818SE/")
