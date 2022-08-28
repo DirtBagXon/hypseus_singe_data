@@ -291,9 +291,17 @@ function onOverlayUpdate()
 	if INTRO < INTROLEN then
 
 		if INTRO > (INTROLEN / 2) then
-			discSkipToFrame(framePad(TITLE + 2))
+			if not title2 then
+				discSkipToFrame(framePad(TITLE + 2))
+				discPause()
+				title2 = true
+			end
 		else
-			discSkipToFrame(framePad(TITLE))
+			if not title1 then
+				discSkipToFrame(framePad(TITLE))
+				discPause()
+				title1 = true
+			end
 		end
 
 		INTRO = INTRO + 1
