@@ -1,0 +1,629 @@
+--[[
+
+PROGRAM NAME:	Arcade_Xperience_Vol1
+VERSION:		3.3
+AUTHOR:			KARIS (2021)
+
+This file is part of Arcade_Xperience_Vol1
+
+	CyberAction is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation.
+
+	Arcade_Xperience_Vol1 is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+	Thanks to RDG (original author of the program), 
+
+	YOU CAN EDIT THIS FILE TO CREATE YOUR OWN GAME IN A FEW HOURS! 
+
+	If you want to create your own Laserdisc game using SINGE, you just need to have some videos and then to edit this file. 
+	It's really easy, most of the work is already done. Just read my comments. The file is quite long but you probably 
+	don't need to fill everything.
+
+]]--
+
+
+-------------------------
+-- 1. General settings --
+-------------------------
+
+MYDIR = "singe/arcadex1/"									-- This is the directory where your game is 
+MovieFPS = 30.00								-- Number of frames per second of your movies (used for timed actions).
+
+dofile(MYDIR .. "globals.singe")			-- Don't touch this line
+
+-- Scoring Settings --
+
+SCOREMOVE = 700									-- Points for a correct move. A difficulty buff will then be applyied. 
+BUFFMOVE = 300									-- Each difficulty level above "easy" will add this value for a correct move.
+SCORESCENE = 5000								-- Points for finishing a Scene. Each death will then reduce this score.
+SCORELEVEL = 20000								-- Points for finishing a Level.
+SCOREGAME = 100000								-- Points for finishing the Game.
+PERFECTBONUS = 10000							-- Points for finishing a level with 0 death
+EXTRALIFE = 0									-- Points needed for Extra life (0 = No Extra Life)
+DEATHPENALTY = 1000								-- Each death will reduce the score of the scene by this value. 
+SCORESECRET = 1									-- Points for finishing the Game with one life : 1 point that makes a difference!
+
+-- Difficulty Settings --						-- Normally, you don't need to change those settings 
+
+PenalNormal = 0									-- Number of input frames to remove for level Normal.
+PenalHard = 2									-- Number of input frames to remove for level Hard.	
+PenalExtreme  = 4									-- Number of input frames to remove for level Extreme.	
+
+-- Advanced Settings --							-- Those settings allow to setup complex behavior. You don't need them in most cases.
+
+altCfg = false 									-- true if you've got 2 singe game files sharing different configurations.
+											
+miscR = 153										-- You can also create a misc color for the font.
+miscG = 76										-- In that case fill RGB values (0 to 255)
+miscB = 0
+
+AllowRandom = false								-- Show/hide the random level order mode in Game Type (menu)
+
+AllowTier = false								--	Show/hide the tier mode in Game Type (menu). If you don't want tiers: false.
+Tiers[0] = {4,4,4,5,3}							-- Tier 0 = init. First number is number of Tiers, followed by size of each Tier
+Tiers[1] = {1,2,3,4}							-- Levels to be mixed in Tier 1 (and so on).
+Tiers[2] = {5,6,7,8}							-- In this example there are 17 levels Tiered in 4 groups	
+Tiers[3] = {9,10,11,12,13}
+Tiers[4] = {14,15,16}							-- Level 17 is played last. Not included in any Tier.
+
+
+AllowMap = false								-- Show/hide the map mode in Game Type (menu)
+MapStart = 0									-- 0: Map start at the beginning / 1: Map after the first level. 
+
+IngameDiffchoice = false						-- If true, you will choose the difficulty with a video at the start of the game.
+
+BarSize = 10									-- Size of the Life Bar (Life bar Game Type)
+BarMin = 2										-- Decrease of the Life bar for missed move
+BarBonus = 3									-- Number of good moves to gain 1 in Life Bar
+
+LvlTrophy3 = 0 									-- Which Level for gives trophy 3 (0 if no trophy)
+LvlTrophy4 = 0 									-- Which Level for gives trophy 4 (0 if no trophy)
+
+------------------------------------------------------------------------
+-- 2. Starting and ending frames for the various elements of the game --
+------------------------------------------------------------------------
+													
+-- Intro frames --
+												-- For this part, you just need to adjust the frames values.
+offsetTitle = 42520									-- Title start frame (short video with the logo).
+offsetTitleend = 42769							-- End frame of the title video. 
+
+offsetIntro01 = 42784								-- Attract video start frame.
+offsetIntro01end = 43461							-- End frame of the Attract video #1.
+
+offsetIntro02 = 0							-- You can have a third attract video.
+offsetIntro02end = 0						-- I've got only 1 so i just matched The rankings video values.
+
+offsetIntro03 = 0	 	  						-- Attract video #2 start frame (if you've got only one : match title or Intro01).
+offsetIntro03end = 0							-- End frame of the Attract video #2.
+
+offsetIntroGame = 0   							-- Optional: a sequence played only when the game starts
+offsetIntroGameend = 0							-- Leave to zero if you don't have such sequence
+
+
+-- Menu frames --
+
+offsetMenus = 30352								-- Menu video start frame (continue, high score, game over, etc).														
+												-- Now we set the frames for the menu video.
+frameOptions = offsetMenus +0					-- Frame for the background picture of the Service Menu.
+frameVictory = offsetMenus +6632					-- Frame for the picture shown when the game is completed.
+frameSave = offsetMenus +335						-- Frame for the background picture of the Save Menu.
+frameRankings =offsetMenus +503					-- Frame for the background picture of the Top 10.
+frameControls = offsetMenus +671					-- Frame for the picture with instructions for key/buttons (appear between attract videos). 
+frameSpecial = offsetMenus +15					-- Frame to show special moves (you can replace with same value than frameCommands).
+frameSecret = offsetMenus +680					-- Frame for the "secret level" (if you finish the game with only one life).
+frameTrophy = offsetMenus +838					-- Frame for the trophies (optional).
+frameHints = frameSpecial						-- Frame for the hints (optional).
+
+frameEasy = offsetMenus +1006						-- Frame for Easy difficulty (and so on).
+frameNormal = offsetMenus +1174					-- Useless if 
+frameHard = offsetMenus +1341
+frameExtreme = offsetMenus +4205
+
+offsetGameOver = 38530							-- Positions of the Game over #1 video in the menus (regular ending).
+offsetGameOverend = 38759
+
+offsetGameOverAlt = 37464						-- Positions of the Game over #2 video in the menus (happy ending, like high sore).
+offsetGameOverAltend = 38512					-- You can also copy the values of game over #1.
+
+offsetNewHScore = 32454							-- Positions of the High score announcement video.
+offsetNewHScoreend = 32602						-- Not too long
+
+offsetEnterHScore = 32622						-- Positions of the video for entering High Scores (quite long to give enough time).
+offsetEnterHScoreend = 33226					-- This video is quite long to grant enough time to enter the name.
+
+offsetRankings = 33246							-- Positions of the video for Rankings (after High Score).
+offsetRankingsend = 33394						-- If you don't have this, replace with the values of NewHscore (above)
+
+offsetContinue = 37148							-- Positions of the Continue video (quite long to give enough time for the player).
+offsetContinueend = 37448
+
+offsetClear = 44559								-- Positions of the video after clearing a level (can be a single frame).
+offsetClearend = 44708				
+
+offsetGetReady = 43476							-- Position of the (optional) resurrect video. 
+offsetGetReadyEnd = 43517						-- Example of get ready video: Dirk appears in Dragon's Lair
+
+offsetSupDeath = 78179							-- Position of the (optional) extra death video. 
+offsetSupDeathEnd = 78249						-- Example of extra death video: Borf laughing in Space Ace. 
+
+offsetMap = offsetMenus +0						-- Position of the video for Map (not used in this game).
+offsetMapend = offsetMenus +0					-- Here i use a single frame.
+
+offsetMovieEnd = 30325							-- Last frame of the last level. Used by Movie mode.
+
+
+-- Death frames --
+
+totalDeath = 68									-- Total number of death scenes.
+offsetDeath = 33997								-- Start frame for the death video.
+
+
+Death[1] = {34000, 34044}
+Death[2] = {34093, 34143}
+Death[3] = {34154,34204}
+Death[4] = {34215,34229}
+Death[5] = {34248,34280}
+Death[6] = {34300,34325}
+Death[7] = {34345,34402}
+Death[8] = {34532,34541}
+Death[9] = {36524,36565}
+Death[10] = {36689,36731}                              
+Death[11] = {36855,36901}
+Death[12] = {36917,36968}
+Death[13] = {39304,39340}
+Death[14] = {39371,39407}
+Death[15] = {39423,39459}
+Death[16] = {39475,39511}
+Death[17] = {39527,39563}
+Death[18] = {39579,39615}
+Death[19] = {39631,39667}
+Death[20] = {39735,39771}
+Death[21] = {39787,39823}
+Death[22] = {39840,39876}
+Death[23] = {39892,39928}
+Death[24] = {39944,39980}
+Death[25] = {40515,40561}
+Death[26] = {40579,40625}
+Death[27] = {40641,40687}
+Death[28] = {40703,40749}
+Death[29] = {40765,40811}
+Death[30] = {40827,40873}
+Death[31] = {40889,40935}
+Death[32] = {40951,40987}
+Death[33] = {41003,41039}
+Death[34] = {41055,41091}
+Death[35] = {41107,41143}
+Death[36] = {41159,41195}
+Death[37] = {41211,41247}
+Death[38] = {41263,41299}
+Death[39] = {41315,41351}
+Death[40] = {41369,41404}
+Death[41] = {41420,41456}
+Death[42] = {41472,41508}
+Death[43] = {41576,41612}
+Death[44] = {41628,41664}
+Death[45] = {41680,41716}
+Death[46] = {41732,41768}
+Death[47] = {41784,41820}
+Death[48] = {41836,41872}
+Death[49] = {41888,41924}
+Death[50] = {41940,41976}
+Death[51] = {41992,42028}
+Death[52] = {42044,42080}
+Death[53] = {42096,42129}
+Death[54] = {42148,42184}
+Death[55] = {42200,42236}
+Death[56] = {42252,42288}
+Death[57] = {44038,44074}
+Death[58] = {44090,44126}
+Death[59] = {44142,44178}
+Death[60] = {44194,44230}
+Death[61] = {44246,44282}
+Death[62] = {44299,44335}
+Death[63] = {44351,44387}
+Death[64] = {44403,44039}
+Death[65] = {44455,44491}
+Death[66] = {44507,44543}
+Death[67] = {41888,41924}
+Death[68] = {41524,41560}
+
+
+
+----------------------------------------------------------------------------------------------------
+-- 3. List of Levels (Title, Start Frame, End of Intro Clip, Total Scenes, Mirror, Death Mirror.) --
+----------------------------------------------------------------------------------------------------
+
+finalstage = 3	     		     								-- Last stage of the story. Prevent the game to go to a level that does not exist.
+PlayOrder = {1,2,3}											-- Normal order of play for the levels.
+AllowSecret = false		  										-- If you have a "secret level" video then: replace false by true.
+RelativeFrames = false 											-- True if frame 1 starts with each level. False if frame 1 is the disc start.	
+
+																-- Informations about the Levels:	
+Level[1] = {"Azureus", 1193, 1930, 5, 0, 0, -1} 				-- Title, Start Frame, End of Intro Clip, Total Scenes, Mirror, Death Mirror, Replay. 
+Level[2] = {"Ikibanchi", 9900, 10909, 3, 0, 0, -1}				-- Each level has one line with those informations.
+Level[3] = {"Ruine", 16608, 20062, 8, 0, 0, -1}
+
+
+		-- Replay -1 is default (loop), 0 no replay, 1 is one replay now.
+  -- Secret Level infos (just for demo: useless if youdon't have a secret level)
+
+
+------------------------------------------------------------------------------------
+-- 4. List of moves for each level, by scene (StartFrame, EndFrame, MOVE, Death#) --
+------------------------------------------------------------------------------------
+
+-- A scene is a list of moves you need to complete without "dying" in order to advance to the next scene.
+-- If you die during a scene, you restart this scene (though you can alter this in the game's menu).
+-- Basic moves: UP, DOWN, LEFT, RIGHT, BUTTON1, BUTTON2, BUTTON3.
+-- Combined moves: UPLEFT (diagonal move), UPRIGHT, DOWNLEFT, DOWNRIGHT, ACTUP (BUTTON1 + UP), ACTDOWN, ACTLEFT, ACTRIGHT.  
+-- Advanced moves: MASH (hit BUTTON1 quickly), MASHMAX, MASHMIN, HOLDUP (push UP and hold it), HOLDDOWN, HOLDLEFT, HOLDRIGHT, LETGO (release the HOLD), CHOOSE. 
+-- Other moves : RUN (Stick L/R), RUNMAX, RUNMIN, MASH 2 (2 buttons), MASH2MAX, MASH2MIN, SKIP (skip some narrative frames), PATHUD (choose between UP and DOWN), PATHLR.
+
+function setupMoves(thisLevel, thisScene)	
+
+	if thisLevel == 1 then 										-- We begin with Level 1 (which has 2 scenes, as defined in part 3)
+	
+		if thisScene == 1 then 									-- And Scene 1					
+
+			sceneStart = 1931									-- The scene 1 starts at frame 236
+			sceneEnd   = 2595									-- And ends at frame 2047
+			totalMoves = 8										-- Scene 1 has 10 moves
+
+			move[1] = {636+1426, 720+1426, RUN, 11}				-- 1st move: ACTUP between frame 130 of the movie and ends at 145 or Death #1.
+		move[2] = {730+1426, 745+1426, UP, 11}
+                move[3] = {749+1426, 763+1426, DOWN, 11}
+                move[4] = {769+1426, 783+1426, UPLEFT, 11}
+                move[5] = {870+1426, 890+1426, LOOPRIGHT, 11}
+                move[6] = {905+1426, 965+1426, HOLDLEFT, 11}
+                move[7] = {1093+1426, 1154+1426, MASHMIN, 13}
+                move[8] = {1164+1426, 1174+1426, DOWN, 14}
+
+
+
+           elseif thisScene == 2 then 						
+
+			sceneStart = 2596			
+		        sceneEnd   = 4450
+			totalMoves = 16
+
+
+                move[1] = {1636+1426, 1650+1426, BUTTON1, 11}
+                move[2] = {1693+1426, 1706+1426, ACTUP, 14}
+                move[3] = {1995+1426, 2008+1426, ACTLEFT, 15}
+                move[4] = {2261+1426, 2274+1426, ACTUP, 11}
+                move[5] = {2283+1426, 2296+1426, ACTRIGHT, 11}
+                move[6] = {2386+1426, 2400+1426, ACTDOWN, 11}
+                move[7] = {2410+1426, 2423+1426, ACTLEFT, 11}
+                move[8] = {2473+1426, 2486+1426, BUTTON3, 16}
+                move[9] = {2568+1426, 2580+1426, UP, 11}
+                move[10] = {2596+1426, 2627+1426, MASHMIN, 17}
+                move[11] = {2713+1426, 2757+1426, MASHMIN, 18}
+                move[12] = {2772+1426, 2785+1426, DOWN, 19}
+                move[13] = {2840+1426, 2850+1426, RIGHT, 11}
+                move[14] = {2860+1426, 2870+1426, BUTTON3, 11}
+                move[15] = {2898+1426, 2908+1426, UP, 11}
+                move[16] = {2991+1426, 3005+1426, DOWN, 20}
+
+
+
+           elseif thisScene == 3 then 						
+
+			sceneStart = 4451			
+		        sceneEnd   = 5900
+			totalMoves = 15
+
+
+                move[1] = {3339+1426, 3353+1426, RIGHT, 21}
+                move[2] = {3453+1426, 3586+1426, MASHMIN, 22}
+                move[3] = {3596+1426, 3606+1426, UPRIGHT, 23}
+                move[4] = {3636+1426, 3842+1426, HOLDDOWN, 24}
+                move[5] = {3854+1426, 3874+1426, LOOPRIGHT, 11}
+                move[6] = {3917+1426, 3994+1426, HOLDDOWN, 11}
+                move[7] = {4004+1426, 4014+1426, UPRIGHT, 11}
+                move[8] = {4070+1426, 4090+1426, LOOPLEFT, 11}
+                move[9] = {4107+1426, 4153+1426, HOLDDOWN, 11}
+                move[10] = {4166+1426, 4190+1426, MASHMIN, 11}
+                move[11] = {4200+1426, 4213+1426, UPLEFT, 11}
+                move[12] = {4253+1426, 4322+1426, HOLDDOWN, 11}
+                move[13] = {4332+1426, 4342+1426, ACTDOWN, 11}
+                move[14] = {4381+1426, 4394+1426, DOWN, 11}
+                move[15] = {4434+1426, 4446+1426, UP, 58}
+
+
+
+             elseif thisScene == 4 then 						
+
+			sceneStart = 5901			
+		        sceneEnd   = 7022
+			totalMoves = 11
+
+                 move[1] = {4628+1426, 4643+1426, DOWN, 11}
+                move[2] = {4698+1426, 4710+1426, BUTTON3, 59}
+                move[3] = {5246+1426, 5258+1426, UP, 60}
+                move[4] = {5267+1426, 5313+1426, MASHMAX, 61}
+                move[5] = {5323+1426, 5333+1426, UP, 62}
+                move[6] = {5352+1426, 5362+1426, ACTUP, 62}
+                move[7] = {5384+1426, 5462+1426, MASHMIN, 62}
+                move[8] = {5472+1426, 5482+1426, LEFT, 62}
+                move[9] = {5497+1426, 5556+1426, MASHMAX, 62}
+                move[10] = {5566+1426, 5576+1426, DOWN, 62}
+                move[11] = {5586+1426, 5596+1426, UP, 62}
+
+
+
+             elseif thisScene == 5 then 						
+
+			sceneStart = 7023			
+		        sceneEnd   = 9830
+			totalMoves = 25
+
+                move[1] = {5879+1426, 5890+1426, RIGHT,63}
+                move[2] = {5922+1426, 5932+1426, DOWN, 11}
+                move[3] = {5951+1426, 6052+1426, MASHMAX, 58}
+                move[4] = {6330+1426, 6413+1426, MASHMIN, 63}
+                move[5] = {6423+1426, 6433+1426, UP, 61}
+                move[6] = {6459+1426, 6469+1426, ACTLEFT, 61}
+                move[7] = {6576+1426, 6589+1426, DOWN, 65}
+                move[8] = {6837+1426, 6849+1426, UPRIGHT, 11}
+                move[9] = {6913+1426, 6923+1426, DOWN, 11}
+                move[10] = {6936+1426, 6946+1426, UP, 11}
+                move[11] = {6956+1426, 6966+1426, LEFT, 11}
+                move[12] = {7020+1426, 7030+1426, LEFT, 11}
+                move[13] = {7054+1426, 7174+1426, MASHMIN, 11}
+                move[14] = {7184+1426, 7204+1426, HOLDLEFT, 11}
+                move[15] = {7214+1426, 7224+1426, ACTLEFT, 61}
+                move[16] = {7356+1426, 7369+1426, DOWN, 66}
+                move[17] = {7472+1426, 7485+1426, BUTTON3, 11}
+                move[18] = {7495+1426, 7507+1426, UP, 11}
+                move[19] = {7641+1426, 7656+1426, BUTTON3, 11}
+                move[20] = {7720+1426, 7734+1426, DOWN, 11}
+                move[21] = {8024+1426, 8039+1426, LEFT, 11}
+                move[22] = {8244+1426, 8257+1426, BUTTON3, 11}
+                move[23] = {8303+1426, 8313+1426, RIGHT, 11}
+                move[24] = {8327+1426, 8337+1426, UP, 11}
+                move[25] = {8380+1426, 8387+1426, ACTDOWN, 11}
+			
+
+           end 													
+
+
+     elseif thisLevel == 2 then
+
+		if thisScene == 1 then   										
+
+			sceneStart = 10910
+			sceneEnd   = 11829
+			totalMoves = 11
+
+	        move[1] = {977+10056, 991+10056, ACTDOWN, 26}
+		move[2] = {1027+10056, 1039+10056, DOWN, 26}
+                move[3] = {1100+10056, 1110+10056, RIGHT, 26} 
+                move[4] = {1134+10056, 1166+10056, MASHMIN, 26} 
+                move[5] = {1176+10056, 1188+10056, UP, 26}
+                move[6] = {1204+10056, 1216+10056, DOWN, 26}
+                move[7] = {1247+10056, 1262+10056, UP, 26}
+                move[8] = {1388+10056, 1402+10056, BUTTON1, 27}
+                move[9] = {1553+10056, 1567+10056, BUTTON1, 25}
+                move[10] = {1680+10056, 1695+10056, LEFT, 25}
+                move[11] = {1740+10056, 1750+10056, ACTDOWN, 25}
+
+
+             elseif thisScene == 2 then   				
+		
+			sceneStart = 11830
+			sceneEnd   = 12133
+			totalMoves = 4
+
+
+                move[1] = {1864+10056, 1874+10056, LEFT, 29}
+                move[2] = {1891+10056, 1903+10056, ACTRIGHT, 35}
+                move[3] = {1962+10056, 1977+10056, LEFT, 35}
+                move[4] = {2008+10056, 2020+10056, DOWN, 35}
+
+
+
+                elseif thisScene == 3 then   				
+		
+			sceneStart = 12134
+			sceneEnd   = 14841
+			totalMoves = 14
+
+                move[1] = {2119+10056, 2132+10056, BUTTON3, 12}
+                move[2] = {2167+10056, 2180+10056, LEFT, 12}
+                move[3] = {2220+10056, 2233+10056, DOWN, 28}
+                move[4] = {2239+10056, 2249+10056, LEFT, 28}
+                move[5] = {2284+10056, 2344+10056, MASHMAX, 28}
+                move[6] = {2403+10056, 2413+10056, LEFT, 30}
+                move[7] = {2436+10056, 2446+10056, RIGHT, 31}
+                move[8] = {2477+10056, 2552+10056, MASHMAX, 31}
+                move[9] = {2628+10056, 2638+10056, UP, 33}
+                move[10] = {2737+10056, 2750+10056, BUTTON1, 32}
+                move[11] = {2823+10056, 3037+10056, MASHMAX, 32}
+               move[12] = {3047+10056, 3057+10056, ACTRIGHT, 34}
+                 move[13] = {3442+10056, 3455+10056, BUTTON1, 33}
+                move[14] = {3916+10056, 4509+10056, SKIP, 12}
+							
+		
+         end
+
+
+
+
+   elseif thisLevel == 3 then									
+
+		if thisScene == 1 then   										
+
+			sceneStart = 20063
+			sceneEnd   = 21126
+			totalMoves = 8
+
+                move[1] = {3211+16960, 3226+16960, RIGHT, 37}
+	        move[2] = {3288+16960, 3524+16960, RUN, 10}				-- 1st move: ACTUP between frame 130 of the movie and ends at 145 or Death #1.
+		move[3] = {3873+16960, 3994+16960, RUN, 10}				-- 2nd move; LEFT (and so on). 
+		move[4] = {4029+16960, 4042+16960, ACTDOWN, 38}				-- You need at least 1 move per scene. Between 1 and 15 scenes per level.	
+		move[5] = {4072+16960, 4086+16960, DOWN, 38}
+	        move[6] = {4096+16960, 4110+16960, RIGHT, 38}			                               -- The gap between StartFrame and EndFrame is important 25 is long 10 short. 
+		move[7] = {4130+16960, 4143+16960, ACTUP, 38}				-- 15 frames is the regular gap used in Dragon's Lair. 
+		move[8] = {4161+16960, 4173+16960, BUTTON1, 39}
+
+
+
+                  elseif thisScene == 2 then   				
+		
+			sceneStart = 21127
+			sceneEnd   = 21905
+			totalMoves = 10
+
+		move[1] = {4179+16960, 4192+16960, ACTRIGHT, 10}			-- Timed actions, like MASH are adaptative. A good lenght is at least 30.
+		move[2] = {4237+16960, 4282+16960, MASHMAX, 45}
+                 move[3] = {4419+16960, 4447+16960, MASHMAX, 45}
+                move[4] = {4457+16960, 4470+16960, LEFT, 42}
+                move[5] = {4492+16960, 4504+16960, LEFT, 42}
+                move[6] = {4530+16960, 4580+16960, HOLDRIGHT, 44}
+                move[7] = {21570, 21675, HOLDLEFT, 44}
+                move[8] = {4728+16960, 4740+16960, RIGHT, 42}
+                move[9] = {4752+16960, 4795+16960, MASHMAX, 44}
+                move[10] = {4903+16960, 4942+16960, MASHMAX, 40}
+
+
+              elseif thisScene == 3 then   				
+		
+			sceneStart = 21906
+			sceneEnd   = 22345
+			totalMoves = 9
+
+ 
+                move[1] = {4970+16960, 4982+16960, LEFT, 41}
+                move[2] = {4999+16960, 5011+16960, RIGHT, 41}
+                move[3] = {5020+16960, 5096+16960, MASHMAX, 41}
+                move[4] = {5101+16960, 5112+16960, DOWN, 41}
+                move[5] = {5145+16960, 5157+16960, LEFT, 42}
+                move[6] = {5167+16960, 5192+16960, MASHMAX, 42}
+                move[7] = {5202+16960, 5214+16960, RIGHT, 42}
+                 move[8] = {5224+16960, 5298+16960, MASHMAX, 42}
+               move[9] = {5330+16960, 5384+16960, MASHMAX, 42} 
+
+             elseif thisScene == 4 then   				
+		
+			sceneStart = 22346
+			sceneEnd   = 24161
+			totalMoves = 18
+
+                 
+                move[1] = {5410+16960, 5454+16960, HOLDLEFT, 43}
+                move[2] = {5550+16960, 5573+16960, MASHMAX, 44}
+                move[3] = {5583+16960, 5615+16960, HOLDUP, 44}
+                move[4] = {5970+16960, 6043+16960, MASHMAX, 43}
+                move[5] = {6070+16960, 6084+16960, LEFT, 43}
+                move[6] = {6133+16960, 6145+16960, BUTTON2, 47}
+                move[7] = {6178+16960, 6188+16960, BUTTON2, 47}
+                move[8] = {6210+16960, 6222+16960, BUTTON2, 47}
+                move[9] = {6235+16960, 6276+16960, MASHMAX, 45}
+                move[10] = {6287+16960, 6299+16960, BUTTON2, 45}
+                move[11] = {6509+16960, 6528+16960, MASHMAX, 45}
+                move[12] = {6538+16960, 6550+16960, RIGHT, 45}
+                move[13] = {6560+16960, 6572+16960, LEFT, 45}
+                move[14] = {6588+16960, 6620+16960, HOLDRIGHT, 45}
+                move[15] = {6630+16960, 6695+16960, MASHMAX, 45}
+                move[16] = {6797+16960, 6880+16960, MASHMAX, 45}
+                move[17] = {6890+16960, 6902+16960, BUTTON2, 46}
+                 move[18] = {7177+16960, 7192+16960, UP, 47}
+
+              elseif thisScene == 5 then   				
+		
+			sceneStart = 24162
+			sceneEnd   = 24763
+			totalMoves = 8
+
+
+                move[1] = {7287+16960, 7398+16960, MASHMAX, 42}
+                move[2] = {7474+16960, 7565+16960, MASHMAX, 45}
+                move[3] = {7575+16960, 7587+16960, LEFT, 45}
+                move[4] = {7597+16960, 7610+16960, RIGHT, 45}
+                move[5] = {7647+16960, 7676+16960, HOLDRIGHT, 45}
+                move[6] = {7686+16960, 7698+16960, LEFT, 47}
+                move[7] = {7724+16960, 7736+16960, RIGHT, 42}
+                move[8] = {7746+16960, 7800+16960, MASHMAX, 47}
+
+
+           elseif thisScene == 6 then   				
+		
+			sceneStart = 24764
+			sceneEnd   = 26365
+			totalMoves = 20
+
+
+                move[1] = {7916+16960, 7928+16960, LEFT, 48}
+                move[2] = {7954+16960, 7966+16960, RIGHT, 48}
+                move[3] = {7977+16960, 7989+16960, LEFT, 48}
+                move[4] = {8001+16960, 8012+16960, RIGHT, 48}
+                move[5] = {8035+16960, 8065+16960, HOLDLEFT, 48}
+                move[6] = {8075+16960, 8087+16960, RIGHT, 48}
+                move[7] = {8097+16960, 8110+16960, LEFT, 48}
+                move[8] = {8145+16960, 8217+16960, MASHMAX, 48}
+                move[9] = {8234+16960, 8278+16960, HOLDRIGHT, 48}
+                move[10] = {8301+16960, 8332+16960, HOLDLEFT, 48}
+                move[11] = {8344+16960, 8379+16960, MASHMAX, 48}
+                move[12] = {8514+16960, 8526+16960, RIGHT, 48}
+                move[13] = {8539+16960, 8551+16960, LEFT, 48}
+                move[14] = {8671+16960, 8683+16960, LEFT, 48}
+                move[15] = {8696+16960, 8709+16960, RIGHT, 48}
+                move[16] = {8730+16960, 8742+16960, LEFT, 48}
+                move[17] = {8849+16960, 8860+16960, BUTTON2, 48}
+                move[18] = {8875+16960, 8885+16960, LEFT, 48}
+                move[19] = {9018+16960, 9058+16960, MASHMAX, 48}
+                move[20] = {9162+16960, 9174+16960, BUTTON2, 48}
+
+
+            elseif thisScene == 7 then   				
+		
+			sceneStart = 26366
+			sceneEnd   = 27449
+			totalMoves = 11
+
+
+                move[1] = {9423+16960, 9435+16960, BUTTON1, 10}
+                 move[2] = {9450+16960, 9463+16960, DOWN, 49}
+                move[3] = {9534+16960, 9549+16960, UP, 50}
+                move[4] = {9690+16960, 9702+16960, BUTTON1, 51}
+                move[5] = {9733+16960, 9743+16960, RIGHT, 51}
+                move[6] = {9753+16960, 9818+16960, MASHMAX, 51}
+                move[7] = {9990+16960, 10071+16960, MASHMAX, 51}
+                move[8] = {10262+16960, 10274+16960, RIGHT, 51}
+                move[9] = {10284+16960, 10296+16960, LEFT, 51}
+                move[10] = {10309+16960, 10321+16960, RIGHT, 51}
+                move[11] = {10437+16960, 10484+16960, MASHMAX, 51}
+
+
+               elseif thisScene == 8 then   				
+		
+			sceneStart = 27450
+			sceneEnd   = 30100
+			totalMoves = 13 
+
+
+                move[1] = {10612+16960, 10624+16960, BUTTON3, 52}
+                move[2] = {10685+16960, 10715+16960, MASHMAX, 54}
+                move[3] = {10795+16960, 10935+16960, MASHMAX, 54}
+                move[4] = {11045+16960, 11070+16960, MASHMAX, 54}
+                move[5] = {11083+16960, 11095+16960, RIGHT, 52}
+                move[6] = {11147+16960, 11211+16960, MASHMAX, 53}
+                move[7] = {11230+16960, 11283+16960, LOOPRIGHT, 55}
+                move[8] = {11329+16960, 11339+16960, DOWN, 55}
+                move[9] = {11361+16960, 11373+16960, BUTTON1, 56}
+                move[10] = {11426+16960, 11595+16960, MASHMAX, 56}
+                move[11] = {12175+16960, 12187+16960, BUTTON3, 10}
+                move[12] = {12384+16960, 12396+16960, BUTTON2, 10}
+                move[13] = {12763+16960, 12775+16960, DOWN, 10}
+									
+	end
+
+    end
+
+
+end						
+		
