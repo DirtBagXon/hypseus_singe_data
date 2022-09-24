@@ -1198,7 +1198,7 @@ function doLevel()     -- Big process for level play
 		end
 
 		resetArrows()
-					
+
 		if bSave == false then currentMove = 1 end
 	
 		setupLevel(thisLevel) 
@@ -1623,7 +1623,10 @@ function doLevel()     -- Big process for level play
 
 				if bSave == true and currentMove ~= 1 then 
 
-					if currentMove == nil then currentMove = 2 end
+					if currentMove > totalMoves then
+						currentMove = 2
+						inputFrmEnd = 1
+					end
 
 					currentFrame = move[currentMove-1][inputFrmEnd]+1
 					discSkipToFrame(currentFrame)
