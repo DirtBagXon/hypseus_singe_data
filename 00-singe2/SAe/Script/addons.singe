@@ -1,0 +1,133 @@
+--[[
+
+PROGRAM NAME:	LUA SINGE ENGINE
+VERSION:		3.3
+AUTHOR:			KARIS (2021)
+
+This file is part of LUA SINGE ENGINE.
+
+	LUA SINGE ENGINE is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation.
+
+	LUA SINGE ENGINE is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+	Thanks to Scott Duensing, RDG.
+
+]]--
+
+
+function startConf()
+
+local i = math.random(2)
+
+	if i == 1 then 
+
+		offsetGameOver = 23490						
+		offsetGameOverend = 23580	
+
+	else
+
+		offsetGameOver = 23596						
+		offsetGameOverend = 23686	
+
+	end
+
+end
+
+function swapDeath()
+
+local i = math.random(5)
+
+	if i == 1 then 
+
+		offsetSupDeath = 23809								
+		offsetSupDeathEnd = 23865	
+
+	elseif i == 2 then
+
+		offsetSupDeath = 23881								
+		offsetSupDeathEnd = 23937	
+	
+	elseif i == 3 then
+
+		offsetSupDeath = 23954								
+		offsetSupDeathEnd = 24010
+
+	elseif i == 4 then
+
+		offsetSupDeath = 24027								
+		offsetSupDeathEnd = 24083	
+
+	elseif i == 5 then
+
+		offsetSupDeath = 24100								
+		offsetSupDeathEnd = 24155			
+
+	end
+
+end
+
+
+
+function swapLevel()  
+
+	if dip_StartLevel ~= 5 and dip_StartLevel ~= 6 and (iLevel == 5 or iLevel == 6) and dip_Difficulty > 0 and (stage[3][BEATSTATUS] == false or stage[4][BEATSTATUS] == false) then
+
+		if stage[3][BEATSTATUS] == false then 
+			
+			iLevel = 3
+
+		elseif stage[4][BEATSTATUS] == false then 
+			
+			iLevel = 4
+
+		end
+
+	elseif dip_StartLevel ~= 7 and (iLevel == 7) and dip_Difficulty > 0 and (stage[5][BEATSTATUS] == false or stage[6][BEATSTATUS] == false) then
+
+		if stage[5][BEATSTATUS] == false then 
+			
+			iLevel = 5
+
+		elseif stage[6][BEATSTATUS] == false then 
+			
+			iLevel = 6
+
+		end
+
+	elseif dip_StartLevel ~= 8 and (iLevel == 8) and dip_Difficulty == 0 then
+
+		local r = math.random(2)
+
+		if r == 1 then 
+			
+			iLevel = 8
+
+		else 
+			
+			iLevel = 9
+
+		end	
+
+	elseif dip_StartLevel ~= 10 and (iLevel == 10) and dip_Difficulty > 0 and (stage[8][BEATSTATUS] == false or stage[9][BEATSTATUS] == false) then
+
+		if stage[8][BEATSTATUS] == false then 
+			
+			iLevel = 8
+
+		elseif stage[6][BEATSTATUS] == false then 
+			
+			iLevel = 9
+
+		end
+
+	end
+
+end
+
+
+
+

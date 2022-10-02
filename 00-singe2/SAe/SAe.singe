@@ -1,0 +1,821 @@
+--[[
+
+PROGRAM NAME:	DRAGON'S LAIR IIe
+VERSION:		3.32b
+AUTHOR:			KARIS (2021)
+
+This file is part of DRAGON'S LAIR IIe
+
+	DRAGON'S LAIR IIe is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation.
+
+	DRAGON'S LAIR IIe is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+	Thanks to Scott Duensing, RDG.
+
+]]--
+
+-------------------------
+-- 1. General settings --
+-------------------------
+
+BASEDIR = "singe"
+
+MYDIR = BASEDIR .. "/SAe"                                             -- This is the directory where your game is
+
+MovieFPS = 23.976                                                                -- Number of frames per second of your movies (used for timed actions).
+
+
+dofile(BASEDIR .. "/Framework/globals.singe")                                   -- Don't touch this line
+
+
+-- Scoring Settings --
+
+SCOREMOVE = 1000									
+BUFFMOVE = 0									
+SCORESCENE = 0									
+DEATHPENALTY = 500								
+SCORELEVEL = 10000									
+SCOREGAME = 25000									
+SCORESECRET = 1
+PERFECTBONUS = 10000
+EXTRALIFE = 0
+
+PenalNormal = 0									
+PenalHard = 0									
+PenalExtreme  = 1		
+
+-- Advanced Settings --							-- Those settings allow to setup complex behavior. You don't need them in most cases.
+
+altCfg = false
+
+miscR = 153										-- You can also create a misc color for the font.
+miscG = 76										-- In that case fill RGB values (0 to 255)
+miscB = 0
+
+AllowRandom = false								-- Show/hide the random level order mode in Game Type (menu)
+
+AllowTier = false								--	Show/hide the tier mode in Game Type (menu). If you don't want tiers: false.
+Tiers[0] = {6,1,1,9,9,1,8}						-- Tier 0 = init. First number is number of Tiers, followed by size of each Tier
+Tiers[1] = {1}
+Tiers[2] = {2}									-- Levels to be mixed in Tier 1 (and so on).
+Tiers[3] = {3,4,5,6,7,8,9,10,11}				-- In this example there are 30 levels Tiered in 6 groups	
+Tiers[4] = {12,13,14,15,16,17,18,19,20}
+Tiers[5] = {21}									-- Level 30 is played last. Not included in any Tier.
+Tiers[6] = {22,23,24,25,26,27,28,29}
+
+AllowMap = false								-- Show/hide the map mode in Game Type (menu)
+MapStart = 1									-- 0: Map start at the beginning / 1: Map after the first level. 
+
+IngameDiffchoice = true						-- If true, you will choose the difficulty with a video at the start of the game.
+
+BarSize = 10									-- Size of the Life Bar (Life bar Game Type)
+BarMin = 2										-- Decrease of the Life bar for missed move
+BarBonus = 3									-- Number of good moves to gain 1 in Life Bar
+
+LvlTrophy3 = 0 									-- Which Level for gives trophy 3 (0 if no trophy)
+LvlTrophy4 = 0 									-- Which Level for gives trophy 4 (0 if no trophy)
+
+
+------------------------------------------------------------------------
+-- 2. Starting and ending frames for the various elements of the game --
+------------------------------------------------------------------------													
+													
+offsetTitle = 0	
+offsetTitleend = offsetTitle + 119
+
+offsetIntro01 = 136	
+offsetIntro01end = 1149
+
+offsetIntro02 = 0
+offsetIntro02end = offsetIntro02 + 119	
+
+offsetIntro03 = 136			  							
+offsetIntro03end = 1149					
+
+offsetMenus = 22298																						
+
+frameOptions = offsetMenus +4		
+frameVictory = offsetMenus +1	
+frameSave = offsetMenus +10	
+frameRankings = offsetMenus +16				
+frameControls = offsetMenus +7					
+frameSpecial = offsetMenus +7						
+frameSecret = 0
+frameTrophy = 0	
+frameHints = offsetMenus +13		
+
+frameEasy = 22290						
+frameNormal = 22293				
+frameHard = 22296
+frameExtreme = 22296	
+
+offsetGameOver = 23490						
+offsetGameOverend = 23580	
+
+offsetGameOverAlt = 23703					
+offsetGameOverAltend = 23792		
+
+offsetNewHScore = 22708	
+offsetNewHScoreend = 22780		
+
+offsetEnterHScore = 22781
+offsetEnterHScoreend = 23290					
+
+offsetRankings = 23291	
+offsetRankingsend = 23376
+
+offsetContinue = 22332						
+offsetContinueend = 22691
+
+offsetClear = 23393
+offsetClearend = 23473	
+
+offsetGetReady = 0								
+offsetGetReadyEnd = 1	
+
+offsetSupDeath = 23809								
+offsetSupDeathEnd = 23865	
+
+offsetMap = 0								-- Position of the video for Map (not used in this game).
+offsetMapend = 1							-- Here i use a single frame.
+
+offsetMovieEnd = 16068							-- Last frame of the last level. Used by Movie mode.
+
+totalDeath = 90
+offsetDeath = 16297									
+
+Death[1] = {16297, 16340}						
+Death[2] = {16357, 16412}					
+Death[3] = {16429, 16497}							
+Death[4] = {16514, 16560}
+Death[5] = {16577, 16676}
+Death[6] = {16693, 16747}
+Death[7] = {16764, 16811}
+Death[8] = {16828, 16878}
+Death[9] = {16895, 16944}
+Death[10] = {16961, 17024}
+Death[11] = {17041, 17093}
+Death[12] = {17110, 17198}
+Death[13] = {17215, 17328}						 			
+Death[14] = {17345, 17394}							
+Death[15] = {17411, 17478}
+Death[16] = {17495, 17585}
+Death[17] = {17602, 17645}
+Death[18] = {17662, 17717}
+Death[19] = {17734, 17777}
+Death[20] = {17794, 17833}				
+Death[21] = {17850, 17893}
+Death[22] = {17910, 17953}
+Death[23] = {17970, 18025}
+Death[24] = {18042, 18079}
+Death[25] = {18096, 18187}
+Death[26] = {18204, 18247}							 			
+Death[27] = {18264, 18308}							
+Death[28] = {18325, 18383}
+Death[29] = {18400, 18443}
+Death[30] = {18460, 18519}
+Death[31] = {18536, 18579}
+Death[32] = {18596, 18651}
+Death[33] = {18668, 18706}
+Death[34] = {18723, 18770}
+Death[35] = {18787, 18830}							
+Death[36] = {18847, 18886}												
+Death[37] = {18903, 18943}							
+Death[38] = {18960, 19002}													
+Death[39] = {19019, 19058}							
+Death[40] = {19075, 19118}						
+Death[41] = {19135, 19174}							
+Death[42] = {19191, 19238}													
+Death[43] = {19255, 19294}							
+Death[44] = {19311, 19358}							
+Death[45] = {19375, 19426}
+Death[46] = {19443, 19486}
+Death[47] = {19503, 19547}
+Death[48] = {19564, 19606}
+Death[49] = {19623, 19662}
+Death[50] = {19679, 19718}				
+Death[51] = {19735, 19774}
+Death[52] = {19791, 19830}
+Death[53] = {19847, 19890}
+Death[54] = {19907, 19926}
+Death[55] = {19943, 19996}
+Death[56] = {20013, 20052}							 			
+Death[57] = {20069, 20120}							
+Death[58] = {20137, 20190}
+Death[59] = {20207, 20229}
+Death[60] = {20246, 20285}
+Death[61] = {20302, 20345}
+Death[62] = {20362, 20405}
+Death[63] = {20422, 20465}
+Death[64] = {20482, 20526}
+Death[65] = {20543, 20586}							
+Death[66] = {20603, 20647}											
+Death[67] = {20664, 20706}						
+Death[68] = {20723, 20790}											
+Death[69] = {20807, 20850}						
+Death[70] = {20867, 20912}					
+Death[71] = {20929, 20996}						
+Death[72] = {21013, 21052}													
+Death[73] = {21069, 21114}						
+Death[74] = {21131, 21174}							
+Death[75] = {21191, 21246}						
+Death[76] = {21263, 21306}							
+Death[77] = {21323, 21366}													
+Death[78] = {21383, 21426}							
+Death[79] = {21443, 21490}							
+Death[80] = {21507, 21558}
+Death[81] = {21575, 21614}
+Death[82] = {21631, 21686}
+Death[83] = {21703, 21766}
+Death[84] = {21783, 21826}
+Death[85] = {21843, 21930}				
+Death[86] = {21947, 21986}
+Death[87] = {22003, 22042}
+Death[88] = {22059, 22102}
+Death[89] = {22119, 22182}
+Death[90] = {22199, 22247}
+
+finalstage = 13
+PlayOrder = {1,2,3,4,5,6,7,8,9,10,11,12,13}
+AllowSecret = false	
+RelativeFrames = false 
+
+Level[1] = {"Kimmy", 1166, 1167, 1, 0, 0, -1}
+Level[2] = {"Star Pac 1", 2326, 2327, 1, 21852, 19065, -1}
+Level[3] = {"Borf Pod", 3346, 3347, 1, 21852, 19065, -1}												
+Level[4] = {"Free Pod", 4718, 4719, 1, 21852, 19065, -1}
+Level[5] = {"Green Pups", 5938, 5939, 1, 21852, 19065, -1}
+Level[6] = {"Compacter", 7010, 7011, 1, 21852, 19065, -1}
+Level[7] = {"Star Pac 2", 7779, 7780, 1, 21852, 19065, -1}
+Level[8] = {"Tunnels", 8464, 8465, 1, 21852, 19065, -1}
+Level[9] = {"Jungle", 9276, 9277, 1, 21852, 19065, -1}
+Level[10] = {"Doubles", 10067, 10068, 1, 21852, 19065, -1}
+Level[11] = {"Bike", 11019, 11020, 1, 21852, 19065, -1}
+Level[12] = {"Complex", 12475, 12476, 1, 21852, 19065, -1}
+Level[13] = {"Borf", 13963, 13964, 1, 0, 0, -1}
+
+------------------------------------------------------------------------------------------
+-- 3. List of moves for each level, by scene (StartFrame, EndFrame, MOVE, Death#, 0, 0) --
+------------------------------------------------------------------------------------------
+
+function setupMoves(thisLevel, thisScene)									 
+	
+	if thisLevel == 1 then
+
+		if thisScene == 1 then 
+
+			sceneStart = 1168
+			sceneEnd   = 2309
+			totalMoves   = 19
+			
+			move[1] = {1310, 1320, RIGHT, 1}
+			move[2] = {1347, 1358, RIGHT, 1}
+			move[3] = {1438, 1453, LEFT, 1}
+			move[4] = {1492, 1506, LEFT, 1}
+			move[5] = {1527, 1550, PATH, 5}
+			move[6] = {1627, 1640, BUTTON1, 2}
+			move[7] = {1678, 1691, RIGHT, 6}
+			move[8] = {1711, 1724, LEFT, 5}
+			move[9] = {1734, 1750, RIGHT, 5}
+			move[10] = {1771, 1782, BUTTON1, 5}
+			move[11] = {1839, 1854, LEFT, 6}
+			move[12] = {1899, 1913, LEFT, 6} --EOP1
+			move[13] = {1914, 1954, WAY, 0}
+			move[14] = {1977, 2007, TIMED, 3}
+			move[15] = {2029, 2059, TIMED, 3}
+			move[16] = {2083, 2114, TIMED, 3}
+			move[17] = {2147, 2207, TIMED, 3, 17, 18}
+			move[18] = {2208, 2250, WAY, 0}
+			move[19] = {2251, 2309, WAY, 0}  --EOP2
+
+			if dip_Difficulty > 1 then 
+
+				path[5] = {BUTTON1,6,DOWN,13,0,0,0,0,13}
+
+			else	
+
+				path[5] = {BUTTON1,6,DOWN,13,0,0,0,0,19}
+			
+			end
+
+			timed[14] = {LEFT,1995,2007,4}
+			timed[15] = {LEFT,2047,2059,4}
+			timed[16] = {LEFT,2101,2114,4}
+			timed[17] = {LEFT,2157,2170,4,18}
+			timed[18] = {LEFT,2191,2207,4}
+
+		end
+			
+	elseif thisLevel == 2 then  
+
+		if thisScene == 1 then 													
+			
+			sceneStart = 2328
+			sceneEnd   = 1850
+			totalMoves   = 13
+						
+			move[1] = {2653, 2670, UP, 7}
+			move[2] = {2708, 2728, RIGHT, 9}
+			move[3] = {2766, 2786, PATH, 7}
+			move[4] = {2819, 2842, BUTTON1, 10}
+			move[5] = {2888, 2907, RIGHT, 8}
+			move[6] = {2928, 2943, BUTTON1, 10}
+			move[7] = {2977, 2993, DOWN, 7}
+			move[8] = {3047, 3070, BUTTON1, 10}
+			move[9] = {3111, 3149, PATH, 11} --EOP1
+			move[10] = {3166, 3179, WAY, 0}
+			move[11] = {3180, 3204, RIGHT, 9}
+			move[12] = {3237, 3263, UP, 7}
+			move[13] = {3291, 3329, PATH, 11} --EOP2
+			
+			path[3] = {UP,4,DOWN,10,0,0,0,0,0}
+			path[9] = {LEFT,3,RIGHT,4,0,0,0,0,OUT}
+			path[13] = {LEFT,3,RIGHT,4,0,0,0,0,OUT}
+							
+		end
+
+	elseif thisLevel == 3 then
+
+		if thisScene == 1 then  
+
+			if dip_Difficulty > 0 and stage[4][BEATSTATUS] == false then 
+
+				sceneStart = 3348
+
+			else
+
+				sceneStart = 3395
+
+			end
+			
+			sceneEnd   = 4701
+			totalMoves   = 21
+			
+			move[1] = {3407, 3424, UP, 14}	
+			move[2] = {3463, 3481, LEFT, 14}
+			move[3] = {3513, 3528, RIGHT, 14}	
+			move[4] = {3571, 3586, UP, 14}	
+			move[5] = {3639, 3662, PATH, 14}
+			move[6] = {3749, 3764, LEFT, 12}
+			move[7] = {3808, 3824, BUTTON1, 13}
+			move[8] = {3865, 3880, RIGHT, 12}
+			move[9] = {3929, 3944, UP, 12}	
+			move[10] = {3977, 3992, BUTTON1, 13}
+			move[11] = {4091, 4104, LEFT, 14}
+			move[12] = {4105, 4114, WAY, 0}  --EOP1
+			move[13] = {4338, 4350, WAY, 0}  
+			move[14] = {4351, 4376, WAY, 0} 
+			move[15] = {4377, 4392, RIGHT, 14}
+			move[16] = {4439, 4456, UP, 14}
+			move[17] = {4491, 4506, LEFT, 14}
+			move[18] = {4539, 4554, RIGHT, 14} --EOP2
+			move[19] = {4645, 4662, PATH, 14}
+			move[20] = {4663, 4701, WAYOUT, 5}
+			move[21] = {4280, 4321, WAYOUT, 6}
+
+			if dip_Difficulty > 1 then 
+
+				path[5] = {BUTTON1,6,LEFT,13,0,0,0,0,14}
+
+			else	
+
+				path[5] = {BUTTON1,6,LEFT,13,0,0,0,0,19}
+			
+			end
+
+			path[19] = {LEFT,20,RIGHT,21,0,0,0,0,0}
+
+		end
+	
+	elseif thisLevel == 4 then
+
+		if thisScene == 1 then  
+
+			if dip_Difficulty > 0 and stage[3][BEATSTATUS] == false then 
+
+				sceneStart = 4718
+
+			else
+
+				sceneStart = 4751
+
+			end
+
+			sceneEnd   = 5921
+			totalMoves   = 22
+			
+			move[1] = {4811, 4826, RIGHT, 18}
+			move[2] = {4865, 4900, TIMED, 18}
+			move[3] = {4979, 4994, PATH, 18}
+			move[4] = {5071, 5086, BUTTON1, 17}
+			move[5] = {5143, 5158, RIGHT, 16}
+			move[6] = {5180, 5194, UP, 16}
+			move[7] = {5204, 5219, BUTTON1, 15}
+			move[8] = {5269, 5284, BUTTON1, 15}
+			move[9] = {5303, 5318, RIGHT, 16}
+			move[10] = {5395, 5410, BUTTON1, 15}
+			move[11] = {5465, 5478, BUTTON1, 15}
+			move[12] = {5479, 5538, WAY, 0}      --EOP1
+			move[13] = {5670, 5682, WAY, 0}
+			move[14] = {5722, 5734, RIGHT, 19}
+			move[15] = {5735, 5750, WAY, 0}
+			move[16] = {5768, 5780, LEFT, 19}
+			move[17] = {5802, 5816, UP, 19}
+			move[18] = {5838, 5852, LEFT, 19}
+			move[19] = {5853, 5863, WAY, 0}  --EOP2
+			move[20] = {5868, 5898, PATH, 20}
+			move[21] = {5899, 5921, WAYOUT, 6}
+			move[22] = {5622, 5653, WAYOUT, 5}
+			
+			timed[2] = {UP,4883,4900,18}
+
+			if dip_Difficulty > 1 then 
+
+				path[3] = {BUTTON1,4,LEFT,13,0,0,0,0,16}
+
+			else	
+
+				path[3] = {BUTTON1,4,LEFT,13,0,0,0,0,20}
+			
+			end
+
+			path[20] = {RIGHT,21,LEFT,22,0,0,0,0,0}
+
+		end
+
+	elseif thisLevel == 5 then
+
+		if thisScene == 1 then  
+
+			sceneStart = 5940
+			sceneEnd   = 6717
+			totalMoves   = 20
+			
+			move[1] = {5983, 5998, UP, 23}
+			move[2] = {6027, 6042, LEFT, 24}
+			move[3] = {6075, 6090, RIGHT, 23}
+			move[4] = {6139, 6154, PATH, 24}
+			move[5] = {6215, 6230, BUTTON1, 23}
+			move[6] = {6267, 6282, RIGHT, 21}
+			move[7] = {6311, 6326, LEFT, 22}
+			move[8] = {6361, 6374, BUTTON1, 23}
+			move[9] = {6419, 6434, LEFT, 22}
+			move[10] = {6467, 6482, BUTTON1, 21}
+			move[11] = {6527, 6542, LEFT, 22}
+			move[12] = {6567, 6580, LEFT, 22}
+			move[13] = {6623, 6638, RIGHT, 23} --EOP1
+			move[14] = {6734, 6758, WAY, 0}
+			move[15] = {6759, 6774, RIGHT, 24}
+			move[16] = {6807, 6822, LEFT, 24}
+			move[17] = {6855, 6870, UP, 23}
+			move[18] = {6901, 6914, UP, 23}
+			move[19] = {6915, 6993, WAYOUT, 7} --EOP2
+			move[20] = {6639, 6717, WAYOUT, 7}
+
+			if dip_Difficulty > 1 then 
+
+				path[4] = {BUTTON1,5,UP,14,0,0,0,0,14}
+
+			else	
+
+				path[4] = {BUTTON1,5,UP,14,0,0,0,0,20}
+			
+			end		
+
+		end
+	
+	elseif thisLevel == 6 then
+
+		if thisScene == 1 then  
+
+			sceneStart = 7010
+			sceneEnd   = 7762
+			totalMoves   = 18
+	
+			move[1] = {7058, 7071, BUTTON1, 25}
+			move[2] = {7100, 7115, RIGHT, 26}
+			move[3] = {7128, 7161, TIMED, 27, 1, 2}
+			move[4] = {7204, 7219, PATH, 25}
+			move[5] = {7259, 7271, BUTTON1, 29}
+			move[6] = {7304, 7319, RIGHT, 31}
+			move[7] = {7350, 7365, BUTTON1, 28}
+			move[8] = {7384, 7399, LEFT, 31}
+			move[9] = {7420, 7435, BUTTON1, 30}
+			move[10] = {7480, 7495, UP, 32}  --EOP1
+			move[11] = {7531, 7535, WAY, 0}
+			move[12] = {7560, 7575, BUTTON1, 25}
+			move[13] = {7608, 7623, RIGHT, 26}
+			move[14] = {7652, 7667, LEFT, 26}
+			move[15] = {7696, 7711, RIGHT, 26}
+			move[16] = {7739, 7754, UP, 27}
+			move[17] = {7755, 7762, WAYOUT, 7} --EOP2
+			move[18] = {7496, 7514, WAYOUT, 7}
+
+			timed[1] = {UP,7130,7138,27, 4}
+			timed[2] = {UP,7146,7154,27}
+		
+			if dip_Difficulty > 1 then 
+
+				path[4] = {BUTTON1,5,RIGHT,11,0,0,0,0,12}
+
+			else	
+
+				path[4] = {BUTTON1,5,RIGHT,11,0,0,0,0,18}
+			
+			end
+										
+		end
+		
+	elseif thisLevel == 7 then
+
+		if thisScene == 1 then  
+
+			sceneStart = 7781
+			sceneEnd   = 8447
+			totalMoves   = 14
+				
+			move[1] = {7820, 7835, RIGHT, 39}
+			move[2] = {7936, 7951, UP, 33}
+			move[3] = {7968, 7983, LEFT, 33}
+			move[4] = {8000, 8015, LEFT, 33}
+			move[5] = {8053, 8064, BUTTON1, 34}
+			move[6] = {8080, 8094, BUTTON1, 35}
+			move[7] = {8112, 8125, UP, 37}
+			move[8] = {8168, 8183, DOWN, 37}
+			move[9] = {8200, 8215, UP, 33}
+			move[10] = {8236, 8251, BUTTON1, 38}
+			move[11] = {8270, 8283, UP, 37}
+			move[12] = {8311, 8321, BUTTON1, 37}
+			move[13] = {8333, 8348, UP, 33}
+			move[14] = {8395, 8407, BUTTON1, 38}
+											
+		end
+	
+	elseif thisLevel == 8 then
+
+		if thisScene == 1 then  
+
+			sceneStart = 8466
+			sceneEnd   = 9259
+			totalMoves   = 17
+				
+			move[1] = {8553, 8568, UP, 41}
+			move[2] = {8597, 8612, LEFT, 40}
+			move[3] = {8641, 8656, RIGHT, 40}
+			move[4] = {8693, 8708, PATH, 40}
+			move[5] = {8729, 8744, BUTTON1, 42}
+			move[6] = {8779, 8794, RIGHT, 43}
+			move[7] = {8823, 8838, LEFT, 43}
+			move[8] = {8867, 8882, BUTTON1, 42}
+			move[9] = {8909, 8924, BUTTON1, 42}
+			move[10] = {8961, 8976, BUTTON1, 42} 
+			move[11] = {8977, 8992, WAY, 0} --EOP1
+			move[12] = {9064, 9076, WAY, 0}
+			move[13] = {9086, 9100, RIGHT, 40}
+			move[14] = {9129, 9143, LEFT, 40}
+			move[15] = {9173, 9188, BUTTON1, 40}
+			move[16] = {9189, 9259, WAYOUT, 10} --EOP2
+			move[17] = {8993, 9047, WAYOUT, 10}
+
+			if dip_Difficulty > 1 then 
+
+				path[4] = {BUTTON1,5,RIGHT,12,0,0,0,0,13}
+
+			else	
+
+				path[4] = {BUTTON1,5,RIGHT,12,0,0,0,0,17}
+			
+			end
+										
+		end
+	
+	elseif thisLevel == 9 then
+
+		if thisScene == 1 then  
+
+			sceneStart = 9278
+			sceneEnd   = 10050
+			totalMoves   = 16
+			
+			move[1] = {9353, 9367, BUTTON1, 44}
+			move[2] = {9395, 9408, UP, 46}
+			move[3] = {9461, 9484, PATH, 45}
+			move[4] = {9525, 9538, BUTTON1, 48}
+			move[5] = {9611, 9624, BUTTON1, 48}
+			move[6] = {9665, 9678, LEFT, 47}
+			move[7] = {9679, 9688, WAY, 0} --EOP1
+			move[8] = {9735, 9748, WAY, 0}
+			move[9] = {9777, 9790, RIGHT, 44}
+			move[10] = {9813, 9826, LEFT, 44}
+			move[11] = {9873, 9885, LEFT, 44}
+			move[12] = {9908, 9921, RIGHT, 46}
+			move[13] = {9942, 9954, LEFT, 47}
+			move[14] = {9984, 9997, BUTTON1, 46}
+			move[15] = {10013, 10045, PATH, 45}
+			move[16] = {9689, 9718, WAYOUT, 10} --EOP2
+			
+			if dip_Difficulty > 1 then 
+		
+				path[3] = {BUTTON1,4,UP,8,0,0,0,0,9}
+
+			else
+
+				path[3] = {BUTTON1,4,UP,8,0,0,0,0,16}
+			
+			end
+
+			path[15] = {LEFT,0,RIGHT,0,0,0,0,0,0}
+										
+		end
+	
+	elseif thisLevel == 10 then
+
+		if thisScene == 1 then  
+
+			sceneStart = 10069
+			sceneEnd   = 11002
+			totalMoves   = 20
+				
+			move[1] = {10116, 10128, RIGHT, 50}
+			move[2] = {10200, 10215, BUTTON1, 54}
+			move[3] = {10232, 10247, RIGHT, 56}
+			move[4] = {10296, 10311, PATH, 53}
+			move[5] = {10352, 10363, LEFT, 55}
+			move[6] = {10388, 10403, BUTTON1, 56}
+			move[7] = {10435, 10450, RIGHT, 57}
+			move[8] = {10476, 10491, BUTTON1, 57}
+			move[9] = {10532, 10544, DOWN, 55}
+			move[10] = {10557, 10569, LEFT, 55}
+			move[11] = {10604, 10616, LEFT, 55}
+			move[12] = {10636, 10651, RIGHT, 55}
+			move[13] = {10676, 10691, RIGHT, 58}
+			move[14] = {10713, 10726, UP, 58}
+			move[15] = {10727, 10775, WAY, 0} --EOP1
+			move[16] = {10839, 10867, WAY, 0}
+			move[17] = {10882, 10897, RIGHT, 51}
+			move[18] = {10916, 10928, RIGHT, 51}
+			move[19] = {10929, 11002, WAYOUT, 11}
+			move[20] = {10776, 10822, WAYOUT, 11}
+			
+			if dip_Difficulty > 1 then 
+
+				path[4] = {BUTTON1,5,DOWN,16,0,0,0,0,17}
+
+			else	
+
+				path[4] = {BUTTON1,5,DOWN,16,0,0,0,0,20}
+			
+			end
+
+
+		end
+
+	elseif thisLevel == 11 then
+
+		if thisScene == 1 then  
+
+			sceneStart = 11021
+			sceneEnd   = 12451
+			totalMoves   = 23
+			
+			move[1] = {11155, 11170, LEFT, 59}
+			move[2] = {11220, 11231, RIGHT, 60}
+			move[3] = {11256, 11270, BUTTON1, 61}
+			move[4] = {11324, 11339, PATH, 62}
+			move[5] = {11420, 11435, BUTTON1, 63}
+			move[6] = {11476, 11491, BUTTON1, 63}
+			move[7] = {11540, 11553, RIGHT, 64}
+			move[8] = {11630, 11643, DOWN, 64}
+			move[9] = {11668, 11683, RIGHT, 65}
+			move[10] = {11704, 11719, BUTTON1, 66}
+			move[11] = {11748, 11759, BUTTON1, 66}
+			move[12] = {11788, 11803, BUTTON1, 66}
+			move[13] = {11884, 11897, RIGHT, 67}
+			move[14] = {11922, 11937, BUTTON1, 66}
+			move[15] = {11980, 11995, LEFT, 67}
+			move[16] = {12076, 12091, RIGHT, 67}
+			move[17] = {12120, 12132, RIGHT, 67}
+			move[18] = {12163, 12178, BUTTON1, 66}
+			move[19] = {12179, 12229, WAY, 0}
+			move[20] = {12230, 12264, WAYOUT, 12} --EOP1
+			move[21] = {12281, 12335, WAY, 0}
+			move[22] = {12362, 12375, BUTTON1, 59}
+			move[23] = {12376, 12451, WAYOUT, 12} --EOP2
+			
+			path[4] = {BUTTON1,5,DOWN,21,0,0,0,0,0}
+													
+		end
+
+	elseif thisLevel == 12 then
+
+		if thisScene == 1 then  
+
+			sceneStart = 12477
+			sceneEnd   = 13946
+			totalMoves   = 28
+			
+			move[1] = {12572, 12585, RIGHT, 68}
+			move[2] = {12588, 12601, UP, 68}
+			move[3] = {12624, 12637, LEFT, 68}
+			move[4] = {12660, 12675, PATH, 68}
+			move[5] = {12689, 12700, DOWN, 71}
+			move[6] = {12722, 12735, UP, 71}
+			move[7] = {12757, 12769, RIGHT, 72}
+			move[8] = {12776, 12787, LEFT, 71}
+			move[9] = {12789, 12804, UP, 71}
+			move[10] = {12807, 12819, RIGHT, 71}
+			move[11] = {12822, 12834, UP, 71}
+			move[12] = {12846, 12859, LEFT, 71}
+			move[13] = {13004, 13021, LEFT, 74}
+			move[14] = {13094, 13107, BUTTON1, 73}
+			move[15] = {13186, 13201, RIGHT, 76}
+			move[16] = {13260, 13275, DOWN, 75}
+			move[17] = {13298, 13311, RIGHT, 76}
+			move[18] = {13355, 13368, DOWN, 75}
+			move[19] = {13404, 13419, BUTTON1, 75}
+			move[20] = {13445, 13455, BUTTON1, 75}
+			move[21] = {13476, 13489, BUTTON1, 77}
+			move[22] = {13520, 13533, RIGHT, 78}
+			move[23] = {13563, 13576, RIGHT, 78}
+			move[24] = {13577, 13637, WAYOUT, 13} --EOP1
+			move[25] = {13654, 13762, WAY, 0}
+			move[26] = {13787, 13804, LEFT, 69}
+			move[27] = {13875, 13889, BUTTON1, 70}
+			move[28] = {13890, 13946, WAYOUT, 13} --EOP2
+
+			path[4] = {BUTTON1,5,RIGHT,25,0,0,0,0,0}
+
+		end
+
+	elseif thisLevel == 13 then
+
+		if thisScene == 1 then  
+
+			sceneStart = 13965
+			sceneEnd   = 16280
+			totalMoves   = 43
+			
+			move[1] = {14010, 14053, TIMED, -1, 1, 2}
+			move[2] = {14055, 14083, TIMED, -1, 3, 4}
+			move[3] = {14124, 14131, RIGHT, 87}
+			move[4] = {14180, 14195, BUTTON1, 89}
+			move[5] = {14208, 14223, BUTTON1, 89}
+			move[6] = {14271, 14284, RIGHT, 90}
+			move[7] = {14360, 14372, LEFT, 90}
+			move[8] = {14396, 14411, YESNO, -1}
+			move[9] = {14474, 14489, UP, 80}
+			move[10] = {14510, 14523, RIGHT, 80}
+			move[11] = {14524, 14535, WAY, 0}
+			move[12] = {14588, 14601, BUTTON1, 80, UP} ---YESNO2
+			move[13] = {14602, 14621, WAY, 0} 
+			move[14] = {14633, 14645, BUTTON1, 81, UP} ---YESNO3
+			move[15] = {14646, 14657, WAY, 0}
+			move[16] = {14686, 14697, UP, 80, BUTTON1} ---YESNO4
+			move[17] = {14714, 14728, DOWN, 80}
+			move[18] = {14777, 14789, BUTTON1, 80, UP}
+			move[19] = {14827, 14840, RIGHT, 79}
+			move[20] = {14864, 14876, UP, 80}
+			move[21] = {14924, 14936, DOWN, 82, BUTTON1}
+			move[22] = {15002, 15017, RIGHT, 79}
+			move[23] = {15080, 15093, LEFT, 83}
+			move[24] = {15146, 15161, RIGHT, 84}
+			move[25] = {15218, 15233, LEFT, 83}
+			move[26] = {15242, 15255, BUTTON1, 83}
+			move[27] = {15282, 15297, LEFT, 85}
+			move[28] = {15317, 15332, RIGHT, 85}
+			move[29] = {15362, 15377, RIGHT, 85}
+			move[30] = {15420, 15432, RIGHT, 85}
+			move[31] = {15472, 15489, LEFT, 85}
+			move[32] = {15490, 16060, WAYOUT, 0}--EOG
+			move[33] = {16085, 16097, WAY, 0}
+			move[34] = {16098, 16113, UP, 87}
+			move[35] = {16134, 16149, RIGHT, 86}
+			move[36] = {16162, 16177, YESNO, -1}
+			move[37] = {16198, 16209, YESNO, -1}
+			move[38] = {16214, 16226, BUTTON1, 88, UP}
+			move[39] = {16262, 16279, WAY, 42} 
+			move[40] = {14413, 14458, WAY, 12}
+			move[41] = {14413, 14458, WAY, 14}
+			move[42] = {14413, 14458, WAY, 16}
+			move[43] = {14413, 14458, WAY, 0}
+						
+			timed[1] = {UP,14030,14035,-1,4}
+			timed[2] = {UP,14048,14053,-1,4}
+			timed[3] = {LEFT,14060,14065,-1,4}
+			timed[4] = {LEFT,14078,14083,-1,4}
+			
+			path[8] = {9,33,0}
+			path[36] = {40,0,0}
+			path[37] = {41,0,0}
+			
+
+		end
+
+	end
+
+end
+

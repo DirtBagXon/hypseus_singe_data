@@ -1,0 +1,280 @@
+--[[
+
+PROGRAM NAME:	LUA SINGE ENGINE
+VERSION:		3.32b
+AUTHOR:			KARIS (2021)
+
+This file is part of LUA SINGE ENGINE.
+
+	LUA SINGE ENGINE is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation.
+
+	LUA SINGE ENGINE is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+	Thanks to Scott Duensing, RDG.
+
+]]--
+
+
+function swapScene()  -- allows to swap some scenes for some difficulties 
+
+	if dip_Difficulty < 2 then
+
+		if iLevel == 2 and iScene >= 5 and iScene <= 8 then
+
+			bSwap = true	
+			iScene = 9
+
+		elseif iLevel == 3 and iScene >= 4 and iScene <= 5 then
+
+			bSwap = true	
+			iScene = 6
+
+		elseif iLevel == 4 and iScene >= 4 and iScene <= 5 then
+
+			bSwap = true
+			iScene = 6
+
+		end
+
+	end
+
+end
+
+curx = 0; cury = 0;
+
+function moveCursor(overHere)  
+
+	-- This function moves the cursor in the level select screen.
+	-- It determines cursor movement
+	-- depending on position (given by variable overHere) and levels completed.
+	-- The function does not return any values.
+	
+	if bIgnoreJoy then 
+			
+		if joyDelayDue() then bIgnoreJoy = false end
+		
+	else
+	
+		if (iLevel == 2) then  -- If the cursor is on level 2 position (on the map)
+		
+			if (p1RIGHT) then
+
+				if 	(stage[3][BEATSTATUS] == false) then
+					
+					soundPlay(sndcoin)
+					discSkipToFrame(currentFrame+3)
+					discPause()
+					iLevel = 3
+
+				elseif 	(stage[4][BEATSTATUS] == false) then
+					
+					soundPlay(sndcoin)
+					discSkipToFrame(currentFrame+3)
+					discPause()
+					iLevel = 4
+
+				else	
+				
+														
+				end
+			
+			end
+		
+		elseif (iLevel == 3) then 	-- 3
+		
+			if (p1LEFT) then
+
+				if (stage[2][BEATSTATUS] == false) then
+					
+					soundPlay(sndcoin)
+					discSkipToFrame(currentFrame-3)
+					discPause()
+					iLevel = 2
+													
+				end
+			
+			elseif (p1RIGHT) then
+
+				if (stage[4][BEATSTATUS] == false) then
+					
+					soundPlay(sndcoin)
+					discSkipToFrame(currentFrame+3)
+					discPause()
+					iLevel = 4
+														
+				end
+				
+			end
+			
+		elseif (iLevel == 4) then 	-- 4
+		
+			if (p1LEFT) then
+
+				if 	(stage[3][BEATSTATUS] == false) then
+						
+					soundPlay(sndcoin)
+					discSkipToFrame(currentFrame-3)
+					discPause()
+					iLevel = 3
+
+				elseif 	(stage[2][BEATSTATUS] == false) then
+					
+					soundPlay(sndcoin)
+					discSkipToFrame(currentFrame-3)
+					discPause()
+					iLevel = 2
+								
+				end
+						
+			end
+				
+		end
+					
+		if p1UP or p1DOWN or p1LEFT or p1RIGHT or p1BUTTON1 then
+			bIgnoreJoy = true
+			joyDelayON(0.200)
+		end
+		
+		p1UP      = false		
+		p1DOWN    = false		
+		p1LEFT    = false
+		p1RIGHT   = false
+		p1BUTTON1 = false
+			
+	end
+
+end
+
+function LvlMapComplete()
+
+	-- Quick function to determine if player has completed all the levels required to play the final boss video clip.
+	-- Returns true if all levels complete, false otherwise.
+	-- Used by doLevelSelect()
+
+	if (stage[1][BEATSTATUS] == true and stage[2][BEATSTATUS] == true and stage[3][BEATSTATUS] == true and stage[4][BEATSTATUS] == true) then
+		
+		return true
+
+	else
+		
+		return false
+
+	end
+
+end
+
+function doLevelSelect()
+
+	-- Main loop for level select menu screen.
+	-- Here you declare the different level for the map. If you've got more than 6, you need to declare more.
+
+	if (lvlState == lvlSetup) then
+	
+		bShowScore = false
+		bShowLives = false
+		bIgnoreJoy = false
+		iScene = 0
+		
+		if (LvlMapComplete() == true) then
+				
+				discSkipToFrame(offsetMap+36)
+				discPause()
+				iLevel = 5
+				lvlState = lvlEnd
+
+		else
+
+			setupClip(offsetMap, offsetMapend)
+			lvlState = branch01
+
+		end
+
+	elseif (lvlState == branch01) then
+				
+		if (currentFrame == iFrameEnd) then 
+			
+			if not stage[2][BEATSTATUS] then
+				
+				if not stage[3][BEATSTATUS] and not stage[4][BEATSTATUS] then
+
+					discSkipToFrame(offsetMap)
+				
+				elseif stage[3][BEATSTATUS] and not stage[4][BEATSTATUS] then
+
+					discSkipToFrame(offsetMap+9)
+
+				elseif not stage[3][BEATSTATUS] and stage[4][BEATSTATUS] then
+
+					discSkipToFrame(offsetMap+15)
+
+				elseif stage[3][BEATSTATUS] and stage[4][BEATSTATUS] then
+
+					discSkipToFrame(offsetMap+27)
+
+				end
+
+				iLevel = 2
+				
+			elseif not stage[3][BEATSTATUS] then
+				
+				if stage[2][BEATSTATUS] and not stage[4][BEATSTATUS] then
+
+					discSkipToFrame(offsetMap+21)
+
+				elseif stage[2][BEATSTATUS] and stage[4][BEATSTATUS] then
+
+					discSkipToFrame(offsetMap+30)
+
+				end
+				
+				iLevel = 3						
+				
+			elseif not stage[4][BEATSTATUS] then
+				
+				discSkipToFrame(offsetMap+33)
+				iLevel = 4
+			
+			end	
+
+			timerON(120)
+			discPause()
+			lvlState = lvlRunning
+						
+		end		
+		
+	elseif (lvlState == lvlRunning) then
+		
+		if timerDue() or p1BUTTON1 then
+			
+			p1BUTTON1 = false
+			lvlState = lvlEnd
+		
+		else	
+
+			if (p1BUTTON1) then
+
+				soundPlay(sndcredit)
+				p1BUTTON1 = false			
+				lvlState = lvlEnd
+
+			else
+				
+				moveCursor(iLevel)			
+											
+			end
+			
+		end
+        
+	
+	elseif (lvlState == lvlEnd) then		
+		
+		lvlState = lvlSetup	
+		currentLevel = levelNormal
+			
+	end
+
+end
