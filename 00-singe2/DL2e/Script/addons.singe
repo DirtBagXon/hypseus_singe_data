@@ -1,0 +1,302 @@
+--[[
+
+PROGRAM NAME:	LUA SINGE ENGINE
+VERSION:		3.3
+AUTHOR:			KARIS (2021)
+
+This file is part of LUA SINGE ENGINE.
+
+	LUA SINGE ENGINE is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation.
+
+	LUA SINGE ENGINE is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+	Thanks to Scott Duensing, RDG.
+
+]]--
+
+
+function startConf()
+
+	SCOREMOVE = 500
+	SCOREITEM = 4500
+	BUFFITEM = 1000									
+	BUFFITMOVE = 50
+
+	if dip_Difficulty == 0 or dip_Difficulty == 1 then 
+	
+		EXTRALIFE = 50000
+
+	elseif dip_Difficulty == 2 then
+
+		EXTRALIFE = 70000
+
+	elseif dip_Difficulty == 3 then
+
+		EXTRALIFE = 100000
+
+	end
+
+	iNbItems = 0
+	Obj = {false, false, false, false, false, false, false, false, false, false, false}
+	
+end
+
+
+function swapScene()
+
+	if iLevel == 1000 then
+
+		offsetGetReady = 38158								
+		offsetGetReadyEnd = 38209	
+
+	else
+
+		offsetGetReady = 36844								
+		offsetGetReadyEnd = 36900	
+	
+	end
+
+end
+
+
+function swapLevel()  
+
+	local i = 0
+	local j = 0
+
+	for i = 1,11 do
+
+		if Obj[i] == true then j = j+1 end
+
+	end
+
+	if j < 11 and iLevel == 7 then iLevel = 8 end
+	if j == 11 and iLevel == 8 then iLevel = 9 end
+
+end
+
+function specialScore(thisMove)
+
+	if iLevel == 1 and iScene == 2 and thisMove == 3 then
+		
+		if Obj[1] == false then
+					
+			thisScore =(SCOREITEM + BUFFITEM * iNbItems)
+			iScoreTemp = iScoreTemp+(SCOREITEM + BUFFITEM * iNbItems) 
+			iNbItems = iNbItems + 1
+			BUFFITMOVE = 50*iNbItems
+			SCOREMOVE = 500 + BUFFITMOVE
+			Obj[1] = true
+
+		end
+					
+	elseif iLevel == 1 and iScene == 2 and thisMove == 5 then
+		
+		if Obj[2] == false then
+
+			thisScore =(SCOREITEM + BUFFITEM * iNbItems)
+			iScoreTemp = iScoreTemp+(SCOREITEM + BUFFITEM * iNbItems) 
+			iNbItems = iNbItems + 1
+			BUFFITMOVE = 50*iNbItems
+			SCOREMOVE = 500 + BUFFITMOVE
+			Obj[2] = true
+
+		end
+
+	elseif iLevel == 1 and iScene == 3 and thisMove == 9 then
+		
+		if Obj[3] == false then
+
+			thisScore =(SCOREITEM + BUFFITEM * iNbItems)
+			iScoreTemp = iScoreTemp+(SCOREITEM + BUFFITEM * iNbItems) 
+			iNbItems = iNbItems + 1
+			BUFFITMOVE = 50*iNbItems
+			SCOREMOVE = 500 + BUFFITMOVE
+			Obj[3] = true
+
+		end
+
+	elseif iLevel == 2 and iScene == 1 and thisMove == 6 then
+		
+		if Obj[4] == false then
+
+			thisScore =(SCOREITEM + BUFFITEM * iNbItems)
+			iScoreTemp = iScoreTemp+(SCOREITEM + BUFFITEM * iNbItems) 
+			iNbItems = iNbItems + 1
+			BUFFITMOVE = 50*iNbItems
+			SCOREMOVE = 500 + BUFFITMOVE
+			Obj[4] = true
+
+		end
+	
+	elseif iLevel == 3 and iScene == 2 and thisMove == 8 then
+		
+		if Obj[5] == false then
+
+			thisScore =(SCOREITEM + BUFFITEM * iNbItems)
+			iScoreTemp = iScoreTemp+(SCOREITEM + BUFFITEM * iNbItems) 
+			iNbItems = iNbItems + 1
+			BUFFITMOVE = 50*iNbItems
+			SCOREMOVE = 500 + BUFFITMOVE
+			Obj[5] = true
+
+		end
+
+	elseif iLevel == 4 and iScene == 2 and thisMove == 2 then
+		
+		if Obj[6] == false then
+
+			thisScore =(SCOREITEM + BUFFITEM * iNbItems)
+			iScoreTemp = iScoreTemp+(SCOREITEM + BUFFITEM * iNbItems) 
+			iNbItems = iNbItems + 1
+			BUFFITMOVE = 50*iNbItems
+			SCOREMOVE = 500 + BUFFITMOVE
+			Obj[6] = true
+
+		end
+
+	elseif iLevel == 4 and iScene == 2 and thisMove == 13 then
+		
+		if Obj[7] == false then
+
+			thisScore =(SCOREITEM + BUFFITEM * iNbItems)
+			iScoreTemp = iScoreTemp+(SCOREITEM + BUFFITEM * iNbItems) 
+			iNbItems = iNbItems + 1
+			BUFFITMOVE = 50*iNbItems
+			SCOREMOVE = 500 + BUFFITMOVE
+			Obj[7] = true
+
+		end
+
+	elseif iLevel == 5 and iScene == 2 and thisMove == 8 then
+		
+		if Obj[8] == false then
+
+			thisScore =(SCOREITEM + BUFFITEM * iNbItems)
+			iScoreTemp = iScoreTemp+(SCOREITEM + BUFFITEM * iNbItems) 
+			iNbItems = iNbItems + 1
+			BUFFITMOVE = 50*iNbItems
+			SCOREMOVE = 500 + BUFFITMOVE
+			Obj[8] = true
+
+		end
+
+	elseif iLevel == 5 and iScene == 3 and thisMove == 13 then
+		
+		if Obj[9] == false then
+
+			thisScore =(SCOREITEM + BUFFITEM * iNbItems)
+			iScoreTemp = iScoreTemp+(SCOREITEM + BUFFITEM * iNbItems) 
+			iNbItems = iNbItems + 1
+			BUFFITMOVE = 50*iNbItems
+			SCOREMOVE = 500 + BUFFITMOVE
+			Obj[9] = true
+
+		end
+
+	elseif iLevel == 6 and iScene == 2 and thisMove == 2 then
+		
+		if Obj[10] == false then
+
+			thisScore =(SCOREITEM + BUFFITEM * iNbItems)
+			iScoreTemp = iScoreTemp+(SCOREITEM + BUFFITEM * iNbItems) 
+			iNbItems = iNbItems + 1
+			BUFFITMOVE = 50*iNbItems
+			SCOREMOVE = 500 + BUFFITMOVE
+			Obj[10] = true
+
+		end
+
+	elseif iLevel == 6 and iScene == 2 and thisMove == 20 then
+		
+		if Obj[11] == false then
+
+			thisScore =(SCOREITEM + BUFFITEM * iNbItems)
+			iScoreTemp = iScoreTemp+(SCOREITEM + BUFFITEM * iNbItems) 
+			iNbItems = iNbItems + 1
+			BUFFITMOVE = 50*iNbItems
+			SCOREMOVE = 500 + BUFFITMOVE
+			Obj[11] = true
+
+		end
+		
+	end
+end
+
+function writeSavePlus(thisSlot)
+
+	if iLevel ~= 1000 then
+
+		local k = thisSlot
+		local sNewLine = "\n"
+		local s1 = ""
+		local s0
+
+		s0 = MYDIR.."/Cfg/s" .. thisSlot .. "p.cfg"
+		
+		local h1 = io.output(s0)
+				
+		for i = 1, 11 do
+
+			if Obj[i] == true then
+
+				s1 = "true" .. "A"
+
+			else	
+
+				s1 = "false" .. "A"
+
+			end
+
+			io.write(s1 .. sNewLine)
+
+		end
+			
+		io.close(h1)
+
+	end
+
+end
+
+function loadSavePlus(thisSlot)
+
+	local s1
+	local i = 0
+	local j = 0
+	local k = 0
+	Obj = nil; Obj = {false, false, false, false, false, false, false, false, false, false, false}
+	iNbItems = 0
+	SCOREMOVE = 500
+	SCOREITEM = 5000
+	BUFFITEM = 1000									
+	BUFFITMOVE = 50
+
+	local s0 = MYDIR.."/Cfg/s" .. thisSlot .. "p.cfg"
+	local h1 = io.input(s0)
+	
+	for i = 1, 11 do
+
+		s1 = io.read("*line")
+		if string.sub(s1,1, string.find(s1,"A")-1) == "true" then 
+		
+			Obj[i] = true			
+			iNbItems = iNbItems + 1
+		
+		end
+
+	end
+
+	BUFFITMOVE = 50*iNbItems
+	SCOREMOVE = 500 + BUFFITMOVE
+
+	io.close(h1)
+	
+end
+
+
+
+

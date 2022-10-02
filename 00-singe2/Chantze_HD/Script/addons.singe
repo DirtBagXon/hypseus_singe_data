@@ -1,0 +1,998 @@
+--[[
+
+PROGRAM NAME:	LUA SINGE ENGINE
+VERSION:		3.3
+AUTHOR:			KARIS (2020)
+
+This file is part of LUA SINGE ENGINE.
+
+	LUA SINGE ENGINE is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation.
+
+	LUA SINGE ENGINE is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+	Thanks to Scott Duensing, RDG.
+
+]]--
+
+
+sndmus1 = soundLoad(MYDIR.."/Sounds/music1.wav")
+sndmus2 = soundLoad(MYDIR.."/Sounds/music2.wav")
+
+function mapConf()
+	
+	dip_5 = false
+	dip_68 = false
+	dip_67 = false
+	dip_89 = false
+	dip_s1 = false
+	dip_s2 = false
+	shiftMap = 0
+
+end
+
+function swapScene()  -- allows to swap some scenes for some difficulties 
+
+		if altCfg == false and iLevel == 6 and iScene == 2 then
+
+			bSwap = true	
+		
+		elseif altCfg == false and iLevel == 6 and iScene == 5 then
+
+			bSwap = true
+
+		elseif altCfg == true and iLevel == 11 and iScene == 2 then
+
+			bSwap = true
+		
+		end
+
+end
+
+
+function moveCursor(overHere)  
+
+	if bIgnoreJoy then 
+			
+		if joyDelayDue() then bIgnoreJoy = false end
+		
+	else
+		
+		if (iLevel == 1) then  -- If the cursor is on level 1 position (on the map)
+		
+			if (p1RIGHT) then
+
+				soundPlay(sndroll)
+				discSkipToFrame(34071+shiftMap)
+				discPause()
+				iLevel = 2
+							
+			elseif (p1DOWN) then
+
+				soundPlay(sndroll)
+				discSkipToFrame(34080+shiftMap)
+				discPause()
+				iLevel = 3
+										
+			end
+
+		elseif (iLevel == 2) then  -- If the cursor is on level 2 position (on the map)
+		
+			if (p1RIGHT) then
+
+				soundPlay(sndroll)
+				discSkipToFrame(34089+shiftMap)
+				discPause()
+				iLevel = 4
+						
+			elseif (p1DOWN) then
+				
+				soundPlay(sndroll)
+				discSkipToFrame(34080+shiftMap)
+				discPause()
+				iLevel = 3
+					
+			end
+	
+		elseif (iLevel == 3) then 	-- 3
+		
+			if (p1UP) then
+
+				soundPlay(sndroll)
+				discSkipToFrame(34071+shiftMap)
+				discPause()
+				iLevel = 2
+											
+			elseif (p1RIGHT) then
+
+				if dip_68 then
+					
+					soundPlay(sndroll)
+					discSkipToFrame(34107+shiftMap-3)
+					discPause()
+					
+					if stage[5][BEATSTATUS] == true then
+
+						iLevel = 8
+
+					else
+
+						iLevel = 9
+
+					end
+														
+				end
+				
+			end
+			
+		elseif (iLevel == 4) then 	-- 4
+		
+			if (p1LEFT) then
+
+				soundPlay(sndroll)
+				discSkipToFrame(34071+shiftMap)
+				discPause()
+				iLevel = 2
+										
+			elseif (p1DOWN) then
+
+
+				if dip_68 then
+					
+					soundPlay(sndroll)
+					discSkipToFrame(34101+shiftMap-3) 
+					discPause()
+					
+					if stage[5][BEATSTATUS] == true then
+
+						iLevel = 6
+
+					else
+
+						iLevel = 7
+
+					end
+													
+				end
+
+			end
+
+		elseif (iLevel == 5) then 	-- 5
+		
+			if (p1UP) then
+
+				soundPlay(sndroll)
+				discSkipToFrame(34107+shiftMap-3)
+				discPause()
+					
+				if stage[5][BEATSTATUS] == true then
+
+					iLevel = 8
+
+				else
+
+					iLevel = 9
+
+				end
+
+			elseif (p1LEFT) then
+
+
+				soundPlay(sndroll)
+				discSkipToFrame(34080+shiftMap)
+				discPause()
+				iLevel = 3
+				
+
+			elseif (p1RIGHT) then
+
+
+				soundPlay(sndroll)
+				discSkipToFrame(34101+shiftMap-3) 
+				discPause()
+					
+				if stage[5][BEATSTATUS] == true then
+
+					iLevel = 6
+
+				else
+
+					iLevel = 7
+
+				end
+		
+			end
+
+		elseif (iLevel == 6) or (iLevel == 7) then 	-- mountains
+		
+			if (p1UP) then
+
+				soundPlay(sndroll)
+				discSkipToFrame(34089+shiftMap)
+				discPause()
+				iLevel = 4
+							
+			elseif (p1LEFT) then
+
+
+				soundPlay(sndroll)
+				discSkipToFrame(34107+shiftMap-3)
+				discPause()
+					
+				if stage[5][BEATSTATUS] == true then
+
+					iLevel = 8
+
+				else
+
+					iLevel = 9
+
+				end
+									
+			end
+
+		elseif (iLevel == 8) or (iLevel == 9) then 	--prairie
+		
+			if (p1DOWN) then
+
+				if 	dip_5 then
+						
+					soundPlay(sndroll)
+					discSkipToFrame(34098)
+					discPause()
+					iLevel = 5
+												
+				end
+
+			elseif (p1LEFT) then
+
+
+				soundPlay(sndroll)
+				discSkipToFrame(34080+shiftMap)
+				discPause()
+				iLevel = 3
+			
+			elseif (p1RIGHT) then
+
+				soundPlay(sndroll)
+				discSkipToFrame(34101+shiftMap-3) 
+				discPause()
+					
+				if stage[5][BEATSTATUS] == true then
+
+					iLevel = 6
+
+				else
+
+					iLevel = 7
+
+				end
+
+			end	
+				
+		end
+					
+		if p1UP or p1DOWN or p1LEFT or p1RIGHT or p1BUTTON1 then
+			
+			bIgnoreJoy = true
+			joyDelayON(0.200)
+
+			p1UP      = false		
+			p1DOWN    = false		
+			p1LEFT    = false
+			p1RIGHT   = false
+			p1BUTTON1 = false
+			
+		elseif p1SERVICE or p1CONSOLE or p1TEST then
+
+			soundStop(sndHandle)
+
+		end
+				
+	end
+
+end
+
+function TestDips()
+
+	local j = 0
+	local k = 0
+
+	if dip_68 == false then
+
+		for j = 1, 4 do
+
+			if stage[j][BEATSTATUS] == true then k = k + 1 end
+
+		end
+		
+		if k >= 3 then
+			
+			dip_68 = true
+
+		end
+
+	end
+
+	if dip_5 == false then
+
+		if (stage[2][BEATSTATUS] == true and stage[3][BEATSTATUS] == true and stage[4][BEATSTATUS] == true) then 
+
+		 	dip_5 = true
+		 	
+		elseif (stage[7][BEATSTATUS] == true or stage[9][BEATSTATUS] == true) then
+			
+			dip_5 = true
+		
+		end
+
+	end
+
+	if (stage[6][BEATSTATUS] == true or stage[7][BEATSTATUS] == true) then dip_67 = true end
+	
+	if (stage[8][BEATSTATUS] == true or stage[9][BEATSTATUS] == true) then dip_89 = true end
+
+end
+
+function TestState()
+
+	bFromSave = false
+	local j = 0
+	local k = 0
+
+	for j = 1, 11 do
+
+		if stage[j][BEATSTATUS] == true then k = k + 1 end
+
+	end
+	
+	if dip_68 == true and k > 3 then 
+
+		dip_s1 = true 
+
+	end	
+
+	if dip_5 == true then
+
+		if k >= 5 then
+			
+			dip_s1 = true 
+			dip_s2 = true 
+	
+		end
+
+	end
+
+end	
+
+function ShowComplete()
+
+
+	if stage[2][BEATSTATUS] == true then
+
+		spriteDraw(OVLW/4,OVLH/3,sprite[OKMAP])
+
+	end
+
+	if stage[3][BEATSTATUS] == true then
+
+		spriteDraw(OVLW/5,OVLH/2,sprite[OKMAP])
+
+	end
+
+	if stage[4][BEATSTATUS] == true then
+
+		spriteDraw(3*OVLW/4,OVLH/4,sprite[OKMAP])
+
+	end
+
+	if stage[5][BEATSTATUS] == true then
+
+		spriteDraw(4.7*OVLW/10,6.3*OVLH/10,sprite[OKMAP])
+
+	end
+
+	if stage[6][BEATSTATUS] == true or stage[7][BEATSTATUS] == true then
+
+		spriteDraw(8*OVLW/10,OVLH/2,sprite[OKMAP])
+
+	end
+
+	if stage[8][BEATSTATUS] == true or stage[9][BEATSTATUS] == true then
+
+		spriteDraw(4.5*OVLW/10,OVLH/2,sprite[OKMAP])
+
+	end
+
+	if stage[10][BEATSTATUS] == true then
+
+		spriteDraw(OVLW/2,OVLH/5,sprite[OKMAP])
+
+	end
+
+end	
+
+function AllowLvlQuartz()
+
+	if (stage[1][BEATSTATUS] == true and stage[2][BEATSTATUS] == true and stage[3][BEATSTATUS] == true and stage[4][BEATSTATUS] == true and stage[5][BEATSTATUS] == true and (stage[6][BEATSTATUS] == true or stage[7][BEATSTATUS] == true) and (stage[8][BEATSTATUS] == true or stage[9][BEATSTATUS] == true)) then
+		
+		return true
+
+	else
+		
+		return false
+
+	end
+
+end
+
+function AllowLvlEnd()
+
+
+	if (stage[10][BEATSTATUS] == true) then
+		
+		return true
+
+	else
+		
+		return false
+
+	end
+
+end
+
+function doLevelSelect()
+
+	if (lvlState == lvlSetup) then
+	
+		bShowScore = false
+		bShowLives = false
+		bIgnoreJoy = false
+		iCurSave = iLevel
+
+		if iLevel == 1 or bFromSave then mapConf() end
+
+		discSkipToFrame(34068)
+		sndHandle = soundPlay(sndmus2)
+		
+		TestDips()
+		if bFromSave then TestState() end
+		
+		if (AllowLvlEnd() == true) then
+				
+				setupClip(33502, 33608)
+				lvlState = branch01
+
+		elseif (AllowLvlQuartz() == true) then
+				soundStop(sndHandle)
+				setupClip(33905, 34063)
+				lvlState = branch01
+
+		else
+
+			if dip_s2 then
+                          
+				setupClip(33437, 33499)
+				lvlState = branch01
+
+			elseif dip_s1 and not dip_5 then
+
+				setupClip(33327, 33432)
+				lvlState = branch01
+
+			elseif dip_5 and not dip_s2 then
+				
+				shiftMap = 6
+				setupClip(33327, 33432)
+				lvlState = branch01
+
+			elseif dip_68 and not dip_5 and not dip_s1 then
+				
+				shiftMap = 3
+				setupClip(33284, 33322)
+				lvlState = branch01
+
+			else
+				
+				setupClip(33284, 33322)
+				lvlState = branch01
+
+			end	
+
+		end
+
+	elseif (lvlState == branch01) then
+				
+		if (currentFrame == iFrameEnd) then 
+			
+			if (AllowLvlEnd() == true) then
+			
+				discSkipToFrame(34167)
+				discPause()
+				iLevel = 11
+				lvlState = branch03  --endgame
+
+			elseif (AllowLvlQuartz() == true) then
+		
+				discSkipToFrame(34164)
+				discPause()
+				iLevel = 10
+				lvlState = branch03  --endgame
+				
+			else
+				
+				if iLevel == 1 then
+			
+					discSkipToFrame(34122)
+					discPause()
+					lvlState = branch02  --basic
+
+				elseif iLevel == 2 and stage[3][BEATSTATUS] == false and stage[4][BEATSTATUS] ==  false then
+
+					discSkipToFrame(34125)
+					discPause()
+					lvlState = branch02  --basic
+
+				elseif iLevel == 3 and stage[2][BEATSTATUS] == false and stage[4][BEATSTATUS] ==  false then
+					
+					discSkipToFrame(34128)
+					discPause()
+					lvlState = branch02  --basic
+
+				elseif iLevel == 4 and stage[2][BEATSTATUS] == false and stage[3][BEATSTATUS] ==  false then
+
+					discSkipToFrame(34131)
+					discPause()
+					lvlState = branch02  --basic
+
+				elseif (iLevel == 2 and stage[3][BEATSTATUS] == true and stage[4][BEATSTATUS] ==  false) then
+
+					shiftMap = 3
+					discSkipToFrame(34137)
+					discPause()
+					lvlState = branch04  --reveal 6/7
+
+				elseif (iLevel == 2 and stage[3][BEATSTATUS] == false and stage[4][BEATSTATUS] ==  true) then
+
+					shiftMap = 3
+					discSkipToFrame(34155)
+					discPause()
+					lvlState = branch04  --reveal 6/7
+						
+				elseif (iLevel == 3 and stage[2][BEATSTATUS] == false and stage[4][BEATSTATUS] ==  true) then
+
+					shiftMap = 3
+					discSkipToFrame(34134)
+					discPause()
+					lvlState = branch04  --reveal 6/7
+
+				elseif (iLevel == 3 and stage[2][BEATSTATUS] == true and stage[4][BEATSTATUS] ==  false)  then
+
+					shiftMap = 3
+					discSkipToFrame(34158)
+					discPause()
+					lvlState = branch04  --reveal 6/7
+
+
+				elseif (iLevel == 4 and stage[2][BEATSTATUS] == true and stage[3][BEATSTATUS] ==  false) then
+
+					shiftMap = 3
+					discSkipToFrame(34173)
+					discPause()
+					lvlState = branch04  --reveal 6/7
+
+				elseif (iLevel == 4 and stage[2][BEATSTATUS] == false and stage[3][BEATSTATUS] ==  true) then
+
+					shiftMap = 3
+					discSkipToFrame(34161)
+					discPause()
+					lvlState = branch04  --reveal 6/7
+
+				elseif iLevel == 5 then
+
+					shiftMap = 6
+					discSkipToFrame(34152)
+					discPause()
+					lvlState = branch02 --basic
+
+				elseif iLevel == 6 then
+
+					shiftMap = 6
+					discSkipToFrame(34179)
+					discPause()
+					lvlState = branch02 --basic
+
+				elseif iLevel == 7 then
+
+					shiftMap = 6
+					
+					if dip_s2 then
+
+						discSkipToFrame(34194)
+						discPause()
+   	        			lvlState = branch02  --basic
+
+   	        		else
+
+   	        			discSkipToFrame(34143)
+						discPause()
+   	        			lvlState = branch06  --reveal 5 curse
+   	        		
+   	        		end
+	
+				elseif iLevel == 8 then
+
+					shiftMap = 6
+					discSkipToFrame(34176)
+					discPause()
+					lvlState = branch02  --basic
+
+				elseif iLevel == 9 then
+
+					shiftMap = 6
+					
+					if dip_s2 then
+
+						discSkipToFrame(34191)
+						discPause()
+   	        			lvlState = branch02  --basic
+
+   	        		else
+
+   	        			discSkipToFrame(34140)
+						discPause()
+   	        			lvlState = branch06  --reveal 5 curse
+   	        		
+   	        		end
+	
+
+				elseif iLevel == 10 then
+
+					discSkipToFrame(34164)
+					discPause()
+					lvlState = branch03 --endgame
+
+				elseif iLevel == 11 then
+
+					discSkipToFrame(34167)
+					discPause()
+					lvlState = branch03  --endgame
+
+				elseif (stage[2][BEATSTATUS] and stage[3][BEATSTATUS] == true and stage[4][BEATSTATUS] ==  true) then
+
+					shiftMap = 6
+					
+   	        		if dip_s2 then
+
+   	        			discSkipToFrame(34185)
+						discPause()
+   	        			lvlState = branch02  --basic
+
+   	        		else
+
+   	        			discSkipToFrame(34170)
+						discPause()
+   	        			lvlState = branch05  --reveal 5
+   	        		
+   	        		end
+
+				end
+
+			end
+
+		elseif p1SERVICE or p1CONSOLE or p1TEST  then
+
+			soundStop(sndHandle)
+			
+		end		
+		
+	elseif (lvlState == branch02) then
+
+		if p1BUTTON1 then
+
+			soundPlay(sndcredit)
+			p1BUTTON1 = false
+
+			if iLevel == 1 then
+		
+				discSkipToFrame(34068)
+				discPause()
+
+			elseif iLevel == 2 then
+
+				discSkipToFrame(34071+shiftMap)
+				discPause()
+
+			elseif iLevel == 3 then
+
+				discSkipToFrame(34080+shiftMap)
+				discPause()
+
+			elseif iLevel == 4 then
+
+				discSkipToFrame(34089+shiftMap)
+				discPause()
+
+			elseif iLevel == 5 then
+
+				discSkipToFrame(34098)
+				discPause()
+
+			elseif iLevel == 6 then
+
+				discSkipToFrame(34101+shiftMap-3)
+				discPause()
+
+			elseif iLevel == 7 then
+
+				discSkipToFrame(34101+shiftMap-3)
+				discPause()
+
+			elseif iLevel == 8 then
+
+				discSkipToFrame(34107+shiftMap-3)
+				discPause()
+
+			elseif iLevel == 9 then
+
+				discSkipToFrame(34107+shiftMap-3)
+				discPause()
+
+			end
+
+			soundStop(sndHandle)
+			sndHandle = soundPlay(sndmus1)
+			
+			lvlState = lvlRunning
+
+		elseif p1SERVICE or p1CONSOLE or p1TEST  then
+
+			soundStop(sndHandle)
+		
+		end
+
+	elseif (lvlState == branch03) then --endgame
+		
+
+		if p1BUTTON1 then
+
+			p1BUTTON1 = false
+
+			if iLevel == 10 then
+
+				discSkipToFrame(34113)
+				discPause()
+
+				soundStop(sndHandle)
+				sndHandle = soundPlay(sndmus1)
+				lvlState = lvlRunning
+
+			elseif iLevel == 11 then
+
+				discSkipToFrame(34116)
+				discPause()
+				soundStop(sndHandle)
+				sndHandle = soundPlay(sndmus1)
+				lvlState = lvlRunning
+
+			end
+
+		elseif p1SERVICE or p1CONSOLE or p1TEST  then
+
+			soundStop(sndHandle)
+
+		end
+
+	elseif (lvlState == branch04) then --reveal 6/7 part 1
+		
+		if p1BUTTON1 then
+			soundStop(sndHandle)
+			dip_s1 = true
+			soundPlay(sndcredit)
+			p1BUTTON1 = false
+			setupClip(33612, 33741)
+			lvlState = branch07
+
+		elseif p1SERVICE or p1CONSOLE or p1TEST  then
+
+			soundStop(sndHandle)
+						
+		end
+
+	elseif (lvlState == branch05) then --reveal 5 part 1
+		
+		if p1BUTTON1 then
+		    soundStop(sndHandle)
+			dip_s2 = true
+			soundPlay(sndcredit)
+			p1BUTTON1 = false
+			setupClip(33775, 33901)
+			lvlState = branch08
+
+		elseif p1SERVICE or p1CONSOLE or p1TEST  then
+
+			soundStop(sndHandle)
+						
+		end
+
+	elseif (lvlState == branch06) then --reveal 5 curse part 1
+		
+		if p1BUTTON1 then
+		    soundStop(sndHandle)
+			dip_s2 = true
+			soundPlay(sndcredit)
+			p1BUTTON1 = false
+			setupClip(33775, 33901)
+			lvlState = branch08
+
+		elseif p1SERVICE or p1CONSOLE or p1TEST  then
+
+			soundStop(sndHandle)
+						
+		end
+
+	elseif (lvlState == branch07) then --reveal 6/7 part 2
+
+		if (currentFrame == iFrameEnd) then
+
+			if iLevel == 2 then
+
+				discSkipToFrame(34074)
+				discPause()
+
+			elseif iLevel == 3 then
+
+				discSkipToFrame(34083)
+				discPause()
+
+			elseif iLevel == 4 then
+
+				discSkipToFrame(34092)
+				discPause()
+
+			end
+
+			soundStop(sndHandle)
+			sndHandle = soundPlay(sndmus1)
+
+			lvlState = lvlRunning
+
+		elseif p1SERVICE or p1CONSOLE or p1TEST  then
+
+			soundStop(sndHandle)
+						
+		end
+
+	elseif (lvlState == branch08) then --reveal 5 part 2
+
+		if (currentFrame == iFrameEnd) then
+
+			if iLevel == 6 then
+
+				discSkipToFrame(34149)
+				discPause()
+
+			elseif iLevel == 8 then
+
+				discSkipToFrame(34146)
+				discPause()
+
+			else
+
+				discSkipToFrame(34182)
+				discPause()
+			
+			end
+
+			lvlState = branch09
+
+		elseif p1SERVICE or p1CONSOLE or p1TEST  then
+
+			soundStop(sndHandle)
+
+		end
+
+	elseif (lvlState == branch09) then --reveal 5 part 3
+
+		if p1BUTTON1 then
+			
+			soundPlay(sndcredit)
+			p1BUTTON1 = false
+		
+			if iLevel == 2 then
+
+				discSkipToFrame(34077)
+				discPause()
+
+			elseif iLevel == 3 then
+
+				discSkipToFrame(34086)
+				discPause()
+
+			elseif iLevel == 4 then
+
+				discSkipToFrame(34095)
+				discPause()
+
+			elseif iLevel == 5 then
+
+				discSkipToFrame(34098)
+				discPause()
+
+			elseif iLevel == 6 then
+
+				discSkipToFrame(34104)
+				discPause()
+
+			elseif iLevel == 7 then
+
+				discSkipToFrame(34104)
+				discPause()
+
+			elseif iLevel == 8 then
+
+				discSkipToFrame(34110)
+				discPause()
+
+			elseif iLevel == 9 then
+
+				discSkipToFrame(34110)
+				discPause()
+
+			end
+
+			soundStop(sndHandle)
+			sndHandle = soundPlay(sndmus1)
+
+			lvlState = lvlRunning
+
+		elseif p1SERVICE or p1CONSOLE or p1TEST  then
+
+			soundStop(sndHandle)	
+
+		end
+		
+
+	elseif (lvlState == lvlRunning) then
+
+		if p1BUTTON1 then
+			
+			
+			p1BUTTON1 = false
+
+			if stage[iLevel][BEATSTATUS] == true or (iLevel == 6 and dip_67) or (iLevel == 8 and dip_89) then
+
+				soundPlay(sndwrong)
+
+			else
+
+				soundPlay(sndcredit)
+				lvlState = lvlEnd
+
+			end
+
+		elseif p1SERVICE or p1CONSOLE or p1TEST  then
+
+			soundStop(sndHandle)
+			iLevel = iCurSave
+	
+		else
+				
+				ShowComplete()
+				moveCursor(iLevel)			
+											
+		end
+        	
+	elseif (lvlState == lvlEnd) then	
+		
+		soundStop(sndHandle)
+		discSkipToFrame(33432)
+		lvlState = lvlSetup	
+		currentLevel = levelNormal
+			
+	end
+
+end

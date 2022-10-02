@@ -1,0 +1,542 @@
+--[[
+
+PROGRAM NAME:	LUA SINGE ENGINE
+VERSION:		3.3
+AUTHOR:			KARIS (2021)
+
+This file is part of LUA SINGE ENGINE.
+
+	LUA SINGE ENGINE is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation.
+
+	LUA SINGE ENGINE is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+	Thanks to Scott Duensing, RDG.
+
+]]--
+
+
+function startConf()
+
+	if iLevel == 1 then
+
+		local r = math.random(3)
+
+		SCOREMOVE = 684									
+											
+		offsetGetReady = 19419								
+		offsetGetReadyEnd = 19475
+
+		offsetGameOver = 21480						
+		offsetGameOverend = 21563	
+
+		if r == 1 then
+
+			LvlOrder[22] = 22
+			LvlOrder[23] = 23
+			LvlOrder[24] = 24
+			LvlOrder[25] = 25
+			LvlOrder[26] = 26
+			LvlOrder[27] = 27
+			LvlOrder[28] = 28
+			LvlOrder[29] = 29
+
+		elseif r == 2 then
+
+			LvlOrder[22] = 28
+			LvlOrder[23] = 29
+			LvlOrder[24] = 25
+			LvlOrder[25] = 26
+			LvlOrder[26] = 27
+			LvlOrder[27] = 22
+			LvlOrder[28] = 23
+			LvlOrder[29] = 24
+
+		elseif r == 3 then
+
+			LvlOrder[22] = 26
+			LvlOrder[23] = 27
+			LvlOrder[24] = 22
+			LvlOrder[25] = 28
+			LvlOrder[26] = 29
+			LvlOrder[27] = 23
+			LvlOrder[28] = 24
+			LvlOrder[29] = 25
+
+		end
+
+	elseif iLevel == 2 then
+
+		SCOREMOVE = 684									
+											
+		offsetGetReady = 1625								
+		offsetGetReadyEnd = 1626
+
+		offsetGameOver = 21480						
+		offsetGameOverend = 21563	
+	
+	elseif iLevel == 3 then
+
+		SCOREMOVE = 684									
+											
+		offsetGetReady = 19492								
+		offsetGetReadyEnd = 19547
+
+		offsetGameOver = 21580						
+		offsetGameOverend = 21662	
+
+
+	elseif iLevel == 4 then
+
+		SCOREMOVE = 684									
+											
+		offsetGetReady = 19563								
+		offsetGetReadyEnd = 19619
+
+		offsetGameOver = 21679						
+		offsetGameOverend = 21761	
+
+
+	elseif iLevel == 5 then
+
+		SCOREMOVE = 684									
+											
+		offsetGetReady = 19635							
+		offsetGetReadyEnd = 19689
+
+		offsetGameOver = 21777						
+		offsetGameOverend = 21860	
+
+	
+	elseif iLevel == 6 then
+
+		SCOREMOVE = 684									
+											
+		offsetGetReady = 19706								
+		offsetGetReadyEnd = 19760
+
+		offsetGameOver = 21876						
+		offsetGameOverend = 21958	
+			
+
+	elseif iLevel == 7 then
+
+		SCOREMOVE = 684									
+											
+		offsetGetReady = 19776								
+		offsetGetReadyEnd = 19832
+
+		offsetGameOver = 21975						
+		offsetGameOverend = 22057	
+
+
+	elseif iLevel == 8 then
+
+		SCOREMOVE = 684									
+											
+		offsetGetReady = 19848								
+		offsetGetReadyEnd = 19904
+
+		offsetGameOver = 22074						
+		offsetGameOverend = 22156	
+			
+
+	elseif iLevel == 9 then
+
+		SCOREMOVE = 684									
+											
+		offsetGetReady = 19921								
+		offsetGetReadyEnd = 19975
+
+		offsetGameOver = 21172						
+		offsetGameOverend = 22254	
+		
+
+	elseif iLevel == 10 then	
+
+		SCOREMOVE = 684									
+											
+		offsetGetReady = 19992								
+		offsetGetReadyEnd = 20046
+
+		offsetGameOver = 22271						
+		offsetGameOverend = 22354	
+		
+
+	elseif iLevel == 11 then
+
+		SCOREMOVE = 684									
+											
+		offsetGetReady = 20062								
+		offsetGetReadyEnd = 20117
+
+		offsetGameOver = 22370						
+		offsetGameOverend = 22453	
+		
+
+	elseif iLevel == 12 then
+
+		SCOREMOVE = 1173									
+											
+		offsetGetReady = 20133								
+		offsetGetReadyEnd = 20188
+
+		offsetGameOver = 22470						
+		offsetGameOverend = 22552	
+			
+
+	elseif iLevel == 13 then
+
+		SCOREMOVE = 1173									
+											
+		offsetGetReady = 20204								
+		offsetGetReadyEnd = 20259
+
+		offsetGameOver = 22569						
+		offsetGameOverend = 22651	
+		
+
+	elseif iLevel == 14 then
+
+		SCOREMOVE = 1173									
+											
+		offsetGetReady = 20275							
+		offsetGetReadyEnd = 20330
+
+		offsetGameOver = 22668						
+		offsetGameOverend = 22748	
+
+	
+	elseif iLevel == 15 then
+
+		SCOREMOVE = 1173									
+											
+		offsetGetReady = 20347								
+		offsetGetReadyEnd = 20400
+
+		offsetGameOver = 22764						
+		offsetGameOverend = 22847	
+			
+
+	elseif iLevel == 16 then
+
+		SCOREMOVE = 1173									
+											
+		offsetGetReady = 20417								
+		offsetGetReadyEnd = 20471
+
+		offsetGameOver = 22864						
+		offsetGameOverend = 22946	
+		
+
+	elseif iLevel == 17 then
+
+		SCOREMOVE = 1173									
+											
+		offsetGetReady = 20488								
+		offsetGetReadyEnd = 20542
+
+		offsetGameOver = 22962						
+		offsetGameOverend = 23045	
+		
+
+	elseif iLevel == 18 then
+
+		SCOREMOVE = 1173									
+											
+		offsetGetReady = 20558								
+		offsetGetReadyEnd = 20614
+
+		offsetGameOver = 23062						
+		offsetGameOverend = 23144	
+			
+
+	elseif iLevel == 19 then
+
+		SCOREMOVE = 1173									
+											
+		offsetGetReady = 20631								
+		offsetGetReadyEnd = 20685
+
+		offsetGameOver = 23161						
+		offsetGameOverend = 23243	
+		
+
+	elseif iLevel == 20 then
+
+		SCOREMOVE = 1173									
+											
+		offsetGetReady = 20702								
+		offsetGetReadyEnd = 20755
+
+		offsetGameOver = 23259						
+		offsetGameOverend = 23342	
+		
+
+	elseif iLevel == 21 then
+
+		SCOREMOVE = 1679									
+											
+		offsetGetReady = 20772								
+		offsetGetReadyEnd = 20827
+
+		offsetGameOver = 23358						
+		offsetGameOverend = 23441	
+	
+
+	elseif iLevel == 22 then
+
+		SCOREMOVE = 1679									
+											
+		offsetGetReady = 20844								
+		offsetGetReadyEnd = 20898
+
+		offsetGameOver = 23457						
+		offsetGameOverend = 23539	
+		
+
+	elseif iLevel == 23 then
+
+		SCOREMOVE = 1679									
+											
+		offsetGetReady = 20915							
+		offsetGetReadyEnd = 20969
+
+		offsetGameOver = 23555						
+		offsetGameOverend = 23638	
+		
+	
+	elseif iLevel == 24 then
+
+		SCOREMOVE = 1679									
+											
+		offsetGetReady = 20986								
+		offsetGetReadyEnd = 21040
+
+		offsetGameOver = 23654						
+		offsetGameOverend = 23737	
+		
+
+	elseif iLevel == 25 then
+
+		SCOREMOVE = 1679									
+											
+		offsetGetReady = 21056								
+		offsetGetReadyEnd = 21111
+
+		offsetGameOver = 23754						
+		offsetGameOverend = 23836	
+		
+
+	elseif iLevel == 26 then
+
+		SCOREMOVE = 1679									
+											
+		offsetGetReady = 21127								
+		offsetGetReadyEnd = 21182
+
+		offsetGameOver = 23853						
+		offsetGameOverend = 23934	
+		
+
+	elseif iLevel == 27 then
+
+		SCOREMOVE = 1679									
+											
+		offsetGetReady = 21199								
+		offsetGetReadyEnd = 21253
+
+		offsetGameOver = 23950						
+		offsetGameOverend = 24033	
+		
+
+	elseif iLevel == 28 then
+
+		SCOREMOVE = 1679									
+											
+		offsetGetReady = 21270								
+		offsetGetReadyEnd = 21323
+
+		offsetGameOver = 24049						
+		offsetGameOverend = 24132	
+			
+
+	elseif iLevel == 29 then
+
+		SCOREMOVE = 1679									
+											
+		offsetGetReady = 21339							
+		offsetGetReadyEnd = 21394
+
+		offsetGameOver = 24148						
+		offsetGameOverend = 24230	
+		
+
+	elseif iLevel == 30 then
+
+		SCOREMOVE = 2000									
+											
+		offsetGetReady = 21411								
+		offsetGetReadyEnd = 21464
+
+		offsetGameOver = 24246						
+		offsetGameOverend = 24329	
+
+	end	
+
+	
+end
+
+function specialScore(thisMove)
+
+	if iLevel == 1 and iScene == 1 and thisMove == 2 then
+		
+		thisScore = 2000
+		iScoreTemp = iScoreTemp+2000
+
+	elseif iLevel == 4 and iScene == 1 and thisMove == 1 then
+		
+		thisScore = 2500
+		iScoreTemp = iScoreTemp+2500
+
+	elseif iLevel == 6 and iScene == 1 and thisMove == 2 then
+		
+		thisScore = 4000
+		iScoreTemp = iScoreTemp+4000
+
+	elseif iLevel == 6 and iScene == 1 and thisMove == 4 then
+		
+		thisScore = 12000
+		iScoreTemp = iScoreTemp+12000
+
+	elseif iLevel == 9 and iScene == 1 and thisMove == 1 then
+		
+		thisScore = 1750
+		iScoreTemp = iScoreTemp+1750
+
+	elseif iLevel == 9 and iScene == 1 and thisMove == 2 then
+		
+		thisScore = 1750
+		iScoreTemp = iScoreTemp+1750
+
+	elseif iLevel == 11 and iScene == 1 and thisMove == 1 then
+		
+		thisScore = 3500
+		iScoreTemp = iScoreTemp+3500
+
+	elseif iLevel == 11 and iScene == 1 and thisMove == 3 then
+		
+		thisScore = 3500
+		iScoreTemp = iScoreTemp+3500
+
+	elseif iLevel == 11 and iScene == 1 and thisMove == 5 then
+		
+		thisScore = 3500
+		iScoreTemp = iScoreTemp+3500
+
+	elseif iLevel == 12 and iScene == 1 and thisMove == 2 then
+		
+		thisScore = 2000
+		iScoreTemp = iScoreTemp+2000
+
+	elseif iLevel == 14 and iScene == 1 and thisMove == 13 then
+		
+		thisScore = 15000
+		iScoreTemp = iScoreTemp+15000
+
+	elseif iLevel == 15 and iScene == 1 and thisMove == 2 then
+		
+		thisScore = 15000
+		iScoreTemp = iScoreTemp+15000
+
+	elseif iLevel == 16 and iScene == 1 and thisMove == 1 then
+		
+		thisScore = 1750
+		iScoreTemp = iScoreTemp+1750
+
+	elseif iLevel == 16 and iScene == 1 and thisMove == 2 then
+		
+		thisScore = 1750
+		iScoreTemp = iScoreTemp+1750
+
+	elseif iLevel == 16 and iScene == 1 and thisMove == 4 then
+		
+		thisScore = 1750
+		iScoreTemp = iScoreTemp+1750
+	
+	elseif iLevel == 16 and iScene == 1 and thisMove == 5 then
+		
+		thisScore = 7000
+		iScoreTemp = iScoreTemp+7000
+
+	elseif iLevel == 18 and iScene == 1 and thisMove == 2 then
+		
+		thisScore = 2250
+		iScoreTemp = iScoreTemp+2250
+
+	elseif iLevel == 18 and iScene == 1 and thisMove == 4 then
+		
+		thisScore = 3000
+		iScoreTemp = iScoreTemp+3000
+
+	elseif iLevel == 18 and iScene == 1 and thisMove == 6 then
+		
+		thisScore = 5000
+		iScoreTemp = iScoreTemp+5000
+
+	elseif iLevel == 19 and iScene == 1 and thisMove == 7 then
+		
+		thisScore = 3000
+		iScoreTemp = iScoreTemp+3000
+
+	elseif iLevel == 20 and iScene == 1 and thisMove == 8 then
+		
+		thisScore = 17500
+		iScoreTemp = iScoreTemp+17500
+
+	elseif iLevel == 25 and iScene == 1 and thisMove == 3 then
+		
+		thisScore = 20000
+		iScoreTemp = iScoreTemp+20000
+
+	elseif iLevel == 26 and iScene == 1 and thisMove == 1 then
+		
+		thisScore = 1750
+		iScoreTemp = iScoreTemp+1750
+
+	elseif iLevel == 26 and iScene == 1 and thisMove == 4 then
+		
+		thisScore = 10000
+		iScoreTemp = iScoreTemp+10000
+
+	elseif iLevel == 27 and iScene == 1 and thisMove == 3 then
+		
+		thisScore = 1750
+		iScoreTemp = iScoreTemp+1750
+
+	elseif iLevel == 29 and iScene == 1 and thisMove == 1 then
+		
+		thisScore = 17500
+		iScoreTemp = iScoreTemp+17500
+	
+	elseif iLevel == 30 and iScene == 1 and thisMove == 13 then
+		
+		thisScore = 25000
+		iScoreTemp = iScoreTemp+25000
+
+	end		
+			
+end	
+
+function swapLevel()  
+
+	startConf()
+
+end
+
+
+
+
