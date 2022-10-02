@@ -1,0 +1,832 @@
+--[[
+
+PROGRAM NAME:	FRIDAY THE 13TH
+VERSION:		3.3
+AUTHOR:			SUPADAVE (2022)
+
+This file is part of FRIDAY THE 13TH
+
+	FRIDAY THE 13TH is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation.
+
+	FRIDAY THE 13TH is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+	Thanks to Scott Duensing, Karis
+
+
+]]--
+
+
+-------------------------
+-- 1. General settings --
+-------------------------
+
+BASEDIR = "singe"
+
+MYDIR = BASEDIR .. "/F13"                                             -- This is the directory where your game is
+
+MovieFPS = 23.976                                                                -- Number of frames per second of your movies (used for timed actions).
+
+
+dofile(BASEDIR .. "/Framework/globals.singe")                                   -- Don't touch this line
+
+
+-- Scoring Settings --
+
+SCOREMOVE = 700									
+BUFFMOVE = 300									
+SCORESCENE = 5000								
+SCORELEVEL = 20000								
+SCOREGAME = 100000								
+PERFECTBONUS = 10000							
+EXTRALIFE = 0									
+DEATHPENALTY = 1000								
+SCORESECRET = 1									
+
+-- Difficulty Settings --						
+
+PenalNormal = 0									
+PenalHard = 2									
+PenalExtreme  = 4	
+
+
+-- Advanced Settings --							
+
+altCfg = false 									
+											
+miscR = 88										
+miscG = 154										
+miscB = 30
+
+AllowRandom = false								
+
+AllowTier = false								
+Tiers[0] = {4,4,4,5,3}							
+Tiers[1] = {1,2,3,4}							
+Tiers[2] = {5,6,7,8}								
+Tiers[3] = {9,10,11,12,13}
+Tiers[4] = {14,15,16}							
+
+
+AllowMap = true							
+MapStart = 0							
+
+IngameDiffchoice = true					
+ForceRewind = true								
+
+BarSize = 5									
+BarMin = 1									
+BarBonus = 3								
+
+
+LvlTrophy3 = 1 	
+LvlTrophy4 = 2 								
+
+------------------------------------------------------------------------
+-- 2. Starting and ending frames for the various elements of the game --
+------------------------------------------------------------------------
+													
+-- Intro frames --
+
+offsetTitle = 0								
+offsetTitleend = 142						 
+
+offsetIntro01 = 143							
+offsetIntro01end = 3874				         
+
+offsetIntro02 = 0							
+offsetIntro02end = 142						      
+
+offsetIntro03 = 143	 	  					
+offsetIntro03end = 3874						
+
+
+
+-- Menu frames --
+
+offsetMenus = 86076
+
+frameOptions = offsetMenus +464				
+frameVictory = offsetMenus +1901			
+frameSave = offsetMenus +458				
+frameRankings = offsetMenus +461			
+frameControls = offsetMenus +452			
+frameSpecial = offsetMenus +455        							
+frameSecret = offsetMenus +0				
+frameTrophy = offsetMenus +471	
+frameHints = offsetMenus +464					
+
+frameEasy = offsetMenus +466
+frameNormal = offsetMenus +467
+frameHard = offsetMenus +468
+frameExtreme = offsetMenus +469
+
+offsetGameOver = offsetMenus +250							
+offsetGameOverend = offsetMenus +450
+
+offsetGameOverAlt = offsetMenus +1694						
+offsetGameOverAltend = offsetMenus +1894					
+
+offsetNewHScore = offsetMenus +477					
+offsetNewHScoreend = offsetMenus +556						
+
+offsetEnterHScore = offsetMenus +560						
+offsetEnterHScoreend = offsetMenus +1359					
+
+offsetRankings = offsetMenus +1363							
+offsetRankingsend = offsetMenus +1562						
+
+offsetContinue = offsetMenus +0							
+offsetContinueend = offsetMenus +240
+
+offsetClear = offsetMenus +1566							
+offsetClearend = offsetMenus +1672
+	
+offsetGetReady = offsetMenus +0							
+offsetGetReadyEnd = offsetMenus +0
+
+offsetSupDeath = offsetMenus +0								
+offsetSupDeathEnd = offsetMenus +0	
+
+offsetMap = 84702
+offsetMapend = 84703
+
+offsetMovieEnd = 83380							
+
+
+-- Death frames --
+
+totalDeath = 6									
+offsetDeath = 84811
+
+Death[1] = {offsetDeath + 0, offsetDeath +55}	  
+Death[2] = {offsetDeath + 67, offsetDeath +127}	  
+Death[3] = {offsetDeath + 138, offsetDeath +198}   
+Death[4] = {offsetDeath + 209, offsetDeath +269}   
+Death[5] = {offsetDeath + 280, offsetDeath +340}   
+Death[6] = {offsetDeath + 350, offsetDeath +410}
+Death[7] = {offsetDeath + 421, offsetDeath +481}
+Death[8] = {offsetDeath + 492, offsetDeath +552}
+Death[9] = {offsetDeath + 563, offsetDeath +623}
+Death[10] = {offsetDeath + 634, offsetDeath +694}
+Death[11] = {offsetDeath + 705, offsetDeath +765}
+Death[12] = {offsetDeath + 776, offsetDeath +834}
+Death[13] = {offsetDeath + 847, offsetDeath +907}
+Death[14] = {offsetDeath + 918, offsetDeath +978}
+Death[15] = {offsetDeath + 989, offsetDeath +1049}
+Death[16] = {offsetDeath + 1060, offsetDeath +1120}
+Death[17] = {offsetDeath + 1131, offsetDeath +1191}
+Death[18] = {offsetDeath + 1202, offsetDeath +1261}
+
+
+----------------------------------------------------------------------------------------------------
+-- 3. List of Levels (Title, Start Frame, End of Intro Clip, Total Scenes, Mirror, Death Mirror.) --
+----------------------------------------------------------------------------------------------------
+
+finalstage = 5     		     								
+PlayOrder = {1,2,3,4,5,6}										
+AllowSecret = false		  										
+RelativeFrames = true											
+
+Level[1] = {"Part 1", 3884, 4766, 8, 0, 0, -1} 				
+Level[2] = {"Part 2", 17441, 18372, 8, 0, 0, -1}	        
+Level[3] = {"Part 3", 36164, 37575, 10, 0, 0, -1}   		
+Level[4] = {"Part 4", 59621, 59800, 8, 0, 0, -1}            
+Level[5] = {"BONUS", 77799, 83552, 1, 0, 0, -1}             
+
+------------------------------------------------------------------------------------
+-- 4. List of moves for each level, by scene (StartFrame, EndFrame, MOVE, Death#) --
+------------------------------------------------------------------------------------
+
+
+function setupMoves(thisLevel, thisScene)		
+
+	if thisLevel == 1 then 										
+	
+		if thisScene == 1 then 													
+
+			sceneStart = 883									
+			sceneEnd   = 1451									
+			totalMoves = 5										
+
+			move[1] = {1116, 1138, LEFT, 1}				    
+			move[2] = {1206, 1228, LEFT, 2}	
+			move[3] = {1238, 1260, BUTTON1, 3}				
+			move[4] = {1343, 1365, UP, 4}			
+			move[5] = {1421, 1443, BUTTON1, 1}	
+
+		elseif thisScene == 2 then 												
+
+			sceneStart = 1452											
+			sceneEnd   = 3043									
+			totalMoves = 9
+
+			move[1] = {1463, 1539, SKIP, 0}
+			move[2] = {1554, 1576, DOWN, 2}
+			move[3] = {1601, 1623, RIGHT, 3}
+			move[4] = {1636, 1658, BUTTON1, 4}
+			move[5] = {1731, 1753, BUTTON1, 1}
+			move[6] = {1788, 1853, RUN, 1}
+			move[7] = {1886, 1908, UP, 3}
+			move[8] = {1976, 2611, SKIP, 0}
+			move[9] = {2696, 2761, RUN, 4}
+
+		elseif thisScene == 3 then 												
+
+			sceneStart = 3044										
+			sceneEnd   = 4154									
+			totalMoves = 9
+
+			move[1] = {3076, 3098, RIGHT, 1}
+			move[2] = {3164, 3186, LEFT, 2}
+			move[3] = {3264, 3286, LEFT, 3}
+		   	move[4] = {3332, 3354, DOWN, 4}
+		 	move[5] = {3464, 3486, RIGHT, 1}
+		  	move[6] = {3543, 3555, BUTTON1, 2}
+		   	move[7] = {3671, 3693, UP, 3}
+		   	move[8] = {3765, 3787, LEFT, 4}
+		  	move[9] = {4012, 4062, MASH, 1}
+ 
+        elseif thisScene == 4 then 												
+
+			sceneStart = 4155									
+			sceneEnd   = 5763									
+			totalMoves = 8
+
+			move[1] = {4165, 4581, SKIP, 0}
+			move[2] = {4620, 4642, BUTTON1, 2}
+			move[3] = {4751, 4773, BUTTON1, 3}
+			move[4] = {4806, 4828, BUTTON1, 4}
+			move[5] = {4851, 4873, BUTTON1, 1}
+			move[6] = {5421, 5443, UP, 2}
+			move[7] = {5462, 5484, LEFT, 3}
+			move[8] = {5616, 5681, RUN, 4}
+
+		elseif thisScene == 5 then 												
+
+			sceneStart = 5764										
+			sceneEnd   = 7506									
+			totalMoves = 10
+
+			move[1] = {5765, 6124, SKIP, 0}
+			move[2] = {6173, 6195, BUTTON1, 1}
+			move[3] = {6312, 6334, BUTTON1, 2}
+			move[4] = {6496, 6518, DOWN, 3}
+			move[5] = {6586, 6608, LEFT, 4}
+			move[6] = {6654, 6676, BUTTON1, 1}
+			move[7] = {6946, 6968, LEFT, 2}
+			move[8] = {7209, 7231, DOWN, 3}
+			move[9] = {7284, 7306, LEFT, 4}
+			move[10] = {7391, 7413, BUTTON1, 1}
+
+		elseif thisScene == 6 then 												
+
+			sceneStart = 7507										
+			sceneEnd   = 8816									
+			totalMoves = 4
+
+			move[1] = {7516, 7946, SKIP, 0}
+			move[2] = {8026, 8196, HOLDRIGHT, 2}
+			move[3] = {8316, 8496, HOLDUP, 3}
+			move[4] = {8616, 8801, HOLDDOWN, 4}
+
+		elseif thisScene == 7 then 		
+
+			sceneStart = 8817										
+			sceneEnd   = 10591									
+			totalMoves = 9
+
+			move[1] = {8826, 9016, SKIP, 0}
+			move[2] = {9155, 9177, RIGHT, 1}
+			move[3] = {9249, 9271, LEFT, 2}
+			move[4] = {9374, 9396, RIGHT, 3}
+			move[5] = {9806, 9828, DOWN, 4}
+			move[6] = {9838, 9860, LEFT, 1}
+			move[7] = {9864, 9886, BUTTON1, 2}
+			move[8] = {10043, 10065, BUTTON1, 3}
+			move[9] = {10437, 10459, LEFT, 4}
+
+		elseif thisScene == 8 then 		
+
+			sceneStart = 10592										
+			sceneEnd   = 13546									
+			totalMoves = 17
+
+			move[1] = {10602, 11581, SKIP, 0} -- 15465 is orig
+			move[2] = {11692, 11714, UP, 1} 
+			move[3] = {11784, 11806, BUTTON1, 2}
+			move[4] = {11889, 11939, MASH, 3}
+			move[5] = {11958, 11980, RIGHT, 4}
+			move[6] = {12081, 12103, DOWN, 1}
+			move[7] = {12103, 12125, RIGHT, 2}
+			move[8] = {12141, 12163, UP, 3}
+			move[9] = {12191, 12213, UP, 4}
+			move[10] = {12316, 12366, MASH, 1}
+			move[11] = {12446, 12468, UP, 2}
+			move[12] = {12502, 12524, DOWN, 3}
+			move[13] = {12672, 12722, MASH, 4}
+			move[14] = {12761, 12783, BUTTON1, 1}
+			move[15] = {12861, 12883, RIGHT, 2}
+			move[16] = {12974, 13034, HOLDLEFT, 3}
+			move[17] = {13055, 13115, HOLDRIGHT, 4} 
+
+		end
+
+	elseif thisLevel == 2 then 									
+	
+		if thisScene == 1 then 													
+
+			sceneStart = 931									
+			sceneEnd   = 2147									
+			totalMoves = 6
+
+			move[1] = {985, 1007, LEFT, 5}	
+			move[2] = {1050, 1110, HOLDLEFT, 6}
+			move[3] = {1355, 1377, LEFT, 7}
+			move[4] = {1895, 1917, LEFT, 8}
+			move[5] = {1988, 2010, RIGHT, 5}
+			move[6] = {2055, 2115, RUN, 6}
+				
+		elseif thisScene == 2 then 												
+
+			sceneStart = 2148											
+			sceneEnd   = 3149									
+			totalMoves = 9
+
+			move[1] = {2280, 2302, BUTTON1, 7}
+			move[2] = {2350, 2372, RIGHT, 8}
+			move[3] = {2402, 2424, BUTTON1, 5}
+			move[4] = {2635, 2657, DOWN, 6}
+			move[5] = {2722, 2744, RIGHT, 7}
+			move[6] = {2781, 2803, BUTTON1, 8}
+			move[7] = {2865, 2887, DOWN, 5}
+			move[8] = {2965, 3030, RUN, 6}
+			move[9] = {3055, 3077, BUTTON1, 7}
+
+			elseif thisScene == 3 then
+
+			sceneStart = 3150									
+			sceneEnd   = 5104									
+			totalMoves = 10										
+
+			move[1] = {3288, 3310, BUTTON1, 8}		
+			move[2] = {3350, 3410, MASH, 5}		
+			move[3] = {3480, 3530, MASH, 6}	
+			move[4] = {3773, 3795, LEFT, 7}		
+			move[5] = {4132, 4154, BUTTON1, 8}	
+			move[6] = {4236, 4258, LEFT, 5}
+			move[7] = {4333, 4355, LEFT, 6}
+			move[8] = {4461, 4526, RUN, 7}	
+			move[9] = {4647, 4669, RIGHT, 8} 
+			move[10] = {4986, 5008, BUTTON1, 5}     
+
+			elseif thisScene == 4 then			
+
+			sceneStart = 5105									
+			sceneEnd   = 6345									
+			totalMoves = 9										
+
+			move[1] = {5190, 5255, RUN, 6}	
+			move[2] = {5276, 5298, BUTTON1, 7}
+			move[3] = {5363, 5385, BUTTON1, 8}
+			move[4] = {5395, 5417, DOWN, 5}	
+			move[5] = {5445, 5467, LEFT, 6}
+			move[6] = {5755, 5777, RIGHT, 7}
+			move[7] = {5825, 5890, RUN, 8}
+			move[8] = {5952, 5974, DOWN, 5}
+			move[9] = {6280, 6302, LEFT, 6}
+	
+			elseif thisScene == 5 then			
+
+			sceneStart = 6346									
+			sceneEnd   = 8955									
+			totalMoves = 12										
+
+			move[1] = {6347, 7711, SKIP, 0}	
+			move[2] = {7820, 7870, HOLDRIGHT, 7}
+			move[3] = {7994, 8016, RIGHT, 8}
+			move[4] = {8026, 8048, UP, 5}
+			move[5] = {8058, 8080, LEFT, 6}
+			move[6] = {8090, 8112, BUTTON1, 7}
+			move[7] = {8187, 8209, BUTTON1, 8}
+			move[8] = {8220, 8242, RIGHT, 5}
+			move[9] = {8295, 8317, BUTTON1, 6}	
+			move[10] = {8404, 8426, BUTTON1, 7}	
+			move[11] = {8655, 8677, UP, 8}
+			move[12] = {8757, 8778, BUTTON1, 5}	
+
+			elseif thisScene == 6 then			
+
+			sceneStart = 8956								
+			sceneEnd   = 9543									
+			totalMoves = 4										
+
+			move[1] = {9122, 9187, RUN, 6}  
+			move[2] = {9335, 9400, RUN, 7}  
+			move[3] = {9477, 9499, LEFT, 8}
+			move[4] = {9520, 9542, BUTTON1, 5}
+
+			elseif thisScene == 7 then			
+
+			sceneStart = 9544								
+			sceneEnd   = 16045									
+			totalMoves = 19		
+
+			move[1] = {9610, 9632, LEFT, 6}
+			move[2] = {9740, 9762, DOWN, 7}	
+			move[3] = {9803, 9825, BUTTON1, 8}
+			move[4] = {9843, 9865, BUTTON1, 5}
+			move[5] = {9876, 9898, DOWN, 6}
+			move[6] = {10045, 10067, RIGHT, 7}
+			move[7] = {10280, 10330, HOLDRIGHT, 8}
+			move[8] = {10640, 10667, RIGHT, 5}
+			move[9] = {10755, 10777, BUTTON1, 6}
+			move[10] = {11040, 11062, DOWN, 7}
+			move[11] = {11367, 11389, BUTTON1, 8}
+			move[12] = {11455, 13418, SKIP, 0}
+			move[13] = {13498, 13520, BUTTON1, 5}
+			move[14] = {13780, 13802, UP, 6}
+			move[15] = {13966, 13988, LEFT, 7}
+			move[16] = {14307, 14329, DOWN, 8}
+			move[17] = {14626, 14648, UP, 5}
+			move[18] = {14780, 14830, HOLDDOWN, 6}
+			move[19] = {15192, 16032, SKIP, 0}
+
+			elseif thisScene == 8 then			
+
+			sceneStart = 16046								
+			sceneEnd   = 18714									
+			totalMoves = 5		
+
+			move[1] = {16210, 16232, BUTTON1, 7}
+			move[2] = {16520, 16542, RIGHT, 8}
+			move[3] = {16860, 16882, BUTTON1, 5}
+			move[4] = {17618, 17640, RIGHT, 6}
+			move[5] = {17718, 18481, SKIP, 0}
+			
+		end		
+	
+	elseif thisLevel == 3 then 									
+	
+		if thisScene == 1 then 													
+
+			sceneStart = 1412									
+			sceneEnd   = 1945							
+			totalMoves = 5										
+
+			move[1] = {1510, 1532, LEFT, 9}	
+			move[2] = {1542, 1605, RUN, 10}
+			move[3] = {1615, 1637, BUTTON1, 11}	
+			move[4] = {1680, 1702, BUTTON1, 12}
+			move[5] = {1910, 1932, LEFT, 13}		      
+
+		elseif thisScene == 2 then 													
+
+			sceneStart = 1946									
+			sceneEnd   = 2832									
+			totalMoves = 7										
+
+			move[1] = {2090, 2112, BUTTON1, 9}	
+			move[2] = {2205, 2227, RIGHT, 10}
+			move[3] = {2300, 2322, RIGHT, 11}
+			move[4] = {2440, 2462, BUTTON1, 12}
+			move[5] = {2490, 2540, MASH, 13}
+			move[6] = {2648, 2670, RIGHT, 9}
+			move[7] = {2800, 2822, BUTTON1, 10}
+				
+		elseif thisScene == 3 then 													
+
+			sceneStart = 2833											
+			sceneEnd   = 4571									
+			totalMoves = 8
+
+			move[1] = {2843, 3300, SKIP, 0}
+			move[2] = {3400, 3422, DOWN, 11}
+			move[3] = {3475, 3497, BUTTON1, 12}
+			move[4] = {3560, 3610, MASH, 13}
+			move[5] = {3730, 3752, RIGHT, 9}
+			move[6] = {3875, 3940, RUN, 10}
+			move[7] = {4050, 4100, MASH, 11}
+			move[8] = {4350, 4372, UP, 12}
+
+		elseif thisScene == 4 then 													
+
+			sceneStart = 4572											
+			sceneEnd   = 5503								
+			totalMoves = 6
+
+			move[1] = {4625, 4647, BUTTON1, 13}
+			move[2] = {4840, 4890, HOLDDOWN, 9}
+			move[3] = {4985, 5007, RIGHT, 10}
+			move[4] = {5132, 5154, BUTTON1, 11}
+			move[5] = {5365, 5387, LEFT, 12}
+			move[6] = {5480, 5502, RIGHT, 13}
+
+			elseif thisScene == 5 then 													
+
+			sceneStart = 5504											
+			sceneEnd   = 7662								
+			totalMoves = 16
+
+			move[1] = {5514, 5902, SKIP, 0}
+			move[2] = {5990, 6040, MASH, 9}
+			move[3] = {6245, 6267, BUTTON1, 10}
+			move[4] = {6320, 6330, RIGHT, 11}
+			move[5] = {6340, 6350, LEFT, 12}
+			move[6] = {6360, 6370, RIGHT, 13}
+			move[7] = {6380, 6390, LEFT, 9}
+			move[8] = {6400, 6410, RIGHT, 10}
+			move[9] = {6420, 6430, LEFT, 11}
+			move[10] = {6445, 6455, RIGHT, 12}
+			move[11] = {6465, 6475, LEFT, 13}
+			move[12] = {6490, 6500, RIGHT, 9}
+			move[13] = {6510, 6525, BUTTON1, 10}
+			move[14] = {6750, 6772, RIGHT, 11}
+			move[15] = {6935, 6957, BUTTON1, 12}
+			move[16] = {7420, 7470, MASH, 13}
+
+			elseif thisScene == 6 then 													
+
+			sceneStart = 7663											
+			sceneEnd   = 9445								
+			totalMoves = 12
+
+			move[1] = {7664, 8001, SKIP, 0}
+			move[2] = {8100, 8122, RIGHT, 9}
+			move[3] = {8270, 8292, BUTTON1, 10}
+			move[4] = {8425, 8447, BUTTON1, 11}
+			move[5] = {8500, 8522, LEFT, 12}
+			move[6] = {8600, 8665, RUN, 13}
+			move[7] = {8685, 8707, BUTTON1, 9}
+			move[8] = {8735, 8757, BUTTON1, 10}
+			move[9] = {8850, 8872, DOWN, 11}
+			move[10] = {8960, 8982, BUTTON1, 12}
+			move[11] = {9250, 9272, DOWN, 13}
+			move[12] = {9335, 9385, MASH, 9}
+
+			elseif thisScene == 7 then 													
+
+			sceneStart = 9446											
+			sceneEnd   = 11078								
+			totalMoves = 12
+
+			move[1] = {9456, 9700, SKIP, 0}
+			move[2] = {9799, 9849, MASH, 10}
+			move[3] = {10045, 10067, BUTTON1, 11}
+			move[4] = {10100, 10145, HOLDRIGHT, 12}
+			move[5] = {10245, 10267, LEFT, 13}
+			move[6] = {10345, 10395, MASH, 9}
+			move[7] = {10495, 10517, BUTTON1, 10}
+			move[8] = {10720, 10770, MASH, 11}
+			move[9] = {10806, 10828, BUTTON1, 12}
+			move[10] = {10838, 10888, MASH, 13}
+			move[11] = {10928, 10950, BUTTON1, 9}
+			move[12] = {11028, 11050, LEFT, 10}
+
+			elseif thisScene == 8 then 													
+
+			sceneStart = 11079											
+			sceneEnd   = 15214								
+			totalMoves = 14
+
+			move[1] = {11265, 11287, LEFT, 11}
+			move[2] = {11430, 11495, RUN, 12}
+			move[3] = {11545, 11567, LEFT, 13}
+			move[4] = {11670, 11692, RIGHT, 9}
+			move[5] = {11720, 11742, BUTTON1, 10}
+			move[6] = {11895, 11917, RIGHT, 11}
+			move[7] = {11927, 14040, SKIP, 0}
+			move[8] = {14350, 14400, MASH, 12}
+			move[9] = {14530, 14552, DOWN, 13}
+			move[10] = {14715, 14737, RIGHT, 9}
+			move[11] = {14755, 14805, MASH, 10}
+			move[12] = {14925, 14947, RIGHT, 11}
+			move[13] = {14980, 15002, UP, 12}
+			move[14] = {15165, 15187, BUTTON1, 13}
+
+			elseif thisScene == 9 then 													
+
+			sceneStart = 15215											
+			sceneEnd   = 20760								
+			totalMoves = 22
+
+			move[1] = {15265, 15287, BUTTON1, 9}
+			move[2] = {15355, 15377, LEFT, 10}
+			move[3] = {15460, 15482, DOWN, 11}
+			move[4] = {15863, 15885, BUTTON1, 12}
+			move[5] = {15965, 15987, RIGHT, 13}
+			move[6] = {16033, 16055, LEFT, 9}
+			move[7] = {16078, 16100, BUTTON1, 10}
+			move[8] = {16140, 16162, RIGHT, 11}
+			move[9] = {16230, 16252, BUTTON1, 12}
+			move[10] = {16520, 16570, MASH, 13}
+			move[11] = {16770, 17788, SKIP, 0}
+			move[12] = {17995, 18017, BUTTON1, 9}
+			move[13] = {18120, 18142, BUTTON1, 10}
+			move[14] = {18158, 18180, BUTTON1, 11}
+			move[15] = {18200, 18250, MASH, 12}
+			move[16] = {18500, 18550, HOLDUP, 13}
+			move[17] = {18651, 19409, SKIP, 0}
+			move[18] = {19445, 19467, RIGHT, 9}
+			move[19] = {19555, 19577, BUTTON1, 10}
+			move[20] = {19800, 19822, UP, 11}
+			move[21] = {19900, 19922, BUTTON1, 12}
+			move[22] = {20315, 20750, SKIP, 0}
+
+
+			elseif thisScene == 10 then 													
+
+			sceneStart = 20761											
+			sceneEnd   = 23447								
+			totalMoves = 7
+
+			move[1] = {20762, 21190, SKIP, 0}
+			move[2] = {21237, 21259, RIGHT, 9}
+			move[3] = {21362, 21384, RIGHT, 10}
+			move[4] = {21568, 21590, BUTTON1, 11}
+			move[5] = {21620, 21670, MASH, 12}
+			move[6] = {21835, 21857, BUTTON1, 13}
+			move[7] = {22150, 22200, MASH, 9}
+
+
+		end		
+
+elseif thisLevel == 4 then 										
+	
+		if thisScene == 1 then 												
+
+			sceneStart = 180									
+			sceneEnd   = 900									
+			totalMoves = 7										
+
+			move[1] = {358, 380, RIGHT, 14}	
+			move[2] = {400, 420, DOWN, 15}
+			move[3] = {438, 460, DOWN, 16}
+			move[4] = {470, 535, RUN, 17}
+			move[5] = {580, 602, DOWN, 14}
+			move[6] = {705, 727, UP, 15}
+			move[7] = {840, 890, MASH, 16}
+
+				
+		elseif thisScene == 2 then 													
+
+			sceneStart = 901											
+			sceneEnd   = 2588									
+			totalMoves = 9
+
+			move[1] = {911, 1425, SKIP, 0}
+			move[2] = {1465, 1487, UP, 17}
+			move[3] = {1658, 1680, LEFT, 14}
+			move[4] = {1720, 1742, DOWN, 15}
+			move[5] = {1815, 2150, SKIP, 0}
+			move[6] = {2188, 2210, UP, 16}
+			move[7] = {2315, 2365, MASH, 17}
+			move[8] = {2390, 2410, UP, 14}
+			move[9] = {2450, 2515, RUN, 15}
+
+		elseif thisScene == 3 then 													
+
+			sceneStart = 2589											
+			sceneEnd   = 3335									
+			totalMoves = 8
+
+			move[1] = {2645, 2667, DOWN, 16}
+			move[2] = {2705, 2727, BUTTON1, 17}
+			move[3] = {2825, 2847, BUTTON1, 14}
+			move[4] = {2873, 2895, BUTTON1, 15}
+			move[5] = {2933, 2955, BUTTON1, 16}
+			move[6] = {3003, 3025, RIGHT, 17}
+			move[7] = {3160, 3182, BUTTON1, 14}
+			move[8] = {3260, 3325, RUN, 15}
+
+		elseif thisScene == 4 then 													
+
+			sceneStart = 3336											
+			sceneEnd   = 5200									
+			totalMoves = 12
+
+			move[1] = {3346, 3761, SKIP, 0}
+			move[2] = {3860, 3910, MASH, 16}
+			move[3] = {3980, 4030, MASH, 17}
+			move[4] = {4168, 4190, BUTTON1, 14}
+			move[5] = {4350, 4372, BUTTON1, 15}
+			move[6] = {4465, 4487, RIGHT, 16}
+			move[7] = {4500, 4522, BUTTON1, 17}
+			move[8] = {4678, 4700, DOWN, 14}
+			move[9] = {4900, 4922, BUTTON1, 15}
+			move[10] = {4932, 4982, MASH, 16}
+			move[11] = {5015, 5065, MASH, 17}
+			move[12] = {5115, 5137, BUTTON1, 14}
+
+		elseif thisScene == 5 then 													
+
+			sceneStart = 5201											
+			sceneEnd   = 7600									
+			totalMoves = 9
+
+			move[1] = {5225, 5247, LEFT, 15}
+			move[2] = {5405, 5427, RIGHT, 16}
+			move[3] = {5450, 5472, UP, 17}
+			move[4] = {5562, 5584, LEFT, 14}
+			move[5] = {5645, 5855, HOLDRIGHT, 15}
+			move[6] = {5925, 5947, DOWN, 16}
+			move[7] = {5957, 7137, SKIP, 0}
+			move[8] = {7250, 7300, MASH, 17}
+			move[9] = {7388, 7410, BUTTON1, 14}
+
+		elseif thisScene == 6 then 													
+
+			sceneStart = 7601											
+			sceneEnd   = 9355									
+			totalMoves = 9
+
+			move[1] = {7602, 8133, SKIP, 0}
+			move[2] = {8237, 8259, BUTTON1, 15}
+			move[3] = {8355, 8377, LEFT, 16}
+			move[4] = {8450, 8572, LEFT, 17}
+			move[5] = {8650, 8672, LEFT, 14}
+			move[6] = {8815, 8837, DOWN, 15}
+			move[7] = {9037, 9059, DOWN, 16}
+			move[8] = {9180, 9245, RUN, 17}
+			move[9] = {9275, 9340, RUN, 14}
+
+		elseif thisScene == 7 then 													
+
+			sceneStart = 9356											
+			sceneEnd   = 10993									
+			totalMoves = 7
+
+			move[1] = {9565, 9587, RIGHT, 15}
+			move[2] = {9635, 9700, RUN, 16}
+			move[3] = {9834, 9856, LEFT, 17}
+			move[4] = {9930, 9952, UP, 14}
+			move[5] = {9962, 9984, BUTTON1, 15}
+			move[6] = {10612, 10634, UP, 16}
+			move[7] = {10765, 10787, LEFT, 17}
+
+		elseif thisScene == 8 then 													
+
+			sceneStart = 10994											
+			sceneEnd   = 18168									
+			totalMoves = 24
+
+			move[1] = {10995, 11371, SKIP, 0}
+			move[2] = {11385, 11407, RIGHT, 14}
+			move[3] = {11480, 11502, LEFT, 15}
+			move[4] = {11775, 11797, LEFT, 16}
+			move[5] = {11840, 11862, BUTTON1, 17}
+			move[6] = {12060, 12082, DOWN, 14}
+			move[7] = {12105, 12122, BUTTON1, 15}
+			move[8] = {12155, 12177, BUTTON1, 16}
+			move[9] = {12188, 12210, BUTTON1, 17}
+			move[10] = {12225, 12247, BUTTON1, 14}
+			move[11] = {12296, 12318, LEFT, 15}
+			move[12] = {12520, 12542, BUTTON1, 16}
+			move[13] = {12577, 12599, LEFT, 17}
+			move[14] = {12690, 12712, BUTTON1, 14}
+			move[15] = {12850, 13070, MASH, 15}
+			move[16] = {13160, 13210, MASH, 16}
+			move[17] = {13325, 14200, SKIP, 0}
+			move[18] = {14285, 14307, RIGHT, 17}
+			move[19] = {14343, 14365, BUTTON1, 14}
+			move[20] = {14400, 14422, UP, 15}
+			move[21] = {14432, 14454, BUTTON1, 16}
+			move[22] = {14850, 14872, LEFT, 17}
+			move[23] = {15150, 15172, LEFT, 14}
+			move[24] = {15554, 17456, SKIP, 0}
+
+
+		end
+
+elseif thisLevel == 5 then 						
+
+		if thisScene == 1 then 												
+
+			sceneStart = 2890								
+			sceneEnd   = 6900
+			totalMoves = 16
+
+			move[1] = {3035, 3057, BUTTON1, 18}
+			move[2] = {3140, 3190, MASH, 18}	
+			move[3] = {3230, 3252, UP, 18}	
+			move[4] = {3419, 3441, UP, 18}
+			move[5] = {3451, 3473, UP, 18}
+			move[6] = {3483, 3505, UP, 18}
+			move[7] = {3585, 3607, DOWN, 18}
+			move[8] = {3730, 3752, DOWN, 18}
+			move[9] = {4396, 4418, BUTTON1, 18}
+			move[10] = {4580, 4602, RIGHT, 18}
+			move[11] = {4937, 4959, BUTTON1, 18}
+			move[12] = {5011, 5033, DOWN, 18}
+			move[13] = {5044, 5066, BUTTON1, 18}
+			move[14] = {5100, 5122, RIGHT, 18}
+			move[15] = {5586, 6333, SKIP, 0}
+			move[16] = {6350, 6893, SKIP, 0}
+	
+		end	
+		
+	end
+end					
