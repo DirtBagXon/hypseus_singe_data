@@ -2,7 +2,7 @@
 
 Huge LUA fixes from Karis and includes previous missing scene selection level
 
-* Required `-oversize_overlay`
+* Required `-overlay_set oversize`
 * Recommended `-manymouse`
 * Optional `-blend_sprites`
 * Optional `-nolinear_scale`

@@ -1,6 +1,6 @@
 ## (Singe 2) Maddog McCree  HD
 
-* Required `-oversize_overlay`
+* Required `-overlay_set oversize`
 * Recommended `-manymouse`
 * Recommended `-blend_sprites`
 * Optional `-nolinear_scale`
