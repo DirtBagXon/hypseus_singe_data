@@ -16,4 +16,4 @@ The required argument is dependent upon in-game resolution settings.
 
 _Example:_
 
-`hypseus singe vldp -set_overlay full -framefile Asterix/Asterix.txt -script Asterix/Asterix.singe`
+`hypseus singe vldp -set_overlay full -framefile singe/Asterix/Asterix.txt -script singe/Asterix/Asterix.singe`
