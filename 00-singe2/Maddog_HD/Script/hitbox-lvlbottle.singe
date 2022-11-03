@@ -1,0 +1,1315 @@
+--[[
+
+PROGRAM NAME:	MAD DOG MCCREE (SINGE EDITION)
+AUTHOR:			RDG2010
+CONVERTED FOR SINGE 2: POIU2020
+This file is part of MAD DOG MCCREE (SINGE EDITION)
+
+    MAD DOG MCCREE (SINGE EDITION) is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation.
+
+    MAD DOG MCCREE (SINGE EDITION) is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+    Read COPYING.TXT for more info.
+
+
+]]--
+
+
+
+function GetBottleArray()
+
+	hitbox = nil; hitbox = {}
+
+	-- \bottle-3828-00.mdg
+
+	hitbox[1] = {}; hitbox[1] = {301, 115, 359, 139}
+
+	-- \bottle-3828-01.mdg
+
+	hitbox[2] = {}; hitbox[2] = {265, 89, 324, 113}
+
+	-- \bottle-3828-02.mdg
+
+	hitbox[3] = {}; hitbox[3] = {240, 74, 257, 90}
+	hitbox[4] = {}; hitbox[4] = {257, 78, 272, 94}
+	hitbox[5] = {}; hitbox[5] = {271, 82, 289, 101}
+	hitbox[6] = {}; hitbox[6] = {289, 93, 312, 99}
+
+	-- \bottle-3828-03.mdg
+
+	hitbox[7] = {}; hitbox[7] = {226, 60, 243, 76}
+	hitbox[8] = {}; hitbox[8] = {236, 69, 252, 85}
+	hitbox[9] = {}; hitbox[9] = {249, 77, 266, 95}
+	hitbox[10] = {}; hitbox[10] = {229, 75, 253, 81}
+	hitbox[11] = {}; hitbox[11] = {243, 84, 256, 90}
+
+	-- \bottle-3828-04.mdg
+
+	hitbox[12] = {}; hitbox[12] = {216, 56, 234, 72}
+	hitbox[13] = {}; hitbox[13] = {220, 66, 237, 81}
+	hitbox[14] = {}; hitbox[14] = {227, 73, 245, 91}
+
+	-- \bottle-3828-05.mdg
+
+	hitbox[15] = {}; hitbox[15] = {206, 53, 224, 82}
+
+	-- \bottle-3828-06.mdg
+
+	hitbox[16] = {}; hitbox[16] = {199, 50, 215, 78}
+
+	-- \bottle-3828-07.mdg
+
+	hitbox[17] = {}; hitbox[17] = {192, 51, 208, 65}
+	hitbox[18] = {}; hitbox[18] = {189, 65, 202, 81}
+
+	-- \bottle-3828-08.mdg
+
+	hitbox[19] = {}; hitbox[19] = {186, 53, 203, 67}
+	hitbox[20] = {}; hitbox[20] = {183, 63, 196, 73}
+	hitbox[21] = {}; hitbox[21] = {183, 66, 189, 84}
+
+	-- \bottle-3828-09.mdg
+
+	hitbox[22] = {}; hitbox[22] = {182, 54, 191, 68}
+	hitbox[23] = {}; hitbox[23] = {176, 66, 187, 75}
+
+	-- \bottle-3828-10.mdg
+
+	hitbox[24] = {}; hitbox[24] = {175, 59, 187, 68}
+	hitbox[25] = {}; hitbox[25] = {172, 65, 183, 74}
+
+	-- \bottle-3828-11.mdg
+
+	hitbox[26] = {}; hitbox[26] = {167, 58, 179, 73}
+
+	-- \bottle-3828-12.mdg
+
+	hitbox[27] = {}; hitbox[27] = {162, 71, 173, 79}
+	hitbox[28] = {}; hitbox[28] = {166, 65, 173, 74}
+
+	-- \bottle-3828-13.mdg
+
+	hitbox[29] = {}; hitbox[29] = {157, 73, 169, 81}
+	hitbox[30] = {}; hitbox[30] = {162, 65, 169, 74}
+
+	-- \bottle-3828-14.mdg
+
+	hitbox[31] = {}; hitbox[31] = {152, 77, 163, 85}
+	hitbox[32] = {}; hitbox[32] = {158, 69, 166, 78}
+
+	-- \bottle-3828-15.mdg
+
+	hitbox[33] = {}; hitbox[33] = {147, 78, 159, 87}
+	hitbox[34] = {}; hitbox[34] = {155, 71, 163, 80}
+
+	-- \bottle-3828-16.mdg
+
+	hitbox[35] = {}; hitbox[35] = {142, 83, 154, 91}
+	hitbox[36] = {}; hitbox[36] = {149, 77, 157, 86}
+	hitbox[37] = {}; hitbox[37] = {155, 73, 159, 81}
+
+	-- \bottle-3828-17.mdg
+
+	hitbox[38] = {}; hitbox[38] = {138, 85, 146, 93}
+	hitbox[39] = {}; hitbox[39] = {146, 80, 155, 89}
+
+	-- \bottle-3828-18.mdg
+
+	hitbox[40] = {}; hitbox[40] = {136, 86, 143, 94}
+	hitbox[41] = {}; hitbox[41] = {143, 85, 152, 94}
+
+	-- \bottle-3828-19.mdg
+
+	hitbox[42] = {}; hitbox[42] = {132, 89, 140, 98}
+	hitbox[43] = {}; hitbox[43] = {139, 92, 148, 101}
+
+	-- \bottle-3828-20.mdg
+
+	hitbox[44] = {}; hitbox[44] = {131, 92, 138, 101}
+	hitbox[45] = {}; hitbox[45] = {134, 97, 143, 106}
+
+	-- \bottle-3828-21.mdg
+
+	hitbox[46] = {}; hitbox[46] = {127, 96, 135, 104}
+	hitbox[47] = {}; hitbox[47] = {129, 104, 138, 114}
+
+	-- \bottle-3828-22.mdg
+
+	hitbox[48] = {}; hitbox[48] = {124, 103, 132, 123}
+
+	-- \bottle-3828-23.mdg
+
+	hitbox[49] = {}; hitbox[49] = {120, 111, 128, 130}
+
+	-- \bottle-3828-24.mdg
+
+	hitbox[50] = {}; hitbox[50] = {116, 119, 124, 139}
+
+	-- \bottle-3828-25.mdg
+
+	hitbox[51] = {}; hitbox[51] = {112, 129, 119, 149}
+
+	-- \bottle-3828-26.mdg
+
+	hitbox[52] = {}; hitbox[52] = {106, 138, 113, 147}
+
+	-- \bottle-3828-27.mdg
+
+	hitbox[53] = {}; hitbox[53] = {103, 151, 110, 160}
+
+	-- \bottle-3828-28.mdg
+
+	hitbox[54] = {}; hitbox[54] = {96, 164, 103, 173}
+
+	-- \bottle-3828-29.mdg
+
+	hitbox[55] = {}; hitbox[55] = {91, 172, 99, 181}
+	hitbox[56] = {}; hitbox[56] = {87, 182, 96, 191}
+
+	-- \bottle-3828-30.mdg
+
+	hitbox[57] = {}; hitbox[57] = {85, 189, 92, 198}
+	hitbox[58] = {}; hitbox[58] = {80, 198, 89, 207}
+	hitbox[59] = {}; hitbox[59] = {90, 177, 95, 191}
+
+	-- \bottle-3828-31.mdg
+
+	hitbox[60] = {}; hitbox[60] = {77, 204, 85, 213}
+	hitbox[61] = {}; hitbox[61] = {72, 213, 81, 222}
+	hitbox[62] = {}; hitbox[62] = {82, 197, 89, 211}
+
+	-- \bottle-3828-32.mdg
+
+	hitbox[63] = {}; hitbox[63] = {73, 215, 82, 224}
+	hitbox[64] = {}; hitbox[64] = {66, 224, 77, 235}
+
+	-- \bottle-3866-00.mdg
+
+	hitbox[65] = {}; hitbox[65] = {6, 13, 54, 46}
+
+	-- \bottle-3866-01.mdg
+
+	hitbox[66] = {}; hitbox[66] = {42, 9, 89, 34}
+	hitbox[67] = {}; hitbox[67] = {15, 6, 42, 25}
+
+	-- \bottle-3866-02.mdg
+
+	hitbox[68] = {}; hitbox[68] = {67, 8, 114, 33}
+
+	-- \bottle-3866-03.mdg
+
+	hitbox[69] = {}; hitbox[69] = {106, 10, 130, 32}
+
+	-- \bottle-3866-04.mdg
+
+	hitbox[70] = {}; hitbox[70] = {129, 7, 148, 40}
+
+	-- \bottle-3866-05.mdg
+
+	hitbox[71] = {}; hitbox[71] = {144, 8, 162, 41}
+
+	-- \bottle-3866-06.mdg
+
+	hitbox[72] = {}; hitbox[72] = {152, 11, 166, 25}
+	hitbox[73] = {}; hitbox[73] = {159, 24, 172, 42}
+
+	-- \bottle-3866-07.mdg
+
+	hitbox[74] = {}; hitbox[74] = {162, 15, 176, 29}
+	hitbox[75] = {}; hitbox[75] = {168, 25, 180, 37}
+	hitbox[76] = {}; hitbox[76] = {177, 33, 184, 47}
+
+	-- \bottle-3866-08.mdg
+
+	hitbox[77] = {}; hitbox[77] = {171, 19, 185, 33}
+	hitbox[78] = {}; hitbox[78] = {178, 29, 190, 41}
+
+	-- \bottle-3866-09.mdg
+
+	hitbox[79] = {}; hitbox[79] = {180, 21, 194, 36}
+	hitbox[80] = {}; hitbox[80] = {187, 29, 198, 41}
+
+	-- \bottle-3866-10.mdg
+
+	hitbox[81] = {}; hitbox[81] = {187, 28, 201, 42}
+
+	-- \bottle-3866-11.mdg
+
+	hitbox[82] = {}; hitbox[82] = {194, 33, 208, 47}
+
+	-- \bottle-3866-12.mdg
+
+	hitbox[83] = {}; hitbox[83] = {200, 36, 214, 50}
+
+	-- \bottle-3866-13.mdg
+
+	hitbox[84] = {}; hitbox[84] = {205, 38, 219, 53}
+
+	-- \bottle-3866-14.mdg
+
+	hitbox[85] = {}; hitbox[85] = {208, 40, 219, 50}
+	hitbox[86] = {}; hitbox[86] = {212, 46, 223, 58}
+
+	-- \bottle-3866-15.mdg
+
+	hitbox[87] = {}; hitbox[87] = {212, 44, 223, 54}
+	hitbox[88] = {}; hitbox[88] = {220, 52, 228, 60}
+
+	-- \bottle-3866-16.mdg
+
+	hitbox[89] = {}; hitbox[89] = {216, 49, 226, 56}
+	hitbox[90] = {}; hitbox[90] = {224, 55, 233, 64}
+	hitbox[91] = {}; hitbox[91] = {221, 51, 228, 60}
+
+	-- \bottle-3866-17.mdg
+
+	hitbox[92] = {}; hitbox[92] = {222, 54, 232, 61}
+	hitbox[93] = {}; hitbox[93] = {227, 58, 235, 67}
+
+	-- \bottle-3866-18.mdg
+
+	hitbox[94] = {}; hitbox[94] = {229, 60, 238, 68}
+
+	-- \bottle-3866-19.mdg
+
+	hitbox[95] = {}; hitbox[95] = {231, 64, 241, 73}
+
+	-- \bottle-3866-20.mdg
+
+	hitbox[96] = {}; hitbox[96] = {236, 64, 247, 78}
+
+	-- \bottle-3866-21.mdg
+
+	hitbox[97] = {}; hitbox[97] = {240, 68, 249, 82}
+	hitbox[98] = {}; hitbox[98] = {243, 80, 250, 89}
+
+	-- \bottle-3866-22.mdg
+
+	hitbox[99] = {}; hitbox[99] = {244, 75, 252, 88}
+	hitbox[100] = {}; hitbox[100] = {249, 86, 256, 95}
+
+	-- \bottle-3866-23.mdg
+
+	hitbox[101] = {}; hitbox[101] = {249, 82, 257, 95}
+	hitbox[102] = {}; hitbox[102] = {253, 91, 260, 100}
+
+	-- \bottle-3866-24.mdg
+
+	hitbox[103] = {}; hitbox[103] = {256, 90, 263, 103}
+	hitbox[104] = {}; hitbox[104] = {258, 99, 265, 107}
+
+	-- \bottle-3866-25.mdg
+
+	hitbox[105] = {}; hitbox[105] = {261, 97, 269, 110}
+
+	-- \bottle-3866-26.mdg
+
+	hitbox[106] = {}; hitbox[106] = {266, 107, 274, 119}
+
+	-- \bottle-3866-27.mdg
+
+	hitbox[107] = {}; hitbox[107] = {273, 119, 280, 132}
+
+	-- \bottle-3866-28.mdg
+
+	hitbox[108] = {}; hitbox[108] = {281, 129, 289, 142}
+
+	-- \bottle-3866-29.mdg
+
+	hitbox[109] = {}; hitbox[109] = {284, 134, 291, 146}
+	hitbox[110] = {}; hitbox[110] = {288, 144, 295, 152}
+
+	-- \bottle-3866-30.mdg
+
+	hitbox[111] = {}; hitbox[111] = {291, 146, 299, 158}
+	hitbox[112] = {}; hitbox[112] = {296, 156, 303, 165}
+
+	-- \bottle-3866-31.mdg
+
+	hitbox[113] = {}; hitbox[113] = {298, 159, 306, 172}
+	hitbox[114] = {}; hitbox[114] = {303, 167, 312, 177}
+	hitbox[115] = {}; hitbox[115] = {308, 173, 315, 182}
+
+	-- \bottle-3866-32.mdg
+
+	hitbox[116] = {}; hitbox[116] = {304, 171, 312, 183}
+	hitbox[117] = {}; hitbox[117] = {310, 178, 318, 187}
+	hitbox[118] = {}; hitbox[118] = {315, 184, 322, 193}
+
+	-- \bottle-3866-33.mdg
+
+	hitbox[119] = {}; hitbox[119] = {316, 190, 324, 203}
+	hitbox[120] = {}; hitbox[120] = {322, 200, 330, 210}
+	hitbox[121] = {}; hitbox[121] = {321, 196, 328, 206}
+
+	-- \bottle-3866-34.mdg
+
+	hitbox[122] = {}; hitbox[122] = {326, 208, 338, 220}
+	hitbox[123] = {}; hitbox[123] = {332, 218, 342, 230}
+
+	-- \bottle-4153-00.mdg
+
+	hitbox[124] = {}; hitbox[124] = {312, 5, 335, 20}
+	hitbox[125] = {}; hitbox[125] = {300, 19, 328, 30}
+	hitbox[126] = {}; hitbox[126] = {292, 29, 319, 38}
+
+	-- \bottle-4153-01.mdg
+
+	hitbox[127] = {}; hitbox[127] = {275, 19, 298, 34}
+	hitbox[128] = {}; hitbox[128] = {287, 10, 315, 22}
+
+	-- \bottle-4153-02.mdg
+
+	hitbox[129] = {}; hitbox[129] = {264, 12, 297, 28}
+
+	-- \bottle-4153-03.mdg
+
+	hitbox[130] = {}; hitbox[130] = {257, 15, 279, 30}
+
+	-- \bottle-4153-04.mdg
+
+	hitbox[131] = {}; hitbox[131] = {243, 14, 262, 29}
+
+	-- \bottle-4153-05.mdg
+
+	hitbox[132] = {}; hitbox[132] = {236, 19, 245, 32}
+	hitbox[133] = {}; hitbox[133] = {243, 15, 253, 25}
+	hitbox[134] = {}; hitbox[134] = {231, 24, 245, 29}
+
+	-- \bottle-4153-06.mdg
+
+	hitbox[135] = {}; hitbox[135] = {227, 21, 236, 30}
+	hitbox[136] = {}; hitbox[136] = {236, 18, 243, 28}
+	hitbox[137] = {}; hitbox[137] = {241, 14, 249, 24}
+
+	-- \bottle-4153-07.mdg
+
+	hitbox[138] = {}; hitbox[138] = {222, 19, 243, 29}
+
+	-- \bottle-4153-08.mdg
+
+	hitbox[139] = {}; hitbox[139] = {220, 17, 229, 27}
+	hitbox[140] = {}; hitbox[140] = {223, 24, 234, 32}
+
+	-- \bottle-4153-09.mdg
+
+	hitbox[141] = {}; hitbox[141] = {219, 20, 228, 29}
+	hitbox[142] = {}; hitbox[142] = {214, 27, 225, 36}
+
+	-- \bottle-4153-10.mdg
+
+	hitbox[143] = {}; hitbox[143] = {215, 22, 225, 32}
+	hitbox[144] = {}; hitbox[144] = {209, 29, 220, 38}
+
+	-- \bottle-4153-11.mdg
+
+	hitbox[145] = {}; hitbox[145] = {212, 25, 222, 35}
+	hitbox[146] = {}; hitbox[146] = {205, 30, 215, 38}
+
+	-- \bottle-4153-12.mdg
+
+	hitbox[147] = {}; hitbox[147] = {201, 30, 219, 40}
+
+	-- \bottle-4153-13.mdg
+
+	hitbox[148] = {}; hitbox[148] = {201, 30, 210, 42}
+
+	-- \bottle-4153-14.mdg
+
+	hitbox[149] = {}; hitbox[149] = {197, 38, 206, 46}
+	hitbox[150] = {}; hitbox[150] = {201, 31, 208, 40}
+
+	-- \bottle-4153-15.mdg
+
+	hitbox[151] = {}; hitbox[151] = {193, 40, 202, 49}
+	hitbox[152] = {}; hitbox[152] = {199, 35, 206, 43}
+
+	-- \bottle-4153-16.mdg
+
+	hitbox[153] = {}; hitbox[153] = {189, 42, 198, 50}
+	hitbox[154] = {}; hitbox[154] = {196, 39, 203, 47}
+
+	-- \bottle-4153-17.mdg
+
+	hitbox[155] = {}; hitbox[155] = {187, 43, 201, 51}
+
+	-- \bottle-4153-18.mdg
+
+	hitbox[156] = {}; hitbox[156] = {187, 42, 194, 50}
+	hitbox[157] = {}; hitbox[157] = {191, 50, 198, 59}
+
+	-- \bottle-4153-19.mdg
+
+	hitbox[158] = {}; hitbox[158] = {188, 47, 194, 56}
+	hitbox[159] = {}; hitbox[159] = {185, 55, 192, 64}
+
+	-- \bottle-4153-20.mdg
+
+	hitbox[160] = {}; hitbox[160] = {187, 51, 193, 59}
+	hitbox[161] = {}; hitbox[161] = {182, 58, 189, 66}
+
+	-- \bottle-4153-21.mdg
+
+	hitbox[162] = {}; hitbox[162] = {185, 57, 192, 66}
+	hitbox[163] = {}; hitbox[163] = {180, 60, 187, 68}
+
+	-- \bottle-4153-22.mdg
+
+	hitbox[164] = {}; hitbox[164] = {176, 65, 191, 71}
+
+	-- \bottle-4153-23.mdg
+
+	hitbox[165] = {}; hitbox[165] = {176, 66, 185, 79}
+
+	-- \bottle-4153-24.mdg
+
+	hitbox[166] = {}; hitbox[166] = {176, 68, 182, 82}
+	hitbox[167] = {}; hitbox[167] = {173, 79, 180, 88}
+
+	-- \bottle-4153-25.mdg
+
+	hitbox[168] = {}; hitbox[168] = {175, 76, 181, 89}
+	hitbox[169] = {}; hitbox[169] = {169, 84, 176, 92}
+
+	-- \bottle-4153-26.mdg
+
+	hitbox[170] = {}; hitbox[170] = {173, 84, 178, 92}
+	hitbox[171] = {}; hitbox[171] = {166, 87, 173, 95}
+
+	-- \bottle-4153-27.mdg
+
+	hitbox[172] = {}; hitbox[172] = {160, 92, 175, 100}
+
+	-- \bottle-4153-28.mdg
+
+	hitbox[173] = {}; hitbox[173] = {162, 97, 171, 110}
+
+	-- \bottle-4153-29.mdg
+
+	hitbox[174] = {}; hitbox[174] = {163, 102, 172, 114}
+	hitbox[175] = {}; hitbox[175] = {161, 114, 168, 122}
+
+	-- \bottle-4153-30.mdg
+
+	hitbox[176] = {}; hitbox[176] = {161, 116, 169, 129}
+	hitbox[177] = {}; hitbox[177] = {158, 124, 165, 132}
+
+	-- \bottle-4153-31.mdg
+
+	hitbox[178] = {}; hitbox[178] = {153, 129, 166, 141}
+
+	-- \bottle-4153-32.mdg
+
+	hitbox[179] = {}; hitbox[179] = {150, 141, 162, 154}
+
+	-- \bottle-4153-33.mdg
+
+	hitbox[180] = {}; hitbox[180] = {147, 150, 157, 171}
+
+	-- \bottle-4153-34.mdg
+
+	hitbox[181] = {}; hitbox[181] = {144, 163, 154, 183}
+
+	-- \bottle-4153-35.mdg
+
+	hitbox[182] = {}; hitbox[182] = {139, 184, 150, 194}
+	hitbox[183] = {}; hitbox[183] = {135, 192, 144, 203}
+
+	-- \bottle-4220-00.mdg
+
+	hitbox[184] = {}; hitbox[184] = {24, 43, 47, 78}
+	hitbox[185] = {}; hitbox[185] = {42, 37, 71, 69}
+	hitbox[186] = {}; hitbox[186] = {61, 25, 83, 53}
+	hitbox[187] = {}; hitbox[187] = {55, 51, 79, 58}
+
+	-- \bottle-4220-01.mdg
+
+	hitbox[188] = {}; hitbox[188] = {74, 23, 101, 70}
+
+	-- \bottle-4220-02.mdg
+
+	hitbox[189] = {}; hitbox[189] = {88, 20, 115, 45}
+	hitbox[190] = {}; hitbox[190] = {102, 37, 129, 65}
+
+	-- \bottle-4220-03.mdg
+
+	hitbox[191] = {}; hitbox[191] = {108, 30, 127, 51}
+	hitbox[192] = {}; hitbox[192] = {120, 40, 148, 56}
+
+	-- \bottle-4220-04.mdg
+
+	hitbox[193] = {}; hitbox[193] = {134, 39, 154, 59}
+
+	-- \bottle-4220-05.mdg
+
+	hitbox[194] = {}; hitbox[194] = {145, 37, 164, 63}
+
+	-- \bottle-4220-06.mdg
+
+	hitbox[195] = {}; hitbox[195] = {152, 37, 166, 50}
+	hitbox[196] = {}; hitbox[196] = {157, 47, 172, 63}
+
+	-- \bottle-4220-07.mdg
+
+	hitbox[197] = {}; hitbox[197] = {155, 42, 169, 55}
+	hitbox[198] = {}; hitbox[198] = {167, 45, 182, 62}
+
+	-- \bottle-4220-08.mdg
+
+	hitbox[199] = {}; hitbox[199] = {162, 47, 180, 60}
+
+	-- \bottle-4220-09.mdg
+
+	hitbox[200] = {}; hitbox[200] = {171, 42, 184, 67}
+
+	-- \bottle-4220-10.mdg
+
+	hitbox[201] = {}; hitbox[201] = {173, 43, 185, 59}
+	hitbox[202] = {}; hitbox[202] = {179, 56, 191, 68}
+
+	-- \bottle-4220-11.mdg
+
+	hitbox[203] = {}; hitbox[203] = {176, 49, 187, 60}
+	hitbox[204] = {}; hitbox[204] = {183, 58, 194, 69}
+	hitbox[205] = {}; hitbox[205] = {178, 58, 192, 63}
+
+	-- \bottle-4220-12.mdg
+
+	hitbox[206] = {}; hitbox[206] = {182, 58, 196, 69}
+
+	-- \bottle-4220-13.mdg
+
+	hitbox[207] = {}; hitbox[207] = {189, 58, 199, 75}
+
+	-- \bottle-4220-14.mdg
+
+	hitbox[208] = {}; hitbox[208] = {191, 59, 199, 71}
+	hitbox[209] = {}; hitbox[209] = {195, 68, 206, 80}
+
+	-- \bottle-4220-15.mdg
+
+	hitbox[210] = {}; hitbox[210] = {192, 64, 201, 73}
+	hitbox[211] = {}; hitbox[211] = {196, 69, 203, 80}
+	hitbox[212] = {}; hitbox[212] = {199, 75, 210, 81}
+
+	-- \bottle-4220-16.mdg
+
+	hitbox[213] = {}; hitbox[213] = {196, 73, 212, 82}
+
+	-- \bottle-4220-17.mdg
+
+	hitbox[214] = {}; hitbox[214] = {203, 71, 210, 90}
+
+	-- \bottle-4220-18.mdg
+
+	hitbox[215] = {}; hitbox[215] = {205, 78, 212, 87}
+	hitbox[216] = {}; hitbox[216] = {206, 84, 213, 95}
+
+	-- \bottle-4220-19.mdg
+
+	hitbox[217] = {}; hitbox[217] = {206, 84, 213, 92}
+	hitbox[218] = {}; hitbox[218] = {209, 87, 216, 98}
+	hitbox[219] = {}; hitbox[219] = {213, 94, 220, 102}
+
+	-- \bottle-4220-20.mdg
+
+	hitbox[220] = {}; hitbox[220] = {209, 90, 216, 99}
+	hitbox[221] = {}; hitbox[221] = {214, 94, 221, 104}
+
+	-- \bottle-4220-21.mdg
+
+	hitbox[222] = {}; hitbox[222] = {215, 98, 224, 112}
+
+	-- \bottle-4220-22.mdg
+
+	hitbox[223] = {}; hitbox[223] = {217, 101, 224, 111}
+	hitbox[224] = {}; hitbox[224] = {219, 106, 226, 116}
+	hitbox[225] = {}; hitbox[225] = {222, 113, 229, 121}
+
+	-- \bottle-4220-23.mdg
+
+	hitbox[226] = {}; hitbox[226] = {220, 110, 226, 119}
+	hitbox[227] = {}; hitbox[227] = {222, 114, 229, 124}
+	hitbox[228] = {}; hitbox[228] = {226, 119, 233, 128}
+
+	-- \bottle-4220-24.mdg
+
+	hitbox[229] = {}; hitbox[229] = {224, 123, 238, 132}
+
+	-- \bottle-4220-25.mdg
+
+	hitbox[230] = {}; hitbox[230] = {231, 128, 239, 138}
+	hitbox[231] = {}; hitbox[231] = {231, 134, 238, 145}
+
+	-- \bottle-4220-26.mdg
+
+	hitbox[232] = {}; hitbox[232] = {233, 132, 240, 152}
+	hitbox[233] = {}; hitbox[233] = {236, 147, 243, 158}
+
+	-- \bottle-4220-27.mdg
+
+	hitbox[234] = {}; hitbox[234] = {235, 147, 243, 156}
+	hitbox[235] = {}; hitbox[235] = {238, 153, 245, 164}
+	hitbox[236] = {}; hitbox[236] = {241, 160, 248, 168}
+
+	-- \bottle-4220-28.mdg
+
+	hitbox[237] = {}; hitbox[237] = {240, 160, 247, 170}
+	hitbox[238] = {}; hitbox[238] = {246, 166, 253, 177}
+
+	-- \bottle-4220-29.mdg
+
+	hitbox[239] = {}; hitbox[239] = {247, 176, 256, 190}
+
+	-- \bottle-4220-30.mdg
+
+	hitbox[240] = {}; hitbox[240] = {252, 186, 261, 200}
+	hitbox[241] = {}; hitbox[241] = {254, 198, 261, 208}
+
+	-- \bottle-4220-31.mdg
+
+	hitbox[242] = {}; hitbox[242] = {257, 204, 264, 218}
+	hitbox[243] = {}; hitbox[243] = {262, 215, 269, 226}
+	hitbox[244] = {}; hitbox[244] = {259, 212, 266, 221}
+
+	-- \bottle-4537-00.mdg
+
+	hitbox[245] = {}; hitbox[245] = {325, 14, 357, 37}
+
+	-- \bottle-4537-01.mdg
+
+	hitbox[246] = {}; hitbox[246] = {306, 4, 326, 25}
+	hitbox[247] = {}; hitbox[247] = {296, 21, 319, 41}
+	hitbox[248] = {}; hitbox[248] = {301, 11, 308, 25}
+	hitbox[249] = {}; hitbox[249] = {291, 30, 314, 49}
+
+	-- \bottle-4537-02.mdg
+
+	hitbox[250] = {}; hitbox[250] = {281, 11, 301, 32}
+	hitbox[251] = {}; hitbox[251] = {268, 24, 290, 44}
+	hitbox[252] = {}; hitbox[252] = {275, 19, 282, 33}
+
+	-- \bottle-4537-03.mdg
+
+	hitbox[253] = {}; hitbox[253] = {261, 16, 281, 37}
+
+	-- \bottle-4537-04.mdg
+
+	hitbox[254] = {}; hitbox[254] = {247, 17, 260, 30}
+	hitbox[255] = {}; hitbox[255] = {241, 26, 256, 40}
+
+	-- \bottle-4537-05.mdg
+
+	hitbox[256] = {}; hitbox[256] = {240, 18, 253, 32}
+	hitbox[257] = {}; hitbox[257] = {233, 28, 247, 42}
+
+	-- \bottle-4537-06.mdg
+
+	hitbox[258] = {}; hitbox[258] = {234, 21, 247, 31}
+	hitbox[259] = {}; hitbox[259] = {227, 27, 238, 39}
+
+	-- \bottle-4537-07.mdg
+
+	hitbox[260] = {}; hitbox[260] = {224, 23, 239, 36}
+
+	-- \bottle-4537-08.mdg
+
+	hitbox[261] = {}; hitbox[261] = {220, 20, 231, 40}
+
+	-- \bottle-4537-09.mdg
+
+	hitbox[262] = {}; hitbox[262] = {219, 23, 229, 34}
+	hitbox[263] = {}; hitbox[263] = {215, 32, 226, 44}
+
+	-- \bottle-4537-10.mdg
+
+	hitbox[264] = {}; hitbox[264] = {213, 28, 224, 39}
+
+	-- \bottle-4537-11.mdg
+
+	hitbox[265] = {}; hitbox[265] = {207, 32, 218, 43}
+
+	-- \bottle-4537-12.mdg
+
+	hitbox[266] = {}; hitbox[266] = {205, 38, 213, 47}
+	hitbox[267] = {}; hitbox[267] = {209, 32, 217, 42}
+
+	-- \bottle-4537-13.mdg
+
+	hitbox[268] = {}; hitbox[268] = {203, 38, 211, 48}
+	hitbox[269] = {}; hitbox[269] = {208, 34, 215, 43}
+
+	-- \bottle-4537-14.mdg
+
+	hitbox[270] = {}; hitbox[270] = {202, 38, 210, 47}
+
+	-- \bottle-4537-15.mdg
+
+	hitbox[271] = {}; hitbox[271] = {200, 36, 208, 50}
+
+	-- \bottle-4537-16.mdg
+
+	hitbox[272] = {}; hitbox[272] = {199, 40, 207, 54}
+
+	-- \bottle-4537-17.mdg
+
+	hitbox[273] = {}; hitbox[273] = {197, 41, 205, 55}
+
+	-- \bottle-4537-18.mdg
+
+	hitbox[274] = {}; hitbox[274] = {197, 41, 205, 55}
+
+	-- \bottle-4537-19.mdg
+
+	hitbox[275] = {}; hitbox[275] = {194, 47, 202, 61}
+
+	-- \bottle-4537-20.mdg
+
+	hitbox[276] = {}; hitbox[276] = {192, 50, 201, 64}
+
+	-- \bottle-4537-21.mdg
+
+	hitbox[277] = {}; hitbox[277] = {191, 57, 199, 63}
+
+	-- \bottle-4537-22.mdg
+
+	hitbox[278] = {}; hitbox[278] = {191, 57, 199, 67}
+
+	-- \bottle-4537-23.mdg
+
+	hitbox[279] = {}; hitbox[279] = {189, 60, 197, 70}
+
+	-- \bottle-4537-24.mdg
+
+	hitbox[280] = {}; hitbox[280] = {189, 60, 197, 70}
+	hitbox[281] = {}; hitbox[281] = {186, 68, 194, 78}
+
+	-- \bottle-4537-25.mdg
+
+	hitbox[282] = {}; hitbox[282] = {185, 68, 194, 78}
+
+	-- \bottle-4537-26.mdg
+
+	hitbox[283] = {}; hitbox[283] = {184, 73, 191, 86}
+
+	-- \bottle-4537-27.mdg
+
+	hitbox[284] = {}; hitbox[284] = {184, 73, 191, 86}
+
+	-- \bottle-4537-28.mdg
+
+	hitbox[285] = {}; hitbox[285] = {179, 86, 187, 94}
+	hitbox[286] = {}; hitbox[286] = {184, 81, 192, 90}
+
+	-- \bottle-4537-29.mdg
+
+	hitbox[287] = {}; hitbox[287] = {181, 89, 189, 97}
+
+	-- \bottle-4537-30.mdg
+
+	hitbox[288] = {}; hitbox[288] = {179, 90, 187, 108}
+
+	-- \bottle-4537-31.mdg
+
+	hitbox[289] = {}; hitbox[289] = {179, 96, 187, 108}
+	hitbox[290] = {}; hitbox[290] = {176, 106, 184, 116}
+
+	-- \bottle-4537-32.mdg
+
+	hitbox[291] = {}; hitbox[291] = {176, 106, 184, 119}
+
+	-- \bottle-4537-33.mdg
+
+	hitbox[292] = {}; hitbox[292] = {175, 115, 183, 128}
+
+	-- \bottle-4537-34.mdg
+
+	hitbox[293] = {}; hitbox[293] = {173, 122, 180, 134}
+
+	-- \bottle-4537-35.mdg
+
+	hitbox[294] = {}; hitbox[294] = {169, 135, 176, 147}
+	hitbox[295] = {}; hitbox[295] = {173, 128, 181, 138}
+
+	-- \bottle-4537-36.mdg
+
+	hitbox[296] = {}; hitbox[296] = {166, 142, 174, 155}
+
+	-- \bottle-4537-37.mdg
+
+	hitbox[297] = {}; hitbox[297] = {164, 152, 172, 165}
+
+	-- \bottle-4537-38.mdg
+
+	hitbox[298] = {}; hitbox[298] = {164, 159, 172, 182}
+
+	-- \bottle-4537-39.mdg
+
+	hitbox[299] = {}; hitbox[299] = {161, 177, 171, 188}
+	hitbox[300] = {}; hitbox[300] = {160, 186, 168, 196}
+
+	-- \bottle-4537-40.mdg
+
+	hitbox[301] = {}; hitbox[301] = {159, 196, 168, 212}
+
+	-- \bottle-4537-41.mdg
+
+	hitbox[302] = {}; hitbox[302] = {154, 213, 164, 237}
+
+	-- \bottle-4622-00.mdg
+
+	hitbox[303] = {}; hitbox[303] = {4, 1, 36, 20}
+	hitbox[304] = {}; hitbox[304] = {22, 12, 47, 33}
+	hitbox[305] = {}; hitbox[305] = {40, 26, 61, 40}
+
+	-- \bottle-4622-01.mdg
+
+	hitbox[306] = {}; hitbox[306] = {40, 6, 62, 24}
+	hitbox[307] = {}; hitbox[307] = {56, 14, 71, 33}
+	hitbox[308] = {}; hitbox[308] = {68, 23, 89, 37}
+
+	-- \bottle-4622-02.mdg
+
+	hitbox[309] = {}; hitbox[309] = {92, 15, 108, 41}
+	hitbox[310] = {}; hitbox[310] = {82, 20, 97, 39}
+
+	-- \bottle-4622-03.mdg
+
+	hitbox[311] = {}; hitbox[311] = {99, 15, 118, 27}
+	hitbox[312] = {}; hitbox[312] = {106, 25, 127, 39}
+	hitbox[313] = {}; hitbox[313] = {103, 24, 117, 34}
+
+	-- \bottle-4622-04.mdg
+
+	hitbox[314] = {}; hitbox[314] = {111, 18, 124, 30}
+	hitbox[315] = {}; hitbox[315] = {119, 21, 131, 34}
+	hitbox[316] = {}; hitbox[316] = {125, 27, 139, 37}
+
+	-- \bottle-4622-05.mdg
+
+	hitbox[317] = {}; hitbox[317] = {130, 21, 143, 37}
+
+	-- \bottle-4622-06.mdg
+
+	hitbox[318] = {}; hitbox[318] = {134, 21, 147, 30}
+	hitbox[319] = {}; hitbox[319] = {139, 28, 148, 40}
+	hitbox[320] = {}; hitbox[320] = {143, 34, 154, 44}
+
+	-- \bottle-4622-07.mdg
+
+	hitbox[321] = {}; hitbox[321] = {140, 24, 148, 33}
+	hitbox[322] = {}; hitbox[322] = {145, 28, 154, 40}
+	hitbox[323] = {}; hitbox[323] = {150, 32, 161, 41}
+
+	-- \bottle-4622-08.mdg
+
+	hitbox[324] = {}; hitbox[324] = {154, 28, 162, 37}
+	hitbox[325] = {}; hitbox[325] = {155, 32, 165, 43}
+
+	-- \bottle-4622-09.mdg
+
+	hitbox[326] = {}; hitbox[326] = {155, 28, 164, 37}
+	hitbox[327] = {}; hitbox[327] = {161, 35, 171, 46}
+
+	-- \bottle-4622-10.mdg
+
+	hitbox[328] = {}; hitbox[328] = {161, 33, 169, 42}
+	hitbox[329] = {}; hitbox[329] = {166, 34, 175, 46}
+
+	-- \bottle-4622-11.mdg
+
+	hitbox[330] = {}; hitbox[330] = {167, 33, 175, 46}
+
+	-- \bottle-4622-12.mdg
+
+	hitbox[331] = {}; hitbox[331] = {169, 35, 176, 44}
+	hitbox[332] = {}; hitbox[332] = {172, 40, 180, 49}
+
+	-- \bottle-4622-13.mdg
+
+	hitbox[333] = {}; hitbox[333] = {171, 38, 178, 47}
+	hitbox[334] = {}; hitbox[334] = {176, 43, 185, 50}
+
+	-- \bottle-4622-14.mdg
+
+	hitbox[335] = {}; hitbox[335] = {176, 40, 185, 54}
+
+	-- \bottle-4622-15.mdg
+
+	hitbox[336] = {}; hitbox[336] = {180, 43, 187, 52}
+	hitbox[337] = {}; hitbox[337] = {183, 50, 191, 56}
+
+	-- \bottle-4622-16.mdg
+
+	hitbox[338] = {}; hitbox[338] = {182, 46, 188, 53}
+	hitbox[339] = {}; hitbox[339] = {185, 50, 193, 56}
+
+	-- \bottle-4622-17.mdg
+
+	hitbox[340] = {}; hitbox[340] = {186, 46, 194, 62}
+
+	-- \bottle-4622-18.mdg
+
+	hitbox[341] = {}; hitbox[341] = {187, 49, 193, 57}
+	hitbox[342] = {}; hitbox[342] = {189, 55, 198, 62}
+	hitbox[343] = {}; hitbox[343] = {193, 60, 199, 67}
+
+	-- \bottle-4622-19.mdg
+
+	hitbox[344] = {}; hitbox[344] = {187, 57, 201, 65}
+
+	-- \bottle-4622-20.mdg
+
+	hitbox[345] = {}; hitbox[345] = {194, 58, 201, 70}
+
+	-- \bottle-4622-21.mdg
+
+	hitbox[346] = {}; hitbox[346] = {194, 60, 200, 68}
+	hitbox[347] = {}; hitbox[347] = {198, 66, 206, 73}
+
+	-- \bottle-4622-22.mdg
+
+	hitbox[348] = {}; hitbox[348] = {198, 66, 208, 75}
+
+	-- \bottle-4622-23.mdg
+
+	hitbox[349] = {}; hitbox[349] = {201, 67, 212, 81}
+
+	-- \bottle-4622-24.mdg
+
+	hitbox[350] = {}; hitbox[350] = {203, 73, 210, 82}
+	hitbox[351] = {}; hitbox[351] = {207, 80, 215, 87}
+
+	-- \bottle-4622-25.mdg
+
+	hitbox[352] = {}; hitbox[352] = {204, 79, 211, 88}
+	hitbox[353] = {}; hitbox[353] = {209, 83, 215, 90}
+
+	-- \bottle-4622-26.mdg
+
+	hitbox[354] = {}; hitbox[354] = {211, 83, 218, 91}
+	hitbox[355] = {}; hitbox[355] = {212, 90, 218, 97}
+
+	-- \bottle-4622-27.mdg
+
+	hitbox[356] = {}; hitbox[356] = {212, 86, 217, 93}
+	hitbox[357] = {}; hitbox[357] = {214, 91, 220, 98}
+	hitbox[358] = {}; hitbox[358] = {217, 95, 223, 102}
+
+	-- \bottle-4622-28.mdg
+
+	hitbox[359] = {}; hitbox[359] = {215, 95, 221, 102}
+	hitbox[360] = {}; hitbox[360] = {219, 99, 225, 106}
+
+	-- \bottle-4622-29.mdg
+
+	hitbox[361] = {}; hitbox[361] = {221, 100, 227, 107}
+	hitbox[362] = {}; hitbox[362] = {220, 107, 226, 114}
+
+	-- \bottle-4622-30.mdg
+
+	hitbox[363] = {}; hitbox[363] = {222, 106, 227, 113}
+	hitbox[364] = {}; hitbox[364] = {223, 111, 229, 117}
+	hitbox[365] = {}; hitbox[365] = {226, 116, 232, 123}
+
+	-- \bottle-4622-31.mdg
+
+	hitbox[366] = {}; hitbox[366] = {224, 114, 230, 120}
+	hitbox[367] = {}; hitbox[367] = {227, 119, 233, 125}
+
+	-- \bottle-4622-32.mdg
+
+	hitbox[368] = {}; hitbox[368] = {229, 124, 235, 131}
+	hitbox[369] = {}; hitbox[369] = {231, 130, 237, 137}
+
+	-- \bottle-4622-33.mdg
+
+	hitbox[370] = {}; hitbox[370] = {232, 129, 238, 136}
+	hitbox[371] = {}; hitbox[371] = {237, 141, 243, 147}
+	hitbox[372] = {}; hitbox[372] = {234, 136, 240, 142}
+
+	-- \bottle-4622-34.mdg
+
+	hitbox[373] = {}; hitbox[373] = {235, 141, 241, 148}
+	hitbox[374] = {}; hitbox[374] = {243, 149, 249, 155}
+	hitbox[375] = {}; hitbox[375] = {240, 145, 245, 152}
+
+	-- \bottle-4622-35.mdg
+
+	hitbox[376] = {}; hitbox[376] = {242, 151, 249, 165}
+
+	-- \bottle-4622-36.mdg
+
+	hitbox[377] = {}; hitbox[377] = {246, 162, 252, 172}
+	hitbox[378] = {}; hitbox[378] = {248, 169, 254, 176}
+	hitbox[379] = {}; hitbox[379] = {249, 176, 257, 182}
+
+	-- \bottle-4622-37.mdg
+
+	hitbox[380] = {}; hitbox[380] = {249, 175, 256, 185}
+	hitbox[381] = {}; hitbox[381] = {254, 182, 259, 189}
+
+	-- \bottle-4622-38.mdg
+
+	hitbox[382] = {}; hitbox[382] = {256, 190, 264, 200}
+	hitbox[383] = {}; hitbox[383] = {258, 197, 266, 211}
+
+	-- \bottle-4622-39.mdg
+
+	hitbox[384] = {}; hitbox[384] = {261, 205, 269, 215}
+	hitbox[385] = {}; hitbox[385] = {265, 213, 273, 227}
+	hitbox[386] = {}; hitbox[386] = {263, 215, 270, 221}
+
+--3146, 3178
+
+	hitmap = nil; hitmap = {}
+	hitmap[1] = {}; hitmap[1] = {3146, 1, 1, 0, 0, 0}
+	hitmap[2] = {}; hitmap[2] = {3147, 2, 1, 0, 0, 0}
+	hitmap[3] = {}; hitmap[3] = {3148, 3, 4, 0, 0, 0}
+	hitmap[4] = {}; hitmap[4] = {3149, 7, 5, 0, 0, 0}
+	hitmap[5] = {}; hitmap[5] = {3150, 12, 3, 0, 0, 0}
+	hitmap[6] = {}; hitmap[6] = {3151, 15, 1, 0, 0, 0}
+	hitmap[7] = {}; hitmap[7] = {3152, 16, 1, 0, 0, 0}
+	hitmap[8] = {}; hitmap[8] = {3153, 17, 2, 0, 0, 0}
+	hitmap[9] = {}; hitmap[9] = {3154, 19, 3, 0, 0, 0}
+	hitmap[10] = {}; hitmap[10] = {3155, 22, 2, 0, 0, 0}
+	hitmap[11] = {}; hitmap[11] = {3156, 24, 2, 0, 0, 0}
+	hitmap[12] = {}; hitmap[12] = {3157, 26, 1, 0, 0, 0}
+	hitmap[13] = {}; hitmap[13] = {3158, 27, 2, 0, 0, 0}
+	hitmap[14] = {}; hitmap[14] = {3159, 29, 2, 0, 0, 0}
+	hitmap[15] = {}; hitmap[15] = {3160, 31, 2, 0, 0, 0}
+	hitmap[16] = {}; hitmap[16] = {3161, 33, 2, 0, 0, 0}
+	hitmap[17] = {}; hitmap[17] = {3162, 35, 3, 0, 0, 0}
+	hitmap[18] = {}; hitmap[18] = {3163, 38, 2, 0, 0, 0}
+	hitmap[19] = {}; hitmap[19] = {3164, 40, 2, 0, 0, 0}
+	hitmap[20] = {}; hitmap[20] = {3165, 42, 2, 0, 0, 0}
+	hitmap[21] = {}; hitmap[21] = {3166, 44, 2, 0, 0, 0}
+	hitmap[22] = {}; hitmap[22] = {3167, 46, 2, 0, 0, 0}
+	hitmap[23] = {}; hitmap[23] = {3168, 48, 1, 0, 0, 0}
+	hitmap[24] = {}; hitmap[24] = {3169, 49, 1, 0, 0, 0}
+	hitmap[25] = {}; hitmap[25] = {3170, 50, 1, 0, 0, 0}
+	hitmap[26] = {}; hitmap[26] = {3171, 51, 1, 0, 0, 0}
+	hitmap[27] = {}; hitmap[27] = {3172, 52, 1, 0, 0, 0}
+	hitmap[28] = {}; hitmap[28] = {3173, 53, 1, 0, 0, 0}
+	hitmap[29] = {}; hitmap[29] = {3174, 54, 1, 0, 0, 0}
+	hitmap[30] = {}; hitmap[30] = {3175, 55, 2, 0, 0, 0}
+	hitmap[31] = {}; hitmap[31] = {3176, 57, 3, 0, 0, 0}
+	hitmap[32] = {}; hitmap[32] = {3177, 60, 3, 0, 0, 0}
+	hitmap[33] = {}; hitmap[33] = {3178, 63, 2, 0, 0, 0}
+
+
+
+--3217, 3251
+
+	
+	hitmap[34] = {}; hitmap[34] = {3217, 65, 1, 0, 0, 0}
+	hitmap[35] = {}; hitmap[35] = {3218, 66, 2, 0, 0, 0}
+	hitmap[36] = {}; hitmap[36] = {3219, 68, 1, 0, 0, 0}
+	hitmap[37] = {}; hitmap[37] = {3220, 69, 1, 0, 0, 0}
+	hitmap[38] = {}; hitmap[38] = {3221, 70, 1, 0, 0, 0}
+	hitmap[39] = {}; hitmap[39] = {3222, 71, 1, 0, 0, 0}
+	hitmap[40] = {}; hitmap[40] = {3223, 72, 2, 0, 0, 0}
+	hitmap[41] = {}; hitmap[41] = {3224, 74, 3, 0, 0, 0}
+	hitmap[42] = {}; hitmap[42] = {3225, 77, 2, 0, 0, 0}
+	hitmap[43] = {}; hitmap[43] = {3226, 79, 2, 0, 0, 0}
+	hitmap[44] = {}; hitmap[44] = {3227, 81, 1, 0, 0, 0}
+	hitmap[45] = {}; hitmap[45] = {3228, 82, 1, 0, 0, 0}
+	hitmap[46] = {}; hitmap[46] = {3229, 83, 1, 0, 0, 0}
+	hitmap[47] = {}; hitmap[47] = {3230, 84, 1, 0, 0, 0}
+	hitmap[48] = {}; hitmap[48] = {3231, 85, 2, 0, 0, 0}
+	hitmap[49] = {}; hitmap[49] = {3232, 87, 2, 0, 0, 0}
+	hitmap[50] = {}; hitmap[50] = {3233, 89, 3, 0, 0, 0}
+	hitmap[51] = {}; hitmap[51] = {3234, 92, 2, 0, 0, 0}
+	hitmap[52] = {}; hitmap[52] = {3235, 94, 1, 0, 0, 0}
+	hitmap[53] = {}; hitmap[53] = {3236, 95, 1, 0, 0, 0}
+	hitmap[54] = {}; hitmap[54] = {3237, 96, 1, 0, 0, 0}
+	hitmap[55] = {}; hitmap[55] = {3238, 97, 2, 0, 0, 0}
+	hitmap[56] = {}; hitmap[56] = {3239, 99, 2, 0, 0, 0}
+	hitmap[57] = {}; hitmap[57] = {3240, 101, 2, 0, 0, 0}
+	hitmap[58] = {}; hitmap[58] = {3241, 103, 2, 0, 0, 0}
+	hitmap[59] = {}; hitmap[59] = {3242, 105, 1, 0, 0, 0}
+	hitmap[60] = {}; hitmap[60] = {3243, 106, 1, 0, 0, 0}
+	hitmap[61] = {}; hitmap[61] = {3244, 107, 1, 0, 0, 0}
+	hitmap[62] = {}; hitmap[62] = {3245, 108, 1, 0, 0, 0}
+	hitmap[63] = {}; hitmap[63] = {3246, 109, 2, 0, 0, 0}
+	hitmap[64] = {}; hitmap[64] = {3247, 111, 2, 0, 0, 0}
+	hitmap[65] = {}; hitmap[65] = {3248, 113, 3, 0, 0, 0}
+	hitmap[66] = {}; hitmap[66] = {3249, 116, 3, 0, 0, 0}
+	hitmap[67] = {}; hitmap[67] = {3250, 119, 3, 0, 0, 0}
+	hitmap[68] = {}; hitmap[68] = {3251, 122, 2, 0, 0, 0}
+
+
+
+-- 3503, 3538
+
+	hitmap[69] = {}; hitmap[69] = {3503, 124, 3, 0, 0, 0}
+	hitmap[70] = {}; hitmap[70] = {3504, 127, 2, 0, 0, 0}
+	hitmap[71] = {}; hitmap[71] = {3505, 129, 1, 0, 0, 0}
+	hitmap[72] = {}; hitmap[72] = {3506, 130, 1, 0, 0, 0}
+	hitmap[73] = {}; hitmap[73] = {3507, 131, 1, 0, 0, 0}
+	hitmap[74] = {}; hitmap[74] = {3508, 132, 3, 0, 0, 0}
+	hitmap[75] = {}; hitmap[75] = {3509, 135, 3, 0, 0, 0}
+	hitmap[76] = {}; hitmap[76] = {3510, 138, 1, 0, 0, 0}
+	hitmap[77] = {}; hitmap[77] = {3511, 139, 2, 0, 0, 0}
+	hitmap[78] = {}; hitmap[78] = {3512, 141, 2, 0, 0, 0}
+	hitmap[79] = {}; hitmap[79] = {3513, 143, 2, 0, 0, 0}
+	hitmap[80] = {}; hitmap[80] = {3514, 145, 2, 0, 0, 0}
+	hitmap[81] = {}; hitmap[81] = {3515, 147, 1, 0, 0, 0}
+	hitmap[82] = {}; hitmap[82] = {3516, 148, 1, 0, 0, 0}
+	hitmap[83] = {}; hitmap[83] = {3517, 149, 2, 0, 0, 0}
+	hitmap[84] = {}; hitmap[84] = {3518, 151, 2, 0, 0, 0}
+	hitmap[85] = {}; hitmap[85] = {3519, 153, 2, 0, 0, 0}
+	hitmap[86] = {}; hitmap[86] = {3520, 155, 1, 0, 0, 0}
+	hitmap[87] = {}; hitmap[87] = {3521, 156, 2, 0, 0, 0}
+	hitmap[88] = {}; hitmap[88] = {3522, 158, 2, 0, 0, 0}
+	hitmap[89] = {}; hitmap[89] = {3523, 160, 2, 0, 0, 0}
+	hitmap[90] = {}; hitmap[90] = {3524, 162, 2, 0, 0, 0}
+	hitmap[91] = {}; hitmap[91] = {3525, 164, 1, 0, 0, 0}
+	hitmap[92] = {}; hitmap[92] = {3526, 165, 1, 0, 0, 0}
+	hitmap[93] = {}; hitmap[93] = {3527, 166, 2, 0, 0, 0}
+	hitmap[94] = {}; hitmap[94] = {3528, 168, 2, 0, 0, 0}
+	hitmap[95] = {}; hitmap[95] = {3529, 170, 2, 0, 0, 0}
+	hitmap[96] = {}; hitmap[96] = {3530, 172, 1, 0, 0, 0}
+	hitmap[97] = {}; hitmap[97] = {3531, 173, 1, 0, 0, 0}
+	hitmap[98] = {}; hitmap[98] = {3532, 174, 2, 0, 0, 0}
+	hitmap[99] = {}; hitmap[99] = {3533, 176, 2, 0, 0, 0}
+	hitmap[100] = {}; hitmap[100] = {3534, 178, 1, 0, 0, 0}
+	hitmap[101] = {}; hitmap[101] = {3535, 179, 1, 0, 0, 0}
+	hitmap[102] = {}; hitmap[102] = {3536, 180, 1, 0, 0, 0}
+	hitmap[103] = {}; hitmap[103] = {3537, 181, 1, 0, 0, 0}
+	hitmap[104] = {}; hitmap[104] = {3538, 182, 2, 0, 0, 0}
+
+
+
+
+--3570, 3601
+
+	hitmap[105] = {}; hitmap[105] = {3570, 184, 4, 0, 0, 0}
+	hitmap[106] = {}; hitmap[106] = {3571, 188, 1, 0, 0, 0}
+	hitmap[107] = {}; hitmap[107] = {3572, 189, 2, 0, 0, 0}
+	hitmap[108] = {}; hitmap[108] = {3573, 191, 2, 0, 0, 0}
+	hitmap[109] = {}; hitmap[109] = {3574, 193, 1, 0, 0, 0}
+	hitmap[110] = {}; hitmap[110] = {3575, 194, 1, 0, 0, 0}
+	hitmap[111] = {}; hitmap[111] = {3576, 195, 2, 0, 0, 0}
+	hitmap[112] = {}; hitmap[112] = {3577, 197, 2, 0, 0, 0}
+	hitmap[113] = {}; hitmap[113] = {3578, 199, 1, 0, 0, 0}
+	hitmap[114] = {}; hitmap[114] = {3579, 200, 1, 0, 0, 0}
+	hitmap[115] = {}; hitmap[115] = {3580, 201, 2, 0, 0, 0}
+	hitmap[116] = {}; hitmap[116] = {3581, 203, 3, 0, 0, 0}
+	hitmap[117] = {}; hitmap[117] = {3582, 206, 1, 0, 0, 0}
+	hitmap[118] = {}; hitmap[118] = {3583, 207, 1, 0, 0, 0}
+	hitmap[119] = {}; hitmap[119] = {3584, 208, 2, 0, 0, 0}
+	hitmap[120] = {}; hitmap[120] = {3585, 210, 3, 0, 0, 0}
+	hitmap[121] = {}; hitmap[121] = {3586, 213, 1, 0, 0, 0}
+	hitmap[122] = {}; hitmap[122] = {3587, 214, 1, 0, 0, 0}
+	hitmap[123] = {}; hitmap[123] = {3588, 215, 2, 0, 0, 0}
+	hitmap[124] = {}; hitmap[124] = {3589, 217, 3, 0, 0, 0}
+	hitmap[125] = {}; hitmap[125] = {3590, 220, 2, 0, 0, 0}
+	hitmap[126] = {}; hitmap[126] = {3591, 222, 1, 0, 0, 0}
+	hitmap[127] = {}; hitmap[127] = {3592, 223, 3, 0, 0, 0}
+	hitmap[128] = {}; hitmap[128] = {3593, 226, 3, 0, 0, 0}
+	hitmap[129] = {}; hitmap[129] = {3594, 229, 1, 0, 0, 0}
+	hitmap[130] = {}; hitmap[130] = {3595, 230, 2, 0, 0, 0}
+	hitmap[131] = {}; hitmap[131] = {3596, 232, 2, 0, 0, 0}
+	hitmap[132] = {}; hitmap[132] = {3597, 234, 3, 0, 0, 0}
+	hitmap[133] = {}; hitmap[133] = {3598, 237, 2, 0, 0, 0}
+	hitmap[134] = {}; hitmap[134] = {3599, 239, 1, 0, 0, 0}
+	hitmap[135] = {}; hitmap[135] = {3600, 240, 2, 0, 0, 0}
+	hitmap[136] = {}; hitmap[136] = {3601, 242, 3, 0, 0, 0}
+
+
+--3886, 3927
+	
+	
+	hitmap[137] = {}; hitmap[137] = {3886, 245, 1, 0, 0, 0}
+	hitmap[138] = {}; hitmap[138] = {3887, 246, 4, 0, 0, 0}
+	hitmap[139] = {}; hitmap[139] = {3888, 250, 3, 0, 0, 0}
+	hitmap[140] = {}; hitmap[140] = {3889, 253, 1, 0, 0, 0}
+	hitmap[141] = {}; hitmap[141] = {3890, 254, 2, 0, 0, 0}
+	hitmap[142] = {}; hitmap[142] = {3891, 256, 2, 0, 0, 0}
+	hitmap[143] = {}; hitmap[143] = {3892, 258, 2, 0, 0, 0}
+	hitmap[144] = {}; hitmap[144] = {3893, 260, 1, 0, 0, 0}
+	hitmap[145] = {}; hitmap[145] = {3894, 261, 1, 0, 0, 0}
+	hitmap[146] = {}; hitmap[146] = {3895, 262, 2, 0, 0, 0}
+	hitmap[147] = {}; hitmap[147] = {3896, 264, 1, 0, 0, 0}
+	hitmap[148] = {}; hitmap[148] = {3897, 265, 1, 0, 0, 0}
+	hitmap[149] = {}; hitmap[149] = {3898, 266, 2, 0, 0, 0}
+	hitmap[150] = {}; hitmap[150] = {3899, 268, 2, 0, 0, 0}
+	hitmap[151] = {}; hitmap[151] = {3900, 270, 1, 0, 0, 0}
+	hitmap[152] = {}; hitmap[152] = {3901, 271, 1, 0, 0, 0}
+	hitmap[153] = {}; hitmap[153] = {3902, 272, 1, 0, 0, 0}
+	hitmap[154] = {}; hitmap[154] = {3903, 273, 1, 0, 0, 0}
+	hitmap[155] = {}; hitmap[155] = {3904, 274, 1, 0, 0, 0}
+	hitmap[156] = {}; hitmap[156] = {3905, 275, 1, 0, 0, 0}
+	hitmap[157] = {}; hitmap[157] = {3906, 276, 1, 0, 0, 0}
+	hitmap[158] = {}; hitmap[158] = {3907, 277, 1, 0, 0, 0}
+	hitmap[159] = {}; hitmap[159] = {3908, 278, 1, 0, 0, 0}
+	hitmap[160] = {}; hitmap[160] = {3909, 279, 1, 0, 0, 0}
+	hitmap[161] = {}; hitmap[161] = {3910, 280, 2, 0, 0, 0}
+	hitmap[162] = {}; hitmap[162] = {3911, 282, 1, 0, 0, 0}
+	hitmap[163] = {}; hitmap[163] = {3912, 283, 1, 0, 0, 0}
+	hitmap[164] = {}; hitmap[164] = {3913, 284, 1, 0, 0, 0}
+	hitmap[165] = {}; hitmap[165] = {3914, 285, 2, 0, 0, 0}
+	hitmap[166] = {}; hitmap[166] = {3915, 287, 1, 0, 0, 0}
+	hitmap[167] = {}; hitmap[167] = {3916, 288, 1, 0, 0, 0}
+	hitmap[168] = {}; hitmap[168] = {3917, 289, 2, 0, 0, 0}
+	hitmap[169] = {}; hitmap[169] = {3918, 291, 1, 0, 0, 0}
+	hitmap[170] = {}; hitmap[170] = {3919, 292, 1, 0, 0, 0}
+	hitmap[171] = {}; hitmap[171] = {3920, 293, 1, 0, 0, 0}
+	hitmap[172] = {}; hitmap[172] = {3921, 294, 2, 0, 0, 0}
+	hitmap[173] = {}; hitmap[173] = {3922, 296, 1, 0, 0, 0}
+	hitmap[174] = {}; hitmap[174] = {3923, 297, 1, 0, 0, 0}
+	hitmap[175] = {}; hitmap[175] = {3924, 298, 1, 0, 0, 0}
+	hitmap[176] = {}; hitmap[176] = {3925, 299, 2, 0, 0, 0}
+	hitmap[177] = {}; hitmap[177] = {3926, 301, 1, 0, 0, 0}
+	hitmap[178] = {}; hitmap[178] = {3927, 302, 1, 0, 0, 0}
+
+
+-- 3971, 4010
+	
+	hitmap[179] = {}; hitmap[179] = {3971, 303, 3, 0, 0, 0}
+	hitmap[180] = {}; hitmap[180] = {3972, 306, 3, 0, 0, 0}
+	hitmap[181] = {}; hitmap[181] = {3973, 309, 2, 0, 0, 0}
+	hitmap[182] = {}; hitmap[182] = {3974, 311, 3, 0, 0, 0}
+	hitmap[183] = {}; hitmap[183] = {3975, 314, 3, 0, 0, 0}
+	hitmap[184] = {}; hitmap[184] = {3976, 317, 1, 0, 0, 0}
+	hitmap[185] = {}; hitmap[185] = {3977, 318, 3, 0, 0, 0}
+	hitmap[186] = {}; hitmap[186] = {3978, 321, 3, 0, 0, 0}
+	hitmap[187] = {}; hitmap[187] = {3979, 324, 2, 0, 0, 0}
+	hitmap[188] = {}; hitmap[188] = {3980, 326, 2, 0, 0, 0}
+	hitmap[189] = {}; hitmap[189] = {3981, 328, 2, 0, 0, 0}
+	hitmap[190] = {}; hitmap[190] = {3982, 330, 1, 0, 0, 0}
+	hitmap[191] = {}; hitmap[191] = {3983, 331, 2, 0, 0, 0}
+	hitmap[192] = {}; hitmap[192] = {3984, 333, 2, 0, 0, 0}
+	hitmap[193] = {}; hitmap[193] = {3985, 335, 1, 0, 0, 0}
+	hitmap[194] = {}; hitmap[194] = {3986, 336, 2, 0, 0, 0}
+	hitmap[195] = {}; hitmap[195] = {3987, 338, 2, 0, 0, 0}
+	hitmap[196] = {}; hitmap[196] = {3988, 340, 1, 0, 0, 0}
+	hitmap[197] = {}; hitmap[197] = {3989, 341, 3, 0, 0, 0}
+	hitmap[198] = {}; hitmap[198] = {3990, 344, 1, 0, 0, 0}
+	hitmap[199] = {}; hitmap[199] = {3991, 345, 1, 0, 0, 0}
+	hitmap[200] = {}; hitmap[200] = {3992, 346, 2, 0, 0, 0}
+	hitmap[201] = {}; hitmap[201] = {3993, 348, 1, 0, 0, 0}
+	hitmap[202] = {}; hitmap[202] = {3994, 349, 1, 0, 0, 0}
+	hitmap[203] = {}; hitmap[203] = {3995, 350, 2, 0, 0, 0}
+	hitmap[204] = {}; hitmap[204] = {3996, 352, 2, 0, 0, 0}
+	hitmap[205] = {}; hitmap[205] = {3997, 354, 2, 0, 0, 0}
+	hitmap[206] = {}; hitmap[206] = {3998, 356, 3, 0, 0, 0}
+	hitmap[207] = {}; hitmap[207] = {3999, 359, 2, 0, 0, 0}
+	hitmap[208] = {}; hitmap[208] = {4000, 361, 2, 0, 0, 0}
+	hitmap[209] = {}; hitmap[209] = {4001, 363, 3, 0, 0, 0}
+	hitmap[210] = {}; hitmap[210] = {4002, 366, 2, 0, 0, 0}
+	hitmap[211] = {}; hitmap[211] = {4003, 368, 2, 0, 0, 0}
+	hitmap[212] = {}; hitmap[212] = {4004, 370, 3, 0, 0, 0}
+	hitmap[213] = {}; hitmap[213] = {4005, 373, 3, 0, 0, 0}
+	hitmap[214] = {}; hitmap[214] = {4006, 376, 1, 0, 0, 0}
+	hitmap[215] = {}; hitmap[215] = {4007, 377, 3, 0, 0, 0}
+	hitmap[216] = {}; hitmap[216] = {4008, 380, 2, 0, 0, 0}
+	hitmap[217] = {}; hitmap[217] = {4009, 382, 2, 0, 0, 0}
+	hitmap[218] = {}; hitmap[218] = {4010, 384, 3, 0, 0, 0}
+
+end

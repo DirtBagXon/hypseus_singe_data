@@ -10,7 +10,7 @@ The `BASEDIR` and `MYDIR` definitions in each main _.singe_ file can alter folde
 
 These games **require** the use of the `-set_overlay full` or `-set_overlay half` arguments.
 
-The required argument is dependent upon in-game resolution settings.
+The required argument is dependent upon in-game resolution settings. Gun Games use `full`.
 
 ## Starting games
 

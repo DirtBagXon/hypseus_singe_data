@@ -1,0 +1,405 @@
+--[[
+
+PROGRAM NAME:	WHO SHOT JOHNNY ROCK? (SINGE EDITION)
+AUTHOR:			RDG2010
+CONVERTED FOR SINGE 2: POIU2020
+This file is part of WHO SHOT JOHNNY ROCK? (SINGE EDITION)
+
+    WHO SHOT JOHNNY ROCK? (SINGE EDITION) is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation.
+
+    WHO SHOT JOHNNY ROCK? (SINGE EDITION) is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+    Read COPYING.TXT for more info.
+
+
+]]--
+
+--Framework.singe....
+
+discSetFPS(29.97)
+discSkipToFrame(1)
+discPause()
+
+SWITCH_UP         =  0
+SWITCH_LEFT       =  1
+SWITCH_DOWN       =  2
+SWITCH_RIGHT      =  3
+SWITCH_START1     =  4
+SWITCH_START2     =  5
+SWITCH_BUTTON1    =  6
+SWITCH_BUTTON2    =  7
+SWITCH_BUTTON3    =  8
+SWITCH_COIN1      =  9
+SWITCH_COIN2      = 10
+SWITCH_SKILL1     = 11
+SWITCH_SKILL2     = 12
+SWITCH_SKILL3     = 13
+SWITCH_SERVICE    = 14
+SWITCH_TEST       = 15
+SWITCH_RESET      = 16
+SWITCH_SCREENSHOT = 17
+SWITCH_QUIT       = 18
+SWITCH_PAUSE      = 19
+SWITCH_CONSOLE    = 20
+
+FONT_QUALITY_SOLID   = 1
+FONT_QUALITY_SHADED  = 2
+FONT_QUALITY_BLENDED = 3
+
+SOUND_ERROR_INVALID = -1
+SOUND_ERROR_FULL    = -2
+
+OVERLAY_NOT_UPDATED = 0
+OVERLAY_UPDATED     = 1
+
+
+--...End Framework
+
+
+
+bDebug = false
+bPause = false
+bPlaySound = true
+bLevelComplete = false
+bReloadDisabled = false
+bShowMouse = true
+bSection01Reached = false
+bSection02Reached = false
+bSection03Reached = false
+bShowCredits = false
+bShowScore = false
+bResetContinue = false
+bNoMoreBonuses = false
+bNoMoney = false
+bKillerRevealed = false
+bGunMute = false
+bGotAllClues = false
+bGotAllClues = false
+bSkipHint = false
+bBonusExpired = false
+bForceGameOver = false
+bJitter = false
+bMapWarning = false
+clockSecs = 0
+
+DOPT_EASY = 1
+DOPT_MEDIUM = 2
+DOPT_HARD = 3
+DOPT_EXTREME = 4
+DOPT_IMMEDIATE = 100
+DOPT_ONEMPTY = 101
+DOPT_BORDERS = 102
+DOPT_FREEPLAY = 4
+
+dip_LivesPerCredit = 2000
+dip_CoinsPerCredit = 1
+dip_CoinsPerContinue = 1
+dip_Difficulty = DOPT_EASY
+dip_MaxBullets = 400
+dip_ReloadTrigger = DOPT_IMMEDIATE
+dip_Crosshair = 1
+dip_Showdown = true
+dip_Undertaker = true
+dip_PoolIndex = 1
+
+
+-- Indexes for pixel perfect detection
+
+lineStartX = 1
+lineEndX = 3
+lineStartY = 2
+lineEndY = 4
+
+iMoney = 0
+iScore = 0
+iBullets = 0
+iDelay = 0
+gDelay = 0.12
+iCredits = 0
+iCoins = 0
+iChoice = 0
+iBonus = 0
+iPuzzleTries = 0
+iSafeNumber = 0
+iPuzzleMoney = 0
+iRandomPuzzle = 0
+
+bGuyOne = false
+bGuyTwo = false
+iWhoGotShotFirst = 0
+GUY_ONE = 1
+GUY_TWO = 2
+
+
+STATE_LOCKED = 341
+STATE_UNLOCKED = 342
+STATE_CLOSED = 343
+
+iBonusOpenGarage = false
+iBonusOpenPool = false
+iBonusOpenCasino = false
+iBonusOpenWarehouse = false
+
+PLAY_ANY = 0
+iFillerIndex = 0
+
+JILL = 1
+MUMPS = 2
+MEASLES = 3
+POX = 4
+iKiller = 0
+iLastKiller = 0
+
+PLACE_OFFICE = 1
+PLACE_CASINO = 2
+PLACE_POOL = 3
+PLACE_WAREHOUSE = 4
+PLACE_GARAGE = 5
+PLACE_STORE = 6
+PLACE_MANSION = 7
+PLACE_MAP = 8
+PLACE_SAFE = 9
+STORE_BUY = 10
+STORE_SELL = 11
+iMap = 1
+
+HINT_WALLSAFE = 1
+HINT_ORDERCOLLECTED = 2
+HINT_LUCKYNUMBER = 3
+HINT_FOURSHOTS = 4
+HINT_NOTHEONLYONE = 5
+HINT_BURNINGCASH = 6
+HINT_ALLCLUES = 7
+HINT_SHOOTHAND = 8
+HINT_EASTEREGG = 9
+
+iLuckyNumber = 0
+iOfficeVisits = 0
+
+NAG_NORMAL = 1
+NAG_FRIENDLYKILLED = 2
+
+SCORE_BADGUY = 100
+SCORE_KILLER = 1000
+SCORE_MONEY = 50
+COST_FUNERAL = 400
+COST_DOCTOR = 400
+
+mousex = 0
+mousey = 0
+cursorx = 0
+cursory = 0
+
+
+SKIP_DEATH    = 120
+
+move = nil
+totalMoves = 0
+hitmapTotal = 0
+moveFrameStart = 1
+moveFrameEnd = 2
+jumpFrame = 3
+deathFrameStart = 4
+deathFrameEnd = 5
+hitboxBonus = 4
+hitboxStart = 6
+hitboxEnd = 7
+rndMoveStart = 8
+rndMoveEnd = 9
+rndMoveType = 10
+levelFrameStart = 0
+levelFrameEnd = 0
+iFrameStart = 0
+iFrameEnd = 0
+nagFrameStart = 0
+nagFrameEnd = 0
+
+levelGameOver = 105
+levelContinue = 106
+levelMenu = 107
+levelService = 108
+levelLivesLeft = 109
+levelHighScore = 110
+levelInit = 111
+
+currentFrame = 0
+currentMove = 0
+currentLevel = levelInit
+tempLevel = 0
+thisOffset = 0
+offsetMenus = 54677
+offsetMap = 58467
+sName = ""
+sNicks = ""
+
+levelCasino = 1
+levelBonusCasino1 = 2
+levelBonusCasino2 = 3
+levelGarage = 4
+levelMansion1 = 5
+levelMansion2 = 6
+levelMansion3 = 7
+levelMansion4 = 8
+levelPool = 9
+levelOffice = 10
+levelBonusCans = 11
+levelWarehouse1 = 12
+levelWarehouse2 = 13
+levelWarehouse3 = 14
+levelFinal1 = 15
+levelFinal2 = 16
+levelFinal3 = 17
+levelStore = 18
+levelRandom = 19
+levelBonusPool = 20
+levelBonusElevator = 21
+levelBonus = 22
+
+CLUE_CASINO = 1
+CLUE_GARAGE = 2
+CLUE_POOL = 3
+CLUE_WAREHOUSE = 4
+iPlace = 0
+
+lvlSetup = 1
+lvlSetup2 = 100
+lvlRunning = 2
+lvlEnd = 3
+lvlPlayDeath = 4
+lvlPlayClip1 = 5
+lvlPlayClip2 = 6
+lvlPlayClip3 = 7
+lvlPlayClip4 = 8
+lvlPlayClip5 = 9
+lvlPlayClip6 = 10
+lvlPlayClip7 = 11
+lvlPlayNag = 12
+lvlPlayNag2 = 13
+lvlPause = 14
+lvlDone = 15
+lvlHint = 16
+lvlState = lvlSetup 
+
+altState = lvlSetup
+
+statePlaying = 0
+stateStartup = 1
+stateQuit = 2
+stateVLDPwake = 3
+gameflow = stateVLDPwake  --stateStartup
+
+
+-- Labels for elements in the hitbox arrays
+
+bbx1 = 1	-- Box coordinates
+bby1 = 2
+bbx2 = 3
+bby2 = 4
+
+hitmapFrame = 1		-- Frame the boxes belong to
+hitmapIndex = 2		-- Where in the hitbox array to start looking
+hitmapCount = 3		-- How many boxes
+hitmapBonus = 4		-- Index for a skull/spitoon bound box (in the powerup array)
+hitmapCivStart = 5	-- Index in the civillian array to start looking
+hitmapCivCount = 6	-- How many boxes
+
+-- booleans for joystick input
+
+p1UP = false		-- Used for level select menu. 
+p1DOWN = false		-- Used to quickly test if a joy direction or button is being pressed.
+p1LEFT = false
+p1RIGHT = false
+p1BUTTON3 = false
+p1COIN1 = false
+p1COIN2 = false
+p1SERVICE = false
+p1START1 = false
+
+bulletSprtX  = 0
+bulletSprtY  = 0
+bulletSprtY2 = 0
+
+
+menuVisits = nil; menuVisits = {0,0,0,0}
+clue = nil; clue = {0,0,0,0}
+nag = nil; nag = {false, false, false, false, false, false, false, false, false}
+civ = nil; civ = {false, false, false}
+govr = nil; govr = {false, false, false}
+stage = nil; stage = {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}
+panel = nil; panel = {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}
+rndscene = nil; rndscene = {false, false, false, false, false, false, false, false, false, false, false, false, false, false}
+finalFiller = nil; finalFiller = {0, 0, 0, 0}
+hint = nil; hint = {false, false, false, false, false, false, false, false, false}
+
+tx = 0; ty = 0; crx = 0; cry = 0; rndegg = 0
+
+overlaySetResolution(vldpGetWidth(), vldpGetHeight())
+
+resX = XRES
+resY = YRES
+UnX = resX/1440
+UnY = resY/1080
+meanx = 0
+meany = 0
+cx = 0
+cy = 0
+
+iHalX = resX/2
+iHalY = resY/2
+iZmX = 1.02
+iZmY = 1.02
+
+sx = 40*UnX
+sy = 20*UnY
+bulletSprtX = 40*UnX
+bulletSprtY = 960*UnY
+bulletSprtY2 = 940*UnY
+shotX = 540*UnX
+shotY = 300*UnY
+
+meanx = 500*UnX
+meany = 300*UnY
+
+cursoroffsetx = 30*UnX
+cursoroffsety = 30*UnX
+
+font72   = fontLoad(MYDIR .. "/Fonts/anchorsteamnf.ttf", 72*UnX)
+font144    = fontLoad(MYDIR .. "/Fonts/anchorsteamnf.ttf", 144*UnX)
+
+sprArrow    = spriteLoad(MYDIR .. "/Overlay/tommygun.png")
+sprRev      = spriteLoad(MYDIR .. "/Overlay/hit.png")
+sprPanel    = spriteLoad(MYDIR .. "/Overlay/panel.png")
+sprShot  = spriteLoad(MYDIR .. "/Overlay/shot.png")
+
+sprScore    = nil
+sprCredits  = nil
+sprFreePlay = nil
+
+sndCoin        = soundLoad(MYDIR .. "/Sounds/coin.wav")
+sndCredit      = soundLoad(MYDIR .. "/Sounds/credit.wav")
+sndGunshot     = soundLoad(MYDIR .. "/Sounds/tommyshot.wav") 
+sndEmpty       = soundLoad(MYDIR .. "/Sounds/empty.wav")
+sndBreak       = soundLoad(MYDIR .. "/Sounds/recoil.wav")
+sndCashReg     = soundLoad(MYDIR .. "/Sounds/cashregister.wav")
+sndCoinsTable  = soundLoad(MYDIR .. "/Sounds/coinstable.wav")
+
+sprNUM = nil; sprNUM = {}
+sprNUM[0] = spriteLoad(MYDIR .. "/Overlay/num0.png")
+sprNUM[1] = spriteLoad(MYDIR .. "/Overlay/num1.png")
+sprNUM[2] = spriteLoad(MYDIR .. "/Overlay/num2.png")
+sprNUM[3] = spriteLoad(MYDIR .. "/Overlay/num3.png")
+sprNUM[4] = spriteLoad(MYDIR .. "/Overlay/num4.png")
+sprNUM[5] = spriteLoad(MYDIR .. "/Overlay/num5.png")
+sprNUM[6] = spriteLoad(MYDIR .. "/Overlay/num6.png")
+sprNUM[7] = spriteLoad(MYDIR .. "/Overlay/num7.png")
+sprNUM[8] = spriteLoad(MYDIR .. "/Overlay/num8.png")
+sprNUM[9] = spriteLoad(MYDIR .. "/Overlay/num9.png")
+
+fontQuality(FONT_QUALITY_BLENDED)
+
+	
+

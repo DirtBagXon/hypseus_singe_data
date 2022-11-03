@@ -1,0 +1,557 @@
+--[[
+
+PROGRAM NAME:	MAD DOG MCCREE (SINGE EDITION)
+AUTHOR:			RDG2010
+CONVERTED FOR SINGE 2: POIU2020
+This file is part of MAD DOG MCCREE (SINGE EDITION)
+
+    MAD DOG MCCREE (SINGE EDITION) is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation.
+
+    MAD DOG MCCREE (SINGE EDITION) is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+    Read COPYING.TXT for more info.
+
+
+]]--
+
+
+sprLine1 = nil
+sprLine2 = nil
+sprLine3 = nil
+qx = {}
+qy = {}
+highscore = nil
+
+
+function readConfig()
+
+	-- This function reads the data file and loads the values into
+	-- the appropriated dip variables.
+
+
+	local s1
+	local hsName = ""
+	local hdScore = ""
+	local k = 0
+	local h1 = io.input(MYDIR .. "/Cfg/maddog2.cfg")
+
+		local s1 = io.read("*line")
+
+		if (s1 ~= nil) then
+
+			dip_GameType = tonumber(string.sub(s1,string.find(s1,"=")+1))
+
+		end
+
+		s1 = io.read("*line")
+
+		if (s1 ~= nil) then
+
+			dip_LivesPerCredit = tonumber(string.sub(s1,string.find(s1,"=")+1))
+
+		end
+
+		s1 = io.read("*line")
+
+		if (s1 ~= nil) then
+
+			dip_Difficulty = tonumber(string.sub(s1,string.find(s1,"=")+1))
+
+		end
+
+		s1 = io.read("*line")
+
+		if (s1 ~= nil) then
+
+			dip_ReloadTrigger = tonumber(string.sub(s1,string.find(s1,"=")+1))
+
+		end
+
+		s1 = io.read("*line")
+
+		if (s1 ~= nil) then
+
+			dip_Crosshair = tonumber(string.sub(s1,string.find(s1,"=")+1))
+
+		end
+
+		s1 = io.read("*line")
+		s1 = tonumber(string.sub(s1,string.find(s1,"=")+1))
+
+		if (s1 ~= nil) then
+
+			if (s1 == 1) then
+				dip_Undertaker = true
+			else
+				dip_Undertaker = false
+			end
+		end
+
+		s1 = io.read("*line")
+				
+		if (s1 ~= nil) then
+
+			dip_Showdown = tonumber(string.sub(s1,string.find(s1,"=")+1))
+			
+		end
+
+		s1 = io.read("*line")
+		s1 = tonumber(string.sub(s1,string.find(s1,"=")+1))
+
+		if (s1 ~= nil) then
+
+			if (s1 == 1) then
+				dip_Practice = true
+			else
+				dip_Practice = false
+			end
+		end
+
+		s1 = io.read("*line")
+				
+		if (s1 ~= nil) then
+
+			dip_HUD = tonumber(string.sub(s1,string.find(s1,"=")+1))
+			
+		end
+
+		s1 = io.read("*line")
+		highscore = nil; highscore = {}
+		for k=1,6 do
+			s1 = io.read("*line")
+
+			hsName = string.sub(s1,1,string.find(s1,",")-1)
+			hsScore = string.sub(s1,string.find(s1,",")+1, string.len(s1))
+
+			highscore[k] = {}
+			highscore[k] = {hsName, hsScore}
+
+		end
+
+		io.close(h1)
+
+		
+end
+
+function writeConfig()
+
+	-- This function writes the values of the dip variables
+	-- into an external data file.
+
+	local sNewLine = "\n"
+	local s1 = ""
+
+	local h1 = io.output(MYDIR .. "/Cfg/maddog2.cfg")
+	io.write("dip_GameType = " .. dip_GameType .. sNewLine)
+	io.write("dip_LivesPerCredit = " .. dip_LivesPerCredit .. sNewLine)
+	io.write("dip_Difficulty = " .. dip_Difficulty .. sNewLine)
+	io.write("dip_ReloadTrigger = " .. dip_ReloadTrigger .. sNewLine)
+	io.write("dip_Crosshair = " .. dip_Crosshair .. sNewLine)
+
+	if (dip_Undertaker == true) then
+		io.write("dip_Undertaker = 1" .. sNewLine)
+	else
+		io.write("dip_Undertaker = 0" .. sNewLine)
+	end
+
+	io.write("dip_Showdown = " .. dip_Showdown .. sNewLine)
+
+	if (dip_Practice == true) then
+		io.write("dip_Practice = 1" .. sNewLine)
+	else
+		io.write("dip_Practice = 0" .. sNewLine)
+	end
+
+	io.write("dip_HUD = " .. dip_HUD .. sNewLine)
+	
+	io.write(sNewLine)
+
+	for k=1,6 do
+
+
+		s1 = highscore[k][1] .. "," .. highscore[k][2]
+		io.write(s1 .. sNewLine)
+
+	end
+
+	io.close(h1)
+
+end
+
+function updateOpts(thisIndex)
+
+
+	if (thisIndex == 1) then
+
+		dip_GameType = dip_GameType + 1
+
+		if (dip_GameType > 3) then
+
+			dip_GameType = 1
+
+		end
+
+	elseif (thisIndex == 2) then
+
+		dip_LivesPerCredit = dip_LivesPerCredit + 1
+
+		if (dip_LivesPerCredit > 6) then
+
+			dip_LivesPerCredit = 3
+
+		end
+
+
+	elseif (thisIndex == 3) then
+
+		if (dip_Difficulty == DOPT_EASY) then
+
+			dip_Difficulty = DOPT_MEDIUM
+
+		elseif (dip_Difficulty == DOPT_MEDIUM) then
+
+			dip_Difficulty = DOPT_HARD
+
+		elseif (dip_Difficulty == DOPT_HARD) then
+
+			dip_Difficulty = DOPT_EXTREME
+
+		else
+
+			dip_Difficulty = DOPT_EASY
+
+		end
+
+	elseif (thisIndex == 4) then
+
+		if (dip_ReloadTrigger == DOPT_IMMEDIATE) then
+
+			dip_ReloadTrigger = DOPT_ONEMPTY
+
+		elseif (dip_ReloadTrigger == DOPT_ONEMPTY) then
+
+			dip_ReloadTrigger = DOPT_BORDERS
+
+		else
+
+			dip_ReloadTrigger = DOPT_IMMEDIATE
+
+		end
+
+	elseif (thisIndex == 5) then
+
+		dip_Undertaker = not dip_Undertaker
+
+	elseif (thisIndex == 6) then
+
+		dip_Showdown = dip_Showdown + 1
+
+		if (dip_Showdown > 3) then
+		
+			dip_Showdown = 1
+			
+		end
+
+	elseif (thisIndex == 7) then
+
+		dip_Practice = not dip_Practice
+
+	elseif (thisIndex == 8) then
+
+		if (dip_Crosshair == 1) then
+
+			dip_Crosshair = 2
+
+		elseif (dip_Crosshair == 2) then
+
+			dip_Crosshair = 3
+
+		elseif (dip_Crosshair == 3) then
+
+			dip_Crosshair = 4
+
+		elseif (dip_Crosshair == 4) then
+
+			dip_Crosshair = 5
+
+		elseif (dip_Crosshair == 5) then
+
+			dip_Crosshair = 1
+
+		end
+
+	elseif (thisIndex == 9) then
+
+		lvlState = lvlEnd
+
+	end
+
+end
+
+function printOpts()
+
+	-- This function writes the options on the service menu screen.
+	local k = 0
+
+	for k=1,9 do
+
+		if (k == 1) then
+
+			if (dip_GameType == 1) then
+
+				spriteDraw(927*UnX, 188*UnY, sprHole)
+
+			elseif (dip_GameType == 2) then
+
+				spriteDraw(1129*UnX, 188*UnY, sprHole)
+
+			elseif (dip_GameType == 3) then
+
+				spriteDraw(1303*UnX, 188*UnY, sprHole)
+
+			end
+
+		elseif (k == 2) then
+
+			if (dip_LivesPerCredit == 3) then
+
+				spriteDraw(833*UnX, 286*UnY, sprHole)
+
+			elseif (dip_LivesPerCredit == 4) then
+
+				spriteDraw(963*UnX, 286*UnY, sprHole)
+
+			elseif (dip_LivesPerCredit == 5) then
+
+				spriteDraw(1088*UnX, 286*UnY, sprHole)
+
+			else
+
+				spriteDraw(1216*UnX, 286*UnY, sprHole)
+
+			end
+
+		elseif (k == 3) then
+
+			if (dip_Difficulty == DOPT_EASY) then
+
+				spriteDraw(833*UnX, 385*UnY, sprHole)
+
+			elseif (dip_Difficulty == DOPT_MEDIUM) then
+
+				spriteDraw(963*UnX, 385*UnY, sprHole)
+
+			elseif (dip_Difficulty == DOPT_HARD) then
+
+				spriteDraw(1088*UnX, 385*UnY, sprHole)
+
+			else
+
+				spriteDraw(1226*UnX, 385*UnY, sprHole)
+
+			end
+
+		elseif (k == 4) then
+
+			if (dip_ReloadTrigger == DOPT_IMMEDIATE) then
+
+				spriteDraw(922*UnX, 484*UnY, sprHole)
+
+			elseif (dip_ReloadTrigger == DOPT_ONEMPTY) then
+
+				spriteDraw(1139*UnX, 484*UnY, sprHole)
+
+			else
+
+				spriteDraw(1398*UnX, 484*UnY, sprHole)
+
+			end
+
+
+		elseif (k == 5) then
+
+			if dip_Undertaker then
+
+				spriteDraw(889*UnX, 598*UnY, sprHole)
+
+
+			else
+
+				spriteDraw(1059*UnX, 598*UnY, sprHole)
+
+
+			end
+
+		elseif (k == 6) then
+
+			if (dip_Showdown == 1) then
+
+				spriteDraw(889*UnX, 692*UnY, sprHole)
+
+
+			elseif (dip_Showdown == 2) then
+
+				spriteDraw(1059*UnX, 692*UnY, sprHole)
+
+			elseif (dip_Showdown == 3) then
+
+				spriteDraw(1274*UnX, 692*UnY, sprHole)
+
+			end
+
+		elseif (k == 7) then
+
+
+			if dip_Practice then
+
+				spriteDraw(889*UnX, 791*UnY, sprHole)
+
+
+			else
+
+				spriteDraw(1059*UnX, 791*UnY, sprHole)
+
+
+			end
+
+		elseif (k == 8) then
+
+			sprCursor = nil
+
+			if (dip_Crosshair == 1) then
+
+				sprCursor  = spriteLoad(MYDIR .. "/Overlay/crosshaira.png")
+				
+			elseif (dip_Crosshair == 2) then
+
+				sprCursor  = spriteLoad(MYDIR .. "/Overlay/crosshairb.png")
+				
+			elseif (dip_Crosshair == 3) then
+
+				sprCursor  = spriteLoad(MYDIR .. "/Overlay/crosshairc.png")
+				
+			elseif (dip_Crosshair == 4) then
+
+				sprCursor  = spriteLoad(MYDIR .. "/Overlay/crosshaird.png")
+				
+			elseif (dip_Crosshair == 5) then
+
+				sprCursor  = spriteLoad(MYDIR .. "/Overlay/crosshaire.png")
+				fontSelect(fontOldWest)
+				colorForeground(255, 255, 255)
+				fontPrint(810*UnX, 874*UnY, "ON TRIGGER")
+				
+			end
+
+			spriteDraw(810*UnX, 874*UnY, sprCursor)
+
+		end
+
+	end
+
+end
+
+function doServiceMenu()
+
+	-- This is the main function for the service menu screen.
+
+	local j = resX * 0.5
+	local h = j - 80
+	local k = 80
+	panel = nil; panel = {false, false, false}
+
+	if (lvlState == lvlSetup) then
+
+		discSearch(56326)
+		discPause()
+		waitFor(0,false,true)
+
+		optSel = 1
+		readConfig()
+		bShowScore = false
+		bPlaySound = false
+		bReloadDisabled = true
+		bShowMouse = false
+		bShowCredits = false
+		lvlState = lvlRunning
+
+	elseif (lvlState == lvlRunning) then
+
+		if (p1BUTTON3) then
+
+			p1BUTTON3 = false
+			soundPlay(sndGunshot)
+			updateOpts(optSel)
+
+		elseif p1BUTTON1 then
+
+			p1BUTTON1 = false
+			lvlState = lvlEnd
+			soundPlay(sndCoin)
+
+		else
+
+			if (mousey >= 0*UnY and mousey <= 256*UnY) then		-- Coins per credit
+
+				spriteDraw(52*UnX, 192*UnY, sprArrow)
+				optSel = 1
+
+			elseif  (mousey >= 257*UnY and mousey <= 355*UnY) then	-- Lives per credit
+
+				spriteDraw(52*UnX, 290*UnY, sprArrow)
+				optSel = 2
+
+			elseif  (mousey >= 356*UnY and mousey <= 454*UnY) then	-- Difficulty
+				
+				spriteDraw(52*UnX, 389*UnY, sprArrow)
+				optSel = 3
+
+			elseif  (mousey >= 455*UnY and mousey <= 553*UnY) then	-- Reload mode
+
+				spriteDraw(52*UnX, 488*UnY, sprArrow)
+				optSel = 4
+
+			elseif (mousey >= 554*UnY and mousey <= 652*UnY) then	-- Show undertaker
+
+				spriteDraw(52*UnX, 587*UnY, sprArrow)
+				optSel = 5
+
+			elseif (mousey >= 653*UnY and mousey <= 751*UnY) then -- Play showdowns
+
+				spriteDraw(52*UnX, 686*UnY, sprArrow)
+				optSel = 6
+
+			elseif  (mousey >= 752*UnY and mousey <= 850*UnY) then -- Play practice
+
+				spriteDraw(52*UnX, 785*UnY, sprArrow)
+				optSel = 7
+
+			elseif  (mousey >= 851*UnY and mousey <= 949*UnY) then -- Crosshair
+
+				spriteDraw(52*UnX, 884*UnY, sprArrow)
+				optSel = 8
+
+			elseif  (mousey >= 950*UnY and mousey <= 1080*UnY) then -- exit
+
+				spriteDraw(252*UnX, 983*UnY, sprArrow)
+				optSel = 9
+
+			end
+			printOpts()
+
+
+		end
+
+	elseif (lvlState == lvlEnd) then
+
+		writeConfig()
+		bShowMouse = true
+		gameflow = stateStartup
+	
+	end
+
+end

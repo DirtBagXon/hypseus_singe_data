@@ -1,0 +1,375 @@
+--[[
+
+PROGRAM NAME:	DRUG WARS (SINGE EDITION)
+AUTHOR:			RDG2010
+
+This file is part of DRUG WARS (SINGE EDITION)
+
+    DRUG WARS (SINGE EDITION) is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation.
+
+    DRUG WARS (SINGE EDITION) is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+    Read COPYING.TXT for more info.
+
+
+]]--
+
+function doContinue()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint ("Entering doContinue()") end
+	
+		bShowScore = false		
+		bShowCredits = true
+		bReloadDisabled = true
+		iBullets = 0
+		
+		levelFrameStart = offsetMenus + 105
+		levelFrameEnd = offsetMenus + 375		
+		discSkipToFrame(levelFrameStart)
+		
+		bShowMouse = false		
+		lvlState = lvlPlayClip1
+	
+	elseif (lvlState == lvlPlayClip1) then
+	
+		if (currentFrame == levelFrameEnd) then
+			lvlState = lvlEnd
+			
+		else
+		
+			if (p1START1) then
+
+				if (iCredits > 0 or dip_CoinsPerCredit == DOPT_FREEPLAY) then
+			
+					p1START1 = false
+					if iCredits > 0 then iCredits = iCredits - 1 end
+					lvlState = lvlSetup					-- Set state for said level
+					iLives = dip_LivesPerCredit			-- Reset lives for new game 
+					iBullets = dip_MaxBullets					
+					bShowCredits = false
+					bShowScore = true
+					currentLevel = levelMenu
+					bShowMouse = true	
+					bShowDown = true
+					bReloadDisabled = false
+					iScore = 0					
+					
+				end
+				
+			elseif (bResetContinue) then
+			
+				bResetContinue = false
+				discSkipToFrame(levelFrameStart)
+				
+			end
+		
+		end
+	
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		if newScore(iScore) == true then
+		
+			currentLevel = levelHighScore
+			
+		else
+		
+			currentLevel = levelGameOver
+			
+		end
+		if bDebug then debugPrint ("Leaving doContinue()") end
+	
+	end
+
+end
+
+function doGameOver()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint ("Entering doGameOver()") end
+		
+		bShowCredits = true
+		bShowScore = false
+		bReloadDisabled = true
+		iBullets = 0
+		levelFrameStart = offsetMenus + 377
+		levelFrameEnd = offsetMenus + 526
+		
+		discSkipToFrame(levelFrameStart)
+		lvlState = lvlPlayClip1
+	
+	elseif (lvlState == lvlPlayClip1) then
+	
+		if (currentFrame == levelFrameEnd) then
+			lvlState = lvlEnd
+		
+		end
+	
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		currentLevel = levelIntro
+		if bDebug then debugPrint ("Leaving doGameOver()") end
+	
+	end
+
+end
+
+function doIntro()
+
+	if (lvlState == lvlSetup) then
+	
+		bPlaySound = true
+		bReloadDisabled = true
+		bShowMouse = false
+		bShowScore = false
+		bShowCredits = true
+		
+		setupClip(61616, 61933)
+		lvlState = lvlPlayClip5
+		
+	elseif (lvlState == lvlPlayClip1) then
+	
+		if (currentFrame == 4030 or p1BUTTON3) then
+		
+			p1BUTTON3 = false		
+			discSkipToFrame(62067)		
+			discPause()
+			timerON(3)
+			lvlState = lvlPlayClip2
+			
+		end		
+		
+	elseif (lvlState == lvlPlayClip2) then
+	
+		if timerDue() then
+		
+			discSkipToFrame(59541)
+			discPause()
+			timerON(6)
+			lvlState = lvlPlayClip3
+		
+		end
+		
+	elseif (lvlState == lvlPlayClip3) then
+	
+		if timerDue() then
+		
+			timerON(9)
+			discSkipToFrame(offsetMenus + 528)
+			discPause()			
+			bShowCredits = false
+			lvlState = lvlPlayClip4
+			
+		end
+		
+	elseif (lvlState == lvlPlayClip4) then
+	
+		if timerDue() then
+		
+			setupClip(61959, 62090)
+			bShowCredits = true
+			lvlState = lvlPlayClip5	
+			
+		else
+			drawHStable()
+		end
+		
+	elseif (lvlState == lvlPlayClip5) then
+	
+		if currentFrame == iFrameEnd then
+		
+			discSkipToFrame(1)
+			lvlState = lvlPlayClip1
+		
+		end		
+	
+	elseif (lvlState == lvlEnd) then
+	
+		-- No end for this routine. Play indefinitely until player starts game or exits game.
+	
+	end
+
+end
+
+function doLivesLeft()
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint ("Entering doLivesLeft()") end
+	
+		bShowMouse = false
+		bReloadDisabled = true
+		iBullets = 0
+		bPlaySound = false
+		bShowScore = false
+		
+		if iLives == 1 then
+		
+			discSkipToFrame(offsetMenus + 91)
+			
+		elseif iLives == 2 then
+		
+			discSkipToFrame(offsetMenus + 93)
+			
+		elseif iLives == 3 then
+		
+			discSkipToFrame(offsetMenus + 95)
+			
+		elseif iLives == 4 then
+		
+			discSkipToFrame(offsetMenus + 97)
+			
+		elseif iLives == 5 then
+		
+			discSkipToFrame(offsetMenus + 99)
+		end
+		discPause()
+		timerON(3)
+		lvlState = lvlPlayClip1			
+		
+
+	elseif (lvlState == lvlPlayClip1) then
+	
+		if timerDue() then		
+			
+			lvlState = lvlEnd
+		
+		end
+	
+	elseif (lvlState == lvlEnd) then
+	
+		bShowMouse = true
+		bReloadDisabled = false
+		bPlaySound = true
+		bShowScore = true
+
+		lvlState = lvlSetup
+		
+		if (tempLevel == levelDoor1 or tempLevel == levelDoor2 or tempLevel == levelDoor3 or tempLevel == levelTallon) then
+		
+			currentLevel = tempLevel
+		else
+			currentLevel = levelMenu
+		end 
+		
+		if bDebug then debugPrint ("Leaving doLivesLeft()") end
+	
+	end
+
+
+end
+
+function drawBullets()
+	
+	if bRelAnim then
+		
+		if not (rLastFrame == currentFrame) then
+			
+			rLastFrame = currentFrame
+			relIndex = relIndex + 1
+			
+			if relIndex == 13 then 
+				relIndex = 1
+				bRelAnim = false
+			end
+			
+		end
+		
+		spriteDraw(15*UnX, 972*UnY, sprBullet[relIndex])		
+	
+	else
+
+		spriteDraw(15*UnX, 972*UnY, sprBullet[iBullets+1])
+		
+	end
+
+end
+
+function drawCredits()
+
+	blinkTimer(1)
+	
+	if heartbeat then
+	
+		colorForeground(0, 0, 255)			
+		fontSelect(font42)
+		
+		if (dip_CoinsPerCredit == DOPT_FREEPLAY) then
+		
+			spriteDraw(crx, cry, sprFreePlay)
+		
+		else
+		
+			if (iCredits > 0) then
+				
+				fontPrint(tx,ty, string.format('CREDITS: %d',iCredits))
+				
+			end
+			
+		end
+
+	end
+
+end
+
+function drawLives()
+
+
+	local livex = 15*UnX
+	local k = 0
+	
+	for k = 1,iLives do
+		
+		spriteDraw(livex + 50*(k-1), 1020*UnY, sprBadge)
+	
+	end
+			
+end
+
+function drawScore()
+
+	local j = 0
+	local s1 = ""
+	
+	s1 = math.floor(iScore)	
+	j = string.len(s1)
+	
+	if (j == 1) then 
+		s1 = ("0000" .. s1) 
+		
+	elseif (j == 2) then
+		s1 = ("000" .. s1) 
+		
+	elseif (j == 3) then
+		s1 = ("00" .. s1) 
+
+	elseif (j == 4) then
+		s1 = ("0" .. s1) 	
+		
+	end
+	
+
+	j = tonumber(string.sub(s1,1,1))	
+	spriteDraw(15*UnX, 912*UnY, sprNUM[j])
+	
+	j = tonumber(string.sub(s1,2,2))	
+	spriteDraw(45*UnX, 912*UnY, sprNUM[j])		
+	
+	j = tonumber(string.sub(s1,3,3))	
+	spriteDraw(75*UnX, 912*UnY, sprNUM[j])
+	
+	j = tonumber(string.sub(s1,4,4))	
+	spriteDraw(105*UnX, 912*UnY, sprNUM[j])
+
+	j = tonumber(string.sub(s1,5,5))	
+	spriteDraw(135*UnX, 912*UnY, sprNUM[j])
+	
+end

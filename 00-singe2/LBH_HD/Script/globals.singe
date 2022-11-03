@@ -1,0 +1,388 @@
+--[[
+
+PROGRAM NAME:	LAST BOUNTY HUNTER (SINGE EDITION)
+AUTHOR:			RDG2010
+CONVERTED FOR SINGE 2: POIU2020
+This file is part of LAST BOUNTY HUNTER (SINGE EDITION)
+
+    LAST BOUNTY HUNTER (SINGE EDITION) is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation.
+
+    LAST BOUNTY HUNTER (SINGE EDITION) is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+    Read COPYING.TXT for more info.
+
+
+]]--
+
+
+--Framework.singe....
+
+discSetFPS(29.97)
+discSkipToFrame(1)
+discPause()
+
+SWITCH_UP         =  0
+SWITCH_LEFT       =  1
+SWITCH_DOWN       =  2
+SWITCH_RIGHT      =  3
+SWITCH_START1     =  4
+SWITCH_START2     =  5
+SWITCH_BUTTON1    =  6
+SWITCH_BUTTON2    =  7
+SWITCH_BUTTON3    =  8
+SWITCH_COIN1      =  9
+SWITCH_COIN2      = 10
+SWITCH_SKILL1     = 11
+SWITCH_SKILL2     = 12
+SWITCH_SKILL3     = 13
+SWITCH_SERVICE    = 14
+SWITCH_TEST       = 15
+SWITCH_RESET      = 16
+SWITCH_SCREENSHOT = 17
+SWITCH_QUIT       = 18
+SWITCH_PAUSE      = 19
+SWITCH_CONSOLE    = 20
+
+FONT_QUALITY_SOLID   = 1
+FONT_QUALITY_SHADED  = 2
+FONT_QUALITY_BLENDED = 3
+
+SOUND_ERROR_INVALID = -1
+SOUND_ERROR_FULL    = -2
+
+OVERLAY_NOT_UPDATED = 0
+OVERLAY_UPDATED     = 1
+
+
+--...End Framework
+
+bDebug = false
+bPause = false
+bPlaySound = true
+bLevelComplete = false
+bReloadDisabled = false
+bShowMouse = true
+bSection01Reached = false
+bSection02Reached = false
+bSection03Reached = false
+bShowCredits = false
+bShowScore = false
+bResetContinue = false
+bFlip = false
+bNoMoreBonuses = false
+bAdviceGiven = false
+bHarryAlt = false
+bLocoAlt = false
+bShowdown = false
+bBonusLevel = false
+bJustStarting = false
+clockSecs = 0
+bMA4 = false 
+bRealShow = false 
+
+DOPT_EASY = 1
+DOPT_MEDIUM = 2
+DOPT_HARD = 3
+DOPT_EXTREME = 4
+DOPT_IMMEDIATE = 100
+DOPT_ONEMPTY = 101
+DOPT_BORDERS = 102
+DOPT_FREEPLAY = 4
+
+dip_LivesPerCredit = 6
+dip_CoinsPerCredit = 1
+dip_CoinsPerContinue = 1
+dip_Difficulty = DOPT_EASY
+dip_MaxBullets = 6
+dip_ReloadTrigger = DOPT_IMMEDIATE
+dip_Crosshair = 1
+dip_Showdown = 1
+dip_Undertaker = true
+
+
+-- Indexes for pixel perfect detection
+
+lineStartX = 1
+lineStartY = 2
+lineEndX = 3
+lineEndY = 4
+
+iLives = 0
+iScore = 0
+iBullets = 0
+iDelay = 0
+iCredits = 0
+iCoins = 0
+iLastRndClip = 0
+iChoice = 0
+
+NAG_NORMAL = 1
+NAG_FRIENDLYKILLED = 2
+
+SCORE_BADGUY = 100
+SCORE_OUTLAW = 500
+SCORE_BOUNTY = 1000
+SCORE_SHOWDOWN = 200
+
+mousex = 0
+mousey = 0
+cursorx = 0
+cursory = 0
+cursoroffsetx = 0
+cursoroffsety = 0
+
+levelStart = 0
+
+
+SKIP_DEATH    = 120
+
+levelArmybase = 1
+levelDan1 = 2
+levelDan2 = 3
+levelDan3 = 4
+levelCactus1 = 5
+levelCactus2 = 6
+levelCactus3 = 7
+levelCactus4 = 8
+levelCactus5 = 9
+levelCactus6 = 10
+levelHarry1 = 11
+levelHarry2 = 12
+levelHarry3 = 13
+levelHarry4 = 14
+levelLoco1 = 15
+levelLoco2 = 16
+levelLoco3 = 17
+levelLoco4 = 18
+levelBonus = 19
+levelShowdown = 20
+levelFinal1 = 21
+levelFinal2 = 22
+
+STAGE_HARRY = 1
+STAGE_DAN = 2
+STAGE_LOCO = 3
+STAGE_CACTUS = 4
+
+
+SHOOTOUT09 = 46069
+SHOOTOUT10 = 46399
+SHOOTOUT11 = 46669
+offsetTooEarlyClips = 48082
+
+
+move = nil
+totalMoves = 0
+hitmapTotal = 0
+moveFrameStart = 1
+moveFrameEnd = 2
+deathFrameStart = 3
+deathFrameEnd = 4
+hitboxBonus = 4
+hitboxStart = 5
+hitboxEnd = 6
+rndMoveStart = 7
+rndMoveEnd = 8
+practiceMoveEnd = 7
+levelFrameStart = 0
+levelFrameEnd = 0
+iFrameStart = 0
+iFrameEnd = 0
+nagFrameStart = 0
+nagFrameEnd = 0
+
+levelGameOver = 105
+levelContinue = 106
+levelMenu = 107
+levelService = 108
+levelLivesLeft = 109
+levelHighScore = 110
+levelInit = 111
+
+currentFrame = 0
+currentMove = 0
+currentLevel = levelInit
+tempLevel = 0
+thisOffset = 0
+offsetMenus = 54511
+sName = ""
+sNicks = ""
+
+
+lvlSetup = 1
+lvlRunning = 2
+lvlEnd = 3
+lvlPlayDeath = 4
+lvlPlayClip1 = 5
+lvlPlayClip2 = 6
+lvlPlayClip3 = 7
+lvlPlayClip4 = 8
+lvlPlayClip5 = 9
+lvlPlayClip6 = 10
+lvlPlayNag = 11
+lvlPause = 15
+lvlState = lvlSetup 
+
+statePlaying = 0
+stateStartup = 1
+stateQuit = 2
+stateVLDPwake = 3
+gameflow = stateVLDPwake  --stateStartup
+
+
+-- Labels for elements in the hitbox arrays
+
+bbx1 = 1	-- Box coordinates
+bby1 = 2
+bbx2 = 3
+bby2 = 4
+
+hitmapFrame = 1		
+hitmapIndex = 2		
+hitmapCount = 3		
+hitmapBonus = 4		
+hitmapCivStart = 5	
+hitmapCivCount = 6	
+
+-- booleans for joystick input
+
+p1UP = false		-- Used for level select menu. 
+p1DOWN = false		-- Used to quickly test if a joy direction or button is being pressed.
+p1LEFT = false
+p1RIGHT = false
+p1BUTTON3 = false
+p1COIN1 = false
+p1COIN2 = false
+p1SERVICE = false
+p1START1 = false
+
+bulletSprtX  = 0
+bulletSprtY  = 0
+bulletSprtY2 = 0
+
+ATLARGE = 1
+CAPTURED = 2
+DEAD = 3
+panel = nil; panel = {ATLARGE, ATLARGE, ATLARGE, ATLARGE}
+
+nag = nil; nag = {false, false, false, false, false, false, false, false}
+civ = nil; civ = {false, false, false, false}
+stage = nil; stage = {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}
+showdown = nil; showdown = {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}
+starPos = nil; POSX = 1; POSY = 2
+crx = 0; cry = 0; rndegg = 0
+
+overlaySetResolution(vldpGetWidth(), vldpGetHeight())
+
+sprArrow    = spriteLoad(MYDIR .. "/Overlay/pistol.png")
+sprRev      = spriteLoad(MYDIR .. "/Overlay/crosshaire.png")
+scrx= nil
+sprScore   = nil
+sprCredits = nil
+sprFreePlay = nil
+
+sprBullet = nil; sprBullet = spriteLoad(MYDIR .. "/Overlay/bullet.png")
+sprReload = nil; sprReload = spriteLoad(MYDIR .. "/Overlay/reload.png")
+sprCaptured = nil; sprCaptured = spriteLoad(MYDIR .. "/Overlay/captured.png")
+sprDead = nil; sprDead = spriteLoad(MYDIR .. "/Overlay/dead.png")
+sprCredits = spriteLoad(MYDIR .. "/Overlay/credits.png")
+sprStar    = spriteLoad(MYDIR .. "/Overlay/star.png")
+sprHole  = spriteLoad(MYDIR .. "/Overlay/hole.png")
+sprShot  = spriteLoad(MYDIR .. "/Overlay/shot.png")
+sprRev = spriteLoad(MYDIR .. "/Overlay/hit.png")
+sprBulletSM = spriteLoad(MYDIR .. "/Overlay/bullet2.png")
+sprStarSM = spriteLoad(MYDIR .. "/Overlay/star2.png")
+--sprUL  = spriteLoad(MYDIR .. "/Overlay/ul.png")
+--sprDR  = spriteLoad(MYDIR .. "/Overlay/dr.png")
+
+sprNum = nil; sprNUM = {}
+sprNUM[0] = spriteLoad(MYDIR .. "/Overlay/num0.png")
+sprNUM[1] = spriteLoad(MYDIR .. "/Overlay/num1.png")
+sprNUM[2] = spriteLoad(MYDIR .. "/Overlay/num2.png")
+sprNUM[3] = spriteLoad(MYDIR .. "/Overlay/num3.png")
+sprNUM[4] = spriteLoad(MYDIR .. "/Overlay/num4.png")
+sprNUM[5] = spriteLoad(MYDIR .. "/Overlay/num5.png")
+sprNUM[6] = spriteLoad(MYDIR .. "/Overlay/num6.png")
+sprNUM[7] = spriteLoad(MYDIR .. "/Overlay/num7.png")
+sprNUM[8] = spriteLoad(MYDIR .. "/Overlay/num8.png")
+sprNUM[9] = spriteLoad(MYDIR .. "/Overlay/num9.png")
+
+resX = XRES
+resY = YRES
+UnX = resX/1440
+UnY = resY/1080
+
+iHalX = resX/2
+iHalY = resY/2
+iZmX = 1.02
+iZmY = 1.02
+
+font72 = fontLoad(MYDIR .. "/Fonts/helldorado.ttf", 72*UnX)
+font144 = fontLoad(MYDIR .. "/Fonts/helldorado.ttf", 144*UnY)
+
+fontSelect(font72)
+
+cx = 0
+cy = 0
+
+sndCoin        = soundLoad(MYDIR .. "/Sounds/coin.wav")
+sndCredit      = soundLoad(MYDIR .. "/Sounds/credit.wav")
+sndGunshot     = soundLoad(MYDIR .. "/Sounds/shot.wav")
+sndEmpty       = soundLoad(MYDIR .. "/Sounds/empty.wav")
+sndReload      = soundLoad(MYDIR .. "/Sounds/reload.wav")
+sndBreak       = soundLoad(MYDIR .. "/Sounds/bottlebreak.wav")
+sndBonus       = soundLoad(MYDIR .. "/Sounds/metal.ting.01.wav")
+
+starPos = nil; starPos = {}
+starPos[1] = {}; starPos[1] = {resX-100*UnX, 30*UnY}
+starPos[2] = {}; starPos[2] = {resX-160*UnX, 30*UnY}
+starPos[3] = {}; starPos[3] = {resX-220*UnX, 30*UnY}
+starPos[4] = {}; starPos[4] = {resX-280*UnX, 30*UnY}
+starPos[5] = {}; starPos[5] = {resX-340*UnX, 30*UnY}
+starPos[6] = {}; starPos[6] = {resX-400*UnX, 30*UnY}
+
+tx = (resX  * 0.5) - (spriteGetWidth(sprCredits) * 0.5)
+ty = (resY * 0.85) - (spriteGetHeight(sprCredits) * 0.5)
+tx2 = (resX  * 0.5) + (spriteGetWidth(sprCredits) * 0.5) +10
+
+sx = 40*UnX
+sy = 20*UnY
+
+bulletSprtX = 40*UnX
+bulletSprtY = 960*UnY
+bulletSprtY2 = 940*UnY
+shotX = 540*UnX
+shotY = 300*UnY
+
+meanx = 500*UnX
+meany = 300*UnY
+
+sprCursor = nil
+if (dip_Crosshair == 1) then
+
+    sprCursor  = spriteLoad(MYDIR .. "/Overlay/crosshaira.png")
+    
+elseif (dip_Crosshair == 2) then
+
+    sprCursor  = spriteLoad(MYDIR .. "/Overlay/crosshairb.png")
+    
+elseif (dip_Crosshair == 3) then
+
+    sprCursor  = spriteLoad(MYDIR .. "/Overlay/crosshairc.png")
+
+elseif (dip_Crosshair == 4) then
+
+    sprCursor  = spriteLoad(MYDIR .. "/Overlay/crosshaird.png")
+
+elseif (dip_Crosshair == 5) then
+
+    sprCursor  = spriteLoad(MYDIR .. "/Overlay/crosshaire.png")
+
+end
+
+cursoroffsetx = 30*UnX
+cursoroffsety = 30*UnY

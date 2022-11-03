@@ -1,0 +1,436 @@
+--[[
+
+PROGRAM NAME:	CRIME PATROL (SINGE EDITION)
+AUTHOR:			RDG2010
+CONVERTED FOR SINGE 2: POIU2020
+This file is part of CRIME PATROL (SINGE EDITION)
+
+    CRIME PATROL (SINGE EDITION) is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation.
+
+    CRIME PATROL (SINGE EDITION) is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+
+    Read COPYING.TXT for more info.
+
+
+]]--
+
+LETTER_A = 1
+LETTER_B = 2
+LETTER_C = 3
+LETTER_D = 4
+LETTER_E = 5
+LETTER_F = 6
+LETTER_G = 7
+LETTER_H = 8
+LETTER_I = 9
+LETTER_J = 10
+LETTER_K = 11
+LETTER_L = 12
+LETTER_M = 13
+LETTER_N = 14
+LETTER_O = 15
+LETTER_P = 16
+LETTER_Q = 17
+LETTER_R = 18
+LETTER_S = 19
+LETTER_T = 20
+LETTER_U = 21
+LETTER_V = 22
+LETTER_W = 23
+LETTER_X = 24
+LETTER_Y = 25
+LETTER_Z = 26
+LETTER_NONE = -1
+
+HS_RUB = 27
+HS_END = 28
+
+bHSDone = true
+bHSMute = true
+
+hsx = 0; hsy = 0
+sprHSTitle = nil
+
+highscore = nil; highscore = {}
+
+function GetHighScoreArray()
+
+hitbox = nil; hitbox = {}
+
+-- \highscore.mdg
+
+hitbox[1] = {}; hitbox[1] = {62, 132, 81, 155}
+hitbox[2] = {}; hitbox[2] = {85, 132, 103, 155}
+hitbox[3] = {}; hitbox[3] = {110, 131, 126, 155}
+hitbox[4] = {}; hitbox[4] = {134, 132, 150, 153}
+hitbox[5] = {}; hitbox[5] = {157, 132, 173, 154}
+hitbox[6] = {}; hitbox[6] = {179, 131, 196, 153}
+hitbox[7] = {}; hitbox[7] = {202, 130, 219, 152}
+hitbox[8] = {}; hitbox[8] = {224, 131, 243, 153}
+hitbox[9] = {}; hitbox[9] = {247, 131, 263, 153}
+hitbox[10] = {}; hitbox[10] = {267, 132, 284, 153}
+hitbox[11] = {}; hitbox[11] = {287, 131, 307, 153}
+hitbox[12] = {}; hitbox[12] = {63, 159, 79, 181}
+hitbox[13] = {}; hitbox[13] = {85, 159, 103, 180}
+hitbox[14] = {}; hitbox[14] = {111, 160, 128, 180}
+hitbox[15] = {}; hitbox[15] = {136, 159, 155, 180}
+hitbox[16] = {}; hitbox[16] = {160, 160, 176, 180}
+hitbox[17] = {}; hitbox[17] = {183, 159, 199, 181}
+hitbox[18] = {}; hitbox[18] = {207, 159, 225, 180}
+hitbox[19] = {}; hitbox[19] = {231, 158, 247, 180}
+hitbox[20] = {}; hitbox[20] = {256, 159, 273, 179}
+hitbox[21] = {}; hitbox[21] = {278, 158, 296, 180}
+hitbox[22] = {}; hitbox[22] = {63, 186, 83, 207}
+hitbox[23] = {}; hitbox[23] = {89, 186, 110, 207}
+hitbox[24] = {}; hitbox[24] = {116, 186, 132, 207}
+hitbox[25] = {}; hitbox[25] = {140, 187, 157, 207}
+hitbox[26] = {}; hitbox[26] = {161, 187, 180, 208}
+hitbox[27] = {}; hitbox[27] = {201, 186, 252, 208}
+hitbox[28] = {}; hitbox[28] = {254, 186, 303, 208}
+
+
+hitmap = nil; hitmap = {}
+
+hitmap[1] = {}; hitmap[1] = {1, 1, 28, 0, 0, 0}
+
+end
+
+function doHighScore()
+
+	local k = 0
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint("Entering doHighScore()") end
+	
+		colorForeground(0, 255, 0)
+		
+		GetHighScoreArray()
+		sName = ""
+		bShowMouse = true
+		bShowScore = false
+		bShowCredits = false
+		bPlaySound = false
+		bHSMute = true
+		bHSDone = false
+		iScore = math.floor(iScore)
+		
+		changeCursor()
+		
+		levelFrameStart = offsetMenus + 1018
+		levelFrameEnd = offsetMenus + 1981	
+		discSkipToFrame(levelFrameStart)
+		
+		lvlState = lvlRunning
+	
+	elseif (lvlState == lvlRunning) then
+	
+		if (currentFrame == levelFrameEnd) then
+		
+			if (sName == "") then 
+				
+				doHighScoreGetName() 				
+				
+			end			
+			
+			updateHS(sName, iScore)
+			writeConfig()				
+			bHSDone = true
+			
+			lvlState = levelPlayClip1
+			bShowMouse = false			
+			discSkipToFrame(offsetMenus + 128)	
+			discPause()
+			timerON(9)
+				
+		elseif (currentFrame <= offsetMenus + 1885) then		
+		
+			if (p1BUTTON3) then
+			
+				p1BUTTON3 = false
+				k = letterScan()
+				iBullets = dip_MaxBullets
+				
+				if (k ~= LETTER_NONE) then
+					
+					if (k == HS_RUB) then					
+						
+						letterSubtract()
+						
+					
+					elseif (k == HS_END) then
+						
+						if (sName == "") then doHighScoreGetName() end					
+						
+						discSkipToFrame(offsetMenus + 1885) 
+						playMe(sndGunshot)
+					
+					else
+						
+						letterAdd(k)	
+						playMe(sndGunshot)				
+					
+					end
+				
+				end		
+			
+			end
+			
+			if not bHSDone then drawName() end
+		
+		end
+		
+	elseif (lvlState == levelPlayClip1) then
+	
+		if timerDue() then
+			
+			lvlState = lvlEnd
+			
+		else
+
+			drawHStable()
+			
+		end	
+	
+	elseif (lvlState == lvlEnd) then
+	
+		updateCursor()
+		
+		iScore = 0
+		lvlState = lvlSetup
+		--bHSMute = false
+		sNicks = nil
+		currentLevel = levelGameOver
+		bShowCredits = true
+		bPlaySound = true
+		
+		if bDebug then debugPrint("Leaving doHighScore()") end
+	
+	end
+
+
+end
+
+function doHighScoreGetName()
+
+
+	local sNicks = nil
+	sNicks = {}; sNicks = {"URSULA","TALLON","DEXTER","BORF","BEAVER","S.BONDS","ACE","SKYE","ZELLER","JIMWALLS"}
+
+	sName = sNicks[rndegg:value(1,10)]
+
+end
+
+function drawHStable()
+
+	local k = 0
+	local posy = 250*UnY
+	local s1 = ""
+	local s2 = ""
+	
+	colorForeground(35,120,210)	
+	fontPrint(520*UnX, 50*UnY, " T O P  C O P S ")
+	fontSelect(font42)
+
+	for k=1,6 do
+	
+		s1 = tostring(k) .. ". " .. highscore[k][1]
+		s2 = highscore[k][2]
+		fontPrint(420*UnX,posy, s1)
+		fontPrint(870*UnX,posy, s2)
+		posy = posy + (80*UnY)
+	
+	end
+
+end
+
+function drawName()
+	
+	local k = 0
+	local posx = 237*UnX
+	local p = string.len(sName)	
+
+	fontSelect(font72)
+	colorForeground(35,120,210)
+
+	for k=1,p do
+	
+		sprName = nil
+		sprName = fontToSprite(string.sub(sName,k,k))
+		spriteDraw(posx, 355*UnY, sprName)
+		posx = posx + 132*UnX
+	
+	
+	end
+
+end
+
+function letterScan()
+
+	local k = 0
+	local f1 = 0
+	local f2 = 0
+	local x1 = 0
+	local x2 = 0
+	local y2 = 0
+	local y3 = 0
+	local thisLetter = LETTER_NONE
+	
+	f1 = hitmap[1][hitmapIndex]
+	f2 = f1 + (hitmap[1][hitmapCount]-1)
+	
+	for k=f1,f2 do
+		
+		x1 = ResHMx(hitbox[k][bbx1])
+		y1 = ResHMy(hitbox[k][bby1])
+		x2 = ResHMx(hitbox[k][bbx2])
+		y2 = ResHMy(hitbox[k][bby2])
+		
+		if (mousex >= x1 and mousex <= x2) and (mousey >= y1 and mousey <= y2) then	-- Player hit!
+			
+			thisLetter = k
+			break
+		
+		end
+		
+	end
+	
+	return thisLetter
+
+
+end
+
+function letterAdd(thisLetter)
+
+	local sAlph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	
+	if (string.len(sName) < 8) then
+	
+		s1 = string.sub(sAlph, thisLetter, thisLetter)
+
+		sName = string.format("%s%s", sName, s1)
+		soundPlay(sndGunshot)		
+		
+	end
+	
+end
+
+function letterSubtract()
+
+	local k = string.len(sName)
+	
+	if (k >= 1) then
+
+		sName = string.sub(sName,1,(k-1))
+		soundPlay(sndBreak)
+		
+	end
+end
+
+function newScore(thisScore)
+
+	local bResult = false
+	local k = 0
+	
+	for k=1,6 do
+	
+		if (tonumber(thisScore) >= tonumber(highscore[k][2])) then
+			
+			bResult = true			
+			break
+		
+		end	
+	
+	end
+	
+	return bResult
+
+end
+
+function changeCursor()
+
+	sprCursor = nil
+	sprCursor  = spriteLoad(MYDIR .. "/Overlay/crosshaird.png")
+
+end
+
+function updateCursor()
+
+	sprCursor = nil
+	if (dip_Crosshair == 1) then
+
+		sprCursor  = spriteLoad(MYDIR .. "/Overlay/crosshaira.png")
+		
+	elseif (dip_Crosshair == 2) then
+
+		sprCursor  = spriteLoad(MYDIR .. "/Overlay/crosshairb.png")
+		
+	elseif (dip_Crosshair == 3) then
+
+		sprCursor  = spriteLoad(MYDIR .. "/Overlay/crosshairc.png")
+		
+	elseif (dip_Crosshair == 4) then
+
+		sprCursor  = spriteLoad(MYDIR .. "/Overlay/crosshaird.png")
+		
+	elseif (dip_Crosshair == 5) then
+
+		sprCursor  = spriteLoad(MYDIR .. "/Overlay/crosshaire.png")
+		
+	end
+
+
+end
+
+function updateHS(thisName, thisScore)
+
+	local k = 0
+	local tempName = ""
+	local tempScore = ""
+	local tempHS = nil
+	local bFound = false
+	local fromHere = 0
+	
+	tempHS = {}
+	
+	for k=1,6 do
+	
+		tempHS[k] = {}
+		tempHS[k] = {highscore[k][1], highscore[k][2]}
+		
+	end
+		
+	for k=1,6 do
+	
+		tempName = highscore[k][1]
+		tempScore = highscore[k][2]
+	
+		if (tonumber(thisScore) >= tonumber(highscore[k][2])) then
+		
+			bFound = true
+			highscore[k][1] = thisName
+			highscore[k][2] = thisScore
+			fromHere = k
+			break
+		
+		end
+	
+	
+	end
+	
+	if bFound then
+		
+		for k=fromHere,5 do
+		
+			highscore[k+1][1] = tempHS[k][1]
+			highscore[k+1][2] = tempHS[k][2]
+		
+		end	
+
+	end
+	
+end
