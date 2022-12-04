@@ -1,0 +1,55 @@
+--[[
+
+PROGRAM NAME:	LUA SINGE ENGINE
+VERSION:		3.23
+AUTHOR:			KARIS (2021)
+
+This file is part of LUA SINGE ENGINE.
+
+	LUA SINGE ENGINE is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation.
+
+	LUA SINGE ENGINE is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+	Thanks to Scott Duensing, RDG.
+
+]]--
+
+
+function swapScene()  -- allows to swap some scenes for some difficulties 
+
+	if dip_Difficulty < 2 then
+
+		if iCurPos == 1 and iScene == 4 then
+
+			bSwap = true
+			iScene = 5
+
+		elseif iCurPos == 2 and (iScene == 4 or iScene == 5) then
+
+			bSwap = true
+			iScene = 6
+
+		elseif iCurPos == 3 and (iScene == 5 or iScene == 6) then
+
+			bSwap = true
+			iScene = 7
+		
+		elseif iCurPos == 6 and (iScene == 4 or iScene == 5) then
+
+			bSwap = true
+			iScene = 6
+
+		elseif iCurPos == 9 and iScene == 4 then
+			
+			bSwap = true
+			iScene = 5
+
+		end
+
+	end
+
+end

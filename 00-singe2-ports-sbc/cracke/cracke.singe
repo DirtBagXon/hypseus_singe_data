@@ -1,0 +1,1782 @@
+--[[		]]--
+
+BASEDIR = "singe"
+
+MYDIR = BASEDIR .. "/cracke/"             -- This is the directory where your game is
+dofile(MYDIR.."globals.singe")
+MovieFPS = 29.970
+
+-- Scoring Settings --
+
+SCOREMOVE = 700									
+BUFFMOVE = 300									
+SCORESCENE = 10000								
+DEATHPENALTY = 1000								
+SCORELEVEL = 50000								
+SCOREGAME = 250000								
+PERFECTBONUS = 10000							
+EXTRALIFE = 0									
+SCORESECRET = 1	
+
+PenalNormal = 0									
+PenalHard = 2									
+PenalExtreme  = 4
+
+altCfg = false  								
+											
+miscR = 153			--[[	????????????????	]]--							
+miscG = 76										
+miscB = 0
+
+AllowRandom = false								
+
+AllowTier = false								
+Tiers[0] = {4,4,4,5,3}			-- Tier 0 = init. First number is number of Tiers, followed by size of each Tier
+Tiers[1] = {1,2,3,4}							-- Levels to be mixed in Tier 1 (and so on).
+Tiers[2] = {5,6,7,8}							-- In this example there are 17 levels Tiered in 4 groups	
+Tiers[3] = {9,10,11,12,13}
+Tiers[4] = {14,15,16}							-- Level 17 is played last. Not included in any Tier.
+
+
+AllowMap = false								
+MapStart = 0									
+
+IngameDiffchoice = false		
+
+BarSize = 5	
+BarMin = 0	
+BarBonus = 2	
+
+LvlTrophy3 = 0
+LvlTrophy4 = 0	    							
+
+offsetTitle = 0						--[[***********titre************]]--
+offsetTitleend = offsetTitle + 83			--[[***********duree du titre************]]--
+
+offsetIntro01 = 166						--[[***********debut intro******124******]]--
+offsetIntro01end = offsetIntro01 + 300			--[[***********duree intro******521******]]--
+
+offsetIntro02 = 2698  						
+offsetIntro02end = offsetIntro02 + 766			
+
+offsetIntro03 = 124							
+offsetIntro03end = offsetIntro01 + 521
+
+			
+
+offsetMenus = 2000				--[[***********image fixe apres intro************]]--																	
+											
+frameOptions = 25541		-- image menu option
+frameVictory = 54684		-- image menu offsetMenus +3  			
+frameSave = 54111			-- 		
+frameRankings = 12148 		-- SCORES				
+frameControls = 54572		-- image menu controle
+frameSpecial = offsetMenus +18			
+frameSecret = offsetMenus +22
+frameTrophy = offsetMenus +15
+frameHints = offsetMenus +12			
+
+offsetGameOver = offsetMenus +161				--[[     ]]--
+offsetGameOverend = offsetMenus +439
+offsetGameOverAlt = offsetMenus +30			--[[     ]]--
+offsetGameOverAltend = offsetMenus +245 
+offsetNewHScore = offsetMenus +1526				
+offsetNewHScoreend = offsetMenus +1648		--[[     ]]--
+offsetEnterHScore = offsetMenus +1649		
+offsetEnterHScoreend = offsetMenus +2986
+offsetRankings = offsetMenus +2987			
+offsetRankingsend = offsetMenus +3037        --[[     ]]--
+offsetContinue = offsetMenus +455				
+offsetContinueend = offsetMenus +1341
+offsetClear = offsetMenus +1357					
+offsetClearend = offsetMenus +1510
+
+offsetGetReady = 0							
+offsetGetReadyEnd = 1
+offsetSupDeath = 0							
+offsetSupDeathEnd = 1					
+
+offsetMap = offsetMenus +10						
+offsetMapend = offsetMenus +11
+
+offsetMovieEnd = 54719
+
+			
+
+totalDeath = 2				-- nombres de morts declarer a singe
+offsetDeath = 675							
+
+Death[1] = {2153, 2235}					-- SECANCE MORT NUMERO   1 	
+Death[2] = {33967, 33986}				-- SECANCE MORT NUMERO   2 
+
+finalstage = 30	-- exemple ajout d un niveau 7 modifier 6 par 7 ici et dans le repertoir CFG ouvrir hscore.cfg  dupliquer la dernierre ligne et ajouter la a la fin --	
+PlayOrder = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30}     -- exemple ajout du niveau 7 	ajoutez ,7   ,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30  -- 				
+AllowSecret = false	
+RelativeFrames = false               -- !!!!!!!!!!!!!!!!!!!!!!ne pas utiliser les frame relative mais utiliser les vrais numeros de frame  de la video!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!false important --
+
+Level[1] = {"UP SET STOMATCH", 117, 1743, 1, 0, 0, -1}	-- [1] = numero du niveau "lv1",	ce qui est affiche dans le menu 117, debut du niveau 5368, fin du niveau 3, nombre de scenes 0, 0, -1 ?????????
+Level[2] = {"ZOMBIE", 1923, 3559, 1, 0, 0, -1}
+Level[3] = {"THE SWELLING", 3687, 5367, 1, 0, 0, -1}
+Level[4] = {"SPRING", 5489, 7202, 1, 0, 0, -1}
+Level[5] = {"UP N' DOWN", 7288, 8982, 1, 0, 0, -1}
+Level[6] = {"RODEO", 9090, 10787, 1, 0, 0, -1}
+Level[7] = {"BIG LUNGS", 10891, 12550, 1, 0, 0, -1}
+Level[8] = {"UNDER PRESSURE", 12691, 14375, 1, 0, 0, -1}
+Level[9] = {"SURF ON TURF", 14492, 16190, 1, 0, 0, -1}    --level
+Level[10] = {"BATS!", 16302, 17960, 1, 0, 0, -1}
+Level[11] = {"SLINGSHOT", 18094, 19752, 1, 0, 0, -1}
+Level[12] = {"CLAMTRAP", 19918, 21551, 1, 0, 0, -1}
+Level[13] = {"CRACKS", 21694, 23400, 1, 0, 0, -1}
+Level[14] = {"WRECKING BALL", 23505, 25187, 1, 0, 0, -1}
+Level[15] = {"GREEN THUMB", 25300, 26995, 1, 0, 0, -1}
+Level[16] = {"KUNG FOOL", 27105, 28770, 1, 0, 0, -1}
+
+
+
+Level[17] = {"ED XTREME", 28908, 30572, 1, 0, 0, -1}
+Level[18] = {"SHOOTING STAR", 30707, 32409, 1, 0, 0, -1}
+Level[19] = {"ITTY-BITTY", 32523, 34167, 1, 0, 0, -1}
+Level[20] = {"FROG", 34310, 35980, 1, 0, 0, -1}
+Level[21] = {"DISCONNECT ED", 36164, 37780, 1, 0, 0, -1}
+Level[22] = {"CHOPPED", 37910, 39577, 1, 0, 0, -1}
+Level[23] = {"GHOST", 39713, 41426, 1, 0, 0, -1}
+Level[24] = {"BIRDIE!", 41520, 43230, 1, 0, 0, -1}
+Level[25] = {"STRETCH ED", 43315, 45029, 1, 0, 0, -1}
+Level[26] = {"ATCHOO", 45115, 46790, 1, 0, 0, -1}
+Level[27] = {"HICCUPS", 46927, 48634, 1, 0, 0, -1}
+Level[28] = {"UNSHAKABLE", 48718, 50414, 1, 0, 0, -1}
+Level[29] = {"CLIFFHANGER", 50536, 52235, 1, 0, 0, -1}
+Level[30] = {"HOT AIR", 52319, 54036, 1, 0, 0, -1}	
+
+
+
+
+function setupMoves(thisLevel, thisScene)							
+															
+		if thisLevel == 1 then --[[ OK niveau 1 UP SET STOMATCH ]]--
+
+		if thisScene == 1 then 							
+
+			sceneStart = 117										
+			sceneEnd   = 1743	
+			n = 1		
+					
+	
+
+			move[n] = {169, 185, DOWN, 1}; n=n+1
+			move[n] = {342, 352, DOWNRIGHT, 1}; n=n+1
+            	move[n] = {448, 458, UP, 1}; n=n+1		
+         		move[n] = {468, 478, DOWN, 1}; n=n+1
+	       	move[n] = {579, 589, UPRIGHT, 1}; n=n+1       
+			move[n] = {637, 647, ACTDOWN, 1}; n=n+1
+			move[n] = {694, 705, BUTTON1, 1}; n=n+1
+			move[n] = {725, 735, BUTTON1, 1}; n=n+1
+			move[n] = {763, 787, HOLDDOWN, 1}; n=n+1
+			move[n] = {813, 827, BUTTON1, 1}; n=n+1
+			move[n] = {916, 926, ACTRIGHT, 1}; n=n+1
+			move[n] = {961, 1007, HOLDLEFT, 1}; n=n+1
+			move[n] = {1097, 1110, ACTRIGHT, 1}; n=n+1
+			move[n] = {1117, 1127, BUTTON1, 1}; n=n+1
+			move[n] = {1180, 1190, RIGHT, 1}; n=n+1
+			move[n] = {1212, 1222, BUTTON1, 1}; n=n+1
+			move[n] = {1230, 1240, RIGHT, 1}; n=n+1
+			move[n] = {1311, 1321, RIGHT, 1}; n=n+1
+			move[n] = {1326, 1334, BUTTON1, 1}; n=n+1
+			move[n] = {1347, 1357, RIGHT, 1}; n=n+1
+			move[n] = {1365, 1375, LEFT, 1}; n=n+1
+			move[n] = {1453, 1463, ACTDOWN, 1}; n=n+1
+			move[n] = {1597, 1607, MASH, 1}; n=n+1
+			move[n] = {1635, 1645, BUTTON1, 1}; n=n+1
+			move[n] = {1653, 1663, DOWN, 1}; n=n+1	
+            	
+
+			totalMoves   = n-1
+			end
+
+
+
+
+ elseif thisLevel == 2 then	--[[ OK niveau 2  ZOMBIE ]]--	dada							
+		
+		if thisScene == 1 then   										
+		sceneStart = 1923		--1923				
+		sceneEnd   = 3559
+		n = 1	
+
+		move[n] = {2003, 2013, UP, 2}; n=n+1
+		move[n] = {2025, 2035, BUTTON1, 2}; n=n+1
+		move[n] = {2043, 2161, HOLDDOWN, 2}; n=n+1
+		move[n] = {2185, 2195, UP, 2}; n=n+1
+		move[n] = {2250, 2260, UP, 2}; n=n+1
+		move[n] = {2270, 2280, UP, 2}; n=n+1
+		move[n] = {2295, 2305, UP, 2}; n=n+1
+		move[n] = {2339, 2345, BUTTON1, 2}; n=n+1
+		move[n] = {2372, 2382, RIGHT, 2}; n=n+1
+		move[n] = {2411, 2421, DOWNLEFT, 2}; n=n+1
+		move[n] = {2442, 2449, DOWNLEFT, 2}; n=n+1
+		move[n] = {2500, 2510, RIGHT, 2}; n=n+1
+		move[n] = {2526, 2622, HOLDLEFT, 2}; n=n+1
+		move[n] = {2631, 2640, BUTTON1, 2}; n=n+1
+		move[n] = {2643, 2653, DOWN, 2}; n=n+1
+		move[n] = {2665, 2675, ACTRIGHT, 2}; n=n+1
+		move[n] = {2695, 2705, ACTRIGHT, 2}; n=n+1
+		move[n] = {2727, 2737, ACTRIGHT, 2}; n=n+1
+		move[n] = {2769, 2780, UPRIGHT, 2}; n=n+1
+		move[n] = {2809, 2819, BUTTON1, 2}; n=n+1  
+		move[n] = {2834, 2844, BUTTON1, 2}; n=n+1
+		move[n] = {2882, 2892, BUTTON1, 2}; n=n+1
+		move[n] = {2907, 2917, LEFT, 2}; n=n+1
+		move[n] = {2925, 2956, HOLDRIGHT, 2}; n=n+1
+		move[n] = {2963, 2974, ACTRIGHT, 2}; n=n+1
+		move[n] = {2990, 3008, MASHMIN, 2}; n=n+1
+		move[n] = {3024, 3034, UP, 2}; n=n+1
+		move[n] = {3090, 3119, MASHMAX, 2}; n=n+1
+		move[n] = {3132, 3142, BUTTON1, 2}; n=n+1
+		move[n] = {3190, 3228, HOLDBUT, 2}; n=n+1
+		move[n] = {3310, 3318, BUTTON1, 2}; n=n+1
+		move[n] = {3326, 3341, DOWNLEFT, 2}; n=n+1
+		move[n] = {3354, 3364, UP, 2}; n=n+1
+		move[n] = {3371, 3381, UPRIGHT, 2}; n=n+1			
+		move[n] = {3402, 3412, BUTTON1, 2}; n=n+1	
+
+			
+		totalMoves   = n-1
+		end
+
+
+	
+elseif thisLevel == 3 then	--[[ OK niveau 3 THE SWELLING ]]--
+
+		if thisScene == 1 then 
+		sceneStart = 3687							
+		sceneEnd   = 5367
+		n = 1
+
+				
+		move[n] = {3788, 3798, LEFT, 1}; n=n+1				
+		move[n] = {3844, 3854, DOWN, 1}; n=n+1
+		move[n] = {3880, 3890, UPLEFT, 1}; n=n+1	
+		move[n] = {3908, 3918, DOWNRIGHT, 1}; n=n+1	
+		move[n] = {3933, 3943, BUTTON1, 1}; n=n+1
+		move[n] = {3947, 3957, ACTUP, 1}; n=n+1		
+		move[n] = {4016, 4026, UP, 1}; n=n+1		
+		move[n] = {4041, 4051, DOWN, 1}; n=n+1
+		move[n] = {4074, 4084, ACTLEFT, 1}; n=n+1
+		move[n] = {4093, 4103, BUTTON1, 1}; n=n+1
+		move[n] = {4105, 4115, UPLEFT, 1}; n=n+1	
+		move[n] = {4121, 4131, UPLEFT, 1}; n=n+1		
+		move[n] = {4138, 4148, UPLEFT, 1}; n=n+1
+		move[n] = {4174, 4184, LEFT, 1}; n=n+1			
+		move[n] = {4229, 4239, ACTLEFT, 1}; n=n+1
+		move[n] = {4252, 4262, LEFT, 1}; n=n+1
+		move[n] = {4295, 4305, BUTTON1, 1}; n=n+1
+		move[n] = {4330, 4365, HOLDBUT, 1}; n=n+1
+		move[n] = {4412, 4422, RIGHT, 1}; n=n+1		
+		move[n] = {4485, 4495, UP, 1}; n=n+1			
+		move[n] = {4512, 4522, RIGHT, 1}; n=n+1			
+		move[n] = {4543, 4553, UPRIGHT, 1}; n=n+1			
+		move[n] = {4559, 4569, BUTTON1, 1}; n=n+1
+		move[n] = {4585, 4603, DOWNLEFT, 1}; n=n+1			
+		move[n] = {4613, 4623, BUTTON1, 1}; n=n+1
+		move[n] = {4640, 4650, UP, 1}; n=n+1	
+		move[n] = {4653, 4666, LEFT, 1}; n=n+1		
+		move[n] = {4678, 4688, ACTUP, 1}; n=n+1			
+		move[n] = {4726, 4739, HOLD, 1}; n=n+1
+		move[n] = {4749, 4759, DOWNLEFT, 1}; n=n+1		
+		move[n] = {4774, 4782, BUTTON1, 1}; n=n+1	
+		move[n] = {4790, 4810, UPRIGHT, 1}; n=n+1	
+		move[n] = {4820, 4835, DOWNLEFT, 1}; n=n+1
+		move[n] = {4918, 4928, LEFT, 1}; n=n+1
+		move[n] = {4950, 4960, ACTUP, 1}; n=n+1	
+		move[n] = {4967, 4977, RIGHT, 1}; n=n+1	
+		move[n] = {4997, 5045, MASHMAX, 1}; n=n+1			
+		move[n] = {5058, 5068, BUTTON1, 1}; n=n+1			
+		move[n] = {5089, 5099, DOWNLEFT, 1}; n=n+1			
+		move[n] = {5169, 5179, DOWN, 1}; n=n+1			
+		move[n] = {5224, 5234, DOWN, 1}; n=n+1			
+		move[n] = {5327, 5337, BUTTON1, 1}; n=n+1
+			
+
+totalMoves   = n-1
+		end
+			
+                                             
+
+	
+elseif thisLevel == 4 then 	--[[OK niveau 4 THE SWELLING ]]--dada
+
+		if thisScene == 1 then
+		sceneStart = 5489			
+		sceneEnd   = 7202			--[[    ]]--
+		n = 1		
+			
+
+		move[n] = {5638, 5648, UP, 1}; n=n+1
+		move[n] = {5716, 5725, DOWN, 1}; n=n+1
+		move[n] = {5747, 5757, RIGHT, 1}; n=n+1
+		move[n] = {5883, 5893, ACTUP, 1}; n=n+1
+		move[n] = {5901, 5909, DOWN, 1}; n=n+1
+		move[n] = {5915, 5920, LEFT, 1}; n=n+1
+		move[n] = {5921, 5942, RIGHT, 1}; n=n+1
+		move[n] = {5952, 5968, DOWN, 1}; n=n+1
+		move[n] = {5995, 6005, UP, 1}; n=n+1
+		move[n] = {6017, 6028, UPRIGHT, 1}; n=n+1
+		move[n] = {6049, 6059, LEFT, 1}; n=n+1
+		move[n] = {6113, 6123, DOWN, 1}; n=n+1
+		move[n] = {6153, 6163, BUTTON1, 1}; n=n+1
+		move[n] = {6204, 6214, BUTTON1, 1}; n=n+1
+		move[n] = {6224, 6232, UP, 1}; n=n+1
+		move[n] = {6237, 6247, UP, 1}; n=n+1
+		move[n] = {6308, 6318, DOWN, 1}; n=n+1
+		move[n] = {6344, 6354, UP, 1}; n=n+1
+		move[n] = {6366, 6376, BUTTON1, 1}; n=n+1
+		move[n] = {6438, 6447, DOWN, 1}; n=n+1
+		move[n] = {6464, 6474, UPRIGHT, 1}; n=n+1
+		move[n] = {6478, 6491, MASHMAX, 1}; n=n+1
+		move[n] = {6521, 6534, MASHMIN, 1}; n=n+1
+		move[n] = {6550, 6560, ACTUP, 1}; n=n+1
+		move[n] = {6570, 6580, UP, 1}; n=n+1
+		move[n] = {6646, 6656, RIGHT, 1}; n=n+1
+		move[n] = {6680, 6690, LEFT, 1}; n=n+1
+		move[n] = {6699, 6709, RIGHT, 1}; n=n+1
+		move[n] = {6721, 6731, UP, 1}; n=n+1
+		move[n] = {6742, 6752, LEFT, 1}; n=n+1
+		move[n] = {6760, 6770, RIGHT, 1}; n=n+1
+		move[n] = {6786, 6796, ACTLEFT, 1}; n=n+1
+		move[n] = {6808, 6846, HOLDDOWN, 1}; n=n+1
+		move[n] = {6873, 6883, DOWNLEFT, 1}; n=n+1
+		move[n] = {6893, 6903, DOWNLEFT, 1}; n=n+1
+		move[n] = {6913, 6923, DOWNLEFT, 1}; n=n+1
+		move[n] = {6933, 6943, BUTTON1, 1}; n=n+1
+		move[n] = {7021, 7036, UP, 1}; n=n+1
+	
+
+totalMoves   = n-1			
+end
+
+
+
+	
+elseif thisLevel == 5 then	--[[ OK niveau 5 UP N' DOWN ]]--
+
+			if thisScene == 1 then
+		      sceneStart = 7288							
+			sceneEnd   = 8982
+			n = 1
+
+		move[n] = {7366, 7376, DOWN, 1}; n=n+1
+		move[n] = {7408, 7434, RIGHT, 2}; n=n+1
+		move[n] = {7482, 7492, RIGHT, 1}; n=n+1
+		move[n] = {7512, 7527, DOWN, 1}; n=n+1
+		move[n] = {7540, 7550, DOWN, 1}; n=n+1
+		move[n] = {7560, 7570, ACTDOWN, 1}; n=n+1
+		move[n] = {7615, 7661, LEFT, 1}; n=n+1
+		move[n] = {7671, 7681, RIGHT, 1}; n=n+1
+		move[n] = {7717, 7727, DOWN, 1}; n=n+1
+		move[n] = {7733, 7743, DOWN, 1}; n=n+1
+		move[n] = {7759, 7769, ACTUP, 1}; n=n+1
+		move[n] = {7843, 7853, BUTTON1, 1}; n=n+1
+		move[n] = {7870, 7880, RIGHT, 1}; n=n+1
+		move[n] = {7892, 7902, LEFT, 1}; n=n+1
+		move[n] = {7934, 7944, DOWN, 1}; n=n+1
+		move[n] = {7977, 7995, MASHMIN, 1}; n=n+1
+		move[n] = {8005, 8015, DOWN, 1}; n=n+1
+		move[n] = {8054, 8065, ACTDOWN, 1}; n=n+1
+		move[n] = {8100, 8362, HOLDUP, 1}; n=n+1
+		move[n] = {8375, 8385, LEFT, 1}; n=n+1
+		move[n] = {8397, 8405, DOWN, 1}; n=n+1
+		move[n] = {8410, 8418, BUTTON1, 1}; n=n+1
+		move[n] = {8445, 8455, DOWN, 1}; n=n+1
+		move[n] = {8462, 8472, DOWN, 1}; n=n+1
+		move[n] = {8517, 8527, ACTUP, 1}; n=n+1
+		move[n] = {8608, 8633, HOLDBUT, 1}; n=n+1
+		move[n] = {8643, 8653, DOWN, 1}; n=n+1
+		move[n] = {8699, 8940, HOLDDOWN, 1}; n=n+1
+
+		totalMoves   = n-1
+		end
+
+
+
+
+
+
+elseif thisLevel == 6 then	--[[ OK niveau 6 RODEO ]]--
+
+		if thisScene == 1 then
+	 	sceneStart = 9090							
+		sceneEnd   = 10787
+		n = 1
+
+	
+
+		move[n] = {9242, 9252, DOWN, 1}; n=n+1
+		move[n] = {9265, 9275, DOWN, 1}; n=n+1
+		move[n] = {9283, 9336, HOLDDOWN, 1}; n=n+1
+		move[n] = {9336, 9346, UPLEFT, 1}; n=n+1
+		move[n] = {9356, 9366, DOWNLEFT, 1}; n=n+1
+		move[n] = {9375, 9387, LEFT, 2}; n=n+1
+		move[n] = {9421, 9431, RIGHT, 1}; n=n+1
+		move[n] = {9534, 9544, ACTRIGHT, 1}; n=n+1
+		move[n] = {9567, 9594, HOLDBUT, 1}; n=n+1
+		move[n] = {9601, 9611, BUTTON1, 1}; n=n+1
+		move[n] = {9632, 9651, MASHMAX, 1}; n=n+1
+		move[n] = {9661, 9671, RIGHT, 1}; n=n+1
+		move[n] = {9705, 9715, ACTLEFT, 1}; n=n+1
+		move[n] = {9730, 9740, RIGHT, 1}; n=n+1
+		move[n] = {9760, 9770, BUTTON1, 1}; n=n+1
+		move[n] = {9827, 9837, UP, 1}; n=n+1
+		move[n] = {9864, 9874, UP, 1}; n=n+1
+		move[n] = {9878, 9888, ACTRIGHT, 1}; n=n+1
+		move[n] = {9905, 9917, ACTRIGHT, 1}; n=n+1
+		move[n] = {9929, 9939, BUTTON1, 1}; n=n+1
+		move[n] = {9977, 9987, LEFT, 1}; n=n+1
+		move[n] = {9997, 10013, HOLDUP, 1}; n=n+1
+		move[n] = {10021, 10031, ACTLEFT, 1}; n=n+1
+		move[n] = {10050, 10070, LEFT, 2}; n=n+1
+		move[n] = {10100, 10110, BUTTON1, 1}; n=n+1
+		move[n] = {10120, 10176, LEFT, 1}; n=n+1
+		move[n] = {10186, 10196, LEFT, 1}; n=n+1
+		move[n] = {10303, 10313, DOWN, 1}; n=n+1
+		move[n] = {10384, 10392, UP, 1}; n=n+1
+		move[n] = {10399, 10409, RIGHT, 1}; n=n+1
+		move[n] = {10436, 10446, LEFT, 1}; n=n+1
+		move[n] = {10472, 10482, DOWN, 1}; n=n+1			
+		move[n] = {10494, 10564, MASHMAX, 1}; n=n+1
+
+
+		totalMoves   = n-1
+		end
+
+
+
+
+
+
+elseif thisLevel == 7 then	--[[ OK A REVOIR niveau 7  BIG LUNGS ]]--dada
+
+		if thisScene == 1 then
+
+			sceneStart = 10891	
+			sceneEnd   = 12550
+			n = 1
+
+
+		move[n] = {10963, 10973, HOLDBUT, 1}; n=n+1
+		move[n] = {11022, 11064, HOLDBUT, 1}; n=n+1
+		move[n] = {11094, 11135, HOLDBUT, 1}; n=n+1
+		move[n] = {11152, 11162, UP, 1}; n=n+1
+		move[n] = {11178, 11188, ACTRIGHT, 1}; n=n+1
+		move[n] = {11199, 11209, BUTTON1, 1}; n=n+1
+		move[n] = {11256, 11266, DOWN, 1}; n=n+1
+		move[n] = {11298, 11308, LEFT, 1}; n=n+1
+		move[n] = {11344, 11354, UP, 1}; n=n+1
+		move[n] = {11375, 11385, UPLEFT, 1}; n=n+1
+		move[n] = {11390, 11418, BUTTON1, 4}; n=n+1
+		move[n] = {11459, 11469, LEFT, 1}; n=n+1
+		move[n] = {11480, 11490,  RIGHT, 1}; n=n+1
+		move[n] = {11508, 11518, BUTTON1, 1}; n=n+1
+		move[n] = {11570, 11600, HOLDUP, 1}; n=n+1
+		move[n] = {11619, 11646, HOLDDOWN, 1}; n=n+1
+		move[n] = {11649, 11678, RIGHT, 4}; n=n+1
+		move[n] = {11738, 11878, MASHMAX, 1}; n=n+1
+		move[n] = {12030, 12040, ACTUP, 1}; n=n+1
+		move[n] = {12108, 12118, ACTDOWN, 1}; n=n+1
+		move[n] = {12122, 12141, LEFT, 1}; n=n+1
+		move[n] = {12159, 12171, DOWNRIGHT, 1}; n=n+1
+		move[n] = {12181, 12191, LEFT, 1}; n=n+1
+		move[n] = {12210, 12220, DOWN, 1}; n=n+1
+		move[n] = {12263, 12317, HOLDBUT, 1}; n=n+1
+		move[n] = {12372, 12382, LEFT, 1}; n=n+1
+		move[n] = {12400, 12410, DOWNRIGHT, 1}; n=n+1
+	
+	
+			
+		totalMoves   = n-1
+		end
+
+
+elseif thisLevel == 8 then	--[[ OK niveau 8 UNDER PRESSURE ]]--dada
+
+		if thisScene == 1 then
+
+			sceneStart = 12691	
+			sceneEnd   = 14375
+			n   = 1
+
+
+
+		move[n] = {12767, 12777, LEFT, 1}; n=n+1
+		move[n] = {12829, 12839, DOWNRIGHT, 1}; n=n+1
+		move[n] = {12889, 12899, LEFT, 1}; n=n+1
+		move[n] = {12933, 12948, UP, 1}; n=n+1
+		move[n] = {12969, 12977, UP, 1}; n=n+1
+		move[n] = {12985, 13000, UPRIGHT, 1}; n=n+1
+		move[n] = {13044, 13054, UP, 1}; n=n+1
+		move[n] = {13064, 13074, DOWN, 1}; n=n+1
+		move[n] = {13120, 13130, BUTTON1, 1}; n=n+1
+		move[n] = {13149, 13159, UPLEFT, 1}; n=n+1
+		move[n] = {13176, 13184, RIGHT, 1}; n=n+1
+		move[n] = {13190, 13200, LEFT, 1}; n=n+1
+		move[n] = {13220, 13235, ACTLEFT, 1}; n=n+1
+		move[n] = {13245, 13260, RIGHT, 1}; n=n+1
+		move[n] = {13284, 13294, ACTUP, 1}; n=n+1
+		move[n] = {13314, 13324, RIGHT, 1}; n=n+1
+		move[n] = {13334, 13377, HOLDDOWN, 1}; n=n+1
+		move[n] = {13383, 13393, ACTRIGHT, 1}; n=n+1
+		move[n] = {13413, 13421, RIGHT, 1}; n=n+1
+		move[n] = {13441, 13455, HOLDRIGHT, 1}; n=n+1
+		move[n] = {13461, 13531, HOLDLEFT, 1}; n=n+1
+		move[n] = {13535, 13545, DOWN, 1}; n=n+1
+		move[n] = {13577, 13587, UP, 1}; n=n+1
+		move[n] = {13603, 13613, ACTUP, 1}; n=n+1
+		move[n] = {13634, 13666, MASHMAX, 1}; n=n+1
+		move[n] = {13696, 13737, LEFT, 3}; n=n+1
+		move[n] = {13752, 13760, RIGHT, 1}; n=n+1
+		move[n] = {13776, 13797, HOLDBUT, 1}; n=n+1
+		move[n] = {13807, 13817, LEFT, 1}; n=n+1
+		move[n] = {13824, 13834, UP, 1}; n=n+1
+		move[n] = {13840, 13851, DOWN, 1}; n=n+1
+		move[n] = {13913, 14020, HOLDUP, 1}; n=n+1
+		move[n] = {14027, 14078, HOLDOWN, 1}; n=n+1
+		move[n] = {14089, 14142, HOLDBUT, 1}; n=n+1
+		move[n] = {14152, 14162, ACTLEFT, 1}; n=n+1
+		move[n] = {14172, 14182, LEFT, 1}; n=n+1
+		move[n] = {14191, 14199, LEFT, 1}; n=n+1
+		move[n] = {14204, 14230, DOWNLEFT, 1}; n=n+1
+
+
+		totalMoves   = n-1
+		end
+
+
+
+
+elseif thisLevel == 9 then	--[[ OK niveau 9 SURF ON TURF ]]--dada
+
+		if thisScene == 1 then
+
+			sceneStart = 14492
+			sceneEnd   = 16190
+			n   = 1
+
+
+		move[n] = {14580, 14620, HOLDDOWN, 1}; n=n+1
+		move[n] = {14635, 14645, UP, 1}; n=n+1
+		move[n] = {14680, 14693, DOWN, 1}; n=n+1
+		move[n] = {14720, 14728, ACTDOWN, 1}; n=n+1
+		move[n] = {14735, 14758, BUTTON1, 1}; n=n+1
+		move[n] = {14771, 14781, BUTTON1, 1}; n=n+1
+		move[n] = {14789, 14799, DOWN, 1}; n=n+1
+		move[n] = {14809, 14845, HOLDBUT, 1}; n=n+1
+		move[n] = {14865, 14898, DOWN, 2}; n=n+1
+		move[n] = {14909, 14919, UP, 1}; n=n+1
+		move[n] = {14936, 15000, HOLDRIGHT, 1}; n=n+1
+		move[n] = {15034, 15052, HOLDLEFT, 1}; n=n+1
+		move[n] = {15066, 15080, MASHMAX, 1}; n=n+1
+		move[n] = {15087, 15112, RIGHT, 1}; n=n+1
+		move[n] = {15125, 15135, BUTTON1, 1}; n=n+1
+		move[n] = {15161, 15170, UP, 1}; n=n+1
+		move[n] = {15180, 15188, DOWN, 1}; n=n+1
+		move[n] = {15195, 15205, UP, 1}; n=n+1
+		move[n] = {15214, 15224, ACTUP, 1}; n=n+1
+		move[n] = {15228, 15268, HOLDUP, 1}; n=n+1
+		move[n] = {15279, 15289, UP, 1}; n=n+1
+		move[n] = {15300, 15329, HOLDDOWN, 1}; n=n+1
+		move[n] = {15339, 15373, HOLDRIGHT, 1}; n=n+1
+		move[n] = {15383, 15421, HOLDUP, 1}; n=n+1
+		move[n] = {15434, 15444, DOWNRIGHT, 1}; n=n+1
+		move[n] = {15448, 15458, DOWN, 1}; n=n+1
+		move[n] = {15474, 15512, BUTTON1, 4}; n=n+1
+		move[n] = {15522, 15580, HOLDRIGHT, 1}; n=n+1
+		move[n] = {15595, 15605, RIGHT, 1}; n=n+1
+		move[n] = {15619, 15629, RIGHT, 1}; n=n+1
+		move[n] = {15642, 15652, RIGHT, 1}; n=n+1
+		move[n] = {15669, 15683, RIGHT, 1}; n=n+1
+		move[n] = {15705, 15715, RIGHT, 1}; n=n+1
+		move[n] = {15757, 15789, HOLDDOWN, 1}; n=n+1
+		move[n] = {15804, 15814, BUTTON1, 1}; n=n+1
+		move[n] = {15824, 15844, RIGHT, 2}; n=n+1
+		move[n] = {15914, 15957, HOLDBUT, 1}; n=n+1
+		move[n] = {16021, 16031, DOUBLE, 1}; n=n+1
+		move[n] = {16050, 16060, LEFT, 1}; n=n+1
+		move[n] = {16078, 16085, UP, 1}; n=n+1
+		move[n] = {16108, 16124, UP, 2}; n=n+1
+		
+
+		totalMoves   = n-1
+		end
+
+
+
+
+elseif thisLevel == 10 then	--[[ OK niveau 10 Bats! ]]--dada
+
+		if thisScene == 1 then
+
+			sceneStart = 16302	
+			sceneEnd   = 17960
+			n = 1
+
+
+
+		move[n] = {16396, 16406, UPLEFT, 1}; n=n+1
+		move[n] = {16439, 16449, RIGHT, 1}; n=n+1
+		move[n] = {16459, 16469, LEFT, 1}; n=n+1
+		move[n] = {16503, 16513, LEFT, 1}; n=n+1
+		move[n] = {16532, 16542, UP, 1}; n=n+1
+		move[n] = {16549, 16559, LEFT, 1}; n=n+1
+		move[n] = {16611, 16621, DOWNLEFT, 1}; n=n+1
+		move[n] = {16632, 16640, DOWNLEFT, 1}; n=n+1
+		move[n] = {16651, 16662, DOWNLEFT, 1}; n=n+1
+		move[n] = {16672, 16682, DOWNLEFT, 1}; n=n+1
+		move[n] = {16691, 16700, DOWNLEFT, 1}; n=n+1
+		move[n] = {16716, 16728, UPRIGHT, 1}; n=n+1
+		move[n] = {16753, 16768, UPRIGHT, 1}; n=n+1
+		move[n] = {16817, 16849, HOLDRIGHT, 1}; n=n+1
+		move[n] = {16861, 16871, RIGHT, 1}; n=n+1
+		move[n] = {16886, 16896, UP, 1}; n=n+1
+		move[n] = {16906, 16916, ACTDOWN, 1}; n=n+1
+		move[n] = {16924, 16934, RIGHT, 1}; n=n+1
+		move[n] = {16953, 16963, RIGHT, 1}; n=n+1
+		move[n] = {16978, 16984, RIGHT, 2}; n=n+1
+		move[n] = {16990, 17016, HOLDBUT, 1}; n=n+1
+		move[n] = {17031, 17041, DOWN, 1}; n=n+1
+		move[n] = {17056, 17066, RIGHT, 1}; n=n+1
+		move[n] = {17088, 17098, UP, 1}; n=n+1 
+		move[n] = {17109, 17129, DOWN, 1}; n=n+1   
+		move[n] = {17143, 17170, HOLDDOWN, 1}; n=n+1 
+		move[n] = {17194, 17204, BUTTON1, 1}; n=n+1
+		move[n] = {17216, 17251, HOLDRIGHT, 1}; n=n+1
+		move[n] = {17261, 17272, DOWN, 1}; n=n+1
+		move[n] = {17281, 17291, BUTTON1, 1}; n=n+1
+		move[n] = {17312, 17322, LEFT, 1}; n=n+1
+		move[n] = {17336, 17346, BUTTON1, 1}; n=n+1
+		move[n] = {17358, 17368, DOWN, 1}; n=n+1
+		move[n] = {17379, 17389, DOWN, 1}; n=n+1
+		move[n] = {17430, 17452, MASHMIN, 1}; n=n+1
+		move[n] = {17488, 17498, UPRIGHT, 1}; n=n+1
+		move[n] = {17512, 17527, UPRIGHT, 1}; n=n+1
+		move[n] = {17544, 17554, DOWN, 1}; n=n+1
+		move[n] = {17565, 17575, DOWN, 1}; n=n+1
+		move[n] = {17662, 17682, UP, 2}; n=n+1
+		move[n] = {17707, 17717, DOWN, 1}; n=n+1
+		move[n] = {17756, 17766, DOWN, 1}; n=n+1
+		move[n] = {17789, 17798, UP, 1}; n=n+1
+		move[n] = {17800, 17862, DOWN, 6}; n=n+1
+   
+		totalMoves   = n-1
+		end
+
+
+
+
+elseif thisLevel == 11 then	--[[ OK niveau 11 SLINGSHOT ]]--dada
+
+		if thisScene == 1 then
+
+			sceneStart = 18094	
+			sceneEnd   = 19752
+			n=1
+
+
+		move[n] = {18187, 18202, DOWNRIGHT, 1}; n=n+1
+		move[n] = {18293, 18304, LEFT, 1}; n=n+1
+		move[n] = {18347, 18362, ACTLEFT, 1}; n=n+1
+		move[n] = {18391, 18402, UPRIGHT, 1}; n=n+1
+		move[n] = {18422, 18438, UPLEFT, 1}; n=n+1
+		move[n] = {18478, 18490, DOWN, 1}; n=n+1
+		move[n] = {18559, 18569, ACTUP, 1}; n=n+1
+		move[n] = {18579, 18611, MASHMIN, 1}; n=n+1
+		move[n] = {18617, 18630, LEFT, 1}; n=n+1
+		move[n] = {18635, 18650, RIGHT, 1}; n=n+1
+		move[n] = {18670, 18680, UPRIGHT, 1}; n=n+1
+		move[n] = {18695, 18720, DOWNLEFT, 1}; n=n+1
+		move[n] = {18730, 18745, RIGHT, 1}; n=n+1
+		move[n] = {18774, 18784, UPRIGHT, 1}; n=n+1
+		move[n] = {18800, 18822, DOWN, 2}; n=n+1
+		move[n] = {18825, 18833, BUTTON1, 1}; n=n+1
+		move[n] = {18839, 18847, UP, 1}; n=n+1
+		move[n] = {18855, 18865, UPRIGHT, 1}; n=n+1
+		move[n] = {18876, 18884, RIGHT, 1}; n=n+1
+		move[n] = {18891, 18906, DOWNRIGHT, 1}; n=n+1
+		move[n] = {18945, 18955, RIGHT, 1}; n=n+1
+		move[n] = {18959, 19010, MASHMIN, 1}; n=n+1
+		move[n] = {19027, 19094, HOLDRIGHT, 1}; n=n+1
+		move[n] = {19127, 19138, DOWN, 1}; n=n+1
+		move[n] = {19151, 19161, ACTDOWN, 1}; n=n+1
+		move[n] = {19182, 19192, RIGHT, 1}; n=n+1
+		move[n] = {19199, 19210, RIGHT, 1}; n=n+1
+		move[n] = {19219, 19229, LEFT, 1}; n=n+1
+		move[n] = {19241, 19250, RIGHT, 1}; n=n+1
+		move[n] = {19265, 19363, HOLDDOWN, 1}; n=n+1
+		move[n] = {19413, 19423, DOUBLE, 1}; n=n+1
+		move[n] = {19443, 19455, UP, 1}; n=n+1
+		move[n] = {19463, 19473, UPLEFT, 1}; n=n+1
+		move[n] = {19505, 19596, MASHMIN, 1}; n=n+1
+		move[n] = {19635, 19645, DOWN, 1}; n=n+1
+		move[n] = {19702, 19724, DOWN, 2 }; n=n+1
+
+		totalMoves   = n-1
+		end
+
+
+
+
+elseif thisLevel == 12 then	--[[ OK niveau 12 CLAMTRAP ]]--dada
+
+		if thisScene == 1 then
+
+			sceneStart = 19918	
+			sceneEnd   = 21551
+			n=1
+
+
+		move[n] = {20025, 20035, DOWNLEFT, 1}; n=n+1
+		move[n] = {20057, 20067, UP,1 }; n=n+1
+		move[n] = {20076, 20086, UP,1 }; n=n+1
+		move[n] = {20092, 20102, UP, 1}; n=n+1
+		move[n] = {20123, 20133, UP, 1}; n=n+1
+		move[n] = {20153, 20163, LEFT, 1}; n=n+1
+		move[n] = {20214, 20224, DOWN, 1}; n=n+1
+		move[n] = {20254, 20264, ACTRIGHT, 1}; n=n+1
+		move[n] = {20287, 20318, RIGHT,3}; n=n+1  --[[  ]]--
+		move[n] = {20346, 20356, ACTUP, 1}; n=n+1
+		move[n] = {20366, 20390, HOLDLEFT, 1}; n=n+1
+		move[n] = {20406, 20420, DOUBLE, 1}; n=n+1 
+		move[n] = {20432, 20459, UP, 3}; n=n+1
+		move[n] = {20472, 20482, DOWNLEFT, 1}; n=n+1
+		move[n] = {20518, 20546, HOLDLEFT, 1}; n=n+1
+		move[n] = {20556, 20566, ACTRIGHT, 1}; n=n+1
+		move[n] = {20576, 20599, BUTTON1, 3}; n=n+1 
+		move[n] = {20628, 20680, HOLDLEFT, 1}; n=n+1
+		move[n] = {20690, 20700, UPLEFT, 1}; n=n+1
+		move[n] = {20740, 20750, RIGHT, 1}; n=n+1
+		move[n] = {20805, 20815, RIGHT, 1}; n=n+1
+		move[n] = {20845, 20855, ACTUP, 1}; n=n+1
+		move[n] = {20892, 20902, RIGHT, 1}; n=n+1
+		move[n] = {20909, 20917, UP, 1}; n=n+1
+		move[n] = {20958, 20968, ACTRIGHT, 1}; n=n+1
+		move[n] = {21009, 21017, BUTTON1, 1}; n=n+1
+		move[n] = {21051, 21061, ACTRIGHT, 1}; n=n+1
+		move[n] = {21118, 21128, RIGHT, 1}; n=n+1
+		move[n] = {21164, 21174, DOWN, 1}; n=n+1
+		move[n] = {21194, 21203, UP, 1}; n=n+1
+		move[n] = {21213, 21227, DOUBLE, 1}; n=n+1
+		move[n] = {21264, 21274, LEFT, 1}; n=n+1
+		move[n] = {21287, 21297, UPLEFT, 1}; n=n+1
+		move[n] = {21361, 21371, LEFT, 1}; n=n+1
+		move[n] = {21380, 21401, RIGHT, 2}; n=n+1
+		move[n] = {21411, 21421, ACTDOWN, 1}; n=n+1
+		move[n] = {21440, 21450, ACTLEFT, 1}; n=n+1    
+
+		totalMoves   = n-1
+		end
+
+
+
+
+elseif thisLevel == 13 then	--[[ OK niveau 13 CRACKS ]]--
+
+		if thisScene == 1 then
+
+			sceneStart = 21694
+			sceneEnd   = 23400
+			n=1
+
+
+
+		move[n] = {21843, 21853, BUTTON1, 1}; n=n+1
+		move[n] = {21895, 21919, MASHMIN, 1}; n=n+1
+		move[n] = {21944, 21954, LEFT, 1}; n=n+1
+		move[n] = {21978, 21988, DOWN, 1}; n=n+1
+		move[n] = {22008, 22022, DOWNLEFT, 1}; n=n+1
+		move[n] = {22037, 22047, LEFT, 1}; n=n+1
+		move[n] = {22066, 22076, LEFT, 1}; n=n+1
+		move[n] = {22094, 22107, UP, 1}; n=n+1
+		move[n] = {22114, 22130, UPLEFT, 1}; n=n+1
+		move[n] = {22154, 22171, ACTUP, 1}; n=n+1
+		move[n] = {22181, 22191, RIGHT, 1}; n=n+1
+		move[n] = {22213, 22234, DOUBLE,1}; n=n+1
+		move[n] = {22260, 22270, LEFT, 1}; n=n+1
+		move[n] = {22291, 22304, DOWN, 1}; n=n+1
+		move[n] = {22327, 22360, HOLDDOWN, 1}; n=n+1
+		move[n] = {22370, 22380, BUTTON1, 1}; n=n+1
+		move[n] = {22398, 22408, DOWN, 1}; n=n+1
+		move[n] = {22459, 22481, MASHMAX, 1}; n=n+1
+		move[n] = {22489, 22498, UP, 1}; n=n+1
+		move[n] = {22574, 22584, UPRIGHT, 1}; n=n+1
+		move[n] = {22687, 22744, MASHMAX, 1}; n=n+1
+		move[n] = {22760, 22770, DOWN, 1}; n=n+1
+		move[n] = {22784, 22815, HOLDDOWN, 1}; n=n+1
+		move[n] = {22840, 22850, BUTTON1, 1}; n=n+1
+		move[n] = {22889, 23009, RIGHT, 1}; n=n+1
+		move[n] = {23020, 23050, RIGHT, 1}; n=n+1
+		move[n] = {23060, 23090, RIGHT, 1}; n=n+1
+		move[n] = {23100, 23130, PRIGHT, 1}; n=n+1
+		move[n] = {23154, 23164, DOUBLE, 1}; n=n+1
+		move[n] = {23175, 23185, DOWN, 1}; n=n+1
+		move[n] = {23197, 23217, DOWN, 3}; n=n+1
+
+
+			
+		totalMoves   = n-1
+		end
+
+
+
+elseif thisLevel == 14 then	--[[ OK niveau 14 WRECKING BALL ]]--dada
+
+		if thisScene == 1 then
+
+			sceneStart = 23505	
+			sceneEnd   = 25187 
+			n = 1
+
+		move[n] = {23674, 23708, MASHMAX, 1}; n=n+1
+		move[n] = {23725, 23735, BUTTON1, 1}; n=n+1
+		move[n] = {23743, 23753, ACTRIGHT, 1}; n=n+1
+		move[n] = {23761, 23771, LEFT, 1}; n=n+1	
+		move[n] = {23784, 23798, BUTTON1, 1}; n=n+1
+		move[n] = {23818, 23833, ACTUP, 1}; n=n+1
+		move[n] = {23860, 23872, DOWNLEFT, 1}; n=n+1
+		move[n] = {23882, 23892,LEFT , 1}; n=n+1
+		move[n] = {23895, 23905,DOWNLEFT , 1}; n=n+1
+		move[n] = {23915, 24028, HOLDDOWN, 1}; n=n+1
+		move[n] = {24037, 24047, BUTTON1, 1}; n=n+1
+		move[n] = {24075, 24085, DOWN, 1}; n=n+1
+		move[n] = {24124, 24134, UP, 1}; n=n+1
+		move[n] = {24158, 24218, HOLDUP, 1}; n=n+1
+		move[n] = {24224, 24234, ACTLEFT, 1}; n=n+1
+		move[n] = {24250, 24328, MASHMAX, 1}; n=n+1
+		move[n] = {24338, 24348, ACTLEFT, 1}; n=n+1
+		move[n] = {24360, 24370, DOWN, 1}; n=n+1
+		move[n] = {24384, 24394, UP, 1}; n=n+1
+		move[n] = {24404, 24414, DOWN, 1}; n=n+1
+		move[n] = {24422, 24432, UP, 1}; n=n+1
+		move[n] = {24440, 24450, DOWN, 1}; n=n+1
+		move[n] = {24458, 24468, UP, 1}; n=n+1
+		move[n] = {24478, 24488, DOWN, 1}; n=n+1
+		move[n] = {24498, 24508, UP, 1}; n=n+1
+		move[n] = {24518, 24528, DOWN, 1}; n=n+1
+		move[n] = {24537, 24547, UP, 1}; n=n+1
+		move[n] = {24560, 24570, DOWN, 1}; n=n+1
+		move[n] = {24585, 24595, UP, 1}; n=n+1
+		move[n] = {24633, 24643, LEFT, 1}; n=n+1
+		move[n] = {24673, 24683, ACTLEFT, 1}; n=n+1
+		move[n] = {24687, 24697, UP, 1}; n=n+1
+		move[n] = {24708, 24718, BUTTON1, 1}; n=n+1
+		move[n] = {24744, 24754, LEFT, 1}; n=n+1
+		move[n] = {24764, 24776, ACTUP, 1}; n=n+1
+		move[n] = {24805, 24815, BUTTON1, 1}; n=n+1
+		move[n] = {24838, 24848, DOWN, 1}; n=n+1
+		move[n] = {24886, 24896, DOWN, 1}; n=n+1
+		move[n] = {24951, 24963, UPLEFT, 1}; n=n+1
+		move[n] = {25014, 25024, DOWN, 1}; n=n+1
+		move[n] = {25060, 25070, DOWN, 1}; n=n+1
+
+
+		
+		totalMoves   = n-1
+		end
+
+
+
+elseif thisLevel == 15 then	--[[ OK niveau 15 GREEN THUMB ]]--dada
+
+		if thisScene == 1 then
+
+			sceneStart = 25300
+			sceneEnd   = 26995
+			n   = 1
+
+	
+		move[n] = {25382, 25391, UP, 1}; n=n+1--
+		move[n] = {25401, 25415, DOWNLEFT, 1}; n=n+1
+		move[n] = {25505, 25520, ACTUP, 1}; n=n+1   
+		move[n] = {25539, 25566, HOLDUP, 1}; n=n+1
+		move[n] = {25576, 25586, BUTTON1, 1}; n=n+1   
+		move[n] = {25616, 25636, ACTUP, 1}; n=n+1
+		move[n] = {25646, 25656, RIGHT, 1}; n=n+1
+		move[n] = {25667, 25677, LEFT, 1}; n=n+1
+		move[n] = {25685, 25695, LEFT, 1}; n=n+1
+		move[n] = {25717, 25725, UP, 1}; n=n+1
+		move[n] = {25742, 25757, UP, 1}; n=n+1
+		move[n] = {25804, 25814, DOWN, 1}; n=n+1
+		move[n] = {25824, 25839, ACTUP, 1}; n=n+1
+		move[n] = {25872, 25883, DOWN, 2}; n=n+1
+		move[n] = {25924, 25972, HOLDUP, 1}; n=n+1
+		move[n] = {25998, 26008, DOWN, 1}; n=n+1
+		move[n] = {26049, 26059, UP, 1}; n=n+1
+		move[n] = {26106, 26116, UP, 1}; n=n+1
+		move[n] = {26139, 26149, BUTTON1, 1}; n=n+1
+		move[n] = {26163, 26173, UPRIGHT, 1}; n=n+1
+		move[n] = {26187, 26245, HOLDUP, 1}; n=n+1
+		move[n] = {26254, 26264, UP, 1}; n=n+1
+		move[n] = {26288, 26298, DOWN, 2}; n=n+1
+		move[n] = {26313, 26341,HOLDDOWN, 1}; n=n+1
+		move[n] = {26351, 26361,BUTTON1, 1}; n=n+1
+		move[n] = {26371, 26385,BUTTON1, 4}; n=n+1
+		move[n] = {26395, 26423, LEFT, 1}; n=n+1
+		move[n] = {26437, 26447, BUTTON1, 1}; n=n+1
+		move[n] = {26467, 26495, LEFT, 1}; n=n+1
+		move[n] = {26511, 26521, UP, 1}; n=n+1
+		move[n] = {26555, 26565, UP, 1}; n=n+1
+		move[n] = {26647, 26665, UP, 1}; n=n+1
+		move[n] = {26683, 26693, DOWN, 1}; n=n+1
+		move[n] = {26710, 26763, HOLDUP, 1}; n=n+1
+		move[n] = {26774, 26825, HOLDUP, 1}; n=n+1
+		move[n] = {26835, 26850, ACTDOWN, 1}; n=n+1
+   
+     
+		totalMoves   = n-1
+		end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+elseif thisLevel == 16 then	--[[ OK niveau 16 KUNG FOOL ]]--
+
+		if thisScene == 1 then
+
+			sceneStart = 27105	
+			sceneEnd   = 28770
+			n   = 1
+
+
+		move[n] = {27180, 27210, RIGHT, 1}; n=n+1
+		move[n] = {27227, 27247, RIGHT, 1}; n=n+1
+		move[n] = {27256, 27264, BUTTON1, 1}; n=n+1
+		move[n] = {27271, 27284, LEFT, 1}; n=n+1
+		move[n] = {27301, 27341, UP, 1}; n=n+1
+		move[n] = {27349, 27358, UP, 1}; n=n+1
+		move[n] = {27388, 27413, DOWN ,  2}; n=n+1
+		move[n] = {27424, 27434, UP, 1}; n=n+1
+		move[n] = {27474, 27484, ACTLEFT, 1}; n=n+1
+		move[n] = {27537, 27552, DOWN, 1}; n=n+1
+		move[n] = {27583, 27593, UP, 1}; n=n+1
+		move[n] = {27620, 27635, UP, 1}; n=n+1
+		move[n] = {27653, 27663, DOWNRIGHT, 1}; n=n+1
+		move[n] = {27681, 27694, MASHMIN, 1}; n=n+1
+		move[n] = {27707, 27717, LEFT, 1}; n=n+1
+		move[n] = {27740, 27750, ACTUP, 1}; n=n+1
+		move[n] = {27759, 27769, UPRIGHT ,  2}; n=n+1
+		move[n] = {27792, 27802, DOWNLEFT, 1}; n=n+1
+		move[n] = {27825, 27835, LEFT, 1}; n=n+1
+		move[n] = {27848, 27858, LEFT, 1}; n=n+1
+		move[n] = {27866, 27876, UPRIGHT, 1}; n=n+1
+		move[n] = {27784, 27892, DOWN, 1}; n=n+1
+		move[n] = {27902, 27929, BUTTON1, 4 }; n=n+1
+		move[n] = {27953, 27961, BUTTON1, 1}; n=n+1
+		move[n] = {27969, 27979, DOWNLEFT, 1}; n=n+1
+		move[n] = {27992, 28002, UPLEFT, 1}; n=n+1
+		move[n] = {28011, 28023, UPRIGHT, 1}; n=n+1
+		move[n] = {28037, 28047, RIGHT, 1}; n=n+1
+		move[n] = {28071, 28094, LEFT, 1}; n=n+1
+		move[n] = {28124, 28141, UPRIGHT, 2}; n=n+1
+		move[n] = {28176, 28186, DOWN, 1}; n=n+1
+		move[n] = {28197, 28207, BUTTON1, 1}; n=n+1
+		move[n] = {28219, 28229, UP, 1}; n=n+1		--
+		move[n] = {28246, 28256, UP, 1}; n=n+1		--
+		move[n] = {28266, 28276, DOWN, 1}; n=n+1		--
+		move[n] = {28301, 28311, UPRIGHT, 1}; n=n+1
+		move[n] = {28338, 28350, UP, 1}; n=n+1
+		move[n] = {28398, 28444, HOLDUP, 1}; n=n+1
+		move[n] = {28459, 28467, DOWN, 1}; n=n+1
+		move[n] = {28475, 28492, HOLDRIGHT, 1}; n=n+1
+		move[n] = {28502, 28514, BUTTON1, 1}; n=n+1
+		move[n] = {28533, 28543, ACTUP, 1}; n=n+1
+		move[n] = {28553, 28563, BUTTON1, 1}; n=n+1
+		move[n] = {28612, 28622, DOWN, 1}; n=n+1
+		move[n] = {28654, 28664, DOWN, 2}; n=n+1
+
+              
+     
+		totalMoves   = n-1  
+		end
+
+
+
+
+elseif thisLevel == 17 then	--[[ OK niveau 17 ED XTREME ]]--
+
+		if thisScene == 1 then
+
+			sceneStart = 28908
+			sceneEnd   = 30572
+			n   = 1
+
+
+
+		move[n] = {28978, 28986, LEFT, 1}; n=n+1
+		move[n] = {28991, 29000, RIGHT, 1}; n=n+1
+		move[n] = {29013, 29023, LEFT, 1}; n=n+1
+		move[n] = {29053, 29063, DOWN, 1}; n=n+1
+		move[n] = {29087, 29095, LEFT, 1}; n=n+1
+		move[n] = {29104, 29153, HOLDLEFT, 1}; n=n+1
+		move[n] = {29163, 29173, BUTTON1, 1}; n=n+1
+		move[n] = {29180, 29188, DOWN, 1}; n=n+1
+		move[n] = {29196, 29206, DOWN, 1}; n=n+1
+		move[n] = {29216, 29226, DOWN, 1}; n=n+1
+		move[n] = {29257, 29267, DOWN, 1}; n=n+1
+		move[n] = {29295, 29305, DOWN, 1}; n=n+1
+		move[n] = {29343, 29351, BUTTON1, 1}; n=n+1
+		move[n] = {29359, 29384, MASHMAX, 1}; n=n+1
+		move[n] = {29396, 29406, UP, 1}; n=n+1
+		move[n] = {29470, 29480, DOWN, 1}; n=n+1
+		move[n] = {29500, 29510, DOWN, 1}; n=n+1
+		move[n] = {29520, 29547, MASHMAX, 1}; n=n+1
+		move[n] = {29561, 29571, BUTTON1, 1}; n=n+1
+		move[n] = {29585, 29595, BUTTON1, 1}; n=n+1
+		move[n] = {29610, 29620, RIGHT, 1}; n=n+1
+		move[n] = {29630, 29642, UP, 1}; n=n+1
+		move[n] = {29665, 29690, LEFT, 1}; n=n+1
+		move[n] = {29715, 29725, DOWN, 1}; n=n+1
+		move[n] = {29758, 29768, BUTTON1, 1}; n=n+1
+		move[n] = {29758, 29800, LEFT, 1}; n=n+1
+		move[n] = {29844, 29861, DOWN ,2}; n=n+1
+		move[n] = {29870, 29881, LEFT, 1}; n=n+1
+		move[n] = {29890, 29903, ACTDOWN, 1}; n=n+1
+		move[n] = {29915, 29925, DOUBLE, 1}; n=n+1
+		move[n] = {29943, 29953, LEFT, 1}; n=n+1
+		move[n] = {30030, 30048, ACTDOWN, 1}; n=n+1
+		move[n] = {30062, 30077, DOWN, 1}; n=n+1
+		move[n] = {30097, 30107, UP, 1}; n=n+1
+		move[n] = {30162, 30172, UP, 1}; n=n+1
+		move[n] = {30180, 30190, ACTLEFT, 1}; n=n+1
+		move[n] = {30217, 30225, DOWN, 1}; n=n+1
+		move[n] = {30233, 30243, DOWN, 2}; n=n+1
+		move[n] = {30251, 30272, DOWN, 1}; n=n+1
+		move[n] = {30289, 30304, ACTDOWN, 1}; n=n+1
+		move[n] = {30359, 30369, ACTUP, 1}; n=n+1
+
+
+		
+		totalMoves   = n-1  
+		end
+
+
+
+elseif thisLevel == 18 then	--[[ OK niveau 18 SHOOTING STAR ]]--
+
+		if thisScene == 1 then
+
+			sceneStart = 30707
+			sceneEnd   = 32409
+			n   = 1
+
+
+		move[n] = {30854, 30864, ACTLEFT, 1}; n=n+1
+		move[n] = {30883, 30893, DOWNRIGHT, 1}; n=n+1
+		move[n] = {30908, 30920, RIGHT, 1}; n=n+1
+		move[n] = {30937, 30947, ACTUP, 1}; n=n+1
+		move[n] = {30952, 30962, ACTRIGHT, 1}; n=n+1
+		move[n] = {31001, 31014, BUTTON1, 1}; n=n+1
+		move[n] = {31027, 31037, ACTRIGHT, 1}; n=n+1
+		move[n] = {31072, 31087, UPLEFT, 1}; n=n+1
+		move[n] = {31100, 31109, LEFT, 1}; n=n+1
+		move[n] = {31129, 31139, LEFT, 1}; n=n+1
+		move[n] = {31154, 31164, UP, 1}; n=n+1
+		move[n] = {31172, 31195, RIGHT, 4}; n=n+1
+		move[n] = {31265, 31275, BUTTON1, 1}; n=n+1
+		move[n] = {31285, 31351, MASHMAX, 1}; n=n+1
+		move[n] = {31363, 31373, ACTDOWN, 1}; n=n+1
+		move[n] = {31384, 31481, MASHMAX, 1}; n=n+1
+		move[n] = {31548, 31558, UPRIGHT, 1}; n=n+1
+		move[n] = {31567, 31577, BUTTON1, 1}; n=n+1
+		move[n] = {31695, 31603, LEFT, 1}; n=n+1
+		move[n] = {31613, 31631, HOLDBUT, 1}; n=n+1
+		move[n] = {31655, 31665, ACTLEFT, 1}; n=n+1
+		move[n] = {31680, 31690, RIGHT, 1}; n=n+1
+		move[n] = {31702, 31712, UPRIGHT, 1}; n=n+1
+		move[n] = {31727, 31737, UPRIGHT, 1}; n=n+1
+		move[n] = {31759, 31780, DOWNLEFT, 1}; n=n+1
+		move[n] = {31804, 31819, LEFT, 2}; n=n+1
+		move[n] = {31875, 31890, ACTLEFT, 1}; n=n+1
+		move[n] = {31903, 31913, BUTTON1, 1}; n=n+1
+		move[n] = {31939, 31949, UP, 1}; n=n+1
+		move[n] = {31963, 31973, UP, 1}; n=n+1
+		move[n] = {31983, 32060, HOLDUP, 1}; n=n+1
+		move[n] = {32067, 32088, LEFT, 1}; n=n+1
+		move[n] = {32098, 32114, DOWNLEFT, 1}; n=n+1
+		move[n] = {32122, 32132, DOWN, 1}; n=n+1
+		move[n] = {32144, 32154, DOWNLEFT, 1}; n=n+1
+		move[n] = {32176, 32186, BUTTON1, 1}; n=n+1
+			
+
+
+		totalMoves   = n-1 
+		end
+
+
+
+
+elseif thisLevel == 19 then	--[[ OK niveau 19 ITTY-BITTY ]]--
+
+		if thisScene == 1 then
+
+			sceneStart = 32523	
+			sceneEnd   = 34167
+			n   = 1
+
+
+
+		move[n] = {32621, 32635, DOWNRIGHT, 1}; n=n+1
+		move[n] = {32686, 32699, ACTUP, 1}; n=n+1
+		move[n] = {32736, 32746, MASHMIN, 1}; n=n+1
+		move[n] = {32762, 32785, HOLDBUT, 1}; n=n+1
+		move[n] = {32797, 32811, DOWN, 1}; n=n+1
+		move[n] = {32843, 32856, UP, 1}; n=n+1
+		move[n] = {32869, 32879, ACTUP, 1}; n=n+1
+		move[n] = {32890, 32917, HOLDLEFT, 1}; n=n+1
+		move[n] = {32951, 33012, HOLDBUT, 1}; n=n+1
+		move[n] = {33025, 33035, BUTTON1, 1}; n=n+1
+		move[n] = {33046, 33106, HOLDRIGHT, 1}; n=n+1
+		move[n] = {33126, 33141, DOWNLEFT, 1}; n=n+1
+		move[n] = {33217, 33297, MASHMIN, 1}; n=n+1
+		move[n] = {33313, 33349, HOLDBUT, 1}; n=n+1
+		move[n] = {33381, 33391, UP, 1}; n=n+1
+		move[n] = {33422, 33433, DOWN, 1}; n=n+1
+		move[n] = {33465, 33478, DOWNLEFT, 1}; n=n+1
+		move[n] = {33502, 33512, ACTDOWN, 1}; n=n+1
+		move[n] = {33525, 33535, ACTDOWN, 1}; n=n+1
+		move[n] = {33547, 33555, RIGHT, 1}; n=n+1
+		move[n] = {33564, 33577, LEFT, 1}; n=n+1
+		move[n] = {33616, 33637, HOLDUP, 1}; n=n+1
+		move[n] = {33731, 33742, ACTUP, 1}; n=n+1
+		move[n] = {33771, 33785, LEFT, 2}; n=n+1
+		move[n] = {33815, 33838, UP, 4}; n=n+1
+		move[n] = {33875, 33915, HOLDBUT, 1}; n=n+1
+		move[n] = {33927, 33944, DOWN, 2}; n=n+1
+		move[n] = {33968, 33980, BUTTON1, 1}; n=n+1
+		move[n] = {34024, 34038, MASHMIN, 1}; n=n+1
+
+		
+		totalMoves   = n-1 
+		end
+
+
+
+elseif thisLevel == 20 then	--[[ OK niveau 20 FROG ]]--
+
+		if thisScene == 1 then
+
+			sceneStart = 34310	
+			sceneEnd   = 35980
+			n   = 1
+
+		move[n] = {34434, 34449, DOWNRIGHT, 1}; n=n+1
+		move[n] = {34464, 34482, RIGHT, 2}; n=n+1
+		move[n] = {34492, 34507, DOWN, 1}; n=n+1
+		move[n] = {34522, 34532, DOWN, 1}; n=n+1
+		move[n] = {34558, 34567, ACTUP, 1}; n=n+1
+		move[n] = {34593, 34603, ACTDOWN, 1}; n=n+1
+		move[n] = {34649, 34659, LEFT, 1}; n=n+1
+		move[n] = {34679, 34689, RIGHT, 1}; n=n+1
+		move[n] = {34697, 34717, HOLDLEFT, 1}; n=n+1
+		move[n] = {34735, 34745, ACTLEFT, 1}; n=n+1
+		move[n] = {34778, 34791, ACTUP, 1}; n=n+1
+		move[n] = {34803, 34822, LEFT, 2}; n=n+1
+		move[n] = {34817, 34827, LEFT, 1}; n=n+1
+		move[n] = {34838, 34849, DOWNLEFT, 1}; n=n+1
+		move[n] = {34859, 34872, UPLEFT, 1}; n=n+1
+		move[n] = {34895, 34905, RIGHT, 1}; n=n+1
+		move[n] = {34928, 34938, BUTTON1, 1}; n=n+1
+		move[n] = {34998, 35010, DOWN, 1}; n=n+1
+		move[n] = {35053, 35067, UP, 2}; n=n+1
+		move[n] = {35083, 35093, DOWNLEFT, 1}; n=n+1
+		move[n] = {35134, 35147, BUTTON1, 1}; n=n+1
+		move[n] = {35166, 35175, UPRIGHT, 1}; n=n+1
+		move[n] = {35227, 35240, UPRIGHT, 1}; n=n+1
+		move[n] = {35250, 35262, DOWNLEFT, 1}; n=n+1
+		move[n] = {35282, 35292, DOWN, 1}; n=n+1
+		move[n] = {35325, 35335, UP, 1}; n=n+1
+		move[n] = {35373, 35383, UP, 1}; n=n+1
+		move[n] = {35417, 35431, LEFT,2}; n=n+1
+		move[n] = {35447, 35458, BUTTON1, 1}; n=n+1
+		move[n] = {35465, 35475, UP, 1}; n=n+1
+		move[n] = {35500, 35511, DOWN, 1}; n=n+1
+		move[n] = {35536, 35546, DOWN, 1}; n=n+1
+		move[n] = {35558, 35568, BUTTON1, 1}; n=n+1
+		move[n] = {35594, 35609, DOWN, 1}; n=n+1
+		move[n] = {35645, 35655, DOWN, 1}; n=n+1
+		move[n] = {35693, 35704, ACTUP, 1}; n=n+1
+		move[n] = {35776, 35789, DOWNRIGHT, 1}; n=n+1
+		move[n] = {35857, 35871, UPRIGHT, 1}; n=n+1
+		move[n] = {35925, 35940, UPLEFT, 1}; n=n+1
+
+
+
+		totalMoves   = n-1
+		end
+
+
+
+
+
+
+
+elseif thisLevel == 21 then	--[[ OK niveau 21 DISCONNECT ED ]]--
+
+		if thisScene == 1 then
+
+			sceneStart = 36164	
+			sceneEnd   = 37780
+			n   = 1
+
+
+
+		move[n] = {36249, 36259, DOWN, 1}; n=n+1
+		move[n] = {36269, 36279, DOWN, 1}; n=n+1
+		move[n] = {36296, 36309, DOWN, 1}; n=n+1
+		move[n] = {36336, 36364, HOLDUP, 1}; n=n+1
+		move[n] = {36376, 36388, BUTTON1, 1}; n=n+1
+		move[n] = {36441, 36451, DOWN, 1}; n=n+1
+		move[n] = {36512, 36522, RIGHT, 1}; n=n+1
+		move[n] = {36533, 36548, ACTUP, 1}; n=n+1
+		move[n] = {36563, 36572, UP, 1}; n=n+1
+		move[n] = {36591, 36605, RIGHT, 2}; n=n+1
+		move[n] = {36620, 36637, RIGHT, 1}; n=n+1
+		move[n] = {36657, 36672, LEFT, 1}; n=n+1
+		move[n] = {36690, 36702, RIGHT, 1}; n=n+1
+		move[n] = {36744, 36759, UPRIGHT, 1}; n=n+1
+		move[n] = {36789, 36798, LEFT, 1}; n=n+1
+		move[n] = {36816, 36826, UP, 1}; n=n+1
+		move[n] = {36853, 36866, LEFT, 1}; n=n+1
+		move[n] = {36880, 36890, UP, 1}; n=n+1
+		move[n] = {36947, 36975, HOLDLEFT, 1}; n=n+1
+		move[n] = {36986, 36996, UP, 1}; n=n+1
+		move[n] = {37007, 37020, UPRIGHT, 1}; n=n+1
+		move[n] = {37039, 37049, DOWNLEFT, 1}; n=n+1
+		move[n] = {37059, 37129, HOLDLEFT, 1}; n=n+1
+		move[n] = {37139, 37166, UPRIGHT,1}; n=n+1
+		move[n] = {37179, 37189, UPRIGHT, 1}; n=n+1
+		move[n] = {37195, 37205, UPRIGHT, 1}; n=n+1
+		move[n] = {37225, 37235, DOWNLEFT, 1}; n=n+1
+		move[n] = {37302, 37312, LEFT, 1}; n=n+1
+		move[n] = {37335, 37344, UP, 1}; n=n+1
+		move[n] = {37354, 37364, RIGHT, 1}; n=n+1
+		move[n] = {37435, 37445, ACTLEFT, 1}; n=n+1
+		move[n] = {37454, 37462, RIGHT, 1}; n=n+1
+		move[n] = {37470, 37488, BUTTON1, 1}; n=n+1
+		move[n] = {37500, 37515, DOWN, 1}; n=n+1
+		move[n] = {37527, 37537, RIGHT, 1}; n=n+1
+		move[n] = {37569, 37583, DOWNLEFT, 1}; n=n+1
+		move[n] = {37599, 37609, UP, 1}; n=n+1
+		move[n] = {37657, 37671, UP, 1}; n=n+1
+		move[n] = {37718, 37728, DOWN, 1}; n=n+1	
+
+
+
+		totalMoves   = n-1
+		end
+
+
+
+elseif thisLevel == 22 then	--[[ OK niveau 22 CHOPPED ]]--
+
+		if thisScene == 1 then
+
+			sceneStart = 37910	
+			sceneEnd   = 39577
+			n   = 1
+
+
+
+		move[n] = {38006, 38026, LEFT,3}; n=n+1
+		move[n] = {38046, 38060, RIGHT, 1}; n=n+1
+		move[n] = {38095, 38105, UPRIGHT, 1}; n=n+1
+		move[n] = {38133, 38143, BUTTON1, 1}; n=n+1
+		move[n] = {38163, 38177, UP, 1}; n=n+1
+		move[n] = {38239, 38259, UPLEFT, 1}; n=n+1
+		move[n] = {38270, 38285, BUTTON1, 1}; n=n+1
+		move[n] = {38314, 38324, RIGHT, 1}; n=n+1
+		move[n] = {38332, 38344, DOWN, 1}; n=n+1
+		move[n] = {38351, 38359 ,DOWN, 1}; n=n+1
+		move[n] = {38368, 38380, DOWN, 1}; n=n+1
+		move[n] = {38396, 38433, HOLDUP, 1}; n=n+1
+		move[n] = {38443, 38533, HOLDBUT, 1}; n=n+1
+		move[n] = {38541, 38551, DOWN, 1}; n=n+1
+		move[n] = {38588, 38620, MASH , 1}; n=n+1
+		move[n] = {38632, 38644, UPLEFT, 1}; n=n+1
+		move[n] = {38659, 38687, RIGHT, 3}; n=n+1
+		move[n] = {38694, 38706, UPRIGHT, 1}; n=n+1
+		move[n] = {38725, 38750, LEFT,3 }; n=n+1
+		move[n] = {38782, 38792, BUTTON1, 1}; n=n+1
+		move[n] = {38802, 38812, DOWN, 1}; n=n+1
+		move[n] = {38844, 38850, UP, 1}; n=n+1
+		move[n] = {38856, 38870, MASHMAX, 1}; n=n+1
+		move[n] = {38880, 38890, DOWN, 1}; n=n+1
+		move[n] = {38937, 38949, UPLEFT, 1}; n=n+1
+		move[n] = {38958, 38986, HOLDLEFT, 1}; n=n+1
+		move[n] = {39018, 39028, DOWN, 1}; n=n+1
+		move[n] = {39037, 39047, DOWN, 1}; n=n+1
+		move[n] = {39086, 39098, DOWN, 1}; n=n+1
+		move[n] = {39115, 39127, ACTUP, 1}; n=n+1
+		move[n] = {39147, 39166, UP,2}; n=n+1
+		move[n] = {39188, 39198, UP, 1}; n=n+1
+		move[n] = {39206, 39217, MASHMIN,1}; n=n+1
+		move[n] = {39227, 39238, ACTDOWN, 1}; n=n+1
+		move[n] = {39249, 39284, MASH, 1}; n=n+1
+		move[n] = {39294, 39304, UP, 1}; n=n+1
+		move[n] = {39314, 39324, DOWN, 1}; n=n+1
+		move[n] = {39395, 39409, DOWN, 1}; n=n+1
+		move[n] = {39418, 39428, DOWN, 1}; n=n+1
+		move[n] = {39470, 39483, DOWNLEFT, 1}; n=n+1
+
+
+		totalMoves   = n-1
+		end
+
+
+
+elseif thisLevel == 23 then	--[[ ok ok  niveau 23 GHOST ]]--
+
+		if thisScene == 1 then
+
+			sceneStart = 39713	
+			sceneEnd   = 41426
+			n   = 1
+
+
+
+		move[n] = {39830, 39840, ACTUP, 1}; n=n+1
+		move[n] = {39851, 39875, MASHMIN, 1}; n=n+1
+		move[n] = {39851, 39860, DOUBLE, 1}; n=n+1
+		move[n] = {39870, 39880, BUTTON1, 1}; n=n+1
+		move[n] = {39888, 39901, DOWN, 1}; n=n+1
+		move[n] = {39975, 39990, UPLEFT, 1}; n=n+1
+		move[n] = {40000, 40010, DOWN, 1}; n=n+1
+		move[n] = {40064, 40125, HOLDUP, 1}; n=n+1
+		move[n] = {40145, 40155, RIGHT, 1}; n=n+1
+		move[n] = {40193, 40205, ACTUP, 1}; n=n+1
+		move[n] = {40215, 40283, HOLDRIGHT, 1}; n=n+1
+		move[n] = {40295, 40306, UPLEFT, 1}; n=n+1
+		move[n] = {40362, 40372, LEFT, 1}; n=n+1
+		move[n] = {40407, 40565, MASHMAX, 1}; n=n+1
+		move[n] = {40576, 40586, DOWN, 1}; n=n+1
+		move[n] = {40592, 40602, UP, 1}; n=n+1
+		move[n] = {40629, 40660, LEFT, 1}; n=n+1
+		move[n] = {40676, 40686, LEFT, 1}; n=n+1
+		move[n] = {40738, 40759, LEFT, 1}; n=n+1
+		move[n] = {40781, 40792, UPLEFT, 1}; n=n+1
+		move[n] = {40812, 40864, MASHMAX, 1}; n=n+1
+		move[n] = {40925, 40935, BUTTON1, 1}; n=n+1
+		move[n] = {40946, 40957, LEFT, 1}; n=n+1
+		move[n] = {40970, 40984, UP, 1}; n=n+1
+		move[n] = {41021, 41036, DOUBLE, 1}; n=n+1
+		move[n] = {41068, 41093, ACTLEFT, 1}; n=n+1
+		move[n] = {41118, 41130, LEFT, 1}; n=n+1
+		move[n] = {41172, 41190, LEFT, 1}; n=n+1
+		move[n] = {41206, 41221, DOWN, 1}; n=n+1
+		move[n] = {41242, 41252, DOWN, 1}; n=n+1
+  		move[n] = {41263, 41273, DOWN, 1}; n=n+1
+		move[n] = {41326, 41341, DOWN, 1}; n=n+1
+
+		totalMoves   = n-1
+		end
+
+
+elseif thisLevel == 24 then	--[[OK  niveau 24 BIRDIE ]]--
+
+		if thisScene == 1 then
+
+			sceneStart = 41520	
+			sceneEnd   = 43230
+			n   = 1
+
+
+
+		move[n] = {41651, 41666, DOWN, 1}; n=n+1
+		move[n] = {41748, 41763, UP, 1}; n=n+1
+		move[n] = {41818, 41833, ACTUP, 1}; n=n+1
+		move[n] = {41846, 41861, ACTDOWN, 1}; n=n+1
+		move[n] = {41874, 41884, LEFT, 1}; n=n+1
+		move[n] = {41914, 41922, RIGHT, 1}; n=n+1
+		move[n] = {41927, 41935, LEFT, 1}; n=n+1
+		move[n] = {41958, 41968, DOWN, 1}; n=n+1
+		move[n] = {42005, 42015, UP, 1}; n=n+1
+		move[n] = {42026, 42036, RIGHT, 1}; n=n+1
+		move[n] = {42072, 42100, HOLDRIGHT, 1}; n=n+1
+		move[n] = {42110, 42125, ACTLEFT, 1}; n=n+1
+		move[n] = {42139, 42151, LEFT, 1}; n=n+1
+		move[n] = {42172, 42180, RIGHT, 1}; n=n+1
+		move[n] = {42185, 42193, LEFT, 1}; n=n+1
+		move[n] = {42194, 42211, UP, 1}; n=n+1
+		move[n] = {42246, 42258, DOWN, 1}; n=n+1
+		move[n] = {42262, 42272, UP, 1}; n=n+1
+		move[n] = {42283, 42290, DOWN, 1}; n=n+1
+		move[n] = {42320, 42336, ACTLEFT, 1}; n=n+1
+		move[n] = {42359, 42369, ACTRIGHT, 1}; n=n+1
+		move[n] = {42412, 42427, UP, 2}; n=n+1
+		move[n] = {42452, 42468, BUTTON1, 1}; n=n+1
+		move[n] = {42486, 42499, UP, 1}; n=n+1
+		move[n] = {42512, 42532, HOLDLEFT, 1}; n=n+1
+		move[n] = {42543, 42557, DOWN, 1}; n=n+1
+		move[n] = {42580, 42590, DOUBLE, 1}; n=n+1
+		move[n] = {42596, 42602, DOWN, 1}; n=n+1
+		move[n] = {42625, 42635, UP, 1}; n=n+1
+		move[n] = {42646, 42662, UP, 1}; n=n+1
+		move[n] = {42671, 42681, UPRIGHT, 1}; n=n+1
+		move[n] = {42698, 42709, ACTLEFT, 1}; n=n+1
+		move[n] = {42733, 42794, MASHMAX, 1}; n=n+1
+		move[n] = {42814, 42824, DOUBLE, 1}; n=n+1
+		move[n] = {42855, 42865, LEFT, 1}; n=n+1
+		move[n] = {42877, 42897, HOLDBUT, 1}; n=n+1
+		move[n] = {42923, 42939, DOWN, 2}; n=n+1
+		move[n] = {42953, 42970, ACTRIGHT, 1}; n=n+1
+		move[n] = {42991, 43001, RIGHT, 1}; n=n+1
+		move[n] = {43014, 43024,DOWN, 1}; n=n+1
+		move[n] = {43032, 43041, BUTTON1, 1}; n=n+1
+		move[n] = {43062, 43072, DOWN, 1}; n=n+1
+		move[n] = {43097, 43110, LEFT, 1}; n=n+1
+
+			
+		totalMoves   = n-1
+		end
+
+
+elseif thisLevel == 25 then	--[[ ok 100 niveau 25 STRETCH  ED ]]--
+
+		if thisScene == 1 then
+
+			sceneStart = 43315	
+			sceneEnd   = 45029
+			n   = 1
+
+
+		move[n] = {43398, 43418, UPLEFT, 1}; n=n+1
+		move[n] = {43430, 43445, UP, 1}; n=n+1
+		move[n] = {43481, 43496, DOWN, 1}; n=n+1
+		move[n] = {43510, 43525, RIGHT, 1}; n=n+1
+		move[n] = {43537, 43553, RIGHT, 1}; n=n+1
+		move[n] = {43579, 43594, RIGHT, 1}; n=n+1
+		move[n] = {43603, 43625, HOLDLEFT, 1}; n=n+1
+		move[n] = {43631, 43641, UP, 1}; n=n+1
+		move[n] = {43668, 43679, UPRIGHT, 1}; n=n+1
+		move[n] = {43691, 43702, LEFT, 1}; n=n+1
+		move[n] = {43739, 43751, UP, 1}; n=n+1
+		move[n] = {43764, 43774, UP, 1}; n=n+1
+		move[n] = {43782, 43795, UP, 1}; n=n+1
+		move[n] = {43810, 43836, HOLDLEFT, 1}; n=n+1
+		move[n] = {43848, 43863, DOWNLEFT, 1}; n=n+1
+		move[n] = {43888, 43902, UPRIGHT, 1}; n=n+1
+		move[n] = {43929, 43957, UP,3}; n=n+1
+		move[n] = {43969, 43989, HOLDLEFT, 1}; n=n+1
+		move[n] = {43998, 44008, RIGHT, 1}; n=n+1
+		move[n] = {44014, 44024, UP, 1}; n=n+1
+		move[n] = {44083, 44093, LEFT, 1}; n=n+1
+		move[n] = {44124, 44144, ACTUP, 1}; n=n+1
+		move[n] = {44152, 44174, MASHMAX, 1}; n=n+1
+		move[n] = {44197, 44239, HOLDBUT, 1}; n=n+1
+		move[n] = {44253, 44263, LEFT, 1}; n=n+1
+		move[n] = {44318, 44328, UPRIGHT, 1}; n=n+1
+		move[n] = {44381, 44389, DOWNLEFT, 1}; n=n+1
+		move[n] = {44397, 44412, UPRIGHT, 1}; n=n+1
+		move[n] = {44423, 44433, BUTTON1, 1}; n=n+1
+		move[n] = {44450, 44512, MASHMAX, 1}; n=n+1
+		move[n] = {44523, 44560, HOLDDOWN, 1}; n=n+1
+		move[n] = {44570, 44590, DOWN, 2}; n=n+1
+		move[n] = {44614, 44626, DOWN, 1}; n=n+1
+		move[n] = {44639, 44649, DOWN, 1}; n=n+1
+		move[n] = {44663, 44676, RIGHT, 1}; n=n+1
+		move[n] = {44680, 44696, LEFT, 1}; n=n+1
+		move[n] = {44709, 44724, RIGHT, 1}; n=n+1
+		move[n] = {44734, 44815, HOLDBUT, 1}; n=n+1
+
+
+		totalMoves   = n-1
+		end
+
+
+elseif thisLevel == 26 then	--[[ OK niveau 26 ATCHOO ]]--
+
+		if thisScene == 1 then
+
+			sceneStart = 45115	
+			sceneEnd   = 46790
+			n   = 1
+
+
+
+		move[n] = {45223, 45233, RIGHT, 1}; n=n+1
+		move[n] = {45244, 45254, LEFT, 1}; n=n+1
+		move[n] = {45264, 45274, DOWN, 1}; n=n+1
+		move[n] = {45285, 45298, UP, 1}; n=n+1
+		move[n] = {45318, 45328, UP, 1}; n=n+1 
+		move[n] = {45339, 45351, ACTRIGHT, 1}; n=n+1
+		move[n] = {45371, 45384, ACTRIGHT, 1}; n=n+1
+		move[n] = {45389, 45404, DOWN, 1}; n=n+1
+		move[n] = {45428, 45438, LEFT, 1}; n=n+1
+		move[n] = {45452, 45462, BUTTON1, 1}; n=n+1
+		move[n] = {45506, 45541, HOLDBUT, 1}; n=n+1
+		move[n] = {45551, 45561, UP, 1}; n=n+1
+		move[n] = {45599, 45609, DOWN, 1}; n=n+1
+		move[n] = {45644, 45665, UP, 2}; n=n+1
+		move[n] = {45674, 45684, UP, 1}; n=n+1
+		move[n] = {45713, 45735, HOLDUP, 1}; n=n+1
+		move[n] = {45777, 45787, ACTDOWN, 1}; n=n+1
+		move[n] = {45812, 45822, ACTDOWN, 1}; n=n+1
+		move[n] = {45859, 45869, DOWN, 1}; n=n+1
+		move[n] = {45890, 45895, UP, 1}; n=n+1
+		move[n] = {45901, 45911, LEFT, 1}; n=n+1
+		move[n] = {45923, 45935, RIGHT, 1}; n=n+1
+		move[n] = {45943, 45953, UP, 1}; n=n+1
+		move[n] = {45963, 45972, DOWN, 1}; n=n+1
+		move[n] = {45980, 45992, UP, 1}; n=n+1
+		move[n] = {46000, 46010, RIGHT, 1}; n=n+1
+		move[n] = {46028, 46074, HOLDBUT, 1}; n=n+1
+		move[n] = {46084, 46100, ACTDOWN, 1}; n=n+1
+		move[n] = {46117, 46128, BUTTON1, 1}; n=n+1
+		move[n] = {46136, 46146, BUTTON1, 1}; n=n+1
+		move[n] = {46172, 46182, UP, 1}; n=n+1
+		move[n] = {46184, 46207, MASHMIN, 1}; n=n+1
+		move[n] = {46231, 46239, UP, 1}; n=n+1
+		move[n] = {46249, 46264, RIGHT, 1}; n=n+1
+		move[n] = {46289, 46300, ACTLEFT, 1}; n=n+1
+		move[n] = {46338, 46348, RIGHT, 1}; n=n+1
+		move[n] = {46365, 46380, BUTTON1, 1}; n=n+1
+		move[n] = {46414, 46424, DOWN, 1}; n=n+1
+		move[n] = {46443, 46456, HOLDUP, 1}; n=n+1
+		move[n] = {46466, 46480, MASHMAX, 1}; n=n+1
+		move[n] = {46528, 46573, HOLDBUT, 1}; n=n+1
+		move[n] = {46601, 46611, UP, 1}; n=n+1
+		move[n] = {46650, 46675, MASHMIN, 1}; n=n+1
+		move[n] = {46688, 46697, ACTUP, 1}; n=n+1
+		move[n] = {46718, 46730, ACTUP, 1}; n=n+1
+		move[n] = {46749, 46759, ACTUP, 1}; n=n+1
+  
+		
+		totalMoves   = n-1
+		end
+
+
+elseif thisLevel == 27 then	--[[ OK  niveau 27 HICCUPS ]]--
+
+		if thisScene == 1 then
+
+			sceneStart = 46927	
+			sceneEnd   = 48634
+			n   = 1
+
+
+
+		move[n] = {47052, 47062, UP, 1}; n=n+1
+		move[n] = {47076, 47086, UP, 1}; n=n+1
+		move[n] = {47098, 47108, MASHMIN, 1}; n=n+1
+		move[n] = {47133, 47143, UP,2}; n=n+1
+		move[n] = {47166, 47182, UP,2}; n=n+1
+		move[n] = {47211, 47235, HOLDUP, 1}; n=n+1
+		move[n] = {47247, 47257, UP, 1}; n=n+1
+		move[n] = {47267, 47280, DOWN, 1}; n=n+1
+		move[n] = {47297, 47307, ACTUP, 1}; n=n+1
+		move[n] = {47364, 47374, DOWN, 1}; n=n+1
+		move[n] = {47395, 47403, RIGHT, 1}; n=n+1
+		move[n] = {47411, 47419, LEFT, 1}; n=n+1
+		move[n] = {47429, 47463, HOLDBUT, 1}; n=n+1
+		move[n] = {47474, 47484, DOWNRIGHT, 1}; n=n+1
+		move[n] = {47510, 47520, RIGHT, 1}; n=n+1
+		move[n] = {47527, 47555, DOWN, 2}; n=n+1
+		move[n] = {47582, 47630, HOLDDOWN, 1}; n=n+1
+		move[n] = {47643, 47640, MASHMAX, 1}; n=n+1
+		move[n] = {47679, 47689, LEFT, 1}; n=n+1
+		move[n] = {47711, 47730, HOLDBUT, 1}; n=n+1
+		move[n] = {47756, 47766, UPLEFT, 1}; n=n+1
+		move[n] = {47768, 47778, RIGHT, 1}; n=n+1
+		move[n] = {47798, 47860, HOLDOWN, 1}; n=n+1
+		move[n] = {47874, 47889, UP, 1}; n=n+1
+		move[n] = {47940, 47950, RIGHT, 1}; n=n+1
+		move[n] = {47962, 47972, BUTTON1, 1}; n=n+1
+		move[n] = {47986, 47996, DOWN, 1}; n=n+1
+		move[n] = {48035, 48045, ACTRIGHT, 1}; n=n+1
+		move[n] = {48053, 48053, BUTTON1, 1}; n=n+1
+		move[n] = {48074, 48123, HOLDRIGHT, 1}; n=n+1
+		move[n] = {48146, 48156, ACTUP, 1}; n=n+1
+		move[n] = {48179, 48216, HOLDUP, 1}; n=n+1
+		move[n] = {48223, 48238, DOUBLE, 1}; n=n+1
+		move[n] = {48277, 48288, UP, 1}; n=n+1
+		move[n] = {48312, 48326, ACTLEFT, 1}; n=n+1
+		move[n] = {48335, 48345, RIGHT, 1}; n=n+1
+		move[n] = {48355, 48365, DOWNRIGHT, 1}; n=n+1
+		move[n] = {48381, 48407, RIGHT,2}; n=n+1
+		move[n] = {48426, 48485, HOLDUP, 1}; n=n+1
+		
+		
+		totalMoves   = n-1
+		end
+
+
+
+elseif thisLevel == 28 then	--[[ OK niveau 28 UNSHAKABLE ]]--
+
+		if thisScene == 1 then
+
+			sceneStart = 48718	
+			sceneEnd   = 50414
+			n   = 1
+
+	
+
+
+		move[n] = {48802, 48813, UP, 1}; n=n+1
+		move[n] = {48820, 48835, RIGHT, 1}; n=n+1
+		move[n] = {48845, 48860, RIGHT, 1}; n=n+1
+		move[n] = {48894, 48904, DOWN, 1}; n=n+1
+		move[n] = {48912, 48922, RIGHT, 1}; n=n+1
+		move[n] = {48948, 48958, LEFT, 1}; n=n+1
+		move[n] = {48973, 48980, UP, 1}; n=n+1
+		move[n] = {48990, 49000, DOWN, 1}; n=n+1
+		move[n] = {49010, 49020, UP, 1}; n=n+1
+		move[n] = {49040, 49055, HOLDDOWN, 1}; n=n+1
+		move[n] = {49065, 49073, BUTTON1, 1}; n=n+1
+		move[n] = {49081, 49095, ACTUP, 1}; n=n+1
+		move[n] = {49106, 49116, LEFT, 1}; n=n+1
+		move[n] = {49131, 49146, ACTLEFT, 1}; n=n+1
+		move[n] = {49156, 49172, HOLDLEFT, 1}; n=n+1
+		move[n] = {49184, 49199, ACTLEFT, 1}; n=n+1
+		move[n] = {49219, 49234, ACTUP, 1}; n=n+1
+		move[n] = {49251, 49282, HOLDRIGHT, 1}; n=n+1
+		move[n] = {49294, 49304, LEFT,1}; n=n+1
+		move[n] = {49317, 49327, LEFT, 1}; n=n+1
+		move[n] = {49338, 49350, UPLEFT, 1}; n=n+1
+		move[n] = {49358, 49372, DOWNLEFT, 1}; n=n+1
+		move[n] = {49383, 49393, DOWNRIGHT, 1}; n=n+1
+		move[n] = {49418, 49428, ACTUP, 1}; n=n+1
+		move[n] = {49464, 49474, ACTDOWN, 1}; n=n+1
+		move[n] = {49514, 49524, UP, 1}; n=n+1
+		move[n] = {49550, 49678, HOLDUP, 1}; n=n+1
+		move[n] = {49689, 49699, ACTLEFT, 1}; n=n+1
+		move[n] = {49722, 49735, RIGHT, 1}; n=n+1
+		move[n] = {49748, 49760, DOWN, 1}; n=n+1
+		move[n] = {49772, 49782, UP, 1}; n=n+1
+		move[n] = {49823, 49836, UPLEFT, 1}; n=n+1
+		move[n] = {49845, 49855, UPLEFT, 1}; n=n+1
+		move[n] = {49860, 49875, DOWN, 1}; n=n+1
+		move[n] = {49911, 49924, DOWNLEFT, 1}; n=n+1
+		move[n] = {49935, 49980, MASHMAX, 1}; n=n+1
+		move[n] = {49990, 50000, ACTUP, 1}; n=n+1
+		move[n] = {50093, 50103, RIGHT, 1}; n=n+1
+		move[n] = {50143, 50153, DOWNRIGHT, 1}; n=n+1
+		move[n] = {50169, 50182, DOWN, 1}; n=n+1
+		move[n] = {50208, 50251, HOLDRIGHT, 1}; n=n+1	
+		move[n] = {50271, 50289, ACTUP, 1}; n=n+1
+		move[n] = {50294, 50337, HOLDRIGHT, 1}; n=n+1
+
+		totalMoves   = n-1
+		end
+
+
+elseif thisLevel == 29 then	--[[ niveau OK 29 CLIFFHANGER ]]--
+
+		if thisScene == 1 then
+
+			sceneStart = 50536	
+			sceneEnd   = 52235
+			n   = 1
+
+	
+
+		move[n] = {50600, 50649, HOLDRIGHT, 1}; n=n+1
+		move[n] = {50659, 50672, RIGHT,1}; n=n+1
+		move[n] = {50748, 50766, UP,1}; n=n+1
+		move[n] = {50789, 50809, HOLDBUT, 1}; n=n+1
+		move[n] = {50832, 50842, DOWN ,2}; n=n+1
+		move[n] = {50852, 50897, HOLDDOWN, 1}; n=n+1
+		move[n] = {50929, 50939, RIGHT, 1}; n=n+1
+		move[n] = {50962, 50972, RIGHT, 1}; n=n+1
+		move[n] = {50993, 51003, RIGHT, 1}; n=n+1
+		move[n] = {51010, 51048, HOLDRIGHT, 1}; n=n+1
+		move[n] = {51058, 51064, DOWN, 1}; n=n+1
+		move[n] = {51073, 51142, HOLDDOWN, 1}; n=n+1
+		move[n] = {51152, 51162, BUTTON1, 1}; n=n+1
+		move[n] = {51170, 51182, DOWN, 1}; n=n+1
+		move[n] = {51204, 51214, UP, 1}; n=n+1
+		move[n] = {51225, 51306, HOLDUP, 1}; n=n+1
+		move[n] = {51317, 51327, BUTTON1, 1}; n=n+1
+		move[n] = {51340, 51363, RIGHT, 1}; n=n+1
+		move[n] = {51380, 51391, UPLEFT, 1}; n=n+1
+		move[n] = {51404, 51414, ACTUP, 1}; n=n+1
+		move[n] = {51424, 51440, UP,2}; n=n+1
+		move[n] = {51472, 51523, HOLDDOWN, 1}; n=n+1
+		move[n] = {51533, 51543, ACTRIGHT, 1}; n=n+1
+		move[n] = {51584, 51630, HOLDBUT, 1}; n=n+1
+		move[n] = {51653, 51667, HOLDBUT, 1}; n=n+1
+		move[n] = {51694, 51709, UP, 1}; n=n+1
+		move[n] = {51738, 51753, DOWN, 1}; n=n+1
+		move[n] = {51776, 51791, ACTRIGHT, 1}; n=n+1
+		move[n] = {51800, 51841, MASHMAX, 1}; n=n+1
+		move[n] = {51868, 51883, MASHMAX, 1}; n=n+1
+		move[n] = {51902, 51917, UPRIGHT, 1}; n=n+1
+		move[n] = {51940, 51955, DOWNRIGHT, 1}; n=n+1
+		move[n] = {51963, 51972, DOWNRIGHT, 1}; n=n+1
+		move[n] = {51974, 51990, DOWNRIGHT, 1}; n=n+1
+		move[n] = {52063, 52078, ACTUP, 1}; n=n+1
+		move[n] = {52101, 52115, DOWN, 1}; n=n+1
+		move[n] = {52146, 52159, UP, 1}; n=n+1
+
+
+
+		totalMoves   = n-1
+		end
+
+
+elseif thisLevel == 30 then	--[[ OK niveau 30 HOT AIR ]]--
+
+		if thisScene == 1 then
+
+			sceneStart = 52319	
+			sceneEnd   = 54036
+			n   = 1
+
+
+
+		move[n] = {52469, 52480, UP, 1}; n=n+1
+		move[n] = {52540, 52551, RIGHT, 1}; n=n+1
+		move[n] = {52583, 52593, RIGHT, 1}; n=n+1
+		move[n] = {52603, 52610, ACTLEFT, 1}; n=n+1
+		move[n] = {52614, 52633, ACTUP, 1}; n=n+1
+		move[n] = {52659, 52670, DOWN, 1}; n=n+1
+		move[n] = {52686, 52715, HOLDBUT, 1}; n=n+1
+		move[n] = {52748, 52758, ACTUP, 1}; n=n+1
+		move[n] = {52782, 52782, DOWN, 1}; n=n+1
+		move[n] = {52816, 52850, HOLDBUT, 1}; n=n+1
+		move[n] = {52867, 52877, DOWN, 1}; n=n+1
+		move[n] = {52902, 52912, BUTTON1, 1}; n=n+1
+		move[n] = {52923, 53071, HOLDUP, 1}; n=n+1				
+		move[n] = {53090, 53100, BUTTON1, 1}; n=n+1
+		move[n] = {53110, 53122, DOWN, 1}; n=n+1
+		move[n] = {53132, 53142, UP, 1}; n=n+1
+		move[n] = {53161, 53171, UPLEFT, 1}; n=n+1
+		move[n] = {53223, 53240, ACTLEFT, 1}; n=n+1
+		move[n] = {53253, 53267, DOWN, 1}; n=n+1
+		move[n] = {53295, 53319, BUTTON1, 3}; n=n+1
+		move[n] = {53329, 53342, DOWN, 1}; n=n+1
+		move[n] = {53386, 53396, BUTTON1, 1}; n=n+1
+		move[n] = {53426, 53436, RIGHT, 1}; n=n+1
+		move[n] = {53455, 53465, RIGHT, 1}; n=n+1
+		move[n] = {53483, 53493, RIGHT, 1}; n=n+1
+		move[n] = {53514, 53545, HOLDBUT, 1}; n=n+1
+		move[n] = {53566, 53578, HOLDUP, 1}; n=n+1
+		move[n] = {53590, 53607, UPRIGHT, 1}; n=n+1
+		move[n] = {53635, 53659, MASHMIN, 1}; n=n+1
+		move[n] = {53713, 53722, BUTTON1, 1}; n=n+1
+		move[n] = {53772, 53781, ACTUP, 1}; n=n+1
+		
+
+		totalMoves   = n-1
+		end
+
+	end
+	
+end
