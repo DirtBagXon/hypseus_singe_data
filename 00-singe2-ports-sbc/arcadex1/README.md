@@ -1,4 +1,4 @@
-## (Singe 2) Arcade Xperience Vol.1
+## (Singe 2) Arcade Xperience Vol.1 (Rev2)
 
 **Azureus** - **Ikibanchi** - **Ruine**
 
