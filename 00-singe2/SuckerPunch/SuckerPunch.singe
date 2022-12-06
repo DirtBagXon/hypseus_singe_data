@@ -77,7 +77,7 @@ Tiers[4] = {14,15,16}							-- Level 17 is played last. Not included in any Tier
 
 
 AllowMap = true									-- Show/hide the map mode in Game Type (menu)
-MapStart = 0									-- 0: Map start at the beginning / 1: Map after the first level. 
+MapStart = 1									-- 0: Map start at the beginning / 1: Map after the first level. 
 
 IngameDiffchoice = true							-- If true, you will choose the difficulty with a video at the start of the game.
 ForceRewind = true								-- If true, the death rewind cannot be changed in the options menu.
@@ -182,7 +182,7 @@ PlayOrder = {1,2,3,4,5,6,7,8,9}					-- Normal order of play for the levels.
 AllowSecret = false		  						-- If you have a "secret level" video then: replace false by true.
 RelativeFrames = true 							-- True if the move frames starts with the level. False if they start with the disc.	 
 
-Level[1] = {"Temple", 2570, 2956, 1, 0, 0, -1}
+Level[1] = {"Temple", 2570, 2956, 6, 0, 0, -1}
 Level[2] = {"Map", 14013, 16546, 13, 0, 0, -1}
 Level[3] = {"Fire", 32954, 33810, 12, 0, 0, -1}
 Level[4] = {"Knife", 48961, 50300, 10, 0, 0, -1}
@@ -208,8 +208,8 @@ function setupMoves(thisLevel, thisScene)
 		if thisScene == 1 then 							
 
 			sceneStart = 387							
-			sceneEnd   = 498							
-			totalMoves = 1								
+			sceneEnd   = 1498							
+			totalMoves = 9								
 
 			move[1] = {436, 451, LEFT, 0}
 			move[2] = {484, 499, LEFT, 0}				
