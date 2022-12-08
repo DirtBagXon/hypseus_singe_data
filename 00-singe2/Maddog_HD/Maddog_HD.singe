@@ -28,10 +28,10 @@ MYDIR = BASEDIR .. "Maddog_HD"
 
 MovieFPS = 29.97 -- Number of frames per second of your movies (used for timed actions).
 
--- Used video resolution
-XRES = 1440
-YRES = 1080
+-- Get video resolution
 
+XRES = vldpGetWidth()
+YRES = vldpGetHeight()
 
 DOPT_EASY = 1
 DOPT_MEDIUM = 2

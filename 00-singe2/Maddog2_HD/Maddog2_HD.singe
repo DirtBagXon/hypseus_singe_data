@@ -22,9 +22,10 @@ BASEDIR = "singe/"
 
 MYDIR = BASEDIR .. "Maddog2_HD"
 
--- Used video resolution
-XRES = 1584     -- 1584 is the X resolution from the restricted overlay conversion. 1440 may be needed here for direct conversion of MP4.
-YRES = 1080
+-- Get video resolution
+
+XRES = vldpGetWidth()
+YRES = vldpGetHeight()
 
 
 dofile(MYDIR .. "/Script/globals.singe")

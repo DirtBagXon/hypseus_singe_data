@@ -22,10 +22,10 @@ BASEDIR = "singe/"
 
 MYDIR = BASEDIR .. "Space_Pirates_HD"
 
--- Used video resolution
-XRES = 1440
-YRES = 1080
+-- Get video resolution
 
+XRES = vldpGetWidth()
+YRES = vldpGetHeight()
 
 dofile(MYDIR .. "/Script/globals.singe")
 dofile(MYDIR .. "/Script/setuplevel.singe")
