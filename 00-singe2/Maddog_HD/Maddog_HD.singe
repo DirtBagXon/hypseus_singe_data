@@ -1123,7 +1123,7 @@ if (lvlState == lvlSetup) then
 
 		bShowMouse = true
 		bMute = false
-		bShowScore=true
+		bShowScore = true
 		bLevelComplete = false
 		bReloadDisabled = false
 		bMakeNoise = true
@@ -1510,6 +1510,7 @@ if (lvlState == lvlSetup) then
 			cx = meanx - 252*UnX
 			cy = meany - 240*UnY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 
@@ -1577,7 +1578,7 @@ function doLevelCanyon()
 		bMute = false
 		lvlState = lvlPauseAction
 		currentMove = 1
-		bShowScore=true
+		bShowScore = true
 		bLevelComplete = false
 		bReloadDisabled = false
 		bMakeNoise = true
@@ -1779,6 +1780,7 @@ function doLevelCanyon()
 			cx = meanx - 252*UnX
 			cy = meany - 240*UnY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 
@@ -1849,7 +1851,7 @@ function doLevelCliff()
 		bMute = false
 		lvlState = lvlRunning
 		currentMove = 1
-		bShowScore=true
+		bShowScore = true
 		bLevelComplete = false
 		bReloadDisabled = false
 		bMakeNoise = true
@@ -2054,6 +2056,7 @@ function doLevelCliff()
 			cx = meanx - 252*UnX
 			cy = meany - 240*UnY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 
@@ -2125,7 +2128,7 @@ function doLevelCorral()
 		bShowMouse = true
 		bMute = false
 		currentMove = 1
-		bShowScore=true
+		bShowScore = true
 		bLevelComplete = false
 		bReloadDisabled = false
 		bMakeNoise = true
@@ -2400,6 +2403,7 @@ function doLevelCorral()
 			cx = meanx - 252*UnX
 			cy = meany - 240*UnY
 			spriteDraw(cx, cy, sprShot)
+			bShowMouse = false
 
 		end
 
@@ -2471,7 +2475,7 @@ function doLevelFuse()
 		bMute = false
 		bLevelComplete = false
 		bMakeNoise = true
-		bShowScore=true
+		bShowScore = true
 		bReloadDisabled = false
 		bFuse = true
 		currentMove = 1
@@ -2656,7 +2660,7 @@ function doLevelHideout()
 		bShowMouse = true
 		bMute = false
 		lvlState = lvlRunning
-		bShowScore=true
+		bShowScore = true
 		bReloadDisabled = false
 		bLevelComplete = false
 		bNoMoreBonuses = false
@@ -2847,6 +2851,7 @@ function doLevelHideout()
 			cx = meanx - 252*UnX
 			cy = meany - 240*UnY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 
@@ -2914,7 +2919,7 @@ function doLevelHouse()
 		currentMove = 1
 		bShowMouse = true
 		bMute = false
-		bShowScore=true
+		bShowScore = true
 		bLevelComplete = false
 		bReloadDisabled = false
 		bMakeNoise = true
@@ -3128,6 +3133,7 @@ function doLevelHouse()
 			cx = meanx - 252*UnX
 			cy = meany - 240*UnY
 			spriteDraw(cx, cy, sprShot)
+			bShowMouse = false
 
 		end
 
@@ -3202,7 +3208,7 @@ function doLevelMaddog()
 		bShowMouse = true
 		bMute = false
 		lvlState = lvlRunning
-		bShowScore=true
+		bShowScore = true
 		bReloadDisabled = true
 		iBullets = 0
 		bLevelComplete = false
@@ -3366,6 +3372,7 @@ function doLevelMaddog()
 			cx = meanx - 252*UnX
 			cy = meany - 240*UnY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 
@@ -3540,7 +3547,7 @@ function doLevelMine()
 		bMute = false
 		bLevelComplete = false
 		bMakeNoise = true
-		bShowScore=true
+		bShowScore = true
 		bReloadDisabled = false
 		currentMove = 1
 		bNoMoreBonuses = false
@@ -3692,7 +3699,7 @@ function doLevelPlateau()
 		bMute = false
 		lvlState = lvlRunning
 		currentMove = 1
-		bShowScore=true
+		bShowScore = true
 		bLevelComplete = false
 		bReloadDisabled = false
 		bMakeNoise = true
@@ -3898,6 +3905,7 @@ function doLevelPlateau()
 			cx = meanx - 252*UnX
 			cy = meany - 240*UnY
 			spriteDraw(cx, cy, sprShot)
+			bShowMouse = false
 
 		end
 
@@ -3971,7 +3979,7 @@ function doLevelPond()
 		bMute = false
 		bLevelComplete = false
 		bMakeNoise = true
-		bShowScore=true
+		bShowScore = true
 		bReloadDisabled = false
 		currentMove = 1
 		setupLevel(levelPond)
@@ -4119,6 +4127,7 @@ function doLevelPond()
 		if currentFrame - shotFrame > 3 then 
 
 			spriteDraw(shotX, shotY, sprShot)
+			bShowMouse = false
 			
 		end
 
@@ -4180,7 +4189,7 @@ function doLevelSheriff()
 		lvlFrameStart = offsetlvlSheriff
 		lvlFrameEnd = offsetlvlSheriff + 1960
 		lvlState = lvlRunning
-		bShowScore=true
+		bShowScore = true
 		bLevelComplete = false
 		bReloadDisabled = false
 		bNoMoreBonuses = false
@@ -4511,6 +4520,7 @@ function doLevelSheriff()
 			end
 			
 			spriteDraw(cx, cy, sprShot)
+			bShowMouse = false
 
 		end
 
@@ -4623,7 +4633,7 @@ function doLevelShowdown()
 		end
 
 		lvlState = lvlPlayClip
-		bShowScore=true
+		bShowScore = true
 		bReloadDisabled = true
 		bLevelComplete = false
 
@@ -4833,6 +4843,7 @@ function doLevelShowdown()
 		if currentFrame - shotFrame > 3 then 
 
 			spriteDraw(shotX, shotY, sprShot) 
+			bShowMouse = false
 
 		end
 		
@@ -4894,7 +4905,7 @@ function doLevelStart()
 		bShowMouse = true
 		bMute = false
 		lvlState = lvlRunning
-		bShowScore=true
+		bShowScore = true
 		bReloadDisabled = false
 		bLevelComplete = false
 		currentMove = 1
@@ -4988,6 +4999,7 @@ function doLevelStart()
 			cx = meanx - 252*UnX
 			cy = meany - 240*UnY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 
@@ -5353,6 +5365,7 @@ function doMazeSign(thisFrame, thisDir)
 		if currentFrame >= shotFrame then 
 
 			spriteDraw(shotX, shotY, sprShot) 
+			bShowMouse = false
 
 		end
 
@@ -5425,7 +5438,7 @@ function doShootTheBottle()
 		bMute = false
 		bLevelComplete = false
 		bMakeNoise = true
-		bShowScore=true
+		bShowScore = true
 		bReloadDisabled = false
 		bFuse = false
 		currentMove = 1
@@ -5503,10 +5516,19 @@ function doShootTheBottle()
 
 		elseif (currentFrame == (offsetVTS8 + 3146)) then	--Skip to first bottle clip
 
-			discPause()
-			discSearch(move[currentMove][frameShootStart])
-			discPlay()
+			if currentMove == lastMove then currentMove = currentMove + 1 end
+ 
+			if currentMove ~= nil then
+				if frameShootStart ~= nil then
+					if move[currentMove][frameShootStart] then
+						discPause()
+						discSearch(move[currentMove][frameShootStart])
+						discPlay()
+					end
+				end
 
+				lastMove = currentMove
+			end
 
 		else
 
@@ -5735,6 +5757,7 @@ function doSignSelect()
 			cx = meanx - 252*UnX
 			cy = meany - 240*UnY
 			spriteDraw(shotX, shotY, sprShot) 
+			bShowMouse = false
 
 		end
 
@@ -8279,7 +8302,7 @@ function doLevelSaloon()
 		lvlFrameEnd = offsetlvlSaloon + 3006
 		bShowMouse = true
 		bMute = false
-		bShowScore=true
+		bShowScore = true
 		bReloadDisabled = false
 		bLevelComplete = false
 		currentMove = 1
@@ -8526,6 +8549,7 @@ function doLevelSaloon()
 				cx = meanx - 252*UnX
 				cy = meany - 240*UnY
 				spriteDraw(cx, cy, sprShot) 
+				bShowMouse = false
 
 			end 
 

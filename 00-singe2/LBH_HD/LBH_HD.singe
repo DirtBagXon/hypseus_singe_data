@@ -392,6 +392,8 @@ function doLevelArmybase()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 
@@ -457,6 +459,7 @@ function doLevelArmybase()
 			cx = shotX
 			cy = shotY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 
@@ -657,6 +660,8 @@ function doLevelBonus()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -762,6 +767,7 @@ function doLevelBonus()
 			cx = meanx - 252*UnX
 			cy = meany - 240*UnY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 
@@ -923,6 +929,8 @@ function doLevelCactus1()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 
@@ -1051,6 +1059,7 @@ function doLevelCactus1()
 			end
 			
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 		
@@ -1189,6 +1198,8 @@ function doLevelCactus2()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -1274,6 +1285,7 @@ function doLevelCactus2()
 			cx = shotX
 			cy = shotY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 	
@@ -1433,6 +1445,8 @@ function doLevelCactus3()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -1558,6 +1572,7 @@ function doLevelCactus3()
 			cx = meanx - 252*UnX
 			cy = meany - 240*UnY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 
@@ -1712,6 +1727,8 @@ function doLevelCactus4()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -1797,6 +1814,7 @@ function doLevelCactus4()
 			cx = shotX
 			cy = shotY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 
@@ -2036,6 +2054,8 @@ function doLevelCactus5()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -2207,6 +2227,7 @@ function doLevelCactus5()
 			end
 
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 	
@@ -2369,6 +2390,8 @@ function doLevelCactus6()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -2499,6 +2522,7 @@ function doLevelCactus6()
 			cx = meanx - 252*UnX
 			cy = meany - 240*UnY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 
@@ -2687,6 +2711,8 @@ function doLevelDan1()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -2786,6 +2812,7 @@ function doLevelDan1()
 			cx = meanx - 252*UnX
 			cy = meany - 240*UnY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 
@@ -2917,6 +2944,8 @@ function doLevelDan2()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then		
 		
@@ -2971,6 +3000,7 @@ function doLevelDan2()
 			cx = meanx - 252*UnX
 			cy = meany - 240*UnY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 
@@ -3180,6 +3210,8 @@ function doLevelDan3()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -3333,6 +3365,7 @@ function doLevelDan3()
 			cx = meanx - 252*UnX
 			cy = meany - 240*UnY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 	
@@ -3482,6 +3515,8 @@ function doLevelFinal1()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then		
 		
@@ -3578,6 +3613,7 @@ function doLevelFinal1()
 			cx = meanx - 252*UnX
 			cy = meany - 240*UnY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 
@@ -3782,6 +3818,8 @@ function doLevelFinal2()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -3874,6 +3912,7 @@ function doLevelFinal2()
 			cx = shotX
 			cy = shotY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 
@@ -4086,6 +4125,8 @@ function doLevelHarry1()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -4224,6 +4265,7 @@ function doLevelHarry1()
 			end
 
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 
@@ -4437,6 +4479,8 @@ function doLevelHarry2()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -4581,6 +4625,7 @@ function doLevelHarry2()
 			end
 
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 
@@ -4776,7 +4821,8 @@ function doLevelHarry3()
 		end
 	
 	elseif (lvlState == lvlRunning) then
-			
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -4907,6 +4953,7 @@ function doLevelHarry3()
 
 			end
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 
@@ -5127,6 +5174,8 @@ function doLevelHarry4()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -5231,6 +5280,7 @@ function doLevelHarry4()
 			cx = meanx - 252*UnX
 			cy = meany - 240*UnY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 
@@ -5417,6 +5467,8 @@ function doLevelLoco1()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -5525,6 +5577,7 @@ function doLevelLoco1()
 
 			end
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 
@@ -5688,6 +5741,8 @@ function doLevelLoco2()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -5781,6 +5836,7 @@ function doLevelLoco2()
 			cx = shotX
 			cy = shotY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 
@@ -5972,6 +6028,8 @@ function doLevelLoco3()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -6105,6 +6163,7 @@ function doLevelLoco3()
 
 			end 
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 
@@ -6278,6 +6337,8 @@ function doLevelLoco4()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -6401,6 +6462,7 @@ function doLevelLoco4()
 			cx = meanx - 252*UnX
 			cy = meany - 240*UnY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 
@@ -6541,6 +6603,7 @@ function doLevelShowdown()
 		cx = shotX
 		cy = shotY
 		spriteDraw(cx, cy, sprShot) 
+		bShowMouse = false
 	
 		if (currentFrame == move[currentMove][deathFrameEnd]) then
 
@@ -6613,6 +6676,8 @@ function doLevelShowdown()
 		end	
 		
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 
 		if dip_Showdown == 3 then bRealShow = true end
 		
@@ -6731,6 +6796,7 @@ function doLevelShowdown()
 			cx = shotX
 			cy = shotY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 
@@ -6822,6 +6888,8 @@ function doMenu()
 		end		
 		
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 
 		drawMenuOutlawState()
 

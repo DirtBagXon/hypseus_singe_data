@@ -438,6 +438,8 @@ function doLevelAirport()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -503,6 +505,7 @@ function doLevelAirport()
 			cx = shotX
 			cy = shotY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 	
@@ -683,6 +686,8 @@ function doLevelAirTerrorists()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -761,6 +766,7 @@ function doLevelAirTerrorists()
 			cx = shotX
 			cy = shotY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 	
@@ -930,6 +936,8 @@ function doLevelAmbush()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 	
@@ -983,6 +991,7 @@ function doLevelAmbush()
 			cx = shotX
 			cy = shotY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 	
@@ -1123,6 +1132,8 @@ function doLevelDrugs1()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -1180,6 +1191,7 @@ function doLevelDrugs1()
 			cx = shotX
 			cy = shotY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 	
@@ -1298,6 +1310,8 @@ function doLevelDrugs2()
 		end
 		
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -1355,6 +1369,7 @@ function doLevelDrugs2()
 			cx = shotX
 			cy = shotY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 	
@@ -1498,6 +1513,8 @@ function doLevelGang()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -1543,6 +1560,7 @@ function doLevelGang()
 			cx = shotX
 			cy = shotY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 	
@@ -1687,6 +1705,8 @@ function doLevelGarage()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -1740,6 +1760,7 @@ function doLevelGarage()
 			cx = shotX
 			cy = shotY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 	
@@ -1863,6 +1884,8 @@ function doLevelHangar1()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -1921,6 +1944,7 @@ function doLevelHangar1()
 			cx = shotX
 			cy = shotY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 	
@@ -2053,6 +2077,8 @@ function doLevelHangar2()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -2110,6 +2136,7 @@ function doLevelHangar2()
 			cx = shotX
 			cy = shotY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 	
@@ -2236,6 +2263,8 @@ function doLevelHangar3()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -2305,6 +2334,7 @@ function doLevelHangar3()
 			cx = shotX
 			cy = shotY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 	
@@ -2413,6 +2443,8 @@ function dolevelNuclearPlant1()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -2477,6 +2509,7 @@ function dolevelNuclearPlant1()
 			cx = shotX
 			cy = shotY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 	
@@ -2639,6 +2672,8 @@ function dolevelNuclearPlant2()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -2689,6 +2724,7 @@ function dolevelNuclearPlant2()
 			cx = shotX
 			cy = shotY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 	
@@ -2810,6 +2846,8 @@ function dolevelNuclearPlant3()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -2879,6 +2917,7 @@ function dolevelNuclearPlant3()
 			cx = shotX
 			cy = shotY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 	
@@ -2983,6 +3022,8 @@ function doLevelPractice()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -3126,6 +3167,8 @@ function doLevelRobbery()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -3183,6 +3226,7 @@ function doLevelRobbery()
 			cx = shotX
 			cy = shotY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 	
@@ -3292,6 +3336,8 @@ function doLevelStore()
 		
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -3355,6 +3401,7 @@ function doLevelStore()
 			cx = shotX
 			cy = shotY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 	
@@ -3546,6 +3593,8 @@ function doLevelStripclub()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -3652,6 +3701,7 @@ function doLevelStripclub()
 			cx = shotX
 			cy = shotY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 	
@@ -3759,6 +3809,8 @@ function doLevelWarehouse1()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -3824,6 +3876,7 @@ function doLevelWarehouse1()
 			cx = shotX
 			cy = shotY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 	
@@ -3959,6 +4012,8 @@ function doLevelWarehouse2()
 		end
 	
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentMove > totalMoves) then
 		
@@ -4016,6 +4071,7 @@ function doLevelWarehouse2()
 			cx = shotX
 			cy = shotY
 			spriteDraw(cx, cy, sprShot) 
+			bShowMouse = false
 
 		end
 	
@@ -4116,6 +4172,8 @@ function doMenuDelta()
 		end				
 		
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentFrame == iFrameEnd) then
 		
@@ -4247,6 +4305,8 @@ function doMenuRookie()
 		end
 		
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentFrame == iFrameEnd) then
 		
@@ -4582,6 +4642,8 @@ function doMenuSWAT()
 		end
 		
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentFrame == iFrameEnd) then
 		
@@ -4688,6 +4750,8 @@ function doMenuUndercover()
 		end
 		
 	elseif (lvlState == lvlRunning) then
+
+		bShowMouse = true
 	
 		if (currentFrame == iFrameEnd) then
 		
