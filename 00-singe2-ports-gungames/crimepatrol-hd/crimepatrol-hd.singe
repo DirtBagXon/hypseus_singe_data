@@ -5230,7 +5230,7 @@ function onInputPressed(intWhat)
 
 			p1BUTTON3 = true
 
-			if (iBullets > 0) then
+			if (iBullets > 0) and not ( (mousex <= 10 or mousex >= resX-10) or (mousey <= 10 or mousey >= resY-10) ) then
 
 				if bAmmo then
 
