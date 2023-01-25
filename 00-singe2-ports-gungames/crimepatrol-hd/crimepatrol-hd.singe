@@ -5232,7 +5232,7 @@ function onInputPressed(intWhat)
 
 			if ((iBullets > 0) )then
 
-				if not ((dip_ReloadTrigger == DOPT_LIGHTGUN) and ((mousex <= 0 or mousex >= resX) or (mousey <= 0 or mousey >= resY))) then
+				if not ((dip_ReloadTrigger == DOPT_LIGHTGUN) and ((mousex <= 0 or mousex >= resX+40) or (mousey <= 0 or mousey >= resY))) then
 
 					if bAmmo then
 
@@ -5381,7 +5381,7 @@ function onInputReleased(intWhat)
 				
 				elseif(dip_ReloadTrigger == DOPT_LIGHTGUN) then
 
-					if (mousex <= 0 or mousex >= resX) or (mousey <= 0 or mousey >= resY) then
+					if (mousex <= 0 or mousex >= resX+40) or (mousey <= 0 or mousey >= resY) then
 
 						if (iBullets < dip_MaxBullets) then	-- Reload is there is less than max (avoid emptying bonus bullets)
 							relIndex = iBullets
