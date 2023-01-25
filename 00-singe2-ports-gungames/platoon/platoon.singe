@@ -18,7 +18,6 @@ This file is part of Platoon Singe edition
 
 ]]--
 
-
 sVersion = "1.0b"
 sType = "Video"
 
@@ -1101,7 +1100,7 @@ function initJob()
 	elseif (dip_Crosshair == 5) then
 	
 		sprCursor  = spriteLoad(MYDIR .. "crosshaire.png")
-		cursoroffsetx = 0; cursoroffsety = 0
+		cursoroffsetx = 6; cursoroffsety = 6
 		
 	end
 
@@ -1318,12 +1317,28 @@ function onInputReleased(intWhat)
 			
 			p1BUTTON3 = false
 			
-			if (iBullets > 0 and not (currentLevel == levelMenu or currentLevel == levelIntro or currentLevel == levelService)) then
-			
-				iBullets = iBullets - 1
-				if dip_Crosshair == 5 then blinkRev() end
-				playMe(sndGunshot)
-			
+			if not (currentLevel == levelMenu or currentLevel == levelIntro or currentLevel == levelService) then
+--asdfgg   			
+				if (dip_ReloadTrigger == DOPT_LIGHTGUN) then
+					if not ((mousex <=0 or mousex >=360) or (mousey <=0 or mousey >=240)) then 
+						if (iBullets > 0) then
+							iBullets = iBullets - 1
+							if dip_Crosshair == 5 then blinkRev() end
+							playMe(sndGunshot)
+						end
+					else
+						if (iBullets < dip_MaxBullets) then	-- Reload if there is less than max 
+							iBullets = dip_MaxBullets
+							playMe(sndReload)
+						end
+					end 
+				else 
+					if (iBullets > 0 ) then
+						iBullets = iBullets - 1
+						if dip_Crosshair == 5 then blinkRev() end
+						playMe(sndGunshot)
+					end
+				end
 			else
 			
 				if not (currentLevel == levelIntro or currentLevel == levelService or currentLevel == levelContinue or currentLevel == levelGameOver or currentLevel == levelLivesLeft) then playMe(sndEmpty) end
@@ -1343,7 +1358,7 @@ function onInputReleased(intWhat)
 						playMe(sndReload)
 					end
 				
-				elseif(dip_ReloadTrigger == DOPT_IMMEDIATE) then
+				elseif(dip_ReloadTrigger == DOPT_IMMEDIATE) or (dip_ReloadTrigger == DOPT_LIGHTGUN) then
 				
 					if (iBullets < dip_MaxBullets) then	-- Reload if there is less than max 
 						iBullets = dip_MaxBullets
@@ -1423,8 +1438,8 @@ function onMouseMoved(intX, intY, intXrel, intYrel)
 	mousey = intY
 	cursorx = intX - cursoroffsetx
 	cursory = intY - cursoroffsety
-	revsetx = intX - 3
-	revsety = intY - 3
+	revsetx = intX - cursoroffsetx
+	revsety = intY - cursoroffsety
 
 end
 
