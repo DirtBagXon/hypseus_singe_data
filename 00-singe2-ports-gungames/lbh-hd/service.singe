@@ -234,6 +234,10 @@ function updateOpts(thisIndex)
 		
 			dip_ReloadTrigger = DOPT_BORDERS
 		
+		elseif (dip_ReloadTrigger == DOPT_BORDERS) then
+		
+			dip_ReloadTrigger = DOPT_LIGHTGUN
+		
 		else	
 		
 			dip_ReloadTrigger = DOPT_IMMEDIATE
@@ -348,6 +352,15 @@ function printOpts()
 
 				spriteDraw(1232*UnX, 444*UnY, sprHole)
 
+			elseif (dip_ReloadTrigger == DOPT_LIGHTGUN) then
+				fontSelect(fontscorebig)
+				colorForeground(1, 1, 1)
+				fontPrint(1046*UnX, 430*UnY, "LIGHTGUN")
+				fontPrint(1054*UnX, 430*UnY, "LIGHTGUN")
+				fontPrint(1050*UnX, 426*UnY, "LIGHTGUN")
+				fontPrint(1050*UnX, 434*UnY, "LIGHTGUN")
+				colorForeground(255, 50, 50)
+				fontPrint(1050*UnX, 430*UnY, "LIGHTGUN")
 			else
 
 				spriteDraw(1488*UnX, 444*UnY, sprHole)
