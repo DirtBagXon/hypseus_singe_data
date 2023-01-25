@@ -231,6 +231,10 @@ function updateOpts(thisIndex)
 		elseif (dip_ReloadTrigger == DOPT_ONEMPTY) then
 		
 			dip_ReloadTrigger = DOPT_BORDERS
+
+		elseif (dip_ReloadTrigger == DOPT_BORDERS) then
+		
+			dip_ReloadTrigger = DOPT_LIGHTGUN
 		
 		else	
 		
@@ -347,6 +351,10 @@ function printOpts()
 			elseif (dip_ReloadTrigger == DOPT_ONEMPTY) then
 			
 				fontPrint(1205*UnX, 578*UnY, "ON EMPTY")	
+			
+			elseif (dip_ReloadTrigger == DOPT_LIGHTGUN) then
+			
+				fontPrint(1205*UnX, 578*UnY, "LIGHTGUN")	
 			
 			else	
 			
