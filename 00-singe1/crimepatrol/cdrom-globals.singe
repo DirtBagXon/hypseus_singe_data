@@ -90,6 +90,7 @@ DOPT_EXTREME = 4
 DOPT_IMMEDIATE = 100
 DOPT_ONEMPTY = 101
 DOPT_BORDERS = 102
+DOPT_LIGHTGUN = 103
 DOPT_FREEPLAY = 4
 
 dip_LivesPerCredit = 6
@@ -293,6 +294,13 @@ sprArrow    = spriteLoad("singe/crimepatrol/pistol.png")
 sprBadge    = spriteLoad("singe/crimepatrol/badge3.png")
 sprBadgeSmall =  spriteLoad("singe/crimepatrol/badge4.png")
 sprRev      = spriteLoad("singe/crimepatrol/crosshaira.png")
+
+sprRev1      = spriteLoad("singe/crimepatrol/hit1.png")
+sprRev2      = spriteLoad("singe/crimepatrol/hit2.png")
+sprRev3      = spriteLoad("singe/crimepatrol/hit3.png")
+sprRev4     = spriteLoad("singe/crimepatrol/hit4.png")
+sprRev5     = spriteLoad("singe/crimepatrol/hit5.png")
+
 sprScore   = nil
 sprCredits = nil
 sprFreePlay = nil
@@ -321,3 +329,5 @@ sndBuzz      = soundLoad("singe/crimepatrol/buzzer.wav")
 sndBeep      = soundLoad("singe/crimepatrol/censoredbeep.wav")
 sndBreak      = soundLoad("singe/crimepatrol/break.wav")
 
+resX = overlayGetWidth() 
+resY = overlayGetHeight() 
