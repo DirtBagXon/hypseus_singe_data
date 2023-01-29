@@ -4988,6 +4988,27 @@ function initJob()
 	
 	rndegg = math.random
 
+	sprCursor = nil
+	if (dip_Crosshair == 1) then
+
+		sprCursor  = spriteLoad(MYDIR .. "crosshaira.png")
+		
+	elseif (dip_Crosshair == 2) then
+	
+		sprCursor  = spriteLoad(MYDIR .. "crosshairb.png")
+		
+	elseif (dip_Crosshair == 3) then
+	
+		sprCursor  = spriteLoad(MYDIR .. "crosshairc.png")
+		
+	elseif (dip_Crosshair == 4) then
+	
+		sprCursor  = spriteLoad(MYDIR .. "crosshaird.png")
+		
+	elseif (dip_Crosshair == 5) then
+	
+		sprCursor  = spriteLoad(MYDIR .. "crosshaire.png")
+	end
 
 end
 
@@ -5411,44 +5432,28 @@ function onOverlayUpdate()
 	
 		spriteDraw(cursorx, cursory, sprCursor) 
 		
-		if (bReversePointer and not (currentLevel == levelHighScore)) then 
-		
-			iRevFrames = iRevFrames + 1
-			if (iRevFrames == REV_DELAY) then
-
-				bReversePointer = false
-
-				if (dip_Crosshair == 1) then
-
-					sprCursor  = spriteLoad(MYDIR .. "crosshaira.png")
-					
-				elseif (dip_Crosshair == 2) then
-
-					sprCursor  = spriteLoad(MYDIR .. "crosshairb.png")
-					
-				elseif (dip_Crosshair == 3) then
-
-					sprCursor  = spriteLoad(MYDIR .. "crosshairc.png")
-					
-				elseif (dip_Crosshair == 4) then
-
-					sprCursor  = spriteLoad(MYDIR .. "crosshaird.png")
-					
-				elseif (dip_Crosshair == 5) then
-
-					sprCursor  = spriteLoad(MYDIR .. "crosshaire.png")
-					
-				end
-
-			else
-				
-				sprCursor  = spriteLoad(MYDIR .. "crosshaire.png")
-				singeWantsCrosshairs()
-				spriteDraw(revsetx, revsety, sprRev)
-
+		if (bReversePointer) then
+			if (iRevFrames == 0) then
+				freezex=revsetx
+				freezey=revsety
 			end
-			
-		end	
+			iRevFrames = iRevFrames + 1
+			if (iRevFrames == 1) or (iRevFrames == 2) then
+				spriteDraw(freezex, freezey, sprRev1) 
+			elseif (iRevFrames == 3) or (iRevFrames == 4) then
+				spriteDraw(freezex, freezey, sprRev2) 
+			elseif (iRevFrames == 5) or (iRevFrames == 6) then
+				spriteDraw(freezex, freezey, sprRev3) 
+			elseif (iRevFrames == 7) or (iRevFrames == 8) then
+				spriteDraw(freezex, freezey, sprRev4) 
+			elseif (iRevFrames == 9) or (iRevFrames == 10) then
+				spriteDraw(freezex, freezey, sprRev5) 
+			else
+				bReversePointer = false
+				
+			end
+
+		end
 	
 	end
 	

@@ -18,7 +18,6 @@ This file is part of WHO SHOT JOHNNY ROCK? (SINGE EDITION)
 
 ]]--
 
-
 MYDIR = "singe/johnnyrocknoir/"
 
 dofile(MYDIR .. "globals.singe")
@@ -5342,23 +5341,28 @@ function initJob()
 	if (dip_Crosshair == 1) then
 
 		sprCursor  = spriteLoad(MYDIR .. "crosshaira.png")
+		cursoroffsetx = 6; cursoroffsety = 6
 		
 	elseif (dip_Crosshair == 2) then
 	
 		sprCursor  = spriteLoad(MYDIR .. "crosshairb.png")
+		cursoroffsetx = 6; cursoroffsety = 6
 		
 	elseif (dip_Crosshair == 3) then
 	
 		sprCursor  = spriteLoad(MYDIR .. "crosshairc.png")
+		cursoroffsetx = 0; cursoroffsety = 0
 		
 	elseif (dip_Crosshair == 4) then
 	
 		sprCursor  = spriteLoad(MYDIR .. "crosshaird.png")
+		cursoroffsetx = 6; cursoroffsety = 6
 		
 	elseif (dip_Crosshair == 5) then
 	
 		sprCursor  = spriteLoad(MYDIR .. "crosshaire.png")
-				
+		cursoroffsetx = 9; cursoroffsety = 6
+
 	end
 
 	if (dip_Difficulty == DOPT_EASY) then
@@ -5889,11 +5893,10 @@ function onMouseMoved(intX, intY, intXrel, intYrel)
 
 	mousex = intX
 	mousey = intY
-	cursorx = intX - 4
+	cursorx = intX - 7
 	cursory = intY - 6
-	revsetx = intX - 10
+	revsetx = intX - 9
 	revsety = intY - 12
-
 end
 
 function onOverlayUpdate()
@@ -6014,10 +6017,20 @@ function onOverlayUpdate()
 		spriteDraw(cursorx, cursory, sprCursor) 
 		
 		if (bReversePointer and not (currentLevel == levelHighScore)) then 
-		
-			iRevFrames = iRevFrames + 1
-			if (iRevFrames == REV_DELAY) then
 
+			iRevFrames = iRevFrames + 1
+			sprCursor  = spriteLoad(MYDIR .. "crosshaire.png")
+			if (iRevFrames == 1) or (iRevFrames == 2) then
+				spriteDraw(revsetx, revsety, sprRev1) 
+			elseif (iRevFrames == 3) or (iRevFrames == 4) then
+				spriteDraw(revsetx, revsety, sprRev2) 
+			elseif (iRevFrames == 5) or (iRevFrames == 6) then
+				spriteDraw(revsetx, revsety, sprRev3) 
+			elseif (iRevFrames == 7) or (iRevFrames == 8) then
+				spriteDraw(revsetx, revsety, sprRev4) 
+			elseif (iRevFrames == 9) or (iRevFrames == 10) then
+				spriteDraw(revsetx, revsety, sprRev5) 
+				iRevFrames = 0
 				bReversePointer = false
 
 				if (dip_Crosshair == 1) then
@@ -6042,16 +6055,9 @@ function onOverlayUpdate()
 					
 				end
 
-			else
-				
-				sprCursor  = spriteLoad(MYDIR .. "crosshaire.png")
-				singeWantsCrosshairs()
-				spriteDraw(revsetx, revsety, sprRev)
-
 			end
 
-		end
-
+		end	
 	end
 
 	if (bShowScore) then

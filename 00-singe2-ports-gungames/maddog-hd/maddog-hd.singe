@@ -437,6 +437,12 @@ sndHandle    = ""
 	sprStarSM    = spriteLoad(MYDIR .. "star.png")
 	sprName = nil
 	
+	sprRev1      = spriteLoad(MYDIR .. "hit1.png")
+	sprRev2      = spriteLoad(MYDIR .. "hit2.png")
+	sprRev3      = spriteLoad(MYDIR .. "hit3.png")
+	sprRev4     = spriteLoad(MYDIR .. "hit4.png")
+	sprRev5     = spriteLoad(MYDIR .. "hit5.png")
+
 	sprNUM = nil; sprNUM = {}
 	sprNUM[0] = spriteLoad(MYDIR .. "num0.png")
 	sprNUM[1] = spriteLoad(MYDIR .. "num1.png")
@@ -483,7 +489,11 @@ sndHandle    = ""
 	shotX = 580*UnX
 	shotY = 300*UnY
 
+	cursoroffsetx = 53*UnX
+	cursoroffsety = 47*UnY
+
 	sprCursor = nil
+
 	if (dip_Crosshair == 1) then
 
 		sprCursor  = spriteLoad(MYDIR .. "crosshaira.png")
@@ -503,11 +513,10 @@ sndHandle    = ""
 	elseif (dip_Crosshair == 5) then
 
 		sprCursor  = spriteLoad(MYDIR .. "crosshaire.png")
+		cursoroffsetx = cursoroffsetx-3
+		cursoroffsety = cursoroffsety
 
 	end
-
-	cursoroffsetx = 45*UnX
-	cursoroffsety = 45*UnY
 
 	fontScore14 = fontLoad(MYDIR .. "score.ttf", 14)
 	fontScore = fontLoad(MYDIR .. "score.ttf", 42*UnY)
@@ -6904,43 +6913,28 @@ function onOverlayUpdate()
 		spriteDraw(cursorx, cursory, sprCursor)
 		
 		if (bReversePointer) then
+			if (iRevFrames == 0) then
+				freezex=revsetx
+				freezey=revsety
+			end
 			iRevFrames = iRevFrames + 1
-			if (iRevFrames == REV_DELAY) then
-
-				bReversePointer = false
-
-				if (dip_Crosshair == 1) then
-
-					sprCursor  = spriteLoad(MYDIR .. "crosshaira.png")
-					
-				elseif (dip_Crosshair == 2) then
-
-					sprCursor  = spriteLoad(MYDIR .. "crosshairb.png")
-					
-				elseif (dip_Crosshair == 3) then
-
-					sprCursor  = spriteLoad(MYDIR .. "crosshairc.png")
-					
-				elseif (dip_Crosshair == 4) then
-
-					sprCursor  = spriteLoad(MYDIR .. "crosshaird.png")
-					
-				elseif (dip_Crosshair == 5) then
-
-					sprCursor  = spriteLoad(MYDIR .. "crosshaire.png")
-					
-				end
-
+			if (iRevFrames == 1) or (iRevFrames == 2) then
+				spriteDraw(freezex, freezey, sprRev1) 
+			elseif (iRevFrames == 3) or (iRevFrames == 4) then
+				spriteDraw(freezex, freezey, sprRev2) 
+			elseif (iRevFrames == 5) or (iRevFrames == 6) then
+				spriteDraw(freezex, freezey, sprRev3) 
+			elseif (iRevFrames == 7) or (iRevFrames == 8) then
+				spriteDraw(freezex, freezey, sprRev4) 
+			elseif (iRevFrames == 9) or (iRevFrames == 10) then
+				spriteDraw(freezex, freezey, sprRev5) 
 			else
+				bReversePointer = false
 				
-				sprCursor  = spriteLoad(MYDIR .. "crosshaire.png")
-				singeWantsCrosshairs()
-				spriteDraw(revsetx, revsety, sprRev)
-
 			end
 
 		end
-
+	
 	end
 
 	if (bShowScore) then

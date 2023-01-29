@@ -1100,7 +1100,7 @@ function initJob()
 	elseif (dip_Crosshair == 5) then
 	
 		sprCursor  = spriteLoad(MYDIR .. "crosshaire.png")
-		cursoroffsetx = 6; cursoroffsety = 6
+		cursoroffsetx = 10; cursoroffsety = 7
 		
 	end
 
@@ -1318,7 +1318,7 @@ function onInputReleased(intWhat)
 			p1BUTTON3 = false
 			
 			if not (currentLevel == levelMenu or currentLevel == levelIntro or currentLevel == levelService) then
---asdfgg   			
+			
 				if (dip_ReloadTrigger == DOPT_LIGHTGUN) then
 					if not ((mousex <=0 or mousex >=360) or (mousey <=0 or mousey >=240)) then 
 						if (iBullets > 0) then
@@ -1434,12 +1434,12 @@ end
 
 function onMouseMoved(intX, intY, intXrel, intYrel)
 
-	mousex = intX
-	mousey = intY
-	cursorx = intX - cursoroffsetx
-	cursory = intY - cursoroffsety
-	revsetx = intX - cursoroffsetx
-	revsety = intY - cursoroffsety
+    mousex = intX
+    mousey = intY
+    cursorx = intX - cursoroffsetx
+    cursory = intY - cursoroffsety
+    revsetx = intX - cursoroffsetx
+    revsety = intY - cursoroffsety
 
 end
 
@@ -1529,13 +1529,25 @@ function onOverlayUpdate()
 		spriteDraw(cursorx, cursory, sprCursor) 
 		
 		if (bReversePointer and not (currentLevel == levelHighScore)) then 
+		  if (iRevFrames == 0) then
+			freezex=revsetx
+			freezey=revsety
+		  end
 		
 			iRevFrames = iRevFrames + 1
-			if (iRevFrames == REV_DELAY) then
-			
-				bReversePointer = false
+
+			if (iRevFrames == 1) or (iRevFrames == 2) then
+				spriteDraw(freezex, freezey, sprRev1) 
+			elseif (iRevFrames == 3) or (iRevFrames == 4) then
+				spriteDraw(freezex, freezey, sprRev2) 
+			elseif (iRevFrames == 5) or (iRevFrames == 6) then
+				spriteDraw(freezex, freezey, sprRev3) 
+			elseif (iRevFrames == 7) or (iRevFrames == 8) then
+				spriteDraw(freezex, freezey, sprRev4) 
+			elseif (iRevFrames == 9) or (iRevFrames == 10) then
+				spriteDraw(freezex, freezey, sprRev5) 
 			else
-				spriteDraw(revsetx, revsety, sprRev) 
+				bReversePointer = false
 				
 			end
 			
