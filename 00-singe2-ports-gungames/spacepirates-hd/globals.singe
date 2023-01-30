@@ -395,3 +395,20 @@ sndTick      = soundLoad(MYDIR .. "tick.wav")
 sndTock      = soundLoad(MYDIR .. "tock.wav")
 sndBreak     = soundLoad(MYDIR .. "sp_erase.wav")
 sndGoodShot  = soundLoad(MYDIR .. "sp_niceshot.wav")
+
+
+-- xratio and yratio declaration --
+if (ratioGetX ~= nil or ratioGetY ~= nil) then
+	debugPrint("Singe version compatible with ratio adjustment.")
+	ratiox = ratioGetX()
+	ratioy = ratioGetY()
+	if (ratiox <= 1 ) then ratiox = 1 end
+	if (ratioy <= 1 ) then ratioy = 1 end
+else
+	debugPrint("Singe version not compatible with ratio adjustment.  Using standard 1:1 values")
+	ratiox = 1
+	ratioy = 1
+end
+ratioxOffset = ( ratiox - 1 ) * (resX/2)
+ratioyOffset = ( ratioy - 1 ) * (resY/2)
+-- -- -- -- -- -- -- -- -- -- -- -- 
