@@ -7896,18 +7896,33 @@ function onOverlayUpdate()
 	
 	end
 
-	if (bShowMouse and singeWantsCrosshairs()) then
-		
+	if (bShowMouse and singeWantsCrosshairs()) then 
+	
 		spriteDraw(cursorx, cursory, sprCursor)
 	
 		if (bReversePointer) then
-			
+		  if (iRevFrames == 0) then
+			freezex=revsetx
+			freezey=revsety
+		  end
 			iRevFrames = iRevFrames + 1
-			if (iRevFrames == REV_DELAY) then
-
+			if (iRevFrames == 1) or (iRevFrames == 2) then
+				spriteDraw(freezex, freezey, sprRev1) 
+			elseif (iRevFrames == 3) or (iRevFrames == 4) then
+				spriteDraw(freezex, freezey, sprRev2) 
+			elseif (iRevFrames == 5) or (iRevFrames == 6) then
+				spriteDraw(freezex, freezey, sprRev3) 
+			elseif (iRevFrames == 7) or (iRevFrames == 8) then
+				spriteDraw(freezex, freezey, sprRev4) 
+			elseif (iRevFrames == 9) or (iRevFrames == 10) then
+				spriteDraw(freezex, freezey, sprRev5) 
+			else
 				bReversePointer = false
+				
+			end
 
-				if (dip_Crosshair == 1) then
+		else
+			if (dip_Crosshair == 1) then
 
 					sprCursor  = spriteLoad(MYDIR .. "/Overlay/crosshaira.png")
 					
@@ -7928,16 +7943,8 @@ function onOverlayUpdate()
 					sprCursor  = spriteLoad(MYDIR .. "/Overlay/crosshaire.png")
 					
 				end
-
-			else
-				
-				sprCursor  = spriteLoad(MYDIR .. "/Overlay/crosshaire.png")
-				spriteDraw(revsetx, revsety, sprRev)
-
-			end
-
-		end
-
+		  end
+	
 	end
 	
 	if (bShowScore) then
