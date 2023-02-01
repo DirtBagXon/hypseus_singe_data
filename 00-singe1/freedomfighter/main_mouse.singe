@@ -33,6 +33,8 @@ mouseX = 0
 mouseY = 0
 crosshairCenterX = spriteGetWidth(sprCross) / 2
 crosshairCenterY = spriteGetHeight(sprCross) / 2
+offsetx = 8
+offsety = 3
 
 function addPoints(thisMuch)
 
@@ -2312,10 +2314,11 @@ end
 
 function onMouseMoved(intX, intY, intXrel, intYrel)
 
-	-- if not used, leave empty
+	mouseX = intX * ratiox - ratioxOffset
+	mouseY = intY * ratioy - ratioyOffset
 
-	mouseX = intX
-	mouseY = intY
+	cursorX = (intX - offsetx) * ratiox - ratioxOffset
+	cursorY = (intY - offsety) * ratioy - ratioyOffset
 
 end
 
@@ -2324,7 +2327,7 @@ function onOverlayUpdate()
 	overlayClear()
 
 	if (singeWantsCrosshairs()) then
-		spriteDraw(mouseX - crosshairCenterX, mouseY - crosshairCenterY, sprCross)
+		spriteDraw(cursorX, cursorY, sprCross)
 	end
 
 	currentFrame = discGetFrame()

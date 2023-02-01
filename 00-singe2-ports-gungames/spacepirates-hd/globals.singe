@@ -94,6 +94,7 @@ DOPT_EXTREME = 4
 DOPT_IMMEDIATE = 100
 DOPT_ONEMPTY = 101
 DOPT_BORDERS = 102
+DOPT_LIGHTGUN = 103
 DOPT_FREEPLAY = 4
 
 dip_LivesPerCredit = 6
@@ -328,7 +329,8 @@ stage = nil; stage = {false, false, false, false, false, false, false, false, fa
 panel = nil; panel = {false, false, false, false}
 crystal = nil; crystal = {false, false, false}
 
-tx = 0; ty = 0; crx = 0; cry = 0; rndegg = 0
+tx = 0; ty = 0; crx = 0; cry = 0
+rndegg = math.random
 
 fontQuality(FONT_QUALITY_SOLID)
 
@@ -348,7 +350,7 @@ iHalY = resY/2
 iZmX = 1.03
 iZmY = 1.03
 
-cursoroffsetx = 40*UnX
+cursoroffsetx = 53*UnX
 cursoroffsety = 40*UnX
 
 font60   = fontLoad(MYDIR .. "ca.ttf", 60*UnX)
@@ -369,6 +371,11 @@ sprLifebarSBlue  = spriteLoad(MYDIR .. "p11.png")
 sprCharge      = spriteLoad(MYDIR .. "p02.png")
 sprCanon      = spriteLoad(MYDIR .. "canon.png")
 
+sprRev1      = spriteLoad(MYDIR .. "hit1.png")
+sprRev2      = spriteLoad(MYDIR .. "hit2.png")
+sprRev3      = spriteLoad(MYDIR .. "hit3.png")
+sprRev4     = spriteLoad(MYDIR .. "hit4.png")
+sprRev5     = spriteLoad(MYDIR .. "hit5.png")
 
 sprShot = nil; sprEmpty = nil; emptyIndex = 0; eLastFrame = 0
 sprRel = nil; relIndex = 0; rLastFrame = 0; bRelAnim = false
@@ -388,3 +395,20 @@ sndTick      = soundLoad(MYDIR .. "tick.wav")
 sndTock      = soundLoad(MYDIR .. "tock.wav")
 sndBreak     = soundLoad(MYDIR .. "sp_erase.wav")
 sndGoodShot  = soundLoad(MYDIR .. "sp_niceshot.wav")
+
+
+-- xratio and yratio declaration --
+if (ratioGetX ~= nil or ratioGetY ~= nil) then
+	debugPrint("Singe version compatible with ratio adjustment.")
+	ratiox = ratioGetX()
+	ratioy = ratioGetY()
+	if (ratiox <= 1 ) then ratiox = 1 end
+	if (ratioy <= 1 ) then ratioy = 1 end
+else
+	debugPrint("Singe version not compatible with ratio adjustment.  Using standard 1:1 values")
+	ratiox = 1
+	ratioy = 1
+end
+ratioxOffset = ( ratiox - 1 ) * (resX/2)
+ratioyOffset = ( ratioy - 1 ) * (resY/2)
+-- -- -- -- -- -- -- -- -- -- -- -- 

@@ -234,6 +234,10 @@ function updateOpts(thisIndex)
 		
 			dip_ReloadTrigger = DOPT_BORDERS
 		
+		elseif (dip_ReloadTrigger == DOPT_BORDERS) then
+		
+			dip_ReloadTrigger = DOPT_LIGHTGUN
+		
 		else	
 		
 			dip_ReloadTrigger = DOPT_IMMEDIATE
@@ -373,6 +377,16 @@ function printOpts()
 			
 				spriteDraw(208, 135, sprRel2)
 			
+			elseif (dip_ReloadTrigger == DOPT_LIGHTGUN) then
+			
+				spriteDraw(208, 135, sprRel1)
+				spriteDraw(208, 135, sprRel2)
+				spriteDraw(208, 135, sprRel3)
+				fontSelect(fontDebugBig)
+				colorForeground(0, 255, 0)
+				fontPrint(208, 135, "LIGHTGUN")
+
+			
 			else	
 			
 				spriteDraw(208, 135, sprRel3)
@@ -434,7 +448,7 @@ function printOpts()
 				
 			elseif (dip_Crosshair == 5) then
 			
-				--sprCursor  = spriteLoad("singe/maddog/crosshaire.png")
+				sprCursor  = spriteLoad("singe/maddog/crosshaire.png")
 				fontSelect(fontDebug)
 				colorForeground(0, 255, 0)
 				fontPrint(234, 189, "TRIGGER")

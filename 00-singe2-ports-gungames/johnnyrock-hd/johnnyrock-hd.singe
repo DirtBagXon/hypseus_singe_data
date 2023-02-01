@@ -18,7 +18,6 @@ This file is part of WHO SHOT JOHNNY ROCK? (SINGE EDITION)
 
 ]]--
 
-
 MYDIR = "singe/johnnyrock-hd/"
 
 dofile(MYDIR .. "globals.singe")
@@ -1613,6 +1612,7 @@ end
 function doLevelMansion2()
 
 	local k = 0
+
 
 	if (lvlState == lvlSetup) then
 	
@@ -5279,9 +5279,10 @@ function initJob()
 	elseif (dip_Crosshair == 5) then
 	
 		sprCursor  = spriteLoad(MYDIR .. "crosshaire.png")
-		cursoroffsetx = 0; cursoroffsety = 0
+		cursoroffsetx = 9; cursoroffsety = 6
 		
 	end
+
 
 	if (dip_Difficulty == DOPT_EASY) then
 	
@@ -5835,12 +5836,12 @@ end
 
 function onMouseMoved(intX, intY, intXrel, intYrel)
 
-	mousex = intX
-	mousey = intY
-	cursorx = intX - cursoroffsetx
-	cursory = intY - cursoroffsety
-	revsetx = intX - 3
-	revsety = intY - 3
+	mousex = intX * ratiox - ratioxOffset
+	mousey = intY * ratioy - ratioyOffset
+	cursorx = (intX - cursoroffsetx) * ratiox - ratioxOffset
+	cursory = (intY - cursoroffsety) * ratioy - ratioyOffset
+	revsetx = (intX - cursoroffsetx) * ratiox - ratioxOffset
+	revsety = (intY - cursoroffsety) * ratioy - ratioyOffset
 
 end
 
@@ -5962,18 +5963,47 @@ function onOverlayUpdate()
 		spriteDraw(cursorx, cursory, sprCursor) 
 		
 		if (bReversePointer and not (currentLevel == levelHighScore)) then 
-		
+
 			iRevFrames = iRevFrames + 1
-			if (iRevFrames == REV_DELAY) then
-			
+			sprCursor  = spriteLoad(MYDIR .. "crosshaire.png")
+			if (iRevFrames == 1) or (iRevFrames == 2) then
+				spriteDraw(revsetx, revsety, sprRev1) 
+			elseif (iRevFrames == 3) or (iRevFrames == 4) then
+				spriteDraw(revsetx, revsety, sprRev2) 
+			elseif (iRevFrames == 5) or (iRevFrames == 6) then
+				spriteDraw(revsetx, revsety, sprRev3) 
+			elseif (iRevFrames == 7) or (iRevFrames == 8) then
+				spriteDraw(revsetx, revsety, sprRev4) 
+			elseif (iRevFrames == 9) or (iRevFrames == 10) then
+				spriteDraw(revsetx, revsety, sprRev5) 
+				iRevFrames = 0
 				bReversePointer = false
-			else
-				spriteDraw(revsetx, revsety, sprRev) 
-			
+
+				if (dip_Crosshair == 1) then
+
+					sprCursor  = spriteLoad(MYDIR .. "crosshaira.png")
+					
+				elseif (dip_Crosshair == 2) then
+
+					sprCursor  = spriteLoad(MYDIR .. "crosshairb.png")
+					
+				elseif (dip_Crosshair == 3) then
+
+					sprCursor  = spriteLoad(MYDIR .. "crosshairc.png")
+					
+				elseif (dip_Crosshair == 4) then
+
+					sprCursor  = spriteLoad(MYDIR .. "crosshaird.png")
+					
+				elseif (dip_Crosshair == 5) then
+
+					sprCursor  = spriteLoad(MYDIR .. "crosshaire.png")
+					
+				end
+
 			end
-		
+
 		end	
-	
 	end
 	
 	if (bShowScore) then

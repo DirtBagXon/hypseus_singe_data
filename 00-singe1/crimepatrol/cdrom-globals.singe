@@ -90,6 +90,7 @@ DOPT_EXTREME = 4
 DOPT_IMMEDIATE = 100
 DOPT_ONEMPTY = 101
 DOPT_BORDERS = 102
+DOPT_LIGHTGUN = 103
 DOPT_FREEPLAY = 4
 
 dip_LivesPerCredit = 6
@@ -281,7 +282,7 @@ nagDelta = nil; nagDelta = {false, false, true, true, false, false, false, true,
 
 
 tx = 0; ty = 0; crx = 0; cry = 0
-rndegg = 0
+rndegg = math.random
 
 fontDebug6pt = fontLoad("singe/crimepatrol/m39.ttf", 6)
 fontDebug8pt = fontLoad("singe/crimepatrol/m39.ttf", 8)
@@ -293,6 +294,13 @@ sprArrow    = spriteLoad("singe/crimepatrol/pistol.png")
 sprBadge    = spriteLoad("singe/crimepatrol/badge3.png")
 sprBadgeSmall =  spriteLoad("singe/crimepatrol/badge4.png")
 sprRev      = spriteLoad("singe/crimepatrol/crosshaira.png")
+
+sprRev1      = spriteLoad("singe/crimepatrol/hit1.png")
+sprRev2      = spriteLoad("singe/crimepatrol/hit2.png")
+sprRev3      = spriteLoad("singe/crimepatrol/hit3.png")
+sprRev4     = spriteLoad("singe/crimepatrol/hit4.png")
+sprRev5     = spriteLoad("singe/crimepatrol/hit5.png")
+
 sprScore   = nil
 sprCredits = nil
 sprFreePlay = nil
@@ -321,3 +329,22 @@ sndBuzz      = soundLoad("singe/crimepatrol/buzzer.wav")
 sndBeep      = soundLoad("singe/crimepatrol/censoredbeep.wav")
 sndBreak      = soundLoad("singe/crimepatrol/break.wav")
 
+resX = overlayGetWidth() 
+resY = overlayGetHeight() 
+
+
+-- xratio and yratio declaration --
+if (ratioGetX ~= nil or ratioGetY ~= nil) then
+	debugPrint("Singe version compatible with ratio adjustment.")
+	ratiox = ratioGetX()
+	ratioy = ratioGetY()
+	if (ratiox <= 1 ) then ratiox = 1 end
+	if (ratioy <= 1 ) then ratioy = 1 end
+else
+	debugPrint("Singe version not compatible with ratio adjustment.  Using standard 1:1 values")
+	ratiox = 1
+	ratioy = 1
+end
+ratioxOffset = ( ratiox - 1 ) * (resX/2)
+ratioyOffset = ( ratioy - 1 ) * (resY/2)
+-- -- -- -- -- -- -- -- -- -- -- -- 

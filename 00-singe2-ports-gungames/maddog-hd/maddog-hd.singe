@@ -30,6 +30,7 @@ DOPT_HARD = 3
 DOPT_IMMEDIATE = 100
 DOPT_ONEMPTY = 101
 DOPT_BORDERS = 102
+DOPT_LIGHTGUN = 103
 
 dip_StartAtPart = 1
 dip_LivesPerCredit = 6
@@ -87,6 +88,7 @@ OVERLAY_UPDATED     = 1
 
 -- Let there be globals!
 
+rndegg=math.random
 stateStartup    = 0
 statePlaying    = 1
 stateQuit	 	= 2
@@ -436,6 +438,12 @@ sndHandle    = ""
 	sprStarSM    = spriteLoad(MYDIR .. "star.png")
 	sprName = nil
 	
+	sprRev1      = spriteLoad(MYDIR .. "hit1.png")
+	sprRev2      = spriteLoad(MYDIR .. "hit2.png")
+	sprRev3      = spriteLoad(MYDIR .. "hit3.png")
+	sprRev4     = spriteLoad(MYDIR .. "hit4.png")
+	sprRev5     = spriteLoad(MYDIR .. "hit5.png")
+
 	sprNUM = nil; sprNUM = {}
 	sprNUM[0] = spriteLoad(MYDIR .. "num0.png")
 	sprNUM[1] = spriteLoad(MYDIR .. "num1.png")
@@ -482,7 +490,29 @@ sndHandle    = ""
 	shotX = 580*UnX
 	shotY = 300*UnY
 
+	cursoroffsetx = 50*UnX
+	cursoroffsety = 47*UnY
+
+
+-- xratio and yratio declaration --
+if (ratioGetX ~= nil or ratioGetY ~= nil) then
+	debugPrint("Singe version compatible with ratio adjustment.")
+	ratiox = ratioGetX()
+	ratioy = ratioGetY()
+	if (ratiox <= 1 ) then ratiox = 1 end
+	if (ratioy <= 1 ) then ratioy = 1 end
+else
+	debugPrint("Singe version not compatible with ratio adjustment.  Using standard 1:1 values")
+	ratiox = 1
+	ratioy = 1
+end
+ratioxOffset = ( ratiox - 1 ) * (resX/2)
+ratioyOffset = ( ratioy - 1 ) * (resY/2)
+-- -- -- -- -- -- -- -- -- -- -- -- 
+
+
 	sprCursor = nil
+
 	if (dip_Crosshair == 1) then
 
 		sprCursor  = spriteLoad(MYDIR .. "crosshaira.png")
@@ -502,12 +532,12 @@ sndHandle    = ""
 	elseif (dip_Crosshair == 5) then
 
 		sprCursor  = spriteLoad(MYDIR .. "crosshaire.png")
+		cursoroffsetx = cursoroffsetx-3
+		cursoroffsety = cursoroffsety
 
 	end
 
-	cursoroffsetx = 50*UnX
-	cursoroffsety = 50*UnY
-
+	fontScore14 = fontLoad(MYDIR .. "score.ttf", 14)
 	fontScore = fontLoad(MYDIR .. "score.ttf", 42*UnY)
 	fontDebug = fontLoad(MYDIR .. "gambler.ttf", 24*UnY)
 	fontOldWest = fontLoad(MYDIR .. "gambler.ttf", 72*UnY)
@@ -4720,7 +4750,7 @@ function doLevelShowdown()
 						fontSelect(fontOldWestBig)
 						colorForeground(255, 0, 0)
 						blinkTimer(0.2)
-						if heartbeat then fontPrint(getMiddle("LOWER YOU GUN!!!"), 400*UnY, "LOWER YOU GUN!!!") end
+						if heartbeat then fontPrint(getMiddle("LOWER YOUR GUN!!!"), 400*UnY, "LOWER YOUR GUN!!!") end
 						
 					end	
 
@@ -6465,19 +6495,19 @@ function onInputPressed(intWhat)
 			p1BUTTON3 = true
 
 			if (iBullets > 0) then
+				if not ((dip_ReloadTrigger == DOPT_LIGHTGUN) and ((mousex <=0 or mousex >= resX) or (mousey <=0 or mousey >= resY))) then
+					if bAmmo then
 
-				if bAmmo then
+						blinkRev()
+						playMe(sndGunshot)
+						bAmmo = false
 
-					blinkRev()
-					playMe(sndGunshot)
-					bAmmo = false
+					elseif not (currentLevel == levelHighScore or currentLevel == lvlIntro or currentLevel == levelService) then
 
-				elseif not (currentLevel == levelHighScore or currentLevel == lvlIntro or currentLevel == levelService) then
-
-					iBullets = iBullets - 1
-					blinkRev()
-					playMe(sndGunshot)
-
+						iBullets = iBullets - 1
+						blinkRev()
+						playMe(sndGunshot)
+					end
 				end
 				
 			else
@@ -6656,6 +6686,18 @@ function onInputReleased(intWhat)
 
 						end
 
+					elseif(dip_ReloadTrigger == DOPT_LIGHTGUN) then
+
+						if (mousex <=0 or mousex >= resX) or (mousey <=0 or mousey >= resY) then
+
+							if (iBullets < 6) then	-- Reload is there is less than max (avoid emptying bonus bullets)
+								iBullets = 6
+								playMe(sndReload)
+
+							end
+
+						end
+
 					end
 
 				end
@@ -6732,14 +6774,15 @@ end
 
 function onMouseMoved(intX, intY, intXrel, intYrel)
 
-	mousex = intX
-	mousey = intY
-	cursorx = intX - cursoroffsetx
-	cursory = intY - cursoroffsety
-	revsetx = intX - cursoroffsetx
-	revsety = intY - cursoroffsety
-	
+	mousex = intX * ratiox - ratioxOffset
+	mousey = intY * ratioy - ratioyOffset
+	cursorx = (intX - cursoroffsetx) * ratiox - ratioxOffset
+	cursory = (intY - cursoroffsety) * ratioy - ratioyOffset
+	revsetx = (intX - cursoroffsetx) * ratiox - ratioxOffset
+	revsety = (intY - cursoroffsety) * ratioy - ratioyOffset
+
 end
+
 
 function initVLDP()
 
@@ -6890,43 +6933,28 @@ function onOverlayUpdate()
 		spriteDraw(cursorx, cursory, sprCursor)
 		
 		if (bReversePointer) then
+			if (iRevFrames == 0) then
+				freezex=revsetx
+				freezey=revsety
+			end
 			iRevFrames = iRevFrames + 1
-			if (iRevFrames == REV_DELAY) then
-
-				bReversePointer = false
-
-				if (dip_Crosshair == 1) then
-
-					sprCursor  = spriteLoad(MYDIR .. "crosshaira.png")
-					
-				elseif (dip_Crosshair == 2) then
-
-					sprCursor  = spriteLoad(MYDIR .. "crosshairb.png")
-					
-				elseif (dip_Crosshair == 3) then
-
-					sprCursor  = spriteLoad(MYDIR .. "crosshairc.png")
-					
-				elseif (dip_Crosshair == 4) then
-
-					sprCursor  = spriteLoad(MYDIR .. "crosshaird.png")
-					
-				elseif (dip_Crosshair == 5) then
-
-					sprCursor  = spriteLoad(MYDIR .. "crosshaire.png")
-					
-				end
-
+			if (iRevFrames == 1) or (iRevFrames == 2) then
+				spriteDraw(freezex, freezey, sprRev1) 
+			elseif (iRevFrames == 3) or (iRevFrames == 4) then
+				spriteDraw(freezex, freezey, sprRev2) 
+			elseif (iRevFrames == 5) or (iRevFrames == 6) then
+				spriteDraw(freezex, freezey, sprRev3) 
+			elseif (iRevFrames == 7) or (iRevFrames == 8) then
+				spriteDraw(freezex, freezey, sprRev4) 
+			elseif (iRevFrames == 9) or (iRevFrames == 10) then
+				spriteDraw(freezex, freezey, sprRev5) 
 			else
+				bReversePointer = false
 				
-				sprCursor  = spriteLoad(MYDIR .. "crosshaire.png")
-				singeWantsCrosshairs()
-				spriteDraw(revsetx, revsety, sprRev)
-
 			end
 
 		end
-
+	
 	end
 
 	if (bShowScore) then

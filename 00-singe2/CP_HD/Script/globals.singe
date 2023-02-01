@@ -90,6 +90,7 @@ DOPT_EXTREME = 4
 DOPT_IMMEDIATE = 100
 DOPT_ONEMPTY = 101
 DOPT_BORDERS = 102
+DOPT_LIGHTGUN = 103
 DOPT_FREEPLAY = 4
 
 dip_LivesPerCredit = 5
@@ -295,6 +296,12 @@ sprScore   = nil
 sprCredits = nil
 sprFreePlay = nil
 
+sprRev1      = spriteLoad(MYDIR .. "/Overlay/hit1.png")
+sprRev2      = spriteLoad(MYDIR .. "/Overlay/hit2.png")
+sprRev3      = spriteLoad(MYDIR .. "/Overlay/hit3.png")
+sprRev4     = spriteLoad(MYDIR .. "/Overlay/hit4.png")
+sprRev5     = spriteLoad(MYDIR .. "/Overlay/hit5.png")
+
 sprBullet = nil; sprBullet = {}
 sprBullet[1] = spriteLoad(MYDIR .. "/Overlay/bullets00.png")
 sprBullet[2] = spriteLoad(MYDIR .. "/Overlay/bullets01.png")
@@ -420,7 +427,19 @@ end
 cursoroffsetx = 30*UnX
 cursoroffsety = 30*UnY
 
-	
 
-
-	
+-- xratio and yratio declaration --
+if (ratioGetX ~= nil or ratioGetY ~= nil) then
+	debugPrint("Singe version compatible with ratio adjustment.")
+	ratiox = ratioGetX()
+	ratioy = ratioGetY()
+	if (ratiox <= 1 ) then ratiox = 1 end
+	if (ratioy <= 1 ) then ratioy = 1 end
+else
+	debugPrint("Singe version not compatible with ratio adjustment.  Using standard 1:1 values")
+	ratiox = 1
+	ratioy = 1
+end
+ratioxOffset = ( ratiox - 1 ) * (resX/2)
+ratioyOffset = ( ratioy - 1 ) * (resY/2)
+-- -- -- -- -- -- -- -- -- -- -- -- 

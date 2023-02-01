@@ -31,6 +31,7 @@ DOPT_HARD = 3
 DOPT_IMMEDIATE = 100
 DOPT_ONEMPTY = 101
 DOPT_BORDERS = 102
+DOPT_LIGHTGUN = 103
 
 dip_LivesPerCredit = 6
 dip_CoinsPerCredit = 1
@@ -85,6 +86,7 @@ OVERLAY_UPDATED     = 1
 
 -- Let there be globals!
 
+rndegg = math.random
 stateStartup    = 0
 statePlaying    = 1
 stateQuit	 	= 2
@@ -378,6 +380,7 @@ GUY_THREE = 3
 
 fontQuality(FONT_QUALITY_SOLID)
 fontDebug = fontLoad("singe/maddog/m39.ttf", 6)
+fontDebugBig = fontLoad("singe/maddog/m39.ttf", 12)
 fontOldWest36pt = fontLoad("singe/maddog/gambler.ttf", 36)
 fontOldWestpt28pt = fontLoad("singe/maddog/gambler.ttf", 28)
 fontOldWestpt24PT = fontLoad("singe/maddog/gambler.ttf", 24)
@@ -390,6 +393,13 @@ sprArrow  = spriteLoad("singe/maddog/pistol.png")
 sprYes  = spriteLoad("singe/maddog/choice.yes.png")
 sprNo  = spriteLoad("singe/maddog/choice.no.png")
 sprRev = spriteLoad("singe/maddog/crosshaira.png")
+
+sprRev1      = spriteLoad("singe/maddog/hit1.png")
+sprRev2      = spriteLoad("singe/maddog/hit2.png")
+sprRev3      = spriteLoad("singe/maddog/hit3.png")
+sprRev4     = spriteLoad("singe/maddog/hit4.png")
+sprRev5     = spriteLoad("singe/maddog/hit5.png")
+
 sprName = nil
 
 sprEasy  = spriteLoad("singe/maddog/choice.easy.png")
@@ -416,6 +426,28 @@ sndCredit    = soundLoad("singe/maddog/arcadecoin.wav")
 sndTing      = soundLoad("singe/maddog/arcadecoin.wav")
 sndBreak     = soundLoad("singe/maddog/bottlebreak.wav")
 sndHorns     = soundLoad("singe/maddog/hs.wav")
+
+
+resX = overlayGetWidth() 
+resY = overlayGetHeight() 
+
+
+-- xratio and yratio declaration --
+if (ratioGetX ~= nil or ratioGetY ~= nil) then
+	debugPrint("Singe version compatible with ratio adjustment.")
+	ratiox = ratioGetX()
+	ratioy = ratioGetY()
+	if (ratiox <= 1 ) then ratiox = 1 end
+	if (ratioy <= 1 ) then ratioy = 1 end
+else
+	debugPrint("Singe version not compatible with ratio adjustment.  Using standard 1:1 values")
+	ratiox = 1
+	ratioy = 1
+end
+ratioxOffset = ( ratiox - 1 ) * (resX/2)
+ratioyOffset = ( ratioy - 1 ) * (resY/2)
+-- -- -- -- -- -- -- -- -- -- -- -- 
+
 
 -- Hitmaps
 
@@ -803,7 +835,7 @@ function doHighScore()
 		elseif (dip_Crosshair == 5) then
 
 			sprCursor  = spriteLoad("singe/maddog/crosshaire.png")
-			cursoroffsetx = 0; cursoroffsety = 0
+			cursoroffsetx = 10; cursoroffsety = 10
 			
 		end
 		iScore = 0
@@ -4849,7 +4881,7 @@ function doLevelTut()
 								
 							else
 							
-								playMe(sndGunshot)
+						--		playMe(sndGunshot)
 								
 							end
 							
@@ -5789,7 +5821,7 @@ function initScore()
 	elseif (dip_Crosshair == 5) then
 
 		sprCursor  = spriteLoad("singe/maddog/crosshaire.png")
-		cursoroffsetx = 0; cursoroffsety = 0
+		cursoroffsetx = 10; cursoroffsety = 10
 		
 	end
 
@@ -6140,13 +6172,18 @@ function onInputReleased(intWhat)
 				if (iBullets > 0) then				
 					
 					if not (currentLevel == levelHighScore or currentLevel == lvlIntro or currentLevel == levelTownSelect or currentLevel == levelService or bSkipVideo or stage[STAGE_MADDOG]) then
+
+						if not ((dip_ReloadTrigger == DOPT_LIGHTGUN) and ((mousex <= 0 or mousex >= resX+30) or (mousey <= 0 or mousey >= resY))) then
 						
-						iBullets = iBullets - 1
-						if dip_Crosshair == 5 then blinkRev() end
-						playMe(sndGunshot)
+							iBullets = iBullets - 1
+							if dip_Crosshair == 5 then blinkRev() end
+							playMe(sndGunshot)
+
+						end
 						
 					end
-					if (bMakeNoise == true and not bHSMute and currentLevel ~= levelService) then playMe(sndGunshot) end
+
+				--	if (bMakeNoise == true and not bHSMute and currentLevel ~= levelService) then playMe(sndGunshot) end
 					if (bSkipVideo == true) then bSkipVideo = false end
 					
 					
@@ -6155,6 +6192,23 @@ function onInputReleased(intWhat)
 					playMe(sndEmpty)
 					
 				end
+
+			if(dip_ReloadTrigger == DOPT_LIGHTGUN) then
+
+				if (mousex <= 0 or mousex >= resX+30) or (mousey <= 0 or mousey >= resY) then
+
+					if (iBullets < dip_MaxBullets) then	-- Reload if there is less than max (avoid emptying bonus bullets)
+						relIndex = iBullets
+						iBullets = dip_MaxBullets
+						playMe(sndReload)
+						bRelAnim = true
+						
+					end
+					
+				end
+				
+			end
+
 			
 		elseif (intWhat == SWITCH_BUTTON1) then
 		
@@ -6169,7 +6223,7 @@ function onInputReleased(intWhat)
 						playMe(sndReload)
 					end
 				
-				elseif(dip_ReloadTrigger == DOPT_IMMEDIATE) then
+				elseif(dip_ReloadTrigger == DOPT_IMMEDIATE) or (dip_ReloadTrigger == DOPT_LIGHTGUN) then
 				
 					if (iBullets < dip_MaxBullets) then	-- Reload if there is less than max (avoid emptying bonus bullets)
 						iBullets = dip_MaxBullets
@@ -6243,15 +6297,16 @@ function onInputReleased(intWhat)
 end
 
 function onMouseMoved(intX, intY, intXrel, intYrel)
-	
-	mousex = intX
-	mousey = intY
-	cursorx = intX - cursoroffsetx
-	cursory = intY - cursoroffsety
-	revsetx = intX - 3
-	revsety = intY - 3
+
+	mousex = intX * ratiox - ratioxOffset
+	mousey = intY * ratioy - ratioyOffset
+	cursorx = (intX - cursoroffsetx) * ratiox - ratioxOffset
+	cursory = (intY - cursoroffsety) * ratioy - ratioyOffset
+	revsetx = (intX - cursoroffsetx) * ratiox - ratioxOffset
+	revsety = (intY - cursoroffsety) * ratioy - ratioyOffset
 
 end
+
 
 function initVLDP()
 
@@ -6403,20 +6458,33 @@ function onOverlayUpdate()
 	end
 
 	if (bShowMouse and singeWantsCrosshairs()) then 
-		spriteDraw(cursorx, cursory, sprCursor) 
-		if (bReversePointer) then 
+	
+		spriteDraw(cursorx, cursory, sprCursor)
+	
+		if (bReversePointer) then
+		  if (iRevFrames == 0) then
+			freezex=revsetx
+			freezey=revsety
+		  end
 			iRevFrames = iRevFrames + 1
-			if (iRevFrames == REV_DELAY) then
-			
-				bReversePointer = false
+			if (iRevFrames == 1) or (iRevFrames == 2) then
+				spriteDraw(freezex, freezey, sprRev1) 
+			elseif (iRevFrames == 3) or (iRevFrames == 4) then
+				spriteDraw(freezex, freezey, sprRev2) 
+			elseif (iRevFrames == 5) or (iRevFrames == 6) then
+				spriteDraw(freezex, freezey, sprRev3) 
+			elseif (iRevFrames == 7) or (iRevFrames == 8) then
+				spriteDraw(freezex, freezey, sprRev4) 
+			elseif (iRevFrames == 9) or (iRevFrames == 10) then
+				spriteDraw(freezex, freezey, sprRev5) 
 			else
-				spriteDraw(revsetx, revsety, sprRev) 
+				bReversePointer = false
 				
 			end
-			
-		end	
+
+		end
 	
-	end	
+	end
 	
 	if (bShowScore) then 		
 		drawLives()

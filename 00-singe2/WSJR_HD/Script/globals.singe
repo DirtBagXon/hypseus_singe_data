@@ -375,6 +375,12 @@ sprRev      = spriteLoad(MYDIR .. "/Overlay/hit.png")
 sprPanel    = spriteLoad(MYDIR .. "/Overlay/panel.png")
 sprShot  = spriteLoad(MYDIR .. "/Overlay/shot.png")
 
+sprRev1      = spriteLoad(MYDIR .. "/Overlay/hit1.png")
+sprRev2      = spriteLoad(MYDIR .. "/Overlay/hit2.png")
+sprRev3      = spriteLoad(MYDIR .. "/Overlay/hit3.png")
+sprRev4     = spriteLoad(MYDIR .. "/Overlay/hit4.png")
+sprRev5     = spriteLoad(MYDIR .. "/Overlay/hit5.png")
+
 sprScore    = nil
 sprCredits  = nil
 sprFreePlay = nil
@@ -403,3 +409,18 @@ fontQuality(FONT_QUALITY_BLENDED)
 
 	
 
+-- xratio and yratio declaration --
+if (ratioGetX ~= nil or ratioGetY ~= nil) then
+	debugPrint("Singe version compatible with ratio adjustment.")
+	ratiox = ratioGetX()
+	ratioy = ratioGetY()
+	if (ratiox <= 1 ) then ratiox = 1 end
+	if (ratioy <= 1 ) then ratioy = 1 end
+else
+	debugPrint("Singe version not compatible with ratio adjustment.  Using standard 1:1 values")
+	ratiox = 1
+	ratioy = 1
+end
+ratioxOffset = ( ratiox - 1 ) * (resX/2)
+ratioyOffset = ( ratioy - 1 ) * (resY/2)
+-- -- -- -- -- -- -- -- -- -- -- -- 

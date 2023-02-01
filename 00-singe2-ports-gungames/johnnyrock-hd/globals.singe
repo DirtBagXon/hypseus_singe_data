@@ -335,7 +335,8 @@ rndscene = nil; rndscene = {false, false, false, false, false, false, false, fal
 finalFiller = nil; finalFiller = {0, 0, 0, 0}
 hint = nil; hint = {false, false, false, false, false, false, false, false, false}
 
-tx = 0; ty = 0; crx = 0; cry = 0; rndegg = 0
+tx = 0; ty = 0; crx = 0; cry = 0
+rndegg = math.random
 
 fontDebug6pt = fontLoad(MYDIR .. "m39.ttf", 6)
 fontDebug8pt = fontLoad(MYDIR .. "m39.ttf", 8)
@@ -349,6 +350,12 @@ sprArrow    = spriteLoad(MYDIR .. "tommygun.png")
 sprRev      = spriteLoad(MYDIR .. "crosshaira.png")
 sprPanel    = spriteLoad(MYDIR .. "panel.png")
 
+sprRev1      = spriteLoad(MYDIR .. "hit1.png")
+sprRev2      = spriteLoad(MYDIR .. "hit2.png")
+sprRev3      = spriteLoad(MYDIR .. "hit3.png")
+sprRev4     = spriteLoad(MYDIR .. "hit4.png")
+sprRev5     = spriteLoad(MYDIR .. "hit5.png")
+
 sprScore    = nil
 sprCredits  = nil
 sprFreePlay = nil
@@ -360,3 +367,24 @@ sndEmpty       = soundLoad(MYDIR .. "empty.wav")
 sndBreak       = soundLoad(MYDIR .. "recoil.wav")
 sndCashReg     = soundLoad(MYDIR .. "cashregister.wav")
 sndCoinsTable  = soundLoad(MYDIR .. "coinstable.wav")
+
+
+resX = overlayGetWidth() 
+resY = overlayGetHeight() 
+
+
+-- xratio and yratio declaration --
+if (ratioGetX ~= nil or ratioGetY ~= nil) then
+	debugPrint("Singe version compatible with ratio adjustment.")
+	ratiox = ratioGetX()
+	ratioy = ratioGetY()
+	if (ratiox <= 1 ) then ratiox = 1 end
+	if (ratioy <= 1 ) then ratioy = 1 end
+else
+	debugPrint("Singe version not compatible with ratio adjustment.  Using standard 1:1 values")
+	ratiox = 1
+	ratioy = 1
+end
+ratioxOffset = ( ratiox - 1 ) * (resX/2)
+ratioyOffset = ( ratioy - 1 ) * (resY/2)
+-- -- -- -- -- -- -- -- -- -- -- -- 

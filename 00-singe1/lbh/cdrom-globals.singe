@@ -91,6 +91,7 @@ DOPT_EXTREME = 4
 DOPT_IMMEDIATE = 100
 DOPT_ONEMPTY = 101
 DOPT_BORDERS = 102
+DOPT_LIGHTGUN = 103
 DOPT_FREEPLAY = 4
 
 dip_LivesPerCredit = 6
@@ -273,7 +274,8 @@ civ = nil; civ = {false, false, false, false}
 stage = nil; stage = {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}
 showdown = nil; showdown = {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}
 
-tx = 0; ty = 0; crx = 0; cry = 0; rndegg = 0
+tx = 0; ty = 0; crx = 0; cry = 0
+rndegg = math.random
 
 fontDebug6pt = fontLoad("singe/lbh/m39.ttf", 6)
 fontDebug8pt = fontLoad("singe/lbh/m39.ttf", 8)
@@ -283,6 +285,12 @@ fontCA24pt   = fontLoad("singe/lbh/helldorado.ttf", 24)
 fontCA42pt   = fontLoad("singe/lbh/helldorado.ttf", 42)
 
 sprArrow    = spriteLoad("singe/lbh/pistol2.png")
+
+sprRev1      = spriteLoad("singe/lbh/hit1.png")
+sprRev2      = spriteLoad("singe/lbh/hit2.png")
+sprRev3      = spriteLoad("singe/lbh/hit3.png")
+sprRev4     = spriteLoad("singe/lbh/hit4.png")
+sprRev5     = spriteLoad("singe/lbh/hit5.png")
 
 scrx= nil
 sprScore   = nil
@@ -314,3 +322,24 @@ sndEmpty       = soundLoad("singe/lbh/empty.wav")
 sndReload      = soundLoad("singe/lbh/reload.wav")
 sndBreak       = soundLoad("singe/lbh/bottlebreak.wav")
 sndBonus       = soundLoad("singe/lbh/metal.ting.01.wav")
+
+
+resX = overlayGetWidth() 
+resY = overlayGetHeight() 
+
+
+-- xratio and yratio declaration --
+if (ratioGetX ~= nil or ratioGetY ~= nil) then
+	debugPrint("Singe version compatible with ratio adjustment.")
+	ratiox = ratioGetX()
+	ratioy = ratioGetY()
+	if (ratiox <= 1 ) then ratiox = 1 end
+	if (ratioy <= 1 ) then ratioy = 1 end
+else
+	debugPrint("Singe version not compatible with ratio adjustment.  Using standard 1:1 values")
+	ratiox = 1
+	ratioy = 1
+end
+ratioxOffset = ( ratiox - 1 ) * (resX/2)
+ratioyOffset = ( ratioy - 1 ) * (resY/2)
+-- -- -- -- -- -- -- -- -- -- -- -- 

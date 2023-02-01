@@ -91,6 +91,7 @@ DOPT_EXTREME = 4
 DOPT_IMMEDIATE = 100
 DOPT_ONEMPTY = 101
 DOPT_BORDERS = 102
+DOPT_LIGHTGUN = 103
 DOPT_FREEPLAY = 4
 
 dip_LivesPerCredit = 6
@@ -274,10 +275,12 @@ civ = nil; civ = {false, false, false, false}
 stage = nil; stage = {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}
 showdown = nil; showdown = {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}
 starPos = nil; POSX = 1; POSY = 2
-crx = 0; cry = 0; rndegg = 0
+crx = 0; cry = 0
+rndegg = math.random
 
 overlaySetResolution(vldpGetWidth(), vldpGetHeight())
 
+fontscorebig = fontLoad(MYDIR .. "m39.ttf", 14)
 fontscore = fontLoad(MYDIR .. "m39.ttf", 8)
 font16 = fontLoad(MYDIR .. "helldorado.ttf", 16)
 font22 = fontLoad(MYDIR .. "helldorado.ttf", 22)
@@ -293,6 +296,12 @@ scrx= nil
 sprScore   = nil
 sprCredits = nil
 sprFreePlay = nil
+
+sprRev1      = spriteLoad(MYDIR .. "hit1.png")
+sprRev2      = spriteLoad(MYDIR .. "hit2.png")
+sprRev3      = spriteLoad(MYDIR .. "hit3.png")
+sprRev4     = spriteLoad(MYDIR .. "hit4.png")
+sprRev5     = spriteLoad(MYDIR .. "hit5.png")
 
 sprBullet = nil; sprBullet = spriteLoad(MYDIR .. "bullet.png")
 sprReload = nil; sprReload = spriteLoad(MYDIR .. "reload.png")
@@ -383,5 +392,22 @@ elseif (dip_Crosshair == 5) then
 
 end
 
-cursoroffsetx = 40*UnX
+cursoroffsetx = 53*UnX
 cursoroffsety = 40*UnY
+
+
+-- xratio and yratio declaration --
+if (ratioGetX ~= nil or ratioGetY ~= nil) then
+	debugPrint("Singe version compatible with ratio adjustment.")
+	ratiox = ratioGetX()
+	ratioy = ratioGetY()
+	if (ratiox <= 1 ) then ratiox = 1 end
+	if (ratioy <= 1 ) then ratioy = 1 end
+else
+	debugPrint("Singe version not compatible with ratio adjustment.  Using standard 1:1 values")
+	ratiox = 1
+	ratioy = 1
+end
+ratioxOffset = ( ratiox - 1 ) * (resX/2)
+ratioyOffset = ( ratioy - 1 ) * (resY/2)
+-- -- -- -- -- -- -- -- -- -- -- -- 

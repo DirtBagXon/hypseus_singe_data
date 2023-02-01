@@ -90,6 +90,7 @@ DOPT_EXTREME = 4
 DOPT_IMMEDIATE = 100
 DOPT_ONEMPTY = 101
 DOPT_BORDERS = 102
+DOPT_LIGHTGUN = 103
 DOPT_FREEPLAY = 4
 
 dip_LivesPerCredit = 6
@@ -273,7 +274,8 @@ stage = nil; stage = {false, false, false, false, false, false, false, false, fa
 panel = nil; panel = {false, false, false}
 showdowns = nil; showdowns = {false, false, false, false, false, false}
 starPos = nil; POSX = 1; POSY = 2
-crx = 0; cry = 0; rndegg = 0
+crx = 0; cry = 0
+rndegg = math.random
 
 
 fontDebug6pt    = fontLoad("singe/maddog2/m39.ttf", 6)
@@ -282,8 +284,17 @@ fontOldWest24pt = fontLoad("singe/maddog2/gambler.ttf", 24)
 fontOldWest28pt = fontLoad("singe/maddog2/gambler.ttf", 28)
 fontOldWest36pt = fontLoad("singe/maddog2/gambler.ttf", 36)
 
+
+
+sprRev     = spriteLoad("singe/maddog2/crosshaire.png")
 sprArrow   = spriteLoad("singe/maddog2/pistol.png")
-sprRev     = spriteLoad("singe/maddog2/crosshaira.png")
+
+sprRev1      = spriteLoad("singe/maddog2/hit1.png")
+sprRev2      = spriteLoad("singe/maddog2/hit2.png")
+sprRev3      = spriteLoad("singe/maddog2/hit3.png")
+sprRev4     = spriteLoad("singe/maddog2/hit4.png")
+sprRev5     = spriteLoad("singe/maddog2/hit5.png")
+
 sprBullet  = spriteLoad("singe/maddog2/bullet.png")
 sprStar    = spriteLoad("singe/maddog2/star.png")
 sprReload  = spriteLoad("singe/maddog2/reload.png")
@@ -298,3 +309,24 @@ sndReload    = soundLoad("singe/maddog2/reload.wav")
 sndGunshot   = soundLoad("singe/maddog2/shot.wav")
 sndTing      = soundLoad("singe/maddog2/arcadecoin.wav")
 sndBreak     = soundLoad("singe/maddog2/bottlebreak.wav")
+
+
+resX = overlayGetWidth() 
+resY = overlayGetHeight() 
+
+
+-- xratio and yratio declaration --
+if (ratioGetX ~= nil or ratioGetY ~= nil) then
+	debugPrint("Singe version compatible with ratio adjustment.")
+	ratiox = ratioGetX()
+	ratioy = ratioGetY()
+	if (ratiox <= 1 ) then ratiox = 1 end
+	if (ratioy <= 1 ) then ratioy = 1 end
+else
+	debugPrint("Singe version not compatible with ratio adjustment.  Using standard 1:1 values")
+	ratiox = 1
+	ratioy = 1
+end
+ratioxOffset = ( ratiox - 1 ) * (resX/2)
+ratioyOffset = ( ratioy - 1 ) * (resY/2)
+-- -- -- -- -- -- -- -- -- -- -- -- 

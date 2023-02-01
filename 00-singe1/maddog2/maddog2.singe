@@ -4317,7 +4317,7 @@ function initJob()
 	elseif (dip_Crosshair == 5) then
 
 		sprCursor  = spriteLoad("singe/maddog2/crosshaire.png")
-		cursoroffsetx = 0; cursoroffsety = 0		
+		cursoroffsetx = 10; cursoroffsety = 10		
 		
 	end	
 	
@@ -4508,18 +4508,39 @@ function onInputReleased(intWhat)
 		elseif (intWhat == SWITCH_BUTTON3) then	
 			
 			p1BUTTON3 = false
+
+			if not ((dip_ReloadTrigger == DOPT_LIGHTGUN) and ((mousex <= 0 or mousex >= resX+30) or (mousey <= 0 or mousey >= resY))) then
 			
-			if (iBullets > 0 and not (currentLevel == levelMenu or currentLevel == levelHighScore)) then
+				if (iBullets > 0 and not (currentLevel == levelMenu or currentLevel == levelHighScore)) then
 			
-				iBullets = iBullets - 1
-				if dip_Crosshair == 5 then blinkRev() end
-				playMe(sndGunshot)
+					iBullets = iBullets - 1
+					if dip_Crosshair == 5 then blinkRev() end
+					playMe(sndGunshot)
 			
-			else
+				else
 			
-				if not (currentLevel == levelIntro or currentLevel == levelService) then playMe(sndEmpty) end
+					if not (currentLevel == levelIntro or currentLevel == levelService) then playMe(sndEmpty) end
 			
+				end
+
 			end
+
+			if(dip_ReloadTrigger == DOPT_LIGHTGUN) then
+
+				if (mousex <= 0 or mousex >= resX+30) or (mousey <= 0 or mousey >= resY) then
+
+					if (iBullets < dip_MaxBullets) then	-- Reload if there is less than max (avoid emptying bonus bullets)
+						relIndex = iBullets
+						iBullets = dip_MaxBullets
+						playMe(sndReload)
+						bRelAnim = true
+						
+					end
+					
+				end
+				
+			end
+
 			
 		elseif (intWhat == SWITCH_BUTTON1) then
 		
@@ -4534,7 +4555,7 @@ function onInputReleased(intWhat)
 						playMe(sndReload)
 					end
 				
-				elseif(dip_ReloadTrigger == DOPT_IMMEDIATE) then
+				elseif(dip_ReloadTrigger == DOPT_IMMEDIATE) or (dip_ReloadTrigger == DOPT_LIGHTGUN) then
 				
 					if (iBullets < dip_MaxBullets) then	-- Reload if there is less than max (avoid emptying bonus bullets)
 						iBullets = dip_MaxBullets
@@ -4608,14 +4629,15 @@ end
 
 function onMouseMoved(intX, intY, intXrel, intYrel)
 
-	mousex = intX
-	mousey = intY
-	cursorx = intX - cursoroffsetx
-	cursory = intY - cursoroffsety
-	revsetx = intX - 3
-	revsety = intY - 3
+	mousex = intX * ratiox - ratioxOffset
+	mousey = intY * ratioy - ratioyOffset
+	cursorx = (intX - cursoroffsetx) * ratiox - ratioxOffset
+	cursory = (intY - cursoroffsety) * ratioy - ratioyOffset
+	revsetx = (intX - cursoroffsetx) * ratiox - ratioxOffset
+	revsety = (intY - cursoroffsety) * ratioy - ratioyOffset
 
 end
+
 
 function onOverlayUpdate()
 
@@ -4732,22 +4754,33 @@ function onOverlayUpdate()
 	
 	end
 	
-	if (bShowMouse and singeWantsCrosshairs()) then 
+	if (bShowMouse) then 
 	
 		spriteDraw(cursorx, cursory, sprCursor) 
 		
 		if (bReversePointer and not (currentLevel == levelHighScore)) then 
 		
+		  if (iRevFrames == 0) then
+			freezex=revsetx
+			freezey=revsety
+		  end
 			iRevFrames = iRevFrames + 1
-			if (iRevFrames == REV_DELAY) then
-			
-				bReversePointer = false
+			if (iRevFrames == 1) or (iRevFrames == 2) then
+				spriteDraw(freezex, freezey, sprRev1) 
+			elseif (iRevFrames == 3) or (iRevFrames == 4) then
+				spriteDraw(freezex, freezey, sprRev2) 
+			elseif (iRevFrames == 5) or (iRevFrames == 6) then
+				spriteDraw(freezex, freezey, sprRev3) 
+			elseif (iRevFrames == 7) or (iRevFrames == 8) then
+				spriteDraw(freezex, freezey, sprRev4) 
+			elseif (iRevFrames == 9) or (iRevFrames == 10) then
+				spriteDraw(freezex, freezey, sprRev5) 
 			else
-				spriteDraw(revsetx, revsety, sprRev) 
+				bReversePointer = false
 				
 			end
-			
-		end	
+
+		end
 	
 	end
 	

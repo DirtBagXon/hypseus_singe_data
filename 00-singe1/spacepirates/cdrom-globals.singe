@@ -91,6 +91,7 @@ DOPT_EXTREME = 4
 DOPT_IMMEDIATE = 100
 DOPT_ONEMPTY = 101
 DOPT_BORDERS = 102
+DOPT_LIGHTGUN = 103
 DOPT_FREEPLAY = 4
 
 dip_LivesPerCredit = 6
@@ -324,7 +325,8 @@ stage = nil; stage = {false, false, false, false, false, false, false, false, fa
 panel = nil; panel = {false, false, false, false}
 crystal = nil; crystal = {false, false, false}
 
-tx = 0; ty = 0; crx = 0; cry = 0; rndegg = 0
+tx = 0; ty = 0; crx = 0; cry = 0
+rndegg = math.random
 
 fontDebug6pt = fontLoad("singe/spacepirates/m39.ttf", 6)
 fontDebug8pt = fontLoad("singe/spacepirates/m39.ttf", 8)
@@ -333,8 +335,15 @@ fontCA16pt   = fontLoad("singe/spacepirates/ca.ttf", 16)
 fontCA24pt   = fontLoad("singe/spacepirates/ca.ttf", 24)
 fontScore    = fontLoad("singe/spacepirates/ca.ttf", 24)
 
+sprRev      = spriteLoad("singe/spacepirates/crosshaire.png")
 sprArrow    = spriteLoad("singe/spacepirates/pistol.png")
-sprRev      = spriteLoad("singe/spacepirates/crosshaira.png")
+
+sprRev1      = spriteLoad("singe/spacepirates/hit1.png")
+sprRev2      = spriteLoad("singe/spacepirates/hit2.png")
+sprRev3      = spriteLoad("singe/spacepirates/hit3.png")
+sprRev4     = spriteLoad("singe/spacepirates/hit4.png")
+sprRev5     = spriteLoad("singe/spacepirates/hit5.png")
+
 sprSpot     = spriteLoad("singe/spacepirates/spot4.png")
 sprPanel    = spriteLoad("singe/spacepirates/p00.png")
 sprLifebarEmpty   = spriteLoad("singe/spacepirates/p03.png")
@@ -366,3 +375,24 @@ sndTick      = soundLoad("singe/spacepirates/tick.wav")
 sndTock      = soundLoad("singe/spacepirates/tock.wav")
 sndBreak     = soundLoad("singe/spacepirates/sp_erase.wav")
 sndGoodShot  = soundLoad("singe/spacepirates/sp_niceshot.wav")
+
+
+resX = overlayGetWidth() 
+resY = overlayGetHeight() 
+
+
+-- xratio and yratio declaration --
+if (ratioGetX ~= nil or ratioGetY ~= nil) then
+	debugPrint("Singe version compatible with ratio adjustment.")
+	ratiox = ratioGetX()
+	ratioy = ratioGetY()
+	if (ratiox <= 1 ) then ratiox = 1 end
+	if (ratioy <= 1 ) then ratioy = 1 end
+else
+	debugPrint("Singe version not compatible with ratio adjustment.  Using standard 1:1 values")
+	ratiox = 1
+	ratioy = 1
+end
+ratioxOffset = ( ratiox - 1 ) * (resX/2)
+ratioyOffset = ( ratioy - 1 ) * (resY/2)
+-- -- -- -- -- -- -- -- -- -- -- -- 
