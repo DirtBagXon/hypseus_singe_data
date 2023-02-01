@@ -39,6 +39,7 @@ DOPT_HARD = 3
 DOPT_IMMEDIATE = 100
 DOPT_ONEMPTY = 101
 DOPT_BORDERS = 102
+DOPT_LIGHTGUN = 103
 
 dip_StartAtPart = 1
 dip_LivesPerCredit = 6
@@ -6495,19 +6496,19 @@ function onInputPressed(intWhat)
 			p1BUTTON3 = true
 
 			if (iBullets > 0) then
+				if not ((dip_ReloadTrigger == DOPT_LIGHTGUN) and ((mousex <=0 or mousex >= resX) or (mousey <=0 or mousey >= resY))) then
+					if bAmmo then
 
-				if bAmmo then
+						blinkRev()
+						playMe(sndGunshot)
+						bAmmo = false
 
-					blinkRev()
-					playMe(sndGunshot)
-					bAmmo = false
+					elseif not (currentLevel == levelHighScore or currentLevel == lvlIntro or currentLevel == levelService) then
 
-				elseif not (currentLevel == levelHighScore or currentLevel == lvlIntro or currentLevel == levelService) then
-
-					iBullets = iBullets - 1
-					blinkRev()
-					playMe(sndGunshot)
-
+						iBullets = iBullets - 1
+						blinkRev()
+						playMe(sndGunshot)
+					end
 				end
 				
 			else
@@ -6686,8 +6687,19 @@ function onInputReleased(intWhat)
 
 						end
 
-					end
+					elseif(dip_ReloadTrigger == DOPT_LIGHTGUN) then
 
+						if (mousex <=0 or mousex >= resX) or (mousey <=0 or mousey >= resY) then
+
+							if (iBullets < 6) then	-- Reload is there is less than max (avoid emptying bonus bullets)
+								iBullets = 6
+								playMe(sndReload)
+
+							end
+
+						end
+
+					end
 				end
 
 			else

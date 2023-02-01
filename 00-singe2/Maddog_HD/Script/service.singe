@@ -232,6 +232,10 @@ function updateOpts(thisIndex)
 
 			dip_ReloadTrigger = DOPT_BORDERS
 
+		elseif (dip_ReloadTrigger == DOPT_BORDERS) then
+
+			dip_ReloadTrigger = DOPT_LIGHTGUN
+
 		else
 
 			dip_ReloadTrigger = DOPT_IMMEDIATE
@@ -353,6 +357,12 @@ function printOpts()
 
 				spriteDraw(1139*UnX, 484*UnY, sprHole)
 
+			elseif (dip_ReloadTrigger == DOPT_LIGHTGUN) then
+			
+				fontSelect(fontOldWest)
+				colorForeground(255, 255, 255)
+				fontPrint(800*UnX, 470*UnY, "LIGHTGUN")
+
 			else
 
 				spriteDraw(1398*UnX, 484*UnY, sprHole)
@@ -431,7 +441,7 @@ function printOpts()
 				sprCursor  = spriteLoad(MYDIROVL .. "crosshaire.png")
 				fontSelect(fontOldWest)
 				colorForeground(255, 255, 255)
-				fontPrint(810*UnX, 874*UnY, "ON TRIGGER")
+				fontPrint(800*UnX, 874*UnY, "ON TRIGGER")
 				
 			end
 

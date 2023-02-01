@@ -4940,21 +4940,24 @@ function onInputPressed(intWhat)
 
 			p1BUTTON3 = true
 
-			if (iBullets > 0) then
+			if ((iBullets > 0) )then
 
-				if bAmmo then
-					
-					blinkRev()
-					playMe(sndGunshot)
-					bAmmo = false
+				if not ((dip_ReloadTrigger == DOPT_LIGHTGUN) and ((mousex <= 0 or mousex >= resX) or (mousey <= 0 or mousey >= resY))) then
 
-				elseif not (currentLevel == levelHighScore or currentLevel == levelIntro or currentLevel == levelService) then
+					if bAmmo then
 
-					iBullets = iBullets - 1
-					blinkRev()
-					playMe(sndGunshot)
+						blinkRev()
+						playMe(sndGunshot)
+						bAmmo = false
 
-				end
+					elseif not (currentLevel == levelHighScore or currentLevel == lvlIntro or currentLevel == levelService) then
+
+						iBullets = iBullets - 1
+						blinkRev()
+						playMe(sndGunshot)
+
+					end
+				  end
 				
 			else
 
@@ -5165,7 +5168,19 @@ function onInputReleased(intWhat)
 						
 						end
 					
+					elseif(dip_ReloadTrigger == DOPT_LIGHTGUN) then
+
+					if (mousex <= 0 or mousex >= resX) or (mousey <= 0 or mousey >= resY) then
+
+						if (iBullets < dip_MaxBullets) then	-- Reload if there is less than max (avoid emptying bonus bullets)
+							relIndex = iBullets
+							iBullets = dip_MaxBullets
+							playMe(sndReload)
+							bRelAnim = true
+						
+						end
 					end
+				end
 
 				end
 				
