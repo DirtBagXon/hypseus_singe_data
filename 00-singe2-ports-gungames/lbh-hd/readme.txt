@@ -1,4 +1,4 @@
-* Required `-oversize_overlay`
+* Required `-set_overlay oversize`
 
 * Recommended `-manymouse`
 
