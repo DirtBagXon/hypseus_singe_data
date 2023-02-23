@@ -1,7 +1,7 @@
 --[[
 
 PROGRAM NAME:	LUA SINGE ENGINE
-VERSION:		3.23
+VERSION:		3.21
 AUTHOR:			KARIS (2021)
 
 This file is part of LUA SINGE ENGINE.
@@ -19,37 +19,25 @@ This file is part of LUA SINGE ENGINE.
 ]]--
 
 
-function swapScene()  -- allows to swap some scenes for some difficulties 
+function swapScene()  -- allows to swap some scenes for some difficulties (SuckerPunch, Tron)
 
-	if dip_Difficulty < 2 then
 
-		if iCurPos == 1 and iScene == 4 then
+end
 
-			bSwap = true
-			iScene = 5
+curx = 0; cury = 0;
 
-		elseif iCurPos == 2 and (iScene == 4 or iScene == 5) then
+function moveCursor(overHere)  	-- Used for Map (SuckerPunch)
 
-			bSwap = true
-			iScene = 6
+	
+end
 
-		elseif iCurPos == 3 and (iScene == 5 or iScene == 6) then
+function LevelMapComplete()		-- Used for Map (SuckerPunch)
 
-			bSwap = true
-			iScene = 7
+	
+end
+
+function doLevelSelect() 	-- Used for Map (SuckerPunch)
+
 		
-		elseif iCurPos == 6 and (iScene == 4 or iScene == 5) then
-
-			bSwap = true
-			iScene = 6
-
-		elseif iCurPos == 9 and iScene == 4 then
-			
-			bSwap = true
-			iScene = 5
-
-		end
-
-	end
 
 end
