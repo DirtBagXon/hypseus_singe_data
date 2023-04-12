@@ -29,14 +29,27 @@ This file is part of PRINCESS MONONOKE
 -- 1. General settings --
 -------------------------
 
-BASEDIR = "singe"
+-- Hypseus Game Setup --
 
-MYDIR = BASEDIR .. "/Mononoke"                                             -- This is the directory where your game is
+-- Do Not Remove/Alter these --
+OVERLAY_DEFAULT  = 0
+OVERLAY_FULL     = 1
+OVERLAY_HALF     = 2
+OVERLAY_OVERSIZE = 3
+-- Do Not Remove/Alter these --
 
-MovieFPS = 23.976                                                                -- Number of frames per second of your movies (used for timed actions).
 
+BASEDIR = "singe"                                  -- This should be 'singe'
 
-dofile(BASEDIR .. "/Framework/globals.singe")                                   -- Don't touch this line
+BASEOVERLAY = OVERLAY_FULL                         -- Set the default Overlay
+
+MYDIR = BASEDIR .."/".. "Mononoke"                 -- This is the directory where your game is
+
+MovieFPS = 23.976                                  -- Number of frames per second of your movies (used for timed actions).
+
+-- End Hypseus Game Setup --
+
+dofile(BASEDIR .. "/Framework/globals.singe")         -- Don't touch this line
 
 
 -- Scoring Settings --

@@ -18,9 +18,29 @@ This file is part of DRUG WARS (SINGE EDITION)
 
 ]]--
 
-BASEDIR = "singe/"
+-- Hypseus Game Setup --
 
-MYDIR = BASEDIR .. "CP2DW_HD"
+-- Do Not Remove/Alter these --
+OVERLAY_DEFAULT  = 0
+OVERLAY_FULL     = 1
+OVERLAY_HALF     = 2
+OVERLAY_OVERSIZE = 3
+-- Do Not Remove/Alter these --
+
+
+BASEDIR = "singe"                                  -- This should be 'singe'
+
+BASEOVERLAY = OVERLAY_FULL                         -- Set the default Overlay
+
+MYDIR = BASEDIR .."/".. "CP2DW_HD"                 -- This is the directory where your game is
+
+MovieFPS = 29.97
+
+-- End Hypseus Game Setup --
+
+if (setOverlaySize ~= nil) then
+        setOverlaySize(BASEOVERLAY)
+end
 
 -- Get video resolution
 

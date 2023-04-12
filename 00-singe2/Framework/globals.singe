@@ -27,6 +27,10 @@ dofile(MYDIR   .. "/Script/addons.singe")
 
 lfs = require("lfs")
 
+if (setOverlaySize ~= nil) then
+        setOverlaySize(BASEOVERLAY)
+end
+
 --Framework.singe....
 
 p1UP = false		
