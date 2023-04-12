@@ -22,7 +22,30 @@ This file is part of MAD DOG MCCREE (SINGE EDITION)
 bDebug = true
 bPlaySound = true
 
-MYDIR = "singe/maddog-hd/"
+-- Hypseus Game Setup --
+
+-- Do Not Remove/Alter these --
+OVERLAY_DEFAULT  = 0
+OVERLAY_FULL     = 1
+OVERLAY_HALF     = 2
+OVERLAY_OVERSIZE = 3
+-- Do Not Remove/Alter these --
+
+
+BASEDIR = "singe"                                 -- This should be 'singe'
+
+BASEOVERLAY = OVERLAY_OVERSIZE                    -- Set the default Overlay
+
+MYDIR = BASEDIR .."/".. "maddog-hd/"             -- This is the directory where your game is
+
+MovieFPS = 29.97
+
+-- End Hypseus Game Setup --
+
+
+if (setOverlaySize ~= nil) then
+        setOverlaySize(BASEOVERLAY)
+end
 
 DOPT_EASY = 1
 DOPT_MEDIUM = 2
@@ -48,7 +71,7 @@ dip_Lores = false
 
 --Framework.singe....
 
-discSetFPS(29.97)
+discSetFPS(MovieFPS)
 discSearch(1)
 
 SWITCH_UP         =  0
