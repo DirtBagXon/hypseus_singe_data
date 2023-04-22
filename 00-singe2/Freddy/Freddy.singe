@@ -194,12 +194,12 @@ RelativeFrames = false 											-- True if frame 1 starts with each level. Fal
 																-- Informations about the Levels:	
  			
 
-Level[1] = {"Nightmare on Elm St.", 2717, 21382, 2, 0, 0, -1}
-Level[2] = {"Freddys Revenge", 21386, 38080, 3, 0, 0, -1}
-Level[3] = {"Dream Warriors", 38085, 55149, 3, 0, 0, -1}
-Level[4] = {"The Dream Master", 55161, 72410, 2, 0, 0, -1}
-Level[5] = {"Freddy vs Jason", 72411, 87111, 1, 0, 0, -1}
-Level[levelSecret] = {"Secret Level", 100837, 2895, 1, 0, 0}
+Level[1] = {"Nightmare on Elm St.", 2717, 3019, 2, 0, 0, -1}
+Level[2] = {"Freddys Revenge", 21386, 21775, 3, 0, 0, -1}
+Level[3] = {"Dream Warriors", 38085, 38838, 3, 0, 0, -1}
+Level[4] = {"The Dream Master", 55161, 55453, 2, 0, 0, -1}
+Level[5] = {"Freddy vs Jason", 72411, 72653, 1, 0, 0, -1}
+Level[levelSecret] = {"Secret Level", 100837, 101126, 1, 0, 0}
 
 
 	
@@ -229,51 +229,50 @@ function setupMoves(thisLevel, thisScene)
 
 			sceneStart = 3020			
 			sceneEnd   = 9695				
-			totalMoves = 41
+			totalMoves = 40
 		
 		
 	
-	move[1] = {2717, 3018, 	SKIP, 1}
-	move[2] = {3020, 4802, 	SKIP, 1}	
-	move[3] = {4835, 4860, 	LEFT, 1}
-	move[4] = {5000, 5032, 	RIGHT, 1}	
-	move[5] = {5124, 5152, 	LEFT, 1}
-	move[6] = {5833, 5995,  RUN, 1}
-	move[7] = {6019, 6055, 	BUTTON1, 1}	
-	move[8] = {6060, 6078, 	LEFT, 1}
-	move[9] = {6080, 6150, 	LEFT, 1}	
-	move[10] = {6171, 6195, 	RIGHT, 1}	
-	move[11] = {6197, 6277, 	BUTTON1, 1}	
-	move[12] = {6237, 6399, 	LEFT, 1}	
-    move[13] = {6400, 6486, 	RIGHT, 1}	
-	move[14] = {6712, 6742, 	UP, 1}
-	move[15] = {6744, 6804, 	RIGHT, 1}
-	move[16] = {6819, 6908, 	BUTTON1, 1}
-	move[17] = {6953, 7030, 	DOWN, 1}
-	move[18] = {7053, 7079, 	BUTTON1, 1}	
-	move[19] = {7080, 7100, 	BUTTON1, 1}		
-	move[20] = {7115, 7144, 	BUTTON1, 1}	
-	move[21] = {7146, 7210, 	DOWN, 1}	
-	move[22] = {7293, 7448, 	MASH, 1}		
-	move[23] = {7572, 7600, 	RIGHT, 1}		
-	move[24] = {7613, 7810, 	MASH, 1}	
-	move[25] = {7833, 7879, 	BUTTON1, 1}	
-	move[26] = {7883, 7900, 	UP, 1}	
-    move[27] = {7908, 7930, 	UP, 1}
-	move[28] = {7933, 7947, 	LEFT, 1}	
-	move[29] = {7949, 7978, 	UP, 1}	
-	move[30] = {8021, 8051, 	LEFT, 1}	
-	move[31] = {8110, 8140, 	DOWN, 1}	
-	move[32] = {8200, 8250, 	UP, 1}	
-	move[33] = {8540, 8575, 	RIGHT, 1}		
-	move[34] = {8827, 8877, 	UP, 1}	
-	move[35] = {8879, 9050, 	DOWN, 1}	
-	move[36] = {9063, 9100, 	BUTTON1, 1}	
-	move[37] = {9140, 9176, 	BUTTON1, 1}	
-	move[38] = {9179, 9203, 	UP, 1}	
-	move[39] = {9293, 9312, 	BUTTON1, 1}	
-	move[40] = {9318, 9350, 	RIGHT, 1}
-	move[41] = {9616, 9646, 	RIGHT, 1}	
+	move[1] = {3020, 4802, 	SKIP, 0}	
+	move[2] = {4835, 4860, 	LEFT, 1}
+	move[3] = {5000, 5032, 	RIGHT, 1}	
+	move[4] = {5124, 5152, 	LEFT, 1}
+	move[5] = {5833, 5995,  RUN, 1}
+	move[6] = {6019, 6055, 	BUTTON1, 1}	
+	move[7] = {6060, 6078, 	LEFT, 1}
+	move[8] = {6080, 6150, 	LEFT, 1}	
+	move[9] = {6171, 6195, 	RIGHT, 1}	
+	move[10] = {6197, 6277, 	BUTTON1, 1}	
+	move[11] = {6237, 6399, 	LEFT, 1}	
+    move[12] = {6400, 6486, 	RIGHT, 1}	
+	move[13] = {6712, 6742, 	UP, 1}
+	move[14] = {6744, 6804, 	RIGHT, 1}
+	move[15] = {6819, 6908, 	BUTTON1, 1}
+	move[16] = {6953, 7030, 	DOWN, 1}
+	move[17] = {7053, 7079, 	BUTTON1, 1}	
+	move[18] = {7080, 7100, 	BUTTON1, 1}		
+	move[19] = {7115, 7144, 	BUTTON1, 1}	
+	move[20] = {7146, 7210, 	DOWN, 1}	
+	move[21] = {7293, 7448, 	MASH, 1}		
+	move[22] = {7572, 7600, 	RIGHT, 1}		
+	move[23] = {7613, 7810, 	MASH, 1}	
+	move[24] = {7833, 7879, 	BUTTON1, 1}	
+	move[25] = {7883, 7900, 	UP, 1}	
+    move[26] = {7908, 7930, 	UP, 1}
+	move[27] = {7933, 7947, 	LEFT, 1}	
+	move[28] = {7949, 7978, 	UP, 1}	
+	move[29] = {8021, 8051, 	LEFT, 1}	
+	move[30] = {8110, 8140, 	DOWN, 1}	
+	move[31] = {8200, 8250, 	UP, 1}	
+	move[32] = {8540, 8575, 	RIGHT, 1}		
+	move[33] = {8827, 8877, 	UP, 1}	
+	move[34] = {8879, 9050, 	DOWN, 1}	
+	move[35] = {9063, 9100, 	BUTTON1, 1}	
+	move[36] = {9140, 9176, 	BUTTON1, 1}	
+	move[37] = {9179, 9203, 	UP, 1}	
+	move[38] = {9293, 9312, 	BUTTON1, 1}	
+	move[39] = {9318, 9350, 	RIGHT, 1}
+	move[40] = {9616, 9646, 	RIGHT, 1}	
 
 
 
@@ -372,21 +371,20 @@ function setupMoves(thisLevel, thisScene)
 
 		if thisScene == 1 then		
 		
-			sceneStart = 21795
+			sceneStart = 21776
 			sceneEnd   = 23730
-			totalMoves = 7
+			totalMoves = 6
                      
 
 
 
 
-	move[1] = {21386, 21785, SKIP, 2}
-	move[2] = {21828, 21848, BUTTON1, 2}	
-	move[3] = {22222, 22305, HOLDRIGHT, 2}
-	move[4] = {22333, 22493, HOLDRIGHT, 2}	
-	move[5] = {22531, 22641, RIGHT, 2}	
-    move[6] = {23141, 23251, UP, 2}	
-    move[7] = {23648, 23758, UP, 2}
+	move[1] = {21828, 21848, BUTTON1, 2}	
+	move[2] = {22222, 22305, HOLDRIGHT, 2}
+	move[3] = {22333, 22493, HOLDRIGHT, 2}	
+	move[4] = {22531, 22641, RIGHT, 2}	
+    move[5] = {23141, 23251, UP, 2}	
+    move[6] = {23648, 23758, UP, 2}
 	
 	
 
@@ -503,22 +501,21 @@ function setupMoves(thisLevel, thisScene)
 
 			sceneStart = 38839
 			sceneEnd   = 41047
-			totalMoves = 9
+			totalMoves = 8
 
 
 
 
 
 	
-    move[1] = {38086, 38839, SKIP, 3}		
-    move[2] = {38905, 38944, BUTTON1, 3}		
-    move[3] = {38981, 39000, RIGHT, 3}		
-    move[4] = {39418, 39438, RIGHT, 3}			
-    move[5] = {39464, 39494, UP, 3}			
-    move[6] = {39499, 39524, BUTTON1, 3}	
-    move[7] = {39539, 39569, BUTTON1, 3}		
-    move[8] = {39795, 39850, LEFT, 3}
-    move[9] = {40852, 40882, RIGHT, 3}	
+    move[1] = {38905, 38944, BUTTON1, 3}		
+    move[2] = {38981, 39000, RIGHT, 3}		
+    move[3] = {39418, 39438, RIGHT, 3}			
+    move[4] = {39464, 39494, UP, 3}			
+    move[5] = {39499, 39524, BUTTON1, 3}	
+    move[6] = {39539, 39569, BUTTON1, 3}		
+    move[7] = {39795, 39850, LEFT, 3}
+    move[8] = {40852, 40882, RIGHT, 3}	
 
 
 
@@ -654,9 +651,9 @@ function setupMoves(thisLevel, thisScene)
 
 		if thisScene == 1 then   										
 
-			sceneStart = 57163
+			sceneStart = 55430
 			sceneEnd   = 61560
-			totalMoves = 27
+			totalMoves = 26
 
 
 
@@ -664,34 +661,32 @@ function setupMoves(thisLevel, thisScene)
 
 
 
-    move[1] = {55161, 55454, SKIP, 4}	
-    move[2] = {55456, 57157, SKIP, 4}	
-	move[3] = {57432, 57472, RIGHT, 4}	
-	move[4] = {57580, 57610, RIGHT, 4}	
-	move[5] = {57671, 57701, RIGHT, 4}
-	move[6] = {57715, 57755, DOWN, 4}
-	move[7] = {57762, 57790, BUTTON1, 4}
-	move[8] = {57916, 57946, DOWN, 4}
-	move[9] = {58003, 58050, DOWN, 4}	
-	move[10] = {58096, 58150, LEFT, 4}	
-	move[11] = {58153, 58193, UP, 4}
-	move[12] = {58308, 58370, DOWN, 4}	
-	move[13] = {58819, 58870, LEFT, 4}	
-	move[14] = {58985, 59000, LEFT, 4}	
-	move[15] = {59182, 59200, BUTTON1, 4}	
-	move[16] = {59396, 59440, BUTTON1, 4}
-	move[17] = {59696, 59730, BUTTON1, 4}	
-	move[18] = {59870, 59920, DOWN, 4}		
-	move[19] = {59989, 60020, DOWN, 4}	
-	move[20] = {60179, 60205, LEFT, 4}	
-	move[21] = {60256, 60305, MASH, 4}	
-	move[22] = {60317, 60347, BUTTON1, 4}
-	move[23] = {60357, 60380, LEFT, 4}	
-	move[24] = {60638, 60664, DOWN, 4}	
-	move[25] = {61024, 61054, BUTTON1, 4}	
-	move[26] = {61293, 61330, RIGHT, 4}	
-	move[27] = {61377, 61394, UP, 4}		
-
+    move[1] = {55431, 57157, SKIP, 0}	
+	move[2] = {57432, 57472, RIGHT, 4}	
+	move[3] = {57580, 57610, RIGHT, 4}	
+	move[4] = {57671, 57701, RIGHT, 4}
+	move[5] = {57715, 57755, DOWN, 4}
+	move[6] = {57762, 57790, BUTTON1, 4}
+	move[7] = {57916, 57946, DOWN, 4}
+	move[8] = {58003, 58050, DOWN, 4}	
+	move[9] = {58096, 58150, LEFT, 4}	
+	move[10] = {58153, 58193, UP, 4}
+	move[11] = {58308, 58370, DOWN, 4}	
+	move[12] = {58819, 58870, LEFT, 4}	
+	move[13] = {58985, 59000, LEFT, 4}	
+	move[14] = {59182, 59200, BUTTON1, 4}	
+	move[15] = {59396, 59440, BUTTON1, 4}
+	move[16] = {59696, 59730, BUTTON1, 4}	
+	move[17] = {59870, 59920, DOWN, 4}		
+	move[18] = {59989, 60020, DOWN, 4}	
+	move[19] = {60179, 60205, LEFT, 4}	
+	move[20] = {60256, 60305, MASH, 4}	
+	move[21] = {60317, 60347, BUTTON1, 4}
+	move[22] = {60357, 60380, LEFT, 4}	
+	move[23] = {60638, 60664, DOWN, 4}	
+	move[24] = {61024, 61054, BUTTON1, 4}	
+	move[25] = {61293, 61330, RIGHT, 4}	
+	move[26] = {61377, 61394, UP, 4}	
 
 
 
@@ -765,82 +760,81 @@ function setupMoves(thisLevel, thisScene)
 	
   	    if thisScene == 1 then  	
 		
-			sceneStart = 72663
+			sceneStart = 72654
 			sceneEnd   = 87111
-			totalMoves = 67
+			totalMoves = 66
 
 
 
 
 
 
-    move[1] = {72411, 72662, SKIP, 5}
-    move[2] = {72704, 72730, RIGHT, 5}
-    move[3] = {72733, 72885, MASH, 5}
-    move[4] = {72886, 73452, SKIP, 5}	
-    move[5] = {73570, 73650, MASH, 5}	
-    move[6] = {73665, 73697, UP, 5}
-    move[7] = {73702, 73740, UP, 5}	
-    move[8] = {73758, 73786, BUTTON1, 5}
-    move[9] = {73795, 74099, MASH, 5}
-    move[10] = {74118, 74160, UP, 5}	
-    move[11] = {74275, 74310, LEFT, 5}	
-    move[12] = {74484, 74524, BUTTON1, 5}
-    move[13] = {74566, 74600, BUTTON1, 5}
-    move[14] = {74656, 74690, BUTTON1, 5}
-    move[15] = {74700, 74738, BUTTON1, 5}	
-    move[16] = {74740, 74775, BUTTON1, 5}
-    move[17] = {74822, 74838, BUTTON1, 5}		
-    move[18] = {75370, 75410, LEFT, 5}
-    move[19] = {75698, 75758, BUTTON1, 5}	
-    move[20] = {76290, 76348, BUTTON1, 5}	
-    move[21] = {76541, 76558, BUTTON1, 5}	
-    move[22] = {76793, 76823, DOWN, 5}	
-    move[23] = {77458, 77500, DOWN, 5}		
-    move[24] = {77580, 77610, BUTTON1, 5}	
-    move[25] = {77667, 77700, DOWN, 5}	
-    move[26] = {77691, 77725, BUTTON1, 5}	
-    move[27] = {77771, 77840, MASH, 5}		
-    move[28] = {77886, 77925, DOWN, 5}	
-    move[29] = {77930, 77958, BUTTON1, 5}	
-    move[30] = {78275, 78312, UP, 5}	
-    move[31] = {78433, 78520, LEFT, 5}
-    move[32] = {78652, 78681, LEFT, 5}	
-    move[33] = {78758, 78770, BUTTON1, 5}	
-    move[34] = {78883, 78930, BUTTON1, 5}
-    move[35] = {79114, 79140, LEFT, 5}
-    move[36] = {79150, 79190, DOWN, 5}
-    move[37] = {79270, 79320, BUTTON1, 5}
-    move[38] = {79364, 79400, BUTTON1, 5}
-    move[39] = {79573, 79608, RIGHT, 5}	
-    move[40] = {79610, 79641, UP, 5}	
-    move[41] = {79651, 79685, RIGHT, 5}	
-    move[42] = {79762, 79795, LEFT, 5}		
-    move[43] = {79862, 79890, LEFT, 5}
-    move[44] = {79941, 79970, LEFT, 5}
-    move[45] = {80073, 80123, BUTTON1, 5}
-    move[46] = {80115, 80149, RIGHT, 5}	
-    move[47] = {80153, 80170, LEFT, 5}		
-    move[48] = {80180, 80210, DOWN, 5}	
-    move[49] = {80215, 80240, DOWN, 5}	
-    move[50] = {80248, 80270, DOWN, 5}
-    move[51] = {80286, 80326, LEFT, 5}
-    move[52] = {80356, 80405, BUTTON1, 5}	
-    move[53] = {80531, 80570, BUTTON1, 5}
-    move[54] = {80673, 80740, BUTTON1, 5}	
-    move[55] = {80919, 80959, UP, 5}	
-    move[56] = {80959, 80970, BUTTON1, 5}
-    move[57] = {81062, 81120, RIGHT, 5}
-    move[58] = {81969, 82092, RIGHT, 5}
-    move[59] = {82219, 82289, DOWN, 5}	
-    move[60] = {82412, 82500, DOWN, 5}	
-    move[61] = {83560, 84685, SKIP, 5}	
-    move[62] = {84730, 84760, LEFT, 5}	
-    move[63] = {85105, 85139, BUTTON1, 5}
-    move[64] = {85765, 85800, BUTTON1, 5}
-    move[65] = {85893, 85962, DOWN, 5}	
-    move[66] = {86069, 86115, BUTTON1, 5}
-    move[67] = {86735, 86755, UP, 5} 
+    move[1] = {72704, 72730, RIGHT, 5}
+    move[2] = {72733, 72885, MASH, 5}
+    move[3] = {72886, 73452, SKIP, 5}	
+    move[4] = {73570, 73650, MASH, 5}	
+    move[5] = {73665, 73697, UP, 5}
+    move[6] = {73702, 73740, UP, 5}	
+    move[7] = {73758, 73786, BUTTON1, 5}
+    move[8] = {73795, 74099, MASH, 5}
+    move[9] = {74118, 74160, UP, 5}	
+    move[10] = {74275, 74310, LEFT, 5}	
+    move[11] = {74484, 74524, BUTTON1, 5}
+    move[12] = {74566, 74600, BUTTON1, 5}
+    move[13] = {74656, 74690, BUTTON1, 5}
+    move[14] = {74700, 74738, BUTTON1, 5}	
+    move[15] = {74740, 74775, BUTTON1, 5}
+    move[16] = {74822, 74838, BUTTON1, 5}		
+    move[17] = {75370, 75410, LEFT, 5}
+    move[18] = {75698, 75758, BUTTON1, 5}	
+    move[19] = {76290, 76348, BUTTON1, 5}	
+    move[20] = {76541, 76558, BUTTON1, 5}	
+    move[21] = {76793, 76823, DOWN, 5}	
+    move[22] = {77458, 77500, DOWN, 5}		
+    move[23] = {77580, 77610, BUTTON1, 5}	
+    move[24] = {77667, 77700, DOWN, 5}	
+    move[25] = {77691, 77725, BUTTON1, 5}	
+    move[26] = {77771, 77840, MASH, 5}		
+    move[27] = {77886, 77925, DOWN, 5}	
+    move[28] = {77930, 77958, BUTTON1, 5}	
+    move[29] = {78275, 78312, UP, 5}	
+    move[30] = {78433, 78520, LEFT, 5}
+    move[31] = {78652, 78681, LEFT, 5}	
+    move[32] = {78758, 78770, BUTTON1, 5}	
+    move[33] = {78883, 78930, BUTTON1, 5}
+    move[34] = {79114, 79140, LEFT, 5}
+    move[35] = {79150, 79190, DOWN, 5}
+    move[36] = {79270, 79320, BUTTON1, 5}
+    move[37] = {79364, 79400, BUTTON1, 5}
+    move[38] = {79573, 79608, RIGHT, 5}	
+    move[39] = {79610, 79641, UP, 5}	
+    move[40] = {79651, 79685, RIGHT, 5}	
+    move[41] = {79762, 79795, LEFT, 5}		
+    move[42] = {79862, 79890, LEFT, 5}
+    move[43] = {79941, 79970, LEFT, 5}
+    move[44] = {80073, 80123, BUTTON1, 5}
+    move[45] = {80115, 80149, RIGHT, 5}	
+    move[46] = {80153, 80170, LEFT, 5}		
+    move[47] = {80180, 80210, DOWN, 5}	
+    move[48] = {80215, 80240, DOWN, 5}	
+    move[49] = {80248, 80270, DOWN, 5}
+    move[50] = {80286, 80326, LEFT, 5}
+    move[51] = {80356, 80405, BUTTON1, 5}	
+    move[52] = {80531, 80570, BUTTON1, 5}
+    move[53] = {80673, 80740, BUTTON1, 5}	
+    move[54] = {80919, 80959, UP, 5}	
+    move[55] = {80959, 80970, BUTTON1, 5}
+    move[56] = {81062, 81120, RIGHT, 5}
+    move[57] = {81969, 82092, RIGHT, 5}
+    move[58] = {82219, 82289, DOWN, 5}	
+    move[59] = {82412, 82500, DOWN, 5}	
+    move[60] = {83560, 84685, SKIP, 5}	
+    move[61] = {84730, 84760, LEFT, 5}	
+    move[62] = {85105, 85139, BUTTON1, 5}
+    move[63] = {85765, 85800, BUTTON1, 5}
+    move[64] = {85893, 85962, DOWN, 5}	
+    move[65] = {86069, 86115, BUTTON1, 5}
+    move[66] = {86735, 86755, UP, 5} 
 
 
 
@@ -857,70 +851,69 @@ function setupMoves(thisLevel, thisScene)
 		if thisScene == 1 then   										
 
 			sceneStart = 101127
-			sceneEnd   = 113744
-			totalMoves   = 58
+			sceneEnd   = 113744   
+			totalMoves   = 57
 			
 			
 			
 
-    move[1] = {100828, 101131, SKIP, 6}
-    move[2] = {101151, 101199, DOWN, 6}	
-    move[3] = {101247, 101300, LEFT, 6}
-    move[4] = {101655, 101690, RIGHT, 6}
-    move[5] = {101750, 101799, UP, 6}
-    move[6] = {101972, 102010, DOWN, 6}
-    move[7] = {102708, 102730, DOWN, 6}
-    move[8] = {102793, 102850, LEFT, 6}
-    move[9] = {102871, 102900, BUTTON1, 6}
-    move[10] = {102955, 103020, UP, 6}
-    move[11] = {103095, 103119, BUTTON1, 6}
-    move[12] = {103170, 103190, BUTTON1, 6}
-    move[13] = {103413, 103455, DOWN, 6}
-    move[14] = {103806, 103850, DOWN, 6}
-    move[15] = {104093, 104119, RIGHT, 6}
-    move[16] = {104245, 104275, DOWN, 6}	
-    move[17] = {105380, 105410, LEFT, 6}	
-    move[18] = {105463, 105497, RIGHT, 6}	
-    move[19] = {105644, 105695, UP, 6}	
-    move[20] = {105819, 105895, LEFT, 6}	
-    move[21] = {106049, 106089, RIGHT, 6}
-    move[22] = {106560, 106589, BUTTON1, 6}		
-    move[23] = {106763, 106789, BUTTON1, 6}	
-    move[24] = {106937, 106980, MASH, 6}
-    move[25] = {107206, 107246, BUTTON1, 6}
-    move[26] = {107248, 107279, RIGHT, 6}	
-    move[27] = {107376, 107400, BUTTON1, 6}	
-    move[28] = {107439, 107470, BUTTON1, 6}	
-    move[29] = {107498, 107530, RIGHT, 6}
-    move[30] = {107777, 107994, MASH, 6}
-    move[31] = {108112, 108130, BUTTON2, 6}	
-    move[32] = {108354, 108506, MASH, 6}	
-    move[33] = {108744, 108778, BUTTON1, 6}
-    move[34] = {109331, 109371, BUTTON1, 6}	
-    move[35] = {109705, 109760, DOWN, 6}
-    move[36] = {110005, 110035, UP, 6}
-    move[37] = {110030, 110070, BUTTON1, 6}	
-    move[38] = {110115, 110150, BUTTON1, 6}	
-    move[39] = {110215, 110312, MASH, 6}	
-    move[40] = {110393, 110520, MASH, 6}	
-    move[41] = {110593, 110620, BUTTON1, 6}	
-    move[42] = {110715, 110750, RIGHT, 6}
-    move[43] = {110783, 110799, BUTTON1, 6}	
-    move[44] = {110870, 110899, BUTTON1, 6}	
-    move[45] = {110928, 110959, BUTTON1, 6}		
-    move[46] = {110966, 110999, LEFT, 6}
-    move[47] = {111224, 111255, BUTTON1, 6}	
-    move[48] = {111776, 111799, BUTTON1, 6}		
-    move[49] = {112420, 112460, BUTTON1, 6}
-    move[50] = {112487, 112500, RIGHT, 6}
-    move[51] = {112632, 112662, BUTTON1, 6}
-    move[52] = {112668, 112699, BUTTON1, 6}
-    move[53] = {112880, 112900, BUTTON1, 6}
-    move[54] = {112924, 112947, BUTTON1, 6}
-    move[55] = {113099, 113120, BUTTON2, 6}
-    move[56] = {113120, 113150, RIGHT, 6}
-    move[57] = {113243, 113275, UP, 6}
-    move[58] = {113306, 113330, LEFT, 6}	
+    move[1] = {101151, 101199, DOWN, 6}	
+    move[2] = {101247, 101300, LEFT, 6}
+    move[3] = {101655, 101690, RIGHT, 6}
+    move[4] = {101750, 101799, UP, 6}
+    move[5] = {101972, 102010, DOWN, 6}
+    move[6] = {102708, 102730, DOWN, 6}
+    move[7] = {102793, 102850, LEFT, 6}
+    move[8] = {102871, 102900, BUTTON1, 6}
+    move[9] = {102955, 103020, UP, 6}
+    move[10] = {103095, 103119, BUTTON1, 6}
+    move[11] = {103170, 103190, BUTTON1, 6}
+    move[12] = {103413, 103455, DOWN, 6}
+    move[13] = {103806, 103850, DOWN, 6}
+    move[14] = {104093, 104119, RIGHT, 6}
+    move[15] = {104245, 104275, DOWN, 6}	
+    move[16] = {105380, 105410, LEFT, 6}	
+    move[17] = {105463, 105497, RIGHT, 6}	
+    move[18] = {105644, 105695, UP, 6}	
+    move[19] = {105819, 105895, LEFT, 6}	
+    move[20] = {106049, 106089, RIGHT, 6}
+    move[21] = {106560, 106589, BUTTON1, 6}		
+    move[22] = {106763, 106789, BUTTON1, 6}	
+    move[23] = {106937, 106980, MASH, 6}
+    move[24] = {107206, 107246, BUTTON1, 6}
+    move[25] = {107248, 107279, RIGHT, 6}	
+    move[26] = {107376, 107400, BUTTON1, 6}	
+    move[27] = {107439, 107470, BUTTON1, 6}	
+    move[28] = {107498, 107530, RIGHT, 6}
+    move[29] = {107777, 107994, MASH, 6}
+    move[30] = {108112, 108130, BUTTON2, 6}	
+    move[31] = {108354, 108506, MASH, 6}	
+    move[32] = {108744, 108778, BUTTON1, 6}
+    move[33] = {109331, 109371, BUTTON1, 6}	
+    move[34] = {109705, 109760, DOWN, 6}
+    move[35] = {110005, 110035, UP, 6}
+    move[36] = {110030, 110070, BUTTON1, 6}	
+    move[37] = {110115, 110150, BUTTON1, 6}	
+    move[38] = {110215, 110312, MASH, 6}	
+    move[39] = {110393, 110520, MASH, 6}	
+    move[40] = {110593, 110620, BUTTON1, 6}	
+    move[41] = {110715, 110750, RIGHT, 6}
+    move[42] = {110783, 110799, BUTTON1, 6}	
+    move[43] = {110870, 110899, BUTTON1, 6}	
+    move[44] = {110928, 110959, BUTTON1, 6}		
+    move[45] = {110966, 110999, LEFT, 6}
+    move[46] = {111224, 111255, BUTTON1, 6}	
+    move[47] = {111776, 111799, BUTTON1, 6}		
+    move[48] = {112420, 112460, BUTTON1, 6}
+    move[49] = {112487, 112500, RIGHT, 6}
+    move[50] = {112632, 112662, BUTTON1, 6}
+    move[51] = {112668, 112699, BUTTON1, 6}
+    move[52] = {112880, 112900, BUTTON1, 6}
+    move[53] = {112924, 112947, BUTTON1, 6}
+    move[54] = {113099, 113120, BUTTON2, 6}
+    move[55] = {113120, 113150, RIGHT, 6}
+    move[56] = {113243, 113275, UP, 6}
+    move[57] = {113306, 113330, LEFT, 6}	
 
 
 	
