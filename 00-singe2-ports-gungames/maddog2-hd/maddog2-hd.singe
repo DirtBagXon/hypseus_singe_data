@@ -36,6 +36,8 @@ MYDIR = BASEDIR .."/".. "maddog2-hd/"             -- This is the directory where
 
 MovieFPS = 29.97
 
+dip_ShowHit = false
+
 -- End Hypseus Game Setup --
 
 
@@ -5178,23 +5180,31 @@ function onOverlayUpdate()
 				freezey=revsety
 			end
 			iRevFrames = iRevFrames + 1
-			if (iRevFrames == 1) or (iRevFrames == 2) then
-				spriteDraw(freezex, freezey, sprRev1) 
-			elseif (iRevFrames == 3) or (iRevFrames == 4) then
-				spriteDraw(freezex, freezey, sprRev2) 
-			elseif (iRevFrames == 5) or (iRevFrames == 6) then
-				spriteDraw(freezex, freezey, sprRev3) 
-			elseif (iRevFrames == 7) or (iRevFrames == 8) then
-				spriteDraw(freezex, freezey, sprRev4) 
-			elseif (iRevFrames == 9) or (iRevFrames == 10) then
-				spriteDraw(freezex, freezey, sprRev5) 
-			else
-				bReversePointer = false
-				
-			end
+			if  (dip_Crosshair == 5) then
+				if (iRevFrames == 1) or (iRevFrames == 2) then
+					spriteDraw(freezex, freezey, sprRev1)
+				elseif (iRevFrames == 3) or (iRevFrames == 4) then
+					spriteDraw(freezex, freezey, sprRev2)
+				elseif (iRevFrames == 5) or (iRevFrames == 6) then
+					spriteDraw(freezex, freezey, sprRev3)
+				elseif (iRevFrames == 7) or (iRevFrames == 8) then
+					spriteDraw(freezex, freezey, sprRev4)
+				elseif (iRevFrames == 9) or (iRevFrames == 10) then
+					spriteDraw(freezex, freezey, sprRev5)
+				else
+					bReversePointer = false
+				end
 
+			elseif (dip_ShowHit) then
+
+				singeWantsCrosshairs()
+				spriteDraw(revsetx, revsety, sprRev)
+
+				if (iRevFrames == REV_DELAY) then
+					bReversePointer = false
+				end
+			end
 		end
-	
 	end
 	
 	if (bShowScore) then
