@@ -4938,7 +4938,7 @@ function getRes()
 	if dip_Res == 0 then
 
 		MIDIRES = "/Overlay/"
-		overlaySetResolution(vldpGetWidth(), vldpGetHeight())
+		setOverlayResolution(vldpGetWidth(), vldpGetHeight())
 		OVLW = vldpGetWidth()
 		OVLH = vldpGetHeight()
 		LINEH = OVLH/80
@@ -4947,7 +4947,7 @@ function getRes()
 	else
 
 		MIDIRES = "/Overlay/Lores/"
-		overlaySetResolution(vldpGetWidth()/2, vldpGetHeight()/2)
+		setOverlayResolution(vldpGetWidth()/2, vldpGetHeight()/2)
 		OVLW = vldpGetWidth()/2
 		OVLH = vldpGetHeight()/2
 		LINEH = OVLH/80

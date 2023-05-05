@@ -15,7 +15,7 @@ Feel free to submit pull requests for any fixes or improvements.
 
 # Reorganization from version 2.10
 
-From version **2.10.1**, Hypseus Singe supports full resolution 32bit overlays.
+From version **2.10.4**, Hypseus Singe supports full resolution 32bit overlays and overlay switching.
 
 This will allow a recategorization of currently ported games which were created to run on lower  
 powered single-board computer devices, such as the _Raspberry Pi_ and _RK3328_, and used  

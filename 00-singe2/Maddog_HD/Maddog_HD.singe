@@ -454,12 +454,12 @@ sndHandle    = ""
 
 	if not dip_Lores then
 
-		overlaySetResolution(vldpGetWidth(), vldpGetHeight())
+		setOverlayResolution(vldpGetWidth(), vldpGetHeight())
 		MYDIROVL = MYDIR .."/Overlay/"
 
 	else
 
-		overlaySetResolution(vldpGetWidth()/2, vldpGetHeight()/2)
+		setOverlayResolution(vldpGetWidth()/2, vldpGetHeight()/2)
 		MYDIROVL = MYDIR .."/Overlay/Lores/"
 
 	end
