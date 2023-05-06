@@ -29,6 +29,10 @@ OVERLAY_DEFAULT  = 0
 OVERLAY_FULL     = 1
 OVERLAY_HALF     = 2
 OVERLAY_OVERSIZE = 3
+
+BEZEL_LAIR  = 0
+BEZEL_BLANK = 1
+BEZEL_USB   = 2
 -- Do Not Remove/Alter these --
 
 
@@ -36,9 +40,13 @@ BASEDIR = "singe"                                  -- This should be 'singe'
 
 BASEOVERLAY = OVERLAY_FULL                         -- Set the default Overlay
 
-MYDIR = BASEDIR .."/".. "DL2e"                     -- This is the directory where your game is
+MYDIR = BASEDIR .."/".. "DL2e"                   -- This is the directory where your game is
 
 MovieFPS = 23.976    -- Number of frames per second of your movies (used for timed actions).
+
+-- Scoreboard Bezel Setup
+
+scoreBezelEnable(true, BEZEL_LAIR)
 
 -- End Hypseus Game Setup --
 

@@ -1818,7 +1818,17 @@ function doIntro()     -- Process attract mode
 		if (p1START2) then
 
 			p1START2 = false
-			if dip_GameType == 0 or dip_GameType == 3 then iCredits = iCredits - 2 end
+			if dip_GameType == 0 or dip_GameType == 3 then
+
+				iCredits = iCredits - 2
+
+				if scoreBezelGetState() then
+					scoreBezelCredits(iCredits)
+				end
+
+			end
+
+
 			lvlState = lvlSetup
 			i2P = 1
 			b1PStart = false
@@ -4526,16 +4536,19 @@ function drawCredits()     -- Draw the credits
 			spriteDraw(posxUI,ycoinpos,sprite[FREEPLAY])
 		
 		else
+
+			if not scoreBezelGetState() then
 		
-			if (iCredits > 0) then			
+				if (iCredits > 0) then
 				
-				spriteDraw((OVLW/2)-CRDW/2-NUMW,ycoinpos,sprite[CREDIT])
-				drawSpriteNumber((OVLW/2)-CRDW/2+CRDW,ycoinpos,iCredits)
+					spriteDraw((OVLW/2)-CRDW/2-NUMW,ycoinpos,sprite[CREDIT])
+					drawSpriteNumber((OVLW/2)-CRDW/2+CRDW,ycoinpos,iCredits)
 				
-			else		
+				else
 				
-				spriteDraw(posxUI,ycoinpos,sprite[INSERTCOIN])
+					spriteDraw(posxUI,ycoinpos,sprite[INSERTCOIN])
 				
+				end
 			end
 			
 		end
@@ -4766,53 +4779,64 @@ end
 
 function drawLives()       -- Draw Lives
 
-	local k = 0
+	if scoreBezelGetState() then
 
-	if dip_GameType == 1 then
+		if not (iLives == LivesPrev) then
 
-		if iLifeBar > 0 then
-			
-			for k = 1,iLifeBar do
-
-				spriteDraw(OVLW-(LINEW*(2+dip_Res))-(BARW*(BarSize+1))+((BARW+2)*k),ylivpos,sprite[BARFULL])
-
-			end
-
-			if iLifeBar < BarSize then
-
-				for k = iLifeBar,BarSize do
-
-					spriteDraw(OVLW-(LINEW*(2+dip_Res))-(BARW*(BarSize+1))+((BARW+2)*k),ylivpos,sprite[BARNONE])
-
-				end
-
-			end
-
+			scoreBezelLives(1, iLives)
+			LivesPrev = iLives
 		end
 
 	else
 
-		if (iLives > 0) then
+		local k = 0
 
-			if dip_LivType == 0 then
+		if dip_GameType == 1 then
 
-				for k = 1,iLives do
+			if iLifeBar > 0 then
+			
+				for k = 1,iLifeBar do
 
-					spriteDraw(OVLW-LINEW-(LIVW*k),ylivpos,sprite[LIVES])
+					spriteDraw(OVLW-(LINEW*(2+dip_Res))-(BARW*(BarSize+1))+((BARW+2)*k),ylivpos,sprite[BARFULL])
 
 				end
 
-			else
+				if iLifeBar < BarSize then
 
-				local s1=tostring("x".. iLives)
-				
-				spriteDraw(OVLW-2*LINEW-(LIVW*2),ylivpos,sprite[LIVES])
-				spriteDraw(OVLW-LINEW-LIVW,ylivpos+LIVH/4,fontToSprite(s1))
+					for k = iLifeBar,BarSize do
+
+						spriteDraw(OVLW-(LINEW*(2+dip_Res))-(BARW*(BarSize+1))+((BARW+2)*k),ylivpos,sprite[BARNONE])
+
+					end
+
+				end
 
 			end
 
-		end
+		else
+
+			if (iLives > 0) then
+
+				if dip_LivType == 0 then
+
+					for k = 1,iLives do
+
+						spriteDraw(OVLW-LINEW-(LIVW*k),ylivpos,sprite[LIVES])
+
+					end
+
+				else
+
+					local s1=tostring("x".. iLives)
+				
+					spriteDraw(OVLW-2*LINEW-(LIVW*2),ylivpos,sprite[LIVES])
+					spriteDraw(OVLW-LINEW-LIVW,ylivpos+LIVH/4,fontToSprite(s1))
+
+				end
+
+			end
 	
+		end
 	end
 
 end
@@ -4852,22 +4876,33 @@ end
 
 function drawScore()       -- Draw score
 
-	drawSpriteNumber(LINEW,yscopos,iScore)	
+	if scoreBezelGetState() then
 
-	if bShowTop or bPause then
+		if not (iScore == ScorePrev) then
 
-		spriteDraw(posxUI,LINEH,sprite[TOPSCORE])
+			scoreBezelScore(1, iScore)
+			ScorePrev = iScore
+		end
+
+	else
+
+		drawSpriteNumber(LINEW,yscopos,iScore)
+
+		if bShowTop or bPause then
+
+			spriteDraw(posxUI,LINEH,sprite[TOPSCORE])
 		
-		if dip_GameType == 3 then
+			if dip_GameType == 3 then
 
-			drawSpriteNumber((OVLW/2)-NUMW, LINEH*3, iTop)
+				drawSpriteNumber((OVLW/2)-NUMW, LINEH*3, iTop)
 
-		else	
+			else
 
-			drawSpriteNumber((OVLW/2)-NUMW*3, LINEH*3, iTop)
+				drawSpriteNumber((OVLW/2)-NUMW*3, LINEH*3, iTop)
 
-		end	
+			end
 
+		end
 	end
 		
 end
@@ -5784,6 +5819,9 @@ function onInputReleased(intWhat)      -- Confirm the release of all buttons (wi
 						
 							iCoins = iCoins - dip_CoinsPerCredit
 							iCredits = iCredits + 1
+							if scoreBezelGetState() then
+								scoreBezelCredits(iCredits)
+							end
 							soundPlay(sndcredit)
 							
 						else
@@ -6574,7 +6612,15 @@ function startGame()      -- Starts the game according to each option
 			
 	else
 		
-		if iCredits > 0 then iCredits = iCredits - 1 end
+		if iCredits > 0 then
+
+			iCredits = iCredits - 1
+
+			if scoreBezelGetState() then
+				scoreBezelCredits(iCredits)
+			end
+		end
+
 		iScore = 0	
 		iScoreTemp = 0
 		iBonus = 0
