@@ -4925,7 +4925,12 @@ function getFont()
 	end	
 
 
-	fontpath = MYDIR.."/Fonts/font.ttf"
+	if dip_Res ~= 0 and dip_MinimalOverlay == 1 then
+
+		fontpath = BASEDIR .. "/Framework/Fonts/m39.ttf"
+	else
+		fontpath = MYDIR.."/Fonts/font.ttf"
+	end
 
 	fontGame = fontLoad(fontpath, fontSizeNew*4)
 	fontLCD = fontLoad(fontpath, fontSizeNew*5)
@@ -4934,6 +4939,7 @@ function getFont()
 end
 
 function getRes()
+
 
 	if dip_Res == 0 then
 
@@ -4944,15 +4950,22 @@ function getRes()
 		LINEH = OVLH/80
 		LINEW = OVLW/80
 
-	else
+	elseif dip_MinimalOverlay == 1 then
 
+		MIDIRES = "/Overlay/Lores/"
+		OVLW = 360
+		OVLH = 240
+		setOverlayResolution(OVLW, OVLH)
+		LINEH = OVLH/80
+		LINEW = OVLW/80
+
+	else
 		MIDIRES = "/Overlay/Lores/"
 		setOverlayResolution(vldpGetWidth()/2, vldpGetHeight()/2)
 		OVLW = vldpGetWidth()/2
 		OVLH = vldpGetHeight()/2
 		LINEH = OVLH/80
 		LINEW = OVLW/80
-						
 	end
 
 	getFont()
