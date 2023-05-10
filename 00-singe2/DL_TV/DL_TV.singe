@@ -1,0 +1,43 @@
+--[[
+
+PROGRAM NAME:	Dragon's Lair TV show Singe 2.0
+VERSION:		1.2
+AUTHOR:			POIU (2020)
+
+This file is part of Dragon's lair tv show singe 2.0
+
+	Dragon's lair tv show singe 2.0 is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation.
+
+	Dragon's lair tv show singe 2.0 is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+	Thanks to Scott Duensing (author of Singe)
+
+]]--
+
+-- Hypseus Game Setup --
+
+-- Do Not Remove/Alter these --
+
+OVERLAY_DEFAULT  = 0
+OVERLAY_FULL     = 1
+OVERLAY_HALF     = 2
+OVERLAY_OVERSIZE = 3
+
+-- Do Not Remove/Alter these --
+
+
+BASEDIR = "singe"                         -- This should be 'singe'
+
+BASEOVERLAY = OVERLAY_FULL                -- Set the default Overlay
+
+MYDIR = BASEDIR .."/".. "DL_TV"         -- This is the directory where your game is
+
+MovieFPS = 23.976 -- Number of frames per second of your movies (used for timed actions).
+
+-- End Hypseus Game Setup --
+
+dofile(MYDIR .. "/Script/main.singe")
