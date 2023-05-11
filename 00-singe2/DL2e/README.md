@@ -2,7 +2,7 @@
   
 ## Dragon's Lair II: Timewarp Enhanced
 
-Ensure you are running `v2.10.41` or higher.
+Ensure you are running `v2.10.4` or higher.
 
 The Dragon's Lair Scoreboard bezel is enabled by default on this game.
 
