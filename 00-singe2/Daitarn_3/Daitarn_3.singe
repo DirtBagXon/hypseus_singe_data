@@ -1,0 +1,2010 @@
+--[[
+
+PROGRAM NAME:	L'imbattibile Daitern 3 singe edition
+VERSION:		1.2
+AUTHOR:			POIU (2020)
+
+This file is part of L'imbattibile Daitern 3 singe edition
+
+	L'imbattibile Daitern 3 singe edition is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation.
+
+	L'imbattibile Daitern 3 singe edition is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+	Thanks to Scott Duensing (author of Singe)
+
+]]--
+
+-- Hypseus Game Setup --
+
+BASEDIR = "singe"                                 -- This should be 'singe'
+
+MovieFPS = 25					  -- FPS of Video source
+
+MYDIR = BASEDIR .."/".. "Daitarn_3"               -- This is the directory where your game is
+
+-- End Hypseus Game Setup --
+
+dofile(BASEDIR .. "/Framework/framework.singe")   -- Don't touch this line
+dofile(MYDIR .. "/Script/globals.singe")				
+dofile(MYDIR .. "/Script/main.singe")
+dofile(MYDIR .. "/Script/map.singe")
+dofile(MYDIR .. "/Script/hscore.singe")
+dofile(MYDIR .. "/Script/service.singe")
+dofile(MYDIR .. "/Script/toolbox.singe")
+
+setOverlayResolution(vldpGetWidth(), vldpGetHeight())
+
+SCOREMOVE = 700									
+BUFFMOVE = 300									
+SCORESCENE = 10000								
+DEATHPENALTY = 1000								
+SCORELEVEL = 50000								
+SCOREGAME = 250000								
+SCORESECRET = 1		
+
+bShowTitle = false	
+ShowLCD = true 								
+ShowLevel = true								
+ShowTop = false  								
+ScorePos = "BOTTOM"								
+LivPos = "BOTTOM"								
+CoinPos = "BOTTOM"	
+
+mycolor1 = RED
+mycolor2 = WHITE	
+mycolor3 = YELLOW							
+mycolor4 = YELLOW
+
+finalstage = 7 
+
+PlayOrder = {1,2,3,4,5,6,7}						
+
+bAllowSecret = false  				
+
+bAllowMap = true 								
+MapStart = 0									
+
+bAllowRandom = false							
+
+bAllowTier = false								
+iNumGroup = 4												
+iGroup1Size = 3									
+iGroup2Size = 3									
+iGroup3Size = 4									
+iGroup4Size = 5									
+Group1 = {3,4,12}								
+Group2 = {1,6,14}								
+Group3 = {10,11,13,15}							
+Group4 = {2,5,7,8,9}	
+
+PenalNorm = 0									
+PenalHard = 2									
+PenalExt  = 4									
+
+ShowResurrect = false 							
+ShowSupDeath = false 							
+
+
+offsetTitle = 0									
+offsetIntro01 = 346
+offsetIntro02 = 138366 
+
+
+offsetTitleend = offsetTitle +345 										
+offsetIntro01end = offsetIntro01 +2385
+offsetIntro02end = offsetIntro02 +255
+
+offsetIntro03 = 0  								
+offsetIntro03end = offsetTitle + 345
+
+offsetLevel01 = 2794
+offsetLevel02 = 10363	
+offsetLevel03 = 19267
+offsetLevel04 = 27208
+offsetLevel05 = 35814
+offsetLevel06 = 41826
+offsetLevel07 = 50197
+
+offsetLevelExt = 0
+
+offsetLevel01Clipend = offsetLevel01 +598	
+offsetLevel02Clipend = offsetLevel02 +1086
+offsetLevel03Clipend = offsetLevel03 +290
+offsetLevel04Clipend = offsetLevel04 +239
+offsetLevel05Clipend = offsetLevel05 +1405
+offsetLevel06Clipend = offsetLevel06 +1662
+offsetLevel07Clipend = offsetLevel07 +1876
+offsetLevelExtClipend = offsetLevelExt +1
+
+offsetMenus = 64084													
+											
+frameOptions = offsetMenus +1
+frameSave = offsetMenus +25
+frameRankings =offsetMenus +40					
+frameCommands = offsetMenus +60					
+frameVictory = offsetMenus +75					
+frameExtendedPlay = offsetMenus +90
+
+offsetContinue = offsetMenus +101			
+offsetContinueend = offsetMenus +405
+
+offsetGameOver = offsetMenus +420				
+offsetGameOverend = offsetMenus +547
+
+offsetGameOverAlt = offsetMenus +565	
+offsetGameOverAltend = offsetMenus +953	
+
+offsetNewHScore = offsetMenus +972			
+offsetNewHScoreend = offsetMenus +1103		
+
+offsetEnterHScore = offsetMenus +1104			
+offsetEnterHScoreend = offsetMenus +1641
+
+offsetOKHScore = offsetMenus +1642	
+offsetOKHScoreend = offsetMenus +1741
+
+offsetClear = offsetMenus +1762			
+offsetClearend = offsetMenus +1889
+
+offsetMap = offsetMenus +1910
+offsetMapend = offsetMenus +2100
+
+offsetResurrect = offsetMenus +0				
+offsetResurrectEnd = offsetMenus +0 			
+
+offsetSupDeath = offsetMenus +0				
+offsetSupDeathEnd = offsetMenus +0			
+
+offsetDeath = 66321			
+
+offsetDeath01 = offsetDeath         --start level01--
+offsetDeath01end = offsetDeath +214
+
+offsetDeath02 = offsetDeath +215					
+offsetDeath02end = offsetDeath +401
+
+offsetDeath03 = offsetDeath +402							
+offsetDeath03end = offsetDeath +650
+
+offsetDeath04 = offsetDeath +651
+offsetDeath04end = offsetDeath +850
+
+offsetDeath05 = offsetDeath +851
+offsetDeath05end = offsetDeath +1036
+
+offsetDeath06 = offsetDeath +1037
+offsetDeath06end = offsetDeath +1229
+
+offsetDeath07 = offsetDeath +1230
+offsetDeath07end = offsetDeath +1415
+
+offsetDeath08 = offsetDeath +1416   
+offsetDeath08end = offsetDeath +1601
+
+offsetDeath09 = offsetDeath +1602   
+offsetDeath09end = offsetDeath +1773
+
+offsetDeath10 = offsetDeath +1774
+offsetDeath10end = offsetDeath +1945
+
+offsetDeath11 = offsetDeath +1946
+offsetDeath11end = offsetDeath +2144
+
+offsetDeath12 = offsetDeath +2145    
+offsetDeath12end = offsetDeath +2343
+
+offsetDeath13 = offsetDeath +2344    
+offsetDeath13end = offsetDeath +2569
+
+offsetDeath14 = offsetDeath +2570
+offsetDeath14end = offsetDeath +2740
+
+offsetDeath15 = offsetDeath +2741
+offsetDeath15end = offsetDeath +2937
+
+offsetDeath16 = offsetDeath +2938   
+offsetDeath16end = offsetDeath +3113
+
+offsetDeath17 = offsetDeath +3114   
+offsetDeath17end = offsetDeath +3377
+
+offsetDeath18 = offsetDeath +3378    
+offsetDeath18end = offsetDeath +3554
+
+offsetDeath19 = offsetDeath +3555    
+offsetDeath19end = offsetDeath +3746
+
+offsetDeath20 = offsetDeath +3747
+offsetDeath20end = offsetDeath +3952
+
+offsetDeath21 = offsetDeath +3953
+offsetDeath21end = offsetDeath +4184
+
+offsetDeath22 = offsetDeath +4185
+offsetDeath22end = offsetDeath +4373
+
+offsetDeath23 = offsetDeath +4374
+offsetDeath23end = offsetDeath +4652
+
+offsetDeath24 = offsetDeath +4653
+offsetDeath24end = offsetDeath +4822
+
+offsetDeath25 = offsetDeath +4823    
+offsetDeath25end = offsetDeath +5020
+
+offsetDeath26 = offsetDeath +5021    
+offsetDeath26end = offsetDeath +5208
+
+offsetDeath27 = offsetDeath +5209
+offsetDeath27end = offsetDeath +5422
+
+offsetDeath28 = offsetDeath +5423   
+offsetDeath28end = offsetDeath +5606
+
+offsetDeath29 = offsetDeath +5607   
+offsetDeath29end = offsetDeath +5785
+
+offsetDeath30 = offsetDeath +5786
+offsetDeath30end = offsetDeath +5971
+
+offsetDeath31 = offsetDeath +5972
+offsetDeath31end = offsetDeath +6154
+
+offsetDeath32 = offsetDeath +6155    
+offsetDeath32end = offsetDeath +6334
+
+offsetDeath33 = offsetDeath +6335  
+offsetDeath33end = offsetDeath +6514
+
+offsetDeath34 = offsetDeath +6515
+offsetDeath34end = offsetDeath +6691
+
+offsetDeath35 = offsetDeath +6692
+offsetDeath35end = offsetDeath +6868
+
+offsetDeath36 = offsetDeath +6869
+offsetDeath36end = offsetDeath +7042
+
+offsetDeath37 = offsetDeath +7043
+offsetDeath37end = offsetDeath +7217
+
+offsetDeath38 = offsetDeath +7218
+offsetDeath38end = offsetDeath +7391
+
+offsetDeath39 = offsetDeath +7392
+offsetDeath39end = offsetDeath +7598
+
+offsetDeath40 = offsetDeath +7599
+offsetDeath40end = offsetDeath +7774
+
+offsetDeath41 = offsetDeath +7775
+offsetDeath41end = offsetDeath +7948
+
+offsetDeath42 = offsetDeath +7949    
+offsetDeath42end = offsetDeath +8119
+
+offsetDeath43 = offsetDeath +8120   
+offsetDeath43end = offsetDeath +8384
+
+offsetDeath44 = offsetDeath +8385
+offsetDeath44end = offsetDeath +8562
+
+offsetDeath45 = offsetDeath +8563
+offsetDeath45end = offsetDeath +8745
+
+offsetDeath46 = offsetDeath +8746
+offsetDeath46end = offsetDeath +8927
+
+offsetDeath47 = offsetDeath +8928
+offsetDeath47end = offsetDeath +9222
+
+offsetDeath48 = offsetDeath +9223
+offsetDeath48end = offsetDeath +9403
+
+offsetDeath49 = offsetDeath +9404
+offsetDeath49end = offsetDeath +9600
+
+offsetDeath50 = offsetDeath +9601    
+offsetDeath50end = offsetDeath +9788
+
+offsetDeath51 = offsetDeath +9789    
+offsetDeath51end = offsetDeath +10012
+
+offsetDeath52 = offsetDeath +10013   
+offsetDeath52end = offsetDeath +10199
+
+offsetDeath53 = offsetDeath +10200   
+offsetDeath53end = offsetDeath +10380
+
+offsetDeath54 = offsetDeath +10381   
+offsetDeath54end = offsetDeath +10627
+
+offsetDeath55 = offsetDeath +10628    --end level01--
+offsetDeath55end = offsetDeath +10815
+
+offsetDeath56= offsetDeath +18816    --level02--
+offsetDeath56end = offsetDeath +11080
+
+offsetDeath57 = offsetDeath +11081
+offsetDeath57end = offsetDeath +11252
+
+offsetDeath58 = offsetDeath +11253
+offsetDeath58end = offsetDeath +11454
+
+offsetDeath59 = offsetDeath +11455
+offsetDeath59end = offsetDeath +11640
+
+offsetDeath60 = offsetDeath +11641
+offsetDeath60end = offsetDeath +11817
+
+offsetDeath61 = offsetDeath +11818
+offsetDeath61end = offsetDeath +12037
+
+offsetDeath62 = offsetDeath +12038
+offsetDeath62end = offsetDeath +12256
+
+offsetDeath63 = offsetDeath +12257
+offsetDeath63end = offsetDeath +12443
+
+offsetDeath64 = offsetDeath +12444   
+offsetDeath64end = offsetDeath +12634
+
+offsetDeath65 = offsetDeath +12635   
+offsetDeath65end = offsetDeath +12850
+
+offsetDeath66 = offsetDeath +12851
+offsetDeath66end = offsetDeath +13029
+
+offsetDeath67 = offsetDeath +13030
+offsetDeath67end = offsetDeath +13215
+
+offsetDeath68 = offsetDeath +13216
+offsetDeath68end = offsetDeath +13387
+
+offsetDeath69 = offsetDeath +13388
+offsetDeath69end = offsetDeath +13587
+
+offsetDeath70 = offsetDeath +13588
+offsetDeath70end = offsetDeath +13768
+
+offsetDeath71 = offsetDeath +13769   
+offsetDeath71end = offsetDeath +13969
+
+offsetDeath72 = offsetDeath +13970   
+offsetDeath72end = offsetDeath +14191
+
+offsetDeath73 = offsetDeath +14192
+offsetDeath73end = offsetDeath +14364
+
+offsetDeath74 = offsetDeath +14365
+offsetDeath74end = offsetDeath +14544
+
+offsetDeath75 = offsetDeath +14545   
+offsetDeath75end = offsetDeath +14736
+
+offsetDeath76 = offsetDeath +14737   
+offsetDeath76end = offsetDeath +14975
+
+offsetDeath77 = offsetDeath +14976   
+offsetDeath77end = offsetDeath +15162
+
+offsetDeath78 = offsetDeath +15163   
+offsetDeath78end = offsetDeath +15341
+
+offsetDeath79 = offsetDeath +15342
+offsetDeath79end = offsetDeath +15593
+
+offsetDeath80 = offsetDeath +15594
+offsetDeath80end = offsetDeath +15801
+
+offsetDeath81 = offsetDeath +15802   
+offsetDeath81end = offsetDeath +16050
+
+offsetDeath82 = offsetDeath +16051   
+offsetDeath82end = offsetDeath +16296
+
+offsetDeath83 = offsetDeath +16297   
+offsetDeath83end = offsetDeath +16496
+
+offsetDeath84 = offsetDeath +16497   
+offsetDeath84end = offsetDeath +16716
+
+offsetDeath85 = offsetDeath +16717
+offsetDeath85end = offsetDeath +16919
+
+offsetDeath86 = offsetDeath +16920
+offsetDeath86end = offsetDeath +17110
+
+offsetDeath87 = offsetDeath +17111
+offsetDeath87end = offsetDeath +17321
+
+offsetDeath88 = offsetDeath +17322
+offsetDeath88end = offsetDeath +17509
+
+offsetDeath89 = offsetDeath +17510   
+offsetDeath89end = offsetDeath +17697
+
+offsetDeath90 = offsetDeath +17698   
+offsetDeath90end = offsetDeath +17888
+
+offsetDeath91 = offsetDeath +17889
+offsetDeath91end = offsetDeath +18124
+
+offsetDeath92 = offsetDeath +18125   
+offsetDeath92end = offsetDeath +18335
+
+offsetDeath93 = offsetDeath +18336   
+offsetDeath93end = offsetDeath +18610
+
+offsetDeath94 = offsetDeath +18611
+offsetDeath94end = offsetDeath +18800
+
+offsetDeath95 = offsetDeath +18801
+offsetDeath95end = offsetDeath +18989
+
+offsetDeath96 = offsetDeath +18990   
+offsetDeath96end = offsetDeath +19178
+
+offsetDeath97 = offsetDeath +19179   
+offsetDeath97end = offsetDeath +19383
+
+offsetDeath98 = offsetDeath +19384
+offsetDeath98end = offsetDeath +19578
+
+offsetDeath99 = offsetDeath +19579
+offsetDeath99end = offsetDeath +19769
+
+offsetDeath100 = offsetDeath +19770
+offsetDeath100end = offsetDeath +20044
+
+offsetDeath101 = offsetDeath +20045   
+offsetDeath101end = offsetDeath +20226
+
+offsetDeath102 = offsetDeath +20227   
+offsetDeath102end = offsetDeath +20457
+
+offsetDeath103 = offsetDeath +20458
+offsetDeath103end = offsetDeath +20653
+
+offsetDeath104 = offsetDeath +20654
+offsetDeath104end = offsetDeath +20851
+
+offsetDeath105 = offsetDeath +20852
+offsetDeath105end = offsetDeath +21036
+
+offsetDeath106 = offsetDeath +21037   
+offsetDeath106end = offsetDeath +21234
+
+offsetDeath107 = offsetDeath +21235   
+offsetDeath107end = offsetDeath +21426
+
+offsetDeath108 = offsetDeath +21427   
+offsetDeath108end = offsetDeath +21642
+
+offsetDeath109 = offsetDeath +21643   
+offsetDeath109end = offsetDeath +22017
+
+offsetDeath110 = offsetDeath +22018
+offsetDeath110end = offsetDeath +22206
+
+offsetDeath111 = offsetDeath +22207
+offsetDeath111end = offsetDeath +22414
+
+offsetDeath112 = offsetDeath +22415   --end level02--
+offsetDeath112end = offsetDeath +22603
+
+offsetDeath113 = offsetDeath +22604   --level03--
+offsetDeath113end = offsetDeath +22819
+
+offsetDeath114 = offsetDeath +22820
+offsetDeath114end = offsetDeath +22993
+
+offsetDeath115 = offsetDeath +22994
+offsetDeath115end = offsetDeath +23209
+
+offsetDeath116 = offsetDeath +23210   
+offsetDeath116end = offsetDeath +23405
+
+offsetDeath117 = offsetDeath +23406   
+offsetDeath117end = offsetDeath +23593
+
+offsetDeath118 = offsetDeath +23594
+offsetDeath118end = offsetDeath +23775
+
+offsetDeath119 = offsetDeath +23776
+offsetDeath119end = offsetDeath +23947
+
+offsetDeath120 = offsetDeath +23948
+offsetDeath120end = offsetDeath +24132
+
+offsetDeath121 = offsetDeath +24133   
+offsetDeath121end = offsetDeath +24328
+
+offsetDeath122 = offsetDeath +24329   
+offsetDeath122end = offsetDeath +24514
+
+offsetDeath123 = offsetDeath +24515
+offsetDeath123end = offsetDeath +24748
+
+offsetDeath124 = offsetDeath +24749
+offsetDeath124end = offsetDeath +24927
+
+offsetDeath125 = offsetDeath +24928   
+offsetDeath125end = offsetDeath +25214
+
+offsetDeath126 = offsetDeath +25215   
+offsetDeath126end = offsetDeath +25561
+
+offsetDeath127 = offsetDeath +25562   
+offsetDeath127end = offsetDeath +25790
+
+offsetDeath128 = offsetDeath +25791  
+offsetDeath128end = offsetDeath +25974
+
+offsetDeath129 = offsetDeath +25975
+offsetDeath129end = offsetDeath +26221
+
+offsetDeath130 = offsetDeath +26222
+offsetDeath130end = offsetDeath +26416
+
+offsetDeath131 = offsetDeath +26417
+offsetDeath131end = offsetDeath +26598
+
+offsetDeath132 = offsetDeath +26599
+offsetDeath132end = offsetDeath +26776
+
+offsetDeath133 = offsetDeath +26777   
+offsetDeath133end = offsetDeath +26987
+
+offsetDeath134 = offsetDeath +26988  
+offsetDeath134end = offsetDeath +27160
+
+offsetDeath135 = offsetDeath +27161
+offsetDeath135end = offsetDeath +27345
+
+offsetDeath136 = offsetDeath +27346
+offsetDeath136end = offsetDeath +27549
+
+offsetDeath137 = offsetDeath +27550
+offsetDeath137end = offsetDeath +27808
+
+offsetDeath138 = offsetDeath +27809   
+offsetDeath138end = offsetDeath +27988
+
+offsetDeath139 = offsetDeath +27989   
+offsetDeath139end = offsetDeath +28171
+
+offsetDeath140 = offsetDeath +28172  
+offsetDeath140end = offsetDeath +28359
+
+offsetDeath141 = offsetDeath +28360
+offsetDeath141end = offsetDeath +28580
+
+offsetDeath142 = offsetDeath +28581
+offsetDeath142end = offsetDeath +28787
+
+offsetDeath143 = offsetDeath +28788
+offsetDeath143end = offsetDeath +28986
+
+offsetDeath144 = offsetDeath +28987
+offsetDeath144end = offsetDeath +29226
+
+offsetDeath145 = offsetDeath +29227
+offsetDeath145end = offsetDeath +29416
+
+offsetDeath146 = offsetDeath +29417   
+offsetDeath146end = offsetDeath +29601
+
+offsetDeath147 = offsetDeath +29602   
+offsetDeath147end = offsetDeath +29786
+
+offsetDeath148 = offsetDeath +29787
+offsetDeath148end = offsetDeath +29977
+
+offsetDeath149 = offsetDeath +29978
+offsetDeath149end = offsetDeath +30198
+
+offsetDeath150 = offsetDeath +30199   
+offsetDeath150end = offsetDeath +30424
+
+offsetDeath151 = offsetDeath +30425   
+offsetDeath151end = offsetDeath +30623
+
+offsetDeath152 = offsetDeath +30624   
+offsetDeath152end = offsetDeath +30813
+
+offsetDeath153 = offsetDeath +30814
+offsetDeath153end = offsetDeath +31036
+
+offsetDeath154 = offsetDeath +31037
+offsetDeath154end = offsetDeath +31280
+
+offsetDeath155 = offsetDeath +31281
+offsetDeath155end = offsetDeath +31580
+
+offsetDeath156 = offsetDeath +31581
+offsetDeath156end = offsetDeath +31776
+
+offsetDeath157 = offsetDeath +31777
+offsetDeath157end = offsetDeath +31987
+
+offsetDeath158 = offsetDeath +31988  
+offsetDeath158end = offsetDeath +32171
+
+offsetDeath159 = offsetDeath +32172   
+offsetDeath159end = offsetDeath +32358
+
+offsetDeath160 = offsetDeath +32359   
+offsetDeath160end = offsetDeath +32560
+
+offsetDeath161 = offsetDeath +32561
+offsetDeath161end = offsetDeath +32750
+
+offsetDeath162 = offsetDeath +32751
+offsetDeath162end = offsetDeath +32950
+
+offsetDeath163 = offsetDeath +32951   --end level03--
+offsetDeath163end = offsetDeath +33124
+
+offsetDeath164 = offsetDeath +33125   --start level04--
+offsetDeath164end = offsetDeath +33347
+
+offsetDeath165 = offsetDeath +33348
+offsetDeath165end = offsetDeath +33539
+
+offsetDeath166 = offsetDeath +33540
+offsetDeath166end = offsetDeath +33731
+
+offsetDeath167 = offsetDeath +33732   
+offsetDeath167end = offsetDeath +33905
+
+offsetDeath168 = offsetDeath +33906   
+offsetDeath168end = offsetDeath +34112
+
+offsetDeath169 = offsetDeath +34113
+offsetDeath169end = offsetDeath +34314
+
+offsetDeath170 = offsetDeath +34315   
+offsetDeath170end = offsetDeath +34500
+
+offsetDeath171 = offsetDeath +34501
+offsetDeath171end = offsetDeath +34683
+
+offsetDeath172 = offsetDeath +34684   
+offsetDeath172end = offsetDeath +34890
+
+offsetDeath173 = offsetDeath +34891  
+offsetDeath173end = offsetDeath +35082
+
+offsetDeath174 = offsetDeath +35083   
+offsetDeath174end = offsetDeath +35257
+
+offsetDeath175 = offsetDeath +35258  
+offsetDeath175end = offsetDeath +35440
+
+offsetDeath176 = offsetDeath +35441
+offsetDeath176end = offsetDeath +35616
+
+offsetDeath177 = offsetDeath +35617
+offsetDeath177end = offsetDeath +35854
+
+offsetDeath178 = offsetDeath +35855   
+offsetDeath178end = offsetDeath +36027
+
+offsetDeath179 = offsetDeath +36028   
+offsetDeath179end = offsetDeath +36211
+
+offsetDeath180 = offsetDeath +36212 
+offsetDeath180end = offsetDeath +36414
+
+offsetDeath181 = offsetDeath +36415   
+offsetDeath181end = offsetDeath +36652
+
+offsetDeath182 = offsetDeath +36653   
+offsetDeath182end = offsetDeath +36962
+
+offsetDeath183 = offsetDeath +36963   
+offsetDeath183end = offsetDeath +37172
+
+offsetDeath184 = offsetDeath +37173
+offsetDeath184end = offsetDeath +37361
+
+offsetDeath185 = offsetDeath +37362
+offsetDeath185end = offsetDeath +37556
+
+offsetDeath186 = offsetDeath +37557
+offsetDeath186end = offsetDeath +37793
+
+offsetDeath187 = offsetDeath +37794
+offsetDeath187end = offsetDeath +37972
+
+offsetDeath188 = offsetDeath +37973   
+offsetDeath188end = offsetDeath +38153
+
+offsetDeath189 = offsetDeath +38154   
+offsetDeath189end = offsetDeath +38336
+
+offsetDeath190 = offsetDeath +38337  
+offsetDeath190end = offsetDeath +38511
+
+offsetDeath191 = offsetDeath +38512
+offsetDeath191end = offsetDeath +38724
+
+offsetDeath192 = offsetDeath +38725
+offsetDeath192end = offsetDeath +38906
+
+offsetDeath193 = offsetDeath +38907
+offsetDeath193end = offsetDeath +39094
+
+offsetDeath194 = offsetDeath +39095  
+offsetDeath194end = offsetDeath +39273
+
+offsetDeath195 = offsetDeath +39274   
+offsetDeath195end = offsetDeath +39461
+
+offsetDeath196 = offsetDeath +39462  
+offsetDeath196end = offsetDeath +39703
+
+offsetDeath197 = offsetDeath +39704   
+offsetDeath197end = offsetDeath +39906
+
+offsetDeath198 = offsetDeath +39907
+offsetDeath198end = offsetDeath +40124
+
+offsetDeath199 = offsetDeath +40125
+offsetDeath199end = offsetDeath +40390
+
+offsetDeath200 = offsetDeath +40391  
+offsetDeath200end = offsetDeath +40642
+
+offsetDeath201 = offsetDeath +40643
+offsetDeath201end = offsetDeath +40816
+
+offsetDeath202 = offsetDeath +40817
+offsetDeath202end = offsetDeath +41032
+
+offsetDeath203 = offsetDeath +41033
+offsetDeath203end = offsetDeath +41204
+
+offsetDeath204 = offsetDeath +41205
+offsetDeath204end = offsetDeath +41392
+
+offsetDeath205 = offsetDeath +41393
+offsetDeath205end = offsetDeath +41568
+
+offsetDeath206 = offsetDeath +41569  
+offsetDeath206end = offsetDeath +41765
+
+offsetDeath207 = offsetDeath +41766   
+offsetDeath207end = offsetDeath +41996
+
+offsetDeath208 = offsetDeath +41997   
+offsetDeath208end = offsetDeath +42196
+
+offsetDeath209 = offsetDeath +42197
+offsetDeath209end = offsetDeath +42432
+
+offsetDeath210 = offsetDeath +42433   
+offsetDeath210end = offsetDeath +42710
+
+offsetDeath211 = offsetDeath +42711  
+offsetDeath211end = offsetDeath +42893
+
+offsetDeath212 = offsetDeath +42894   
+offsetDeath212end = offsetDeath +43117
+
+offsetDeath213 = offsetDeath +43118
+offsetDeath213end = offsetDeath +43298
+
+offsetDeath214 = offsetDeath +43299
+offsetDeath214end = offsetDeath +43516
+
+offsetDeath215 = offsetDeath +43517
+offsetDeath215end = offsetDeath +43697
+
+offsetDeath216 = offsetDeath +43698
+offsetDeath216end = offsetDeath +43890
+
+offsetDeath217 = offsetDeath +43891
+offsetDeath217end = offsetDeath +44067
+
+offsetDeath218 = offsetDeath +44068   --end level04--
+offsetDeath218end = offsetDeath +44257
+
+offsetDeath219 = offsetDeath +44258   --start level05--
+offsetDeath219end = offsetDeath +44440
+
+offsetDeath220 = offsetDeath +44441   
+offsetDeath220end = offsetDeath +44627
+
+offsetDeath221 = offsetDeath +44628   
+offsetDeath221end = offsetDeath +44804
+
+offsetDeath222 = offsetDeath +44805
+offsetDeath222end = offsetDeath +45018
+
+offsetDeath223 = offsetDeath +45019
+offsetDeath223end = offsetDeath +45214
+
+offsetDeath224 = offsetDeath +45215   
+offsetDeath224end = offsetDeath +45403
+
+offsetDeath225 = offsetDeath +45404    
+offsetDeath225end = offsetDeath +45584
+
+offsetDeath226 = offsetDeath +45585
+offsetDeath226end = offsetDeath +45758
+
+offsetDeath227 = offsetDeath +45759  
+offsetDeath227end = offsetDeath +45950
+
+offsetDeath228 = offsetDeath +45951   
+offsetDeath228end = offsetDeath +46163
+
+offsetDeath229 = offsetDeath +46164
+offsetDeath229end = offsetDeath +46362
+
+offsetDeath230 = offsetDeath +46363   
+offsetDeath230end = offsetDeath +46608
+
+offsetDeath231 = offsetDeath +46609   
+offsetDeath231end = offsetDeath +46810
+
+offsetDeath232 = offsetDeath +46811  
+offsetDeath232end = offsetDeath +46987
+
+offsetDeath233 = offsetDeath +46988
+offsetDeath233end = offsetDeath +47210
+
+offsetDeath234 = offsetDeath +47211
+offsetDeath234end = offsetDeath +47385
+
+offsetDeath235 = offsetDeath +47386
+offsetDeath235end = offsetDeath +47568
+
+offsetDeath236 = offsetDeath +47569
+offsetDeath236end = offsetDeath +47761
+
+offsetDeath237 = offsetDeath +47762
+offsetDeath237end = offsetDeath +47964
+
+offsetDeath238 = offsetDeath +47965
+offsetDeath238end = offsetDeath +48179
+
+offsetDeath239 = offsetDeath +48180   
+offsetDeath239end = offsetDeath +48358
+
+offsetDeath240 = offsetDeath +48359   
+offsetDeath240end = offsetDeath +48577
+
+offsetDeath241 = offsetDeath +48578
+offsetDeath241end = offsetDeath +48756
+
+offsetDeath242 = offsetDeath +48757
+offsetDeath242end = offsetDeath +48937
+
+offsetDeath243 = offsetDeath +48938
+offsetDeath243end = offsetDeath +49118
+
+offsetDeath244 = offsetDeath +49119   
+offsetDeath244end = offsetDeath +49321
+
+offsetDeath245 = offsetDeath +49322   
+offsetDeath245end = offsetDeath +49512
+
+offsetDeath246 = offsetDeath +49513   
+offsetDeath246end = offsetDeath +49716
+
+offsetDeath247 = offsetDeath +49717   
+offsetDeath247end = offsetDeath +49911
+
+offsetDeath248 = offsetDeath +49912
+offsetDeath248end = offsetDeath +50151
+
+offsetDeath249 = offsetDeath +50152   --end level05--
+offsetDeath249end = offsetDeath +50332
+
+offsetDeath250 = offsetDeath +50333   --start level06--
+offsetDeath250end = offsetDeath +50673
+
+offsetDeath251 = offsetDeath +50674
+offsetDeath251end = offsetDeath +50847
+
+offsetDeath252 = offsetDeath +50848   
+offsetDeath252end = offsetDeath +51024
+
+offsetDeath253 = offsetDeath +51026   
+offsetDeath253end = offsetDeath +51216
+
+offsetDeath254 = offsetDeath +51217
+offsetDeath254end = offsetDeath +51500
+
+offsetDeath255 = offsetDeath +51501  
+offsetDeath255end = offsetDeath +51680
+
+offsetDeath256 = offsetDeath +51681   
+offsetDeath256end = offsetDeath +51889
+
+offsetDeath257 = offsetDeath +51890   
+offsetDeath257end = offsetDeath +52073
+
+offsetDeath258 = offsetDeath +52074
+offsetDeath258end = offsetDeath +52276
+
+offsetDeath259 = offsetDeath +52277
+offsetDeath259end = offsetDeath +52512
+
+offsetDeath260 = offsetDeath +52513   
+offsetDeath260end = offsetDeath +52710
+
+offsetDeath261 = offsetDeath +52711   
+offsetDeath261end = offsetDeath +52927
+
+offsetDeath262 = offsetDeath +52928  
+offsetDeath262end = offsetDeath +53192
+
+offsetDeath263 = offsetDeath +53193  
+offsetDeath263end = offsetDeath +53400
+
+offsetDeath264 = offsetDeath +53401
+offsetDeath264end = offsetDeath +53690
+
+offsetDeath265 = offsetDeath +53691
+offsetDeath265end = offsetDeath +53882
+
+offsetDeath266 = offsetDeath +53883
+offsetDeath266end = offsetDeath +54071
+
+offsetDeath267 = offsetDeath +54072
+offsetDeath267end = offsetDeath +54262
+
+offsetDeath268 = offsetDeath +54263
+offsetDeath268end = offsetDeath +54504
+
+offsetDeath269 = offsetDeath +54505
+offsetDeath269end = offsetDeath +54700
+
+offsetDeath270 = offsetDeath +54701  
+offsetDeath270end = offsetDeath +54899
+
+offsetDeath271 = offsetDeath +54900  
+offsetDeath271end = offsetDeath +55116
+
+offsetDeath272 = offsetDeath +55117  
+offsetDeath272end = offsetDeath +55305
+
+offsetDeath273 = offsetDeath +55306  
+offsetDeath273end = offsetDeath +55534
+
+offsetDeath274 = offsetDeath +55535
+offsetDeath274end = offsetDeath +55804
+
+offsetDeath275 = offsetDeath +55805
+offsetDeath275end = offsetDeath +56041
+
+offsetDeath276 = offsetDeath +56042   
+offsetDeath276end = offsetDeath +56258
+
+offsetDeath277 = offsetDeath +56259   
+offsetDeath277end = offsetDeath +56439
+
+offsetDeath278 = offsetDeath +56440
+offsetDeath278end = offsetDeath +56620
+
+offsetDeath279 = offsetDeath +56621
+offsetDeath279end = offsetDeath +56803
+
+offsetDeath280 = offsetDeath +56804  
+offsetDeath280end = offsetDeath +57005
+
+offsetDeath281 = offsetDeath +57006   
+offsetDeath281end = offsetDeath +57180
+
+offsetDeath282 = offsetDeath +57181   
+offsetDeath282end = offsetDeath +57413
+
+offsetDeath283 = offsetDeath +57414
+offsetDeath283end = offsetDeath +57691
+
+offsetDeath284 = offsetDeath +57692
+offsetDeath284end = offsetDeath +57868
+
+offsetDeath285 = offsetDeath +57869  
+offsetDeath285end = offsetDeath +58040
+
+offsetDeath286 = offsetDeath +58041   
+offsetDeath286end = offsetDeath +58218
+
+offsetDeath287 = offsetDeath +58219   --end level06--
+offsetDeath287end = offsetDeath +58390
+
+offsetDeath288 = offsetDeath +58391   --start level07--
+offsetDeath288end = offsetDeath +58578
+
+offsetDeath289 = offsetDeath +58579
+offsetDeath289end = offsetDeath +58790
+
+offsetDeath290 = offsetDeath +58791   
+offsetDeath290end = offsetDeath +58993
+
+offsetDeath291 = offsetDeath +58994   
+offsetDeath291end = offsetDeath +59191
+
+offsetDeath292 = offsetDeath +59192   
+offsetDeath292end = offsetDeath +59365
+
+offsetDeath293 = offsetDeath +59366   
+offsetDeath293end = offsetDeath +59602
+
+offsetDeath294 = offsetDeath +59603   
+offsetDeath294end = offsetDeath +59797
+
+offsetDeath295 = offsetDeath +59798   
+offsetDeath295end = offsetDeath +59979
+
+offsetDeath296 = offsetDeath +59980   
+offsetDeath296end = offsetDeath +60165
+
+offsetDeath297 = offsetDeath +60166  
+offsetDeath297end = offsetDeath +60376
+
+offsetDeath298 = offsetDeath +60377   
+offsetDeath298end = offsetDeath +60548
+
+offsetDeath299 = offsetDeath +60549   
+offsetDeath299end = offsetDeath +60745
+
+offsetDeath300 = offsetDeath +60746   
+offsetDeath300end = offsetDeath +60957
+
+offsetDeath301 = offsetDeath +60958
+offsetDeath301end = offsetDeath +61190
+
+offsetDeath302 = offsetDeath +61191  
+offsetDeath302end = offsetDeath +61417
+
+offsetDeath303 = offsetDeath +61418   
+offsetDeath303end = offsetDeath +61606
+
+offsetDeath304 = offsetDeath +61607
+offsetDeath304end = offsetDeath +61792
+
+offsetDeath305 = offsetDeath +61793
+offsetDeath305end = offsetDeath +61976
+
+offsetDeath306 = offsetDeath +61977   
+offsetDeath306end = offsetDeath +62239
+
+offsetDeath307 = offsetDeath +62240   
+offsetDeath307end = offsetDeath +62431
+
+offsetDeath308 = offsetDeath +62432   
+offsetDeath308end = offsetDeath +62624
+
+offsetDeath309 = offsetDeath +62625
+offsetDeath309end = offsetDeath +62811
+
+offsetDeath310 = offsetDeath +62812   
+offsetDeath310end = offsetDeath +63054
+
+offsetDeath311 = offsetDeath +63055   
+offsetDeath311end = offsetDeath +63241
+
+offsetDeath312 = offsetDeath +63242   
+offsetDeath312end = offsetDeath +63439
+
+offsetDeath313 = offsetDeath +63440   
+offsetDeath313end = offsetDeath +63636
+
+offsetDeath314 = offsetDeath +63637
+offsetDeath314end = offsetDeath +63811
+
+offsetDeath315 = offsetDeath +63812
+offsetDeath315end = offsetDeath +64030
+
+offsetDeath316 = offsetDeath +64031
+offsetDeath316end = offsetDeath +64220
+
+offsetDeath317 = offsetDeath +64221   
+offsetDeath317end = offsetDeath +64429
+
+offsetDeath318 = offsetDeath +64430  
+offsetDeath318end = offsetDeath +64638
+
+offsetDeath319 = offsetDeath +64639   
+offsetDeath319end = offsetDeath +64848
+
+offsetDeath320 = offsetDeath +64849   
+offsetDeath320end = offsetDeath +65060
+
+offsetDeath321 = offsetDeath +65061
+offsetDeath321end = offsetDeath +65272
+
+offsetDeath322 = offsetDeath +65273  
+offsetDeath322end = offsetDeath +65467
+
+offsetDeath323 = offsetDeath +65468   
+offsetDeath323end = offsetDeath +65649
+
+offsetDeath324 = offsetDeath +65650
+offsetDeath324end = offsetDeath +65838
+
+offsetDeath325 = offsetDeath +65839
+offsetDeath325end = offsetDeath +66035
+
+offsetDeath326 = offsetDeath +66036  
+offsetDeath326end = offsetDeath +66276
+
+offsetDeath327 = offsetDeath +66277   
+offsetDeath327end = offsetDeath +66468
+
+offsetDeath328 = offsetDeath +66469   
+offsetDeath328end = offsetDeath +66656
+
+offsetDeath329 = offsetDeath +66657
+offsetDeath329end = offsetDeath +66852
+
+offsetDeath330 = offsetDeath +66853   
+offsetDeath330end = offsetDeath +67038
+
+offsetDeath331 = offsetDeath +67039   
+offsetDeath331end = offsetDeath +67239
+
+offsetDeath332 = offsetDeath +67240   
+offsetDeath332end = offsetDeath +67454
+
+offsetDeath333 = offsetDeath +67455   
+offsetDeath333end = offsetDeath +67647
+
+offsetDeath334 = offsetDeath +67648   
+offsetDeath334end = offsetDeath +67829
+
+offsetDeath335 = offsetDeath +67830  
+offsetDeath335end = offsetDeath +68008
+
+offsetDeath336 = offsetDeath +68009
+offsetDeath336end = offsetDeath +68216
+
+offsetDeath337 = offsetDeath +68217
+offsetDeath337end = offsetDeath +68404
+
+offsetDeath338 = offsetDeath +68405
+offsetDeath338end = offsetDeath +68591
+
+offsetDeath339 = offsetDeath +68592
+offsetDeath339end = offsetDeath +68785
+
+offsetDeath340 = offsetDeath +68786   
+offsetDeath340end = offsetDeath +68958
+
+offsetDeath341 = offsetDeath +68959  
+offsetDeath341end = offsetDeath +69142
+
+offsetDeath342 = offsetDeath +69143  
+offsetDeath342end = offsetDeath +69454
+
+offsetDeath343 = offsetDeath +69455   
+offsetDeath343end = offsetDeath +69649
+
+offsetDeath344 = offsetDeath +69650
+offsetDeath344end = offsetDeath +69866
+
+offsetDeath345 = offsetDeath +69867   
+offsetDeath345end = offsetDeath +70055
+
+offsetDeath346 = offsetDeath +70056   
+offsetDeath346end = offsetDeath +70256
+
+offsetDeath347 = offsetDeath +70257
+offsetDeath347end = offsetDeath +70459
+
+offsetDeath348 = offsetDeath +70460
+offsetDeath348end = offsetDeath +70641
+
+offsetDeath349 = offsetDeath +70642
+offsetDeath349end = offsetDeath +70815
+
+offsetDeath350 = offsetDeath +70816   
+offsetDeath350end = offsetDeath +71007
+
+offsetDeath351 = offsetDeath +71008
+offsetDeath351end = offsetDeath +71181
+
+offsetDeath352 = offsetDeath +71182   
+offsetDeath352end = offsetDeath +71387
+
+offsetDeath353 = offsetDeath +71388 
+offsetDeath353end = offsetDeath +71586
+
+offsetDeath354 = offsetDeath +71587
+offsetDeath354end = offsetDeath +71841
+
+offsetDeath355 = offsetDeath +71842   --end game--
+offsetDeath355end = offsetDeath +72045
+
+TotalScenesLevel01 = 10	
+Lvl01mirror = 0														
+Death01mirror = 0											
+
+TotalScenesLevel01 = 7	
+Lvl01mirror = 0														
+Death01mirror = 0											
+
+function setupLevel01(thisSegment)								
+																	
+	if thisSegment == SEGMENT01 then 								
+
+		segmentStart = offsetLevel01Clipend + 0						
+		segmentEnd   = offsetLevel01 + 1837							
+		totalMoves   = 12											
+		
+		move = nil; move = {}																			
+		move[1] = {}; move[1] = {733, 748, ACTUP, 1, 0, 0}		    
+		move[2] = {}; move[2] = {799, 814, ACTRIGHT, 2, 0}
+		move[3] = {}; move[3] = {1050, 1065, RIGHT, 3, 0, 0}			
+		move[4] = {}; move[4] = {1156, 1171, UP, 4, 0, 0}		   
+		move[5] = {}; move[5] = {1218, 1233, BUTTON1, 5, 0, 0}	
+		move[6] = {}; move[6] = {1303, 1318, UP, 6, 0, 0}
+		move[7] = {}; move[7] = {1367, 1382, ACTRIGHT, 7, 0, 0}
+		move[8] = {}; move[8] = {1430, 1445, LEFT, 8, 0, 0}		
+		move[9] = {}; move[9] = {1450, 1465, LEFT, 9, 0, 0}
+		move[10] = {}; move[10] = {1470, 1485, BUTTON1, 10, 0, 0}
+		move[11] = {}; move[11] = {1572, 1587, DOWN, 11, 0, 0}
+		move[12] = {}; move[12] = {1674, 1689, ACTRIGHT, 12, 0, 0}
+		
+	elseif thisSegment == SEGMENT02 then 						
+
+		segmentStart = offsetLevel01 + 1838							
+		segmentEnd   = offsetLevel01 + 2510
+		totalMoves   = 6
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {2007, 2022, RIGHT, 13, 0, 0}
+		move[2] = {}; move[2] = {2025, 2040, ACTUP, 14, 0, 0}			
+		move[3] = {}; move[3] = {2120, 2135, LEFT, 15, 0, 0}
+		move[4] = {}; move[4] = {2154, 2169, LEFT, 16, 0, 0}
+		move[5] = {}; move[5] = {2430, 2465, MASH, 17, 0, 0}
+		move[6] = {}; move[6] = {2485, 2500, RIGHT, 18, 0, 0}
+		
+	elseif thisSegment == SEGMENT03 then  							
+	
+		segmentStart = offsetLevel01 + 2511
+		segmentEnd   = offsetLevel01 + 4186
+		totalMoves   = 7
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {2578, 2593, DOWN, 19, 0, 0}
+		move[2] = {}; move[2] = {2700, 2715, RIGHT, 20, 0, 0}
+		move[3] = {}; move[3] = {2902, 2917, LEFT, 21, 0, 0}
+		move[4] = {}; move[4] = {2973, 2988, ACTDOWN, 22, 0, 0}
+		move[5] = {}; move[5] = {3317, 3330, LEFT, 23, 0, 0}
+		move[6] = {}; move[6] = {3334, 3346, RIGHT, 24, 0, 0}
+		move[7] = {}; move[7] = {3430, 3445, ACTLEFT, 25, 0, 0}
+		
+	elseif thisSegment == SEGMENT04 then  							
+	
+		segmentStart = offsetLevel01 + 4187
+		segmentEnd   = offsetLevel01 + 4957
+		totalMoves   = 8
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {4188, 4362, SKIP, 1, 0, 0}		    
+		move[2] = {}; move[2] = {4418, 4431, LEFT, 26, 0}
+		move[3] = {}; move[3] = {4563, 4578, UP, 27, 0, 0}			
+		move[4] = {}; move[4] = {4619, 4634, UP, 28, 0, 0}		   
+		move[5] = {}; move[5] = {4662, 4677, ACTRIGHT, 29, 0, 0}	
+		move[6] = {}; move[6] = {4725, 4740, DOWN, 30, 0, 0}
+		move[7] = {}; move[7] = {4779, 4794, BUTTON1, 31, 0, 0}
+		move[8] = {}; move[8] = {4825, 4840, ACTRIGHT, 32, 0, 0}		
+		
+	elseif thisSegment == SEGMENT05 then  							
+	
+		segmentStart = offsetLevel01 + 4958
+		segmentEnd   = offsetLevel01 + 5675
+		totalMoves   = 10
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {4989, 5004, RIGHT, 33, 0, 0}		    
+		move[2] = {}; move[2] = {5025, 5040, RIGHT, 34, 0}
+		move[3] = {}; move[3] = {5060, 5075, LEFT, 35, 0, 0}			
+		move[4] = {}; move[4] = {5086, 5101, RIGHT, 36, 0, 0}		   
+		move[5] = {}; move[5] = {5117, 5132, LEFT, 37, 0, 0}	
+		move[6] = {}; move[6] = {5144, 5159, UP, 38, 0, 0}
+		move[7] = {}; move[7] = {5269, 5284, RIGHT, 39, 0, 0}		    
+		move[8] = {}; move[8] = {5303, 5318, RIGHT, 40, 0}
+		move[9] = {}; move[9] = {5330, 5345, RIGHT, 41, 0, 0}			
+		move[10] = {}; move[10] = {5349, 5364, BUTTON1, 42, 0, 0}	
+		
+	elseif thisSegment == SEGMENT06 then  							
+	
+		segmentStart = offsetLevel01 + 5676
+		segmentEnd   = offsetLevel01 + 6809
+		totalMoves   = 8
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {5963, 5978, DOWN, 43, 0, 0}		    
+		move[2] = {}; move[2] = {6001, 6016, LEFT, 44, 0}
+		move[3] = {}; move[3] = {6055, 6070, LEFT, 45, 0, 0}			
+		move[4] = {}; move[4] = {6105, 6120, DOWN, 46, 0, 0}		   
+		move[5] = {}; move[5] = {6496, 6511, DOWN, 47, 0, 0}	
+		move[6] = {}; move[6] = {6544, 6559, RIGHT, 48, 0, 0}
+		move[7] = {}; move[7] = {6639, 6654, DOWN, 49, 0, 0}
+		move[8] = {}; move[8] = {6707, 6722, UP, 50, 0, 0}	
+
+    elseif thisSegment == SEGMENT07 then  							
+	
+		segmentStart = offsetLevel01 + 6810
+		segmentEnd   = offsetLevel01 + 7494
+		totalMoves   = 5
+
+        move = nil; move = {}												   
+		move[1] = {}; move[1] = {6972, 6987, RIGHT, 51, 0, 0}		    
+		move[2] = {}; move[2] = {7037, 7052, DOWN, 52, 0}
+		move[3] = {}; move[3] = {7085, 7100, UP, 53, 0, 0}			
+		move[4] = {}; move[4] = {7335, 7350, BUTTON1, 54, 0, 0}		   
+		move[5] = {}; move[5] = {7402, 7417, LEFT, 55, 0, 0}		
+				
+	end
+	
+end
+
+TotalScenesLevel02 = 5	
+Lvl02mirror = 0														
+Death02mirror = 0											
+
+function setupLevel02(thisSegment)									
+
+	if thisSegment == SEGMENT01 then   										
+
+		segmentStart = offsetLevel02Clipend + 1
+		segmentEnd   = offsetLevel02 + 2158
+		totalMoves   = 9
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {1371, 1386, DOWN, 56, 0, 0}
+		move[2] = {}; move[2] = {1392, 1407, UP, 57, 0, 0}
+		move[3] = {}; move[3] = {1502, 1517, ACTDOWN, 58, 0, 0}
+		move[4] = {}; move[4] = {1566, 1581, BUTTON1, 59, 0, 0}
+		move[5] = {}; move[5] = {1601, 1616, ACTDOWN, 60, 0, 0}
+		move[6] = {}; move[6] = {1767, 1782, DOWN, 61, 0, 0}
+		move[7] = {}; move[7] = {1929, 1944, BUTTON1, 62, 0, 0}
+		move[8] = {}; move[8] = {1994, 2009, LEFT, 63, 0, 0}
+		move[9] = {}; move[9] = {2074, 2088, LEFT, 64, 0, 0}
+					
+	elseif thisSegment == SEGMENT02 then
+	
+		segmentStart = offsetLevel02 + 2159
+		segmentEnd   = offsetLevel02 + 2962
+		totalMoves   = 7
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {2302, 2312, UP, 65, 0, 0}
+		move[2] = {}; move[2] = {2338, 2353, RIGHT, 66, 0, 0}
+		move[3] = {}; move[3] = {2404, 2417, UP, 67, 0, 0}
+		move[4] = {}; move[4] = {2423, 2438, ACTLEFT, 68, 0, 0}
+		move[5] = {}; move[5] = {2528, 2543, UP, 69, 0, 0}
+		move[6] = {}; move[6] = {2576, 2590, ACTLEFT, 70, 0, 0}
+		move[7] = {}; move[7] = {2683, 2698, ACTLEFT, 71, 0, 0}
+		
+	elseif thisSegment == SEGMENT03 then
+	
+		segmentStart = offsetLevel02 + 2963
+		segmentEnd   = offsetLevel02 + 4683
+		totalMoves   = 12
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {3102, 3135, MASH, 72, 0, 0}
+		move[2] = {}; move[2] = {3143, 3158, ACTRIGHT, 73, 0, 0}
+		move[3] = {}; move[3] = {3187, 3202, LEFT, 74, 0, 0}
+		move[4] = {}; move[4] = {3268, 3283, LEFT, 75, 0, 0}
+		move[5] = {}; move[5] = {3489, 3504, BUTTON1, 76, 0, 0}
+		move[6] = {}; move[6] = {3541, 3571, MASH, 77, 0, 0}
+		move[7] = {}; move[7] = {3599, 3614, ACTRIGHT, 78, 0, 0}
+		move[8] = {}; move[8] = {3861, 3875, LEFT, 79, 0, 0}
+		move[9] = {}; move[9] = {3968, 4003, MASH, 80, 0, 0}
+		move[10] = {}; move[10] = {4240, 4255, ACTRIGHT, 81, 0, 0}
+		move[11] = {}; move[11] = {4483, 4498, UP, 82, 0, 0}		    
+		move[12] = {}; move[12] = {4571, 4604, MASH, 83, 0}
+		
+	elseif thisSegment == SEGMENT04 then  							
+	
+		segmentStart = offsetLevel02 + 4684
+		segmentEnd   = offsetLevel02 + 6324
+		totalMoves   = 13
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {4834, 4849, UP, 84, 0, 0}		    
+		move[2] = {}; move[2] = {4931, 4964, MASH, 85, 0}
+		move[3] = {}; move[3] = {5027, 5041, BUTTON1, 86, 0, 0}			
+		move[4] = {}; move[4] = {5164, 5178, UP, 87, 0, 0}		   
+		move[5] = {}; move[5] = {5232, 5246, ACTLEFT, 88, 0, 0}	
+		move[6] = {}; move[6] = {5300, 5315, BUTTON1, 89, 0, 0}
+		move[7] = {}; move[7] = {5379, 5394, BUTTON1, 90, 0, 0}
+		move[8] = {}; move[8] = {5592, 5607, ACTLEFT, 91, 0, 0}		
+		move[9] = {}; move[9] = {5729, 5744, ACTLEFT, 92, 0, 0}
+		move[10] = {}; move[10] = {6059, 6074, LEFT, 93, 0, 0}
+		move[11] = {}; move[11] = {6135, 6150, BUTTON1, 94, 0, 0}		    
+		move[12] = {}; move[12] = {6207, 6222, ACTRIGHT, 95, 0}
+		move[13] = {}; move[13] = {6279, 6294, BUTTON1, 96, 0}
+		
+	elseif thisSegment == SEGMENT05 then  							
+	
+		segmentStart = offsetLevel02 + 6325
+		segmentEnd   = offsetLevel02 + 8840
+		totalMoves   = 16
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {6430, 6445, LEFT, 97, 0, 0}		    
+		move[2] = {}; move[2] = {6520, 6535, ACTRIGHT, 98, 0}
+		move[3] = {}; move[3] = {6597, 6612, ACTLEFT, 99, 0, 0}			
+		move[4] = {}; move[4] = {6927, 6942, BUTTON1, 100, 0, 0}		   
+		move[5] = {}; move[5] = {6978, 6993, BUTTON1, 101, 0, 0}	
+		move[6] = {}; move[6] = {7177, 7191, UP, 102, 0, 0}
+		move[7] = {}; move[7] = {7269, 7284, BUTTON1, 103, 0, 0}
+		move[8] = {}; move[8] = {7368, 7383, UP, 104, 0, 0}		
+		move[9] = {}; move[9] = {7429, 7444, BUTTON1, 105, 0, 0}
+		move[10] = {}; move[10] = {7528, 7543, ACTDOWN, 106, 0, 0}
+		move[11] = {}; move[11] = {7609, 7624, ACTDOWN, 107, 0, 0}		    
+		move[12] = {}; move[12] = {7763, 7777, UP, 108, 0}
+		move[13] = {}; move[13] = {8373, 8406, MASH, 109, 0}
+		move[14] = {}; move[14] = {8463, 8478, ACTLEFT, 110, 0}
+		move[15] = {}; move[15] = {8592, 8607, ACTDOWN, 111, 0}
+		move[16] = {}; move[16] = {8663, 8678, ACTLEFT, 112, 0}
+	
+	end
+	
+end
+
+TotalScenesLevel03 = 7	
+Lvl03mirror = 0														
+Death03mirror = 0											
+
+function setupLevel03(thisSegment)	
+
+	if thisSegment == SEGMENT01 then
+
+		segmentStart = offsetLevel03Clipend + 1
+		segmentEnd   = offsetLevel03 + 1079
+		totalMoves   = 9
+		
+		move = nil; move = {}
+        move[1] = {}; move[1] = {431, 444, RIGHT, 113, 0, 0}
+		move[2] = {}; move[2] = {456, 471, UP, 114, 0, 0}
+		move[3] = {}; move[3] = {609, 624, RIGHT, 115, 0, 0}
+		move[4] = {}; move[4] = {702, 717, BUTTON1, 116, 0, 0}
+		move[5] = {}; move[5] = {772, 785, LEFT, 117, 0, 0}
+		move[6] = {}; move[6] = {820, 835, BUTTON1, 118, 0, 0}
+		move[7] = {}; move[7] = {840, 855, RIGHT, 119, 0, 0}
+		move[8] = {}; move[8] = {900, 915, LEFT, 120, 0, 0}
+		move[9] = {}; move[9] = {993, 1008, BUTTON1, 121, 0, 0}
+			
+	elseif thisSegment == SEGMENT02 then
+	
+		segmentStart = offsetLevel03 + 1080
+		segmentEnd   = offsetLevel03 + 2768
+		totalMoves   = 6
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {1128, 1143, DOWN, 122, 0, 0}
+		move[2] = {}; move[2] = {1336, 1351, BUTTON1, 123, 0, 0}
+		move[3] = {}; move[3] = {1379, 1394, BUTTON1, 124, 0, 0}
+		move[4] = {}; move[4] = {1744, 1759, ACTLEFT, 125, 0, 0}
+		move[5] = {}; move[5] = {2290, 2305, ACTDOWN, 126, 0, 0}
+		move[6] = {}; move[6] = {2483, 2498, BUTTON1, 127, 0, 0}
+		
+	elseif thisSegment == SEGMENT03 then
+	
+		segmentStart = offsetLevel03 + 2769
+		segmentEnd   = offsetLevel03 + 3919
+		totalMoves   = 7
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {2770, 3150, SKIP, 1, 0, 0}
+		move[2] = {}; move[2] = {3192, 3207, BUTTON1, 128, 0, 0}
+		move[3] = {}; move[3] = {3442, 3457, ACTUP, 129, 0, 0}
+		move[4] = {}; move[4] = {3528, 3543, ACTDOWN, 130, 0, 0}
+		move[5] = {}; move[5] = {3580, 3595, BUTTON1, 131, 0, 0}
+		move[6] = {}; move[6] = {3618, 3633, BUTTON1, 132, 0, 0}
+		move[7] = {}; move[7] = {3757, 3772, LEFT, 133, 0, 0}
+		
+	elseif thisSegment == SEGMENT04 then
+	
+		segmentStart = offsetLevel03 + 3920
+		segmentEnd   = offsetLevel03 + 4525
+		totalMoves   = 6
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {3928, 3943, LEFT, 134, 0, 0}
+		move[2] = {}; move[2] = {3989, 4004, RIGHT, 135, 0, 0}
+		move[3] = {}; move[3] = {4105, 4120, LEFT, 136, 0, 0}
+		move[4] = {}; move[4] = {4387, 4402, RIGHT, 137, 0, 0}
+		move[5] = {}; move[5] = {4432, 4447, BUTTON1, 138, 0, 0}
+		move[6] = {}; move[6] = {4487, 4502, RIGHT, 139, 0, 0}
+		
+	elseif thisSegment == SEGMENT05 then
+	
+		segmentStart = offsetLevel03 + 4526
+		segmentEnd   = offsetLevel03 + 5430
+		totalMoves   = 7
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {4579, 4594, DOWN, 140, 0, 0}
+		move[2] = {}; move[2] = {4747, 4762, DOWN, 141, 0, 0}
+		move[3] = {}; move[3] = {4873, 4888, DOWN, 142, 0, 0}
+		move[4] = {}; move[4] = {4976, 4991, LEFT, 143, 0, 0}
+		move[5] = {}; move[5] = {5200, 5215, BUTTON1, 144, 0, 0}
+		move[6] = {}; move[6] = {5275, 5290, ACTUP, 145, 0, 0}
+		move[7] = {}; move[7] = {5336, 5351, UP, 146, 0, 0}
+		
+	elseif thisSegment == SEGMENT06 then
+	
+		segmentStart = offsetLevel03 + 5431
+		segmentEnd   = offsetLevel03 + 6175
+		totalMoves   = 5
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {5477, 5492, LEFT, 147, 0, 0}
+		move[2] = {}; move[2] = {5554, 5569, LEFT, 148, 0, 0}
+		move[3] = {}; move[3] = {5722, 5737, DOWN, 149, 0, 0}
+		move[4] = {}; move[4] = {5905, 5920, LEFT, 150, 0, 0}
+		move[5] = {}; move[5] = {6008, 6023, BUTTON1, 151, 0, 0}
+		
+	elseif thisSegment == SEGMENT07 then
+	
+		segmentStart = offsetLevel03 + 6176
+		segmentEnd   = offsetLevel03 + 7865
+		totalMoves   = 12
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {6237, 6252, DOWN, 152, 0, 0}
+		move[2] = {}; move[2] = {6414, 6429, RIGHT, 153, 0, 0}
+		move[3] = {}; move[3] = {6651, 6666, BUTTON1, 154, 0, 0}
+		move[4] = {}; move[4] = {7057, 7072, DOWN, 155, 0, 0}
+		move[5] = {}; move[5] = {7150, 7165, RIGHT, 156, 0, 0}
+		move[6] = {}; move[6] = {7289, 7304, LEFT, 157, 0, 0}
+		move[7] = {}; move[7] = {7346, 7361, RIGHT, 158, 0, 0}
+		move[8] = {}; move[8] = {7412, 7427, BUTTON1, 159, 0, 0}
+		move[9] = {}; move[9] = {7524, 7539, RIGHT, 160, 0, 0}
+		move[10] = {}; move[10] = {7600, 7615, RIGHT, 161, 0, 0}
+		move[11] = {}; move[11] = {7706, 7721, RIGHT, 162, 0, 0}
+		move[12] = {}; move[12] = {7733, 7748, BUTTON1, 163, 0, 0}
+		
+	end
+	
+end
+
+
+TotalScenesLevel04 = 6	
+Lvl04mirror = 0														
+Death04mirror = 0
+
+function setupLevel04(thisSegment)	
+
+	if thisSegment == SEGMENT01 then
+	
+		segmentStart = offsetLevel04Clipend + 1
+		segmentEnd   = offsetLevel04 + 1254
+		totalMoves   = 9
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {398, 413, RIGHT, 164, 0, 0}
+		move[2] = {}; move[2] = {479, 494, LEFT, 165, 0, 0}
+		move[3] = {}; move[3] = {560, 575, DOWN, 166, 0, 0}
+		move[4] = {}; move[4] = {587, 602, DOWN, 167, 0, 0}
+		move[5] = {}; move[5] = {713, 728, BUTTON1, 168, 0, 0}
+		move[6] = {}; move[6] = {823, 838, LEFT, 169, 0, 0}
+		move[7] = {}; move[7] = {885, 900, UP, 170, 0, 0}
+		move[8] = {}; move[8] = {929, 954, ACTUP, 171, 0, 0}
+		move[9] = {}; move[9] = {1065, 1080, BUTTON1, 172, 0, 0}
+				
+	elseif thisSegment == SEGMENT02 then
+	
+		segmentStart = offsetLevel04 + 1255
+		segmentEnd   = offsetLevel04 + 2231
+		totalMoves   = 7
+		
+		move = nil; move = {}
+		
+		move[1] = {}; move[1] = {1256, 1589, SKIP, 1, 0, 0}
+		move[2] = {}; move[2] = {1655, 1670, UP, 173, 0, 0}
+		move[3] = {}; move[3] = {1685, 1700, UP, 174, 0, 0}
+		move[4] = {}; move[4] = {1738, 1753, RIGHT, 175, 0, 0}
+		move[5] = {}; move[5] = {1772, 1787, RIGHT, 176, 0, 0}
+		move[6] = {}; move[6] = {1992, 2007, LEFT, 177, 0, 0}
+		move[7] = {}; move[7] = {2016, 2031, RIGHT, 178, 0, 0}
+		
+	elseif thisSegment == SEGMENT03 then
+	
+		segmentStart = offsetLevel04 + 2232
+		segmentEnd   = offsetLevel04 + 4164
+		totalMoves   = 16
+		
+		move = nil; move = {}
+		
+		move[1] = {}; move[1] = {2273, 2288, UP, 179, 0, 0}
+		move[2] = {}; move[2] = {2387, 2402, UP, 180, 0, 0}
+		move[3] = {}; move[3] = {2586, 2620, MASH, 181, 0, 0}
+		move[4] = {}; move[4] = {3039, 3054, UP, 182, 0, 0}
+		move[5] = {}; move[5] = {3160, 3190, MASH, 183, 0, 0}
+		move[6] = {}; move[6] = {3246, 3261, ACTLEFT, 184, 0, 0}
+		move[7] = {}; move[7] = {3337, 3352, ACTDOWN, 185, 0, 0}
+		move[8] = {}; move[8] = {3552, 3567, UP, 186, 0, 0}
+		move[9] = {}; move[9] = {3593, 3608, LEFT, 187, 0, 0}
+		move[10] = {}; move[10] = {3640, 3655, LEFT, 188, 0, 0}
+		move[11] = {}; move[11] = {3694, 3709, ACTUP, 189, 0, 0}
+		move[12] = {}; move[12] = {3725, 3740, ACTUP, 190, 0, 0}
+		move[13] = {}; move[13] = {3872, 3887, ACTRIGHT, 191, 0, 0}
+		move[14] = {}; move[14] = {3922, 3937, BUTTON1, 192, 0, 0}
+		move[15] = {}; move[15] = {3990, 4005, RIGHT, 193, 0, 0}	
+		move[16] = {}; move[16] = {4032, 4047, BUTTON1, 194, 0, 0}	
+		
+	elseif thisSegment == SEGMENT04 then
+	
+		segmentStart = offsetLevel04 + 4165
+		segmentEnd   = offsetLevel04 + 5792
+		totalMoves   = 12
+		
+		move = nil; move = {}
+		
+		move[1] = {}; move[1] = {4219, 4234, LEFT, 195, 0, 0}
+		move[2] = {}; move[2] = {4449, 4464, RIGHT, 196, 0, 0}
+		move[3] = {}; move[3] = {4564, 4579, DOWN, 197, 0, 0}
+		move[4] = {}; move[4] = {4722, 4737, ACTDOWN, 198, 0, 0}
+		move[5] = {}; move[5] = {5025, 5040, DOWN, 199, 0, 0}
+		move[6] = {}; move[6] = {5286, 5301, LEFT, 200, 0, 0}
+		move[7] = {}; move[7] = {5312, 5327, DOWN, 201, 0, 0}
+		move[8] = {}; move[8] = {5464, 5479, LEFT, 202, 0, 0}
+		move[9] = {}; move[9] = {5485, 5500, UP, 203, 0, 0}
+		move[10] = {}; move[10] = {5540, 5570, MASH, 204, 0, 0}
+		move[11] = {}; move[11] = {5587, 5602, ACTLEFT, 205, 0, 0}
+		move[12] = {}; move[12] = {5682, 5697, UP, 206, 0, 0}
+		
+	elseif thisSegment == SEGMENT05 then
+	
+		segmentStart = offsetLevel04 + 5793
+		segmentEnd   = offsetLevel04 + 7207
+		totalMoves   = 5
+		
+		move = nil; move = {}
+		
+		move[1] = {}; move[1] = {5976, 5991, ACTUP, 207, 0, 0}
+		move[2] = {}; move[2] = {6080, 6095, DOWN, 208, 0, 0}
+		move[3] = {}; move[3] = {6278, 6308, MASH, 209, 0, 0}
+		move[4] = {}; move[4] = {6631, 6646, ACTDOWN, 210, 0, 0}
+		move[5] = {}; move[5] = {6685, 6700, DOWN, 211, 0, 0}
+		
+	elseif thisSegment == SEGMENT06 then
+	
+		segmentStart = offsetLevel04 + 7208
+		segmentEnd   = offsetLevel04 + 8525
+		totalMoves   = 8
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {7209, 7685, SKIP, 1, 0, 0}
+		move[2] = {}; move[2] = {7846, 7861, UP, 212, 0, 0}
+		move[3] = {}; move[3] = {7894, 7909, ACTUP, 213, 0, 0}
+		move[4] = {}; move[4] = {8054, 8069, LEFT, 214, 0, 0}
+		move[5] = {}; move[5] = {8101, 8116, DOWN, 215, 0, 0}
+		move[6] = {}; move[6] = {8186, 8201, UP, 216, 0, 0}
+		move[7] = {}; move[7] = {8223, 8238, BUTTON1, 217, 0, 0}
+		move[8] = {}; move[8] = {8298, 8313, ACTRIGHT, 218, 0, 0}
+		
+	end
+	
+end
+
+TotalScenesLevel05 = 4	
+Lvl05mirror = 0														
+Death05mirror = 0
+
+function setupLevel05(thisSegment)
+
+	if thisSegment == SEGMENT01 then
+
+		segmentStart = offsetLevel05Clipend + 1
+		segmentEnd   = offsetLevel05 + 2227
+		totalMoves   = 9
+				
+		move = nil; move = {}
+		move[1] = {}; move[1] = {1445, 1460, BUTTON1, 219, 0, 0}
+		move[2] = {}; move[2] = {1501, 1526, UP, 220, 0, 0}
+		move[3] = {}; move[3] = {1547, 1562, LEFT, 221, 0, 0}
+		move[4] = {}; move[4] = {1693, 1708, BUTTON1, 222, 0, 0}
+		move[5] = {}; move[5] = {1785, 1800, ACTLEFT, 223, 0, 0}
+		move[6] = {}; move[6] = {1857, 1872, UP, 224, 0, 0}
+		move[7] = {}; move[7] = {1905, 1920, RIGHT, 225, 0, 0}
+		move[8] = {}; move[8] = {1932, 1947, RIGHT, 226, 0, 0}
+		move[9] = {}; move[9] = {2012, 2027, LEFT, 227, 0, 0}
+		
+	elseif thisSegment == SEGMENT02 then
+	
+		segmentStart = offsetLevel05 + 2228
+		segmentEnd   = offsetLevel05 + 3759
+		totalMoves   = 13
+				
+		move = nil; move = {}
+		
+		move[1] = {}; move[1] = {2229, 2435, SKIP, 1, 0, 0}
+		move[2] = {}; move[2] = {2565, 2580, BUTTON1, 228, 0, 0}
+		move[3] = {}; move[3] = {2668, 2683, BUTTON1, 229, 0, 0}
+		move[4] = {}; move[4] = {2893, 2927, MASH, 230, 0, 0}
+		move[5] = {}; move[5] = {3022, 3037, LEFT, 231, 0, 0}
+		move[6] = {}; move[6] = {3057, 3072, ACTRIGHT, 232, 0, 0}
+		move[7] = {}; move[7] = {3212, 3245, MASH, 233, 0, 0}
+		move[8] = {}; move[8] = {3260, 3275, LEFT, 234, 0, 0}
+		move[9] = {}; move[9] = {3315, 3330, LEFT, 235, 0, 0}
+		move[10] = {}; move[10] = {3400, 3415, LEFT, 236, 0, 0}
+		move[11] = {}; move[11] = {3515, 3530, BUTTON1, 237, 0, 0}
+		move[12] = {}; move[12] = {3645, 3680, MASH, 238, 0, 0}
+		move[13] = {}; move[13] = {3706, 3721, DOWN, 239, 0, 0}
+				
+	elseif thisSegment == SEGMENT03 then
+	
+		segmentStart = offsetLevel05 + 3760
+		segmentEnd   = offsetLevel05 + 4604
+		totalMoves   = 6
+				
+		move = nil; move = {}
+		
+		move[1] = {}; move[1] = {3906, 3921, LEFT, 240, 0, 0}
+		move[2] = {}; move[2] = {3949, 3964, ACTLEFT, 241, 0, 0}
+		move[3] = {}; move[3] = {3997, 4012, DOWN, 242, 0, 0}
+		move[4] = {}; move[4] = {4045, 4060, LEFT, 243, 0, 0}
+		move[5] = {}; move[5] = {4138, 4173, MASH, 244, 0, 0}
+		move[6] = {}; move[6] = {4237, 4252, BUTTON1, 245, 0, 0}
+		
+	elseif thisSegment == SEGMENT04 then
+	
+		segmentStart = offsetLevel05 + 4605
+		segmentEnd   = offsetLevel05 + 5945
+		totalMoves   = 5
+				
+		move = nil; move = {}
+		move[1] = {}; move[1] = {4606, 4833, SKIP, 1, 0, 0}
+		move[2] = {}; move[2] = {4936, 4951, RIGHT, 246, 0, 0}
+		move[3] = {}; move[3] = {5025, 5040, BUTTON1, 247, 0, 0}
+		move[4] = {}; move[4] = {5251, 5265, RIGHT, 248, 0, 0}
+		move[5] = {}; move[5] = {5297, 5312, BUTTON1, 249, 0, 0}
+		
+	end
+	
+end
+
+TotalScenesLevel06 = 5	
+Lvl06mirror = 0														
+Death06mirror = 0
+
+function setupLevel06(thisSegment)
+
+	if thisSegment == SEGMENT01 then
+
+		segmentStart = offsetLevel06Clipend + 1
+		segmentEnd   = offsetLevel06 + 2688
+		totalMoves   = 3
+				
+		move = nil; move = {}
+		move[1] = {}; move[1] = {2174, 2189, UP, 250, 0, 0}
+		move[2] = {}; move[2] = {2200, 2215, LEFT, 251, 0, 0}
+		move[3] = {}; move[3] = {2235, 2250, LEFT, 252, 0, 0}
+		
+	elseif thisSegment == SEGMENT02 then
+
+		segmentStart = offsetLevel06 + 2689
+		segmentEnd   = offsetLevel06 + 4415
+		totalMoves   = 10
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {2752, 2767, ACTRIGHT, 253, 0, 0}
+		move[2] = {}; move[2] = {3109, 3124, ACTRIGHT, 254, 0, 0}
+		move[3] = {}; move[3] = {3154, 3169, LEFT, 255, 0, 0}
+		move[4] = {}; move[4] = {3285, 3300, BUTTON1, 256, 0, 0}
+		move[5] = {}; move[5] = {3343, 3358, LEFT, 257, 0, 0}
+		move[6] = {}; move[6] = {3458, 3473, RIGHT, 258, 0, 0}
+		move[7] = {}; move[7] = {3671, 3686, RIGHT, 259, 0, 0}
+		move[8] = {}; move[8] = {3771, 3786, LEFT, 260, 0, 0}
+		move[9] = {}; move[9] = {3906, 3921, BUTTON1, 261, 0, 0}
+		move[10] = {}; move[10] = {4227, 4242, LEFT, 262, 0, 0}
+		
+	elseif thisSegment == SEGMENT03 then
+
+		segmentStart = offsetLevel06 + 4416
+		segmentEnd   = offsetLevel06 + 5657
+		totalMoves   = 8
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {4530, 4545, ACTRIGHT, 263, 0, 0}
+		move[2] = {}; move[2] = {4905, 4920, DOWN, 264, 0, 0}
+		move[3] = {}; move[3] = {4967, 5000, MASH, 265, 0, 0}
+		move[4] = {}; move[4] = {5057, 5073, BUTTON1, 266, 0, 0}
+		move[5] = {}; move[5] = {5125, 5150, UP, 267, 0, 0}
+		move[6] = {}; move[6] = {5367, 5382, BUTTON1, 268, 0, 0}
+		move[7] = {}; move[7] = {5459, 5474, BUTTON1, 269, 0, 0}
+		move[8] = {}; move[8] = {5561, 5576, BUTTON1, 270, 0, 0}
+		
+	elseif thisSegment == SEGMENT04 then
+
+		segmentStart = offsetLevel06 + 5658
+		segmentEnd   = offsetLevel06 + 7503
+		totalMoves   = 12
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {5660, 5967, SKIP, 1, 0, 0}
+		move[2] = {}; move[2] = {6109, 6124, LEFT, 271, 0, 0}
+		move[3] = {}; move[3] = {6181, 6196, UP, 272, 0, 0}
+		move[4] = {}; move[4] = {6377, 6392, DOWN, 273, 0, 0}
+		move[5] = {}; move[5] = {6693, 6708, LEFT, 274, 0, 0}
+		move[6] = {}; move[6] = {6909, 6924, LEFT, 275, 0, 0}
+		move[7] = {}; move[7] = {7065, 7080, RIGHT, 276, 0, 0}
+		move[8] = {}; move[8] = {7112, 7127, RIGHT, 277, 0, 0}
+		move[9] = {}; move[9] = {7161, 7176, DOWN, 278, 0, 0}
+		move[10] = {}; move[10] = {7215, 7230, LEFT, 279, 0, 0}
+		move[11] = {}; move[11] = {7327, 7342, RIGHT, 280, 0, 0}
+		move[12] = {}; move[12] = {7357, 7372, DOWN, 281, 0, 0}
+		
+	elseif thisSegment == SEGMENT05 then
+
+		segmentStart = offsetLevel06 + 7504
+		segmentEnd   = offsetLevel06 + 8300
+		totalMoves   = 6
+		
+		move = nil; move = {}
+	    move[1] = {}; move[1] = {7694, 7709, ACTLEFT, 282, 0, 0}
+		move[2] = {}; move[2] = {8034, 8049, RIGHT, 283, 0, 0}
+		move[3] = {}; move[3] = {8069, 8084, LEFT, 284, 0, 0}
+		move[4] = {}; move[4] = {8091, 8106, BUTTON1, 285, 0, 0}
+		move[5] = {}; move[5] = {8129, 8144, RIGHT, 286, 0, 0}
+		move[6] = {}; move[6] = {8151, 8166, UP, 287, 0, 0}
+		
+	end
+	
+end
+
+TotalScenesLevel07 = 8	
+Lvl07mirror = 0														
+Death76mirror = 0
+
+function setupLevel07(thisSegment)
+
+	if thisSegment == SEGMENT01 then
+
+		segmentStart = offsetLevel07Clipend + 1
+		segmentEnd   = offsetLevel07 + 2820
+		totalMoves   = 9
+				
+		move = nil; move = {}
+		move[1] = {}; move[1] = {1929, 1944, ACTLEFT, 288, 0, 0}
+		move[2] = {}; move[2] = {2070, 2085, BUTTON1, 289, 0, 0}
+		move[3] = {}; move[3] = {2185, 2200, UP, 290, 0, 0}
+		move[4] = {}; move[4] = {2262, 2300, MASH, 291, 0, 0}
+		move[5] = {}; move[5] = {2313, 2328, LEFT, 292, 0, 0}
+		move[6] = {}; move[6] = {2530, 2545, LEFT, 293, 0, 0}
+		move[7] = {}; move[7] = {2622, 2637, BUTTON1, 294, 0, 0}
+		move[8] = {}; move[8] = {2672, 2687, DOWN, 295, 0, 0}
+		move[9] = {}; move[9] = {2736, 2751, LEFT, 296, 0, 0}
+		
+	elseif thisSegment == SEGMENT02 then
+	
+		segmentStart = offsetLevel07 + 2821
+		segmentEnd   = offsetLevel07 + 4326
+		totalMoves   = 11
+				
+		move = nil; move = {}
+		move[1] = {}; move[1] = {2930, 2960, MASH, 297, 0, 0}
+		move[2] = {}; move[2] = {2965, 2980, BUTTON1, 298, 0, 0}
+		move[3] = {}; move[3] = {3060, 3075, LEFT, 299, 0, 0}
+		move[4] = {}; move[4] = {3200, 3215, UP, 300, 0, 0}
+		move[5] = {}; move[5] = {3404, 3419, ACTLEFT, 301, 0, 0}
+		move[6] = {}; move[6] = {3590, 3605, DOWN, 302, 0, 0}
+		move[7] = {}; move[7] = {3661, 3676, BUTTON1, 303, 0, 0}
+		move[8] = {}; move[8] = {3723, 3738, LEFT, 304, 0, 0}
+		move[9] = {}; move[9] = {3781, 3796, UP, 305, 0, 0}
+		move[10] = {}; move[10] = {4075, 4090, RIGHT, 306, 0, 0}
+		move[11] = {}; move[11] = {4155, 4170, ACTDOWN, 307, 0, 0}
+					
+	elseif thisSegment == SEGMENT03 then
+	
+		segmentStart = offsetLevel07 + 4327
+		segmentEnd   = offsetLevel07 + 5671
+		totalMoves   = 12
+				
+		move = nil; move = {}
+		move[1] = {}; move[1] = {4395, 4410, LEFT, 308, 0, 0}
+		move[2] = {}; move[2] = {4462, 4477, ACTRIGHT, 309, 0, 0}
+		move[3] = {}; move[3] = {4680, 4710, MASH, 310, 0, 0}
+		move[4] = {}; move[4] = {4761, 4776, LEFT, 311, 0, 0}
+		move[5] = {}; move[5] = {4860, 4875, RIGHT, 312, 0, 0}
+		move[6] = {}; move[6] = {4937, 4970, MASH, 313, 0, 0}
+		move[7] = {}; move[7] = {4985, 5000, UP, 314, 0, 0}
+		move[8] = {}; move[8] = {5146, 5161, BUTTON1, 315, 0, 0}
+		move[9] = {}; move[9] = {5220, 5235, LEFT, 316, 0, 0}
+		move[10] = {}; move[10] = {5331, 5366, MASH, 317, 0, 0}
+		move[11] = {}; move[11] = {5484, 5499, DOWN, 318, 0, 0}
+		move[12] = {}; move[12] = {5619, 5634, ACTLEFT, 319, 0, 0}
+	
+	elseif thisSegment == SEGMENT04 then
+	
+		segmentStart = offsetLevel07 + 5672
+		segmentEnd   = offsetLevel07 + 6579
+		totalMoves   = 7
+				
+		move = nil; move = {}
+		move[1] = {}; move[1] = {5798, 5813, RIGHT, 320, 0, 0}
+		move[2] = {}; move[2] = {5940, 5955, BUTTON1, 321, 0, 0}
+		move[3] = {}; move[3] = {6030, 6045, LEFT, 322, 0, 0}
+		move[4] = {}; move[4] = {6082, 6097, LEFT, 323, 0, 0}
+		move[5] = {}; move[5] = {6155, 6170, BUTTON1, 324, 0, 0}
+		move[6] = {}; move[6] = {6252, 6267, UP, 325, 0, 0}
+		move[7] = {}; move[7] = {6480, 6495, BUTTON1, 326, 0, 0}
+		
+	elseif thisSegment == SEGMENT05 then 								
+	
+		segmentStart = offsetLevel07 + 6580
+		segmentEnd   = offsetLevel07 + 7175
+		totalMoves   = 6
+				
+		move = nil; move = {}
+		move[1] = {}; move[1] = {6581, 6708, SKIP, 1, 0, 0}
+		move[2] = {}; move[2] = {6775, 6790, ACTLEFT, 327, 0, 0}
+		move[3] = {}; move[3] = {6845, 6860, ACTUP, 328, 0, 0}
+		move[4] = {}; move[4] = {6937, 6952, ACTRIGHT, 329, 0, 0}
+		move[5] = {}; move[5] = {7000, 7015, BUTTON1, 330, 0, 0}
+		move[6] = {}; move[6] = {7109, 7124, BUTTON1, 331, 0, 0}
+		
+	elseif thisSegment == SEGMENT06 then 								
+	
+		segmentStart = offsetLevel07 + 7176
+		segmentEnd   = offsetLevel07 + 9769
+		totalMoves   = 12
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {7177, 7753, SKIP, 1, 0, 0}	
+		move[2] = {}; move[2] = {7887, 7902, BUTTON1, 332, 0, 0}	
+		move[3] = {}; move[3] = {7999, 8601, SKIP, 2, 0, 0}	
+		move[4] = {}; move[4] = {8669, 8684, BUTTON1, 333, 0, 0}
+		move[5] = {}; move[5] = {8719, 8734, RIGHT, 334, 0, 0}
+		move[6] = {}; move[6] = {8760, 8775, RIGHT, 335, 0, 0}
+		move[7] = {}; move[7] = {8868, 8903, MASH, 336, 0, 0}
+		move[8] = {}; move[8] = {8958, 8973, ACTRIGHT, 337, 0, 0}
+		move[9] = {}; move[9] = {9024, 9039, ACTRIGHT, 338, 0, 0}
+		move[10] = {}; move[10] = {9111, 9126, DOWN, 339, 0, 0}
+		move[11] = {}; move[11] = {9136, 9151, RIGHT, 340, 0, 0}
+		move[12] = {}; move[12] = {9192, 9207, UP, 341, 0, 0}
+		
+	elseif thisSegment == SEGMENT07 then 								
+	
+		segmentStart = offsetLevel07 + 9770
+		segmentEnd   = offsetLevel07 + 11264
+		totalMoves   = 11
+		
+		move = nil; move = {}
+		move[1] = {}; move[1] = {10195, 10210, ACTLEFT, 342, 0, 0}	
+		move[2] = {}; move[2] = {10284, 10299, BUTTON1, 343, 0, 0}	
+		move[3] = {}; move[3] = {10440, 10455, BUTTON1, 344, 0, 0}	
+		move[4] = {}; move[4] = {10511, 10526, ACTLEFT, 345, 0, 0}
+		move[5] = {}; move[5] = {10620, 10635, RIGHT, 346, 0, 0}
+		move[6] = {}; move[6] = {10733, 10748, ACTLEFT, 347, 0, 0}
+		move[7] = {}; move[7] = {10784, 10799, UP, 348, 0, 0}
+		move[8] = {}; move[8] = {10810, 10825, DOWN, 349, 0, 0}
+		move[9] = {}; move[9] = {10892, 10907, LEFT, 350, 0, 0}
+		move[10] = {}; move[10] = {10920, 10935, ACTLEFT, 351, 0, 0}
+		move[11] = {}; move[11] = {11042, 11057, ACTRIGHT, 352, 0, 0}
+		
+	elseif thisSegment == SEGMENT08 then 								
+	
+		segmentStart = offsetLevel07 + 11268
+		segmentEnd   = offsetLevel07 + 13827
+		totalMoves   = 3
+	
+	    move = nil; move = {}
+		move[1] = {}; move[1] = {11340, 11370, MASH, 353, 0, 0}	
+		move[2] = {}; move[2] = {11626, 11641, UP, 354, 0, 0}	
+		move[3] = {}; move[3] = {11744, 11759, BUTTON1, 355, 0, 0}		
+		
+	end
+	
+end
+

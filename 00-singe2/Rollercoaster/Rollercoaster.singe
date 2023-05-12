@@ -1346,7 +1346,7 @@ STATES = {
 -- Startup
 discPause()
 setOverlayResolution(vldpGetWidth() * SCALE, vldpGetHeight() * SCALE)
-keyboardSetMode(1)  -- Whoops!  Forgot to put MODE_FULL in the framework!
+keyboardSetMode(MODE_FULL)
 colorBackground(0, 0, 0)
 fontQuality(FONT_QUALITY_SHADED)
 fontSelect(fntApple12)
