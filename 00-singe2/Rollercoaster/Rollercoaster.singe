@@ -28,6 +28,8 @@ GAME = BASEDIR .."/".. "Rollercoaster"  -- This is the directory where your game
 
 MovieFPS = 29.97    -- Number of frames per second of your movies (used for timed actions).
 
+SCALE = 1.5           -- Allow scaling on JPG Images, "1" is default
+
 -- End Hypseus Game Setup --
 
 
@@ -587,8 +589,8 @@ end
 
 function screenClear()
 	-- Set our screen metrics
-	SCREEN_LINES = 80
-	SCREEN_COLS  = 120
+	SCREEN_LINES = 40 * SCALE
+	SCREEN_COLS  = 60 * SCALE
 	
 	-- Fill it with nothing.
 	for i = 1,SCREEN_LINES,1 do
@@ -1343,7 +1345,7 @@ STATES = {
 
 -- Startup
 discPause()
-setOverlayResolution(vldpGetWidth() * 2, vldpGetHeight() * 2)
+setOverlayResolution(vldpGetWidth() * SCALE, vldpGetHeight() * SCALE)
 keyboardSetMode(1)  -- Whoops!  Forgot to put MODE_FULL in the framework!
 colorBackground(0, 0, 0)
 fontQuality(FONT_QUALITY_SHADED)

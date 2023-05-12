@@ -1,0 +1,317 @@
+--[[
+
+PROGRAM NAME:	LUA SINGE
+VERSION:		1.1
+AUTHOR:			KARIS (2020)
+
+This file is part of LUA SINGE.
+
+	LUA SINGE is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation.
+
+	LUA SINGE is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+	Thanks to Scott Duensing, RDG.
+
+]]--
+
+curx = 0; cury = 0;
+
+function moveCursor(overHere)
+
+	-- This function moves the cursor in the level select screen.
+	-- It determines yellow rectangle movement
+	-- depending on position (given by variable overHere) and levels completed.
+	-- The function does not return any values.
+	
+		if bIgnoreJoy then 
+			
+		if joyDelayDue() then bIgnoreJoy = false end
+		
+	else
+	
+		if (iCurPos == level01) then
+		
+			if (p1RIGHT) then			
+			
+				--p1RIGHT = false
+				
+				    soundPlay(sndcoin)
+				
+					if (levelMap[level02] == false) then
+				
+						iCurPos = level02
+
+					elseif 	(levelMap[level03] == false) then
+				
+						iCurPos = level03
+
+					elseif 	(levelMap[level04] == false) then
+				
+						iCurPos = level04
+							
+										
+					end
+		
+			end	
+			
+		elseif (iCurPos == level02) then 	-- level02
+		
+			if (p1LEFT) then
+			
+			    soundPlay(sndcoin)
+
+				if (levelMap[level01] == false) then
+				
+						iCurPos = level01
+										
+				end
+			
+			elseif (p1RIGHT) then
+				
+				soundPlay(sndcoin)
+				
+				if 	(levelMap[level03] == false) then
+				
+					iCurPos = level03
+
+				elseif 	(levelMap[level04] == false) then
+				
+					iCurPos = level04
+					
+				end
+				
+			end
+		
+		elseif (iCurPos == level03) then 	-- level03
+		
+			if (p1LEFT) then
+			    
+                soundPlay(sndcoin)
+				
+				if (levelMap[level02] == false) then
+				
+					iCurPos = level02
+
+				elseif 	(levelMap[level01] == false) then
+				
+					iCurPos = level01
+										
+				end
+			
+			elseif (p1RIGHT) then
+				
+				soundPlay(sndcoin)
+				
+				if (levelMap[level04] == false) then
+				
+					iCurPos = level04
+					
+									
+				end
+				
+			end
+			
+		elseif (iCurPos == level04) then 	-- level04
+		
+			if (p1LEFT) then
+			    
+				soundPlay(sndcoin)
+				
+				if 	(levelMap[level03] == false) then
+				
+						iCurPos = level03
+
+				elseif 	(levelMap[level02] == false) then
+				
+					iCurPos = level02
+
+				elseif 	(levelMap[level01] == false) then
+				
+					iCurPos = level01				
+									
+				end
+			
+			end
+
+		end
+					
+		if p1UP or p1DOWN or p1LEFT or p1RIGHT or p1BUTTON1 then
+			bIgnoreJoy = true
+			joyDelayON(0.200)
+		end
+		
+		p1UP      = false		
+		p1DOWN    = false		
+		p1LEFT    = false
+		p1RIGHT   = false
+		p1BUTTON1 = false
+		p1BUTTON2 = false
+		
+	end
+
+end
+
+function LevelMapComplete()
+
+	-- Quick function to determine if player has completed all the levels required to play the final boss video clip.
+	-- Returns true if all levels complete, false otherwise.
+	-- Used by doLevelSelect()
+
+	if (levelMap[level01] == true and levelMap[level02] == true and levelMap[level03] == true and levelMap[level04] == true and levelMap[level05] == true and levelMap[level06] == true) then
+		
+		return true
+
+	else
+		
+		return false
+
+	end
+
+end
+
+function setCursor(overHere)
+
+	-- This function determines the x and y coordinates of the yellow rectangle
+	-- in the level select screen.
+	-- This function does not return any values.
+
+	if (overHere == level01) then -- level01
+	
+		curx = 185; cury = 75
+	
+	elseif (overHere == level02) then -- level02
+	
+	    curx = 745; cury = 75
+	
+	elseif (overHere == level03) then -- level03
+	
+		curx = 185; cury = 295
+	
+	elseif (overHere == level04) then -- level04
+	
+		curx = 745; cury = 295
+	
+	elseif (overHere == level05) then -- level05
+	
+		curx = 465; cury = 465
+		
+	end	
+	
+
+end
+
+function doLevelSelect()
+
+	-- Main loop for level select menu screen.
+	-- Here you declare the different level for the map. If you've got more than 6, you need to declare more.
+
+	if (lvlState == lvlSetup) then
+	
+		if (bDebug == true) then debugPrint("Entering doLevelSelect()") end
+		
+		bShowScore = false
+		bShowLives = false
+		bIgnoreJoy = false
+		iSegPointer = 0
+
+		if (LevelMapComplete() == true) then
+				
+				iCurPos = level05
+				lvlState = lvlEnd
+
+		else
+
+			setMenuFrame() 
+			lvlState = branch01
+
+		end
+
+	elseif (lvlState == branch01) then
+				
+		if (currentFrame == iFrameEnd) then 
+			
+			if not levelMap[level01] then
+
+				iCurPos = level01
+
+			elseif not levelMap[level02] then
+				
+				iCurPos = level02
+				
+			elseif not levelMap[level03] then
+				
+				iCurPos = level03						
+				
+			elseif not levelMap[level04] then
+				
+				iCurPos = level04
+				
+			elseif not levelMap[level05] then
+				
+				iCurPos = level05
+				
+				
+			end	
+
+			timerON(10)
+			discPause()
+			lvlState = lvlRunning
+						
+		end		
+		
+	elseif (lvlState == lvlRunning) then
+		
+		if timerDue() or p1BUTTON1 then
+			
+			p1BUTTON1 = false
+			lvlState = lvlEnd
+		
+		else	-- Here we draw the symbols for completed level.	
+			
+			if levelMap[level01] == true then spriteDraw(275, 105, sprite[OKMAP]) end
+			if levelMap[level02] == true then spriteDraw(840, 105, sprite[OKMAP]) end
+			if levelMap[level03] == true then spriteDraw(275, 315, sprite[OKMAP]) end
+			if levelMap[level04] == true then spriteDraw(840, 315, sprite[OKMAP]) end
+			
+		    
+
+			if (p1BUTTON1) then
+
+				soundPlay(sndcredit)
+				
+				p1BUTTON1 = false			
+				lvlState = lvlEnd
+
+			else
+				
+				moveCursor(iCurPos)			
+				setCursor(iCurPos)
+				spriteDraw(curx, cury, sprite[SELMAP])
+				
+			end
+			
+		end
+        
+	
+	elseif (lvlState == lvlEnd) then		
+		
+		lvlState = lvlSetup	
+		currentLevel = levelNormal
+				
+		if (bDebug == true) then debugPrint("iCurPos = "  .. iCurPos) end
+		if (bDebug == true) then debugPrint("Leaving doLevelSelect()") end
+		
+	
+	end
+
+end
+
+function setMenuFrame() -- this function just calls the frames for the map. 
+		
+	setupClip(offsetMap, offsetMapend)
+
+end
