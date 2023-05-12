@@ -1,6 +1,14 @@
 # Hypseus Singe
   
+## 'Framework' Folder
+
+Many Singe 2 games require the existence of the `Framework` folder, alongside the games folders, within the _hypseus_ `singe` sub-folder.
+  
+Ensure you keep this _sub-folder_ folder up-to-date.  
+  
 ## Singe 2 games (Full overlay)
+
+These game folders should be placed within the _hypseus_ `singe` sub-folder.
 
 Only _video/audio_ conversion is required as detailed on main page.
 
