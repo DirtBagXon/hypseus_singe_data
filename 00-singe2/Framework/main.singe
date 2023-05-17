@@ -4949,7 +4949,7 @@ end
 
 function getFont()
 
-	if dip_Res == 0 then
+	if dip_Res == 0 and not dip_MinimalOverlay == 1 then
 
 		fontSizeNew = (fontSize+OVLH/90)
 
@@ -4960,7 +4960,7 @@ function getFont()
 	end	
 
 
-	if dip_Res ~= 0 and dip_MinimalOverlay == 1 then
+	if dip_MinimalOverlay == 1 then
 
 		fontpath = BASEDIR .. "/Framework/Fonts/m39.ttf"
 	else
@@ -4976,21 +4976,21 @@ end
 function getRes()
 
 
-	if dip_Res == 0 then
+	if dip_MinimalOverlay == 1 then
+
+		MIDIRES = "/Overlay/Minimal/"
+		OVLW = SBCOW
+		OVLH = SBCOH
+		setOverlayResolution(OVLW, OVLH)
+		LINEH = OVLH/80
+		LINEW = OVLW/80
+
+	elseif dip_Res == 0 then
 
 		MIDIRES = "/Overlay/"
 		setOverlayResolution(vldpGetWidth(), vldpGetHeight())
 		OVLW = vldpGetWidth()
 		OVLH = vldpGetHeight()
-		LINEH = OVLH/80
-		LINEW = OVLW/80
-
-	elseif dip_MinimalOverlay == 1 then
-
-		MIDIRES = "/Overlay/Lores/"
-		OVLW = 360
-		OVLH = 240
-		setOverlayResolution(OVLW, OVLH)
 		LINEH = OVLH/80
 		LINEW = OVLW/80
 

@@ -27,7 +27,14 @@ dofile(MYDIR   .. "/Script/addons.singe")
 
 lfs = require("lfs")
 
-if (setOverlaySize ~= nil) then
+--Hypseus.singe....
+
+SBCOW = 360
+SBCOH = 240
+
+if (dip_MinimalOverlay == 1) then
+        setOverlayResolution(SBCOW, SBCOH)
+elseif (BASEOVERLAY ~= nil) then
         setOverlaySize(BASEOVERLAY)
 end
 
