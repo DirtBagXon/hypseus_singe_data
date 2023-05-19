@@ -3283,7 +3283,18 @@ function updateOptsP(thisIndex)
 	
 		dip_Res = dip_Res + 1
 
-		if dip_Res > 1 then dip_Res = 0 end
+		if (lfs.attributes(MYDIR .. "/Overlay/Minimal", "mode") == "directory") then
+
+			if dip_Res > 2 then dip_Res = 0 end
+
+			if dip_Res == 2 then
+				dip_ScType  = 1
+				dip_LivType = 1
+			end
+
+		else
+			if dip_Res > 1 then dip_Res = 0 end
+		end
 
 		getRes()
 	
@@ -3432,7 +3443,18 @@ function updateOptsMinP(thisIndex)
 	
 		dip_Res = dip_Res - 1
 
-		if dip_Res < 0 then dip_Res = 1 end
+                if (lfs.attributes(MYDIR .. "/Overlay/Minimal", "mode") == "directory") then
+
+			if dip_Res < 0 then dip_Res = 2 end
+
+			if dip_Res == 2 then
+				dip_ScType = 1
+				dip_LivType = 1
+			end
+
+                else
+			if dip_Res < 0 then dip_Res = 1 end
+                end
 
 		getRes()
 	
@@ -3624,6 +3646,10 @@ function printOptsP()
 			elseif dip_Res == 1 then
 
 				fontPrint(fntx, ypos, "Lo")
+
+			elseif dip_Res == 2 then
+
+				fontPrint(fntx, ypos, "Minimal")
 			
 			end
 

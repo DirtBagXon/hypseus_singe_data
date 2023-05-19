@@ -1561,7 +1561,7 @@ function doIntro()     -- Process attract mode
 
 			end
 
-			elseif (p1BUTTON2 and p1BUTTON3 and p1UP and p1RIGHT and AllowSecret) then
+			elseif (p1BUTTON4 and p1UP and AllowSecret) then
 
 			p1BUTTON2 = false
 			p1BUTTON3 = false
@@ -1617,7 +1617,7 @@ function doIntro()     -- Process attract mode
 							
 			lvlState = branch05
 
-		elseif (p1BUTTON2 and p1BUTTON3 and p1UP and p1RIGHT and AllowSecret) then
+		elseif (p1BUTTON4 and p1UP and AllowSecret) then
 
 			p1BUTTON2 = false
 			p1BUTTON3 = false
@@ -1650,7 +1650,7 @@ function doIntro()     -- Process attract mode
 
 			end
 
-		elseif (p1BUTTON2 and p1BUTTON3 and p1UP and p1RIGHT and AllowSecret) then
+		elseif (p1BUTTON4 and p1UP and AllowSecret) then
 
 			p1BUTTON2 = false
 			p1BUTTON3 = false
@@ -1683,7 +1683,7 @@ function doIntro()     -- Process attract mode
 							
 			lvlState = branch07
 
-		elseif (p1BUTTON2 and p1BUTTON3 and p1UP and p1RIGHT and AllowSecret) then
+		elseif (p1BUTTON4 and p1UP and AllowSecret) then
 
 			p1BUTTON2 = false
 			p1BUTTON3 = false
@@ -1729,7 +1729,7 @@ function doIntro()     -- Process attract mode
 			setupClip(offsetTitle, offsetTitleend)
 			lvlState = branch09
 
-		elseif (p1BUTTON2 and p1BUTTON3 and p1UP and p1RIGHT and AllowSecret) then
+		elseif (p1BUTTON4 and p1UP and AllowSecret) then
 
 			p1BUTTON2 = false
 			p1BUTTON3 = false
@@ -1762,7 +1762,7 @@ function doIntro()     -- Process attract mode
 							
 			lvlState = branch10
 
-		elseif (p1BUTTON2 and p1BUTTON3 and p1UP and p1RIGHT and AllowSecret) then
+		elseif (p1BUTTON4 and p1UP and AllowSecret) then
 
 			p1BUTTON2 = false
 			p1BUTTON3 = false
@@ -4790,6 +4790,9 @@ function drawLives()       -- Draw Lives
 	else
 
 		local k = 0
+		local r = dip_Res
+
+		if dip_Res == 2 then r = 0 end
 
 		if dip_GameType == 1 then
 
@@ -4797,7 +4800,7 @@ function drawLives()       -- Draw Lives
 			
 				for k = 1,iLifeBar do
 
-					spriteDraw(OVLW-(LINEW*(2+dip_Res))-(BARW*(BarSize+1))+((BARW+2)*k),ylivpos,sprite[BARFULL])
+					spriteDraw(OVLW-(LINEW*(2+r))-(BARW*(BarSize+1))+((BARW+2)*k),ylivpos,sprite[BARFULL])
 
 				end
 
@@ -4805,7 +4808,7 @@ function drawLives()       -- Draw Lives
 
 					for k = iLifeBar,BarSize do
 
-						spriteDraw(OVLW-(LINEW*(2+dip_Res))-(BARW*(BarSize+1))+((BARW+2)*k),ylivpos,sprite[BARNONE])
+						spriteDraw(OVLW-(LINEW*(2+r))-(BARW*(BarSize+1))+((BARW+2)*k),ylivpos,sprite[BARNONE])
 
 					end
 
@@ -4875,6 +4878,7 @@ end
 
 
 function drawScore()       -- Draw score
+
 
 	if scoreBezelGetState() then
 
@@ -4960,7 +4964,7 @@ function getFont()
 	end	
 
 
-	if dip_MinimalOverlay == 1 then
+	if dip_MinimalOverlay == 1 or dip_Res == 2 then
 
 		fontpath = BASEDIR .. "/Framework/Fonts/m39.ttf"
 	else
@@ -4976,7 +4980,7 @@ end
 function getRes()
 
 
-	if dip_MinimalOverlay == 1 then
+	if dip_MinimalOverlay == 1 or dip_Res == 2 then
 
 		MIDIRES = "/Overlay/Minimal/"
 		OVLW = SBCOW
@@ -5778,6 +5782,10 @@ function onInputPressed(intWhat)      -- Confirm the pressing of all buttons (wi
 		
 			p1TEST = true
 
+		elseif (intWhat == SWITCH_BUTTON4) then
+
+			p1BUTTON4 = true
+
 		elseif (intWhat == SWITCH_CONSOLE) then
 		
 			p1CONSOLE = true
@@ -6023,6 +6031,10 @@ function onInputReleased(intWhat)      -- Confirm the release of all buttons (wi
 			p1CONSOLE = false
 			lvlState = lvlSetup
 			currentLevel = levelExit	
+
+		elseif (intWhat == SWITCH_BUTTON4) then
+
+			p1BUTTON4 = false
 
 		elseif (intWhat == SWITCH_RESET_CPU) then
 

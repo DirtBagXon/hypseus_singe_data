@@ -20,12 +20,15 @@ The `BASEDIR` and `MYDIR` definitions in each main _.singe_ file can alter folde
 
 ## Singe 2 games (New Style _SBC_ Minimal Overlay)
 
-If the game has sprites to accommodate the Minimal Overlay, in the `Overlay/Minimal` folder, it will normally contain the header line:
+If the game has sprites to accommodate the Minimal Overlay, in the `Overlay/Minimal` folder, an extra option will appear in the _Service Menu_:
 
+_Overlay Resolution_: `Minimal`
 
-    dip_MinimalOverlay = 0
+Enable this option, then `exit` the _Service Menu_.
 
-This will be within the main `<game>.singe` file. Change this value to `1` to enable the Minimal Overlay.
+On SBC's the following header should be enabled to start the game in the correct mode:
+
+    dip_MinimalOverlay = 1 -- Enable the Minimal Overlay on startup (SBC's)
 
 
 **_Note:_** SBC's may also require the video resolution to be downscaled with:
