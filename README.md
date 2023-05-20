@@ -13,13 +13,13 @@ These games are updated frequently, ensure files are up-to-date.
 
 Feel free to submit pull requests for any fixes or improvements.
 
-# Reorganization from version 2.10
+# Reorganization from version 2.10.4
 
 From version **2.10.4**, Hypseus Singe supports full resolution 32bit overlays and overlay switching.
 
 This will allow a recategorization of currently ported games which were created to run on lower  
 powered single-board computer devices, such as the _Raspberry Pi_ and _RK3328_, and used  
-minimalist overlays. These will now be part of the `00-singe2-ports-sbc` folder.
+minimalist overlays. These will now be part of the `00-singe2-ports-sbc` folder. **Note:** This format is now deprecated in favour of the new _Minimal Overlay_ within the `00-singe2` folde games.
 
 A subsection of the above ports were **gun games**, used by communities such as Sinden Gun  
 owners. These also use minimalist overlays, but continue to simulate the 8bit '_American Laser  

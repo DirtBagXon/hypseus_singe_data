@@ -10,3 +10,9 @@ Games may have differences in overlay layout to the original Singe 2 games and m
 
 These games should be playable on small _SBC_ devices with various reduced video resolutions.
 
+## New Style Minimal Overlays
+
+This format has now been deprecated in favour of the new style `Minimal Overlay` within the `00-singe2` folder.
+
+The games that now have updated `Minimal` overlays will be moved to the `00-Legacy` folder here.
+
