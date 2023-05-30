@@ -46,6 +46,10 @@ dofile("singe/crimepatrol/hitmap-cdrom-rookie.singe")
 dofile("singe/crimepatrol/hitmap-cdrom-swat.singe")
 dofile("singe/crimepatrol/hitmap-cdrom-undercover.singe")
 
+if setOverlaySize ~= nil then
+       setOverlaySize(4, 360, 240)
+end
+
 function civillianHit(thisFrame)
 
 	local k = 0
@@ -5451,7 +5455,7 @@ function onOverlayUpdate()
 	
 		spriteDraw(cursorx, cursory, sprCursor)
 	
-		if (bReversePointer) then
+		if (bReversePointer and gunFlash) then
 		  if (iRevFrames == 0) then
 			freezex=revsetx
 			freezey=revsety

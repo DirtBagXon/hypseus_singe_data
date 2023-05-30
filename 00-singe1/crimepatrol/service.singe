@@ -95,6 +95,7 @@ function readConfig()
 			
 			if dip_Crosshair == 5 then
 				bReversePointer = true
+				gunFlash = true
 				
 			else
 			
@@ -408,6 +409,7 @@ function printOpts()
 		elseif (k == 8) then
 	
 			sprCursor = nil
+			gunFlash = false
 			if (dip_Crosshair == 1) then
 	
 				sprCursor  = spriteLoad("singe/crimepatrol/crosshaira.png")
@@ -434,6 +436,7 @@ function printOpts()
 				fontPrint(fntx, 171, "TRIGGER")
 				fontPrint(fntx-7, 179, "ACTIVATED")	
 				cursoroffsetx = 0; cursoroffsety = 0
+				gunFlash = true
 				
 			end
 			

@@ -295,19 +295,19 @@ function printOpts()
 	
 			if (dip_CoinsPerCredit == 1) then
 			
-				spriteDraw(237, 68, spr01)
+				spriteDraw(237, 67, spr01)
 				
 			elseif (dip_CoinsPerCredit == 2) then
 			
-				spriteDraw(237, 68, spr02)
+				spriteDraw(237, 67, spr02)
 				
 			elseif (dip_CoinsPerCredit == 3) then
 			
-				spriteDraw(237, 68, spr03)
+				spriteDraw(237, 67, spr03)
 				
 			elseif (dip_CoinsPerCredit == 4) then
 			
-				spriteDraw(237, 68, spr04)
+				spriteDraw(237, 67, spr04)
 			
 			end
 
@@ -355,15 +355,15 @@ function printOpts()
 	
 			if (dip_Difficulty == DOPT_EASY) then
 			
-				spriteDraw(236, 118, sprEasy)
+				spriteDraw(236, 117, sprEasy)
 			
 			elseif (dip_Difficulty == DOPT_MEDIUM) then
 			
-				spriteDraw(236, 118, sprMed)
+				spriteDraw(236, 117, sprMed)
 			
 			else	
 			
-				spriteDraw(236, 118, sprHard)
+				spriteDraw(236, 117, sprHard)
 			
 			end
 	
@@ -371,20 +371,19 @@ function printOpts()
 		
 			if (dip_ReloadTrigger == DOPT_IMMEDIATE) then
 		
-				spriteDraw(208, 135, sprRel1)
+				spriteDraw(204, 135, sprRel1)
 			
 			elseif (dip_ReloadTrigger == DOPT_ONEMPTY) then
 			
-				spriteDraw(208, 135, sprRel2)
+				spriteDraw(204, 135, sprRel2)
 			
 			elseif (dip_ReloadTrigger == DOPT_LIGHTGUN) then
 			
-				spriteDraw(208, 135, sprRel1)
-				spriteDraw(208, 135, sprRel2)
-				spriteDraw(208, 135, sprRel3)
+				spriteDraw(204, 135, sprRel1)
+				spriteDraw(150, 135, sprRel1)
 				fontSelect(fontDebugBig)
 				colorForeground(0, 255, 0)
-				fontPrint(208, 135, "LIGHTGUN")
+				fontPrint(240, 135, "LIGHTGUN")
 
 			
 			else	

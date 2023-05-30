@@ -44,6 +44,11 @@ dofile("singe/spacepirates/hitbox-cdrom-firepractice.singe")
 dofile("singe/spacepirates/hitbox-cdrom-ship.singe")
 dofile("singe/spacepirates/cdrom-shipbattle.singe")
 
+if setOverlaySize ~= nil then
+	setOverlaySize(4, 360, 240)
+else
+	debugPrint("Upgrade Hypseus Singe to latest version!")
+end
 
 function bandHit(thisBand)
 
@@ -4453,7 +4458,7 @@ end
 
 function drawBullets()
 
-	local gunx = 198
+	local gunx = 201
 	local guny = 209	
 	local k = 0	
 	
@@ -4483,14 +4488,13 @@ function drawBullets()
 				
 			elseif k == 7 then
 				guny = 220
-				gunx = 198
+				gunx = 201
 			else
 				guny = 220
 			end
 			
 			spriteDraw(gunx, guny, sprCharge)
-			if gunx == 223.5 then gunx = gunx + 8
-			else gunx = gunx + 8.5 end
+			gunx = gunx + 8
 		
 		end
 
@@ -4503,14 +4507,13 @@ function drawBullets()
 				
 			elseif k == 7 then
 				guny = 220
-				gunx = 198
+				gunx = 201
 			else
 				guny = 220
 			end
 			
 			spriteDraw(gunx, guny, sprCharge)
-			if gunx == 223.5 then gunx = gunx + 8
-			else gunx = gunx + 8.5 end
+			gunx = gunx + 8
 		
 		end
 	end
@@ -4576,21 +4579,21 @@ function drawLives()
 			spriteDraw(livex, 212, sprLifebarSGreen)
 			spriteDraw(livex, 216, sprLifebarSYellow)
 			spriteDraw(livex, 220, sprLifebarSYellow)
-			spriteDraw(livex-2, 224, sprLifebarSRed)
+			spriteDraw(livex, 224, sprLifebarSRed)
 			
 		elseif iLives == 5 then
 			spriteDraw(livex, 208, sprLifebarSGreen)
 			spriteDraw(livex, 212, sprLifebarSGreen)
 			spriteDraw(livex, 216, sprLifebarSYellow)
 			spriteDraw(livex, 220, sprLifebarSYellow)
-			spriteDraw(livex-2, 224, sprLifebarSRed)
+			spriteDraw(livex, 224, sprLifebarSRed)
 			
 		elseif iLives == 4 then
 			spriteDraw(livex, 208, sprLifebarSEmpty)
 			spriteDraw(livex, 212, sprLifebarSGreen)
 			spriteDraw(livex, 216, sprLifebarSYellow)
 			spriteDraw(livex, 220, sprLifebarSYellow)
-			spriteDraw(livex-2, 224, sprLifebarSRed)
+			spriteDraw(livex, 224, sprLifebarSRed)
 			
 		end
 	
@@ -4636,11 +4639,7 @@ function drawScore()
 	for w=k,5 do
 	
 		j = tonumber(string.sub(s1,w,w))	
-		if w == 5 then
-		    spriteDraw(scrx[w], sy, sprNUM[j])
-		else
-		    spriteDraw(scrx[w]+(-w/20), sy, sprNUM[j])
-		end
+		spriteDraw(scrx[w]+3, sy, sprNUM[j])
 	
 	end
 	

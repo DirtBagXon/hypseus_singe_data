@@ -330,13 +330,13 @@ function drawCredits()
 		
 		if (dip_CoinsPerCredit == DOPT_FREEPLAY) then
 		
-			spriteDraw(crx+10, cry, sprFreePlay)
+			spriteDraw(crx, cry, sprFreePlay)
 		
 		else
 		
 			if (iCredits > 0) then
 				
-				fontPrint(tx+10,ty, string.format('CREDITS: %d',iCredits))
+				fontPrint(tx,ty, string.format('CREDITS: %d',iCredits))
 				
 			end
 			

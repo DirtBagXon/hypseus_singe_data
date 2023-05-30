@@ -31,6 +31,10 @@ dofile("singe/timetraveler/dvd-setuplevel.singe")
 dofile("singe/timetraveler/dvd-shufflelevel.singe")
 dofile("singe/timetraveler/dvd-toolbox.singe")
 
+if setOverlaySize ~= nil then
+	setOverlaySize(4, 360, 240)
+end
+
 function doFillerFrame()
 
 	if bDebug then debugPrint("Entering doFillerFrame()") end

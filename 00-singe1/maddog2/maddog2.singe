@@ -42,6 +42,10 @@ dofile("singe/maddog2/hscore.singe")
 dofile("singe/maddog2/service.singe")
 dofile("singe/maddog2/toolbox.singe")
 
+if setOverlaySize ~= nil then
+	setOverlaySize(4, 360, 240)
+end
+
 function bullseyeHit(thisFrame)
 	
 	local k = 0

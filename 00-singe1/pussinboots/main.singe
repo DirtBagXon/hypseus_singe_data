@@ -1817,8 +1817,8 @@ function initJob()
 	sprArrow[PW6] 		= spriteLoad(MYDIR .. "m6.png")
 	sprArrow[PWFULL] 	= spriteLoad(MYDIR .. "mfull.png")
 	
-	OVLW = 360
-	OVLH = 240
+	OVLW = overlayGetWidth()
+	OVLH = overlayGetHeight()
 	
 	if OVLH == 240 then
 

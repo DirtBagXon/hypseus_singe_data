@@ -293,7 +293,7 @@ function drawBullets()
 		
 		if heartbeat then
 		
-			spriteDraw(32,207,sprReload)
+			spriteDraw(32, 207, sprReload)
 		
 		end	
 	
@@ -303,14 +303,14 @@ function drawBullets()
 		
 		if iBullets > 6 then
 		
-			for k = 7,r do spriteDraw(24 + (6 * (k-7)), 198, sprBullet) end
+			for k = 7,r do spriteDraw(20 + (6 * (k-7)), 198, sprBullet) end
 			posy = 215
 		
 		end
 		
 		for k = 1,r do 
 		
-			if k < 7 then spriteDraw(24 + (6 * (k-1)), posy, sprBullet) end
+			if k < 7 then spriteDraw(20 + (6 * (k-1)), posy, sprBullet) end
 			
 		end
 		
@@ -329,13 +329,13 @@ function drawCredits()
 		
 		if (dip_CoinsPerCredit == DOPT_FREEPLAY) then
 		
-			spriteDraw(crx+10, cry, sprFreePlay)
+			spriteDraw(crx, cry, sprFreePlay)
 		
 		else
 		
 			if (iCredits > 0) then
 				
-				fontPrint(tx+10,ty, string.format('CREDITS: %d',iCredits))
+				fontPrint(tx,ty, string.format('CREDITS: %d',iCredits))
 				
 			end
 			

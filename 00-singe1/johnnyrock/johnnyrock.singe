@@ -60,6 +60,10 @@ dofile("singe/johnnyrock/cdrom-hitbox-warehouse4.singe")
 dofile("singe/johnnyrock/cdrom-hitbox-warehouse5.singe")
 dofile("singe/johnnyrock/cdrom-hitbox-wareintro.singe")
 
+if setOverlaySize ~= nil then
+	setOverlaySize(4, 360, 240)
+end
+
 function civillianHit(thisFrame)
 
 	local k = 0

@@ -327,8 +327,8 @@ function getMiddle(thisPhrase)
 	local x = 0
 	local y = 0
 	
-	x = OVLW * 0.5 - spriteGetWidth(fontToSprite(thisPhrase)) * 0.5
-	y = OVLH * 0.5 - spriteGetHeight(fontToSprite(thisPhrase)) * 0.5
+	x = overlayGetWidth() * 0.5 - spriteGetWidth(fontToSprite(thisPhrase)) * 0.5
+	y = overlayGetHeight() * 0.5 - spriteGetHeight(fontToSprite(thisPhrase)) * 0.5
 	
 	if dip_Debug then
 		
