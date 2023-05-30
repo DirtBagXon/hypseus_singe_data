@@ -1297,7 +1297,7 @@ function drawGet()
 	blinkTimer(0.300)
 	if heartbeat then				
 				
-		spriteDraw((OVLW/2)-SKIPW,OVLH-TEXTH-LINEH,sprite[GETREADY])
+		spriteDraw((OVLW/2)-SKIPW/1.5,OVLH-TEXTH-LINEH,sprite[GETREADY])
 				
 	end
 	
@@ -1405,8 +1405,8 @@ function initJob()
 
 	
 
-	OVLW = 360
-	OVLH = 240
+	OVLW = overlayGetWidth()
+	OVLH = overlayGetHeight()
 	
 	fontGame = font7pt
 	fontLCD = font8pt
@@ -1445,11 +1445,11 @@ function initJob()
 		SELW = spriteGetWidth(sprite[SELMAP])
 		DISKW = spriteGetWidth(sprite[D1])	
 
-		posxBUTTONS = (OVLW/2)-(BUTW/3)	
+		posxBUTTONS = (OVLW/2)-(BUTW/2)
 		posyBUTTONS = (OVLH/2)-(BUTH/2)
 
-		posxUDARROWS = (OVLW/2)-(ARUW/3)
-		posyLRARROWS = (OVLH/2)-(ARLH/3)
+		posxUDARROWS = (OVLW/2)-(ARUW/2)
+		posyLRARROWS = (OVLH/2)-(ARLH/2)
 		startyUARROW = 70 +  LINEH*2
 		startyDARROW = OVLH-ARUH- (70 + LINEH*2)
 		endyUARROW = 10 + LINEH*2
@@ -1488,10 +1488,10 @@ function initJob()
 		SELW = spriteGetWidth(sprite[SELMAP])
 		DISKW = spriteGetWidth(sprite[D1])	
 
-		posxBUTTONS = (OVLW/2)-(BUTW/3)	
+		posxBUTTONS = (OVLW/2)-(BUTW/2)
 		posyBUTTONS = OVLH-BUTH-LINEH
 
-		posxUDARROWS = (OVLW/2)-(BUTW/3)
+		posxUDARROWS = (OVLW/2)-(BUTW/2)
 		posyLRARROWS = OVLH-BUTH-LINEH
 		startyUARROW = 70 +  LINEH*2
 		startyDARROW = OVLH-ARUH- (70 + LINEH*2)
