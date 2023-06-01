@@ -1493,15 +1493,8 @@ function doGameOver()     -- Process game over
 
 		else
 
-			if currentFrame == offsetContinueend then
-
-				iFrameEnd = offsetGameOverend
-
-			else
-
-				setupClip(offsetGameOver, offsetGameOverend)
-
-			end
+			iFrameEnd = offsetGameOverend
+			setupClip(offsetGameOver, offsetGameOverend)
 
 		end	
 
