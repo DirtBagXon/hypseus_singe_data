@@ -3111,7 +3111,7 @@ function doServiceMenuP()
 
 	-- This is the main function for the service graphic screen.
 	
-	local optMaxP = 12
+	local optMaxP = 13
 
 	if (altState2 == lvlSetup) then
 
@@ -3366,8 +3366,19 @@ function updateOptsP(thisIndex)
 			end	
 
 		end	
-	
+
 	elseif (thisIndex == 11) then		
+
+		if bFrameCount then
+
+			bFrameCount = false
+		else
+
+			bFrameCount = true
+
+		end
+
+	elseif (thisIndex == 12) then
 
 		if bInPlayExit then
 
@@ -3380,7 +3391,7 @@ function updateOptsP(thisIndex)
 
 		end
 
-	elseif (thisIndex == 12) then		
+	elseif (thisIndex == 13) then
 
 		altState2 = lvlEnd
 
@@ -3530,6 +3541,17 @@ function updateOptsMinP(thisIndex)
 
 	elseif (thisIndex == 11) then		
 
+		if bFrameCount then
+
+			bFrameCount = false
+		else
+
+			bFrameCount = true
+
+		end
+
+	elseif (thisIndex == 12) then
+
 		if bInPlayExit then
 
 			getRes()
@@ -3541,7 +3563,7 @@ function updateOptsMinP(thisIndex)
 
 		end
 
-	elseif (thisIndex == 12) then		
+	elseif (thisIndex == 13) then
 
 		altState2 = lvlEnd
 
@@ -3570,16 +3592,17 @@ function printOptsP()
 	smenu[8] = "Font Quality"
 	smenu[9] = "Run Action"
 	smenu[10] = "Loop Action"
+	smenu[11] = "Show Frame Number"
 	
 	if bInPlayExit then
 
-		smenu[11] = "Restart"
-		smenu[12] = "BACK TO GAME"
+		smenu[12] = "Restart"
+		smenu[13] = "BACK TO GAME"
 
 	else 
 		
-		smenu[11] = "Default"
-		smenu[12] = "EXIT"	
+		smenu[12] = "Default"
+		smenu[13] = "EXIT"
 
 	end
 	
@@ -3595,7 +3618,7 @@ function printOptsP()
 
 	fontSelect(fontGame)
 	
-	for k=1,12 do
+	for k=1,13 do
 				
 		if k == optSelP then setFontColor(mycolor2) else setFontColor(mycolor1) end		
 					
@@ -3605,13 +3628,13 @@ function printOptsP()
 			spriteDraw(2*OVLW/3,ypos,sprite[ARROWSELR])
 			fontPrint(getMiddle(smenu[1]), ypos, "Performances") 
 
-		elseif k == 11 then 
+		elseif k == 12 then
 
-			fontPrint(getMiddle(smenu[11]), OVLH/8 + 13.5*LINEH*4.2, smenu[11])
+			fontPrint(getMiddle(smenu[12]), OVLH/8 + 13.5*LINEH*4.2, smenu[12])
 
-		elseif k == 12 then 
+		elseif k == 13 then
 
-			fontPrint(getMiddle(smenu[12]), OVLH/8 + 14.5*LINEH*4.2, smenu[12])
+			fontPrint(getMiddle(smenu[13]), OVLH/8 + 14.5*LINEH*4.2, smenu[13])
 
 		else 
 
@@ -3776,6 +3799,18 @@ function printOptsP()
 					fontPrint(fntx, ypos, "Hold")
 								
 				end
+
+			end
+
+		elseif (k == 11) then
+
+			if bFrameCount then
+
+				fontPrint(fntx, ypos, "On")
+
+			else
+
+				fontPrint(fntx, ypos, "Off")
 
 			end
 						
