@@ -43,6 +43,7 @@ MODE_FULL = 1
 MaxFrames = 512000
 prevFrame = 0
 bPlay = false
+bInput = false
 bSwitch = false
 
 function onInputPressed(key)
@@ -61,12 +62,14 @@ function onInputReleased(key)
 	if key == KEY_ERASE or key == KEY_BKSPACE then
 
 		INPUT = 0
+		bInput = false
 	end
 
 	if key > 47 and key < 58 then -- ASCII numerics
 
 		INPUT = INPUT + 1
 		FRAME[INPUT] = key - OFFSET
+		bInput = true
 	end
 
 	if key == KEY_ENTER then
@@ -80,6 +83,7 @@ function onInputReleased(key)
 
 		currentFrame = tonumber(string)
 		checkRange(currentFrame)
+		bInput = false
 		INPUT = 0
 	end
 
@@ -122,6 +126,18 @@ function onOverlayUpdate()
 
 	bSwitch = false
 	overlayPrint(2, 10, currentFrame)
+
+	if bInput and not bPlay then
+
+		local typed = ""
+
+		for k = 1, INPUT do
+
+			typed = typed .. FRAME[k]
+		end
+
+		overlayPrint(2, 30, "FRAME = " .. typed)
+	end
 
 	return(OVERLAY_UPDATED)
 end
