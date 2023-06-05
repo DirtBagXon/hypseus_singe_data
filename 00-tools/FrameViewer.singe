@@ -1,0 +1,137 @@
+--[[
+
+	Basic FrameViewer() LUA by DirtBagXon 2023 (C)
+
+	** IMPORTANT **
+	Load the M2V via the framefile, enter the correct FPS
+	value in the header below, then load up the script:
+
+	hypseus singe vldp -framefile framefile.txt -script FrameViewer.singe
+
+
+	Usage:
+
+	SPACE key toggles play/pause
+
+	LEFT or RIGHT keys to increment/decrement frames.
+
+	Type a numeric frame number and press ENTER to JUMP to specific frame
+	Note: Keypad not supported
+
+]]--
+
+
+MovieFPS = 23.976    -- Number of frames per second of your movie (IMPORTANT)
+
+
+--- No config values below here --------
+
+
+FRAME = {}
+INPUT = 0
+OFFSET = 48
+KEY_LEFT = 80
+KEY_RIGHT = 79
+KEY_SPACE = 32
+KEY_ENTER = 13
+KEY_ERASE = 127
+KEY_BKSPACE = 8
+
+OVERLAY_UPDATED = 1
+MODE_FULL = 1
+
+MaxFrames = 512000
+prevFrame = 0
+bPlay = false
+bSwitch = false
+
+function onInputPressed(key)
+
+        --Have to leave this function even when not monitoring the event.
+end
+
+function checkRange(num)
+
+	if num < 0 then currentFrame = 0 end
+	if num > MaxFrames then currentFrame = MaxFrames end
+end
+
+function onInputReleased(key)
+
+	if key == KEY_ERASE or key == KEY_BKSPACE then
+
+		INPUT = 0
+	end
+
+	if key > 47 and key < 58 then -- ASCII numerics
+
+		INPUT = INPUT + 1
+		FRAME[INPUT] = key - OFFSET
+	end
+
+	if key == KEY_ENTER then
+
+		local string = ""
+
+		for k = 1, INPUT do
+
+			string = string .. FRAME[k]
+		end
+
+		currentFrame = tonumber(string)
+		checkRange(currentFrame)
+		INPUT = 0
+	end
+
+	if key == KEY_SPACE then
+
+		bPlay = not bPlay
+		bSwitch = true
+	end
+
+	if key == KEY_LEFT then
+
+		currentFrame = currentFrame - 1
+		checkRange(currentFrame)
+	end
+
+	if key == KEY_RIGHT then
+
+		currentFrame = currentFrame + 1
+		checkRange(currentFrame)
+	end
+end
+
+function onOverlayUpdate()
+
+	overlayClear()
+
+	if not (prevFrame == currentFrame) and not bPlay then
+
+		discSearch(currentFrame)
+		prevFrame = currentFrame
+	end
+
+	if bPlay then
+
+		if bSwitch then discPlay() end
+		currentFrame = discGetFrame()
+	else
+		if bSwitch then discPause() end
+	end
+
+	bSwitch = false
+	overlayPrint(2, 10, currentFrame)
+
+	return(OVERLAY_UPDATED)
+end
+
+discSetFPS(MovieFPS)
+discSearch(1)
+discPause()
+setOverlayResolution(vldpGetWidth() / 2, vldpGetHeight() / 2)
+keyboardSetMode(MODE_FULL)
+
+currentFrame = discGetFrame()
+
+
