@@ -3,11 +3,17 @@
 	Basic FrameViewer() LUA by DirtBagXon 2023 (C)
 
 	** IMPORTANT **
-	Load the M2V via the framefile, enter the correct FPS
+	Load the M2V via the framefile.
+
+	Either specify a framerate with -fvalue or enter the framerate
 	value in the header below, then load up the script:
 
-	hypseus singe vldp -framefile framefile.txt -script FrameViewer.singe
+	hypseus singe vldp -framefile framefile.txt -script FrameViewer.singe -fvalue 23.976
 
+
+	Options:
+
+	-original_overlay  - will change display font.
 
 	Usage:
 
@@ -21,7 +27,7 @@
 ]]--
 
 
-MovieFPS = 23.976    -- Number of frames per second of your movie (IMPORTANT)
+MovieFPS = 23.976    -- Number of frames per second of your movie (Default or Use: -fvalue)
 
 
 --- No config values below here --------
@@ -45,6 +51,21 @@ prevFrame = 0
 bPlay = false
 bInput = false
 bSwitch = false
+
+sFPSource = "Using MovieFPS from singe file: "
+
+if getFValue ~= nil then
+
+	Framerate = getFValue()
+
+	if Framerate > 1 then
+
+		MovieFPS = Framerate
+		sFPSource ="Using cli provided Framerate: "
+	end
+end
+
+debugPrint(sFPSource .. MovieFPS)
 
 function onInputPressed(key)
 
@@ -125,7 +146,8 @@ function onOverlayUpdate()
 	end
 
 	bSwitch = false
-	overlayPrint(2, 10, currentFrame)
+	overlayPrint(2, 10, "FPS: " .. MovieFPS)
+	overlayPrint(16, 10, "#  Frame: " .. currentFrame)
 
 	if bInput and not bPlay then
 
@@ -136,7 +158,7 @@ function onOverlayUpdate()
 			typed = typed .. FRAME[k]
 		end
 
-		overlayPrint(2, 30, "FRAME = " .. typed)
+		overlayPrint(2, 30, "GOTO = " .. typed)
 	end
 
 	return(OVERLAY_UPDATED)
