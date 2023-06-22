@@ -306,7 +306,7 @@ function printOpts()
 	
 	for k=1,7 do
 	
-		fontPrint(340*UnX, 182*UnY + k*99*UnY, smenu[k])
+		fontPrint(310*UnX, 182*UnY + k*99*UnY, smenu[k])
 	
 	end	
 
@@ -316,29 +316,29 @@ function printOpts()
 		
 		if (k == 1) then
 		
-			fontPrint(1205*UnX, 281*UnY, dip_StartAtPart)
+			fontPrint(1150*UnX, 281*UnY, dip_StartAtPart)
 			
 		elseif (k == 2) then
 		
-			fontPrint(1205*UnX, 380*UnY, dip_LivesPerCredit)			
+			fontPrint(1150*UnX, 380*UnY, dip_LivesPerCredit)
 	
 		elseif (k == 3) then
 	
 			if (dip_Difficulty == DOPT_EASY) then
 			
-				fontPrint(1205*UnX, 479*UnY, "EASY")	
+				fontPrint(1150*UnX, 479*UnY, "EASY")
 			
 			elseif (dip_Difficulty == DOPT_MEDIUM) then
 			
-				fontPrint(1205*UnX, 479*UnY, "MEDIUM")	
+				fontPrint(1150*UnX, 479*UnY, "MEDIUM")
 			
 			elseif (dip_Difficulty == DOPT_HARD) then
 			
-				fontPrint(1205*UnX, 479*UnY, "HARD")	
+				fontPrint(1150*UnX, 479*UnY, "HARD")
 				
 			else	
 			
-				fontPrint(1205*UnX, 479*UnY, "VERY HARD")	
+				fontPrint(1150*UnX, 479*UnY, "VERY HARD")
 			
 			end
 	
@@ -346,19 +346,19 @@ function printOpts()
 		
 			if (dip_ReloadTrigger == DOPT_IMMEDIATE) then
 		
-				fontPrint(1205*UnX, 578*UnY, "IMMEDIATE")	
+				fontPrint(1150*UnX, 578*UnY, "IMMEDIATE")
 			
 			elseif (dip_ReloadTrigger == DOPT_ONEMPTY) then
 			
-				fontPrint(1205*UnX, 578*UnY, "ON EMPTY")	
+				fontPrint(1150*UnX, 578*UnY, "ON EMPTY")
 			
 			elseif (dip_ReloadTrigger == DOPT_LIGHTGUN) then
 			
-				fontPrint(1205*UnX, 578*UnY, "LIGHTGUN")	
+				fontPrint(1150*UnX, 578*UnY, "LIGHTGUN")
 			
 			else	
 			
-				fontPrint(1205*UnX, 578*UnY, "ON BORDERS")	
+				fontPrint(1150*UnX, 578*UnY, "ON BORDERS")
 			
 			end		
 			
@@ -367,12 +367,12 @@ function printOpts()
 		
 			if dip_Undertaker then			
 			
-				fontPrint(1205*UnX, 677*UnY, "YES")	
+				fontPrint(1150*UnX, 677*UnY, "YES")
 				
 			
 			else
 			
-				fontPrint(1205*UnX, 677*UnY, "NO")	
+				fontPrint(1150*UnX, 677*UnY, "NO")
 				
 			
 			end
@@ -381,12 +381,12 @@ function printOpts()
 		
 			if dip_Practice then			
 			
-				fontPrint(1205*UnX, 776*UnY, "YES")	
+				fontPrint(1150*UnX, 776*UnY, "YES")
 				
 			
 			else
 			
-				fontPrint(1205*UnX, 776*UnY, "NO")	
+				fontPrint(1150*UnX, 776*UnY, "NO")
 				
 			
 			end
@@ -504,12 +504,12 @@ function doServiceMenu()
 
 			elseif  (mousey >= 752*UnY and mousey <= 850*UnY) then -- Play practice
 
-				spriteDraw(70*UnX, 884*UnY, sprArrow)
+				spriteDraw(25*UnX, 884*UnY, sprArrow)
 				optSel = 7
 			
 			elseif  (mousey >= 851*UnY and mousey <= 1080*UnY) then -- exit
 
-				spriteDraw(252*UnX, 983*UnY, sprArrow)
+				spriteDraw(252*UnX, 970*UnY, sprArrow)
 				optSel = 8
 
 			end

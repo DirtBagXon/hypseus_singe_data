@@ -42,7 +42,7 @@ dip_ShowHit = false
 
 
 if (setOverlaySize ~= nil) then
-        setOverlaySize(BASEOVERLAY)
+	setOverlaySize(4, 360, 240) -- overrides BASEOVERLAY
 end
 
 dofile(MYDIR .. "globals.singe")
@@ -4262,7 +4262,7 @@ end
 function drawBullets()
 
 	local k
-	local j=20
+	local j=0
 
 	if iBullets == 0 then
 
@@ -4270,7 +4270,7 @@ function drawBullets()
 
 		if heartbeat then
 
-			spriteDraw(bulletSprtX + 15 , bulletSprtY - 10, sprReload)
+			spriteDraw(bulletSprtX, bulletSprtY - 10, sprReload)
 
 		end
 
@@ -4281,12 +4281,12 @@ function drawBullets()
 
 			if (k <= 5) then
 
-				spriteDraw (bulletSprtX + 15 + (k*60*UnX), bulletSprtY, sprBullet)
+				spriteDraw (bulletSprtX + (k*45*UnX), bulletSprtY, sprBullet)
 
 			elseif k > 5 and k < 12 then
 
-				spriteDraw ((bulletSprtX + j) - 4, bulletSprtY2 - 10, sprBullet)
-				j = j + (60*UnX)
+				spriteDraw ((bulletSprtX + j), bulletSprtY2 - 10, sprBullet)
+				j = j + (45*UnX)
 
 			end
 
@@ -4374,7 +4374,7 @@ local k
 
 		if k<=6 then
 
-			spriteDraw ((starPos[k][POSX]-(k*5))+40, starPos[k][POSY], sprStar)
+			spriteDraw ((starPos[k][POSX]-(k*4)) + 40, starPos[k][POSY], sprStar)
 
 		end
 
@@ -5194,9 +5194,7 @@ function onOverlayUpdate()
 				else
 					bReversePointer = false
 				end
-
 			elseif (dip_ShowHit) then
-
 				singeWantsCrosshairs()
 				spriteDraw(freezex, freezey, sprRev)
 

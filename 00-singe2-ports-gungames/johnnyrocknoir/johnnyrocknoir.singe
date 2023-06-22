@@ -40,7 +40,7 @@ MovieFPS = 29.97
 
 
 if (setOverlaySize ~= nil) then
-        setOverlaySize(BASEOVERLAY)
+	setOverlaySize(4, 360, 240) -- overrides BASEOVERLAY
 end
 
 dofile(MYDIR .. "globals.singe")
@@ -6043,45 +6043,54 @@ function onOverlayUpdate()
 		if (bReversePointer and not (currentLevel == levelHighScore)) then 
 
 			iRevFrames = iRevFrames + 1
-			sprCursor  = spriteLoad(MYDIR .. "crosshaire.png")
-			if (iRevFrames == 1) or (iRevFrames == 2) then
-				spriteDraw(revsetx, revsety, sprRev1) 
-			elseif (iRevFrames == 3) or (iRevFrames == 4) then
-				spriteDraw(revsetx, revsety, sprRev2) 
-			elseif (iRevFrames == 5) or (iRevFrames == 6) then
-				spriteDraw(revsetx, revsety, sprRev3) 
-			elseif (iRevFrames == 7) or (iRevFrames == 8) then
-				spriteDraw(revsetx, revsety, sprRev4) 
-			elseif (iRevFrames == 9) or (iRevFrames == 10) then
-				spriteDraw(revsetx, revsety, sprRev5) 
+
+			if (dip_Crosshair == 5) then
+
+				sprCursor  = spriteLoad(MYDIR .. "crosshaire.png")
+				if (iRevFrames == 1) or (iRevFrames == 2) then
+					spriteDraw(revsetx, revsety, sprRev1)
+				elseif (iRevFrames == 3) or (iRevFrames == 4) then
+					spriteDraw(revsetx, revsety, sprRev2)
+				elseif (iRevFrames == 5) or (iRevFrames == 6) then
+					spriteDraw(revsetx, revsety, sprRev3)
+				elseif (iRevFrames == 7) or (iRevFrames == 8) then
+					spriteDraw(revsetx, revsety, sprRev4)
+				elseif (iRevFrames == 9) or (iRevFrames == 10) then
+					spriteDraw(revsetx, revsety, sprRev5)
+
+					iRevFrames = 0
+					bReversePointer = false
+
+					if (dip_Crosshair == 1) then
+
+						sprCursor  = spriteLoad(MYDIR .. "crosshaira.png")
+
+					elseif (dip_Crosshair == 2) then
+
+						sprCursor  = spriteLoad(MYDIR .. "crosshairb.png")
+
+					elseif (dip_Crosshair == 3) then
+
+						sprCursor  = spriteLoad(MYDIR .. "crosshairc.png")
+
+					elseif (dip_Crosshair == 4) then
+
+						sprCursor  = spriteLoad(MYDIR .. "crosshaird.png")
+
+					elseif (dip_Crosshair == 5) then
+
+						sprCursor  = spriteLoad(MYDIR .. "crosshaire.png")
+
+					end
+				end
+
+			else
+				spriteDraw(revsetx - cursoroffsetx, revsety - cursoroffsety, sprRev)
 				iRevFrames = 0
 				bReversePointer = false
 
-				if (dip_Crosshair == 1) then
-
-					sprCursor  = spriteLoad(MYDIR .. "crosshaira.png")
-					
-				elseif (dip_Crosshair == 2) then
-
-					sprCursor  = spriteLoad(MYDIR .. "crosshairb.png")
-					
-				elseif (dip_Crosshair == 3) then
-
-					sprCursor  = spriteLoad(MYDIR .. "crosshairc.png")
-					
-				elseif (dip_Crosshair == 4) then
-
-					sprCursor  = spriteLoad(MYDIR .. "crosshaird.png")
-					
-				elseif (dip_Crosshair == 5) then
-
-					sprCursor  = spriteLoad(MYDIR .. "crosshaire.png")
-					
-				end
-
 			end
-
-		end	
+		end
 	end
 
 	if (bShowScore) then

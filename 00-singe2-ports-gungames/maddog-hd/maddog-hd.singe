@@ -46,7 +46,7 @@ dip_ShowHit = false
 
 
 if (setOverlaySize ~= nil) then
-        setOverlaySize(BASEOVERLAY)
+        setOverlaySize(4, 360, 240) -- overrides BASEOVERLAY
 end
 
 DOPT_EASY = 1
@@ -496,12 +496,12 @@ sndHandle    = ""
 	iZmY = 1.02
 
 	starPos = nil; starPos = {}
-	starPos[1] = {}; starPos[1] = {resX-99*UnX, 30*UnY}
+	starPos[1] = {}; starPos[1] = {resX-100*UnX, 30*UnY}
 	starPos[2] = {}; starPos[2] = {resX-160*UnX, 30*UnY}
-	starPos[3] = {}; starPos[3] = {resX-228*UnX, 30*UnY}
-	starPos[4] = {}; starPos[4] = {resX-289*UnX, 30*UnY}
-	starPos[5] = {}; starPos[5] = {resX-360*UnX, 30*UnY}
-	starPos[6] = {}; starPos[6] = {resX-424*UnX, 30*UnY}
+	starPos[3] = {}; starPos[3] = {resX-220*UnX, 30*UnY}
+	starPos[4] = {}; starPos[4] = {resX-280*UnX, 30*UnY}
+	starPos[5] = {}; starPos[5] = {resX-340*UnX, 30*UnY}
+	starPos[6] = {}; starPos[6] = {resX-400*UnX, 30*UnY}
 
 	tx = (resX  * 0.5) - (spriteGetWidth(sprCredits) * 0.5)
 	ty = 980*UnY
@@ -509,9 +509,9 @@ sndHandle    = ""
 
 	sx = 40*UnX
 	sy = 20*UnY
-	bulletSprtX = 100*UnX
-	bulletSprtY = 990*UnY
-	bulletSprtY2 = 930*UnY
+	bulletSprtX = 40*UnX
+	bulletSprtY = 940*UnY
+	bulletSprtY2 = 880*UnY
 	shotX = 580*UnX
 	shotY = 300*UnY
 
@@ -5978,11 +5978,11 @@ function drawBullets()
 
 			if dip_HUD == 1 then
 
-				spriteDraw(bulletSprtX, bulletSprtY - 10, sprReload)
+				spriteDraw(bulletSprtX, bulletSprtY, sprReload)
 
 			else
 
-				spriteDraw(650*UnX, bulletSprtY - 10, sprReload)
+				spriteDraw(650*UnX, bulletSprtY, sprReload)
 
 			end	
 		end
@@ -5996,20 +5996,14 @@ function drawBullets()
 
 			for k=0,iBullets-1 do
 
-				if k == 5 or k == 11 then
-					n = 41
-				else
-					n = 40
-				end
-
 				if (k <= 5) then
 
-					spriteDraw (bulletSprtX + (k*n*UnX), bulletSprtY, sprBullet)
+					spriteDraw (bulletSprtX + (k*40*UnX), bulletSprtY, sprBullet)
 
 				elseif k > 5 and k < 12 then
 
-					spriteDraw (bulletSprtX + (j*n*UnX), bulletSprtY2, sprBullet)
-					j = j + 1
+					spriteDraw ((bulletSprtX + j), bulletSprtY2, sprBullet)
+					j = j + (40*UnX)
 
 				end
 
@@ -6019,19 +6013,14 @@ function drawBullets()
 
 			for k=0,iBullets-1 do
 
-				if k == 5 or k == 11 then
-					n = 31.5
-				else
-					n = 31
-				end
-
 				if (k <= 5) then
 
-					spriteDraw (bulletSprtX + (k*n*UnX) - 10, 800*UnY, sprBulletSM)
+					spriteDraw (bulletSprtX + (k*26*UnX), 800*UnY, sprBulletSM)
 
 				elseif k > 5 and k < 12 then
 
-					spriteDraw (bulletSprtX + ((k-6)*n*UnX) - 10, 730*UnY, sprBulletSM)
+					spriteDraw ((bulletSprtX + j), 745*UnY, sprBulletSM)
+					j = j + (26*UnX)
 					
 				end
 
@@ -6129,7 +6118,7 @@ local k
 
 			if k<=6 then
 
-				spriteDraw (bulletSprtX + (k*60*UnX), 860*UnY, sprStarSM)
+				spriteDraw (bulletSprtX + (k*40*UnX), 860*UnY, sprStarSM)
 
 			end
 
@@ -6169,7 +6158,7 @@ function drawScore()
 
 	else
 
-		drawSpriteNumber(sx + 15, 928*UnY, iScore)
+		drawSpriteNumber(sx, 928*UnY, iScore)
 
 	end	
 

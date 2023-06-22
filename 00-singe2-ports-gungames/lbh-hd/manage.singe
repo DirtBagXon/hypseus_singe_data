@@ -312,11 +312,11 @@ function drawBullets()
 
 				if (k <= 5) then
 
-					spriteDraw (bulletSprtX + 15 + (k*40*UnX), bulletSprtY, sprBullet)
+					spriteDraw (bulletSprtX + (k*40*UnX), bulletSprtY, sprBullet)
 
 				elseif k > 5 and k < 12 then
 
-					spriteDraw (bulletSprtX + 15 + (k*40*UnX), bulletSprtY, sprBullet)
+					spriteDraw (bulletSprtX + (k*40*UnX), bulletSprtY, sprBullet)
 					j = j + (40*UnX)
 
 				end
@@ -379,7 +379,7 @@ local k
 
 			if k<=6 then
 
-				spriteDraw ((starPos[k][POSX]-(k*5))+40, starPos[k][POSY], sprStar)
+				spriteDraw (starPos[k][POSX]-(k*8)+42, starPos[k][POSY], sprStar)
 
 			end
 
@@ -391,7 +391,7 @@ local k
 
 			if k<=6 then
 
-				spriteDraw (bulletSprtX + (k*40*UnX) + 10, 930*UnY, sprStarSM)
+				spriteDraw (bulletSprtX + (k*48*UnX), 930*UnY, sprStarSM)
 
 			end
 
@@ -417,7 +417,7 @@ function drawScore()
 
 	else
 
-        	spriteDraw(sx + 10 , 980*UnY, sprScore)
+        	spriteDraw(sx , 980*UnY, sprScore)
 
 	end	
 

@@ -40,7 +40,7 @@ MovieFPS = 29.97
 
 
 if (setOverlaySize ~= nil) then
-        setOverlaySize(BASEOVERLAY)
+	setOverlaySize(4, 360, 240) -- overrides BASEOVERLAY
 end
 
 
@@ -4552,7 +4552,7 @@ end
 
 function drawBullets()
 
-        local gunx = 198
+        local gunx = 195
         local guny = 209
         local k = 0
  
@@ -4582,14 +4582,13 @@ function drawBullets()
 
                         elseif k == 7 then
                                 guny = 220
-                                gunx = 198
+                                gunx = 195
                         else
                                 guny = 220
                         end
 
                         spriteDraw(gunx, guny, sprCharge)
-                        if gunx == 223.5 then gunx = gunx + 8
-                        else gunx = gunx + 8.5 end
+                        gunx = gunx + 8
 
                 end
 
@@ -4602,14 +4601,13 @@ function drawBullets()
 
                         elseif k == 7 then
                                 guny = 220
-                                gunx = 198
+                                gunx = 195
                         else
                                 guny = 220
                         end
 
                         spriteDraw(gunx, guny, sprCharge)
-                        if gunx == 223.5 then gunx = gunx + 8
-                        else gunx = gunx + 8.5 end
+                        gunx = gunx + 8
 
                 end
         end
@@ -4657,7 +4655,7 @@ function drawLives()
 
                 elseif iLives == 2 then
                         spriteDraw(livex, 215, sprLifebarYellow)
-                       spriteDraw(livex, 222, sprLifebarRed)
+                        spriteDraw(livex, 222, sprLifebarRed)
 
                 elseif iLives == 1 then
                         spriteDraw(livex, 222, sprLifebarRed)
@@ -4671,20 +4669,20 @@ function drawLives()
                         spriteDraw(livex, 212, sprLifebarSGreen)
                         spriteDraw(livex, 216, sprLifebarSGreen)
                         spriteDraw(livex, 220, sprLifebarSYellow)
-                        spriteDraw(livex-2, 224, sprLifebarSRed)
+                        spriteDraw(livex, 224, sprLifebarSRed)
 
                 elseif iLives == 5 then
                         spriteDraw(livex, 208, sprLifebarSGreen)
                         spriteDraw(livex, 212, sprLifebarSGreen)
                         spriteDraw(livex, 216, sprLifebarSGreen)
                         spriteDraw(livex, 220, sprLifebarSYellow)
-                        spriteDraw(livex-2, 224, sprLifebarSRed)
+                        spriteDraw(livex, 224, sprLifebarSRed)
 
                 elseif iLives == 4 then
                         spriteDraw(livex, 212, sprLifebarSGreen)
                         spriteDraw(livex, 216, sprLifebarSGreen)
                         spriteDraw(livex, 220, sprLifebarSYellow)
-                        spriteDraw(livex-2, 224, sprLifebarSRed)
+                        spriteDraw(livex, 224, sprLifebarSRed)
 
                 end
 
@@ -4694,7 +4692,7 @@ end
 function drawScore()
 
         local j = 0
-        local k = 0
+        local k = 1
         local w = 0
         local s1 = ""
 
@@ -4716,12 +4714,8 @@ function drawScore()
                 s1 = ("0" .. s1)
         end
 
-                k=1
-
-                --spriteDraw(111, 204, sprPanel)
-
         for w=k,5 do
-                j = tonumber(string.sub(s1,w,w))
+               j = tonumber(string.sub(s1,w,w))
                spriteDraw(scrx[w], 945*UnY, sprNUM[j])
         end
 
@@ -4987,7 +4981,7 @@ function initJob()
 
 	tx=0;ty=x;sx=0;sy=0;crx=0;cry=0
 	colorForeground(0, 255, 0)
-	scrx = nil; scrx = {116, 127, 137, 147, 158};
+	scrx = nil; scrx = {119, 129, 139, 149, 159};
 	
 	fontSelect(font60)
 	sprCredits = nil

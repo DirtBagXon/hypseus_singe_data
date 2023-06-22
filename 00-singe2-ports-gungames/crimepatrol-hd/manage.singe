@@ -301,11 +301,11 @@ function drawBullets()
 			
 		end
 		
-		spriteDraw(95*UnX, 910*UnY, sprBullet[relIndex])
+		spriteDraw(8, 199, sprBullet[relIndex])
 	
 	else
 
-		spriteDraw(95*UnX, 910*UnY, sprBullet[iBullets+1])
+		spriteDraw(8, 199, sprBullet[iBullets+1])
 		
 	end
 
@@ -341,7 +341,7 @@ end
 function drawLives()
 
 
-	local livex = 1570*UnX
+	local livex = 1610*UnX
 	local k = 0
 
 	if dip_HUD == 1 then
@@ -349,7 +349,7 @@ function drawLives()
 		fontSelect(font42)
 		sprLives = fontToSprite(string.format('%01dx',iLives))
 		spriteDraw(1410*UnX, 1010*UnY, sprLives)
-		spriteDraw(1480*UnX, 980*UnY, sprBadge)
+		spriteDraw(1510*UnX, 980*UnY, sprBadge)
 	else
 	
 		for k = 1,iLives do
@@ -398,19 +398,19 @@ function drawScore2()
 	
 
 	j = tonumber(string.sub(s1,1,1))	
-	spriteDraw(400*UnX, 970*UnY, sprNUM[j])
+	spriteDraw(400*UnX, 950*UnY, sprNUM[j])
 	
 	j = tonumber(string.sub(s1,2,2))	
-	spriteDraw(450*UnX, 970*UnY, sprNUM[j])
+	spriteDraw(450*UnX, 950*UnY, sprNUM[j])
 	
 	j = tonumber(string.sub(s1,3,3))	
-	spriteDraw(500*UnX, 970*UnY, sprNUM[j])
+	spriteDraw(500*UnX, 950*UnY, sprNUM[j])
 	
 	j = tonumber(string.sub(s1,4,4))	
-	spriteDraw(550*UnX, 970*UnY, sprNUM[j])
+	spriteDraw(550*UnX, 950*UnY, sprNUM[j])
 
 	j = tonumber(string.sub(s1,5,5))	
-	spriteDraw(605*UnX, 970*UnY, sprNUM[j])
+	spriteDraw(600*UnX, 950*UnY, sprNUM[j])
 
 end
 

@@ -284,7 +284,7 @@ function printOpts()
 	-- This function writes the options on the service menu screen.
 	local k = 0
 	local ypos = 45
-	local fntx = 1100*UnX
+	local fntx = 1050*UnX
 	local smenu = {}; 
 
 	smenu[1] = rpadString("Start at Part", 16)
@@ -522,7 +522,7 @@ function doServiceMenu()
 
 			elseif  (mousey >= 1000*UnY and mousey <= 1180*UnY) then -- exit
 
-				spriteDraw(110*UnX, 910*UnY, sprArrow)
+				spriteDraw(70*UnX, 910*UnY, sprArrow)
 				optSel = 8
 				
 			end		
