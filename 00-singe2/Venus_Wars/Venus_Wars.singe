@@ -1,0 +1,1225 @@
+--[[
+
+PROGRAM NAME:	Venus Wars
+VERSION:		3.3
+AUTHOR:			Mazinger4life
+
+This file is part of Venus Wars
+
+	Venus Wars is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation.
+
+	Venus Wars is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+	Thanks to RDG (original author of the program), 
+
+	YOU CAN EDIT THIS FILE TO CREATE YOUR OWN GAME IN A FEW HOURS! 
+
+	If you want to create your own Laserdisc game using SINGE, you just need to have some videos and then to edit this file. 
+	It's really easy, most of the work is already done. Just read my comments. The file is quite long but you probably 
+	don't need to fill everything.
+
+]]--
+
+
+-------------------------
+-- 1. General settings --
+-------------------------
+-- Hypseus Game Setup --
+
+-- Do Not Remove/Alter these --
+
+OVERLAY_DEFAULT  = 0
+OVERLAY_FULL     = 1
+OVERLAY_HALF     = 2
+OVERLAY_OVERSIZE = 3
+
+-- Do Not Remove/Alter these --
+
+BASEDIR = "singe" 
+
+BASEOVERLAY = OVERLAY_FULL 
+MYDIR = BASEDIR .."/".."Venus_Wars"									-- This is the directory where your game is 
+MovieFPS = 23.976								-- Number of frames per second of your movies (used for timed actions).
+
+dip_MinimalOverlay = 0  -- Enable the Minimal Overlay (by default) for SBC's
+
+-- End Hypseus Game Setup --
+
+dofile(BASEDIR .. "/Framework/globals.singe")    -- Don't touch this line
+
+-- Scoring Settings --
+
+SCOREMOVE = 700									-- Points for a correct move. A difficulty buff will then be applyied. 
+BUFFMOVE = 300									-- Each difficulty level above "easy" will add this value for a correct move.
+SCORESCENE = 5000								-- Points for finishing a Scene. Each death will then reduce this score.
+SCORELEVEL = 20000								-- Points for finishing a Level.
+SCOREGAME = 100000								-- Points for finishing the Game.
+PERFECTBONUS = 10000							-- Points for finishing a level with 0 death
+EXTRALIFE = 0									-- Points needed for Extra life (0 = No Extra Life)
+DEATHPENALTY = 1000								-- Each death will reduce the score of the scene by this value. 
+SCORESECRET = 1									-- Points for finishing the Game with one life : 1 point that makes a difference!
+
+-- Difficulty Settings --						-- Normally, you don't need to change those settings 
+
+PenalNormal = 0									-- Number of input frames to remove for level Normal.
+PenalHard = 2									-- Number of input frames to remove for level Hard.	
+PenalExtreme  = 4									-- Number of input frames to remove for level Extreme.	
+
+-- Advanced Settings --							-- Those settings allow to setup complex behavior. You don't need them in most cases.
+
+altCfg = false 									-- true if you've got 2 singe game files sharing different configurations.
+											
+miscR = 153										-- You can also create a misc color for the font.
+miscG = 76										-- In that case fill RGB values (0 to 255)
+miscB = 0
+
+AllowRandom = false								-- Show/hide the random level order mode in Game Type (menu)
+
+AllowTier = false								--	Show/hide the tier mode in Game Type (menu). If you don't want tiers: false.
+Tiers[0] = {4,4,4,5,3}							-- Tier 0 = init. First number is number of Tiers, followed by size of each Tier
+Tiers[1] = {1,2,3,4}							-- Levels to be mixed in Tier 1 (and so on).
+Tiers[2] = {5,6,7,8}							-- In this example there are 17 levels Tiered in 4 groups	
+Tiers[3] = {9,10,11,12,13}
+Tiers[4] = {14,15,16}							-- Level 17 is played last. Not included in any Tier.
+
+
+AllowMap = true								-- Show/hide the map mode in Game Type (menu)
+MapStart = 0									-- 0: Map start at the beginning / 1: Map after the first level. 
+
+IngameDiffchoice = true						-- If true, you will choose the difficulty with a video at the start of the game.
+ForceRewind = false
+
+BarSize = 10									-- Size of the Life Bar (Life bar Game Type)
+BarMin = 2										-- Decrease of the Life bar for missed move
+BarBonus = 3									-- Number of good moves to gain 1 in Life Bar
+
+LvlTrophy3 = 0 									-- Which Level for gives trophy 3 (0 if no trophy)
+LvlTrophy4 = 0 									-- Which Level for gives trophy 4 (0 if no trophy)
+
+------------------------------------------------------------------------
+-- 2. Starting and ending frames for the various elements of the game --
+------------------------------------------------------------------------
+													
+-- Intro frames --
+												-- For this part, you just need to adjust the frames values.
+offsetTitle = 0									-- Title start frame (short video with the logo).
+offsetTitleend = 183							-- End frame of the title video. 
+
+offsetIntro01 = 199								-- Attract video start frame.
+offsetIntro01end = 1705							-- End frame of the Attract video #1.
+
+offsetIntro02 = 1721							-- You can have a third attract video.
+offsetIntro02end = 2284						-- I've got only 1 so i just matched The rankings video values.
+
+offsetIntro03 = 2292	 	  						-- Attract video #2 start frame (if you've got only one : match title or Intro01).
+offsetIntro03end = 3731							-- End frame of the Attract video #2.
+
+offsetIntroGame = 0   							-- Optional: a sequence played only when the game starts
+offsetIntroGameend = 0							-- Leave to zero if you don't have such sequence
+
+
+-- Menu frames --
+
+offsetMenus = 63155								-- Menu video start frame (continue, high score, game over, etc).														
+												-- Now we set the frames for the menu video.
+frameOptions = offsetMenus +0					-- Frame for the background picture of the Service Menu.
+frameVictory = 63289					-- Frame for the picture shown when the game is completed.
+frameSave = 63423						-- Frame for the background picture of the Save Menu.
+frameRankings = 63557				-- Frame for the background picture of the Top 10.
+frameControls = 63691					-- Frame for the picture with instructions for key/buttons (appear between attract videos). 
+frameSpecial = offsetMenus +15					-- Frame to show special moves (you can replace with same value than frameCommands).
+frameSecret = offsetMenus +0					-- Frame for the "secret level" (if you finish the game with only one life).
+frameTrophy = 63825					-- Frame for the trophies (optional).
+frameHints = 84327								-- Frame for the hints (optional).
+
+frameEasy = 63959						-- Frame for Easy difficulty (and so on).
+frameNormal = 64093					-- Useless if 
+frameHard = 64227
+frameExtreme = 64361
+
+offsetGameOver = 64495						-- Positions of the Game over #1 video in the menus (regular ending).
+offsetGameOverend = 64902
+
+offsetGameOverAlt = 64916						-- Positions of the Game over #2 video in the menus (happy ending, like high sore).
+offsetGameOverAltend = 65499					-- You can also copy the values of game over #1.
+
+offsetNewHScore = 65514						-- Positions of the High score announcement video.
+offsetNewHScoreend = 65620						-- Not too long
+
+offsetEnterHScore = 65636						-- Positions of the video for entering High Scores (quite long to give enough time).
+offsetEnterHScoreend = 66118					-- This video is quite long to grant enough time to enter the name.
+
+offsetRankings = 66133						-- Positions of the video for Rankings (after High Score).
+offsetRankingsend = 66574						-- If you don't have this, replace with the values of NewHscore (above)
+
+offsetContinue = 66590							-- Positions of the Continue video (quite long to give enough time for the player).
+offsetContinueend = 66830
+
+offsetClear = 66846								-- Positions of the video after clearing a level (can be a single frame).
+offsetClearend = 66935				
+
+offsetGetReady = 67056							-- Position of the (optional) resurrect video. 
+offsetGetReadyEnd = 67098						-- Example of get ready video: Dirk appears in Dragon's Lair
+
+offsetSupDeath = 78179							-- Position of the (optional) extra death video. 
+offsetSupDeathEnd = 78249						-- Example of extra death video: Borf laughing in Space Ace. 
+
+offsetMap = 67166						-- Position of the video for Map (not used in this game).
+offsetMapend = 67167					-- Here i use a single frame.
+
+offsetMovieEnd = 63139							-- Last frame of the last level. Used by Movie mode.
+
+
+-- Death frames --
+
+totalDeath = 263									-- Total number of death scenes.
+offsetDeath = 67285								-- Start frame for the death video.
+
+Death[1] = {67285,67333}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[2] = {67348,67396}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[3] = {67411,67466}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[4] = {67481,67536}            
+Death[5] = {67551,67598}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[6] = {67612,67659}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[7] = {67673,67720}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[8] = {67735,67779}
+Death[9] = {67793,67833}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[10] = {67848,67905}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[11] = {67920,67985}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[12] = {68000,68053}
+Death[13] = {68067,68115}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[14] = {68129,68176}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[15] = {68191,68238}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[16] = {68253,68300}
+Death[17] = {68315,68362}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[18] = {68377,68424}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[19] = {68439,68475}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[20] = {68490,68526}
+Death[21] = {68541,68580}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[22] = {68595,68644}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[23] = {68659,68708}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[24] = {68723,68779}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[25] = {68794,68825}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[26] = {68840,68885}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[27] = {68899,68946}
+Death[28] = {68961,69009}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[29] = {69024,69069}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[30] = {69083,69135}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[31] = {69150,69196}
+Death[32] = {69211,69254}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[33] = {69269,69301}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[34] = {69317,69357}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[35] = {69373,69415}
+Death[36] = {69431,69471}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[37] = {69486,69526}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[38] = {69541,69592}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[39] = {69607,69650}
+Death[40] = {69666,69715}
+Death[41] = {69731,69771}
+Death[42] = {69787,69831}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[43] = {69846,69897}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[44] = {69913,69969}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[45] = {69984,70040}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[46] = {70053,70108}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[47] = {70122,70177}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[48] = {70192,70220}
+Death[49] = {70236,70292}             -- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[50] = {70308,70370}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[51] = {70385,70427}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[52] = {70443,70491}
+Death[53] = {70507,70563}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[54] = {70579,70727}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[55] = {70743,70787}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[56] = {70801,70845}
+Death[57] = {70860,70904}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[58] = {70919,70963}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[59] = {70976,71020}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[60] = {71036,71080}
+Death[61] = {71096,71140}
+Death[62] = {71156,71200}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[63] = {71216,71260}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[64] = {71276,71320}
+Death[65] = {71336,71380}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[66] = {71396,71440}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[67] = {71456,71500}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[68] = {71516,71560}
+Death[69] = {71576,71620}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[70] = {71636,71680}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[71] = {71696,71740}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[72] = {71756,71840}
+Death[73] = {71856,71940}
+Death[74] = {71956,72003}
+Death[75] = {72019,72065}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[76] = {72082,72128}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[77] = {72144,72190}
+Death[78] = {72206,72260}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[79] = {72277,72331}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[80] = {72347,72402}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[81] = {72418,72463}
+Death[82] = {72479,72524}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[83] = {72540,72587}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[84] = {72603,72646}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[85] = {72662,72705}
+Death[86] = {72721,72764}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[87] = {72780,72832}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[88] = {72848,72900}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[89] = {72916,72961}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[90] = {72977,73022}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[91] = {73038,73083}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[92] = {73099,73143}
+Death[93] = {73159,73203}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[94] = {73219,73257}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[95] = {73273,73311}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[96] = {73327,73390}
+Death[97] = {73406,73442}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[98] = {73458,73510}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[99] = {73526,73579}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[100] = {73595,73631}
+Death[101] = {73647,73691}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[102] = {73707,73751}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[103] = {73768,73803}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[104] = {73817,73897}
+Death[105] = {73913,73957}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[106] = {73973,74015}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[107] = {74031,74073}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[108] = {74089,74131}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[109] = {74147,74189}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[110] = {74205,74265}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[111] = {74281,74329}
+Death[112] = {74345,74399}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[113] = {74415,74449}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[114] = {74465,74505}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[115] = {74521,74579}
+Death[116] = {74595,74638}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[117] = {74654,74708}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[118] = {74724,74764}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[119] = {74780,74824}
+Death[120] = {74840,74884}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[121] = {74899,74943}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[122] = {74959,74995}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[123] = {75011,75057}
+Death[124] = {75073,75119}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[125] = {75135,75181}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[126] = {75197,75243}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[127] = {75259,75305}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[128] = {75321,75367}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[129] = {75383,75429}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[130] = {75445,75490}
+Death[131] = {75506,75560}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[132] = {75576,75630}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[133] = {75643,75703}
+Death[134] = {75719,75762}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[135] = {75778,75814}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[136] = {75830,75886}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[137] = {75902,75947}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[138] = {75963,76008}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[139] = {76023,76068}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[140] = {76084,76140}
+Death[141] = {76157,76201}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[142] = {76217,76261}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[143] = {76277,76312}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[144] = {76328,76363}
+Death[145] = {76379,76414}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[146] = {76430,76470}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[147] = {76486,76529}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[148] = {76545,76588}
+Death[149] = {76604,76647}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[150] = {76663,76706}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[151] = {76722,76766}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[152] = {76783,76833}
+Death[153] = {76849,76881}
+Death[154] = {76897,76942}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[155] = {76958,77022}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[156] = {77055,77101}
+Death[157] = {77117,77151}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[158] = {77167,77225}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[159] = {77240,77284}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[160] = {77300,77338}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[161] = {77354,77410}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[162] = {77426,77474}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[163] = {77490,77546}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[164] = {77562,77630}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[165] = {77646,77691}
+Death[166] = {77707,77761}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[167] = {77791,77849}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[168] = {77865,77901}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[169] = {77917,77976}
+Death[170] = {77992,78047}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[171] = {78063,78119}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[172] = {78133,78205}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[173] = {78220,78284}
+Death[174] = {78300,78364}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[175] = {78379,78431}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[176] = {78446,78510}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[177] = {78526,78590}
+Death[178] = {78606,78648}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[179] = {78663,78718}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[180] = {78734,78786}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[181] = {78802,78854}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[182] = {78869,78914}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[183] = {78929,78974}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[184] = {78990,79033}
+Death[185] = {79049,79092}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[186] = {79107,79155}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[187] = {79171,79215}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[188] = {79231,79275}
+Death[189] = {79291,79335}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[190] = {79351,79395}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[191] = {79412,79456}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[192] = {79472,79516}
+Death[193] = {79530,79570}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[194] = {79586,79626}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[195] = {79642,79687}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[196] = {79703,79748}
+Death[197] = {79764,79803}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[198] = {79819,79855}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[199] = {79871,79917}
+Death[200] = {79933,79977}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[201] = {79993,80043}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[202] = {80059,80109}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[203] = {80124,80174}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[204] = {80190,80241}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[205] = {80256,80307}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[206] = {80323,80374}
+Death[207] = {80390,80440}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[208] = {80456,80506}
+Death[209] = {80521,80581}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[210] = {80597,80669}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[211] = {80685,80748}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[212] = {80764,80831}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[213] = {80847,80901}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[214] = {80917,80967}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[215] = {80983,81029}
+Death[216] = {81045,81084}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[217] = {81100,81136}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[218] = {81152,81200}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[219] = {81216,81263}
+Death[220] = {81279,81335}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[221] = {81351,81407}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[222] = {81423,81478}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[223] = {81494,81548}
+Death[224] = {81563,81613}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[225] = {81629,81677}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[226] = {81692,81740}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[227] = {81756,81807}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[228] = {81823,81884}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[229] = {81900,81944}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[230] = {81960,82036}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[231] = {82052,82129}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[232] = {82145,82191}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[233] = {82207,82258}
+Death[234] = {82273,82326}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[235] = {82367,82432}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[236] = {82448,82513}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[237] = {82529,82591}
+Death[238] = {82607,82669}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[239] = {82684,82740}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[240] = {82755,82819}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[241] = {82834,82899}
+Death[242] = {82914,82979}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[243] = {82995,83036}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[244] = {83052,83108}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[245] = {83124,83176}
+Death[246] = {83192,83237}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[247] = {83253,83296}	-- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[248] = {83312,83355}	-- This is Death #3 video, you can add an unlimited number of deaths.
+Death[249] = {83371,83414}	-- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[250] = {83430,83481}	-- For
+Death[251] = {83497,83541}
+Death[252] = {83557,83612}
+Death[253] = {83626,83665}
+Death[254] = {83681,83732}
+Death[255] = {83748,83796}
+Death[256] = {83812,83866}
+Death[257] = {83882,83927}
+Death[258] = {83943,83988}
+Death[259] = {84004,84049}
+Death[260] = {84065,84110}
+Death[261] = {84126,84171}
+Death[262] = {84187,84236}
+Death[263] = {84252,84311}
+----------------------------------------------------------------------------------------------------
+-- 3. List of Levels (Title, Start Frame, End of Intro Clip, Total Scenes, Mirror, Death Mirror.) --
+----------------------------------------------------------------------------------------------------
+
+finalstage = 5	     		     								-- Last stage of the story. Prevent the game to go to a level that does not exist.
+PlayOrder = {1,2,3,4,5}											-- Normal order of play for the levels.
+AllowSecret = false		  										-- If you have a "secret level" video then: replace false by true.
+RelativeFrames = true 											-- True if frame 1 starts with each level. False if frame 1 is the disc start.	
+
+																-- Informations about the Levels:	
+Level[1] = {"Fire in The Sky", 3747, 4449, 6, 0, 0, -1} 				-- Title, Start Frame, End of Intro Clip, Total Scenes, Mirror, Death Mirror, Replay. 
+Level[2] = {"Escape", 15476, 15701, 6, 0, 0, -1}				-- Each level has one line with those informations.
+Level[3] = {"Battlefiled", 26147, 26422, 8, 0, 0, -1}				-- Replay -1 is default (loop), 0 no replay, 1 is one replay now.
+Level[4] = {"Race Challenge", 42652, 43401, 5, 0, 0, -1}				-- Higher values means 1 replay later (value is the position).		
+Level[5] = {"Final Showdown", 50908, 51025, 4, 0, 0, -1}				-- The total number of Levels lines must match finalstage (here 5).
+Level[levelSecret] = {"Secret Lvl", 78327, 78447, 4, 0, 0, -1}  -- Secret Level infos (just for demo: useless if youdon't have a secret level)
+
+
+------------------------------------------------------------------------------------
+-- 4. List of moves for each level, by scene (StartFrame, EndFrame, MOVE, Death#) --
+------------------------------------------------------------------------------------
+
+-- A scene is a list of moves you need to complete without "dying" in order to advance to the next scene.
+-- If you die during a scene, you restart this scene (though you can alter this in the game's menu).
+-- Basic moves: UP, DOWN, LEFT, RIGHT, BUTTON1, BUTTON2, BUTTON3.
+-- Combined moves: UPLEFT (diagonal move), UPRIGHT, DOWNLEFT, DOWNRIGHT, ACTUP (BUTTON1 + UP), ACTDOWN, ACTLEFT, ACTRIGHT.  
+-- Advanced moves: MASH (hit BUTTON1 quickly), MASHMAX, MASHMIN, HOLDUP (push UP and hold it), HOLDDOWN, HOLDLEFT, HOLDRIGHT, LETGO (release the HOLD), CHOOSE. 
+-- Other moves : RUN (Stick L/R), RUNMAX, RUNMIN, MASH 2 (2 buttons), MASH2MAX, MASH2MIN, SKIP (skip some narrative frames), PATHUD (choose between UP and DOWN), PATHLR.
+
+function setupMoves(thisLevel, thisScene)	
+
+	if thisLevel == 1 then 										-- We begin with Level 1 (which has 2 scenes, as defined in part 3)
+	
+		if thisScene == 1 then 									-- And Scene 1					
+
+			sceneStart = 703									-- The scene 1 starts at frame 236
+			sceneEnd   = 2147									-- And ends at frame 2047
+			n = 1									-- Scene 1 has 10 moves
+
+			move[n] = {850-14, 864-14, ACTUP, 1}; n=n+1							-- Move 1 between frames 271 and 286, the player must go UP. If not Death 4. 
+			move[n] = {874-14, 886-14, ACTDOWN, 2}; n=n+1						-- Move 2 is just a SKIP (death is irrelevant).					
+			move[n] = {1400-14, 1414-14, ACTDOWN, 3}; n=n+1						-- 15 is a good starting point for the lenght of a move. 10 is quite short.
+			move[n] = {1427-14, 1442-14, LEFT, 4}; n=n+1				
+			move[n] = {1758-14, 1773-14, RIGHT, 5}; n=n+1				
+			move[n] = {1788-14, 1803-14, DOWN, 6}; n=n+1
+			move[n] = {1818-14, 1833-14, DOWN, 7}; n=n+1			
+			move[n] = {1867-14, 1882-14, BUTTON1, 8}; n=n+1											
+			move[n] = {1989-14, 2002-14, MASHMAX, 9}; n=n+1
+			move[n] = {2045-14, 2140-14, MASHMAX, 10}; n=n+1					-- Move 10 is the last move of the scene (as defined earlier).
+
+                        totalMoves   = n-1
+
+
+		elseif thisScene == 2 then 								-- Now scene 2					
+
+			sceneStart = 2148									-- Scene starts at 2048 (it's just where the previous scene ends +1).		
+			sceneEnd   = 2573									-- And so on... 
+			n = 1
+
+			move[n] = {2210-14, 2225-14, LEFT, 11}; n=n+1
+			move[n] = {2253-14, 2337-14, MASHMAX, 12}; n=n+1			
+			move[n] = {2400-14, 2433-14, MASHMAX, 13}; n=n+1
+			move[n] = {2452-14, 2467-14, RIGHT, 14}; n=n+1
+                        move[n] = {2477-14, 2489-14, DOWN, 15}; n=n+1
+			move[n] = {2503-14, 2518-14, ACTDOWN, 16}; n=n+1
+                        move[n] = {2536-14, 2551-14, UP, 17}; n=n+1
+			
+                        totalMoves   = n-1
+
+
+               elseif thisScene == 3 then 								-- Now scene 2					
+
+			sceneStart = 2574									-- Scene starts at 2048 (it's just where the previous scene ends +1).		
+			sceneEnd   = 3704									-- And so on... 
+			n = 1
+
+			move[n] = {2687-14, 2702-14, RIGHT, 17}; n=n+1
+			move[n] = {2757-14, 2772-14, RIGHT, 18}; n=n+1
+                        move[n] = {2829-14, 2848-14, HOLDBUT, 19}; n=n+1			
+			move[n] = {2863-14, 2883-14, HOLDRIGHT, 19}; n=n+1
+			move[n] = {2893-14, 2909-14, HOLDLEFT, 19}; n=n+1
+                        move[n] = {2919-14, 2929-14, ACTDOWN, 20}; n=n+1
+			move[n] = {2951-14, 2966-14, ACTLEFT, 21}; n=n+1
+			move[n] = {2997-14, 3040-14, MASHMAX, 22}; n=n+1
+                        move[n] = {3060-14, 3075-14, DOWN, 23}; n=n+1
+                        move[n] = {3090-14, 3123-14, MASHMAX, 23}; n=n+1
+			move[n] = {3138-14, 3153-14, RIGHT, 24}; n=n+1
+                        move[n] = {3168-14, 3190-14, MASHMAX, 24}; n=n+1
+			move[n] = {3215-14, 3230-14, ACTLEFT, 25}; n=n+1
+                        move[n] = {3301-14, 3315-14, DOWN, 24}; n=n+1
+			move[n] = {3326-14, 3341-14, RIGHT, 25}; n=n+1
+                        move[n] = {3380-14, 3404-14, HOLDLEFT, 26}; n=n+1
+			move[n] = {3486-14, 3500-14, LEFT, 18}; n=n+1
+                        move[n] = {3510-14, 3521-14, BUTTON1, 18}; n=n+1
+			move[n] = {3559-14, 3581-14, HOLDLEFT, 27}; n=n+1
+
+                        totalMoves   = n-1
+			
+                elseif thisScene == 4 then 								-- Now scene 2					
+
+			sceneStart = 3705									-- Scene starts at 2048 (it's just where the previous scene ends +1).		
+			sceneEnd   = 7851									-- And so on... 
+			n = 1
+
+			move[n] = {3911-14, 3926-14, DOWN, 29}; n=n+1
+			move[n] = {4040-14, 4055-14, DOWN, 29}; n=n+1			
+			move[n] = {4090-14, 4148-14, RUN, 30}; n=n+1
+			move[n] = {4150-14, 6499-14, SKIP, 19}; n=n+1
+                        move[n] = {6943-14, 6958-14, ACTLEFT, 31}; n=n+1
+			move[n] = {6968-14, 7029-14, MASHMAX, 32}; n=n+1
+			move[n] = {7132-14, 7165-14, MASHMAX, 33}; n=n+1
+                        move[n] = {7181-14, 7195-14, UP, 34}; n=n+1		
+			move[n] = {7210-14, 7225-14, LEFT, 34}; n=n+1	
+	                move[n] = {7248-14, 7263-14, BUTTON1, 35}; n=n+1	
+			move[n] = {7278-14, 7316-14, HOLDDOWN, 35}; n=n+1
+                        move[n] = {7331-14, 7346-14, RIGHT, 36}; n=n+1
+			move[n] = {7361-14, 7376-14, DOWN, 36}; n=n+1
+                        move[n] = {7408-14, 7451-14, MASHMAX, 37}; n=n+1
+			move[n] = {7460-14, 7474-14, RIGHT, 37}; n=n+1
+                        move[n] = {7489-14, 7504-14, RIGHT, 38}; n=n+1
+                        move[n] = {7519-14, 7563-14, MASHMAX, 38}; n=n+1
+			move[n] = {7582-14, 7606-14, HOLDDOWN, 39}; n=n+1
+                        move[n] = {7616-14, 7630-14, ACTDOWN, 39}; n=n+1
+			move[n] = {7643-14, 7721-14, MASHMAX, 40}; n=n+1
+                        move[n] = {7736-14, 7751-14, DOWN, 40}; n=n+1
+                        move[n] = {7766-14, 7781-14, BUTTON1, 41}; n=n+1
+
+                        totalMoves   = n-1
+			
+                elseif thisScene == 5 then 								-- Now scene 2					
+
+			sceneStart = 7852									-- Scene starts at 2048 (it's just where the previous scene ends +1).		
+			sceneEnd   = 9020									-- And so on... 
+			n = 1
+
+			move[n] = {7932-14, 7947-14, BUTTON1, 42}; n=n+1
+			move[n] = {8029-14, 8043-14, RIGHT, 43}; n=n+1			
+			move[n] = {8073-14, 8088-14, LEFT, 43}; n=n+1
+			move[n] = {8511-14, 8525-14, DOWN, 44}; n=n+1
+                        move[n] = {8569-14, 8584-14, RIGHT, 45}; n=n+1
+                        move[n] = {8599-14, 8614-14, RIGHT, 45}; n=n+1
+                        move[n] = {8629-14, 8644-14, RIGHT, 45}; n=n+1
+                        move[n] = {8659-14, 8674-14, RIGHT, 45}; n=n+1
+                        move[n] = {8713-14, 8728-14, BUTTON1, 46}; n=n+1
+                        move[n] = {8798-14, 8813-14, DOWN, 47}; n=n+1
+			move[n] = {8828-14, 8884-14, MASHMAX, 47}; n=n+1
+
+                        totalMoves   = n-1
+
+
+                  elseif thisScene == 6 then 								-- Now scene 2					
+
+			sceneStart = 9021									-- Scene starts at 2048 (it's just where the previous scene ends +1).		
+			sceneEnd   = 11729									-- And so on... 
+			n = 1
+
+			move[n] = {9071-14, 9144-14, SKIP, 34}; n=n+1			
+			move[n] = {9235-14, 9250-14, RIGHT, 48}; n=n+1
+			move[n] = {9332-14, 9347-14, LEFT, 48}; n=n+1
+                        move[n] = {9530-14, 9720-14, SKIP, 37}; n=n+1
+			move[n] = {9898-14, 9940-14, HOLDDOWN, 49}; n=n+1
+                        move[n] = {9983-14, 10045-14, RUN, 50}; n=n+1
+                        move[n] = {10060-14, 10075-14, LEFT, 50}; n=n+1
+                        move[n] = {10090-14, 10105-14, BUTTON1, 50}; n=n+1
+                        move[n] = {10120-14, 10182-14, HOLDRIGHT, 50}; n=n+1
+                        move[n] = {10197-14, 10212-14, RIGHT, 50}; n=n+1
+                        move[n] = {10263-14, 10278-14, UP, 52}; n=n+1
+			move[n] = {10293-14, 10332-14, RUN, 52}; n=n+1
+                        move[n] = {10458-14, 10517-14, HOLDBUT, 54}; n=n+1
+                        move[n] = {10677-14, 10692-14, UP, 53}; n=n+1
+			move[n] = {10748-14, 10763-14, LEFT, 53}; n=n+1
+                        move[n] = {10791-14, 10831-14, RUN, 54}; n=n+1
+                        move[n] = {10948-14, 10963-14, BUTTON1, 54}; n=n+1
+
+                        totalMoves   = n-1
+
+                  
+		end 													-- We made 2 scenes, this Level is finished.
+
+	elseif thisLevel == 2 then									-- Now Level 2. Exact same process than level 1.
+
+		if thisScene == 1 then   										
+
+			sceneStart = 225
+			sceneEnd   = 2339
+			n = 1
+
+			move[n] = {283, 296, DOWN, 55}; n=n+1
+			move[n] = {435, 450, LEFT, 56}; n=n+1
+			move[n] = {508, 523, BUTTON1, 57}; n=n+1
+			move[n] = {709, 724, RIGHT, 58}; n=n+1
+			move[n] = {977, 992, UP, 59}; n=n+1
+			move[n] = {1140, 1156, LEFT, 60}; n=n+1
+			move[n] = {1346, 1361, UP, 60}; n=n+1
+			move[n] = {1616, 1631, RIGHT, 61}; n=n+1
+		        move[n] = {1975, 1990, RIGHT, 62}; n=n+1
+			move[n] = {2016, 2031, UP, 63}; n=n+1
+                        move[n] = {2165, 2180, LEFT, 64}; n=n+1
+			move[n] = {2216, 2308, HOLDRIGHT, 65}; n=n+1
+
+                        totalMoves   = n-1
+
+
+                 elseif thisScene == 2 then
+		
+			sceneStart = 2340
+			sceneEnd   = 4704
+			n = 1
+
+
+			move[n] = {2390, 2881, SKIP, 65}; n=n+1
+                        move[n] = {3157, 3172, LEFT, 66}; n=n+1
+			move[n] = {3211, 3226, LEFT, 67}; n=n+1
+			move[n] = {3238, 3253, BUTTON1, 68}; n=n+1
+			move[n] = {3331, 3346, LEFT, 69}; n=n+1	
+                        move[n] = {3391, 3406, BUTTON1, 70}; n=n+1
+			move[n] = {3448, 3462, ACTDOWN, 71}; n=n+1
+			move[n] = {4025, 4040, BUTTON1, 72}; n=n+1
+			move[n] = {4068, 4081, ACTRIGHT, 73}; n=n+1
+			move[n] = {4091, 4101, ACTRIGHT, 72}; n=n+1
+			move[n] = {4111, 4121, ACTRIGHT, 73}; n=n+1
+			move[n] = {4167, 4182, DOWN, 72}; n=n+1
+			move[n] = {4230, 4245, BUTTON1, 72}; n=n+1
+                        move[n] = {4259, 4274, ACTRIGHT, 72}; n=n+1
+                        move[n] = {4289, 4304, ACTLEFT, 72}; n=n+1
+		        move[n] = {4334, 4365, MASHMAX, 73}; n=n+1
+                        move[n] = {4379, 4394, UP, 72}; n=n+1
+                        move[n] = {4455, 4495, RUN, 74}; n=n+1
+                        move[n] = {4542, 4572, RUN, 75}; n=n+1	
+	                move[n] = {4591, 4614, HOLDDOWN, 75}; n=n+1	
+
+			totalMoves   = n-1
+				
+		elseif thisScene == 3 then
+		
+			sceneStart = 4705
+			sceneEnd   = 6320
+			n = 1
+
+			move[n] = {4731, 4746, DOWN, 76}; n=n+1
+                        move[n] = {4799, 4814, BUTTON1, 77}; n=n+1
+			move[n] = {4829, 4844, RIGHT, 77}; n=n+1
+			move[n] = {4873, 4910, RUN, 78}; n=n+1
+			move[n] = {4979, 4994, RIGHT, 79}; n=n+1
+                        move[n] = {5017, 5046, HOLDDOWN, 80}; n=n+1
+			move[n] = {5061, 5083, UP, 80}; n=n+1
+                        move[n] = {5238, 5271, HOLDDOWN, 78}; n=n+1
+                        move[n] = {5294, 5309, DOWN, 78}; n=n+1
+			move[n] = {5324, 5353, RUN, 81}; n=n+1
+			move[n] = {5402, 5417, RIGHT, 82}; n=n+1
+	                move[n] = {5465, 5690, RUN, 83}; n=n+1
+                        move[n] = {5705, 5720, BUTTON1, 84}; n=n+1
+                        move[n] = {5731, 5746, LEFT, 85}; n=n+1
+                        move[n] = {5817, 5832, DOWN, 86}; n=n+1
+                        move[n] = {5881, 5978, HOLDDOWN, 87}; n=n+1
+                        move[n] = {6021, 6046, HOLDDOWN, 88}; n=n+1
+                        move[n] = {6056, 6071, LEFT, 88}; n=n+1
+                        move[n] = {6080, 6095, BUTTON1, 89}; n=n+1
+                        move[n] = {6119, 6134, LEFT, 90}; n=n+1
+			move[n] = {6149, 6159, ACTDOWN, 91}; n=n+1
+		        move[n] = {6169, 6179, BUTTON1, 91}; n=n+1
+
+			totalMoves   = n-1
+
+
+		elseif thisScene == 4 then
+		
+			sceneStart = 6321
+			sceneEnd   = 7579
+			n = 1
+
+			move[n] = {6439, 6454, ACTLEFT, 92}; n=n+1
+			move[n] = {6496, 6511, LEFT, 93}; n=n+1
+			move[n] = {6578, 6593, RIGHT, 94}; n=n+1
+			move[n] = {6769, 6784, ACTRIGHT, 95}; n=n+1
+			move[n] = {6803, 6817, BUTTON1, 95}; n=n+1
+			move[n] = {6841, 6894, HOLDRIGHT, 96}; n=n+1
+			move[n] = {6950, 6963, DOWN, 97}; n=n+1
+	                move[n] = {7058, 7096, MASHMAX, 98}; n=n+1
+                        move[n] = {7111, 7126, DOWN, 98}; n=n+1
+                        move[n] = {7196, 7210, RIGHT, 99}; n=n+1
+                        move[n] = {7230, 7245, DOWNRIGHT, 100}; n=n+1
+                        move[n] = {7291, 7306, RIGHT, 101}; n=n+1
+                        move[n] = {7390, 7431, MASHMAX, 102}; n=n+1
+
+                        totalMoves   = n-1
+
+
+                  elseif thisScene == 5 then
+		
+			sceneStart = 7580
+			sceneEnd   = 9074
+			n = 1
+
+                        
+                        move[n] = {7672, 7687, UP, 99}; n=n+1
+                        move[n] = {7792, 7806, UP, 99}; n=n+1
+                        move[n] = {7917, 7932, ACTLEFT, 99}; n=n+1
+                        move[n] = {7963, 8040, HOLDDOWN, 104}; n=n+1
+                        move[n] = {8055, 8088, MASHMAX, 105}; n=n+1
+                        move[n] = {8116, 8181, HOLDBUT, 105}; n=n+1
+                        move[n] = {8265, 8280, UP, 106}; n=n+1
+			move[n] = {8347, 8362, ACTLEFT, 107}; n=n+1	
+			move[n] = {8394, 8431, MASHMAX, 108}; n=n+1
+                        move[n] = {8443, 8486, HOLDDOWN, 109}; n=n+1
+                        move[n] = {8569, 8634, MASHMAX, 110}; n=n+1
+                        move[n] = {8703, 8718, RIGHT, 111}; n=n+1
+                        move[n] = {8758, 8785, MASHMAX, 112}; n=n+1
+                        move[n] = {8800, 8815, DOWN, 112}; n=n+1
+                        move[n] = {8845, 8860, LEFT, 112}; n=n+1
+                        move[n] = {8875, 8912, HOLDUP, 113}; n=n+1
+                        move[n] = {8922, 8937, ACTDOWN, 114}; n=n+1
+                        move[n] = {8950, 8960, UP, 115}; n=n+1
+                        move[n] = {8970, 9026, MASHMAX, 115}; n=n+1
+                        move[n] = {9037, 9050, ACTDOWN, 116}; n=n+1
+
+
+                        totalMoves   = n-1
+
+                  elseif thisScene == 6 then
+		
+			sceneStart = 9075
+			sceneEnd   = 10657
+			n = 1
+
+                        move[n] = {9157, 9172, LEFT, 117}; n=n+1
+                        move[n] = {9185, 9235, HOLDUP, 118}; n=n+1
+                        move[n] = {9276, 9293, BUTTON1, 119}; n=n+1
+                        move[n] = {9308, 9405, HOLDDOWN, 120}; n=n+1
+                        move[n] = {9555, 9569, UP, 121}; n=n+1
+                        move[n] = {9710, 9809, HOLDDOWN, 122}; n=n+1
+                        move[n] = {10111, 10212, MASHMAX, 123}; n=n+1
+                        move[n] = {10325, 10429, HOLDDOWN, 124}; n=n+1
+                        move[n] = {10449, 10512, HOLDRIGHT, 125}; n=n+1
+
+                       totalMoves   = n-1
+
+		
+
+		end
+
+	elseif thisLevel == 3 then
+
+		if thisScene == 1 then   										
+
+			sceneStart = 276
+			sceneEnd   = 2000
+			n = 1
+
+			move[n] = {423, 438, DOWN, 126}; n=n+1
+			move[n] = {528, 543, BUTTON1, 127}; n=n+1
+			move[n] = {558, 573, DOWN, 128}; n=n+1
+			move[n] = {588, 603, DOWN, 129}; n=n+1
+                        move[n] = {660, 675, RIGHT, 130}; n=n+1
+			move[n] = {690, 710, DOWN, 130}; n=n+1
+			move[n] = {730, 803, HOLDDOWN, 131}; n=n+1
+			move[n] = {850, 1688, SKIP, 60}; n=n+1
+			move[n] = {1882, 1897, LEFT, 132}; n=n+1
+		        move[n] = {1922, 1937, RIGHT, 133}; n=n+1
+			
+
+                        totalMoves   = n-1
+
+
+                 elseif thisScene == 2 then
+		
+			sceneStart = 2001
+			sceneEnd   = 3565
+			n = 1
+
+
+			move[n] = {2045, 2060, RIGHT, 134}; n=n+1
+                        move[n] = {2125, 2140, LEFT, 135}; n=n+1
+			move[n] = {2190, 2205, RIGHT, 136}; n=n+1
+			move[n] = {2248, 2263, DOWN, 137}; n=n+1
+			move[n] = {2321, 2336, LEFT, 138}; n=n+1	
+                        move[n] = {2345, 2360, DOWN, 139}; n=n+1
+			move[n] = {2407, 2423, BUTTON1, 140}; n=n+1
+			move[n] = {2590, 2656, RUN, 141}; n=n+1
+			move[n] = {2701, 2716, BUTTON1, 142}; n=n+1
+			move[n] = {2763, 2790, LOOPRIGHT, 143}; n=n+1
+			move[n] = {2902, 2917, RIGHT, 144}; n=n+1
+			move[n] = {3052, 3067, RIGHT, 145}; n=n+1
+			move[n] = {3120, 3135, RIGHT, 146}; n=n+1
+		        move[n] = {3206, 3221, UP, 147}; n=n+1
+                        move[n] = {3272, 3287, RIGHT, 148}; n=n+1
+                        move[n] = {3336, 3351, BUTTON1, 149}; n=n+1
+                        move[n] = {3366, 3381, RIGHT, 150}; n=n+1	
+	                move[n] = {3427, 3471, MASHMAX, 151}; n=n+1	
+
+			totalMoves   = n-1
+				
+		elseif thisScene == 3 then
+		
+			sceneStart = 3566
+			sceneEnd   = 4897
+			n = 1
+
+			move[n] = {3642, 3657, ACTDOWN, 152}; n=n+1
+			move[n] = {3717, 3732, RIGHT, 153}; n=n+1
+			move[n] = {3814, 3829, RIGHT, 154}; n=n+1
+			move[n] = {3843, 3939, MASHMAX, 155}; n=n+1
+			move[n] = {3954, 3969, BUTTON3, 156}; n=n+1
+			move[n] = {4098, 4162, MASHMAX, 157}; n=n+1
+			move[n] = {4331, 4346, RIGHT, 158}; n=n+1
+	                move[n] = {4400, 4531, MASHMAX, 159}; n=n+1
+                        
+		
+			totalMoves   = n-1
+
+
+		elseif thisScene == 4 then
+		
+			sceneStart = 4898
+			sceneEnd   = 7169
+			n = 1
+
+			move[n] = {5060, 5075, BUTTON3, 160}; n=n+1
+			move[n] = {5225, 5271, MASHMAX, 161}; n=n+1
+                        move[n] = {5298, 5313, RIGHT, 162}; n=n+1
+			move[n] = {5328, 5416, MASHMAX, 163}; n=n+1
+			move[n] = {5431, 5446, BUTTON1, 164}; n=n+1
+                        move[n] = {5471, 5486, RIGHT, 164}; n=n+1
+			move[n] = {5517, 5532, RIGHT, 165}; n=n+1
+			move[n] = {5572, 5640, HOLDRIGHT, 166}; n=n+1
+                        move[n] = {5655, 5668, DOWNLEFT, 166}; n=n+1
+	                move[n] = {5743, 5814, MASHMAX, 167}; n=n+1
+                        move[n] = {5905, 5942, HOLDDOWN, 167}; n=n+1
+                        move[n] = {6025, 6040, LEFT, 167}; n=n+1
+                        move[n] = {6104, 6119, BUTTON1, 168}; n=n+1
+                        move[n] = {6329, 6393, MASHMAX, 169}; n=n+1
+                        move[n] = {6413, 6428, BUTTON3, 170}; n=n+1
+                        move[n] = {6512, 6557, MASHMAX, 171}; n=n+1
+                        move[n] = {6632, 6690, MASHMAX, 172}; n=n+1
+                        move[n] = {6776, 6791, RIGHT, 173}; n=n+1
+                        move[n] = {6805, 6820, DOWN, 174}; n=n+1
+                        move[n] = {6835, 6850, LEFT, 175}; n=n+1
+                        move[n] = {6863, 6888, MASHMAX, 175}; n=n+1
+                        move[n] = {6916, 7000, HOLDDOWN, 176}; n=n+1
+                        move[n] = {7088, 7103, BUTTON1, 179}; n=n+1
+
+                        totalMoves   = n-1
+
+
+                  elseif thisScene == 5 then
+		
+			sceneStart = 7170
+			sceneEnd   = 9314
+			n = 1
+
+                        move[n] = {7269, 7284, RIGHT, 177}; n=n+1
+                        move[n] = {7299, 7364, MASHMAX, 177}; n=n+1
+                        move[n] = {7400, 7415, ACTLEFT, 178}; n=n+1
+                        move[n] = {8331, 8346, LEFT, 179}; n=n+1
+                        move[n] = {8579, 8630, MASHMAX, 180}; n=n+1
+                        move[n] = {8684, 8755, RUN, 180}; n=n+1
+                        move[n] = {8812, 8827, DOWN, 179}; n=n+1
+			move[n] = {8950, 8965, BUTTON3, 181}; n=n+1	
+			move[n] = {9054, 9069, UP, 182}; n=n+1
+                        move[n] = {9084, 9099, UP, 183}; n=n+1
+
+
+                        totalMoves   = n-1
+
+                   elseif thisScene == 6 then
+		
+			sceneStart = 9315
+			sceneEnd   = 10956
+			n = 1
+
+                        move[n] = {9435, 9450, ACTDOWN, 184}; n=n+1
+                        move[n] = {9468, 9581, RUN, 185}; n=n+1
+                        move[n] = {9672, 9712, HOLDUP, 186}; n=n+1
+                        move[n] = {9797, 9812, LEFT, 187}; n=n+1
+                        move[n] = {9827, 9842, RIGHT, 187}; n=n+1
+                        move[n] = {9899, 9914, BUTTON1, 188}; n=n+1
+                        move[n] = {9936, 9948, HOLDDOWN, 189}; n=n+1
+                        move[n] = {10012, 10027, BUTTON1, 190}; n=n+1
+                        move[n] = {10166, 10181, ACTDOWN, 191}; n=n+1
+                        move[n] = {10204, 10219, BUTTON1, 192}; n=n+1
+                        move[n] = {10257, 10525, HOLDUP, 193}; n=n+1
+                        move[n] = {10540, 10555, RIGHT, 194}; n=n+1
+                        move[n] = {10588, 10662, HOLDRIGHT, 195}; n=n+1
+                        move[n] = {10757, 10853, HOLDUP, 196}; n=n+1
+                        move[n] = {10868, 10907, HOLDDOWN, 197}; n=n+1
+
+                        totalMoves   = n-1
+
+
+
+                    elseif thisScene == 7 then
+		
+			sceneStart = 10957
+			sceneEnd   = 12597
+			n = 1
+
+                        move[n] = {11074, 11177, MASHMAX, 198}; n=n+1
+                        move[n] = {11191, 11221, HOLDLEFT, 199}; n=n+1
+                        move[n] = {11250, 11278, HOLDLEFT, 199}; n=n+1
+                        move[n] = {11392, 11407, DOWN, 202}; n=n+1
+                        move[n] = {11435, 11468, RUN, 202}; n=n+1
+                        move[n] = {11496, 11532, MASHMAX, 202}; n=n+1
+                        move[n] = {11565, 11630, MASHMAX, 200}; n=n+1
+                        move[n] = {11706, 11752, HOLDUP, 201}; n=n+1
+                        move[n] = {11780, 11883, HOLDRIGHT, 202}; n=n+1
+                        move[n] = {11906, 11956, RUN, 203}; n=n+1
+                        move[n] = {12069, 12100, HOLDDOWN, 204}; n=n+1
+                        move[n] = {12115, 12136, RUN, 204}; n=n+1
+                        move[n] = {12152, 12167, ACTDOWN, 205}; n=n+1
+                        move[n] = {12212, 12279, MASHMAX, 202}; n=n+1
+                        move[n] = {12316, 12355, HOLDRIGHT, 206}; n=n+1
+                        move[n] = {12406, 12546, HOLDUP, 207}; n=n+1
+                        
+
+                        totalMoves   = n-1
+
+
+                    elseif thisScene == 8 then
+		
+			sceneStart = 12598
+			sceneEnd   = 16489
+			n = 1
+
+                        move[n] = {12623, 12753, MASHMAX, 202}; n=n+1
+                        move[n] = {12756, 13774, SKIP, 208}; n=n+1
+                        move[n] = {13873, 13888, RIGHT, 208}; n=n+1
+                        move[n] = {13919, 13951, HOLDBUT, 208}; n=n+1
+                        move[n] = {14043, 14075, HOLDBUT, 208}; n=n+1
+                        move[n] = {14120, 14135, BUTTON1, 208}; n=n+1
+                        move[n] = {14213, 14228, DOWN, 209}; n=n+1
+                        move[n] = {14250, 14287, MASHMAX, 210}; n=n+1
+                        move[n] = {14304, 14339, MASHMAX, 210}; n=n+1
+                        move[n] = {14452, 14467, RIGHT, 211}; n=n+1
+                        move[n] = {14500, 14515, LEFT, 212}; n=n+1
+                        move[n] = {14533, 14642, MASHMAX, 213}; n=n+1
+                        move[n] = {14920, 15276, MASHMAX, 214}; n=n+1
+                        move[n] = {15356, 15370, LEFT, 215}; n=n+1
+                        move[n] = {15560, 15901, SKIP, 215}; n=n+1
+                        move[n] = {16231, 16309, HOLDUP, 215}; n=n+1
+
+
+                        totalMoves   = n-1
+
+                
+		end
+
+	elseif thisLevel == 4 then
+
+		if thisScene == 1 then   										
+
+			sceneStart = 741
+			sceneEnd   = 1435
+			n = 1
+
+                        
+                        move[n] = {882, 897, DOWN, 226}; n=n+1
+                        move[n] = {915, 930, BUTTON1, 226}; n=n+1
+                        move[n] = {975, 990, DOWN, 226}; n=n+1
+                        move[n] = {1101, 1116, LEFT, 224}; n=n+1
+                        move[n] = {1155, 1170, LEFT, 224}; n=n+1
+                        move[n] = {1206, 1221, UP, 225}; n=n+1
+                        move[n] = {1255, 1270, LEFT, 224}; n=n+1
+
+                        totalMoves   = n-1
+
+             elseif thisScene == 2 then
+		
+			sceneStart = 1436
+			sceneEnd   = 2431
+			n = 1
+
+                        move[n] = {1548, 1585, LEFT, 225}; n=n+1
+                        move[n] = {1642, 1657, BUTTON2, 225}; n=n+1
+                        move[n] = {1729, 1744, DOWN, 225}; n=n+1
+                        move[n] = {1778, 1793, UP, 216}; n=n+1
+                        move[n] = {1823, 1890, HOLDRIGHT, 225}; n=n+1
+                        move[n] = {1920, 1935, UP, 217}; n=n+1
+                        move[n] = {1984, 1998, DOWN, 224}; n=n+1
+                        move[n] = {2012, 2027, LEFT, 224}; n=n+1
+                        move[n] = {2110, 2160, HOLDRIGHT, 225}; n=n+1
+                        move[n] = {2184, 2198, UP, 216}; n=n+1
+                        move[n] = {2252, 2267, DOWN, 224}; n=n+1
+                        move[n] = {2282, 2297, RIGHT, 216}; n=n+1
+                        move[n] = {2380, 2395, RIGHT, 224}; n=n+1
+                        move[n] = {2410, 2425, RIGHT, 224}; n=n+1
+
+
+                        totalMoves   = n-1
+
+                       elseif thisScene == 3 then
+		
+			sceneStart = 2432
+			sceneEnd   = 3284
+			n = 1
+
+                        move[n] = {2453, 2487, HOLDRIGHT, 220}; n=n+1
+                        move[n] = {2502, 2519, HOLDLEFT, 220}; n=n+1
+                        move[n] = {2598, 2648, HOLDRIGHT, 225}; n=n+1
+                        move[n] = {2660, 2675, RIGHT, 220}; n=n+1
+                        move[n] = {2707, 2722, LEFT, 220}; n=n+1
+                        move[n] = {2821, 2835, LEFT, 225}; n=n+1
+                        move[n] = {2849, 2864, RIGHT, 226}; n=n+1
+                        move[n] = {2874, 2889, DOWNLEFT, 222}; n=n+1
+                        move[n] = {2904, 2967, MASHMAX, 222}; n=n+1
+                        move[n] = {3020, 3046, MASHMAX, 216}; n=n+1
+                        move[n] = {3065, 3085, HOLDRIGHT, 224}; n=n+1
+                        move[n] = {3098, 3142, MASHMAX, 224}; n=n+1
+                        move[n] = {3227, 3271, MASHMAX, 218}; n=n+1
+
+                        
+                        totalMoves   = n-1
+									
+		    elseif thisScene == 4 then
+		
+			sceneStart = 3285
+			sceneEnd   = 5055
+			n = 1
+
+                        move[n] = {3409, 3454, HOLDRIGHT, 219}; n=n+1
+                        move[n] = {3532, 3572, MASHMAX, 221}; n=n+1
+                        move[n] = {3587, 3602, LEFT, 221}; n=n+1
+                        move[n] = {3683, 3702, HOLDLEFT, 225}; n=n+1
+                        move[n] = {3717, 3732, RIGHT, 225}; n=n+1
+                        move[n] = {3887, 3924, HOLDRIGHT, 224}; n=n+1
+                        move[n] = {3946, 3960, LEFT, 224}; n=n+1
+                        move[n] = {4043, 4096, MASHMAX, 222}; n=n+1
+                        move[n] = {4111, 4126, DOWN, 222}; n=n+1
+                        move[n] = {4220, 4235, RIGHT, 217}; n=n+1
+                        move[n] = {4285, 4300, LEFT, 225}; n=n+1
+                        move[n] = {4310, 4325, LEFT, 225}; n=n+1
+                        move[n] = {4359, 4441, HOLDLEFT, 226}; n=n+1
+                        move[n] = {4655, 4670, RIGHT, 226}; n=n+1
+                        move[n] = {4742, 4813, MASHMAX, 227}; n=n+1
+                        move[n] = {4880, 4946, HOLDDOWN, 225}; n=n+1
+                        move[n] = {4972, 4987, UP, 224}; n=n+1
+
+                        totalMoves   = n-1
+			
+		elseif thisScene == 5 then   				
+		
+			sceneStart = 5056
+			sceneEnd   = 8240
+			n = 1
+
+			move[n] = {5149, 5164, DOWN, 228}; n=n+1
+			move[n] = {5198, 5286, MASHMAX, 217}; n=n+1
+			move[n] = {5336, 5351, LEFT, 225}; n=n+1
+			move[n] = {5364, 5380, HOLDDOWN, 223}; n=n+1
+			move[n] = {5459, 5509, MASHMAX, 218}; n=n+1
+			move[n] = {5598, 5613, LEFT, 219}; n=n+1
+			move[n] = {5628, 5643, RIGHT, 219}; n=n+1
+                        move[n] = {5728, 5772, HOLDRIGHT, 218}; n=n+1
+                        move[n] = {5854, 5904, MASHMAX, 219}; n=n+1
+                        move[n] = {5933, 5971, HOLDRIGHT, 220}; n=n+1
+                        move[n] = {6025, 6048, HOLDBUT, 224}; n=n+1
+                        move[n] = {6085, 6121, HOLDBUT, 219}; n=n+1
+                        move[n] = {6137, 6157, HOLDBUT, 219}; n=n+1
+                        move[n] = {7049, 7499, SKIP, 226}; n=n+1
+                        move[n] = {7568, 7583, UP, 226}; n=n+1
+                        move[n] = {7664, 7731, HOLDUP, 226}; n=n+1
+                        move[n] = {7980, 8150, HOLDDOWN, 226}; n=n+1
+
+		        totalMoves   = n-1
+
+		end
+
+	elseif thisLevel == 5 then
+
+		if thisScene == 1 then   										
+
+			sceneStart = 132
+			sceneEnd   = 3024
+			n = 1
+
+                        move[n] = {230-136, 1078-136, SKIP, 228}; n=n+1
+                        move[n] = {1421-136, 1435-136, LEFT, 229}; n=n+1
+                        move[n] = {1534-136, 1528-136, SKIP, 229}; n=n+1
+                        move[n] = {1640-136, 1655-136, DOWN, 239}; n=n+1
+                        move[n] = {1670-136, 1826-136, MASHMAX, 239}; n=n+1
+                        move[n] = {1925-136, 1940-136, RIGHT, 239}; n=n+1
+                        move[n] = {1986-136, 2038-136, MASHMAX, 239}; n=n+1
+                        move[n] = {2058-136, 2073-136, LEFT, 237}; n=n+1
+                        move[n] = {2186-136, 2237-136, MASHMAX, 230}; n=n+1
+                        move[n] = {2252-136, 2267-136, RIGHT, 230}; n=n+1
+                        move[n] = {2400-136, 2449-136, MASHMAX, 230}; n=n+1
+                        move[n] = {2608-136, 2623-136, DOWN, 239}; n=n+1
+                        move[n] = {2638-136, 2653-136, LEFT, 239}; n=n+1
+                        move[n] = {2697-136, 2712-136, LEFT, 240}; n=n+1
+                        move[n] = {2801-136, 2816-136, DOWN, 240}; n=n+1
+                        move[n] = {2831-136, 2846-136, RIGHT, 243}; n=n+1
+                        move[n] = {2871-136, 2886-136, RIGHT, 244}; n=n+1
+                        move[n] = {2901-136, 2966-136, MASHMAX, 244}; n=n+1
+                        move[n] = {3115-136, 3145-136, MASHMAX, 232}; n=n+1
+
+                        totalMoves   = n-1
+
+                    elseif thisScene == 2 then   				
+		
+			sceneStart = 3025
+			sceneEnd   = 5305
+			n = 1
+
+                       
+                        move[n] = {3189-136, 3204-136, DOWN, 232}; n=n+1
+                        move[n] = {3225-136, 3240-136, BUTTON2, 234}; n=n+1
+                        move[n] = {3435-136, 3450-136, BUTTON2, 234}; n=n+1
+                        move[n] = {3607-136, 3644-136, MASHMAX, 245}; n=n+1
+                        move[n] = {3711-136, 3726-136, LEFT, 239}; n=n+1
+                        move[n] = {3740-136, 3767-136, MASHMAX, 239}; n=n+1
+                        move[n] = {3803-136, 3853-136, HOLDDOWN, 230}; n=n+1
+                        move[n] = {3973-136, 3990-136, HOLDBUT, 243}; n=n+1
+                        move[n] = {4005-136, 4020-136, DOWN, 246}; n=n+1
+                        move[n] = {4121-136, 4136-136, BUTTON2, 232}; n=n+1
+                        move[n] = {4249-136, 4264-136, RIGHT, 232}; n=n+1
+                        move[n] = {4351-136, 4366-136, DOWN, 232}; n=n+1
+                        move[n] = {4411-136, 4426-136, LEFT, 247}; n=n+1
+                        move[n] = {4480-136, 4595-136, MASHMAX, 247}; n=n+1
+                        move[n] = {5021-136, 5036-136, RIGHT, 248}; n=n+1
+                        move[n] = {5102-136, 5207-136, MASHMAX, 248}; n=n+1
+
+                        totalMoves   = n-1
+ 
+		elseif thisScene == 3 then   				
+		
+			sceneStart = 5306
+			sceneEnd   = 6870
+			n = 1
+
+			
+			move[n] = {5479-136, 5494-136, RIGHT, 249}; n=n+1
+			move[n] = {5719-136, 5734-136, UP, 250}; n=n+1
+			move[n] = {5746-136, 5761-136, BUTTON2, 250}; n=n+1
+			move[n] = {5836-136, 5849-136, MASHMAX, 251}; n=n+1
+			move[n] = {5863-136, 5878-136, BUTTON2, 251}; n=n+1
+			move[n] = {5896-136, 5911-136, BUTTON2, 252}; n=n+1
+                        move[n] = {6452-136, 6467-136, BUTTON3, 253}; n=n+1
+                        move[n] = {6485-136, 6500-136, LEFT, 253}; n=n+1
+                        move[n] = {6577-136, 6601-136, MASHMAX, 254}; n=n+1
+                        move[n] = {6616-136, 6631-136, LEFT, 254}; n=n+1
+                        move[n] = {6646-136, 6678-136, MASHMAX, 254}; n=n+1
+                        move[n] = {6693-136, 6708-136, LEFT, 254}; n=n+1
+                        move[n] = {6723-136, 6762-136, MASHMAX, 254}; n=n+1
+                        move[n] = {6777-136, 6840-136, HOLDBUT, 254}; n=n+1
+
+		        totalMoves   = n-1
+			
+		elseif thisScene == 4 then
+
+			sceneStart = 6871
+			sceneEnd   = 12365
+			n = 1
+					
+                        move[n] = {7011-136, 7026-136, UP, 254}; n=n+1
+                        move[n] = {7095-136, 7118-136, LOOPLEFT, 254}; n=n+1
+		        move[n] = {7254-136, 7651-136, SKIP, 254}; n=n+1
+	                move[n] = {7933-136, 7957-136, LOOPRIGHT, 255}; n=n+1
+                        move[n] = {7972-136, 7992-136, MASHMAX, 255}; n=n+1
+                        move[n] = {8094-136, 8151-136, MASHMAX, 258}; n=n+1
+			move[n] = {8166-136, 8181-136, LEFT, 255}; n=n+1
+			move[n] = {8196-136, 8276-136, MASHMAX, 256}; n=n+1
+                        move[n] = {8298-136, 8313-136, HOLDDOWN, 257}; n=n+1
+			move[n] = {8328-136, 8343-136, ACTDOWN, 257}; n=n+1
+                        move[n] = {8359-136, 8433-136, HOLDBUT, 260}; n=n+1
+			move[n] = {8466-136, 8643-136, MASHMAX, 258}; n=n+1
+                        move[n] = {8658-136, 8673-136, BUTTON1, 259}; n=n+1
+			move[n] = {8748-136, 8835-136, MASHMAX, 259}; n=n+1
+                        move[n] = {9486-136, 9516-136, HOLDDOWN, 260}; n=n+1
+                        move[n] = {9650-136, 9740-136, MASHMAX, 261}; n=n+1
+                        move[n] = {9852-136, 9906-136, MASHMAX, 262}; n=n+1
+                        move[n] = {10206-136, 10310-136, HOLDBUT, 263}; n=n+1
+                        move[n] = {10574-136, 11291-136, SKIP, 263}; n=n+1
+
+                        totalMoves   = n-1
+		
+					
+		end
+
+	end	
+	
+end
+
