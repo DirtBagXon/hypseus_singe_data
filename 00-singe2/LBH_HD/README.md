@@ -1,6 +1,5 @@
 ## (Singe 2) The Last Bounty Hunter HD
 
-* Required `-overlay_set oversize`
 * Recommended `-manymouse`
 * Optional `-nolinear_scale`
 

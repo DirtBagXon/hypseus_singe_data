@@ -18,6 +18,13 @@ This file is part of LUA SINGE ENGINE.
 
 ]]--
 
+if (setOverlaySize ~= nil) then
+	setOverlaySize(4, 360, 240)
+else
+	debugPrint("Upgrade Hypseus Singe!")
+	singeQuit()
+end
+
 dofile(MYDIR .. "framework.singe")		
 dofile(MYDIR .. "main.singe")
 dofile(MYDIR .. "map.singe")

@@ -2,7 +2,6 @@
 
 * This is the Singe 2 game simulation of Esh's Aurunmilla
 * Game named `aurunmilla` to distinguish from _Daphne_ `esh`
-* Hypseus argument `-overlay_set oversize` is **required**
 
 Encode mp4 with:
 

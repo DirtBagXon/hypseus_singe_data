@@ -17,6 +17,14 @@ Feel free to submit pull requests for any fixes or improvements.
 
 From version **2.10.4**, Hypseus Singe supports full resolution 32bit overlays and overlay switching.
 
+A reworking of game overlays has taken place that uses the new overlay switching functions, and removes the legacy fixed overlay routines. All games in this repo now have been switched to use the new functions. You should therefore begin to replace the `.singe` LUA code on existing games with the latest code from this repository. A future version of `hypseus` will remove the legacy overlay compeltely and overlays will/may look misaligned, or not work, on releases beyond **2.10.4** of hypseus.
+
+The following categories still apply, but new `sbc` games will utilize the `Minimal` overlay switching within the `00-singe2/Framework`. Some games have been left within the `sbc` categories as they do not utilize the `Framework` and remain to allow running on the lower spec hardware. The `00-singe2-ports-gungames` being the most obvious. These games should still update LUA from the repo to ensure overlays are aligned correctly moving forward.
+
+For any third party full game repos, video/audio from these is still valid. You are only required to change the LUA and peripheral files of these games to the new format. No re-encoding is required with `ffmpeg`. These repos should update their files in due course. This is analagous to updating the game `ROM` to a later version.
+
+### Earlier Categorizations
+
 This will allow a recategorization of currently ported games which were created to run on lower  
 powered single-board computer devices, such as the _Raspberry Pi_ and _RK3328_, and used  
 minimalist overlays. These will now be part of the `00-singe2-ports-sbc` folder.  

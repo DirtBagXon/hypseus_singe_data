@@ -1,6 +1,5 @@
 ## (Singe 2) Maddog II: The Lost Gold HD
 
-* Required `-overlay_set oversize`
 * Recommended `-manymouse`
 * Recommended `-blend_sprites`
 * Optional `-nolinear_scale`

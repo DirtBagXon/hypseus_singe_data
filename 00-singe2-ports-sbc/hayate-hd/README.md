@@ -3,8 +3,6 @@
 * This is the Singe 2 version of Ninja Hayate
 * Optional `-nolinear_scale`
 
-Additional `*-oversize.singe` files are provided for use with `-overlay_set oversize`.
-
 Contains Arcade (_hayate-hd.singe_) and PSX (_hayate-psx.singe_) version LUA files.
 
 
