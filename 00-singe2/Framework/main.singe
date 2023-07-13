@@ -5560,7 +5560,7 @@ function moveFrameDiff(overHere)  -- Handles the difficulty video menu
 			p1LEFT = false
 			dip_Difficulty = 1
 		
-		elseif (p1RIGHT) then
+		elseif (p1RIGHT) and (frameExtreme ~= nil) then
 
 			soundPlay(sndcoin)
 			discSkipToFrame(frameExtreme)
