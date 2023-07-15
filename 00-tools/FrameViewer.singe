@@ -24,6 +24,8 @@
 	Type a numeric frame number and press ENTER to JUMP to specific frame
 	Note: Keypad not supported
 
+	RIGHT-CLICK Mouse to record frame and mouse co-ordinates in log.
+
 ]]--
 
 
@@ -32,6 +34,8 @@ MovieFPS = 23.976    -- Number of frames per second of your movie (Default or Us
 
 --- No config values below here --------
 
+
+require("lfs")
 
 FRAME = {}
 INPUT = 0
@@ -42,6 +46,7 @@ KEY_SPACE = 32
 KEY_ENTER = 13
 KEY_ERASE = 127
 KEY_BKSPACE = 8
+SWITCH_BUTTON1 =  6
 
 OVERLAY_UPDATED = 1
 MODE_FULL = 1
@@ -51,6 +56,29 @@ prevFrame = 0
 bPlay = false
 bInput = false
 bSwitch = false
+
+mousex = 0
+mousey = 0
+cursoroffsetx = 0
+cursoroffsety = 0
+cursorSprite = "singe/FrameViewer/crosshair.png"
+
+ratiox = ratioGetX()
+ratioy = ratioGetY()
+
+toLog = 0
+
+if (ratiox < 1 ) then ratiox = 1 end
+if (ratioy < 1 ) then ratioy = 1 end
+
+if (lfs.attributes(cursorSprite, "mode") == "file") then
+	sprCursor = spriteLoad(cursorSprite)
+	cursoroffsetx = spriteGetWidth(sprCursor) / 2
+	cursoroffsety = spriteGetHeight(sprCursor) / 2
+else
+	debugPrint("Could not load cursor sprite: " .. cursorSprite)
+	debugPrint("Mouse position on screen will be less accurate." )
+end
 
 sFPSource = "Using MovieFPS from singe file: "
 
@@ -69,13 +97,27 @@ debugPrint(sFPSource .. MovieFPS)
 
 function onInputPressed(key)
 
-        --Have to leave this function even when not monitoring the event.
+	if (key == SWITCH_BUTTON1) then
+		toLog = 1
+		debugPrint("frame:x:y - " .. currentFrame .. ","
+			 .. mousex .. "," .. mousey)
+	end
+
 end
 
 function checkRange(num)
 
 	if num < 0 then currentFrame = 0 end
 	if num > MaxFrames then currentFrame = MaxFrames end
+end
+
+function onMouseMoved(intX, intY, intXrel, intYrel)
+
+	mousex = (intX * ratiox) - ratioxOffset
+	mousey = (intY * ratioy) - ratioyOffset
+
+	cursorx = (intX - cursoroffsetx) * ratiox - ratioxOffset
+	cursory = (intY - cursoroffsety) * ratioy - ratioyOffset
 end
 
 function onInputReleased(key)
@@ -146,6 +188,28 @@ function onOverlayUpdate()
 	end
 
 	bSwitch = false
+
+        if (mousex > 0 or mousey > 0) then
+
+		if (sprCursor ~= nil) then
+			spriteDraw(cursorx, cursory, sprCursor)
+		else
+			overlayPrint(mousex / 5, mousey, "+")
+		end
+
+		log = ""
+
+		if (toLog > 0) then
+
+			toLog = toLog + 1
+			log = " - logged"
+
+			if (toLog > MovieFPS) then toLog = 0 end
+		end
+		overlayPrint(2, 30, "Mouse : " .. mousex .. ", ".. mousey .. log)
+
+	end
+
 	overlayPrint(2, 10, "FPS: " .. MovieFPS)
 	overlayPrint(16, 10, "#  Frame: " .. currentFrame)
 
@@ -158,7 +222,7 @@ function onOverlayUpdate()
 			typed = typed .. FRAME[k]
 		end
 
-		overlayPrint(2, 30, "GOTO = " .. typed)
+		overlayPrint(2, 50, "GOTO = " .. typed)
 	end
 
 	return(OVERLAY_UPDATED)
@@ -169,6 +233,9 @@ discSearch(1)
 discPause()
 setOverlayResolution(vldpGetWidth() / 2, vldpGetHeight() / 2)
 keyboardSetMode(MODE_FULL)
+
+ratioxOffset = ( ratiox - 1 ) * (overlayGetWidth() / 2)
+ratioyOffset = ( ratioy - 1 ) * (overlayGetHeight() / 2)
 
 currentFrame = discGetFrame()
 
