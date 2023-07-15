@@ -1,6 +1,6 @@
 
     mediainfo --Inform='Video;%FrameCount%' hayate.m2v
-    34761
+    34996
 
     mediainfo --Inform='Video;%Duration%' hayate.m2v
-    1390440
+    1399840
