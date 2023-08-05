@@ -1,7 +1,7 @@
 ## (Singe 2) Ninja Hayate Enhanced
 
 * This is the Singe 2 version of Ninja Hayate
-* Optional `-nolinear_scale`
+* Optional `-linear_scale`
 
 Contains Arcade (_hayate-hd.singe_) and PSX (_hayate-psx.singe_) version LUA files.
 

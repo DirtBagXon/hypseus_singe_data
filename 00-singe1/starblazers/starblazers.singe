@@ -45,8 +45,8 @@ choiceLevel=2	-- which level?
 -- 2. Starting and ending frames for the various elements of the game --
 ------------------------------------------------------------------------
 
-if setOverlaySize ~= nil then
-       setOverlaySize(4, 360, 240)
+if setOverlayResolution ~= nil then
+       setOverlayResolution(360, 240)
 end
 
 math.randomseed(os.clock()*100000) 

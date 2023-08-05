@@ -2,7 +2,7 @@
 
 * Recommended `-manymouse`
 * Optional `-blend_sprites`
-* Optional `-nolinear_scale`
+* Optional `-linear_scale`
 
 Supports mutiple HUD overlays via `lbh.cfg`
 

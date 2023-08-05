@@ -1,7 +1,7 @@
 ## (Singe 2) The Last Bounty Hunter HD
 
 * Recommended `-manymouse`
-* Optional `-nolinear_scale`
+* Optional `-linear_scale`
 
 Supports mutiple HUD overlays via `lbh.cfg`
 

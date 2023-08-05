@@ -2,7 +2,7 @@
 
 * Required `-overlay_set full`
 * Recommended `-manymouse`
-* Optional `-nolinear_scale`
+* Optional `-linear_scale`
 
 
 Use available video for singe2-ports-gungames or encode mp4 with:

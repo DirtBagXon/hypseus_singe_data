@@ -32,8 +32,8 @@ dofile(MYDIR .. "map.singe")
 
 MovieFPS = 23.976								
 
-if setOverlaySize ~= nil then
-	setOverlaySize(4, 360, 240)
+if setOverlayResolution ~= nil then
+	setOverlayResolution(360, 240)
 else
 	debugPrint("Upgrade Hypseus Singe!")
 	singeQuit()

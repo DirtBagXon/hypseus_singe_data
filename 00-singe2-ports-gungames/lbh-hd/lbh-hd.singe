@@ -21,7 +21,6 @@ This file is part of LAST BOUNTY HUNTER (SINGE EDITION)
 -- Hypseus Game Setup --
 
 -- Do Not Remove/Alter these --
-OVERLAY_DEFAULT  = 0
 OVERLAY_FULL     = 1
 OVERLAY_HALF     = 2
 OVERLAY_OVERSIZE = 3
@@ -39,8 +38,8 @@ MovieFPS = 29.97
 -- End Hypseus Game Setup --
 
 
-if (setOverlaySize ~= nil) then
-	setOverlaySize(4, 360, 240) -- overrides BASEOVERLAY
+if (setOverlayResolution ~= nil) then
+	setOverlayResolution(360, 240) -- overrides BASEOVERLAY
 end
 
 dofile(MYDIR .. "toolbox.singe")

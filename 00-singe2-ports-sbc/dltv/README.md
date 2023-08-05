@@ -4,7 +4,7 @@
 * This release has several fixes for bugs found in the Singe 2 version
 * The game has an epic **4 hours** of video....
 * This game requires Hypseus Singe version **2.8.0**
-* Optional `-nolinear_scale`
+* Optional `-linear_scale`
 * Optional `-bootsilent`
 
 Grab the MP4 (7z) from archive.org: https://archive.org/download/singe-dl-tv

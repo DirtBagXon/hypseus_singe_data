@@ -4,7 +4,7 @@ Huge LUA fixes from Karis and includes previous missing scene selection level
 
 * Recommended `-manymouse`
 * Optional `-blend_sprites`
-* Optional `-nolinear_scale`
+* Optional `-linear_scale`
 
 
 Encode mp4 with:

@@ -28,8 +28,19 @@
 
 ]]--
 
+-- Do Not Remove/Alter these --
+OVERLAY_FULL     = 1
+OVERLAY_HALF     = 2
+-- Do Not Remove/Alter these --
+
+
+--- config values below here --------
+
+BASEOVERLAY = OVERLAY_HALF
 
 MovieFPS = 23.976    -- Number of frames per second of your movie (Default or Use: -fvalue)
+
+cursorSprite = "singe/FrameViewer/crosshair.png" -- The crosshair sprite to load
 
 
 --- No config values below here --------
@@ -61,7 +72,8 @@ mousex = 0
 mousey = 0
 cursoroffsetx = 0
 cursoroffsety = 0
-cursorSprite = "singe/FrameViewer/crosshair.png"
+ratioxOffset = 0
+ratioyOffset = 0
 
 ratiox = ratioGetX()
 ratioy = ratioGetY()
@@ -228,10 +240,12 @@ function onOverlayUpdate()
 	return(OVERLAY_UPDATED)
 end
 
+if (BASEOVERLAY == nil) then BASEOVERLAY = 2 end
+
 discSetFPS(MovieFPS)
 discSearch(1)
 discPause()
-setOverlayResolution(vldpGetWidth() / 2, vldpGetHeight() / 2)
+setOverlayResolution(vldpGetWidth() / BASEOVERLAY, vldpGetHeight() / BASEOVERLAY)
 keyboardSetMode(MODE_FULL)
 
 ratioxOffset = ( ratiox - 1 ) * (overlayGetWidth() / 2)

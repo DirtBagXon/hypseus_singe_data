@@ -36,7 +36,9 @@ dofile(MYDIR .. "platoon-hitbox-lima.singe")
 dofile(MYDIR .. "platoon-hitbox-zulu.singe")
 dofile(MYDIR .. "platoon-hitbox-bravo.singe")
 
-setOverlaySize(4, 360, 240)
+if (setOverlayResolution ~= nil) then
+	setOverlayResolution(360, 240)
+end
 
 function shooterHit(thisFrame, thisMove)
 	

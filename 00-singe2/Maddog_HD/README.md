@@ -2,7 +2,7 @@
 
 * Required `-overlay_set full`
 * Recommended `-manymouse`
-* Optional `-nolinear_scale`
+* Optional `-linear_scale`
 
 Supports mutiple HUD overlays via `maddog.cfg`
 

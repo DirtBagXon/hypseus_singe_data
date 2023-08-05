@@ -4,7 +4,7 @@ LUA fixes from Karis included for more accurate simulation.
 
 * Recommended `-manymouse`
 * Optional `-blend_sprites`
-* Optional `-nolinear_scale`
+* Optional `-linear_scale`
 
 
 Encode mp4 with:
