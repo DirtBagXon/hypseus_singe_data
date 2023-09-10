@@ -1,4 +1,8 @@
-dofile("singe/actionmax/framework.singe")
+if MYDIR == nil then
+	MYDIR="singe/actionmax"
+end
+
+dofile(MYDIR .. "/framework.singe")
 
 if setOverlayResolution ~= nil then
 	setOverlayResolution(360, 240)
@@ -19,20 +23,20 @@ pixelLow     = 0
 pixelHigh    = 1
 pixelUnknown = 2
 
-sprLightOn   = spriteLoad("singe/actionmax/sprite_lighton.png")
-sprLightOff  = spriteLoad("singe/actionmax/sprite_lightoff.png")
-sprActionMax = spriteLoad("singe/actionmax/sprite_actionmax.png")
-sprCrosshair = spriteLoad("singe/actionmax/sprite_crosshair.png")
-sprBullet    = spriteLoad("singe/actionmax/sprite_bullet.png")
-sprBoxArt    = spriteLoad("singe/actionmax/sprite_" .. string.lower(gameID) .. ".png")
+sprLightOn   = spriteLoad(MYDIR .. "/sprite_lighton.png")
+sprLightOff  = spriteLoad(MYDIR .. "/sprite_lightoff.png")
+sprActionMax = spriteLoad(MYDIR .. "/sprite_actionmax.png")
+sprCrosshair = spriteLoad(MYDIR .. "/sprite_crosshair.png")
+sprBullet    = spriteLoad(MYDIR .. "/sprite_bullet.png")
+sprBoxArt    = spriteLoad(MYDIR .. "/sprite_" .. string.lower(gameID) .. ".png")
 
-sndActionMax = soundLoad("singe/actionmax/sound_actionmax.wav")
-sndSteadyAim = soundLoad("singe/actionmax/sound_asteadyaimiscritical.wav")
-sndGetReady  = soundLoad("singe/actionmax/sound_getreadyforaction.wav")
-sndGunShot   = soundLoad("singe/actionmax/sound_gunshot.wav")
-sndGoodHit   = soundLoad("singe/actionmax/sound_goodhit.wav")
-sndBadHit    = soundLoad("singe/actionmax/sound_badhit.wav")
-sndGameOver  = soundLoad("singe/actionmax/sound_gameover.wav")
+sndActionMax = soundLoad(MYDIR .. "/sound_actionmax.wav")
+sndSteadyAim = soundLoad(MYDIR .. "/sound_asteadyaimiscritical.wav")
+sndGetReady  = soundLoad(MYDIR .. "/sound_getreadyforaction.wav")
+sndGunShot   = soundLoad(MYDIR .. "/sound_gunshot.wav")
+sndGoodHit   = soundLoad(MYDIR .. "/sound_goodhit.wav")
+sndBadHit    = soundLoad(MYDIR .. "/sound_badhit.wav")
+sndGameOver  = soundLoad(MYDIR .. "/sound_gameover.wav")
 
 mouseX = 0
 mouseY = 0
@@ -67,11 +71,11 @@ thisSeconds = 0
 lastSeconds = 0
 heartbeat = false
 
-fntBlueStone20 = fontLoad("singe/actionmax/font_bluestone.ttf", 20)
-fntChemRea16   = fontLoad("singe/actionmax/font_chemrea.ttf", 16)
-fntChemRea32   = fontLoad("singe/actionmax/font_chemrea.ttf", 32)
-fntChemRea48   = fontLoad("singe/actionmax/font_chemrea.ttf", 48)
-fntLEDReal32   = fontLoad("singe/actionmax/font_led_real.ttf", 32)
+fntBlueStone20 = fontLoad(MYDIR .. "/font_bluestone.ttf", 20)
+fntChemRea16   = fontLoad(MYDIR .. "/font_chemrea.ttf", 16)
+fntChemRea32   = fontLoad(MYDIR .. "/font_chemrea.ttf", 32)
+fntChemRea48   = fontLoad(MYDIR .. "/font_chemrea.ttf", 48)
+fntLEDReal32   = fontLoad(MYDIR .. "/font_led_real.ttf", 32)
 
 colorBackground(0, 0, 0)
 fontQuality(FONT_QUALITY_SOLID)

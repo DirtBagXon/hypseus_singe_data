@@ -6,8 +6,6 @@ Many Singe 2 games require the existence of the `Framework` folder, alongside th
 
 Ensure you keep this _sub-folder_ files up-to-date.
 
-**_Note:_** Certain platforms may require the `Framework` folder to be named `Framework.daphne`
-
 ## Singe 2 games (Full overlay)
 
 These game folders should be placed within the _hypseus_ `singe` sub-folder.

@@ -10,4 +10,17 @@ sensorLeft      = 288
 sensorX         = 320
 sensorY         = 210
 
-dofile("singe/actionmax/emulator.singe")
+
+MYDIR = "singe/actionmax"
+
+if pcall(require, "lfs") then
+
+	-- Check for -retropath environment
+	if (lfs.attributes(string.lower(gameID) .. ".daphne", "mode") == "directory") then
+
+		MYDIR = "singe/" ..  string.lower(gameID)
+	end
+
+end
+
+dofile(MYDIR .. "/emulator.singe")

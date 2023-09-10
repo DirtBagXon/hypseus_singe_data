@@ -18,19 +18,6 @@ Within your rom folders, symlink actionmax folders:
     ln -s actionmax popsghostly.daphne
     ln -s actionmax sonicfury.daphne
     
-You will then need to alter the LUA to reference _one_ on the above game folders, `38ambushalley` in this example:
-
-    cd ~/RetroPie/roms/daphne
-    
-    perl -p -i -e 's#singe/actionmax/#singe/38ambushalley/#g' actionmax/*.singe
-
-This will replace entries within the LUA like this:
-
-    spriteLoad("singe/actionmax/sprite_lighton.png")
-    spriteLoad("singe/38ambushalley/sprite_lighton.png")
- 
-Cleaner methods may yet be conceived, a discussion can be seen [here](https://github.com/DirtBagXon/hypseus_singe_data/discussions/5).
-
 Reload emulationstation  
 Enjoy **VHS** fun
 
