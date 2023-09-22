@@ -367,6 +367,7 @@ function setupMoves(thisLevel, thisScene)
 
 		end
 
+
 	elseif thisLevel == 5 then
 
 		if thisScene == 1 then  
@@ -375,11 +376,10 @@ function setupMoves(thisLevel, thisScene)
 			sceneEnd   = 2576
 			totalMoves   = 2
 			
-			move[1] = {2483, 2514, PATH, -1}		
-			move[2] = {2517, 2528, PATH, 10}
+			move[1] = {2483, 2528, PATH, 10}		
+			move[2] = {2528, 2576, WAY, 0}
 			
-			path[1] = {UP, 1009, 0, 0, 0, 0, 0, 0, 2}
-			path[2] = {RIGHT, 0, UP, 1009, 0, 0, 0, 0, OUT}
+			path[1] = {UP, 1009, RIGHT, 2, 0, 0, 0, 0, 0}
 
 		end
 	
@@ -503,15 +503,15 @@ function setupMoves(thisLevel, thisScene)
 			sceneEnd   = 4869
 			totalMoves   = 4
 			
-			move[1] = {4666, 4694, TIMED, 27}
-			move[2] = {4729, 4743, TIMED, 28}
-			move[3] = {4778, 4789, TIMED, 28}
-			move[4] = {4814, 4822, TIMED, 29}
+			move[1] = {4566, 4694, TIMED, 27}
+			move[2] = {4695, 4743, TIMED, 28}
+			move[3] = {4744, 4789, TIMED, 28}
+			move[4] = {4790, 4822, TIMED, 29}
 
-			timed[1] = {RIGHT,4684,4694,27}
-			timed[2] = {RIGHT,4738,4743,28}
-			timed[3] = {RIGHT,4785,4789,28}
-			timed[4] = {RIGHT,4817,4822,29}
+			timed[1] = {RIGHT,4675,4694,27}
+			timed[2] = {RIGHT,4733,4743,28}
+			timed[3] = {RIGHT,4780,4789,28}
+			timed[4] = {RIGHT,4816,4822,29}
 
 		end
 
