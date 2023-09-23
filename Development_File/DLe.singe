@@ -1,6 +1,11 @@
 --[[
 
-PROGRAM NAME:	DRAGON'S LAIR IIe
+MODIFICATION AND FIXED BY DjDiabolik at Sat 23 Sept 2023 at about 20:20.
+Changelog:
+Try to FIX and made better the "DEAD END" situation expecially when you use the HINTS on screen.
+On Level 5 you can see the real difference!
+
+PROGRAM NAME:	DRAGON'S LAIR 
 VERSION:		3.32b
 AUTHOR:			KARIS (2021)
 
@@ -326,7 +331,7 @@ function setupMoves(thisLevel, thisScene)
 			move[1] = {1759, 1774, RIGHT, 2}
 			move[2] = {1792, 1805, PATH, 3}
 
-			path[2] = {LEFT, 1002, DOWN, 1003, RIGHT, 0, 0, OUT}
+			path[2] = {LEFT, 2002, DOWN, 2003, RIGHT, 0, 0, OUT}
 							
 		end
 
@@ -341,7 +346,7 @@ function setupMoves(thisLevel, thisScene)
 			move[1] = {1871, 1896, RIGHT, -1}			
 			move[2] = {2039, 2054, PATH, 4}
 
-			path[2] = {RIGHT, 0, UP, 1004, 0, 0, 0, 0 , OUT}
+			path[2] = {RIGHT, 0, UP, 2004, 0, 0, 0, 0 , OUT}
 
 		end
 	
@@ -361,7 +366,7 @@ function setupMoves(thisLevel, thisScene)
 			move[6] = {2414, 2448, TIMED, 6, 1, 2}
 			move[7] = {2449, 2465, WAY, 0}
 
-			path[2] = {RIGHT, 1007, UP, 3, 0, 0, 0, 0, 0}
+			path[2] = {RIGHT, 2007, UP, 3, 0, 0, 0, 0, 0}
 			timed[1] = {UP,2423,2433,8,7}
 			timed[2] = {UP,2440,2448,8}
 
@@ -699,7 +704,7 @@ function setupMoves(thisLevel, thisScene)
 			move[2] = {9441, 9456, UP, 63}
 			move[3] = {9471, 9485, PATH, 63}
 
-			path[3] = {UP, 1061, LEFT, 0, 0, 0, 0, 0, 0}
+			path[3] = {UP, 2061, LEFT, 0, 0, 0, 0, 0, 0}
 								
 		end
 
