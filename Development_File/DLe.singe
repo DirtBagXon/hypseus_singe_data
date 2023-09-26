@@ -1,9 +1,11 @@
 --[[
 
-MODIFICATION AND FIXED BY DjDiabolik at Sat 23 Sept 2023 at about 20:20.
+MODIFICATION AND FIXED BY DjDiabolik at Sat 26 Sept 2023 at about 13:25.
 Changelog:
 Try to FIX and made better the "DEAD END" situation expecially when you use the HINTS on screen.
 On Level 5 you can see the real difference!
+On date 26 Sept 2023:
+Fixed some TIMED event at Level 15! Add a WAY scene previously cutted out whitout any sense.
 
 PROGRAM NAME:	DRAGON'S LAIR 
 VERSION:		3.32b
@@ -309,7 +311,7 @@ function setupMoves(thisLevel, thisScene)
 
 		if thisScene == 1 then 
 
-			sceneStart = 1217
+			sceneStart = 1215
 			sceneEnd   = 1614
 			totalMoves   = 4
 			
@@ -324,7 +326,7 @@ function setupMoves(thisLevel, thisScene)
 
 		if thisScene == 1 then 													
 			
-			sceneStart = 1627
+			sceneStart = 1625
 			sceneEnd   = 1850
 			totalMoves   = 2
 						
@@ -339,7 +341,7 @@ function setupMoves(thisLevel, thisScene)
 
 		if thisScene == 1 then  
 
-			sceneStart = 1864
+			sceneStart = 1862
 			sceneEnd   = 2075
 			totalMoves   = 2
 			
@@ -354,7 +356,7 @@ function setupMoves(thisLevel, thisScene)
 
 		if thisScene == 1 then  
 
-			sceneStart = 2093
+			sceneStart = 2091
 			sceneEnd   = 2465
 			totalMoves   = 7
 			
@@ -377,7 +379,7 @@ function setupMoves(thisLevel, thisScene)
 
 		if thisScene == 1 then  
 
-			sceneStart = 2483
+			sceneStart = 2481
 			sceneEnd   = 2576
 			totalMoves   = 2
 			
@@ -392,7 +394,7 @@ function setupMoves(thisLevel, thisScene)
 
 		if thisScene == 1 then  
 
-			sceneStart = 2596
+			sceneStart = 2594
 			sceneEnd   = 2892
 			totalMoves   = 5
 	
@@ -552,19 +554,20 @@ function setupMoves(thisLevel, thisScene)
 
 			sceneStart = 5673
 			sceneEnd   = 6182
-			totalMoves   = 4
+			totalMoves   = 5
 			
-			move[1] = {5699, 5911, TIMED, 34, 1, 6}
-			move[2] = {6011, 6022, BUTTON1, 35}
-			move[3] = {6081, 6096, DOWN, 36}
-			move[4] = {6152, 6167, UP, 36}
+			move[1] = {5699, 5938, TIMED, 34, 1, 2, 3, 4, 5, 6}
+			move[2] = {5939, 6010, WAY, 0}
+			move[3] = {6011, 6022, BUTTON1, 35}
+			move[4] = {6081, 6096, DOWN, 36}
+			move[5] = {6152, 6167, UP, 36}
 
 			timed[1] = {UP,5723,5730,34,2}
 			timed[2] = {UP,5760,5767,34,2}
 			timed[3] = {UP,5796,5803,34,2}
 			timed[4] = {UP,5832,5839,34,2}
 			timed[5] = {UP,5868,5875,34,2}
-			timed[6] = {UP,5904,5911,34}
+			timed[6] = {UP,5904,5911,34,2}
 			
 
 		end
@@ -696,7 +699,7 @@ function setupMoves(thisLevel, thisScene)
 
 		if thisScene == 1 then  
 
-			sceneStart = 9312
+			sceneStart = 9311
 			sceneEnd   = 9509
 			totalMoves   = 3
 			
