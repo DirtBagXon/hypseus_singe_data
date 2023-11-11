@@ -41,6 +41,27 @@ sndGameOver  = soundLoad(MYDIR .. "/sound_gameover.wav")
 mouseX = 0
 mouseY = 0
 
+resX = overlayGetWidth() 
+resY = overlayGetHeight() 
+
+if (ratioGetX ~= nil or ratioGetY ~= nil) then
+	debugPrint("Singe version compatible with ratio adjustment.")
+	ratiox = ratioGetX()
+	ratioy = ratioGetY()
+	if (ratiox <= 1 ) then ratiox = 1 end
+	if (ratioy <= 1 ) then ratioy = 1 end
+else
+	debugPrint("Singe version not compatible with ratio adjustment.  Using standard 1:1 values")
+	ratiox = 1
+	ratioy = 1
+end
+ratioxOffset = ( ratiox - 1 ) * (resX/2)
+ratioyOffset = ( ratioy - 1 ) * (resY/2)
+
+debugPrint("Screen width and height = " .. resX .. ", " .. resY)
+debugPrint("X ratio = " .. ratiox .. ", and offset " .. ratioxOffset)
+debugPrint("Y ratio = " .. ratioy .. ", and offset " .. ratioyOffset)
+
 halfWidth = 0
 
 crosshairCenterX = spriteGetWidth(sprCrosshair)  / 2
@@ -226,8 +247,8 @@ end
 function onMouseMoved(intX, intY, intXrel, intYrel)
 
 	-- Remember the mouse location for use later.
-	mouseX = intX
-	mouseY = intY
+	mouseX = intX * ratiox - ratioxOffset
+	mouseY = intY * ratioy - ratioyOffset
 
 end
 
