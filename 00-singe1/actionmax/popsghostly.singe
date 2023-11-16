@@ -16,7 +16,7 @@ MYDIR = "singe/actionmax"
 if pcall(require, "lfs") then
 
 	-- Check for -retropath environment
-	if (lfs.attributes(string.lower(gameID) .. ".daphne", "mode") == "directory") then
+	if (lfs.attributes("singe/" .. string.lower(gameID) .. ".daphne", "mode") == "directory") then
 
 		MYDIR = "singe/" ..  string.lower(gameID)
 	end
