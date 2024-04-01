@@ -277,8 +277,11 @@ function getMiddle(thisPhrase)
 
 	local x = 0
 	local y = 0
-	
-	x = OVLW/2 - spriteGetWidth(fontToSprite(thisPhrase)) * 0.5
+	local phrase = fontToSprite(thisPhrase)
+
+	x = OVLW/2 - spriteGetWidth(phrase) * 0.5
+
+	spriteUnload(phrase)
 	
 	return x
 

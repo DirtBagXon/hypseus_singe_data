@@ -318,6 +318,27 @@ SCANCODE = {
 SCANCODE_MIN = 4   -- Lowest value
 SCANCODE_MAX = 286 -- Highest value, not the number of items in the table.
 
+MODIFIER = {
+	NONE   = { name = "NONE",   value = 0x0000 },
+	LSHIFT = { name = "LSHIFT", value = 0x0001 },
+	RSHIFT = { name = "RSHIFT", value = 0x0002 },
+	LCTRL  = { name = "LCTRL",  value = 0x0040 },
+	RCTRL  = { name = "RCTRL",  value = 0x0080 },
+	LALT   = { name = "LALT",   value = 0x0100 },
+	RALT   = { name = "RALT",   value = 0x0200 },
+	LGUI   = { name = "LGUI",   value = 0x0400 },
+	RGUI   = { name = "RGUI",   value = 0x0800 },
+	NUM    = { name = "NUM",    value = 0x1000 },
+	CAPS   = { name = "CAPS",   value = 0x2000 },
+	MODE   = { name = "MODE",   value = 0x4000 },
+	SCROLL = { name = "SCROLL", value = 0x8000 },
+
+	SHIFT = { name = "SHIFT", value = 0x0001 + 0x0002 },
+	CTRL  = { name = "CTRL",  value = 0x0040 + 0x0080 },
+	ALT   = { name = "ALT",   value = 0x0100 + 0x0200 },
+	GUI   = { name = "GUI",   value = 0x0400 + 0x0800 }
+}
+
 GAMEPAD_0 = {
 	AXIS_LEFT_X = { name = "AXIS_LEFT_X", value = 500 },
 	AXIS_LEFT_X_L = { name = "AXIS_LEFT_X_L", value = 501 },
@@ -467,6 +488,11 @@ OVERLAY_UPDATED     = 1
 SINGLE_MOUSE = 100
 MANY_MOUSE   = 200
 
+SPRITE_SMOOTH    = 1
+SPRITE_PIXELATED = 0
+
+DIR = singeGetScriptPath():match("(.*[/\\])") or "./"
+
 -- Make old random number calls still work
 random = {}
 random.new = math.random
@@ -475,3 +501,15 @@ random.new = math.random
 daphneGetHeight  = singeGetHeight
 daphneGetWidth   = singeGetWidth
 daphneScreenshot = singeScreenshot
+
+-- Singe 2.10 Threaded Application Support
+
+if singeMain ~= nil then
+ onOverlayUpdate = function()
+  coroutine.resume(SINGE_SELF)
+  return(OVERLAY_UPDATED)
+ end
+ singeYield = coroutine.yield
+ SINGE_SELF = coroutine.create(singeMain)
+end
+

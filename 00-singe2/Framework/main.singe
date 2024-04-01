@@ -4824,9 +4824,12 @@ function drawLives()       -- Draw Lives
 				else
 
 					local s1=tostring("x".. iLives)
+					local spr=fontToSprite(s1)
 				
 					spriteDraw(OVLW-2*LINEW-(LIVW*2),ylivpos,sprite[LIVES])
-					spriteDraw(OVLW-LINEW-LIVW,ylivpos+LIVH/4,fontToSprite(s1))
+					spriteDraw(OVLW-LINEW-LIVW,ylivpos+LIVH/4,spr)
+
+					spriteUnload(spr)
 
 				end
 
@@ -4936,8 +4939,9 @@ function drawSpriteNumber(thisx, thisy, thisAmt)       -- Draw the numbers as sp
 		end
 
 	else
-
-		spriteDraw(thisx,thisy,fontToSprite(s1))
+		local spr = fontToSprite(s1)
+		spriteDraw(thisx,thisy,fontToSprite(spr))
+		spriteUnload(spr)
 
 	end	
 
@@ -5129,11 +5133,13 @@ function getRes()
 	end
 	
 	iRatio = OVLW/OVLH
+
+        ZERO = fontToSprite("0")
 	
 	fontSelect(fontGame)
 	BARW = spriteGetWidth(sprite[BARFULL])
 	BARH = spriteGetHeight(sprite[BARFULL])
-	RENDH= spriteGetHeight(fontToSprite("0"))
+	RENDH= spriteGetHeight(ZERO)
 	LIVW = spriteGetWidth(sprite[LIVES])
 	LIVH = spriteGetHeight(sprite[LIVES])
 	NUMW = spriteGetWidth(sprNUM[1])
@@ -5154,6 +5160,8 @@ function getRes()
 	DISKW = spriteGetWidth(sprite[D1])
 	DISKH = spriteGetHeight(sprite[D1])	
 	TEXW = spriteGetWidth(sprArrow[STICK])
+
+	spriteUnload(ZERO)
 
 
 	posxBUTTONS = (OVLW/2)-(BUTW/2)								-- Coordinates for the buttons

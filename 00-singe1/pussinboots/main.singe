@@ -1658,13 +1658,22 @@ function drawLives()
 
 		if dip_Debug then
 
+
+			local sprl = fontToSprite("L:")
+			local sprs = fontToSprite("S:")
+			local sprm = fontToSprite("M:")
+
 			fontSelect(fontGame)
-			spriteDraw(511,posyUPTEXT,fontToSprite("L:"))
+			spriteDraw(511,posyUPTEXT,sprl)
 			drawSpriteNumber(527,posyUPTEXT,( iCurPos ))
-			spriteDraw(556,posyUPTEXT,fontToSprite("S:"))
+			spriteDraw(556,posyUPTEXT,sprs)
 			drawSpriteNumber(572,posyUPTEXT,( iSegPointer ))
-			spriteDraw(601,posyUPTEXT,fontToSprite("M:"))
+			spriteDraw(601,posyUPTEXT,sprm)
 			drawSpriteNumber(617,posyUPTEXT,( currentMove ))
+
+			spriteUnload(sprl)
+			spriteUnload(sprs)
+			spriteUnload(sprm)
 
 		end
 		
