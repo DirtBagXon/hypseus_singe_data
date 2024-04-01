@@ -13,11 +13,26 @@ These games are updated frequently, ensure files are up-to-date.
 
 Feel free to submit pull requests for any fixes or improvements.
 
-# Reorganization from version 2.10.4
+# Version 2.11.2
 
-From version **2.10.4**, Hypseus Singe supports full resolution 32bit overlays and overlay switching.
+From version **2.11.2**, Hypseus Singe supports zipped LUA _(zlua)_ ROMS.
 
-A reworking of game overlays has taken place that uses the new overlay switching functions, and removes the legacy fixed overlay routines. All games in this repo now have been switched to use the new functions. You should therefore begin to replace the `.singe` LUA code on existing games with the latest code from this repository. A future version of `hypseus` will remove the legacy overlay compeltely and overlays will/may look misaligned, or not work, on releases beyond **2.10.4** of hypseus.
+### Zipped ROMs
+
+**Note**: You do not need to unzip the ROM for usage in `hypseus` from version 2.11.2.  
+A zipped ROM can be loaded, without decompressing, direct to the Singe `-script` or new `-zlua` argument.
+
+A number of ROMS with the zip container will be released in new categories to the repo. These can be used to replace all _.singe, .ttf, .wav, .png_ and other files within a Singe game folder. The only files required in addition to the `.zip` are the `.txt` _(framefile)_ and _video/audio_, _m2v/ogg_ files. So game installations can follow somewhat similar to Daphne game folder structures. Zipped games are no longer required to be within the _singe/_ subfolder. The required Singe path folder structure is held within the zip, not on disk.
+
+A typical argument set using zip ROMS may begin:
+
+```
+hypseus singe vldp -zlua roms/timegal.zip -framefile vldp/timegal/timegal.txt ...
+```
+
+## Earlier version information
+
+All games in this repo now have been switched to use the new overlay functions. You should therefore begin to replace the `.singe` LUA code on existing games with the latest code from this repository. A future version of `hypseus` will remove the legacy overlay compeltely and overlays will/may look misaligned, or not work, on releases beyond **2.10.4** of hypseus.
 
 The following categories still apply, but new `sbc` games will utilize the `Minimal` overlay switching within the `00-singe2/Framework`. Some games have been left within the `sbc` categories as they do not utilize the `Framework` and remain to allow running on the lower spec hardware. The `00-singe2-ports-gungames` being the most obvious. These games should still update LUA from the repo to ensure overlays are aligned correctly moving forward.
 
