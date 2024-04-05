@@ -4525,8 +4525,7 @@ function drawCredits()     -- Draw the credits
 	if heartbeat then	
 		
 		if (dip_CoinsPerCredit == DOPT_FREEPLAY) then					
-			
-			spriteDraw(posxUI,ycoinpos,sprite[FREEPLAY])
+			spriteDraw(posxUI,ycoinpos, sprite[FREEPLAY])
 		
 		else
 
@@ -4940,7 +4939,7 @@ function drawSpriteNumber(thisx, thisy, thisAmt)       -- Draw the numbers as sp
 
 	else
 		local spr = fontToSprite(s1)
-		spriteDraw(thisx,thisy,fontToSprite(spr))
+		spriteDraw(thisx,thisy,spr)
 		spriteUnload(spr)
 
 	end	
@@ -5005,6 +5004,7 @@ function getRes()
 	end
 
 	getFont()
+
 
 	sprNUM = nil; sprNUM = {}
 	sprNUM[1]  = spriteLoad(MYDIR..MIDIRES.."num00.png")
@@ -6165,7 +6165,7 @@ function onOverlayUpdate()     -- Manage the game and look for any given situati
 	end
 
 	if bFrameCount then overlayPrint(2, 10, currentFrame) end
-	
+
 	return(OVERLAY_UPDATED)
 	
 end
