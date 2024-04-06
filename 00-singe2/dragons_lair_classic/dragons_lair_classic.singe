@@ -1,0 +1,1394 @@
+--[[
+
+PROGRAM NAME:	Hypseus Singe - DRAGONS LAIR 
+VERSION:		V 7.0 (2024)
+AUTHOR:			KARIS (2021)
+Edited by		Maximi1ium (2024)
+
+	Hypseus Singe - DRAGONS LAIR is free software: you can redistribute it and/or
+	modify it under the terms of the GNU General Public License as published by
+	the Free Software Foundation.
+
+	Hypseus Singe - DRAGONS LAIR is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+	Thanks to Scott Duensing, RDG.
+
+Maximi1ium Remix Changes:
+
+Scene sequencing based on USA Cinematronics 1983 original Arcade game release.
+
+    •    https://www.dragons-lair-project.com/games/related/sequence.asp
+
+Moves, Alternate Moves and Scoring based on this guide:
+
+    •    https://www.dragons-lair-project.com/games/related/walkthru/lair/hard.asp
+
+Game Play:
+
+    •    There are 3 game cycles, second cycle will play reverse levels, adding the Draw Bridge 
+		 and 4 Elevator scenes (3 level + 9 Level + reverse elevators scenes) = 40 levels in total.
+    •    Each level needs to be completed to advance to the next level.
+    •    Tip: Wooden Doors are hard to break, wait until they open . . .
+
+Changes:
+
+    •    Resurrection & Death scenes now work like in the original game.
+    •    Blank Skips between levels added for original Arcade feel.
+    •    Alternative moves added.
+    •    Reverse Levels are now scripted (not reversed by emulator)
+    •    Hypseus Singe Bezels + batch files, Scoreboard Ready.
+    •    Some levels divided into "scenes", so player do not have to play the entire level after death.
+    •    Scoreboard updates after each move.
+    •    All movements check frame by frame for accuracy, made changes to replicate original arcade experience.
+    •    Framework 3.32a by Karris (2021) included with the game.
+    •    Play Style: Tiers play compatible; it will preserve game cycle structure.
+    •    Elevator Scene – The lower you go, the higher the score.
+    •    Draw Bridge has a special move that will skip the scene.
+    •    Spiral Staircase has a move that will play secret scene.
+    •    Pot of Gold has a special move that will advance the level.
+	•    Mist Room has a special move that will advance the level.
+	
+	Special Thanks to Rhikki, Gojidan Alethes, gig71, Modhack & Dox for testing the game.
+
+Hypseus Singe
+https://github.com/DirtBagXon/hypseus-singe
+
+]]--
+
+-------------------------
+-- 1. General settings --
+-------------------------
+
+-- Hypseus Game Setup --
+
+-- Do Not Remove/Alter these --
+OVERLAY_FULL     = 1
+OVERLAY_HALF     = 2
+OVERLAY_OVERSIZE = 3
+-- Do Not Remove/Alter these --
+
+BASEDIR = "singe"									-- This should be singe
+
+BASEOVERLAY = OVERLAY_FULL							-- Set the default Overlay
+
+MYDIR = BASEDIR .."/".. "dragons_lair_classic"		-- This is the directory where your game is
+
+MovieFPS = 23.976									-- Number of frames per second of your movies (used for timed actions).
+
+scoreBezelEnable(true, BEZEL_LAIR)
+
+-- End Hypseus Game Setup --
+
+
+dofile(MYDIR .. "/Framework/globals.singe")			-- Do not touch this line
+
+-- Scoring Settings --
+
+SCOREMOVE = 0
+BUFFMOVE = 0
+SCORESCENE = 0
+DEATHPENALTY = 0
+SCORELEVEL = 50
+SCOREGAME = 0
+SCORESECRET = 0
+PERFECTBONUS = 0
+EXTRALIFE = 70000
+
+PenalNormal = 0
+PenalHard = 0
+PenalExtreme  = 1
+
+-- Advanced Settings --								-- Those settings allow to setup complex behavior. You do not need them in most cases.
+
+altCfg = false
+bAddons = false
+
+miscR = 153											-- You can also create a misc color for the font.
+miscG = 76											-- In that case fill RGB values (0 to 255)
+miscB = 0
+
+--  AllowRandom Show/hide the random level order mode in Game Type (menu)
+--	AllowTier Show/hide the tier mode in Game Type (menu). If you do not want tiers: false.
+
+AllowRandom = false
+AllowTier = true
+
+-- Tier 0 = init. First number is number of Tiers, followed by size of each Tier
+-- Levels to be mixed in Tier 1 (and so on).
+-- In this example there are 30 levels Tiered in 16 groups	
+-- Level 40 is played last. Not included in any Tier.
+
+Tiers[0] = {13,1,3,1,4,4,1,3,1,4,4,1,6,6}
+Tiers[1] = {1}
+Tiers[2] = {2,3,4}
+Tiers[3] = {5}
+Tiers[4] = {6,7,8,9}
+Tiers[5] = {10,11,12,13}
+Tiers[6] = {14}
+Tiers[7] = {15,16,17}
+Tiers[8] = {18}
+Tiers[9] = {19,20,21,22}
+Tiers[10] = {23,24,25,26}
+Tiers[11] = {27}
+Tiers[12] = {28,29,30,31,32,33}
+Tiers[13] = {34,35,36,37,38,39}
+
+AllowMap = false								-- Show/hide the map mode in Game Type (menu)
+MapStart = 1									-- 0: Map start at the beginning / 1: Map after the first level. 
+
+IngameDiffchoice = false						-- If true, you will choose the difficulty with a video at the start of the game.
+
+BarSize = 10									-- Size of the Life Bar (Life bar Game Type)
+BarMin = 2										-- Decrease of the Life bar for missed move
+BarBonus = 3									-- Number of good moves to gain 1 in Life Bar
+
+LvlTrophy3 = 0 									-- Which Level for gives trophy 3 (0 if no trophy)
+LvlTrophy4 = 0 									-- Which Level for gives trophy 4 (0 if no trophy)
+
+------------------------------------------------------------------------
+-- 2. Starting and ending frames for the various elements of the game --
+------------------------------------------------------------------------													
+
+offsetTitle = 0	
+offsetTitleend = offsetTitle + 149	
+
+offsetIntro01 = 168	
+offsetIntro01end = 1204
+
+offsetIntro02 = 0
+offsetIntro02end = offsetIntro02 + 149
+
+offsetIntro03 = 168
+offsetIntro03end = 1204
+
+offsetMenus = 32482
+
+frameOptions = offsetMenus +4
+frameVictory = offsetMenus +7
+frameSave = offsetMenus +13
+frameRankings = offsetMenus +10
+frameControls = offsetMenus +1
+frameSpecial = offsetMenus +1
+frameSecret = 0
+frameTrophy = 0
+frameHints = offsetMenus +16
+
+frameEasy = offsetMenus +18						
+frameNormal = offsetMenus +21					
+frameHard = offsetMenus +24
+frameExtreme = offsetMenus +27
+
+offsetGameOver = 21480
+offsetGameOverend = 21563
+
+offsetGameOverAlt = 0
+offsetGameOverAltend = 1
+
+offsetNewHScore = 32883
+offsetNewHScoreend = 32946
+
+offsetEnterHScore = 32947
+offsetEnterHScoreend = 33446
+
+offsetRankings = 33447
+offsetRankingsend = 33525
+
+offsetContinue = 32507
+offsetContinueend = 32866
+
+offsetClear = 0
+offsetClearend = 1
+
+offsetGetReady = 0
+offsetGetReadyEnd = 1
+
+offsetSupDeath = 19419
+offsetSupDeathEnd = 19475
+
+offsetMap = 33284								-- Position of the video for Map (not used in this game).
+offsetMapend = 33323							-- Here i use a single frame.
+
+offsetMovieEnd = 15446							-- Last frame of the last level. Used by Movie mode.
+
+totalDeath = 123
+offsetDeath = 0
+
+-- Draw Bridge
+Death[1] = {24346, 24390}
+
+-- Vestibule
+Death[2] = {24397, 24455}
+Death[3] = {24460, 24545}
+
+-- Breathing Door
+Death[4] = {24555, 24645}
+
+-- Tentacles & Halberd
+Death[5] = {24654, 24730}
+Death[6] = {24741, 24795}
+Death[7] = {24804, 24885}
+Death[8] = {24891, 24935}
+
+-- Wizards Kitchen
+Death[9] = {24941, 25060}
+Death[10] = {25064, 25110}
+
+-- Wizards Chamber
+Death[11] = {25115, 25160}
+Death[12] = {25165, 25210}
+Death[13] = {25217, 25275}
+
+-- Throne Room
+Death[14] = {25281, 25363}
+Death[15] = {25368, 25405}
+Death[16] = {25412, 25465}
+
+-- Fire Room
+Death[17] = {25470, 25538}
+
+-- Mist Room
+Death[18] = {25544, 25626}
+
+-- Bower
+Death[19] = {25632, 25690}
+Death[20] = {25695, 25765}
+
+-- Spiral Staircase
+Death[21] = {25771, 25805}
+Death[22] = {25810, 25870}
+Death[23] = {25877, 25995}
+
+-- YMCA
+Death[24] = {25999, 26058}
+Death[25] = {26063, 26109}
+Death[26] = {26114, 26219}
+
+--  Fire Pit
+Death[27] = {26339, 26384}
+Death[28] = {26300, 26384}
+Death[29] = {26224, 26295}
+
+-- Pot of Gold
+Death[30] = {26389, 26424}
+Death[31] = {26428, 26455}
+Death[32] = {26465, 26500}
+Death[33] = {26504, 26550}
+
+-- Socker Boppers
+Death[34] = {26554, 26620}
+Death[35] = {26626, 26719}
+Death[36] = {26724, 26770}
+
+-- Fire Death
+Death[37] = {26776, 26811}
+
+-- Forge
+Death[38] = {26827, 26860}
+Death[39] = {26866, 26923}
+Death[40] = {26929, 26990}
+Death[41] = {26996, 27030}
+Death[42] = {27036, 27115}
+
+-- Flying Barding
+Death[43] = {27122, 27179}
+Death[44] = {27185, 27255}
+Death[45] = {27264, 27310}
+
+-- Mausoleum
+Death[46] = {27316, 27360}
+Death[47] = {27367, 27400}
+Death[48] = {27406, 27450}
+Death[49] = {27458, 27540}
+
+-- Yellow Brick Road
+Death[50] = {27545, 27580}
+Death[51] = {27586, 27640}
+Death[52] = {27650, 27709}
+Death[53] = {27714, 27805}
+Death[54] = {27810, 27858}
+Death[55] = {27863, 27920}
+Death[56] = {27927, 27995}
+
+-- Chapel
+Death[57] = {28002, 28060}
+Death[58] = {28066, 28105}
+
+-- Elevator
+Death[59] = {28114, 28204}
+Death[60] = {28210, 28280}
+
+-- Tilting Room
+Death[61] = {28286, 28360}
+Death[62] = {28367, 28413}
+Death[63] = {28419, 28476}
+
+-- Boulder Trench
+Death[64] = {28482, 28528}
+Death[65] = {28533, 28567}
+
+-- Ye Rapids
+Death[66] = {28573, 28607}
+Death[67] = {28613, 28647}
+Death[68] = {28653, 28687}
+Death[69] = {28693, 28727}
+Death[70] = {28733, 28803}
+Death[71] = {28809, 28880}
+Death[72] = {28922, 28979}
+
+-- Knight & Light
+Death[73] = {28984, 29030}
+Death[74] = {29037, 29118}
+
+-- Big Bat
+Death[75] = {29124, 29170}
+Death[76] = {29176, 29235}
+Death[77] = {29241, 29299}
+
+-- Cat Walk
+Death[78] = {29304, 29375}
+Death[79] = {29380, 29440}
+
+-- Three Caves
+Death[80] = {29446, 29490}
+Death[81] = {29497, 29543}
+Death[82] = {29549, 29595}
+
+-- Mudmen
+Death[83] = {29601, 29635}
+Death[84] = {29641, 29675}
+Death[85] = {29681, 29739}
+Death[86] = {29744, 29860}
+Death[87] = {29866, 29935}
+Death[88] = {29942, 29990}
+
+-- Dragons Lair
+Death[89] = {29995, 30055}
+Death[90] = {30059, 30130}
+Death[91] = {30135, 30195}
+Death[92] = {30199, 30258}
+Death[93] = {30263, 30330}
+Death[94] = {30340, 30395}
+
+-- Mirror Fire Pit
+Death[95] = {30518, 30563}
+Death[96] = {30479, 30563}
+Death[97] = {30404, 30474}
+
+-- Mirror Flying Barding
+Death[98] = {31134, 31191}
+Death[99] = {31197, 31267}
+Death[100] = {31276, 31322}
+
+-- Mirror Mausoleum
+Death[101] = {31328, 31372}
+Death[102] = {31379, 31412}
+Death[103] = {31418, 31462}
+Death[104] = {31470, 31552}
+
+-- Mirror Elevator
+Death[105] = {32126, 32216}
+Death[106] = {32222, 32292}
+
+-- Mirror Socker Boppers
+Death[107] = {30566, 30632}
+Death[108] = {30638, 30731}
+Death[109] = {30736, 30782}
+
+-- Mirror Forge
+Death[110] = {30839, 30872}
+Death[111] = {30878, 30935}
+Death[112] = {30941, 31002}
+Death[113] = {31008, 31042}
+Death[114] = {31048, 31127}
+
+-- Mirror Yellow Brick Road
+Death[115] = {31557, 31592}
+Death[116] = {31598, 31652}
+Death[117] = {31662, 31721}
+Death[118] = {31726, 31817}
+Death[119] = {31822, 31870}
+Death[120] = {31875, 31932}
+Death[121] = {31939, 32007}
+
+-- Chapel
+Death[122] = {32014, 32072}
+Death[123] = {32078, 32120}
+
+finalstage = 40
+PlayOrder = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40}
+
+AllowSecret = false
+RelativeFrames = false 
+
+Level[1] = {"Draw Bridge", 1210, 1211, 1, 0, 0, -1}
+Level[2] = {"Fire Pit", 4560, 4561, 1, 0, 0, -1}
+Level[3] = {"Flying Barding", 6730, 6731, 1, 0, 0, -1}
+Level[4] = {"Mausoleum", 7175, 7176, 1, 0, 0, -1}
+Level[5] = {"Elevator I", 8640, 8641, 1, 0, 0, -1}
+Level[6] = {"Boulder Trench", 9520, 9521, 1, 0, 0, -1}
+Level[7] = {"Socker Boppers", 5665, 5666, 2, 0, 0, -1}
+Level[8] = {"Forge", 6195, 6196, 1, 0, 0, -1}
+Level[9] = {"Tentacles & Halberd", 2085, 2086, 1, 0, 0, -1}
+Level[10] = {"YMCA", 4235, 4236, 1, 0, 0, -1}
+Level[11] = {"Yellow Brick Road", 7580, 7581, 1, 0, 0, -1}
+Level[12] = {"Chapel", 8100, 8101, 1, 0, 0, -1}
+Level[13] = {"Throne Room", 2903, 2904, 1, 0, 0, -1}
+Level[14] = {"Elevator II", 18750, 18751, 1, 0, 0, -1}
+Level[15] = {"Mirror Fire Pit", 15456, 15457, 1, 0, 0, -1}
+Level[16] = {"Mirror Flying Barding", 16840, 16841, 1, 0, 0, -1}
+Level[17] = {"Mirror Mausoleum", 17289, 17290, 1, 0, 0, -1}
+Level[18] = {"Elevator III", 8640, 8641, 1, 0, 0, -1}
+Level[19] = {"Three Caves", 12170, 12171, 2, 0, 0, -1}
+Level[20] = {"Mirror Socker Boppers", 15773, 15774, 2, 0, 0, -1}
+Level[21] = {"Mirror Forge", 16305, 16306, 1, 0, 0, -1}
+Level[22] = {"Mist Room", 3480, 3481, 1, 0, 0, -1}
+Level[23] = {"Spiral Staircase", 3893, 3894, 1, 0, 0, -1}
+Level[24] = {"Mirror Yellow Brick Road", 17692, 17693, 1, 0, 0, -1}
+Level[25] = {"Mirror Chapel", 18208, 18209, 1, 0, 0, -1}
+Level[26] = {"Tilting Room", 9307, 9308, 1, 0, 0, -1}
+Level[27] = {"Elevator IV", 18750, 18751, 1, 0, 0, -1}
+Level[28] = {"Bower", 3745, 3746, 1, 0, 0, -1}
+Level[29] = {"Wizard Kitchen", 2475, 2476, 1, 0, 0, -1}
+Level[30] = {"Ye Rapids", 10017, 10018, 5, 0, 0, -1}
+Level[31] = {"Vestibule", 1691, 1692, 1, 0, 0, -1}
+Level[32] = {"Knight & Light", 11230, 11231, 1, 0, 0, -1}
+Level[33] = {"Pot of Gold", 4880, 4881, 1, 0, 0, -1}
+Level[34] = {"Breathing Door", 1858, 1859, 1, 0, 0, -1}
+Level[35] = {"Wizard Chamber", 2590, 2591, 1, 0, 0, -1}
+Level[36] = {"Fire Room", 3173, 3174, 1, 0, 0, -1}
+Level[37] = {"Cat Walk", 11863, 11864, 1, 0, 0, -1}
+Level[38] = {"Big Bat", 11560, 11561, 1, 0, 0, -1}
+Level[39] = {"Mudmen", 12454, 12455, 1, 0, 0, -1}
+Level[40] = {"Dragons Lair", 13190, 13191, 3, 0, 0, -1}
+
+------------------------------------------------------------------------------------------
+-- 3. List of moves for each level, by scene (StartFrame, EndFrame, MOVE, Death#, 0, 0) --
+------------------------------------------------------------------------------------------
+
+function setupMoves(thisLevel, thisScene)
+
+	if thisLevel == 1 then												-- LEVEL 01 Draw Bridge
+
+		if thisScene == 1 then
+
+			sceneStart = 1210
+			sceneEnd = 1687
+			totalMoves = 5
+
+			move[1] = {1363, 1430, TIMED, -1}
+			move[2] = {1482, 1496, BUTTON1, 1}
+			move[3] = {1517, 1529, UP, 1}
+			move[4] = {1530, 1624, WAY, -1}
+			move[5] = {1625, 1687, WAY, -1}
+
+			timed[1] = {UP,1365,1420,-1,5}
+
+		end
+
+	elseif thisLevel == 2 then											-- LEVEL 02 Fire Pit
+
+		if thisScene == 1 then
+
+			sceneStart = 4560
+			sceneEnd = 4875
+			totalMoves = 6
+
+			move[1] = {4600, 4620, TIMED, -1}
+			move[2] = {4670, 4696, TIMED, 27}
+			move[3] = {4730, 4740, TIMED, 28}
+			move[4] = {4775, 4787, TIMED, 28}
+			move[5] = {4815, 4822, TIMED, 29}
+			move[6] = {4823, 4875, WAYOUT, 0}
+
+			timed[1] = {RIGHT,4602,4619,-1,3}
+			timed[2] = {RIGHT,4672,4696,27}
+			timed[3] = {RIGHT,4730,4740,28}
+			timed[4] = {RIGHT,4752,4787,28}
+			timed[5] = {RIGHT,4815,4822,29}
+
+		end
+
+	elseif thisLevel == 3 then											-- LEVEL 03 Flying Barding
+
+		if thisScene == 1 then
+
+			sceneStart = 6730
+			sceneEnd = 7175
+			totalMoves = 7
+
+			move[1] = {6828, 6838, RIGHT, 45}
+			move[2] = {6864, 6874, LEFT, 45}
+			move[3] = {6910, 6922, RIGHT, 43}
+			move[4] = {6958, 6970, LEFT, 43}
+			move[5] = {7000, 7012, LEFT, 44}
+			move[6] = {7039, 7051, LEFT, 43}
+			move[7] = {7052, 7175, WAYOUT, 0}
+
+		end
+
+	elseif thisLevel == 4 then											-- LEVEL 04 Mausoleum
+
+		if thisScene == 1 then
+
+			sceneStart = 7175
+			sceneEnd = 7580
+			totalMoves = 7
+
+			move[1] = {7240, 7256, UP, 46}
+			move[2] = {7278, 7290, BUTTON1, 47}
+			move[3] = {7320, 7337, UP, 48}
+			move[4] = {7362, 7373, BUTTON1, 47}
+			move[5] = {7400, 7421, LEFT, 48}
+			move[6] = {7440, 7465, BUTTON1, 49}
+			move[7] = {7466, 7580, WAYOUT, 0}
+
+		end
+
+	elseif thisLevel == 5 then											-- Level 05 Elevator I
+
+		if thisScene == 1 then
+
+			sceneStart = 8640
+			sceneEnd = 9305
+			totalMoves = 4
+
+			move[1] = {8769, 8781, TIMED, -1}
+			move[2] = {8784, 8797, TIMED, -1}
+			move[3] = {8801, 8812, TIMED, 59}
+			move[4] = {9176, 9305, WAY, 0}
+
+			timed[1] = {LEFT,8769,8776,60,4}
+			timed[2] = {LEFT,8784,8791,60,4}
+			timed[3] = {LEFT,8801,8808,60,4}
+
+		end
+
+	elseif thisLevel == 6 then											-- Level 06 Boulder Trench
+
+		if thisScene == 1 then
+
+			sceneStart = 9520
+			sceneEnd = 10010
+			totalMoves = 8
+
+			move[1] = {9643, 9665, TIMED, 64}
+			move[2] = {9689, 9713, TIMED, 64}
+			move[3] = {9736, 9761, TIMED, 64}
+			move[4] = {9785, 9808, TIMED, 64}
+			move[5] = {9832, 9857, TIMED, 64}
+			move[6] = {9881, 9905, TIMED, 64}
+			move[7] = {9929, 9939, UP, 63}
+			move[8] = {9940, 10010, WAYOUT, 0}
+
+			timed[1] = {DOWN,9652,9665,65}
+			timed[2] = {DOWN,9699,9713,65}
+			timed[3] = {DOWN,9747,9761,65}
+			timed[4] = {DOWN,9794,9808,65}
+			timed[5] = {DOWN,9843,9857,65}
+			timed[6] = {DOWN,9889,9905,65}
+
+		end
+
+	elseif thisLevel == 7 then											-- Level 07 Socker Boppers
+
+		if thisScene == 1 then
+
+			sceneStart = 5665
+			sceneEnd = 5752
+			totalMoves = 1
+
+			move[1] = {5665, 5752, WAYOUT, 0}		
+
+		elseif thisScene == 2 then
+
+			sceneStart = 5753
+			sceneEnd = 6190
+			totalMoves = 5
+
+			move[1] = {5755, 5920, TIMED, 34, 1, 4}
+			move[2] = {6010, 6022, BUTTON1, 35}
+			move[3] = {6080, 6096, DOWN, 36}
+			move[4] = {6113, 6167, TIMED, 36, 5, 6}
+			move[5] = {6168, 6190, WAYOUT, 0}	
+
+			timed[1] = {UP,5829,5850,34,2}
+			timed[2] = {UP,5862,5882,34,2}
+			timed[3] = {UP,5886,5899,34,2}
+			timed[4] = {UP,5902,5920,34}
+			timed[5] = {UP,6136,6150,36}
+			timed[6] = {UP,6151,6167,36}
+
+		end
+
+	elseif thisLevel == 8 then											-- Level 08 Forge
+
+		if thisScene == 1 then
+
+			sceneStart = 6195
+			sceneEnd = 6726
+			totalMoves = 6
+
+			move[1] = {6287, 6302, BUTTON1, 38}
+			move[2] = {6350, 6362, BUTTON1, 39}
+			move[3] = {6392, 6417, LEFT, 40}
+			move[4] = {6455, 6473, BUTTON1, 41}
+			move[5] = {6595, 6622, BUTTON1, 42}
+			move[6] = {6623, 6726, WAYOUT, 0}
+
+		end
+
+	elseif thisLevel == 9 then											-- Level 09 Tentacles & Halberd
+
+		if thisScene == 1 then
+
+			sceneStart = 2085
+			sceneEnd = 2475
+			totalMoves = 7
+
+			move[1] = {2167, 2180, BUTTON1, 5}
+			move[2] = {2226, 2238, LEFT, 6, UP}
+			move[3] = {2273, 2286, RIGHT, 6}
+			move[4] = {2314, 2324, RIGHT, 6, DOWN}
+			move[5] = {2370, 2397, TIMED, 7, 1, 2}
+			move[6] = {2414, 2448, TIMED, 6, 3, 4}
+			move[7] = {2449, 2475, WAY, 0}
+
+			timed[1] = {LEFT,2381,2389,6}
+			timed[2] = {LEFT,2390,2397,6}
+
+			timed[3] = {UP,2423,2433,8}
+			timed[4] = {UP,2440,2448,8}
+
+		end
+
+	elseif thisLevel == 10 then											-- Level 10 YMCA
+
+		if thisScene == 1 then
+
+			sceneStart = 4235
+			sceneEnd = 4560
+			totalMoves = 5
+
+			move[1] = {4316, 4339, LEFT, 24}
+			move[2] = {4382, 4397, BUTTON1, 25}
+			move[3] = {4420, 4435, LEFT, 25}
+			move[4] = {4485, 4519, LEFT, 26}
+			move[5] = {4520, 4560, WAYOUT, 0}
+
+		end
+
+	elseif thisLevel == 11 then											-- Level 11 Yellow Brick Road
+
+		if thisScene == 1 then
+
+			sceneStart = 7580
+			sceneEnd = 8095
+			totalMoves = 10
+
+			move[1] = {7626, 7637, LEFT, 51}
+			move[2] = {7674, 7683, UP, 50}
+			move[3] = {7730, 7745, RIGHT, 52}
+			move[4] = {7773, 7788, UP, 50}
+			move[5] = {7824, 7839, LEFT, 53}
+			move[6] = {7872, 7887, UP, 54}
+			move[7] = {7932, 7967, BUTTON1, 55}
+			move[8] = {7986, 7998, RIGHT, 51}
+			move[9] = {8016, 8050, TIMED, 56}
+			move[10] = {8051, 8095, WAYOUT, 0}
+
+			timed[9] = {UP,8036,8050,56}
+
+		end
+
+	elseif thisLevel == 12 then											-- Level 12 Chapel
+
+		if thisScene == 1 then
+
+			sceneStart = 8100
+			sceneEnd = 8633
+			totalMoves = 9
+
+			move[1] = {8195, 8210, RIGHT, 57}
+			move[2] = {8227, 8242, LEFT, 57}
+			move[3] = {8272, 8280, UP, 57}
+			move[4] = {8316, 8331, LEFT, 57}
+			move[5] = {8367, 8379, RIGHT, 57}
+			move[6] = {8397, 8407, LEFT, 57}
+			move[7] = {8417, 8428, RIGHT, 57}
+			move[8] = {8473, 8488, BUTTON1, 58}
+			move[9] = {8489, 8633, WAYOUT, 0}
+
+		end
+
+	elseif thisLevel == 13 then											-- Level 13 Throne Room
+
+		if thisScene == 1 then
+
+			sceneStart = 2903
+			sceneEnd = 3168
+			totalMoves = 5
+
+			move[1] = {2960, 2973, RIGHT, 14}
+			move[2] = {2981, 2991, RIGHT, 15, UP}
+			move[3] = {3003, 3015, RIGHT, 15}
+			move[4] = {3104, 3119, RIGHT, 16}
+			move[5] = {3120, 3168, WAYOUT, 0}
+
+		end
+
+	elseif thisLevel == 14 then											-- Level 14 Mirror Elevator II
+
+		if thisScene == 1 then
+
+			sceneStart = 18750
+			sceneEnd = 19410
+			totalMoves = 4
+
+			move[1] = {18873, 18885, TIMED, -1}
+			move[2] = {18889, 18901, TIMED, -1}
+			move[3] = {18906, 18916, TIMED, 105}
+			move[4] = {19285, 19410, WAY, 0}
+
+			timed[1] = {RIGHT,18876,18885,106,4}
+			timed[2] = {RIGHT,18892,18901,106,4}
+			timed[3] = {RIGHT,18909,18916,106,4}
+
+		end
+
+	elseif thisLevel == 15 then											-- Level 15 Mirror Fire Pit
+
+		if thisScene == 1 then
+
+			sceneStart = 15456
+			sceneEnd = 15770
+			totalMoves = 6
+
+			move[1] = {15495, 15515, TIMED, -1}
+			move[2] = {15565, 15591, TIMED, 95}
+			move[3] = {15625, 15635, TIMED, 96}
+			move[4] = {15670, 15682, TIMED, 96}
+			move[5] = {15710, 15717, TIMED, 97}
+			move[6] = {15718, 15770, WAYOUT, 0}
+
+			timed[1] = {LEFT,15497,15514,-1,3}
+			timed[2] = {LEFT,15567,15591,95}
+			timed[3] = {LEFT,15625,15635,96}
+			timed[4] = {LEFT,15647,15682,96}
+			timed[5] = {LEFT,15710,15717,97}
+
+		end
+
+	elseif thisLevel == 16 then											-- Level 16 Mirror Flying Barding
+
+		if thisScene == 1 then
+
+			sceneStart = 16840
+			sceneEnd = 17285
+			totalMoves = 7
+
+			move[1] = {16936, 16946, LEFT, 100}
+			move[2] = {16972, 16982, RIGHT, 100}
+			move[3] = {17018, 17030, LEFT, 98}
+			move[4] = {17066, 17078, RIGHT, 98}
+			move[5] = {17108, 17120, RIGHT, 99}
+			move[6] = {17147, 17159, RIGHT, 98}
+			move[7] = {17160, 17285, WAYOUT, 0}
+
+		end
+
+	elseif thisLevel == 17 then											-- Level 17 Mirror Mausoleum
+
+		if thisScene == 1 then
+
+			sceneStart = 17289
+			sceneEnd = 17685
+			totalMoves = 7
+
+			move[1] = {17348, 17370, UP, 101}
+			move[2] = {17386, 17398, BUTTON1, 102}
+			move[3] = {17430, 17454, UP, 103}
+			move[4] = {17471, 17481, BUTTON1, 102}
+			move[5] = {17514, 17529, RIGHT, 103}
+			move[6] = {17550, 17574, BUTTON1, 104}
+			move[7] = {17575, 17685, WAYOUT, 0}
+
+		end
+
+	elseif thisLevel == 18 then											-- Level 18 Elevator III
+
+		if thisScene == 1 then
+
+			sceneStart = 8640
+			sceneEnd = 9305
+			totalMoves = 13
+
+			move[1] = {8769, 8781, TIMED, -1}
+			move[2] = {8784, 8797, TIMED, -1}
+			move[3] = {8801, 8812, TIMED, -1}
+
+			move[4] = {8871, 8882, TIMED, -1}
+			move[5] = {8887, 8899, TIMED, -1}
+			move[6] = {8903, 8915, TIMED, -1}
+
+			move[7] = {8974, 8986, TIMED, -1}
+			move[8] = {8990, 9002, TIMED, -1}
+			move[9] = {9006, 9018, TIMED, 59}
+
+			move[10] = {9041, 9137, WAY, 0}
+			move[11] = {9138, 9166, WAYOUT, 0}
+
+			move[12] = {9176, 9272, WAY, 0}
+			move[13] = {9273, 9305, WAYOUT, 0}
+
+			timed[1] = {LEFT,8769,8776,60,12}
+			timed[2] = {LEFT,8784,8791,60,12}
+			timed[3] = {LEFT,8801,8808,60,12}
+
+			timed[4] = {RIGHT,8871,8879,60,10}
+			timed[5] = {RIGHT,8887,8894,60,10}
+			timed[6] = {RIGHT,8903,8910,60,10}
+
+			timed[7] = {LEFT,8974,8982,60,12}
+			timed[8] = {LEFT,8990,8998,60,12}
+			timed[9] = {LEFT,9006,9013,60,12}
+
+		end
+
+	elseif thisLevel == 19 then											-- Level 19 Three Caves
+
+		if thisScene == 1 then
+
+			sceneStart = 12170
+			sceneEnd = 12315
+			totalMoves = 3
+
+			move[1] = {12187, 12243, UP, 81}
+			move[2] = {12244, 12288, TIMED, 80, 1, 3}
+			move[3] = {12289, 12315, WAY, 0}
+
+			timed[1] = {UP,12246,12256,80}
+			timed[2] = {UP,12263,12274,80}
+			timed[3] = {UP,12278,12286,80}
+
+		elseif thisScene == 2 then
+
+			sceneStart = 12316
+			sceneEnd = 12448
+			totalMoves = 2
+
+			move[1] = {12349, 12412, TIMED, 81, 1, 3}
+			move[2] = {12421, 12448, WAY, 0}
+
+			timed[1] = {LEFT,12363,12372,82}
+			timed[2] = {LEFT,12385,12394,82}
+			timed[3] = {LEFT,12407,12412,82,2}
+
+		end	
+
+	elseif thisLevel == 20 then											-- Level 20 Mirror Socker Boppers
+
+		if thisScene == 1 then
+
+			sceneStart = 15773
+			sceneEnd = 15860
+			totalMoves = 1
+
+			move[1] = {15773, 15860, WAY, 0}		
+
+		elseif thisScene == 2 then 
+
+			sceneStart = 15861
+			sceneEnd = 16298
+			totalMoves = 5
+
+			move[1] = {15863, 16028, TIMED, 107, 1, 4}
+			move[2] = {16118, 16130, BUTTON1, 108}
+			move[3] = {16188, 16204, DOWN, 109}
+			move[4] = {16220, 16275, TIMED, 109, 5, 6}
+			move[5] = {16276, 16298, WAYOUT, 0}	
+
+			timed[1] = {UP,15937,15958,107,2}
+			timed[2] = {UP,15970,15990,107,2}
+			timed[3] = {UP,15994,16007,107,2}
+			timed[4] = {UP,16010,16028,107}
+			timed[5] = {UP,16244,16260,109}
+			timed[6] = {UP,16231,16275,109}
+
+		end
+
+	elseif thisLevel == 21 then											-- Level 21 Mirror Forge
+
+		if thisScene == 1 then
+
+			sceneStart = 16305
+			sceneEnd = 16835
+			totalMoves = 6
+
+			move[1] = {16395, 16410, BUTTON1, 110}
+			move[2] = {16458, 16470, BUTTON1, 111}
+			move[3] = {16500, 16525, RIGHT, 112}
+			move[4] = {16563, 16581, BUTTON1, 113}
+			move[5] = {16703, 16730, BUTTON1, 114}
+			move[6] = {16731, 16835, WAYOUT, 0}
+
+		end
+
+	elseif thisLevel == 22 then											-- Level 22 Mist Room
+
+		if thisScene == 1 then
+
+			sceneStart = 3480
+			sceneEnd = 3739
+			totalMoves = 7
+
+			move[1] = {3490, 3510, PATH, -1}
+			move[2] = {3533, 3546, BUTTON1, 18}
+			move[3] = {3580, 3603, BUTTON1, 18}
+			move[4] = {3617, 3627, BUTTON1, 18}
+			move[5] = {3638, 3652, RIGHT, 18, UP}
+			move[6] = {3653, 3700, WAY, 0}
+			move[7] = {3701, 3739, WAYOUT, 0}
+
+			path[1] = {RIGHT, 6, 0, 0, 0, 0, 0, 0, 6}
+
+		end
+
+	elseif thisLevel == 23 then											-- Level 23 Spiral Staircase
+
+		if thisScene == 1 then
+
+			sceneStart = 3893
+			sceneEnd = 4158
+			totalMoves = 6
+
+			move[1] = {3950, 3969, BUTTON1, 23}
+			move[2] = {4000, 4010, RIGHT, 22}
+			move[3] = {4052, 4064, BUTTON1, 21}
+			move[4] = {4093, 4107, PATH, 21}
+			move[5] = {4161, 4227, WAY, 0}
+			move[6] = {4109, 4158, WAYOUT, 0}
+
+			path[4] = {BUTTON1, 5, UP, 6, LEFT, 6, 0, 0, 6}
+
+		end
+
+	elseif thisLevel == 24 then											-- Level 24 Mirror Yellow Brick Road
+
+		if thisScene == 1 then
+
+			sceneStart = 17692
+			sceneEnd = 18201
+			totalMoves = 10
+
+			move[1] = {17734, 17745, RIGHT, 116}
+			move[2] = {17782, 17791, UP, 115}
+			move[3] = {17838, 17853, LEFT, 117}
+			move[4] = {17881, 17896, UP, 115}
+			move[5] = {17932, 17947, RIGHT, 118}
+			move[6] = {17980, 17995, UP, 119}
+			move[7] = {18040, 18075, BUTTON1, 120}
+			move[8] = {18094, 18106, LEFT, 116}
+			move[9] = {18125, 18158, TIMED, 121}
+			move[10] = {18159, 18201, WAY, 0}
+
+			timed[9] = {UP,18145,18158,121}
+
+		end
+
+	elseif thisLevel == 25 then											-- Level 25 Mirror Chapel
+
+		if thisScene == 1 then
+
+			sceneStart = 18208
+			sceneEnd = 18745
+			totalMoves = 9
+
+			move[1] = {18303, 18318, LEFT, 122}
+			move[2] = {18335, 18350, RIGHT, 122}
+			move[3] = {18380, 18388, UP, 122}
+			move[4] = {18424, 18439, RIGHT, 122}
+			move[5] = {18475, 18487, LEFT, 122}
+			move[6] = {18505, 18515, RIGHT, 122}
+			move[7] = {18525, 18536, LEFT, 122}
+			move[8] = {18581, 18596, BUTTON1, 123}
+			move[9] = {18597, 18745, WAYOUT, 0}
+
+		end
+
+	elseif thisLevel == 26 then											-- Level 26 Tilting Room
+
+		if thisScene == 1 then
+
+			sceneStart = 9307
+			sceneEnd = 9515
+			totalMoves = 4
+
+			move[1] = {9402, 9416, DOWN, 62}
+			move[2] = {9441, 9456, UP, 63}
+			move[3] = {9471, 9485, PATH, 63}
+			move[4] = {9486, 9515, WAY, 0}
+
+			path[3] = {UP, 1061, LEFT, 4, 0, 0, 0, 0, 0}
+
+		end
+
+	elseif thisLevel == 27 then											-- Level 27 Mirror Elevator IV
+
+		if thisScene == 1 then
+
+			sceneStart = 18750
+			sceneEnd = 19410
+			totalMoves = 13
+
+			move[1] = {18873, 18885, TIMED, -1}
+			move[2] = {18889, 18901, TIMED, -1}
+			move[3] = {18906, 18916, TIMED, -1}
+
+			move[4] = {18979, 18990, TIMED, -1}
+			move[5] = {18995, 19007, TIMED, -1}
+			move[6] = {19011, 19023, TIMED, -1}
+
+			move[7] = {19082, 19094, TIMED, -1}
+			move[8] = {19098, 19110, TIMED, -1}
+			move[9] = {19114, 19126, TIMED, 105}
+
+			move[10] = {19150, 19245, WAY, 0}
+			move[11] = {19246, 19275, WAYOUT, 0}
+
+			move[12] = {19285, 19380, WAY, 0}
+			move[13] = {19381, 19410, WAYOUT, 0}
+
+			timed[1] = {RIGHT,18876,18885,106,12}
+			timed[2] = {RIGHT,18892,18901,106,12}
+			timed[3] = {RIGHT,18909,18916,106,12}
+
+			timed[4] = {LEFT,18979,18987,106,10}
+			timed[5] = {LEFT,18995,19002,106,10}
+			timed[6] = {LEFT,19011,19018,106,10}
+
+			timed[7] = {RIGHT,19082,19090,106,12}
+			timed[8] = {RIGHT,19098,19106,106,12}
+			timed[9] = {RIGHT,19114,19121,106,12}
+
+		end
+
+	elseif thisLevel == 28 then											-- Level 28 Bower
+
+		if thisScene == 1 then  
+
+			sceneStart = 3745
+			sceneEnd = 3886
+			totalMoves = 2
+
+			move[1] = {3780, 3808, TIMED, 20}
+			move[2] = {3809, 3886, WAY, 0}
+			
+			timed[1] = {UP,3780,3800,19,2}
+
+		end
+
+	elseif thisLevel == 29 then											-- Level 29 Wizards Kitchen
+
+		if thisScene == 1 then
+
+			sceneStart = 2475
+			sceneEnd = 2582
+			totalMoves = 2
+
+			move[1] = {2483, 2528, PATH, 10}		
+			move[2] = {2529, 2582, WAY, 0}
+
+			path[1] = {UP, 1009, RIGHT, 2, 0, 0, 0, 0, 0}
+
+		end
+
+	elseif thisLevel == 30 then											-- Level 30 Ye Rapids
+
+		if thisScene == 1 then
+
+			sceneStart = 10017
+			sceneEnd = 10117
+			totalMoves = 1
+
+			move[1] = {10100, 10117, WAY, 0}
+
+		elseif thisScene == 2 then
+
+			sceneStart = 10118
+			sceneEnd = 10432
+			totalMoves = 6
+
+			move[1] = {10150, 10173, WAY, 0}
+			move[2] = {10230, 10243, LEFT, 66}
+			move[3] = {10278, 10291, RIGHT, 67}
+			move[4] = {10327, 10340, LEFT, 68}
+			move[5] = {10372, 10387, RIGHT, 69}
+			move[6] = {10388, 10432, WAYOUT, 0}
+
+		elseif thisScene == 3 then
+
+			sceneStart = 10434
+			sceneEnd = 10734
+			totalMoves = 8
+
+			move[1] = {10476, 10510, TIMED, 70, 1, 2}
+			move[2] = {10511, 10535, WAY, 0}
+			move[3] = {10536, 10571, TIMED, 70, 3, 4}
+			move[4] = {10572, 10595, WAY, 0}
+			move[5] = {10596, 10630, TIMED, 70, 5, 6}
+			move[6] = {10631, 10664, WAY, 0}
+			move[7] = {10665, 10699, TIMED, 70, 7, 8}
+			move[8] = {10700, 10734, WAY, 0}
+
+			timed[1] = {RIGHT,10476,10495,70}
+			timed[2] = {UP,10496,10510,70}
+			timed[3] = {LEFT,10536,10555,70}
+			timed[4] = {UP,10556,10571,70}
+			timed[5] = {RIGHT,10596,10616,70}
+			timed[6] = {UP,10617,10630,70}
+			timed[7] = {LEFT,10665,10683,70}
+			timed[8] = {UP,10684,10699,70}
+
+		elseif thisScene == 4 then
+
+			sceneStart = 10736
+			sceneEnd = 11057
+			totalMoves = 5
+
+			move[1] = {10805, 10836, RIGHT, 71}
+			move[2] = {10875, 10895, LEFT, 71}
+			move[3] = {10940, 10961, RIGHT, 71}
+			move[4] = {11005, 11024, LEFT, 71}
+			move[5] = {11025, 11057, WAYOUT, 0}
+
+		elseif thisScene == 5 then
+
+			sceneStart = 11058
+			sceneEnd = 11225
+			totalMoves = 2
+
+			move[1] = {11125, 11148, RIGHT, 72, UP}
+			move[2] = {11149, 11225, WAYOUT, 0}
+
+		end
+
+	elseif thisLevel == 31 then											-- Level 31 Vestibule
+
+		if thisScene == 1 then
+
+			sceneStart = 1691
+			sceneEnd = 1856
+			totalMoves = 3
+
+			move[1] = {1750, 1774, RIGHT, 2, DOWN}
+			move[2] = {1792, 1803, RIGHT, 3}
+			move[3] = {1804, 1856, WAYOUT, 0}
+			
+		end
+
+	elseif thisLevel == 32 then											-- Level 32 Knight & Light
+
+		if thisScene == 1 then
+
+			sceneStart = 11230
+			sceneEnd = 11555
+			totalMoves = 6
+
+			move[1] = {11240, 11270, RIGHT, 74, UP}
+			move[2] = {11305, 11319, LEFT, 74}
+			move[3] = {11320, 11399, WAY, 0}
+			move[4] = {11400, 11418, LEFT, 73}
+			move[5] = {10480, 11497, RIGHT, 73}
+			move[6] = {11498, 11555, WAYOUT, 0}
+
+		end
+
+	elseif thisLevel == 33 then											-- Level 33 Pot of Gold
+
+		if thisScene == 1 then
+
+			sceneStart = 4880
+			sceneEnd = 5662
+			totalMoves = 24
+
+			move[1] = {4915, 4920, PATH, -1}
+			move[2] = {4922, 4937, LEFT, 30, UP}
+			move[3] = {5029, 5042, RIGHT, 32}
+			move[4] = {5115, 5127, RIGHT, 32}
+			move[5] = {5166, 5181, RIGHT, 32}
+			move[6] = {5282, 5292, RIGHT, 32}
+			move[7] = {5334, 5348, RIGHT, 32}
+			move[8] = {5387, 5402, UP, 31, BUTTON1}
+			move[9] = {5425, 5440, BUTTON1, 32}
+			move[10] = {5451, 5466, LEFT, 33, BUTTON1}
+			move[11] = {5475, 5488, BUTTON1, 32}
+			move[12] = {5498, 5511, LEFT, 33, BUTTON1}
+			move[13] = {5525, 5535, BUTTON1, 33}
+			move[14] = {5536, 5662, WAYOUT, 0}
+
+			move[15] = {5168, 5281, WAY, -1}
+			move[16] = {5282, 5292, RIGHT, 32}
+			move[17] = {5334, 5348, RIGHT, 32}
+			move[18] = {5387, 5402, UP, 31, BUTTON1}
+			move[19] = {5425, 5440, BUTTON1, 32}
+			move[20] = {5451, 5466, LEFT, 33, BUTTON1}
+			move[21] = {5475, 5488, BUTTON1, 32}
+			move[22] = {5498, 5511, LEFT, 33, BUTTON1}
+			move[23] = {5525, 5535, BUTTON1, 33}
+			move[24] = {5536, 5662, WAYOUT, 0}
+
+			path[1] = {RIGHT, 15, 0, 0, 0, 0, 0, 0, 15}
+
+		end
+
+	elseif thisLevel == 34 then											-- Level 34 Breathing Door
+
+		if thisScene == 1 then
+
+			sceneStart = 1858
+			sceneEnd = 2081
+			totalMoves = 3
+
+			move[1] = {1871, 1896, RIGHT, -1}			
+			move[2] = {2015, 2061, TIMED, 4}
+			move[3] = {2062, 2081, WAY, 0}
+
+			timed[2] = {RIGHT,2039,2061,4}
+
+		end
+
+	elseif thisLevel == 35 then											-- Level 35 Wizards Chamber
+
+		if thisScene == 1 then
+
+			sceneStart = 2590
+			sceneEnd = 2898
+			totalMoves = 6
+
+			move[1] = {2641, 2654, UP, 12}
+			move[2] = {2702, 2715, BUTTON1, 11}
+			move[3] = {2746, 2756, DOWN, 12}
+			move[4] = {2781, 2796, BUTTON1, 13}
+			move[5] = {2840, 2851, RIGHT, 12}
+			move[6] = {2852, 2898, WAYOUT, 0}
+
+		end
+
+	elseif thisLevel == 36 then											-- Level 36 Fire Room
+
+		if thisScene == 1 then
+
+			sceneStart = 3173
+			sceneEnd = 3473
+			totalMoves = 5
+
+			move[1] = {3246, 3261, RIGHT, 10}
+			move[2] = {3295, 3309, LEFT, 10, UP}
+			move[3] = {3340, 3364, DOWN, 10}
+			move[4] = {3391, 3403, LEFT, 17}
+			move[5] = {3404, 3473, WAYOUT, 0}
+
+		end
+
+	elseif thisLevel == 37 then											-- Level 37 Cat Walk
+
+		if thisScene == 1 then
+
+			sceneStart = 11863
+			sceneEnd = 12160
+			totalMoves = 6
+
+			move[1] = {11917, 11932, UP, 78}
+			move[2] = {11949, 11962, LEFT, 78, UP}
+			move[3] = {12011, 12022, BUTTON1, 79}
+			move[4] = {12047, 12058, RIGHT, 78}
+			move[5] = {12082, 12094, RIGHT, 78}
+			move[6] = {12095, 12160, WAYOUT, 0}
+
+		end
+
+	elseif thisLevel == 38 then											-- Level 38 Big Bat
+
+		if thisScene == 1 then
+
+			sceneStart = 11560
+			sceneEnd = 11857
+			totalMoves = 5
+
+			move[1] = {11611, 11626, BUTTON1, 76}
+			move[2] = {11652, 11667, LEFT, 78}
+			move[3] = {11708, 11720, LEFT, 77, UP}
+			move[4] = {11765, 11778, BUTTON1, 75}
+			move[5] = {11799, 11817, LEFT, 78}
+			move[6] = {11818, 11857, WAYOUT, 0}
+
+		end
+
+	elseif thisLevel == 39 then											-- Level 39 Mudmen
+
+		if thisScene == 1 then
+
+			sceneStart = 12454
+			sceneEnd = 13183
+			totalMoves = 10
+
+			move[1] = {12560, 12660, BUTTON1, 87}
+			move[2] = {12669, 12692, UP, 87}
+			move[3] = {12698, 12731, UP, 83}
+			move[4] = {12757, 12775, RIGHT, 84, UP}
+			move[5] = {12790, 12816, LEFT, 86, UP}
+			move[6] = {12835, 12856, UP, 83}
+			move[7] = {12900, 12920, LEFT, 85, UP}
+			move[8] = {12955, 12985, UP, 84}
+			move[9] = {13080, 13105, UP, 86}
+			move[10] = {13106, 13183, WAYOUT, 0}
+
+		end
+
+	elseif thisLevel == 40 then											-- Level 40 Dragons Lair
+
+		if thisScene == 1 then
+
+			sceneStart = 13190
+			sceneEnd = 13747
+			totalMoves = 3
+
+			move[1] = {13299, 13310, LEFT, 89}
+			move[2] = {13570, 13585, LEFT, 89}
+			move[3] = {13586, 13747, WAYOUT, 0}
+
+		elseif thisScene == 2 then
+			
+			sceneStart = 13748
+			sceneEnd = 14219
+			totalMoves = 2
+
+			move[1] = {13771, 13785, LEFT, 89}
+			move[2] = {13786, 14219, WAYOUT, 0}
+			
+		elseif thisScene == 3 then
+			
+			sceneStart = 14220
+			sceneEnd = 15455
+			totalMoves = 12
+
+			move[1] = {14291, 14306, LEFT, 90, DOWN}
+			move[2] = {14327, 14342, LEFT, 90, DOWN}
+			move[3] = {14410, 14425, UP, 89}
+			move[4] = {14501, 14516, LEFT, 93, DOWN}
+			move[5] = {14632, 14645, RIGHT, 89}
+			move[6] = {14712, 14731, RIGHT, 89, UP}
+			move[7] = {14767, 14777, RIGHT, 91, BUTTON1}
+			move[8] = {14839, 14854, BUTTON1, 92}
+			move[9] = {14935, 14950, LEFT, 94, UP}
+			move[10] = {14967, 14981, RIGHT, 94, BUTTON1}
+			move[11] = {14991, 15002, RIGHT, 94, BUTTON1}
+			move[12] = {15003, 15455, WAYOUT, 0}
+
+		end
+
+	end
+
+end

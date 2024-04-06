@@ -1,0 +1,4851 @@
+--[[
+
+PROGRAM NAME:	LUA SINGE ENGINE
+VERSION:		3.32b
+AUTHOR:			KARIS (2021)
+
+This file is part of LUA SINGE ENGINE.
+
+	LUA SINGE ENGINE is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation.
+
+	LUA SINGE ENGINE is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+	Thanks to Scott Duensing, RDG.
+
+]]--
+
+optSel = 0
+slotsave = nil;
+
+function readConfig()
+
+	local s0 = ""
+	local s1
+	local hsDiff = ""
+	local k = 0
+
+	if altCfg == true then
+
+		s0 = MYDIR .."/Cfg/game2.cfg"
+
+	else
+
+		s0 = MYDIR .."/Cfg/game.cfg"
+
+	end	
+
+	local h1 = io.input(s0)
+	local s1 = io.read("*line")	
+
+	if (s1 ~= nil) then
+	
+		dip_Diffshow = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")
+
+	if (s1 ~= nil) then
+	
+		dip_GameType = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")
+
+	if (s1 ~= nil) then
+	
+		dip_PlayStyle = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")
+	
+	if (s1 ~= nil) then
+	
+		dip_StartLevel = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")
+	
+	if (s1 ~= nil) then
+	
+		dip_StartScene = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")
+	
+	if (s1 ~= nil) then
+	
+		dip_Rewind = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")
+	
+	if (s1 ~= nil) then
+
+		dip_CoinsPerCredit = tonumber(string.sub(s1,string.find(s1,"=")+1))			
+		
+	end
+	
+	s1 = io.read("*line")
+	
+	if (s1 ~= nil) then
+	
+		dip_LivesPerCredit = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+			
+	s1 = io.read("*line")
+	
+	if (s1 ~= nil) then
+	
+		dip_LimitContinue = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")
+	
+	if (s1 ~= nil) then
+	
+		dip_ShowAction = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")
+	
+	if (s1 ~= nil) then
+	
+		dip_Extravid = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	if dip_Extravid == 0 then
+
+		ShowResurrect = false 
+		ShowSupDeath = false
+		ShowLvlClear = false 
+
+	elseif dip_Extravid == 1 then
+
+		ShowResurrect = true
+		ShowSupDeath = false 
+		ShowLvlClear = false
+
+	elseif dip_Extravid == 2 then
+
+		ShowResurrect = false 
+		ShowSupDeath = true
+		ShowLvlClear = false 
+
+	elseif dip_Extravid == 3 then
+
+		ShowResurrect = false
+		ShowSupDeath = false 
+		ShowLvlClear = true
+
+	elseif dip_Extravid == 4 then
+
+		ShowResurrect = true
+		ShowSupDeath = true 
+		ShowLvlClear = false
+
+	elseif dip_Extravid == 5 then
+
+		ShowResurrect = true
+		ShowSupDeath = false 
+		ShowLvlClear = true
+
+	elseif dip_Extravid == 6 then
+
+		ShowResurrect = false
+		ShowSupDeath = true 
+		ShowLvlClear = true
+
+	elseif dip_Extravid == 7 then
+
+		ShowResurrect = true
+		ShowSupDeath = true 
+		ShowLvlClear = true	
+
+	end
+
+	s1 = io.read("*line")
+	s1 = tonumber(string.sub(s1,string.find(s1,"=")+1))
+	
+	if (s1 ~= nil) then
+	
+		if (s1 == 1) then
+			dip_Hints = true
+		else
+			dip_Hints = false
+		end
+	end
+
+	s1 = io.read("*line")	
+
+	if (s1 ~= nil) then
+	
+		dip_Difficulty = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")
+	
+	if (s1 ~= nil) then
+	
+		dip_MashtoRun = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")	
+
+	if (s1 ~= nil) then
+	
+		dip_Res = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")
+	s1 = tonumber(string.sub(s1,string.find(s1,"=")+1))
+	
+	if (s1 ~= nil) then
+	
+		if (s1 == 1) then
+			ShowLCD = true
+		else
+			ShowLCD = false
+		end
+	end
+
+	s1 = io.read("*line")
+	s1 = tonumber(string.sub(s1,string.find(s1,"=")+1))
+	
+	if (s1 ~= nil) then
+	
+		if (s1 == 1) then
+			ShowLevel = true
+		else
+			ShowLevel = false
+		end
+	end
+
+	s1 = io.read("*line")
+	s1 = tonumber(string.sub(s1,string.find(s1,"=")+1))
+	
+	if (s1 ~= nil) then
+	
+		if (s1 == 1) then
+			ShowTop = true
+		else
+			ShowTop = false
+		end
+	end
+
+	if ShowTop then bShowTop = true end
+
+	s1 = io.read("*line")	
+
+	if (s1 ~= nil) then
+	
+		ScorePos = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")	
+
+	if (s1 ~= nil) then
+	
+		LivPos = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")	
+
+	if (s1 ~= nil) then
+	
+		CoinPos = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")	
+
+	if (s1 ~= nil) then
+	
+		mycolor1 = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")	
+
+	if (s1 ~= nil) then
+	
+		mycolor2 = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")	
+
+	if (s1 ~= nil) then
+	
+		fontSize = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	fontSave = fontSize
+
+	s1 = io.read("*line")	
+
+	if (s1 ~= nil) then
+	
+		fontType = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")
+	s1 = tonumber(string.sub(s1,string.find(s1,"=")+1))
+	
+	if (s1 ~= nil) then
+	
+		if (s1 == 1) then
+			ShowTitle = true
+		else
+			ShowTitle = false
+		end
+	end
+
+
+	s1 = io.read("*line")	
+
+	if (s1 ~= nil) then
+	
+		dip_Model = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")	
+
+	if (s1 ~= nil) then
+	
+		dip_Display = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")	
+
+	if (s1 ~= nil) then
+	
+		dip_Scanlines = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")	
+
+	if (s1 ~= nil) then
+	
+		dip_ScType = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")	
+
+	if (s1 ~= nil) then
+	
+		dip_LivType = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")	
+
+	if (s1 ~= nil) then
+	
+		dip_FontQ = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")	
+
+	if (s1 ~= nil) then
+	
+		dip_HoldtoLoop = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	fontQuality(dip_FontQ)
+
+	io.close(h1)
+
+end
+
+function writeConfig()
+
+	-- This function writes the values of the dip variables
+	-- into an external data file.
+
+	local sNewLine = "\n"
+	local s0 = ""
+	local s1 = ""
+
+	if altCfg == true then
+
+		s0 = MYDIR .."/Cfg/game2.cfg"
+			
+	else
+
+		s0 = MYDIR .."/Cfg/game.cfg"
+
+	end
+
+	local h1 = io.output(s0)
+	
+	io.write("dip_Diffshow = " .. dip_Diffshow .. sNewLine)
+	io.write("dip_GameType = " .. dip_GameType .. sNewLine)
+	io.write("dip_PlayStyle = " .. dip_PlayStyle .. sNewLine)
+	io.write("dip_StartLevel = " .. dip_StartLevel .. sNewLine)	
+	io.write("dip_StartScene = " .. dip_StartScene .. sNewLine)	
+	io.write("dip_Rewind = " .. dip_Rewind .. sNewLine)
+	io.write("dip_CoinsPerCredit = " .. dip_CoinsPerCredit .. sNewLine)
+	io.write("dip_LivesPerCredit = " .. dip_LivesPerCredit .. sNewLine)	
+	io.write("dip_LimitContinue = " .. dip_LimitContinue .. sNewLine)
+	io.write("dip_ShowAction = " .. dip_ShowAction .. sNewLine)
+	io.write("dip_Extravid = " .. dip_Extravid .. sNewLine)
+	
+	if (dip_Hints == true) then
+		io.write("dip_Hints = 1" .. sNewLine)
+	else
+		io.write("dip_Hints = 0" .. sNewLine)
+	end
+
+	if (dip_Diffshow == 4) then	
+
+		dip_Difficulty = 1 
+
+	else
+
+		dip_Difficulty = dip_Diffshow 
+
+	end
+
+	io.write("dip_Difficulty = " .. dip_Difficulty .. sNewLine)
+
+	io.write("dip_MashtoRun = " .. dip_MashtoRun .. sNewLine)
+
+	io.write("dip_Res = " .. dip_Res .. sNewLine)
+
+	if (ShowLCD == true) then
+		io.write("ShowLCD = 1" .. sNewLine)
+	else
+		io.write("ShowLCD = 0" .. sNewLine)
+	end
+
+	if (ShowLevel == true) then
+		io.write("ShowLevel = 1" .. sNewLine)
+	else
+		io.write("ShowLevel = 0" .. sNewLine)
+	end
+
+	if (ShowTop == true) then
+		io.write("ShowTop = 1" .. sNewLine)
+	else
+		io.write("ShowTop = 0" .. sNewLine)
+	end
+
+	io.write("ScorePos = " .. ScorePos .. sNewLine)
+	io.write("LivPos = " .. LivPos .. sNewLine)
+	io.write("CoinPos = " .. CoinPos .. sNewLine)
+	io.write("mycolor1 = " .. mycolor1 .. sNewLine)
+	io.write("mycolor2 = " .. mycolor2 .. sNewLine)
+	io.write("fontSize = " .. fontSize .. sNewLine)
+	io.write("fontType = " .. fontType .. sNewLine)
+
+	if (ShowTitle == true) then
+		io.write("ShowTitle = 1" .. sNewLine)
+	else
+		io.write("ShowTitle = 0" .. sNewLine)
+	end
+
+	io.write("dip_Model = " .. dip_Model .. sNewLine)
+	io.write("dip_Display = " .. dip_Display .. sNewLine)
+	io.write("dip_Scanlines = " .. dip_Scanlines .. sNewLine)
+	io.write("dip_ScType = " .. dip_ScType .. sNewLine)
+	io.write("dip_LivType = " .. dip_LivType .. sNewLine)
+	io.write("dip_FontQ = " .. dip_FontQ .. sNewLine)
+	io.write("dip_HoldtoLoop = " .. dip_HoldtoLoop .. sNewLine)
+
+	io.close(h1)
+
+end
+
+function setDefault()
+
+	local s0 = ""
+	local s1
+	local hsName = ""
+	local hsScore = ""
+	local k = 0
+	local h1
+
+	if altCfg == true then
+
+		s0 = MYDIR .."/Cfg/default2.cfg"
+
+	else
+
+		s0 = MYDIR .."/Cfg/default.cfg"
+
+	end	
+
+	local h1 = io.input(s0)
+	local s1 = io.read("*line")	
+
+	if (s1 ~= nil) then
+	
+		dip_Diffshow = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")
+
+	if (s1 ~= nil) then
+	
+		dip_GameType = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")
+
+	if (s1 ~= nil) then
+	
+		dip_PlayStyle = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")
+	
+	if (s1 ~= nil) then
+	
+		dip_StartLevel = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")
+	
+	if (s1 ~= nil) then
+	
+		dip_StartScene = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")
+	
+	if (s1 ~= nil) then
+	
+		dip_Rewind = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")
+	
+	if (s1 ~= nil) then
+
+		dip_CoinsPerCredit = tonumber(string.sub(s1,string.find(s1,"=")+1))			
+		
+	end
+	
+	s1 = io.read("*line")
+	
+	if (s1 ~= nil) then
+	
+		dip_LivesPerCredit = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+			
+	s1 = io.read("*line")
+	
+	if (s1 ~= nil) then
+	
+		dip_LimitContinue = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")
+	
+	if (s1 ~= nil) then
+	
+		dip_ShowAction = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")
+	
+	if (s1 ~= nil) then
+	
+		dip_Extravid = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	if dip_Extravid == 0 then
+
+		ShowResurrect = false 
+		ShowSupDeath = false
+		ShowLvlClear = false 
+
+	elseif dip_Extravid == 1 then
+
+		ShowResurrect = true
+		ShowSupDeath = false 
+		ShowLvlClear = false
+
+	elseif dip_Extravid == 2 then
+
+		ShowResurrect = false 
+		ShowSupDeath = true
+		ShowLvlClear = false 
+
+	elseif dip_Extravid == 3 then
+
+		ShowResurrect = false
+		ShowSupDeath = false 
+		ShowLvlClear = true
+
+	elseif dip_Extravid == 4 then
+
+		ShowResurrect = true
+		ShowSupDeath = true 
+		ShowLvlClear = false
+
+	elseif dip_Extravid == 5 then
+
+		ShowResurrect = true
+		ShowSupDeath = false 
+		ShowLvlClear = true
+
+	elseif dip_Extravid == 6 then
+
+		ShowResurrect = false
+		ShowSupDeath = true 
+		ShowLvlClear = true
+
+	elseif dip_Extravid == 7 then
+
+		ShowResurrect = true
+		ShowSupDeath = true 
+		ShowLvlClear = true	
+
+	end
+
+	s1 = io.read("*line")
+	s1 = tonumber(string.sub(s1,string.find(s1,"=")+1))
+	
+	if (s1 ~= nil) then
+	
+		if (s1 == 1) then
+			dip_Hints = true
+		else
+			dip_Hints = false
+		end
+	end
+
+	s1 = io.read("*line")	
+
+	if (s1 ~= nil) then
+	
+		dip_Difficulty = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")
+	
+	if (s1 ~= nil) then
+	
+		dip_MashtoRun = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")	
+
+	if (s1 ~= nil) then
+	
+		dip_Res = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")
+	s1 = tonumber(string.sub(s1,string.find(s1,"=")+1))
+	
+	if (s1 ~= nil) then
+	
+		if (s1 == 1) then
+			ShowLCD = true
+		else
+			ShowLCD = false
+		end
+	end
+
+	s1 = io.read("*line")
+	s1 = tonumber(string.sub(s1,string.find(s1,"=")+1))
+	
+	if (s1 ~= nil) then
+	
+		if (s1 == 1) then
+			ShowLevel = true
+		else
+			ShowLevel = false
+		end
+	end
+
+	s1 = io.read("*line")
+	s1 = tonumber(string.sub(s1,string.find(s1,"=")+1))
+	
+	if (s1 ~= nil) then
+	
+		if (s1 == 1) then
+			ShowTop = true
+		else
+			ShowTop = false
+		end
+	end
+
+	s1 = io.read("*line")	
+
+	if (s1 ~= nil) then
+	
+		ScorePos = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")	
+
+	if (s1 ~= nil) then
+	
+		LivPos = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")	
+
+	if (s1 ~= nil) then
+	
+		CoinPos = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")	
+
+	if (s1 ~= nil) then
+	
+		mycolor1 = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")	
+
+	if (s1 ~= nil) then
+	
+		mycolor2 = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")
+	
+	if (s1 ~= nil) then
+	
+		fontSize = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")	
+
+	if (s1 ~= nil) then
+	
+		fontType = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")
+	s1 = tonumber(string.sub(s1,string.find(s1,"=")+1))
+	
+	if (s1 ~= nil) then
+	
+		if (s1 == 1) then
+			ShowTitle = true
+		else
+			ShowTitle = false
+		end
+	end
+
+
+	s1 = io.read("*line")	
+
+	if (s1 ~= nil) then
+	
+		dip_Model = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")	
+
+	if (s1 ~= nil) then
+	
+		dip_Display = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")	
+
+	if (s1 ~= nil) then
+	
+		dip_Scanlines = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")	
+
+	if (s1 ~= nil) then
+	
+		dip_ScType = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")	
+
+	if (s1 ~= nil) then
+	
+		dip_LivType = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")	
+
+	if (s1 ~= nil) then
+	
+		dip_FontQ = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	s1 = io.read("*line")	
+
+	if (s1 ~= nil) then
+	
+		dip_HoldtoLoop = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		
+	end
+
+	fontQuality(dip_FontQ)
+	getRes()
+
+	io.close(h1)
+
+end
+
+function doServiceMenu()
+
+	-- This is the main function for the service menu screen.
+	
+	local optMax = 14
+
+	if (lvlState == lvlSetup) then
+
+		discSkipToFrame(frameOptions)
+		discPause()		
+		timerOFF()		
+		optSel = 1
+		readConfig()	
+		bShowLvl = false
+		bShowScene = false
+		bShowScore = false
+		bShowLives = false
+		bShowLvl = false
+		bShowSkip = false		
+		bShowCredits = false
+		bShowGet = false
+		bShowLCD = false
+		bShowAction = false	
+		bIgnoreJoy = false
+
+		if bInPlayExit then
+			
+			sType = dip_GameType
+			sMode = dip_PlayStyle
+			sLevel = iLevel
+			sScene = iScene
+			sLives = dip_LivesPerCredit
+			dip_StartLevel = iLevel
+			dip_StartScene = iScene
+
+		end
+		
+		lvlState = lvlRunning
+	
+	elseif (lvlState == lvlRunning) then
+
+		if (p1BUTTON1 or p1RIGHT) then
+		
+			if bIgnoreJoy then 
+			
+				if joyDelayDue() then bIgnoreJoy = false end
+
+			else
+				
+				p1BUTTON1 = false
+				p1RIGHT = false
+				soundPlay(sndcredit)
+				updateOpts(optSel)	
+
+				bIgnoreJoy = true
+				joyDelayON(0.250)
+
+			end	
+
+		elseif (p1LEFT) then
+
+			if bIgnoreJoy then 
+			
+				if joyDelayDue() then bIgnoreJoy = false end
+
+			else
+
+				p1LEFT = false
+				soundPlay(sndcredit)
+				updateOptsMin(optSel)
+
+				bIgnoreJoy = true
+				joyDelayON(0.250)
+				
+			end
+			
+		elseif (p1DOWN or p1UP) then
+		
+			
+			if bIgnoreJoy then 
+			
+				if joyDelayDue() then bIgnoreJoy = false end
+				
+			else
+				
+				if p1DOWN then 
+
+					p1DOWN = false
+
+					optSel = optSel + 1
+
+					if (optSel > optMax) then optSel = 1 end
+				
+				elseif p1UP then 
+					
+					p1UP = false	
+					optSel = optSel - 1
+			
+					if (optSel < 1) then optSel = optMax end
+				
+				end
+				
+				soundPlay(sndcoin)
+				
+				bIgnoreJoy = true
+				joyDelayON(0.250)
+							
+			end
+		
+		elseif (p1START1) then
+
+			p1START1 = false
+			lvlState = lvlEnd		
+		
+		end
+
+		printOpts()
+
+	elseif (lvlState == lvlEnd) then
+	
+		writeConfig()	
+
+		if bInPlayExit then
+
+			bInPlayExit = false
+			
+
+			if sLevel == dip_StartLevel and sScene == dip_StartScene and sMode == dip_PlayStyle and sType == dip_GameType and sLives == dip_LivesPerCredit then
+				
+				loadSave(4)
+
+			else
+				
+				getRes()
+				startGame()
+			
+			end
+		
+		else	
+
+			bInPlayExit = false
+			gameflow = flow_GameInit
+
+		end
+
+	end
+
+end
+
+function updateOpts(thisIndex)
+
+	if (thisIndex == 1) then		
+
+		optSelG = 1
+		altState = lvlRunning
+		currentLevel = levelGraphic
+
+	elseif (thisIndex == 2) then	
+	
+		if dip_GameType == 0 then
+					
+			dip_GameType = 1
+			dip_Rewind = 0
+			dip_Hints = false
+
+			if IngameDiffchoice then
+
+				dip_Diffshow = 4
+
+			else
+				
+				dip_Diffshow = 1
+			
+			end
+
+		elseif dip_GameType == 1 then
+
+			dip_GameType = 2
+			dip_Hints = false
+			
+			if IngameDiffchoice then
+
+				dip_Diffshow = 4
+
+			else
+				
+				dip_Diffshow = 1
+			
+			end
+			
+		elseif dip_GameType == 2 then
+
+			dip_GameType = 3
+			dip_Hints = false
+			
+			if IngameDiffchoice then
+
+				dip_Diffshow = 4
+
+			else
+				
+				dip_Diffshow = 1
+			
+			end
+
+		elseif dip_GameType == 3 then
+
+			dip_GameType = 4
+			dip_Hints = false
+			dip_Diffshow = 0	
+
+		elseif dip_GameType == 4 then
+
+			dip_GameType = 5
+			dip_Hints = false
+			dip_Diffshow = 1
+						
+		elseif dip_GameType == 5 then
+
+			dip_GameType = 0
+						
+			if IngameDiffchoice then
+
+				dip_Diffshow = 4
+
+			else
+				
+				dip_Diffshow = 1
+			
+			end
+
+		end	
+
+	elseif (thisIndex == 3) then
+		
+		if dip_GameType <4 then
+
+			dip_Diffshow  = dip_Diffshow  + 1
+
+			if IngameDiffchoice then
+
+				if (dip_Diffshow >4) then	dip_Diffshow = 0 end		
+					
+			else
+						
+				if (dip_Diffshow >3) then	dip_Diffshow = 0 end	
+
+			end	
+
+		end
+
+	elseif (thisIndex == 4) then
+
+		if dip_GameType ~= 2 and dip_GameType ~= 3 and dip_GameType ~= 5 and dip_StartLevel ~= 1000 then
+
+			if dip_PlayStyle == 0 then
+
+				dip_StartLevel = 1
+				dip_StartScene = 1
+
+				if AllowRandom == true then
+
+					dip_PlayStyle = 1
+
+				elseif AllowTier == true then
+
+					dip_PlayStyle = 2
+
+				elseif AllowMap == true then
+
+					dip_PlayStyle = 3
+
+				end	
+
+			elseif dip_PlayStyle == 1 then
+
+				if AllowTier == true then
+
+					dip_PlayStyle = 2
+
+				elseif AllowMap == true then
+
+					dip_PlayStyle = 3
+
+				else
+
+					dip_PlayStyle = 0
+					dip_StartLevel = 1
+					dip_StartScene = 1
+					
+				end	
+
+			elseif dip_PlayStyle == 2 then
+
+				if AllowMap == true then
+
+					dip_PlayStyle = 3
+
+				else
+
+					dip_PlayStyle = 0
+					dip_StartLevel = 1
+					dip_StartScene = 1
+				
+				end	
+
+			elseif dip_PlayStyle == 3 then
+
+				dip_PlayStyle = 0
+				dip_StartLevel = 1
+				dip_StartScene = 1
+				
+			end
+
+		end
+	
+	elseif (thisIndex == 5) then	
+		
+		if dip_GameType ~= 5 and dip_GameType ~= 3 and dip_PlayStyle == 0 and dip_StartLevel ~= 1000 then	
+		
+			dip_StartLevel = dip_StartLevel + 1
+			
+			dip_StartScene = 1
+		
+			if (dip_StartLevel > finalstage) then
+				
+				dip_StartLevel = 1
+
+			end
+		
+		end
+			
+	elseif (thisIndex == 6) then	
+		
+		if (dip_GameType == 0 or dip_GameType == 1 or dip_GameType == 4) and dip_Rewind ~= 2 then
+
+			dip_StartScene = dip_StartScene + 1
+
+			if (dip_StartScene > Level[dip_StartLevel][TOTALSCENES]) then 
+
+					dip_StartScene = 1	
+
+			end
+
+		end
+
+	elseif (thisIndex == 7) then	
+		
+		if dip_GameType ~= 1 and dip_GameType ~= 2 and dip_GameType ~= 3 and dip_GameType ~= 5 then
+
+			if not ForceRewind then dip_Rewind = dip_Rewind + 1 end
+
+			if (dip_Rewind > 3) then
+			
+				dip_Rewind = 0
+				
+			end		
+
+			if dip_Rewind == 2 then dip_StartScene = 1 end	
+
+		end
+			
+	elseif (thisIndex == 8) then
+	
+		dip_CoinsPerCredit = dip_CoinsPerCredit + 1
+		
+		
+		if (dip_CoinsPerCredit > 3) then
+		
+			dip_CoinsPerCredit = 0
+		
+		end
+
+	elseif (thisIndex == 9) then	
+	
+		if dip_GameType ~= 1 and dip_GameType ~= 2 and dip_GameType ~= 3 and dip_GameType ~= 5 then
+
+			dip_LivesPerCredit = dip_LivesPerCredit + 1
+			
+				
+			if (dip_LivesPerCredit > 5) then
+			
+				dip_LivesPerCredit = 1
+				
+			end		
+
+		end
+		
+	elseif (thisIndex == 10) then
+
+		if dip_GameType ~= 2 and dip_GameType ~= 3 and dip_GameType ~= 5 then
+	
+			dip_LimitContinue  = dip_LimitContinue  + 1
+					
+			if (dip_LimitContinue  > 4) then
+			
+				dip_LimitContinue = 0
+			
+			end
+
+		end
+
+	elseif (thisIndex == 11) then
+
+		if dip_GameType ~= 5 then
+	
+			dip_ShowAction = dip_ShowAction + 1	
+			
+			if (dip_ShowAction > 5) then
+			
+				dip_ShowAction = 0
+				
+			end	
+
+		end	
+
+	elseif (thisIndex == 12) then
+	
+		if dip_GameType ~= 1 and dip_GameType ~= 2 and dip_GameType ~= 4 and dip_GameType ~= 5 then dip_Hints = not dip_Hints end
+
+					
+	elseif (thisIndex == 13) then		
+
+		if bInPlayExit then
+
+			getRes()
+			startGame()
+
+		else 
+		
+			setDefault()
+
+		end
+
+	elseif (thisIndex == 14) then		
+
+		lvlState = lvlEnd
+
+	end
+
+end
+
+function updateOptsMin(thisIndex)
+
+	if (thisIndex == 1) then		
+
+		optSelP = 1
+		altState2 = lvlRunning
+		currentLevel = levelPerf
+
+	elseif (thisIndex == 2) then	
+	
+		if dip_GameType == 0 then
+					
+			dip_GameType = 5
+			dip_Hints = false
+			dip_Diffshow = 1
+
+		elseif dip_GameType == 5 then 
+
+			dip_GameType = 4
+			dip_Hints = false
+			dip_Diffshow = 0	
+
+		elseif dip_GameType == 4 then
+
+			dip_GameType = 3
+			dip_Hints = false
+			
+			if IngameDiffchoice then
+
+				dip_Diffshow = 4
+
+			else
+				
+				dip_Diffshow = 1
+			
+			end
+
+		elseif dip_GameType == 3 then
+
+			dip_GameType = 2
+			dip_Hints = false
+			
+			if IngameDiffchoice then
+
+				dip_Diffshow = 4
+
+			else
+				
+				dip_Diffshow = 1
+			
+			end
+	
+		elseif dip_GameType == 2 then
+					
+			dip_GameType = 1
+			dip_Rewind = 0
+			dip_Hints = false
+			
+			if IngameDiffchoice then
+
+				dip_Diffshow = 4
+
+			else
+				
+				dip_Diffshow = 1
+			
+			end
+			
+		elseif dip_GameType == 1 then
+					
+			dip_GameType = 0
+						
+			if IngameDiffchoice then
+
+				dip_Diffshow = 4
+
+			else
+				
+				dip_Diffshow = 1
+			
+			end
+			
+		end
+
+	elseif (thisIndex == 3) then
+		
+		if dip_GameType <4 then
+
+			dip_Diffshow  = dip_Diffshow - 1
+
+			if IngameDiffchoice then
+
+				if (dip_Diffshow  < 0) then	dip_Diffshow = 4 end		
+					
+			else
+						
+				if (dip_Diffshow  < 0) then	dip_Diffshow = 3 end	
+
+			end	
+
+		end
+
+	elseif (thisIndex == 4) then
+
+		if dip_GameType ~= 2 and dip_GameType ~= 3 and dip_GameType ~= 5 and dip_StartLevel ~= 1000 then
+
+			if dip_PlayStyle == 0 then
+
+				dip_StartLevel = 1
+				dip_StartScene = 1
+
+				if AllowMap == true then
+
+					dip_PlayStyle = 3
+
+				elseif AllowTier == true then
+
+					dip_PlayStyle = 2
+
+				elseif AllowRandom == true then
+
+					dip_PlayStyle = 1
+
+				end	
+
+			elseif dip_PlayStyle == 3 then
+
+				if AllowTier == true then
+
+					dip_PlayStyle = 2
+
+				elseif AllowRandom == true then
+
+					dip_PlayStyle = 1
+
+				else
+
+					dip_PlayStyle = 0
+					dip_StartLevel = 1
+					dip_StartScene = 1
+
+				end	
+
+			elseif dip_PlayStyle == 2 then
+
+				if AllowRandom == true then
+
+					dip_PlayStyle = 1
+
+				else
+
+					dip_PlayStyle = 0
+					dip_StartLevel = 1
+					dip_StartScene = 1
+
+				end	
+
+			elseif dip_PlayStyle == 1 then
+
+				dip_PlayStyle = 0
+				dip_StartLevel = 1
+				dip_StartScene = 1
+
+			end
+	
+		end
+	
+	elseif (thisIndex == 5) then	
+	
+		if dip_GameType ~= 5 and dip_GameType ~= 3 and dip_PlayStyle == 0 and dip_StartLevel ~= 1000 then
+
+			dip_StartLevel = dip_StartLevel - 1
+			
+			dip_StartScene = 1
+		
+			if (dip_StartLevel < 1) then
+			
+				dip_StartLevel = finalstage
+
+			elseif (dip_StartLevel == 1) then
+
+				dip_StartScene = 1
+				
+			end
+
+		end
+
+	elseif (thisIndex == 6) then	
+	
+		if (dip_GameType == 0 or dip_GameType == 1 or dip_GameType == 4) and dip_Rewind ~= 2 then
+
+			dip_StartScene = dip_StartScene - 1
+
+			if (dip_StartScene < 1) then 
+
+				dip_StartScene = Level[dip_StartLevel][TOTALSCENES]
+
+			end
+			
+		end
+
+	elseif (thisIndex == 7) then	
+		
+		if dip_GameType ~= 1 and dip_GameType ~= 2 and dip_GameType ~= 3 and dip_GameType ~= 5 then
+
+			if not ForceRewind then dip_Rewind = dip_Rewind - 1 end
+						
+			if (dip_Rewind < 0) then
+			
+				dip_Rewind = 3
+				
+			end	
+
+			if dip_Rewind == 2 then dip_StartScene = 1 end
+
+		end		
+
+	elseif (thisIndex == 8) then
+	
+		dip_CoinsPerCredit = dip_CoinsPerCredit - 1
+				
+		if (dip_CoinsPerCredit < 0) then
+		
+			dip_CoinsPerCredit = 3
+		
+		end
+
+	elseif (thisIndex == 9) then	
+		
+		if dip_GameType ~= 1 and dip_GameType ~= 2 and dip_GameType ~= 3 and dip_GameType ~= 5 then
+
+			dip_LivesPerCredit = dip_LivesPerCredit - 1
+					
+			if (dip_LivesPerCredit < 1) then
+			
+				dip_LivesPerCredit = 5
+				
+			end		
+
+		end
+	
+	elseif (thisIndex == 10) then
+
+		if dip_GameType ~= 2 and dip_GameType ~= 3 and dip_GameType ~= 5 then
+	
+			dip_LimitContinue  = dip_LimitContinue  - 1
+			
+			
+			if (dip_LimitContinue < 0) then
+			
+				dip_LimitContinue = 4
+			
+			end
+
+		end
+
+	elseif (thisIndex == 11) then
+
+		if dip_GameType ~= 5 then
+	
+			dip_ShowAction = dip_ShowAction - 1	
+			
+			if (dip_ShowAction < 0) then
+			
+				dip_ShowAction = 5
+				
+			end	
+
+		end	
+
+	elseif (thisIndex == 12) then
+	
+		if dip_GameType ~= 1 and dip_GameType ~= 2 and dip_GameType ~= 5 then dip_Hints = not dip_Hints end
+			
+	elseif (thisIndex == 13) then		
+
+		if bInPlayExit then
+
+			getRes()
+			startGame()
+
+		else 
+		
+			setDefault()
+
+		end
+
+	elseif (thisIndex == 14) then		
+
+		lvlState = lvlEnd
+		
+	end
+
+end
+
+function printOpts()
+
+	-- This function writes the options on the service menu screen.
+	local k = 0
+	local ypos = OVLH/7.5
+	local fntx = OVLW/1.6
+	local smenu = {}; 
+	local TitLevel = " "
+	
+	smenu[1] = "Game Options"
+	smenu[2] = "Game Type"
+	smenu[3] = "Difficulty"	
+	smenu[4] = "Play Style"
+	smenu[5] = "Start at Level"
+	smenu[6] = "Start at Scene"
+	smenu[7] = "Death Rewind"
+	smenu[8] = "Coins per Credit"
+	smenu[9] = "Lives per Credit"
+	smenu[10] = "Allow Continue?"
+	smenu[11] = "Show Moves"
+	smenu[12] = "Show Hints"
+	
+	
+	if bInPlayExit then
+
+		smenu[13] = "Restart"
+		smenu[14] = "BACK TO GAME"
+
+	else 
+		
+		smenu[13] = "Default"
+		smenu[14] = "EXIT"	
+
+	end
+
+	fontSelect(fontGame)	
+
+	if ShowTitle then
+
+		setFontColor(mycolor2)
+		fontSelect(fontBig)
+		fontPrint(getMiddle("OPTIONS MENU"),LINEH*2, "OPTIONS MENU")
+			
+	end		
+
+	fontSelect(fontGame)
+	
+	for k=1,14 do
+		
+		
+		if k == optSel then setFontColor(mycolor2) else setFontColor(mycolor1) end		
+
+		if k == 1 then 
+			
+			spriteDraw(OVLW/3-SELCW,ypos,sprite[ARROWSELL]) 
+			spriteDraw(2*OVLW/3,ypos,sprite[ARROWSELR])
+			fontPrint(getMiddle(smenu[1]), ypos, "Game Options")	
+
+
+		elseif k == 13 then 
+
+			fontPrint(getMiddle(smenu[13]), OVLH/8 + 13.5*LINEH*4.2, smenu[13])
+
+		elseif k == 14 then 
+
+			fontPrint(getMiddle(smenu[14]), OVLH/8 + 14.5*LINEH*4.2, smenu[14]) 
+
+		else 
+
+			fontPrint(OVLW/4.8, ypos, smenu[k]) 
+
+		end
+		
+		if (k == 2) then	
+
+			if dip_GameType == 0 then
+				
+				fontPrint(fntx, ypos, "Normal")
+
+			elseif dip_GameType == 1 then
+		
+				fontPrint(fntx, ypos, "Life Bar")
+
+			elseif dip_GameType == 2 then
+		
+				fontPrint(fntx, ypos, "Percent")
+
+			elseif dip_GameType == 3 then
+		
+				fontPrint(fntx, ypos, "Survivor")
+
+			elseif dip_GameType == 4 then
+		
+				fontPrint(fntx, ypos, "Kid (Action Only)")
+				
+			elseif dip_GameType == 5 then
+		
+				fontPrint(fntx, ypos, "Watch Movie")		
+									
+			end
+
+		elseif (k == 3) then
+
+			if dip_GameType == 5 then
+
+				fontPrint(fntx, ypos, "N/A")
+
+			else
+
+
+				if dip_Diffshow == 0 then
+					
+					fontPrint(fntx, ypos, "Easy")
+
+				elseif dip_Diffshow == 1 then
+			
+					fontPrint(fntx, ypos, "Normal")	
+
+				elseif dip_Diffshow == 2 then
+			
+					fontPrint(fntx, ypos, "Hard")
+
+				elseif dip_Diffshow == 3 then
+			
+					fontPrint(fntx, ypos, "Extreme")
+
+				elseif dip_Diffshow == 4 then
+			
+					fontPrint(fntx, ypos, "In-Game")
+											
+				end
+			
+			end	
+
+		elseif (k == 4) then
+
+			if dip_GameType == 2 or dip_GameType == 3 or dip_GameType == 5 then
+
+				fontPrint(fntx, ypos, "N/A")
+
+			else
+
+				if dip_PlayStyle == 0 then
+					
+					fontPrint(fntx, ypos, "Normal")
+
+				elseif dip_PlayStyle == 1 then
+			
+					fontPrint(fntx, ypos, "Random")	
+
+				elseif dip_PlayStyle == 2 then
+			
+					fontPrint(fntx, ypos, "Tiers")
+
+				elseif dip_PlayStyle == 3 then
+			
+					fontPrint(fntx, ypos, "Map")
+											
+				end
+			
+			end	
+
+		elseif (k == 5) then
+
+			if dip_PlayStyle > 0 or dip_GameType == 3 or dip_GameType == 5 then
+
+				fontPrint(fntx, ypos, "N/A")
+
+			else
+
+				if dip_StartLevel ~= 1000 then 
+
+					TitLevel = 	dip_StartLevel .. ". " .. Level[dip_StartLevel][TITLE]
+				
+				else
+				
+					TitLevel = 	Level[dip_StartLevel][TITLE]
+
+				end	
+
+				fontPrint(fntx, ypos, TitLevel)
+
+			end
+		
+		elseif (k == 6) then
+
+			if dip_GameType == 2 or dip_GameType == 3 or dip_GameType == 5 or dip_PlayStyle > 0  then
+
+				fontPrint(fntx, ypos, "N/A")
+
+			else	
+
+				fontPrint(fntx, ypos, dip_StartScene)	
+
+			end	
+
+		elseif (k == 7) then	
+
+			if dip_GameType == 2 or dip_GameType == 3 or dip_GameType == 5 then
+
+				fontPrint(fntx, ypos, "N/A")
+
+			else
+
+				if dip_Rewind == 0 then
+				
+					fontPrint(fntx, ypos, "Scene")
+								
+				elseif dip_Rewind == 1 then
+			
+					fontPrint(fntx, ypos, "Last Move")
+					
+				elseif dip_Rewind == 2 then
+			
+					fontPrint(fntx, ypos, "Level")
+
+				elseif dip_Rewind == 3 then
+			
+					fontPrint(fntx, ypos, "Next Move")
+													
+				end
+
+			end	
+		
+			
+		
+		elseif (k == 8) then
+
+			if (dip_CoinsPerCredit == DOPT_FREEPLAY) then
+				
+				fontPrint(fntx,ypos, "Free Play")
+				
+			else
+			
+				fontPrint(fntx,ypos, dip_CoinsPerCredit)
+			end		
+		
+		elseif (k == 9) then
+
+			if dip_GameType == 1 or dip_GameType == 2 or dip_GameType == 5 then
+
+				fontPrint(fntx, ypos, "N/A")
+
+			elseif dip_GameType == 3 then
+
+				fontPrint(fntx, ypos, "1")
+
+			else
+
+				fontPrint(fntx, ypos, dip_LivesPerCredit)
+
+			end
+
+		elseif (k == 10) then	
+
+			if dip_GameType == 2 or dip_GameType == 5 then
+
+				fontPrint(fntx, ypos, "N/A")
+
+			elseif dip_GameType == 3 then
+
+				fontPrint(fntx, ypos, "None")
+
+			else	
+			
+				if dip_LimitContinue == 0 then
+					
+					fontPrint(fntx, ypos, "None")
+
+				elseif dip_LimitContinue == 4 then
+					
+					fontPrint(fntx, ypos, "Unlimited")	
+				
+				else
+			
+					fontPrint(fntx, ypos, dip_LimitContinue)	
+					
+				end
+
+			end
+
+		elseif (k == 11) then
+
+			if dip_GameType == 5 then
+
+				fontPrint(fntx, ypos, "N/A")
+
+			else
+		
+				if dip_ShowAction == 0 then			
+				
+					fontPrint(fntx, ypos, "Nothing")	
+								
+				elseif dip_ShowAction == 1 then
+				
+					fontPrint(fntx, ypos, "Sound")	
+
+				elseif dip_ShowAction == 2 then
+				
+					fontPrint(fntx, ypos, "Guess")
+
+				elseif dip_ShowAction == 3 then
+				
+					fontPrint(fntx, ypos, "Cliff")
+
+				elseif dip_ShowAction == 4 then
+				
+					fontPrint(fntx, ypos, "Normal")
+
+				elseif dip_ShowAction == 5 then
+				
+					fontPrint(fntx, ypos, "Normal+Sound")
+							
+				end	
+
+			end
+
+		elseif (k == 12) then	
+
+			if dip_GameType == 1 or dip_GameType == 2 or dip_GameType == 3 or dip_GameType == 5 then
+
+				fontPrint(fntx, ypos, "N/A")
+
+			else	
+			
+				if dip_Hints then
+				
+					fontPrint(fntx, ypos, "Yes")	
+					
+				
+				else
+				
+					fontPrint(fntx, ypos, "No")
+					
+				
+				end
+			
+			end	
+							
+		end
+
+		ypos = OVLH/7.5 + k *LINEH*4.2
+		
+	end
+
+end
+
+function doServiceMenuG()
+
+	-- This is the main function for the service graphic screen.
+	
+	local optMaxG = 15
+
+	if (altState == lvlSetup) then
+
+		optSelG = 1
+				
+		altState = lvlRunning
+	
+	elseif (altState == lvlRunning) then
+	
+		if (p1BUTTON1 or p1RIGHT) then
+		
+			if bIgnoreJoy then 
+			
+				if joyDelayDue() then bIgnoreJoy = false end
+
+			else
+				
+				p1BUTTON1 = false
+				p1RIGHT = false
+				soundPlay(sndcredit)
+				updateOptsG(optSelG)	
+
+				bIgnoreJoy = true
+				joyDelayON(0.250)
+
+			end	
+
+		elseif (p1LEFT) then
+
+			if bIgnoreJoy then 
+			
+				if joyDelayDue() then bIgnoreJoy = false end
+
+			else
+
+				p1LEFT = false
+				soundPlay(sndcredit)
+				updateOptsMinG(optSelG)
+
+				bIgnoreJoy = true
+				joyDelayON(0.250)
+				
+			end
+			
+		elseif (p1DOWN or p1UP) then
+		
+			
+			if bIgnoreJoy then 
+			
+				if joyDelayDue() then bIgnoreJoy = false end
+				
+			else
+				
+				if p1DOWN then 
+
+					p1DOWN = false
+					optSelG = optSelG + 1
+					if (optSelG > optMaxG) then optSelG = 1 end
+				
+				elseif p1UP then 
+					
+					p1UP = false	
+					optSelG = optSelG - 1
+					if (optSelG < 1) then optSelG = optMaxG end
+				
+				end
+				
+				soundPlay(sndcoin)
+				
+				bIgnoreJoy = true
+				joyDelayON(0.250)
+							
+			end
+		
+		elseif (p1START1) then
+
+			p1START1 = false
+			altState = lvlEnd	
+					
+		end
+		printOptsG()
+
+	elseif (altState == lvlEnd) then
+	
+		writeConfig()	
+
+		if bInPlayExit then
+
+			bInPlayExit = false
+			
+			if sLevel == dip_StartLevel and sScene == dip_StartScene and sMode == dip_Playstyle and sType == dip_GameType and sLives == dip_LivesPerCredit then
+
+				loadSave(4)
+
+			else
+
+				getRes()
+				startGame()
+
+			end
+		
+		else	
+
+			bInPlayExit = false
+			gameflow = flow_GameInit
+
+		end
+
+	end
+
+end
+
+function updateOptsG(thisIndex)
+
+	if (thisIndex == 1) then		
+
+		optSelP = 1
+		altState2 = lvlRunning
+		currentLevel = levelPerf
+
+	elseif (thisIndex == 2) then
+
+		if dip_GameType ~= 5 then
+	
+			if dip_Extravid == 0 then
+
+				if (offsetGetReadyEnd - offsetGetReady > 1) then
+
+					dip_Extravid = 1
+
+				elseif (offsetSupDeathEnd - offsetSupDeath > 1) then
+
+					dip_Extravid = 2
+
+				elseif (offsetClearend - offsetClear > 1) then
+
+					dip_Extravid = 3
+
+				elseif (offsetSupDeathEnd - offsetSupDeath > 1) and (offsetGetReadyEnd - offsetGetReady > 1) then
+
+					dip_Extravid = 4
+
+				elseif (offsetClearend - offsetClear > 1) and (offsetGetReadyEnd - offsetGetReady > 1) then
+
+					dip_Extravid = 5
+
+				elseif (offsetSupDeathEnd - offsetSupDeath > 1) and (offsetClearend - offsetClear > 1) then
+
+					dip_Extravid = 6
+
+				elseif (offsetGetReadyEnd - offsetGetReady > 1) and (offsetSupDeathEnd - offsetSupDeath > 1) and (offsetClearend - offsetClear > 1) then
+
+					dip_Extravid = 7
+
+				else
+
+					dip_Extravid = 0
+
+				end
+
+			elseif dip_Extravid == 1 then
+
+				if (offsetSupDeathEnd - offsetSupDeath > 1) then
+
+					dip_Extravid = 2
+
+				elseif (offsetClearend - offsetClear > 1) then
+
+					dip_Extravid = 3
+
+				elseif (offsetSupDeathEnd - offsetSupDeath > 1) and (offsetGetReadyEnd - offsetGetReady > 1) then
+
+					dip_Extravid = 4
+
+				elseif (offsetClearend - offsetClear > 1) and (offsetGetReadyEnd - offsetGetReady > 1) then
+
+					dip_Extravid = 5
+
+				elseif (offsetSupDeathEnd - offsetSupDeath > 1) and (offsetClearend - offsetClear > 1) then
+
+					dip_Extravid = 6
+
+				elseif (offsetGetReadyEnd - offsetGetReady > 1) and (offsetSupDeathEnd - offsetSupDeath > 1) and (offsetClearend - offsetClear > 1) then
+
+					dip_Extravid = 7
+
+				else
+
+					dip_Extravid = 0
+
+				end
+
+
+			elseif dip_Extravid == 2 then
+
+				if (offsetClearend - offsetClear > 1) then
+
+					dip_Extravid = 3
+
+				elseif (offsetSupDeathEnd - offsetSupDeath > 1) and (offsetGetReadyEnd - offsetGetReady > 1) then
+
+					dip_Extravid = 4
+
+				elseif (offsetClearend - offsetClear > 1) and (offsetGetReadyEnd - offsetGetReady > 1) then
+
+					dip_Extravid = 5
+
+				elseif (offsetSupDeathEnd - offsetSupDeath > 1) and (offsetClearend - offsetClear > 1) then
+
+					dip_Extravid = 6
+
+				elseif (offsetGetReadyEnd - offsetGetReady > 1) and (offsetSupDeathEnd - offsetSupDeath > 1) and (offsetClearend - offsetClear > 1) then
+
+					dip_Extravid = 7
+
+				else
+
+					dip_Extravid = 0
+
+				end
+
+			elseif dip_Extravid == 3 then
+				
+				if (offsetSupDeathEnd - offsetSupDeath > 1) and (offsetGetReadyEnd - offsetGetReady > 1) then
+
+					dip_Extravid = 4
+
+				elseif (offsetClearend - offsetClear > 1) and (offsetGetReadyEnd - offsetGetReady > 1) then
+
+					dip_Extravid = 5
+
+				elseif (offsetSupDeathEnd - offsetSupDeath > 1) and (offsetClearend - offsetClear > 1) then
+
+					dip_Extravid = 6
+
+				elseif (offsetGetReadyEnd - offsetGetReady > 1) and (offsetSupDeathEnd - offsetSupDeath > 1) and (offsetClearend - offsetClear > 1) then
+
+					dip_Extravid = 7
+
+				else
+
+					dip_Extravid = 0
+
+				end
+
+			elseif dip_Extravid == 4 then
+
+				if (offsetClearend - offsetClear > 1) and (offsetGetReadyEnd - offsetGetReady > 1) then
+
+					dip_Extravid = 5
+
+				elseif (offsetSupDeathEnd - offsetSupDeath > 1) and (offsetClearend - offsetClear > 1) then
+
+					dip_Extravid = 6
+
+				elseif (offsetGetReadyEnd - offsetGetReady > 1) and (offsetSupDeathEnd - offsetSupDeath > 1) and (offsetClearend - offsetClear > 1) then
+
+					dip_Extravid = 7
+
+				else
+
+					dip_Extravid = 0
+
+				end
+
+			elseif dip_Extravid == 5 then
+
+				if (offsetSupDeathEnd - offsetSupDeath > 1) and (offsetClearend - offsetClear > 1) then
+
+					dip_Extravid = 6
+
+				elseif (offsetGetReadyEnd - offsetGetReady > 1) and (offsetSupDeathEnd - offsetSupDeath > 1) and (offsetClearend - offsetClear > 1) then
+
+					dip_Extravid = 7
+
+				else
+
+					dip_Extravid = 0
+
+				end
+
+			elseif dip_Extravid == 6 then
+
+				if (offsetGetReadyEnd - offsetGetReady > 1) and (offsetSupDeathEnd - offsetSupDeath > 1) and (offsetClearend - offsetClear > 1) then
+
+					dip_Extravid = 7
+
+				else
+
+					dip_Extravid = 0
+
+				end
+
+			elseif dip_Extravid == 7 then
+
+				dip_Extravid = 0
+
+			end
+
+			if dip_Extravid == 0 then
+
+				ShowResurrect = false 
+				ShowSupDeath = false
+				ShowLvlClear = false 
+
+			elseif dip_Extravid == 1 then
+
+				ShowResurrect = true
+				ShowSupDeath = false 
+				ShowLvlClear = false
+
+			elseif dip_Extravid == 2 then
+
+				ShowResurrect = false 
+				ShowSupDeath = true
+				ShowLvlClear = false 
+
+			elseif dip_Extravid == 3 then
+
+				ShowResurrect = false
+				ShowSupDeath = false 
+				ShowLvlClear = true
+
+			elseif dip_Extravid == 4 then
+
+				ShowResurrect = true
+				ShowSupDeath = true 
+				ShowLvlClear = false
+
+			elseif dip_Extravid == 5 then
+
+				ShowResurrect = true
+				ShowSupDeath = false 
+				ShowLvlClear = true
+
+			elseif dip_Extravid == 6 then
+
+				ShowResurrect = false
+				ShowSupDeath = true 
+				ShowLvlClear = true
+
+			elseif dip_Extravid == 7 then
+
+				ShowResurrect = true
+				ShowSupDeath = true 
+				ShowLvlClear = true	
+
+			end	
+
+		end
+
+	elseif (thisIndex == 3) then
+	
+		ShowTitle = not ShowTitle
+
+	elseif (thisIndex == 4) then
+	
+		ShowLCD = not ShowLCD
+
+	elseif (thisIndex == 5) then
+	
+		ShowLevel = not ShowLevel
+
+	elseif (thisIndex == 6) then
+	
+		ShowTop = not ShowTop
+
+	elseif (thisIndex == 7) then
+	
+		ScorePos = ScorePos + 1
+
+		if ScorePos > 2 then
+
+			ScorePos = 1
+
+		end
+
+	elseif (thisIndex == 8) then
+	
+		LivPos = LivPos + 1
+
+		if LivPos > 2 then
+
+			LivPos = 1
+
+		end
+
+	elseif (thisIndex == 9) then
+	
+		CoinPos = CoinPos + 1
+
+		if CoinPos > 2 then
+
+			CoinPos = 1
+
+		end
+
+	elseif (thisIndex == 10) then
+
+		fontType = fontType + 1
+
+		if fontType == 2 then
+
+			fontSize = 0
+
+		elseif fontType > 2 then
+				
+			fontType = 1
+			fontSize = fontSave
+
+		end
+
+		getFont()
+
+	elseif (thisIndex == 11) then
+
+		if fontType == 1 then
+
+			fontSize = fontSize + 1
+
+			if fontSize > 8 then
+					
+				fontSize = 0
+
+			end
+
+			fontSave = fontSize
+			getFont()
+
+		end
+
+	elseif (thisIndex == 12) then
+	
+		mycolor1 = mycolor1 + 1
+
+		if mycolor1 > 12 then mycolor1 = 1 end
+
+		if mycolor1 == mycolor2 then mycolor1 = mycolor1 + 1 end	
+
+		setFontColor(mycolor1)
+
+	elseif (thisIndex == 13) then
+	
+		mycolor2 = mycolor2 + 1
+
+		if mycolor2 > 12 then mycolor2 = 1 end
+
+		if mycolor2 == mycolor1 then mycolor2 = mycolor2 + 1 end	
+
+		setFontColor(mycolor2)
+				
+	elseif (thisIndex == 14) then		
+
+		if bInPlayExit then
+
+			getRes()
+			startGame()
+
+		else 
+		
+			setDefault()
+
+		end
+
+	elseif (thisIndex == 15) then		
+
+		altState = lvlEnd
+
+	end
+
+end
+
+function updateOptsMinG(thisIndex)
+
+
+	if (thisIndex == 1) then		
+
+		optSel = 1
+		lvlState = lvlRunning
+		currentLevel = levelService
+
+	elseif (thisIndex == 2) then
+		
+		if dip_GameType ~= 5 then
+
+			if dip_Extravid == 0 then
+
+				if (offsetGetReadyEnd - offsetGetReady > 1) and (offsetSupDeathEnd - offsetSupDeath > 1) and (offsetClearend - offsetClear > 1) then
+
+					dip_Extravid = 7
+
+				elseif (offsetSupDeathEnd - offsetSupDeath > 1) and (offsetClearend - offsetClear > 1) then
+
+					dip_Extravid = 6
+
+				elseif (offsetClearend - offsetClear > 1) and (offsetGetReadyEnd - offsetGetReady > 1) then
+
+					dip_Extravid = 5
+
+				elseif (offsetSupDeathEnd - offsetSupDeath > 1) and (offsetGetReadyEnd - offsetGetReady > 1) then
+
+					dip_Extravid = 4
+
+				elseif (offsetClearend - offsetClear > 1) then
+
+					dip_Extravid = 3
+
+				elseif (offsetSupDeathEnd - offsetSupDeath > 1) then
+
+					dip_Extravid = 2
+
+				elseif (offsetGetReadyEnd - offsetGetReady > 1) then
+
+					dip_Extravid = 1
+
+				else
+
+					dip_Extravid = 0
+
+				end
+
+			elseif dip_Extravid == 1 then
+
+				dip_Extravid = 0
+				
+
+			elseif dip_Extravid == 2 then
+
+				if (offsetGetReadyEnd - offsetGetReady > 1) then
+
+					dip_Extravid = 1
+
+				else
+
+					dip_Extravid = 0
+
+				end
+
+			elseif dip_Extravid == 3 then
+				
+				if (offsetSupDeathEnd - offsetSupDeath > 1) then
+
+					dip_Extravid = 2
+
+				elseif (offsetGetReadyEnd - offsetGetReady > 1) then
+
+					dip_Extravid = 1
+
+				else
+
+					dip_Extravid = 0
+
+				end
+
+			elseif dip_Extravid == 4 then
+
+				if (offsetClearend - offsetClear > 1) then
+
+					dip_Extravid = 3
+
+				elseif (offsetSupDeathEnd - offsetSupDeath > 1) then
+
+					dip_Extravid = 2
+
+				elseif (offsetGetReadyEnd - offsetGetReady > 1) then
+
+					dip_Extravid = 1
+
+				else
+
+					dip_Extravid = 0
+
+				end
+
+			elseif dip_Extravid == 5 then
+
+				if (offsetSupDeathEnd - offsetSupDeath > 1) and (offsetGetReadyEnd - offsetGetReady > 1) then
+
+					dip_Extravid = 4
+
+				elseif (offsetClearend - offsetClear > 1) then
+
+					dip_Extravid = 3
+
+				elseif (offsetSupDeathEnd - offsetSupDeath > 1) then
+
+					dip_Extravid = 2
+
+				elseif (offsetGetReadyEnd - offsetGetReady > 1) then
+
+					dip_Extravid = 1
+
+				else
+
+					dip_Extravid = 0
+
+				end
+
+			elseif dip_Extravid == 6 then
+
+				if (offsetClearend - offsetClear > 1) and (offsetGetReadyEnd - offsetGetReady > 1) then
+
+					dip_Extravid = 5
+
+				elseif (offsetSupDeathEnd - offsetSupDeath > 1) and (offsetGetReadyEnd - offsetGetReady > 1) then
+
+					dip_Extravid = 4
+
+				elseif (offsetClearend - offsetClear > 1) then
+
+					dip_Extravid = 3
+
+				elseif (offsetSupDeathEnd - offsetSupDeath > 1) then
+
+					dip_Extravid = 2
+
+				elseif (offsetGetReadyEnd - offsetGetReady > 1) then
+
+					dip_Extravid = 1
+
+				else
+
+					dip_Extravid = 0
+
+				end
+
+			elseif dip_Extravid == 7 then
+
+				if (offsetSupDeathEnd - offsetSupDeath > 1) and (offsetClearend - offsetClear > 1) then
+
+					dip_Extravid = 6
+
+				elseif (offsetClearend - offsetClear > 1) and (offsetGetReadyEnd - offsetGetReady > 1) then
+
+					dip_Extravid = 5
+
+				elseif (offsetSupDeathEnd - offsetSupDeath > 1) and (offsetGetReadyEnd - offsetGetReady > 1) then
+
+					dip_Extravid = 4
+
+				elseif (offsetClearend - offsetClear > 1) then
+
+					dip_Extravid = 3
+
+				elseif (offsetSupDeathEnd - offsetSupDeath > 1) then
+
+					dip_Extravid = 2
+
+				elseif (offsetGetReadyEnd - offsetGetReady > 1) then
+
+					dip_Extravid = 1
+
+				else
+
+					dip_Extravid = 0
+
+				end
+
+			end
+
+			if dip_Extravid == 0 then
+
+				ShowResurrect = false 
+				ShowSupDeath = false
+				ShowLvlClear = false 
+
+			elseif dip_Extravid == 1 then
+
+				ShowResurrect = true
+				ShowSupDeath = false 
+				ShowLvlClear = false
+
+			elseif dip_Extravid == 2 then
+
+				ShowResurrect = false 
+				ShowSupDeath = true
+				ShowLvlClear = false 
+
+			elseif dip_Extravid == 3 then
+
+				ShowResurrect = false
+				ShowSupDeath = false 
+				ShowLvlClear = true
+
+			elseif dip_Extravid == 4 then
+
+				ShowResurrect = true
+				ShowSupDeath = true 
+				ShowLvlClear = false
+
+			elseif dip_Extravid == 5 then
+
+				ShowResurrect = true
+				ShowSupDeath = false 
+				ShowLvlClear = true
+
+			elseif dip_Extravid == 6 then
+
+				ShowResurrect = false
+				ShowSupDeath = true 
+				ShowLvlClear = true
+
+			elseif dip_Extravid == 7 then
+
+				ShowResurrect = true
+				ShowSupDeath = true 
+				ShowLvlClear = true	
+
+			end	
+
+		end
+
+	elseif (thisIndex == 3) then
+	
+		ShowTitle = not ShowTitle
+
+	elseif (thisIndex == 4) then
+	
+		ShowLCD = not ShowLCD
+
+	elseif (thisIndex == 5) then
+	
+		ShowLevel = not ShowLevel
+
+	elseif (thisIndex == 6) then
+	
+		ShowTop = not ShowTop
+
+	elseif (thisIndex == 7) then
+	
+		ScorePos = ScorePos - 1
+
+		if ScorePos < 1 then
+
+			ScorePos = 2
+
+		end
+
+	elseif (thisIndex == 8) then
+	
+		LivPos = LivPos - 1
+
+		if LivPos < 1 then
+
+			LivPos = 2
+
+		end
+
+	elseif (thisIndex == 9) then
+	
+		CoinPos = CoinPos - 1
+
+		if CoinPos < 1 then
+
+			CoinPos = 2
+
+		end
+
+	elseif (thisIndex == 10) then
+
+		fontType = fontType - 1
+
+		if fontType == 1 then
+
+			fontSize = fontSave 
+
+		elseif fontType < 1 then
+				
+			fontType = 2
+			fontSize = 0
+
+		end
+
+		getFont()
+
+	elseif (thisIndex == 11) then
+
+		if fontType == 1 then
+
+			fontSize = fontSize - 1
+
+			if fontSize < -8 then
+					
+				fontSize = 0
+
+			end
+
+			fontSave = fontSize
+			getFont()
+
+		end
+
+	elseif (thisIndex == 12) then
+	
+		mycolor1 = mycolor1 - 1
+
+		if mycolor1 == mycolor2 then mycolor1 = mycolor1 - 1 end	
+
+		if mycolor1 < 1 then mycolor1 = 12 end
+
+		setFontColor(mycolor1)
+
+	elseif (thisIndex == 13) then
+	
+		mycolor2 = mycolor2 - 1
+
+		if mycolor2 == mycolor1 then mycolor2 = mycolor2 - 1 end	
+
+		if mycolor2 < 1 then mycolor2 = 12 end
+
+		setFontColor(mycolor2)
+					
+	elseif (thisIndex == 14) then		
+
+		if bInPlayExit then
+
+			getRes()
+			startGame()
+
+		else 
+		
+			setDefault()
+
+		end
+
+	elseif (thisIndex == 15) then		
+
+		altState = lvlEnd
+
+	end
+
+end
+
+function printOptsG()
+
+	-- This function writes the options on the service menu screen.
+	local k = 0
+	local ypos = OVLH/7.5
+	local fntx = OVLW/1.6
+	local smenu = {}; 
+	local TitLevel = " "
+	
+	smenu[1] = "Graphic Options"
+	smenu[2] = "Extra Movies"
+	smenu[3] = "Show Titles"
+	smenu[4] = "Show LCD"
+	smenu[5] = "Show Level"
+	smenu[6] = "Show Top Score"
+	smenu[7] = "Score Position"
+	smenu[8] = "Lives Position"
+	smenu[9] = "Coin Position"
+	smenu[10] = "Font"
+	smenu[11] = "Adjust Font Size"
+	smenu[12] = "Font Color"
+	smenu[13] = "Highlight Color"
+	
+	if bInPlayExit then
+
+		smenu[14] = "Restart"
+		smenu[15] = "BACK TO GAME"
+
+	else 
+		
+		smenu[14] = "Default"
+		smenu[15] = "EXIT"	
+
+	end
+
+	fontSelect(fontGame)	
+
+	if ShowTitle then
+
+		setFontColor(mycolor2)
+		fontSelect(fontBig)
+		fontPrint(getMiddle("OPTIONS MENU"),LINEH*2, "OPTIONS MENU")
+			
+	end		
+
+	fontSelect(fontGame)
+	
+	for k=1,15 do
+				
+		if k == optSelG then setFontColor(mycolor2) else setFontColor(mycolor1) end		
+				
+			
+		if k == 1 then 
+
+			spriteDraw(OVLW/3-SELCW,ypos,sprite[ARROWSELL]) 
+			spriteDraw(2*OVLW/3,ypos,sprite[ARROWSELR])
+			fontPrint(getMiddle(smenu[1]), ypos, "Graphic Options") 
+
+		elseif k == 14 then 
+
+			fontPrint(getMiddle(smenu[14]), OVLH/8 + 13.5*LINEH*4.2,  smenu[14])
+
+		elseif k == 15 then 
+
+			fontPrint(getMiddle(smenu[15]), OVLH/8 + 14.5*LINEH*4.2, smenu[15])
+
+		else 
+
+			fontPrint(OVLW/4.8, ypos, smenu[k])
+		
+		end
+		
+		if (k == 2) then
+
+			if dip_GameType == 5 then
+
+				fontPrint(fntx, ypos, "N/A")
+
+			else
+		
+				if dip_Extravid == 0 then			
+				
+					fontPrint(fntx, ypos, "None")	
+								
+				elseif dip_Extravid == 1 then
+				
+					fontPrint(fntx, ypos, "Ready")	
+
+				elseif dip_Extravid == 2 then
+				
+					fontPrint(fntx, ypos, "Death")
+
+				elseif dip_Extravid == 3 then
+				
+					fontPrint(fntx, ypos, "Clear")
+
+				elseif dip_Extravid == 4 then
+				
+					fontPrint(fntx, ypos, "Ready/Death")
+
+				elseif dip_Extravid == 5 then
+				
+					fontPrint(fntx, ypos, "Ready/Clear")
+
+				elseif dip_Extravid == 6 then
+				
+					fontPrint(fntx, ypos, "Clear/Death")
+
+				elseif dip_Extravid == 7 then
+				
+					fontPrint(fntx, ypos, "All")
+							
+				end	
+
+			end
+
+		elseif (k == 3) then
+
+			if ShowTitle then
+				
+				fontPrint(fntx, ypos, "Yes")	
+				
+			else
+			
+				fontPrint(fntx, ypos, "No")
+				
+			
+			end
+
+		elseif (k == 4) then
+
+			if ShowLCD then
+				
+				fontPrint(fntx, ypos, "Yes")	
+				
+			
+			else
+			
+				fontPrint(fntx, ypos, "No")
+				
+			
+			end
+
+		elseif (k == 5) then
+
+			if ShowLevel then
+				
+				fontPrint(fntx, ypos, "Yes")	
+				
+			
+			else
+			
+				fontPrint(fntx, ypos, "No")
+					
+			end
+
+		elseif (k == 6) then
+
+			if ShowTop then
+				
+				fontPrint(fntx, ypos, "Yes")	
+				
+			
+			else
+			
+				fontPrint(fntx, ypos, "No")
+				
+			
+			end
+
+		elseif (k == 7) then
+
+			if ScorePos == 1 then
+				
+				fontPrint(fntx, ypos, "TOP")	
+				
+			
+			else
+			
+				fontPrint(fntx, ypos, "BOTTOM")
+				
+			
+			end
+
+		elseif (k == 8) then
+
+			if LivPos == 1 then
+				
+				fontPrint(fntx, ypos, "TOP")	
+				
+			
+			else
+			
+				fontPrint(fntx, ypos, "BOTTOM")
+				
+			
+			end
+
+		elseif (k == 9) then
+
+			if CoinPos == 1 then
+				
+				fontPrint(fntx, ypos, "MIDDLE")	
+				
+			
+			else
+			
+				fontPrint(fntx, ypos, "BOTTOM")
+				
+			
+			end
+
+		elseif (k == 10) then
+
+			if fontType == 1 then
+				
+				fontPrint(fntx, ypos, "GAME")	
+					
+			else
+			
+				fontPrint(fntx, ypos, "DEFAULT")
+							
+			end
+
+		elseif (k == 11) then
+
+			fontPrint(fntx, ypos, fontSize)	
+									
+		elseif (k == 12) then
+
+			if mycolor1 == 1 then
+				
+				fontPrint(fntx, ypos, "WHITE")	
+							
+			elseif mycolor1 == 2 then
+			
+				fontPrint(fntx, ypos, "RED")
+
+			elseif mycolor1 == 3 then
+			
+				fontPrint(fntx, ypos, "BLUE")
+
+			elseif mycolor1 == 4 then
+			
+				fontPrint(fntx, ypos, "YELLOW")
+
+			elseif mycolor1 == 5 then
+			
+				fontPrint(fntx, ypos, "GREEN")
+
+			elseif mycolor1 == 6 then
+			
+				fontPrint(fntx, ypos, "ORANGE")
+
+			elseif mycolor1 == 7 then
+			
+				fontPrint(fntx, ypos, "PINK")
+
+			elseif mycolor1 == 8 then
+			
+				fontPrint(fntx, ypos, "PURPLE")
+
+			elseif mycolor1 == 9 then
+			
+				fontPrint(fntx, ypos, "LIGHTBLUE")
+
+			elseif mycolor1 == 10 then
+			
+				fontPrint(fntx, ypos, "GREY")
+
+			elseif mycolor1 == 11 then
+			
+				fontPrint(fntx, ypos, "BLACK")
+
+			elseif mycolor1 == 12 then
+			
+				fontPrint(fntx, ypos, "MISC")
+						
+			end
+
+		elseif (k == 13) then
+
+			if mycolor2 == 1 then
+				
+				fontPrint(fntx, ypos, "WHITE")	
+							
+			elseif mycolor2 == 2 then
+			
+				fontPrint(fntx, ypos, "RED")
+
+			elseif mycolor2 == 3 then
+			
+				fontPrint(fntx, ypos, "BLUE")
+
+			elseif mycolor2 == 4 then
+			
+				fontPrint(fntx, ypos, "YELLOW")
+
+			elseif mycolor2 == 5 then
+			
+				fontPrint(fntx, ypos, "GREEN")
+
+			elseif mycolor2 == 6 then
+			
+				fontPrint(fntx, ypos, "ORANGE")
+
+			elseif mycolor2 == 7 then
+			
+				fontPrint(fntx, ypos, "PINK")
+
+			elseif mycolor2 == 8 then
+			
+				fontPrint(fntx, ypos, "PURPLE")
+
+			elseif mycolor2 == 9 then
+			
+				fontPrint(fntx, ypos, "LIGHTBLUE")
+
+			elseif mycolor2 == 10 then
+			
+				fontPrint(fntx, ypos, "GREY")
+
+			elseif mycolor2 == 11 then
+			
+				fontPrint(fntx, ypos, "BLACK")
+
+			elseif mycolor2 == 12 then
+			
+				fontPrint(fntx, ypos, "MISC")
+						
+			end
+						
+		end
+
+		ypos = OVLH/7.5 + k *LINEH*4.2
+
+	end
+
+end
+
+function doServiceMenuP()
+
+	-- This is the main function for the service graphic screen.
+	
+	local optMaxP = 13
+
+	if (altState2 == lvlSetup) then
+
+		optSelP = 1
+				
+		altState2 = lvlRunning
+	
+	elseif (altState2 == lvlRunning) then
+	
+		if (p1BUTTON1 or p1RIGHT) then
+		
+			if bIgnoreJoy then 
+			
+				if joyDelayDue() then bIgnoreJoy = false end
+
+			else
+				
+				p1BUTTON1 = false
+				p1RIGHT = false
+				soundPlay(sndcredit)
+				updateOptsP(optSelP)	
+
+				bIgnoreJoy = true
+				joyDelayON(0.250)
+
+			end	
+
+		elseif (p1LEFT) then
+
+			if bIgnoreJoy then 
+			
+				if joyDelayDue() then bIgnoreJoy = false end
+
+			else
+
+				p1LEFT = false
+				soundPlay(sndcredit)
+				updateOptsMinP(optSelP)
+
+				bIgnoreJoy = true
+				joyDelayON(0.250)
+				
+			end
+			
+		elseif (p1DOWN or p1UP) then
+		
+			
+			if bIgnoreJoy then 
+			
+				if joyDelayDue() then bIgnoreJoy = false end
+				
+			else
+				
+				if p1DOWN then 
+
+					p1DOWN = false
+					optSelP = optSelP + 1
+					if (optSelP > optMaxP) then optSelP = 1 end
+				
+				elseif p1UP then 
+					
+					p1UP = false	
+					optSelP = optSelP - 1
+					if (optSelP < 1) then optSelP = optMaxP end
+				
+				end
+				
+				soundPlay(sndcoin)
+				
+				bIgnoreJoy = true
+				joyDelayON(0.250)
+							
+			end
+		
+		elseif (p1START1) then
+
+			p1START1 = false
+			altState2 = lvlEnd	
+		
+		end
+		printOptsP()
+
+	elseif (altState2 == lvlEnd) then
+	
+		writeConfig()	
+
+		if bInPlayExit then
+
+			bInPlayExit = false
+			
+			if sLevel == dip_StartLevel and sScene == dip_StartScene and sMode == dip_Playstyle and sType == dip_GameType and sLives == dip_LivesPerCredit then
+
+				loadSave(4)
+
+			else
+
+				getRes()
+				startGame()
+
+			end
+		
+		else	
+
+			bInPlayExit = false
+			gameflow = flow_GameInit
+
+		end
+
+	end
+
+end
+
+
+
+function updateOptsP(thisIndex)
+
+	if (thisIndex == 1) then		
+
+		optSel = 1
+		lvlState = lvlRunning
+		currentLevel = levelService
+
+	elseif (thisIndex == 2) then	
+	
+		dip_Model = dip_Model + 1
+
+		if dip_Model > 3 then dip_Model = 0 end
+
+		if dip_Model == 0 then
+
+			dip_Res = 0
+			dip_Display = 0
+			dip_ScType = 0
+			dip_LivType = 0
+			dip_FontQ = 3
+
+		elseif dip_Model == 1 then
+
+			dip_Res = 1
+			dip_Display = 0
+			dip_ScType = 0
+			dip_LivType = 0
+			dip_FontQ = 2
+
+		elseif dip_Model == 2 then
+
+			dip_Res = 0
+			dip_Display = 1
+			dip_ScType = 0
+			dip_LivType = 0
+			dip_FontQ = 1
+
+		elseif dip_Model == 3 then
+
+			dip_Res = 1
+			dip_Display = 1
+			dip_ScType = 1
+			dip_LivType = 1
+			dip_FontQ = 1
+
+		end
+
+		fontQuality(dip_FontQ)
+		getRes()
+
+		getRes()
+
+	elseif (thisIndex == 3) then	
+	
+		dip_Res = dip_Res + 1
+
+		if (lfs.attributes(MYDIR .. "/Overlay/Minimal", "mode") == "directory") then
+
+			if dip_Res > 2 then dip_Res = 0 end
+
+			if dip_Res == 2 then
+				dip_ScType  = 1
+				dip_LivType = 1
+				fontSize = -1
+			end
+
+		else
+			if dip_Res > 1 then dip_Res = 0 end
+		end
+
+		getRes()
+	
+	elseif (thisIndex == 4) then	
+	
+		dip_Display = dip_Display + 1
+
+		if dip_Display >1 then dip_Display = 0 end
+
+	elseif (thisIndex == 5) then	
+
+		if bScan then
+	
+			dip_Scanlines = dip_Scanlines + 1
+
+			if dip_Scanlines > 2 then dip_Scanlines = 0 end
+
+		end
+		
+	elseif (thisIndex == 6) then	
+	
+		dip_ScType = dip_ScType + 1
+
+		if dip_ScType >1 then dip_ScType = 0 end
+
+	elseif (thisIndex == 7) then	
+	
+		dip_LivType = dip_LivType + 1
+
+		if dip_LivType >1 then dip_LivType = 0 end
+	
+	elseif (thisIndex == 8) then
+	
+		dip_FontQ = dip_FontQ + 1
+
+		if dip_FontQ > 3 then
+
+			dip_FontQ = 1
+
+		end
+
+		fontQuality(dip_FontQ)
+
+	elseif (thisIndex == 9) then
+	
+		if dip_GameType ~= 4 and dip_GameType ~= 5 then
+	
+			dip_MashtoRun = dip_MashtoRun + 1	
+			
+			if (dip_MashtoRun > 3) then
+			
+				dip_MashtoRun = 0
+				
+			end	
+
+		end	
+
+	elseif (thisIndex == 10) then
+	
+		if dip_GameType ~= 4 and dip_GameType ~= 5 then
+	
+			dip_HoldtoLoop = dip_HoldtoLoop + 1	
+			
+			if (dip_HoldtoLoop > 1) then
+			
+				dip_HoldtoLoop = 0
+				
+			end	
+
+		end	
+
+	elseif (thisIndex == 11) then		
+
+		if bFrameCount then
+
+			bFrameCount = false
+		else
+
+			bFrameCount = true
+
+		end
+
+	elseif (thisIndex == 12) then
+
+		if bInPlayExit then
+
+			getRes()
+			startGame()
+
+		else 
+		
+			setDefault()
+
+		end
+
+	elseif (thisIndex == 13) then
+
+		altState2 = lvlEnd
+
+	end
+
+end
+
+function updateOptsMinP(thisIndex)
+
+
+	if (thisIndex == 1) then		
+
+		optSelG = 1
+		altState = lvlRunning
+		currentLevel = levelGraphic
+
+	elseif (thisIndex == 2) then	
+	
+		dip_Model = dip_Model -1
+
+		if dip_Model < 0 then dip_Model = 3 end
+
+		if dip_Model == 0 then
+
+			dip_Res = 0
+			dip_Display = 0
+			dip_ScType = 0
+			dip_LivType = 0
+			dip_FontQ = 3
+
+		elseif dip_Model == 1 then
+
+			dip_Res = 1
+			dip_Display = 0
+			dip_ScType = 0
+			dip_LivType = 0
+			dip_FontQ = 2
+
+		elseif dip_Model == 2 then
+
+			dip_Res = 1
+			dip_Display = 1
+			dip_ScType = 0
+			dip_LivType = 0
+			dip_FontQ = 1
+
+		elseif dip_Model == 3 then
+
+			dip_Res = 1
+			dip_Display = 1
+			dip_ScType = 1
+			dip_LivType = 1
+			dip_FontQ = 1
+
+		end
+
+		fontQuality(dip_FontQ)
+		getRes()
+
+	elseif (thisIndex == 3) then	
+	
+		dip_Res = dip_Res - 1
+
+                if (lfs.attributes(MYDIR .. "/Overlay/Minimal", "mode") == "directory") then
+
+			if dip_Res < 0 then dip_Res = 2 end
+
+			if dip_Res == 2 then
+				dip_ScType = 1
+				dip_LivType = 1
+				fontSize = -1
+			end
+
+                else
+			if dip_Res < 0 then dip_Res = 1 end
+                end
+
+		getRes()
+	
+	elseif (thisIndex == 4) then	
+	
+		dip_Display = dip_Display - 1
+
+		if dip_Display < 0 then dip_Display = 1 end
+
+	elseif (thisIndex == 5) then
+
+		if bScan then	
+	
+			dip_Scanlines = dip_Scanlines - 1
+
+			if dip_Scanlines < 0 then dip_Scanlines = 2 end
+
+		end
+		
+	elseif (thisIndex == 6) then	
+	
+		dip_ScType = dip_ScType - 1
+
+		if dip_ScType < 0 then dip_ScType = 1 end
+
+	elseif (thisIndex == 7) then	
+	
+		dip_LivType = dip_LivType - 1
+
+		if dip_LivType < 0 then dip_LivType = 1 end
+
+	elseif (thisIndex == 8) then
+	
+		dip_FontQ = dip_FontQ - 1
+
+		if dip_FontQ < 1 then
+
+			dip_FontQ = 3
+
+		end
+
+		fontQuality(dip_FontQ)
+
+	elseif (thisIndex == 9) then
+	
+		if dip_GameType ~= 4 and dip_GameType ~= 5 then
+	
+			dip_MashtoRun = dip_MashtoRun - 1	
+			
+			if (dip_MashtoRun < 0) then
+			
+				dip_MashtoRun = 3
+				
+			end	
+
+		end	
+
+	elseif (thisIndex == 10) then
+	
+		if dip_GameType ~= 4 and dip_GameType ~= 5 then
+	
+			dip_HoldtoLoop = dip_HoldtoLoop - 1	
+			
+			if (dip_HoldtoLoop < 0) then
+			
+				dip_HoldtoLoop = 1
+				
+			end	
+
+		end	
+
+	elseif (thisIndex == 11) then		
+
+		if bFrameCount then
+
+			bFrameCount = false
+		else
+
+			bFrameCount = true
+
+		end
+
+	elseif (thisIndex == 12) then
+
+		if bInPlayExit then
+
+			getRes()
+			startGame()
+
+		else 
+		
+			setDefault()
+
+		end
+
+	elseif (thisIndex == 13) then
+
+		altState2 = lvlEnd
+
+	end
+
+end
+
+
+function printOptsP()
+
+	-- This function writes the options on the service menu screen.
+	local k = 0
+	local ypos = OVLH/7.5
+	local fntx = OVLW/1.6
+	local smenu = {}; 
+	local tmenu = {}; 
+	local TitLevel = " "
+	
+	smenu[1] = "Performances"
+	smenu[2] = "Configurations"
+	smenu[3] = "Overlay Res"
+	smenu[4] = "Display Scoring"
+	smenu[5] = "Scanlines"
+	smenu[6] = "Score Type"
+	smenu[7] = "Lives Type"
+	smenu[8] = "Font Quality"
+	smenu[9] = "Run Action"
+	smenu[10] = "Loop Action"
+	smenu[11] = "Show Frame Number"
+	
+	if bInPlayExit then
+
+		smenu[12] = "Restart"
+		smenu[13] = "BACK TO GAME"
+
+	else 
+		
+		smenu[12] = "Default"
+		smenu[13] = "EXIT"
+
+	end
+	
+	fontSelect(fontGame)	
+
+	if ShowTitle then
+
+		setFontColor(mycolor2)
+		fontSelect(fontBig)
+		fontPrint(getMiddle("OPTIONS MENU"),LINEH*2, "OPTIONS MENU")
+			
+	end		
+
+	fontSelect(fontGame)
+	
+	for k=1,13 do
+				
+		if k == optSelP then setFontColor(mycolor2) else setFontColor(mycolor1) end		
+					
+		if k == 1 then 
+
+			spriteDraw(OVLW/3-SELCW,ypos,sprite[ARROWSELL]) 
+			spriteDraw(2*OVLW/3,ypos,sprite[ARROWSELR])
+			fontPrint(getMiddle(smenu[1]), ypos, "Performances") 
+
+		elseif k == 12 then
+
+			fontPrint(getMiddle(smenu[12]), OVLH/8 + 13.5*LINEH*4.2, smenu[12])
+
+		elseif k == 13 then
+
+			fontPrint(getMiddle(smenu[13]), OVLH/8 + 14.5*LINEH*4.2, smenu[13])
+
+		else 
+
+			fontPrint(OVLW/4.8, ypos, smenu[k])
+					
+		end
+		
+		if (k == 2) then	
+
+			if dip_Model == 0 then
+
+				fontPrint(fntx, ypos, "Full")
+
+			elseif dip_Model == 1 then
+
+				fontPrint(fntx, ypos, "Medium")
+
+			elseif dip_Model == 2 then
+
+				fontPrint(fntx, ypos, "Low")
+
+			elseif dip_Model == 3 then
+
+				fontPrint(fntx, ypos, "Lowest")
+			
+			end
+
+		elseif (k == 3) then	
+
+			if dip_Res == 0 then
+
+				fontPrint(fntx, ypos, "Hi")
+
+			elseif dip_Res == 1 then
+
+				fontPrint(fntx, ypos, "Lo")
+
+			elseif dip_Res == 2 then
+
+				fontPrint(fntx, ypos, "Minimal")
+			
+			end
+
+		elseif (k == 4) then
+
+			if dip_Display == 0 then
+
+				fontPrint(fntx, ypos, "Full")
+
+			elseif dip_Display == 1 then
+
+				fontPrint(fntx, ypos, "Basic")
+			
+			end
+
+		elseif (k == 5) then
+
+			if bScan then
+
+				if dip_Scanlines == 0 then
+
+					fontPrint(fntx, ypos, "No")
+
+				elseif dip_Scanlines == 1 then
+
+					fontPrint(fntx, ypos, "Over text")
+
+				elseif dip_Scanlines == 2 then
+
+					fontPrint(fntx, ypos, "Under text")
+				
+				end
+
+			else
+
+				fontPrint(fntx, ypos, "N/A")
+
+			end
+
+		elseif (k == 6) then
+
+			if dip_ScType == 0 then
+
+				fontPrint(fntx, ypos, "PNG")
+
+			elseif dip_ScType == 1 then
+
+				fontPrint(fntx, ypos, "Rendered")
+			
+			end
+
+		elseif (k == 7) then
+
+			if dip_LivType == 0 then
+
+				fontPrint(fntx, ypos, "PNG")
+
+			elseif dip_LivType == 1 then
+
+				fontPrint(fntx, ypos, "Rendered")
+			
+			end
+
+		elseif (k == 8) then
+
+			if dip_FontQ == 1 then
+
+				fontPrint(fntx, ypos, "Solid")
+
+			elseif dip_FontQ == 2 then
+
+				fontPrint(fntx, ypos, "Shaded")
+
+			elseif dip_FontQ == 3 then
+
+				fontPrint(fntx, ypos, "Blended")
+			
+			end
+
+		elseif (k == 9) then
+
+			if dip_GameType == 4 or dip_GameType == 5 then
+
+				fontPrint(fntx, ypos, "N/A")
+
+			else	
+
+				if dip_MashtoRun == 0 then
+					
+					fontPrint(fntx, ypos, "Good Stick")	
+									
+				elseif dip_MashtoRun == 1 then
+					
+					fontPrint(fntx, ypos, "Bad Stick")
+
+				elseif dip_MashtoRun == 2 then
+					
+					fontPrint(fntx, ypos, "Two Buttons")
+
+				elseif dip_MashtoRun == 3 then
+					
+					fontPrint(fntx, ypos, "Simple Mash")
+								
+				end
+
+			end
+
+		elseif (k == 10) then
+
+			if dip_GameType == 4 or dip_GameType == 5 then
+
+				fontPrint(fntx, ypos, "N/A")
+
+			else	
+
+				if dip_HoldtoLoop == 0 then
+					
+					fontPrint(fntx, ypos, "Loop")	
+									
+				elseif dip_HoldtoLoop == 1 then
+					
+					fontPrint(fntx, ypos, "Hold")
+								
+				end
+
+			end
+
+		elseif (k == 11) then
+
+			if bFrameCount then
+
+				fontPrint(fntx, ypos, "On")
+
+			else
+
+				fontPrint(fntx, ypos, "Off")
+
+			end
+						
+		end
+
+		ypos = OVLH/7.5 + k *LINEH*4.2
+
+	end
+
+end
+
+
+
+function doSave()
+
+	local gunx = 42
+	local optMax = 4
+	
+	if (lvlState == lvlSetup) then
+	
+		discSkipToFrame(frameSave)
+		discPause()		
+		timerOFF()		
+		optSel = 1
+		readSave()		
+		bShowScore = false
+		bShowLives = false
+		bShowLvl = false
+		bhowScene = false
+		bShowSkip = false		
+		bShowCredits = false
+		bShowLCD = false
+		bShowGet = false
+		bShowAction = false	
+		bIgnoreJoy = false
+		
+		lvlState = lvlRunning
+	
+	elseif (lvlState == lvlRunning) then
+	
+		if (p1BUTTON1 or p1RIGHT) then
+		
+			if bIgnoreJoy then 
+			
+				if joyDelayDue() then bIgnoreJoy = false end
+				
+			else
+
+				p1BUTTON1 = false
+				p1RIGHT = false
+				soundPlay(sndcredit)
+				updateSave(optSel)
+				bIgnoreJoy = true
+				joyDelayON(0.250)	
+
+			end
+
+		elseif (p1LEFT) then
+
+			if bIgnoreJoy then 
+			
+				if joyDelayDue() then bIgnoreJoy = false end
+				
+			else
+
+				p1LEFT = false
+				soundPlay(sndcredit)
+				updateSaveMin(optSel)
+				bIgnoreJoy = true
+				joyDelayON(0.250)
+
+			end	
+			
+		elseif (p1DOWN or p1UP) then
+					
+			if bIgnoreJoy then 
+			
+				if joyDelayDue() then bIgnoreJoy = false end
+				
+			else
+				
+				if p1DOWN then 
+					
+					p1DOWN = false
+					optSel = optSel + 1
+					if (optSel > optMax) then optSel = 1 end
+				
+				elseif p1UP then 
+					
+					p1UP = false
+					optSel = optSel - 1
+					if (optSel < 1) then optSel = optMax end
+				
+				end
+				
+				soundPlay(sndcoin)
+				bIgnoreJoy = true
+				joyDelayON(0.250)
+
+			end
+
+		elseif (p1START1) then
+
+			p1START1 = false
+			lvlState = lvlEnd
+			currentLevel = levelService
+			
+		end
+		printSave()
+
+	elseif (lvlState == lvlEnd) then
+
+		if bInPlayExit then
+
+			bInPlayExit = false
+			loadSave(4)
+		
+		else
+			
+			bInPlayExit = false
+			gameflow = flow_GameInit
+
+		end
+
+	end
+
+end
+
+function readSave()
+
+	local s0
+	local svLevel = ""
+	local svScene = ""
+	local svMove = ""
+	local svLives = ""
+	local svDif = ""
+	local svScore = ""
+	local svGtype = ""
+	local svScPlay = ""
+	local svScDeath = ""
+	local svTotDeath = ""
+	local k = 0
+	local h1
+
+	slotsave = nil; slotsave = {}
+
+	for k = 1,6 do
+
+		if altCfg == true and k < 5 then
+
+			s0 = MYDIR.."/Cfg/s" .. k .. "0.cfg"
+
+		else
+
+			s0 = MYDIR.."/Cfg/s" .. k .. ".cfg"
+
+		end	
+
+		if k == 1 then
+
+			h1 = io.input(s0)
+			s1 = io.read("*line")
+
+			svLevel = string.sub(s1,1,string.find(s1,",")-1)
+			svScene = string.sub(s1,string.find(s1,",")+1, string.find(s1,"!")-1)
+			svMove = string.sub(s1,string.find(s1,"!")+1, string.find(s1,"?")-1)
+			svLives = string.sub(s1,string.find(s1,"?")+1, string.find(s1,";")-1)
+			svDif = string.sub(s1,string.find(s1,";")+1, string.find(s1,":")-1)
+			svScore = string.sub(s1,string.find(s1,":")+1, string.find(s1,"A")-1)
+			svGtype = string.sub(s1,string.find(s1,"A")+1, string.find(s1,"B")-1)
+			svScPlay = string.sub(s1,string.find(s1,"B")+1, string.find(s1,"C")-1)
+			svScDeath = string.sub(s1,string.find(s1,"C")+1, string.find(s1,"D")-1)
+			svTotDeath = string.sub(s1,string.find(s1,"D")+1, string.find(s1,"E")-1)
+			svPlayStyle = string.sub(s1,string.find(s1,"E")+1, string.find(s1,"F")-1)
+			
+			slotsave[1] = {svLevel, svScene, svMove, svLives, svDif, svScore, svGtype, svScPlay, svScDeath, svTotDeath,svPlayStyle}
+		
+			io.close(h1)
+
+		elseif k == 2 then
+
+			h1 = io.input(s0)
+			s1 = io.read("*line")
+
+			svLevel = string.sub(s1,1,string.find(s1,",")-1)
+			svScene = string.sub(s1,string.find(s1,",")+1, string.find(s1,"!")-1)
+			svMove = string.sub(s1,string.find(s1,"!")+1, string.find(s1,"?")-1)
+			svLives = string.sub(s1,string.find(s1,"?")+1, string.find(s1,";")-1)
+			svDif = string.sub(s1,string.find(s1,";")+1, string.find(s1,":")-1)
+			svScore = string.sub(s1,string.find(s1,":")+1, string.find(s1,"A")-1)
+			svGtype = string.sub(s1,string.find(s1,"A")+1, string.find(s1,"B")-1)
+			svScPlay = string.sub(s1,string.find(s1,"B")+1, string.find(s1,"C")-1)
+			svScDeath = string.sub(s1,string.find(s1,"C")+1, string.find(s1,"D")-1)
+			svTotDeath = string.sub(s1,string.find(s1,"D")+1, string.find(s1,"E")-1)
+			svPlayStyle = string.sub(s1,string.find(s1,"E")+1, string.find(s1,"F")-1)
+			
+			slotsave[2] = {svLevel, svScene, svMove, svLives, svDif, svScore, svGtype, svScPlay, svScDeath, svTotDeath,svPlayStyle}
+		
+			io.close(h1)
+
+		elseif k == 3 then
+
+			h1 = io.input(s0)
+			s1 = io.read("*line")
+
+			svLevel = string.sub(s1,1,string.find(s1,",")-1)
+			svScene = string.sub(s1,string.find(s1,",")+1, string.find(s1,"!")-1)
+			svMove = string.sub(s1,string.find(s1,"!")+1, string.find(s1,"?")-1)
+			svLives = string.sub(s1,string.find(s1,"?")+1, string.find(s1,";")-1)
+			svDif = string.sub(s1,string.find(s1,";")+1, string.find(s1,":")-1)
+			svScore = string.sub(s1,string.find(s1,":")+1, string.find(s1,"A")-1)
+			svGtype = string.sub(s1,string.find(s1,"A")+1, string.find(s1,"B")-1)
+			svScPlay = string.sub(s1,string.find(s1,"B")+1, string.find(s1,"C")-1)
+			svScDeath = string.sub(s1,string.find(s1,"C")+1, string.find(s1,"D")-1)
+			svTotDeath = string.sub(s1,string.find(s1,"D")+1, string.find(s1,"E")-1)
+			svPlayStyle = string.sub(s1,string.find(s1,"E")+1, string.find(s1,"F")-1)
+			
+			slotsave[3] = {svLevel, svScene, svMove, svLives, svDif, svScore, svGtype, svScPlay, svScDeath, svTotDeath,svPlayStyle}
+			
+			io.close(h1)
+
+		elseif k == 4 then
+
+			h1 = io.input(s0)
+			s1 = io.read("*line")
+
+			svLevel = string.sub(s1,1,string.find(s1,",")-1)
+			svScene = string.sub(s1,string.find(s1,",")+1, string.find(s1,"!")-1)
+			svMove = string.sub(s1,string.find(s1,"!")+1, string.find(s1,"?")-1)
+			svLives = string.sub(s1,string.find(s1,"?")+1, string.find(s1,";")-1)
+			svDif = string.sub(s1,string.find(s1,";")+1, string.find(s1,":")-1)
+			svScore = string.sub(s1,string.find(s1,":")+1, string.find(s1,"A")-1)
+			svGtype = string.sub(s1,string.find(s1,"A")+1, string.find(s1,"B")-1)
+			svScPlay = string.sub(s1,string.find(s1,"B")+1, string.find(s1,"C")-1)
+			svScDeath = string.sub(s1,string.find(s1,"C")+1, string.find(s1,"D")-1)
+			svTotDeath = string.sub(s1,string.find(s1,"D")+1, string.find(s1,"E")-1)
+			svPlayStyle = string.sub(s1,string.find(s1,"E")+1, string.find(s1,"F")-1)
+			
+			slotsave[4] = {svLevel, svScene, svMove, svLives, svDif, svScore, svGtype, svScPlay, svScDeath, svTotDeath,svPlayStyle}
+			
+			io.close(h1)
+
+		elseif k == 5 then
+
+			h1 = io.input(s0)
+			s1 = io.read("*line")
+
+			svLevel = string.sub(s1,1,string.find(s1,",")-1)
+			svScene = string.sub(s1,string.find(s1,",")+1, string.find(s1,"!")-1)
+			svMove = string.sub(s1,string.find(s1,"!")+1, string.find(s1,"?")-1)
+			svLives = string.sub(s1,string.find(s1,"?")+1, string.find(s1,";")-1)
+			svDif = string.sub(s1,string.find(s1,";")+1, string.find(s1,":")-1)
+			svScore = string.sub(s1,string.find(s1,":")+1, string.find(s1,"A")-1)
+			svGtype = string.sub(s1,string.find(s1,"A")+1, string.find(s1,"B")-1)
+			svScPlay = string.sub(s1,string.find(s1,"B")+1, string.find(s1,"C")-1)
+			svScDeath = string.sub(s1,string.find(s1,"C")+1, string.find(s1,"D")-1)
+			svTotDeath = string.sub(s1,string.find(s1,"D")+1, string.find(s1,"E")-1)
+			svPlayStyle = string.sub(s1,string.find(s1,"E")+1, string.find(s1,"F")-1)
+			
+			slotsave[5] = {svLevel, svScene, svMove, svLives, svDif, svScore, svGtype, svScPlay, svScDeath, svTotDeath,svPlayStyle}
+			
+			io.close(h1)
+
+		elseif k == 6 then
+
+			h1 = io.input(s0)
+			s1 = io.read("*line")
+
+			svLevel = string.sub(s1,1,string.find(s1,",")-1)
+			svScene = string.sub(s1,string.find(s1,",")+1, string.find(s1,"!")-1)
+			svMove = string.sub(s1,string.find(s1,"!")+1, string.find(s1,"?")-1)
+			svLives = string.sub(s1,string.find(s1,"?")+1, string.find(s1,";")-1)
+			svDif = string.sub(s1,string.find(s1,";")+1, string.find(s1,":")-1)
+			svScore = string.sub(s1,string.find(s1,":")+1, string.find(s1,"A")-1)
+			svGtype = string.sub(s1,string.find(s1,"A")+1, string.find(s1,"B")-1)
+			svScPlay = string.sub(s1,string.find(s1,"B")+1, string.find(s1,"C")-1)
+			svScDeath = string.sub(s1,string.find(s1,"C")+1, string.find(s1,"D")-1)
+			svTotDeath = string.sub(s1,string.find(s1,"D")+1, string.find(s1,"E")-1)
+			svPlayStyle = string.sub(s1,string.find(s1,"E")+1, string.find(s1,"F")-1)
+			
+			slotsave[6] = {svLevel, svScene, svMove, svLives, svDif, svScore, svGtype, svScPlay, svScDeath, svTotDeath,svPlayStyle}
+			
+			io.close(h1)
+
+		end	
+
+	end
+
+end
+
+function printSave()
+
+	-- This function writes the options on the service menu screen.
+	local k = 0
+	local ypos = 0
+	local smenu = {}; 
+	local s1 = ""
+	local tempDif = ""
+	local tempScene = ""
+	
+	smenu[3] = "PROCEED"
+	
+	if bInPlayExit then
+
+		smenu[4] = "BACK TO GAME"	
+
+	else
+
+		smenu[4] = "EXIT"
+
+	end	
+		
+
+	if ShowTitle then
+
+		setFontColor(mycolor2)
+		fontSelect(fontBig)
+		fontPrint(getMiddle("LOAD/SAVE MENU"), LINEH*2, "LOAD/SAVE MENU")
+		
+	end		
+
+	
+	setFontColor(mycolor2)
+	fontSelect(fontGame)
+
+	for k=1,4 do
+
+		ypos = OVLH/5 + k *LINEH*5
+
+		if 	tonumber(slotsave[k][1]) == 1 and (tonumber(slotsave[k][2]) == 1 or tonumber(slotsave[k][2]) == 0) and tonumber(slotsave[k][3]) == 1 then
+
+			if k < 4 then
+
+				s1 = k .. ". Empty"
+			
+			else
+			
+				s1 = "A. Empty"	
+
+			end	
+		
+		else
+
+			if tonumber(slotsave[k][2]) <= 0 then 
+
+				tempScene = ", Map" 
+			
+			else
+
+				tempScene = ", Scn:" .. slotsave[k][2]
+
+			end
+
+			if tonumber(slotsave[k][5]) == 0 then
+				
+				tempDif = "Easy"
+
+			elseif tonumber(slotsave[k][5]) == 1 then
+		
+				tempDif = "Normal"	
+
+			elseif tonumber(slotsave[k][5]) == 2 then
+		
+				tempDif = "Hard"
+
+			elseif tonumber(slotsave[k][5]) == 3 then
+		
+				tempDif = "Extreme"
+							
+			end
+		
+			if tonumber(slotsave[k][7]) == 5 then
+
+				if k < 4 then
+
+					s1=k .. ". Lvl:" .. slotsave[k][1] .. tempScene .. ", Mov:" .. slotsave[k][3] .. ", Bar:" .. slotsave[k][4] .. ", " .. tempDif .. ", " .. slotsave[k][6]
+		
+				else
+				
+					s1="A. Lvl:" .. slotsave[k][1] .. tempScene .. ", Mov:" .. slotsave[k][3] .. ", Bar:" .. slotsave[k][4] .. ", " .. tempDif .. ", " .. slotsave[k][6]
+
+				end	
+
+
+			else
+
+				if k < 4 then
+
+					s1=k .. ". Lvl:" .. slotsave[k][1] .. tempScene .. ", Mov:" .. slotsave[k][3] .. ", Liv:" .. slotsave[k][4] .. ", " .. tempDif .. ", " .. slotsave[k][6]
+		
+				else
+				
+					s1="A. Lvl:" .. slotsave[k][1] .. tempScene .. ", Mov:" .. slotsave[k][3] .. ", Liv:" .. slotsave[k][4] .. ", " .. tempDif .. ", " .. slotsave[k][6]
+
+				end	
+
+			end
+
+			
+			
+		end
+
+		fontPrint(OVLW/6.55, ypos, s1)
+
+	end
+
+	setFontColor(mycolor1)
+	fontSelect(fontLCD)
+	
+	for k=1,4 do
+		
+		
+		ypos = OVLH/5 + (k+6) *LINEH*5
+		if k == optSel then setFontColor(mycolor2) else setFontColor(mycolor1) end		
+		if k == 3 then fontPrint(getMiddle(smenu[3]), OVLH/5 + (k+6) *LINEH*5, "PROCEED") end
+		if k == 4 then fontPrint(getMiddle(smenu[4]), OVLH/5 + (k+6) *LINEH*5, smenu[4]) end
+		
+		if (k == 1) then
+
+			if dip_Loadsave == 0 then
+				
+				fontPrint(getMiddle("LOAD"), ypos, "LOAD")
+
+			elseif dip_Loadsave == 1 then
+		
+				fontPrint(getMiddle("SAVE"), ypos, "SAVE")	
+				
+			end
+			
+		elseif (k == 2) then	
+
+			if dip_Slot == 1 then
+				
+				fontPrint(getMiddle("SLOT #1"), ypos, "SLOT #1")
+
+			elseif dip_Slot == 2 then
+		
+				fontPrint(getMiddle("SLOT #2"), ypos, "SLOT #2")	
+
+			elseif dip_Slot == 3 then
+		
+				fontPrint(getMiddle("SLOT #3"), ypos, "SLOT #3")
+
+			elseif dip_Slot == 4 then
+		
+				fontPrint(getMiddle("AUTOSAVE"), ypos, "AUTOSAVE")
+				
+			end	
+				
+		end
+
+	end
+
+end
+
+function updateSave(thisIndex)
+
+	if (thisIndex == 1) then
+	
+		dip_Loadsave  = dip_Loadsave  + 1
+
+		if (dip_Loadsave  > 1) then
+		
+			dip_Loadsave = 0
+		
+		end		
+
+		if dip_Loadsave == 1 then
+
+			dip_Slot = 1
+
+		end
+				
+
+	elseif (thisIndex == 2) then	
+	
+		dip_Slot = dip_Slot + 1
+
+		if (dip_Slot == 4) then
+		
+			dip_Loadsave = 0
+			
+		end
+			
+		if (dip_Slot > 4) then
+		
+			dip_Slot = 1
+			
+		end
+
+	elseif (thisIndex == 3) then
+	
+		if dip_Loadsave == 0 then
+
+			loadSave(dip_Slot)			
+
+		else
+			
+			local k = dip_Slot
+
+			slotsave[k][1] = iLevel
+			slotsave[k][2] = iScene
+
+			if bCheckMove then
+
+				slotsave[k][3] = currentMove + 1
+			
+			else
+
+				slotsave[k][3] = currentMove
+
+			end
+
+			if dip_GameType == 1 then
+
+				slotsave[k][4] = iLifeBar
+
+			else
+
+				slotsave[k][4] = iLiveSave
+
+			end
+			
+			slotsave[k][5] = dip_Difficulty
+			slotsave[k][6] = iScore
+			
+			if dip_GameType == 1 then
+
+				slotsave[k][7] = "1"
+
+			else
+
+				slotsave[k][7] = "0"
+
+			end
+
+			slotsave[k][8] = iScPlayed
+			slotsave[k][9] = iScDeath
+			slotsave[k][10] = iTotDeath
+			slotsave[k][11] = dip_PlayStyle
+
+			if iScore >= iScoreSave then writeSave(dip_Slot) end
+
+			lvlState = lvlEnd
+			
+		end	
+		
+	elseif (thisIndex == 4) then		
+
+		lvlState = lvlEnd
+		
+	end
+
+end
+
+function updateSaveMin(thisIndex)
+
+	if (thisIndex == 1) then
+	
+		dip_Loadsave  = dip_Loadsave - 1
+
+		if (dip_Loadsave  < 0) then
+		
+			dip_Loadsave = 1
+		
+		end		
+
+		if dip_Loadsave == 1 then
+
+			dip_Slot = 1
+
+		end
+				
+
+	elseif (thisIndex == 2) then	
+	
+		dip_Slot = dip_Slot - 1
+
+		if (dip_Slot == 4) then
+		
+			dip_Loadsave = 0
+			
+		end
+			
+		if (dip_Slot < 1) then
+		
+			dip_Slot = 4
+			
+		end
+
+	elseif (thisIndex == 3) then
+	
+		if dip_Loadsave == 0 then
+
+			loadSave(dip_Slot)			
+
+		else
+			
+			local k = dip_Slot
+
+			slotsave[k][1] = iLevel
+			slotsave[k][2] = iScene
+
+			if bCheckMove then
+
+				slotsave[k][3] = currentMove + 1
+			
+			else
+
+				slotsave[k][3] = currentMove
+
+			end
+
+			if dip_GameType == 1 then
+
+				slotsave[k][4] = iLifeBar
+
+			else
+
+				slotsave[k][4] = iLiveSave
+
+			end
+
+			slotsave[k][5] = dip_Difficulty
+			slotsave[k][6] = iScore
+			
+			if dip_GameType == 1 then
+
+				slotsave[k][7] = "1"
+
+			else
+
+				slotsave[k][7] = "0"
+
+			end
+
+			slotsave[k][8] = iScPlayed
+			slotsave[k][9] = iScDeath
+			slotsave[k][10] = iTotDeath
+			slotsave[k][11] = dip_PlayStyle
+			
+			if iScore >= iScoreSave then	writeSave(dip_Slot) end
+
+			lvlState = lvlEnd
+			
+		end	
+		
+	elseif (thisIndex == 4) then		
+
+		lvlState = lvlEnd
+		
+	end
+
+end
+
+function writeSave(thisSlot)
+
+	local k = thisSlot
+	local sNewLine = "\n"
+	local s1 = ""
+	local s0
+
+	if altCfg == true and k < 5 then
+
+		s0 = MYDIR.."/Cfg/s" .. thisSlot .. "0.cfg"
+
+	else
+
+		s0 = MYDIR.."/Cfg/s" .. thisSlot .. ".cfg"
+
+	end	
+
+	local h1 = io.output(s0)
+			
+	s1 = slotsave[k][1] .. "," .. slotsave[k][2] .. "!" .. slotsave[k][3] .. "?" .. slotsave[k][4] .. ";" .. slotsave[k][5] .. ":" .. slotsave[k][6] .. "A" .. slotsave[k][7] .. "B" .. slotsave[k][8] .. "C" .. slotsave[k][9] .. "D" .. slotsave[k][10] .. "E" .. slotsave[k][11] .. "F"
+	io.write(s1 .. sNewLine)
+		
+	for k=1,finalstage do
+
+		if stage[LvlOrder[k]][BEATSTATUS] == true then
+
+			s1 = LvlOrder[k] .. "A" .. "true" .. "B" .. "true" .. "C" .. stage[LvlOrder[k]][DEATHCOUNT] .. "D"
+
+		else
+
+			s1 = LvlOrder[k] .. "A" .. "false" .. "B" .. "false" .. "C" .. stage[LvlOrder[k]][DEATHCOUNT] .. "D"
+
+		end
+		
+		io.write(s1 .. sNewLine)
+				
+	end	
+	
+	io.close(h1)
+
+	if writeSavePlus ~= nil then writeSavePlus(thisSlot) end
+
+end
+
+function loadSave(thisSlot)
+
+	local s1
+	local i = 0
+	local j = 0
+	local k = 0
+	scene = nil; scene = {}
+	stage = nil; stage = {}
+
+	local s0 = MYDIR.."/Cfg/s" .. thisSlot .. ".cfg"
+
+	if altCfg == true and thisSlot < 5 then
+
+		s0 = MYDIR.."/Cfg/s" .. thisSlot .. "0.cfg"
+
+	else
+
+		s0 = MYDIR.."/Cfg/s" .. thisSlot .. ".cfg"
+
+	end	
+
+	for k=1,finalstage do
+
+		scene[k] = {}		
+		stage[k] = {false, false, 0}
+
+		for i = 1,Level[k][TOTALSCENES] do
+
+			scene[k][i] = {}; scene[k][i] = {i, false}
+
+		end 
+
+	end	
+
+	local h1 = io.input(s0)
+
+	s1 = io.read("*line")
+	
+	dip_StartLevel = tonumber(string.sub(s1,1,string.find(s1,",")-1))
+	dip_StartScene = tonumber(string.sub(s1,string.find(s1,",")+1, string.find(s1,"!")-1))
+	currentMove = tonumber(string.sub(s1,string.find(s1,"!")+1, string.find(s1,"?")-1))
+	dip_GameType = tonumber(string.sub(s1,string.find(s1,"A")+1, string.find(s1,"B")-1))
+
+	if dip_GameType == 1 then
+
+		iLifeBar = tonumber(string.sub(s1,string.find(s1,"?")+1, string.find(s1,";")-1))
+		iLives = 1
+
+	else	
+			
+		iLives = tonumber(string.sub(s1,string.find(s1,"?")+1, string.find(s1,";")-1))
+
+	end
+
+	iScPlayed = tonumber(string.sub(s1,string.find(s1,"B")+1, string.find(s1,"C")-1))
+	iScDeath = tonumber(string.sub(s1,string.find(s1,"C")+1, string.find(s1,"D")-1))
+	iTotDeath = tonumber(string.sub(s1,string.find(s1,"D")+1, string.find(s1,"E")-1))
+	dip_PlayStyle = tonumber(string.sub(s1,string.find(s1,"E")+1, string.find(s1,"F")-1))
+
+	dip_Difficulty = tonumber(string.sub(s1,string.find(s1,";")+1, string.find(s1,":")-1))
+	iScore = tonumber(string.sub(s1,string.find(s1,":")+1, string.find(s1,"A")-1))
+		
+	for k = 1,finalstage do
+
+		s1 = io.read("*line")
+
+		LvlOrder[k] = tonumber(string.sub(s1,1,string.find(s1,"A")-1))
+		if string.sub(s1,string.find(s1,"A")+1, string.find(s1,"B")-1) == "true" then stage[k][LEVELSTARTED] = true end
+		if string.sub(s1,string.find(s1,"B")+1, string.find(s1,"C")-1) == "true" then stage[k][BEATSTATUS] = true end
+		stage[k][DEATHCOUNT] = tonumber(string.sub(s1,string.find(s1,"C")+1, string.find(s1,"D")-1))
+
+	end	
+
+	for k=1,finalstage do
+
+		if stage[k][BEATSTATUS] == true then
+
+			for i = 1,Level[k][TOTALSCENES] do
+
+				scene[k][i] = {}; scene[k][i] = {i, true}
+
+			end 
+
+		elseif stage[k][BEATSTATUS] == false and stage[k][LEVELSTARTED] == true and dip_StartScene ~= 1 then
+			
+			for i = 1,dip_StartScene-1 do
+
+				scene[k][i] = {}; scene[k][i] = {i, true}
+
+			end 
+
+		end
+
+	end	
+
+	if AllowSecret == true then
+
+		stage[levelSecret] = {false, false, 0}
+		scene[levelSecret] = {}
+
+		for i = 1,Level[levelSecret][TOTALSCENES] do
+			
+			scene[levelSecret][i] = {}; scene[levelSecret][i] = {i, false}
+
+		end 
+
+	end
+
+
+	if 	dip_StartLevel == 1 and dip_StartScene == 1 and currentMove ==1 and thisSlot < 5 then
+
+		lvlState = lvlEnd
+
+	elseif dip_StartScene <= 0 and dip_PlayStyle==3 then
+
+		writeConfig()
+		iLiveSave = iLives
+		iScoreSave = iScore	
+
+		startMap()
+
+	else
+
+		writeConfig()
+		iLiveSave = iLives
+		iScoreSave = iScore	
+
+		startSave()
+
+	end
+
+	io.close(h1)
+
+	if loadSavePlus ~= nil then loadSavePlus(thisSlot) end
+	
+end
+
+function autoSave(thisSlot)
+
+	local i = 0
+	
+	readSave()
+
+	slotsave[thisSlot][1] = iLevel
+	slotsave[thisSlot][2] = iScene
+
+	if bCheckMove then
+
+		slotsave[thisSlot][3] = currentMove+1
+	
+	else
+
+		slotsave[thisSlot][3] = currentMove
+
+	end	
+
+	if dip_GameType == 1 then
+
+		slotsave[thisSlot][4] = iLifeBar
+
+	else
+		
+		slotsave[thisSlot][4] = iLives 
+
+	end
+	
+	slotsave[thisSlot][5] = dip_Difficulty
+	slotsave[thisSlot][6] = iScore
+	slotsave[thisSlot][7] = dip_GameType
+	slotsave[thisSlot][8] = iScPlayed
+	slotsave[thisSlot][9] = iScDeath
+	slotsave[thisSlot][10] = iTotDeath
+	slotsave[thisSlot][11] = dip_PlayStyle
+
+	writeSave(thisSlot)	
+		
+end
+
+
+function doExit() -- Exit program
+
+
+	-- This is the main function for exit screen.
+	
+	local optMax = 4
+
+	if (lvlState == lvlSetup) then
+
+		discSkipToFrame(frameHints)
+		discPause()		
+		timerOFF()		
+		optSel = 1
+		bShowLvl = false
+		bShowScene = false
+		bShowScore = false
+		bShowLives = false
+		bShowLvl = false
+		bShowSkip = false		
+		bShowCredits = false
+		bShowGet = false
+		bShowLCD = false
+		bShowAction = false	
+		bIgnoreJoy = false
+		
+		lvlState = lvlRunning
+
+	elseif (lvlState == lvlRunning) then
+	
+		if (p1BUTTON1) then
+		
+			if bIgnoreJoy then 
+			
+				if joyDelayDue() then bIgnoreJoy = false end
+
+			else
+				
+				p1BUTTON1 = false
+				soundPlay(sndcredit)
+				updateExit(optSel)	
+
+				bIgnoreJoy = true
+				joyDelayON(0.250)
+
+			end	
+			
+		elseif (p1DOWN or p1UP) then
+		
+			
+			if bIgnoreJoy then 
+			
+				if joyDelayDue() then bIgnoreJoy = false end
+				
+			else
+				
+				if p1DOWN then 
+
+					p1DOWN = false
+					optSel = optSel + 1
+					if (optSel > optMax) then optSel = 1 end
+				
+				elseif p1UP then 
+					
+					p1UP = false	
+					optSel = optSel - 1
+					if (optSel < 1) then optSel = optMax end
+				
+				end
+				
+				soundPlay(sndcoin)
+				
+				bIgnoreJoy = true
+				joyDelayON(0.250)
+							
+			end
+			
+		end
+		printExit()
+
+	elseif (lvlState == lvlEnd) then
+	
+		
+		if bInPlayExit then
+
+			bInPlayExit = false
+			loadSave(4)
+		
+		else	
+	
+			gameflow = flow_GameInit
+
+		end	
+
+	end
+
+end
+
+
+function updateExit(thisIndex)
+
+	if (thisIndex == 1) then
+	
+		singeQuit()
+			
+	elseif (thisIndex == 2) then		
+
+		lvlState = lvlEnd
+
+	elseif (thisIndex == 3) then
+
+		bInPlayExit = false		
+		lvlState = lvlEnd
+
+	elseif (thisIndex == 4) then		
+
+		bInPlayExit = false	
+		lvlState = lvlSetup
+		currentLevel = levelService
+
+	end
+
+end
+
+
+function printExit()
+
+	-- This function writes the options on the exit screen.
+
+	local k = 0
+	local ypos
+	local emenu = {}; 
+	local s1 = ""
+	local tempDif = ""
+	
+	emenu[1] = "QUIT"
+	emenu[2] = "BACK"
+	emenu[3] = "INTRO"
+	emenu[4] = "OPTIONS"	
+		
+
+	setFontColor(mycolor2)
+	fontSelect(fontBig)
+	fontPrint(getMiddle("QUIT GAME?"), LINEH*2, "QUIT GAME?")
+	
+	setFontColor(mycolor1)
+	fontSelect(fontBig)
+	
+	for k=1,4 do
+				
+		ypos = OVLH/1.8 + k*LINEH*7
+		if k == optSel then setFontColor(mycolor2) else setFontColor(mycolor1) end		
+		if k == 1 then fontPrint(getMiddle(emenu[1]), ypos, "QUIT") end
+		if k == 2 then fontPrint(getMiddle(emenu[2]), ypos, "BACK") end
+		if k == 3 then fontPrint(getMiddle(emenu[3]), ypos, "INTRO") end
+		if k == 4 then fontPrint(getMiddle(emenu[4]), ypos, "OPTIONS") end
+	
+	end
+
+end
+

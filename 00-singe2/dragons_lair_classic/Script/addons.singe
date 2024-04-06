@@ -1,0 +1,787 @@
+--[[
+
+PROGRAM NAME:	Hypseus Singe - DRAGON'S LAIR 
+VERSION:		V 7.0 (2024)
+AUTHOR:			KARIS (2021)
+Edited by		Maximi1ium (2024)
+
+	Hypseus Singe - DRAGON'S LAIR is free software: you can redistribute it and/or
+	modify it under the terms of the GNU General Public License as published by
+	the Free Software Foundation.
+
+	Hypseus Singe - DRAGON'S LAIR is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+	Thanks to Scott Duensing, RDG.
+
+Maximi1ium Remix Changes:
+
+Scene sequencing based on USA Cinematronics 1983 original Arcade game release.
+
+    •    https://www.dragons-lair-project.com/games/related/sequence.asp
+
+Moves, Alternate Moves and Scoring based on this guide:
+
+    •    https://www.dragons-lair-project.com/games/related/walkthru/lair/hard.asp
+
+Game Play:
+
+    •    There are 3 game cycles, second cycle will play reverse levels, adding the Draw Bridge 
+		 and 4 Elevator scenes (3 level + 9 Level + reverse elevators scenes) = 40 levels in total.
+    •    Each level needs to be completed to advance to the next level.
+    •    Tip: Wooden Doors are hard to break, wait until they open . . .
+
+Changes:
+
+    •    Resurrection & Death scenes now work like in the original game.
+    •    Blank Skips between levels added for original Arcade feel.
+    •    Alternative moves added.
+    •    Reverse Levels are now scripted (not reversed by emulator)
+    •    Hypseus Singe Bezels + batch files, Scoreboard Ready.
+    •    Some levels divided into "scenes", so player do not have to play the entire level after death.
+    •    Scoreboard updates after each move.
+    •    All movements check frame by frame for accuracy, made changes to replicate original arcade experience.
+    •    Framework 3.32a by Karris (2021) included with the game.
+    •    Play Style: Tiers play compatible; it will preserve game cycle structure.
+    •    Elevator Scene – The lower you go, the higher the score.
+    •    Draw Bridge has a special move that will skip the scene.
+    •    Spiral Staircase has a move that will play secret scene.
+    •    Pot of Gold has a special move that will advance the level.
+	•    Mist Room has a special move that will advance the level.
+	
+	Special Thanks to Rhikki, Gojidan Alethes, gig71, Modhack & Dox for testing the game.
+
+Hypseus Singe
+
+https://github.com/DirtBagXon/hypseus-singe
+
+
+]]--
+
+function startConf()
+
+	if iLevel == 1 then			-- Draw Bridge
+	
+		SCOREMOVE = 250
+
+	elseif iLevel == 2 then		-- Fire Pit
+
+		SCOREMOVE = 495
+
+	elseif iLevel == 3 then		-- Flying Barding
+
+		SCOREMOVE = 645
+
+	elseif iLevel == 4 then		-- Mausoleum
+
+		SCOREMOVE = 650
+
+	elseif iLevel == 6 then		-- Boulder Trench
+
+		SCOREMOVE = 380
+
+	elseif iLevel == 7 then		-- Socker Boppers
+
+		SCOREMOVE = 2125
+
+	elseif iLevel == 8 then		-- Forge
+
+		SCOREMOVE = 1300
+
+	elseif iLevel == 9 then		-- Tentacles & Halberd
+
+		SCOREMOVE = 870
+
+	elseif iLevel == 10 then	-- YMCA
+
+		SCOREMOVE = 1175
+
+	elseif iLevel == 11 then	-- Yellow Brick Road
+
+		SCOREMOVE = 3195
+
+	elseif iLevel == 12 then	-- Chapel
+
+		SCOREMOVE = 2270
+
+	elseif iLevel == 13 then	-- Throne Room
+
+		SCOREMOVE = 2310
+
+	elseif iLevel == 15 then	-- Reverse Fire Pit
+
+		SCOREMOVE = 915
+
+	elseif iLevel == 16 then	-- Reverse Flying Barding
+
+		SCOREMOVE = 885
+
+	elseif iLevel == 17 then	-- Reverse Mausoleum
+
+		SCOREMOVE = 1070
+
+	elseif iLevel == 19 then	-- Three Caves
+
+		SCOREMOVE = 1500
+
+	elseif iLevel == 20 then	-- Reverse Socker Boppers
+
+		SCOREMOVE = 2300
+
+	elseif iLevel == 21 then	-- Reverse Forge
+
+		SCOREMOVE = 1440
+
+	elseif iLevel == 22 then	-- Mist Room
+
+		SCOREMOVE = 1300
+
+	elseif iLevel == 23 then	-- Spiral Staircase
+
+		SCOREMOVE = 1250
+
+	elseif iLevel == 24 then	-- Reverse Yellow Brick Road
+
+		SCOREMOVE = 3500
+
+	elseif iLevel == 25 then	-- Reverse Chapel
+
+		SCOREMOVE = 2635
+
+	elseif iLevel == 26 then	-- Tilting Room
+
+		SCOREMOVE = 2200
+
+	elseif iLevel == 28 then	-- Bower
+
+		SCOREMOVE = 500
+
+	elseif iLevel == 29 then	-- Wizard's Kitchen
+
+		SCOREMOVE = 430
+
+	elseif iLevel == 30 then	-- Ye Rapids
+
+		SCOREMOVE = 370
+
+	elseif iLevel == 31 then	-- Vestibule
+
+		SCOREMOVE = 250
+
+	elseif iLevel == 32 then	-- Knight & Light
+
+		SCOREMOVE = 1750
+
+	elseif iLevel == 33 then	-- Pot of Gold
+
+		SCOREMOVE = 1070
+
+	elseif iLevel == 34 then	-- Breathing Door
+
+		SCOREMOVE = 435
+
+	elseif iLevel == 35 then	-- Wizard's Chamber
+
+		SCOREMOVE = 2460
+
+	elseif iLevel == 36 then	-- Fire Room
+
+		SCOREMOVE = 1135
+
+	elseif iLevel == 37 then	-- Cat Walk
+
+		SCOREMOVE = 1800
+
+	elseif iLevel == 38 then	-- Big Bat
+
+		SCOREMOVE = 1700
+
+	elseif iLevel == 39 then	-- Mudmen
+
+		SCOREMOVE = 1470
+
+	elseif iLevel == 40 then	-- Dragons Lair
+
+		SCOREMOVE = 2670
+
+	end	
+
+end
+
+function specialScore(thisMove)
+
+-- Level 5 Elevator I
+
+	if iLevel == 5 and iScene == 1 and thisMove == 1 then iScore = iScore+1000 end
+	if iLevel == 5 and iScene == 1 and thisMove == 2 then iScore = iScore+2000 end
+	if iLevel == 5 and iScene == 1 and thisMove == 3 then iScore = iScore+3000 end
+
+-- Level 14 Elevator II
+
+	if iLevel == 14 and iScene == 1 and thisMove == 1 then iScore = iScore+1200 end
+	if iLevel == 14 and iScene == 1 and thisMove == 2 then iScore = iScore+2200 end
+	if iLevel == 14 and iScene == 1 and thisMove == 3 then iScore = iScore+3300 end
+
+-- Level 18 Elevator III
+
+	if iLevel == 18 and iScene == 1 and thisMove == 1 then iScore = iScore+1000 end
+	if iLevel == 18 and iScene == 1 and thisMove == 2 then iScore = iScore+2000 end
+	if iLevel == 18 and iScene == 1 and thisMove == 3 then iScore = iScore+3000 end
+
+	if iLevel == 18 and iScene == 1 and thisMove == 4 then iScore = iScore+3200 end
+	if iLevel == 18 and iScene == 1 and thisMove == 5 then iScore = iScore+3600 end
+	if iLevel == 18 and iScene == 1 and thisMove == 6 then iScore = iScore+3800 end
+
+	if iLevel == 18 and iScene == 1 and thisMove == 7 then iScore = iScore+4200 end
+	if iLevel == 18 and iScene == 1 and thisMove == 8 then iScore = iScore+4800 end
+	if iLevel == 18 and iScene == 1 and thisMove == 9 then iScore = iScore+5300 end
+
+-- Level 27 Elevator IV
+
+	if iLevel == 27 and iScene == 1 and thisMove == 1 then iScore = iScore+1000 end
+	if iLevel == 27 and iScene == 1 and thisMove == 2 then iScore = iScore+2000 end
+	if iLevel == 27 and iScene == 1 and thisMove == 3 then iScore = iScore+3000 end
+
+	if iLevel == 27 and iScene == 1 and thisMove == 4 then iScore = iScore+3600 end
+	if iLevel == 27 and iScene == 1 and thisMove == 5 then iScore = iScore+3800 end
+	if iLevel == 27 and iScene == 1 and thisMove == 6 then iScore = iScore+4200 end
+
+	if iLevel == 27 and iScene == 1 and thisMove == 7 then iScore = iScore+4800 end
+	if iLevel == 27 and iScene == 1 and thisMove == 8 then iScore = iScore+5300 end
+	if iLevel == 27 and iScene == 1 and thisMove == 9 then iScore = iScore+6000 end
+
+end
+
+function swapDeath()
+
+	if iLevel == 1 then													-- LEVEL 01 Draw Bridge
+
+		if (iLives > 1) then
+			offsetSupDeath = 19419
+			offsetSupDeathEnd = 19475
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 21480
+		offsetGameOverend = 21563
+
+	elseif iLevel == 2 then												-- LEVEL 02 Fire Pit
+
+		if (iLives > 1) then
+			offsetSupDeath = 20204
+			offsetSupDeathEnd = 20259
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 22569
+		offsetGameOverend = 22651
+
+	elseif iLevel == 3 then												-- LEVEL 03 Flying Barding
+
+		if (iLives > 1) then
+			offsetSupDeath = 20488
+			offsetSupDeathEnd = 20542
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 22962
+		offsetGameOverend = 23045
+
+	elseif iLevel == 4 then												-- LEVEL 04 Mausoleum
+
+		if (iLives > 1) then
+			offsetSupDeath = 20558
+			offsetSupDeathEnd = 20614
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 23062
+		offsetGameOverend = 23144
+
+	elseif iLevel == 5 then												-- Level 05 Elevator I
+
+		if (iLives > 1) then
+			offsetSupDeath = 20772
+			offsetSupDeathEnd = 20827
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 23358
+		offsetGameOverend = 23441
+
+	elseif iLevel == 6 then												-- Level 06 Boulder Trench
+
+		if (iLives > 1) then
+			offsetSupDeath = 20915
+			offsetSupDeathEnd = 20969
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 23555
+		offsetGameOverend = 23638
+
+	elseif iLevel == 7 then												-- Level 07 Socker Boppers
+
+		if (iLives > 1) then
+			offsetSupDeath = 20347
+			offsetSupDeathEnd = 20400
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 22764
+		offsetGameOverend = 22847
+
+	elseif iLevel == 8 then												-- Level 08 Forge
+
+		if (iLives > 1) then
+			offsetSupDeath = 20417
+			offsetSupDeathEnd = 20471
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 22864
+		offsetGameOverend = 22946
+
+	elseif iLevel == 9 then												-- Level 09 Tentacles & Halberd
+
+		if (iLives > 1) then
+			offsetSupDeath = 19563
+			offsetSupDeathEnd = 19619
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 21679
+		offsetGameOverend = 21761
+
+	elseif iLevel == 10 then											-- Level 10 YMCA
+
+		if (iLives > 1) then
+			offsetSupDeath = 20133
+			offsetSupDeathEnd = 20188
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 22470
+		offsetGameOverend = 22552
+
+	elseif iLevel == 11 then											-- Level 11 Yellow Brick Road
+
+		if (iLives > 1) then
+			offsetSupDeath = 20631
+			offsetSupDeathEnd = 20685
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 23161
+		offsetGameOverend = 23243
+
+	elseif iLevel == 12 then											-- Level 12 Chapel
+
+		if (iLives > 1) then
+			offsetSupDeath = 20702
+			offsetSupDeathEnd = 20755
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 23259
+		offsetGameOverend = 23342
+
+	elseif iLevel == 13 then											-- Level 13 Throne Room
+
+		if (iLives > 1) then
+			offsetSupDeath = 19776
+			offsetSupDeathEnd = 19832
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 21975
+		offsetGameOverend = 22057
+
+	elseif iLevel == 14 then											-- Level 14 Elevator II
+
+		if (iLives > 1) then
+			offsetSupDeath = 20772
+			offsetSupDeathEnd = 20827
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 23358
+		offsetGameOverend = 23441
+
+	elseif iLevel == 15 then											-- LEVEL 15 Reverse Fire Pit
+
+		if (iLives > 1) then
+			offsetSupDeath = 20204
+			offsetSupDeathEnd = 20259
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 22569
+		offsetGameOverend = 22651
+
+	elseif iLevel == 16 then												-- LEVEL 16 Reverse Flying Barding
+
+		if (iLives > 1) then
+			offsetSupDeath = 20488
+			offsetSupDeathEnd = 20542
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 22962
+		offsetGameOverend = 23045
+
+	elseif iLevel == 17 then												-- Level 17 Reverse Mausoleum
+
+		if (iLives > 1) then
+			offsetSupDeath = 20558
+			offsetSupDeathEnd = 20614
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 23062
+		offsetGameOverend = 23144
+
+	elseif iLevel == 18 then											-- Level 18 Elevator III
+
+		if (iLives > 1) then
+			offsetSupDeath = 20772
+			offsetSupDeathEnd = 20827
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 23358
+		offsetGameOverend = 23441
+
+	elseif iLevel == 19 then											-- Level 19 Three Caves
+
+		if (iLives > 1) then
+			offsetSupDeath = 21270
+			offsetSupDeathEnd = 21323
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 24049
+		offsetGameOverend = 24132
+
+	elseif iLevel == 20 then											-- Level 20 Reverse Socker Boppers
+
+		if (iLives > 1) then
+			offsetSupDeath = 20347
+			offsetSupDeathEnd = 20400
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 22764
+		offsetGameOverend = 22847
+
+	elseif iLevel == 21 then												-- Level 21 Reverse Forge
+
+		if (iLives > 1) then
+			offsetSupDeath = 20417
+			offsetSupDeathEnd = 20471
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 22864
+		offsetGameOverend = 22946
+
+	elseif iLevel == 22 then												-- Level 22 Mist Room
+
+		if (iLives > 1) then
+			offsetSupDeath = 19921
+			offsetSupDeathEnd = 19975
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 21172
+		offsetGameOverend = 22254
+
+	elseif iLevel == 23 then												-- Level 23 Spiral Staircase
+
+		if (iLives > 1) then
+			offsetSupDeath = 20062
+			offsetSupDeathEnd = 20117
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 22370
+		offsetGameOverend = 22453
+
+	elseif iLevel == 24 then											-- Level 24 Reverse Yellow Brick Road
+
+		if (iLives > 1) then
+			offsetSupDeath = 20631
+			offsetSupDeathEnd = 20685
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 23161
+		offsetGameOverend = 23243
+
+	elseif iLevel == 25 then											-- Level 25 Reverse Chapel
+
+		if (iLives > 1) then
+			offsetSupDeath = 20702
+			offsetSupDeathEnd = 20755
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 23259
+		offsetGameOverend = 23342
+
+
+	elseif iLevel == 26 then											-- Level 26 Tilting Room
+
+		if (iLives > 1) then
+			offsetSupDeath = 20844
+			offsetSupDeathEnd = 20898
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 23457
+		offsetGameOverend = 23539
+
+	elseif iLevel == 27 then											-- Level 27 Elevator IV
+
+		if (iLives > 1) then
+			offsetSupDeath = 20772
+			offsetSupDeathEnd = 20827
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 23358
+		offsetGameOverend = 23441
+
+	elseif iLevel == 28 then											-- Level 28 Bower
+
+		if (iLives > 1) then
+			offsetSupDeath = 19992
+			offsetSupDeathEnd = 20046
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 22271
+		offsetGameOverend = 22354
+
+	elseif iLevel == 29 then											-- Level 29 Wizards Kitchen
+
+		if (iLives > 1) then
+			offsetSupDeath = 19635
+			offsetSupDeathEnd = 19689
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 21777
+		offsetGameOverend = 21860
+
+	elseif iLevel == 30 then											-- Level 30 Ye Rapids
+
+		if (iLives > 1) then
+			offsetSupDeath = 20986
+			offsetSupDeathEnd = 21040
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 23654
+		offsetGameOverend = 23737
+
+	elseif iLevel == 31 then											-- Level 31 Vestibule
+
+		if (iLives > 1) then
+			offsetSupDeath = 19848
+			offsetSupDeathEnd = 19904
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 21480
+		offsetGameOverend = 21563
+
+	elseif iLevel == 32 then											-- Level 32 Knight & Light
+
+		if (iLives > 1) then
+			offsetSupDeath = 21056
+			offsetSupDeathEnd = 21111
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 23754
+		offsetGameOverend = 23836
+
+	elseif iLevel == 33 then											-- Level 33 Pot of Gold
+
+		if (iLives > 1) then
+			offsetSupDeath = 20275
+			offsetSupDeathEnd = 20330
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 22668
+		offsetGameOverend = 22748
+
+	elseif iLevel == 34 then											-- Level 34 Breathing Door
+
+		if (iLives > 1) then
+			offsetSupDeath = 19492
+			offsetSupDeathEnd = 19547
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 21580
+		offsetGameOverend = 21662
+
+	elseif iLevel == 35 then											-- Level 35 Wizards Chamber
+
+		if (iLives > 1) then
+			offsetSupDeath = 19706
+			offsetSupDeathEnd = 19760
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 21876
+		offsetGameOverend = 21958
+
+	elseif iLevel == 36 then											-- Level 36 Fire Room
+
+		if (iLives > 1) then
+			offsetSupDeath = 19848
+			offsetSupDeathEnd = 19904
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 22074
+		offsetGameOverend = 22156
+
+	elseif iLevel == 37 then											-- Level 37 Cat Walk
+
+		if (iLives > 1) then
+			offsetSupDeath = 21199
+			offsetSupDeathEnd = 21253
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 23950
+		offsetGameOverend = 24033
+
+	elseif iLevel == 38 then											-- Level 38 Big Bat
+
+		if (iLives > 1) then
+			offsetSupDeath = 21127
+			offsetSupDeathEnd = 21182
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 23853
+		offsetGameOverend = 23934
+
+	elseif iLevel == 39 then											-- Level 39 Mudmen
+
+		if (iLives > 1) then
+			offsetSupDeath = 21339
+			offsetSupDeathEnd = 21394
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 24148
+		offsetGameOverend = 24230
+
+	elseif iLevel == 40 then											-- Level 40 Dragons Lair
+
+		if (iLives > 1) then
+			offsetSupDeath = 21411
+			offsetSupDeathEnd = 21464
+		else
+			offsetSupDeath = 32472
+			offsetSupDeathEnd = 32480
+		end
+
+		offsetGameOver = 24246
+		offsetGameOverend = 24329	
+
+	end	
+
+end
+
+function swapLevel()  
+
+	startConf()
+
+end
