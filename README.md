@@ -22,7 +22,7 @@ From version **2.11.2**, Hypseus Singe supports zipped LUA _(zlua)_ ROMS.
 **Note**: You do not need to unzip the ROM for usage in `hypseus` from version 2.11.2.  
 A zipped ROM can be loaded, without decompressing, direct to the Singe `-script` or new `-zlua` argument.
 
-A number of ROMS with the zip container will be released in new categories to the repo. These can be used to replace all _.singe, .ttf, .wav, .png_ and other files within a Singe game folder. The only files required in addition to the `.zip` are the `.txt` _(framefile)_ and _video/audio_, _m2v/ogg_ files. So game installations can follow somewhat similar to Daphne game folder structures. Zipped games are no longer required to be within the _singe/_ subfolder. The required Singe path folder structure is held within the zip, not on disk.
+A number of ROMS, with the zip container, will be released to a new folder in the repo [here](https://github.com/DirtBagXon/hypseus_singe_data/tree/master/00-zip-roms) . These can be used to replace all _.singe, .ttf, .wav, .png_ and other files within a Singe game folder. The only files required in addition to the `.zip` are the `.txt` _(framefile)_ and _video/audio_, _m2v/ogg_ files. So game installations can follow somewhat similar to Daphne game folder structures. Zipped games are no longer required to be within the _singe/_ subfolder. The required Singe path folder structure is held within the zip, not on disk.
 
 A typical argument set using zip ROMS may begin:
 
