@@ -4773,9 +4773,12 @@ function drawLives()       -- Draw Lives
 
 	if scoreBezelGetState() then
 
+		if (i2P == 0) then PlayerNum = 1
+		else PlayerNum = i2P end
+
 		if not (iLives == LivesPrev) then
 
-			scoreBezelLives(1, iLives)
+			scoreBezelLives(PlayerNum, iLives)
 			LivesPrev = iLives
 		end
 
@@ -4877,9 +4880,12 @@ function drawScore()       -- Draw score
 
 	if scoreBezelGetState() then
 
+		if (i2P == 0) then PlayerNum = 1
+		else PlayerNum = i2P end
+
 		if not (iScore == ScorePrev) then
 
-			scoreBezelScore(1, iScore)
+			scoreBezelScore(PlayerNum, iScore)
 			ScorePrev = iScore
 		end
 
@@ -6132,7 +6138,7 @@ function onOverlayUpdate()     -- Manage the game and look for any given situati
 			doSave()
 
 		elseif (currentLevel == level2P) then
-		
+
 			do2P()
 
 		elseif (currentLevel == level2PEnd) then
