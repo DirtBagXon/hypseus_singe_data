@@ -1,0 +1,439 @@
+--[[
+
+PROGRAM NAME:	KIMMY SCRIPT ENGINE
+VERSION:		4.0
+AUTHOR:			KARIS (2020/2024)
+
+This file is part of KIMMY SCRIPT ENGINE.
+
+	KIMMY SCRIPT ENGINE is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation.
+
+	KIMMY SCRIPT ENGINE is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+	Thanks to Matthew P. Ownby, Scott Duensing, RDG, Bladescater, DirtBagXon.
+
+]]--
+
+-- Addons is the singe file where you can alter the rules specifically for your game
+-- Advanced configuration is now placed here, but also all the "holes" in the program that will allow you to change rules.
+-- Warning: for other things than configuration, you will need programming skills in LUA and i won't provide assistance.
+-- For each function, i will add a few comments and speak about the games using that function.
+
+
+----------------------
+-- Scoring Settings --
+----------------------
+
+SCOREMOVE = 700									-- Points for a correct move. A difficulty buff will then be applyied. 
+BUFFMOVE = 300									-- Each difficulty level above "easy" will add this value for a correct move.
+SCORESCENE = 5000								-- Points for finishing a Scene. Each death will then reduce this score.
+SCORELEVEL = 20000								-- Points for finishing a Level.
+SCOREGAME = 100000								-- Points for finishing the Game.
+PERFECTBONUS = 10000							-- Points for finishing a level with 0 death
+EXTRALIFE = 0									-- Points needed for Extra life (0 = No Extra Life)
+DEATHPENALTY = 1000								-- Each death will reduce the score of the scene by this value. 
+SCORESECRET = 1									-- Points for finishing the Game with one life : 1 point that makes a difference!
+
+----------------------------------
+-- Advanced configuration stuff --
+----------------------------------
+
+AllowNormal = false								-- Authorized gaming modes
+AllowLifeBar = false							-- If you want to block any of the following modes then set the value to false.
+AllowPercent = false
+AllowSurvivor = false
+AllowKid = false
+AllowDie = true
+
+bShowFrame = true  								-- Show the actual Frame when the game is Paused
+
+miscR = 153										-- Here you can create a misc color for the font.
+miscG = 76										-- In that case fill RGB values (0 to 255)
+miscB = 0
+
+AllowRandom = false								-- Show/hide the random level order mode in Game Type (menu)
+
+AllowTier = false								--	Show/hide the tier mode in Game Type (menu). If you don't want tiers: false.
+Tiers[0] = {4,4,4,5,3}							-- Tier 0 = init. First number is number of Tiers, followed by size of each Tier
+Tiers[1] = {1,2,3,4}							-- Levels to be mixed in Tier 1 (and so on).
+Tiers[2] = {5,6,7,8}							-- In this example there are 17 levels Tiered in 4 groups	
+Tiers[3] = {9,10,11,12,13}
+Tiers[4] = {14,15,16}							-- Level 17 is played last. Not included in any Tier.
+
+AllowMap = false								-- Show/hide the map mode in Game Type (menu)
+MapStart = 1									-- 0: Map start at the beginning / 1: Map after the first level. 
+offsetMap = 0									-- Position of the video for Map.
+offsetMapend = 1								-- Here i use a single frame.
+
+BarSize = 10									-- Size of the Life Bar (Life bar Game Type)
+BarMin = 2										-- Decrease of the Life bar for missed move
+BarBonus = 3									-- Number of good moves to gain 1 in Life Bar
+
+LvlTrophy3 = 0 									-- Which Level for gives trophy 3 (0 if no trophy)
+LvlTrophy4 = 0 									-- Which Level for gives trophy 4 (0 if no trophy)
+
+-------------------------
+-- Difficulty Settings --
+-------------------------						-- Normally, you don't need to change those settings 
+
+PenalNormal = 0									-- Number of input frames to remove for level Normal.
+PenalHard = 2									-- Number of input frames to remove for level Hard.	
+PenalExtreme  = 4								-- Number of input frames to remove for level Extreme.
+
+IngameDiffchoice = false						-- If true, you will choose the difficulty with a video at the start of the game.
+frameEasy = 10									-- Frame for Easy difficulty (and so on).
+frameNormal = 21								-- Ignored if IngameDiffchoice = false
+frameHard = 24
+frameExtreme = 27
+
+-----------------------
+-- General Functions --
+-----------------------
+
+-- General functions are exploiting "holes" in the program to integrate special rules for your game
+-- They will be called at a given point and if they are empty (like this), nothing will happen
+-- But if you add some code, this code will take precedence over the main rule.
+
+function startConf()
+-- This function allows to define special rules at the start of the game 
+-- Dl2e is a good example since this particular game has to manage golden objects
+-- It can also alter more simple rules like EXTRALIFE depending on difficulty	
+-- Note that you can also call back this function after each level (by calling it in swapLevel)
+-- This will allow to change all the parameters (score, get ready, etc) when you change Level (see DLe)
+
+	iVivi = 0
+	iMoose = 0
+	iStatue = 0
+	iBW = 0
+	iBWeye = 0
+	iOW = 0
+	iOWeye = 0
+
+	Obj = nil; Obj = {false, false, false, false, false, false, false}
+
+	
+end
+
+function specialScore(thisMove)
+-- This function is called whenever you score points
+-- It can alter the points given depending on the level, the scene or even the move
+-- Once again DL2e object management is a good example
+
+	if iLevel == 51 and iScene == 7 and thisMove == 4 then Obj[1] = true end
+
+	if iLevel == 52 and iScene == 4 and thisMove == 8 then Obj[2] = true end
+
+	if iLevel == 53 and iScene == 8 and thisMove == 6 then Obj[3] = true end
+
+	if iLevel == 53 and iScene == 7 and thisMove == 2 then Obj[4] = true end
+
+	if iLevel == 54 and iScene == 8 and thisMove == 6 then Obj[5] = true end
+
+	if iLevel == 54 and iScene == 7 and thisMove == 2 then Obj[6] = true end
+
+	if iLevel == 55 and iScene == 30 and thisMove == 10 then Obj[7] = true end
+
+
+end
+
+function swapDeath()
+-- This function allow to change the rules for the clip played when you die (and the extra death clip too).
+-- It"s used for example in SAe to randomize the extra death clips.
+
+	local i = math.random(9)
+	
+	if iLevel > 1 and iLevel < 10 then
+
+		curDeath = i+1
+
+	elseif iLevel > 15 and iLevel < 19 then
+
+		curDeath = i+16
+
+	elseif iLevel > 18 and iLevel < 22 then
+
+		curDeath = i+25
+
+	elseif iLevel > 21 and iLevel < 25 then
+
+		curDeath = i+34
+
+	elseif iLevel > 24 and iLevel < 27 then
+
+		curDeath = i+43
+
+	elseif iLevel > 26 and iLevel < 33 or iLevel == 60 then
+
+		curDeath = i+52
+
+	elseif iLevel > 32 and iLevel < 37 or iLevel == 61 then
+
+		curDeath = i+61
+
+	elseif iLevel == 56 then
+
+		curDeath = i+70
+
+	elseif iLevel == 57 then
+
+		curDeath = i+79
+
+	elseif iLevel == 58 then
+
+		curDeath = i+90
+
+	elseif iLevel == 59 then
+
+		curDeath = i+99
+	
+	end
+
+	
+
+	if iLevel == 55 and curDeath == 181 then
+
+		i = math.random(7)
+
+		if i == 1 then
+
+			curDeath = 181
+
+		elseif i == 2 then
+
+			curDeath = 183
+
+		elseif i == 3 then
+
+			curDeath = 184
+
+		elseif i == 4 then
+
+			curDeath = 185
+
+		elseif i == 5 then
+
+			curDeath = 187
+
+		elseif i == 6 then
+
+			curDeath = 190
+
+		elseif i == 7 then
+
+			curDeath = 200
+
+		end
+
+	end
+
+	if iLevel == 51 then
+
+	  	offsetSupDeath = 90749
+		offsetSupDeathEnd = 90972
+
+	elseif iLevel == 52 then
+
+		offsetSupDeath = 90558
+		offsetSupDeathEnd = 90733
+
+	elseif iLevel == 53 or iLevel == 54 then
+
+	  	offsetSupDeath = 91239
+		offsetSupDeathEnd = 91417
+
+	elseif iLevel == 55 and iScene < 29 then
+
+	  	offsetSupDeath = 91648
+		offsetSupDeathEnd = 91820
+
+	elseif iLevel == 55 and iScene > 28 then
+
+	  	offsetSupDeath = 91433
+		offsetSupDeathEnd = 91632
+
+	elseif iLevel == 64 then
+
+	  	offsetSupDeath = 90988
+		offsetSupDeathEnd = 91223
+
+	elseif iLevel == 65 then
+
+	  	offsetSupDeath = 91836
+		offsetSupDeathEnd = 92012
+
+	else
+
+		local j = math.random(2)
+
+		if j == 1 then 
+
+			offsetSupDeath = 90168
+			offsetSupDeathEnd = 90349
+
+		elseif j == 2 then
+
+			offsetSupDeath = 90365
+			offsetSupDeathEnd = 90542
+
+		end
+		 
+	end	 
+
+end
+
+function swapLevel()  
+-- This function is called when you change level
+-- It can alter rules of next level depending on defined conditions 
+-- Example: if you've got all objects in Dl2e then you don't play the same final level.
+-- Example: when you play SAe it helps to manage the various tracks depending on difficulty.
+-- If you call startConf() here then you might change some rules (like scoring) each time you change level. 
+
+	local j = 0
+
+	for i = 1,7 do
+
+		if Obj[i] == true then j = j+1 end
+
+	end
+
+	if iLevel == 56 and j == 7 then
+
+		iLevel = 58
+
+	elseif iLevel == 57 and j == 7 then
+
+		iLevel = 59
+
+	end
+
+end
+
+function swapScene()  
+-- This function allows to swap some scenes for a given difficulties (SuckerPunch, Tron)
+-- Each time you finish a scene, this function is called to check if we play the next regular scene or if there is a special rule
+	
+	if iLevel == 52 and iScene == 4 then
+			
+		local i = math.random(3)
+
+		if i == 3 then
+
+			iScene = 5
+
+		else
+
+			iScene = 4
+
+		end
+
+	end
+
+end
+
+--------------------
+-- Save Functions --
+--------------------
+
+-- Sometimes, your game needs to save more things than the regular save
+-- Once again Dl2e objects need to ba saved along with the main things (sore, level, etc)
+-- This is done by the following functions, loading/writing its own save file
+
+function writeSavePlus(thisSlot)
+
+	if iLevel ~= 1000 then
+
+		local k = thisSlot
+		local sNewLine = "\n"
+		local s1 = ""
+		local s0
+
+		s0 = DIR.."/Cfg/s" .. thisSlot .. "p.cfg"
+		
+		local h1 = io.output(s0)
+				
+		for i = 1, 7 do
+
+			if Obj[i] == true then
+
+				s1 = "true" .. "A"
+
+			else	
+
+				s1 = "false" .. "A"
+
+			end
+
+			io.write(s1 .. sNewLine)
+
+		end
+			
+		io.close(h1)
+
+	end
+
+end
+
+function loadSavePlus(thisSlot)
+
+	local s1
+	local i = 0
+	local j = 0
+	local k = 0
+	Obj = nil; Obj = {false, false, false, false, false, false, false}
+	
+	local s0 = DIR.."/Cfg/s" .. thisSlot .. "p.cfg"
+	local h1 = io.input(s0)
+	
+	for i = 1, 7 do
+
+		s1 = io.read("*line")
+		if string.sub(s1,1, string.find(s1,"A")-1) == "true" then 
+		
+			Obj[i] = true			
+					
+		end
+
+	end
+
+	io.close(h1)
+	
+end
+
+-------------------
+-- Map Functions --
+-------------------
+
+-- Map functions are dedicated for games using a map
+-- A Map is a special mode to navigate between the levels of the game 
+-- A simple example of Map is Sucker Punch. A tricky example of Map is Chantze's Stone (so complex that it adds its own functions)
+
+
+
+curx = 0; cury = 0;			--don't touch this
+
+function doLevelSelect()
+-- This is the main function of the Map, where you indicate all the "rules" of your map.	
+
+
+end
+
+function moveCursor(overHere)  	
+-- This function moves the cursor in the level select screen.
+-- It determines cursor movement
+-- depending on position (given by variable overHere) and levels completed.
+-- The function does not return any values.
+
+end
+
+function LevelMapComplete()		
+-- Quick function to determine if player has completed all the levels required to play the final boss video clip.
+-- Returns true if all levels complete, false otherwise.
+-- Used by doLevelSelect()
+
+
+end
+

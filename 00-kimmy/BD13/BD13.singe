@@ -1,0 +1,2035 @@
+  --[[
+
+PROGRAM NAME:	BRAIN DEAD 13
+VERSION:		4.0
+AUTHOR:			KARIS (2024)
+
+This file is part of BLANK
+
+	BLANK is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation.
+
+	BLANK is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+	Thanks to RDG (original author of the program), 
+
+	YOU CAN EDIT THIS FILE TO CREATE YOUR OWN GAME IN A FEW HOURS! 
+
+	If you want to create your own Laserdisc game using SINGE, you just need to have some videos and then to edit this file. 
+	It's really easy, most of the work is already done. Just read my comments. The file is quite long but you probably 
+	don't need to fill everything.
+
+]]--
+
+-- Hypseus Game Setup --
+
+singeSetGameName("Brain Dead 13")
+
+BASEDIR = "singe"                         -- This should be 'singe'
+
+MYDIR = BASEDIR .."/".. "BD13"         -- This is the directory where your game is
+
+MovieFPS = 24 -- Number of frames per second of your movies (used for timed actions).
+
+dip_MinimalOverlay = 0  -- Start/Enable the Ultralo Overlay
+
+
+-- End Hypseus Game Setup --
+
+dofile(BASEDIR .. "/FrameworkKimmy/globals.singe")    -- Don't touch this line	
+
+
+-------------------------
+-- 1. General settings --
+-------------------------
+
+altCfg = false 									-- If you're making 2 versions of the same game: false for the main version and true for the Alt
+
+-- Advanced Settings (like scoring, type of games, etc) are now located in Script/addons.singe --
+-- That's because in most case you don't need to touch them --							
+
+
+
+------------------------------------------------------------------------
+-- 2. Starting and ending frames for the various elements of the game --
+------------------------------------------------------------------------
+													
+-- Intro frames --
+												-- For this part, you just need to adjust the frames values.
+offsetTitle = 3163 								-- Title start frame (short video with the logo).
+offsetTitleend = 3428 							-- End frame of the title video. 
+
+offsetIntro01 = 212  							-- Attract video start frame.
+offsetIntro01end = 3428							-- End frame of the Attract video #1.
+
+offsetIntro02 = 3445 							-- You can have a third attract video.
+offsetIntro02end = 8296							-- I've got only 1 so i just matched The rankings video values.
+
+offsetIntro03 = 94942  	  						-- Attract video #2 start frame (if you've got only one : match title or Intro01).
+offsetIntro03end = 100509							-- End frame of the Attract video #2.
+
+offsetIntroGame = 0  							-- Optional: a sequence played only when the game starts
+offsetIntroGameend = 0 							-- Leave to zero if you don't have such sequence
+
+
+-- Menu frames --
+
+offsetMenus = 92016								-- Menu video start frame (continue, high score, game over, etc).														
+												-- Now we set the frames for the menu video.
+frameOptions = offsetMenus +1					-- Frame for the background picture of the Service Menu.
+frameVictory = offsetMenus +9					-- Frame for the picture shown when the game is completed.
+frameSave = offsetMenus +7						-- Frame for the background picture of the Save Menu.
+frameRankings =offsetMenus +22					-- Frame for the background picture of the Top 10.
+frameRankingsAlt =offsetMenus +20 				-- Frame for the Percent and D&R Rankings.	
+frameControls = offsetMenus +25					-- Frame for the picture with instructions for key/buttons (appear between attract videos). 
+frameSpecial = offsetMenus +13					-- Frame to show special moves (you can replace with same value than frameCommands).
+frameSecret = offsetMenus +0					-- Frame for the "secret level" (if you finish the game with only one life).
+frameTrophy = offsetMenus +0					-- Frame for the trophies (optional).
+frameHints = offsetMenus +4						-- Frame for the hints (optional).
+frameQuit = offsetMenus +28						-- Frame for the Quit screen
+frameNewGame = offsetMenus +16					-- Frame for the New Game Screen
+
+
+offsetGameOver = 92049							-- Positions of the Game over #1 video in the menus (regular ending).
+offsetGameOverend = 92219
+
+offsetGameOverAlt = 56536						-- Positions of the Game over #2 video in the menus (happy ending, like high sore).
+offsetGameOverAltend = 56790					-- You can also copy the values of game over #1.
+
+offsetNewHScore = 92561							-- Positions of the High score announcement video.
+offsetNewHScoreend = 92775						-- Not too long
+
+offsetEnterHScore = 92776						-- Positions of the video for entering High Scores (quite long to give enough time).
+offsetEnterHScoreend = 93329					-- This video is quite long to grant enough time to enter the name.
+
+offsetRankings = 93330							-- Positions of the video for Rankings (after High Score).
+offsetRankingsend = 93479						-- If you don't have this, replace with the values of NewHscore (above)
+
+offsetContinue = 0								-- Positions of the Continue video (quite long to give enough time for the player).
+offsetContinueend = 0
+
+offsetClear = 0									-- Positions of the video after clearing a level (can be a single frame).
+offsetClearend = 1				
+
+offsetGetReady = 0								-- Position of the (optional) resurrect video. 
+offsetGetReadyEnd = 1							-- Example of get ready video: Dirk appears in Dragon's Lair
+
+offsetSupDeath = 90168							-- Position of the (optional) extra death video. 
+offsetSupDeathEnd = 90349						-- Example of extra death video: Borf laughing in Space Ace. 
+
+offsetQuit = 92049								-- Position of the (optional) Quit video. 
+offsetQuitend = 92219	
+
+offsetMovieEnd = 56612							-- Last frame of the last level. Used by Movie mode.
+
+-- Death frames --
+
+totalDeath = 239									-- Total number of death scenes.
+offsetDeath = 57000							-- Start frame for the death video.
+
+Death[1] = {57000 , 57045}	-- Star Hall basic 		
+Death[2] = {57062, 57278}	-- SH1
+Death[3] = {57294, 57371}	-- SH2
+Death[4] = {57387, 57509}	-- SH3
+Death[5] = {57525, 57616}	-- SH4		
+Death[6] = {57632, 57733}	-- SH5
+Death[7] = {57749, 57893}	-- SH6
+Death[8] = {57909, 57988}	-- SH7
+Death[9] = {58004, 58250}	-- SH8		
+Death[10] = {58266, 58477}	-- SH9   
+Death[11] = {58493, 58608}	-- Entrance
+Death[12] = {58624, 58683}	-- Fireplace
+Death[13] = {58699, 58729}	-- Stair1		
+Death[14] = {58745, 58778}	-- Stair2
+Death[15] = {58794, 58830}	-- Basement1
+Death[16] = {58846, 58874}	-- Basement2
+Death[17] = {58890, 59106}	-- NS1		
+Death[18] = {59122, 59199}	-- NS2
+Death[19] = {59215, 59336}	-- NS3
+Death[20] = {59352, 59444}	-- NS4
+Death[21] = {59460, 59561}	-- NS5
+Death[22] = {59577, 59720}	-- NS6
+Death[23] = {59736, 59815}	-- NS7
+Death[24] = {59831, 60076}	-- NS8
+Death[25] = {60092, 60303}	-- NS9
+Death[26] = {60319, 60534}	-- TH1
+Death[27] = {60550, 60627}	-- TH2
+Death[28] = {60643, 60765}	-- TH3
+Death[29] = {60781, 60873}	-- TH4
+Death[30] = {60889, 60990}	-- TH5
+Death[31] = {61006, 61149}	-- TH6
+Death[32] = {61165, 61245}	-- TH7
+Death[33] = {61261, 61506}	-- TH8
+Death[34] = {61522, 61734}	-- TH9
+Death[35] = {61750, 61965}	-- ST1
+Death[36] = {61981, 62058}	-- ST2
+Death[37] = {62074, 62196}	-- ST3
+Death[38] = {62212, 62303}	-- ST4
+Death[39] = {62319, 62420}	-- ST5
+Death[40] = {62436, 62579}	-- ST6
+Death[41] = {62595, 62674}	-- ST7
+Death[42] = {62690, 62936}	-- ST8
+Death[43] = {62952, 63163}	-- ST9
+Death[44] = {63179, 63394}	-- OV1
+Death[45] = {63410, 63487}	-- OV2
+Death[46] = {63503, 63625}	-- OV3
+Death[47] = {63641, 63732}	-- OV4
+Death[48] = {63748, 63849}	-- OV5
+Death[49] = {63865, 64009}	-- OV6
+Death[50] = {64025, 64104}	-- OV7
+Death[51] = {64120, 64366}	-- OV8
+Death[52] = {64382, 64593}	-- OV9
+Death[53] = {64609, 64824}	-- CV1
+Death[54] = {64840, 64918}	-- CV2
+Death[55] = {64934, 65056}	-- CV3
+Death[56] = {65072, 65163}	-- CV4
+Death[57] = {65179, 65280}	-- CV5
+Death[58] = {65296, 65439}	-- CV6
+Death[59] = {65455, 65534}	-- CV7
+Death[60] = {65550, 65796}	-- CV8
+Death[61] = {65812, 66023}	-- CV9
+Death[62] = {66039, 66255}	-- BB1
+Death[63] = {66271, 66348}	-- BB2
+Death[64] = {66364, 66486}	-- BB3
+Death[65] = {66502, 66593}	-- BB4
+Death[66] = {66609, 66710}	-- BB5
+Death[67] = {66727, 66870}	-- BB6
+Death[68] = {66886, 66965}	-- BB7
+Death[69] = {66981, 67227}	-- BB8
+Death[70] = {67243, 67454}	-- BB9
+Death[71] = {67470, 67685}	-- SL1
+Death[72] = {67701, 67776}	-- SL2
+Death[73] = {67792, 67914}	-- SL3
+Death[74] = {67930, 68021}	-- SL4
+Death[75] = {68037, 68136}	-- SL5
+Death[76] = {68152, 68296}	-- SL6
+Death[77] = {68312, 68391}	-- SL7
+Death[78] = {68407, 68652}	-- SL8
+Death[79] = {68668, 68880}	-- SL9
+Death[80] = {68896, 69111}	-- SR1
+Death[81] = {69127, 69204}	-- SR2
+Death[82] = {69220, 69342}	-- SR3
+Death[83] = {69358, 69449}	-- SR4
+Death[84] = {69465, 69566}	-- SR5
+Death[85] = {69582, 69726}	-- SR6
+Death[86] = {69742, 69821}	-- SR7
+Death[87] = {69837, 70083}	-- SR8
+Death[88] = {70099, 70311}	-- SR9
+Death[89] = {70327, 70454}	-- SL Fall
+Death[90] = {70470, 70596}	-- SR Fall
+Death[91] = {70612, 70826}	-- SL1e
+Death[92] = {70842, 70920}	-- SL2e
+Death[93] = {70936, 71058}	-- SL3e
+Death[94] = {71074, 71165}	-- SL4e
+Death[95] = {71181, 71280}	-- SL5e
+Death[96] = {71296, 71440}	-- SL6e
+Death[97] = {71456, 71535}	-- SL7e
+Death[98] = {71551, 71796}	-- SL8e
+Death[99] = {71812, 72024}	-- SL9e
+Death[100] = {72040, 72255}	-- SR1e
+Death[101] = {72271, 72349}	-- SR2e
+Death[102] = {72365, 72486}	-- SR3e
+Death[103] = {72502, 72594}	-- SR4e
+Death[104] = {72610, 72711}	-- SR5e
+Death[105] = {72728, 72872}	-- SR6e
+Death[106] = {72888, 72967}	-- SR7e
+Death[107] = {72983, 73229}	-- SR8e
+Death[108] = {73245, 73456}	-- SR9e
+Death[109] = {73472, 73503}	-- Cons UP
+Death[110] = {73519, 73602}	-- Mario L
+Death[111] = {73618, 73701}	-- Mario R
+Death[112] = {73717, 73816}	-- Ghost R
+Death[113] = {73832, 73931}	-- Ghost L
+Death[114] = {73948, 74059}	-- Kitchen R
+Death[115] = {74075, 74185}	-- Kitchen L
+Death[116] = {74201, 74326}	-- G Bug
+Death[117] = {74342, 74449}	-- Spider
+Death[118] = {74465, 74560}	-- Slash L
+Death[119] = {74576, 74672}	-- Slash R
+Death[120] = {74688, 74755}	-- Fire
+Death[121] = {74771, 74810}	-- Lib R
+Death[122] = {74826, 74865}	-- Lib L
+Death[123] = {74881, 74912}	-- Bear
+Death[124] = {74928, 75096}	-- Worm R
+Death[125] = {75112, 75279}	-- Worm L
+Death[126] = {75295, 75360}	-- Trophy Acid
+Death[127] = {75376, 75441}	-- Trophy Bat
+Death[128] = {75457, 75601}	-- trophy Kong
+Death[129] = {75617, 75668}	-- Cons UP L
+Death[130] = {75684, 75776}	-- Cata L
+Death[131] = {75792, 75883}	-- Cata R
+Death[132] = {75899, 76052}	-- Vivi Spider
+Death[133] = {76068, 76169}	-- Vivi Shave Head
+Death[134] = {76185, 76281}	-- Vivi Shave Hand
+Death[135] = {76297, 76494}	-- Vivi No Choice
+Death[136] = {76510, 76689}	-- Vivi Manucure
+Death[137] = {76705, 76816}	-- Vivi Fritz Floor
+Death[138] = {76832, 76897}	-- Vivi Fritz Stair
+Death[139] = {76913, 76989}	-- Moose Stair
+Death[140] = {77005, 77081}	-- Moose Stair
+Death[141] = {77097, 77226}	-- Moose Ball 
+Death[142] = {77242, 77325}	-- Moose Charge
+Death[143] = {77341, 77484}	-- Moose Grab L 
+Death[144] = {77500, 77545}	-- Moose Elec front R
+Death[145] = {77561, 77671}	-- Moose Elec R
+Death[146] = {77687, 77830}	-- Moose Grab Top
+Death[147] = {77846, 77928}	-- Moose Bat R
+Death[148] = {77944, 78028}	-- Moose Bat L
+Death[149] = {78044, 78127}	-- Moose Eject
+Death[150] = {78143, 78188}	-- Moose Elec Front L
+Death[151] = {78204, 78314}	-- Moose Elec L
+Death[152] = {78330, 78412}	-- Moose Roof Fall
+Death[153] = {78428, 78462}	-- Moose Platform Fall
+Death[154] = {78478, 78525}	-- Moose Platform Grab
+Death[155] = {78541, 78624}	-- Moose Machine Grab
+Death[156] = {78641, 78686}	-- Moose Fritz Grab
+Death[157] = {78702, 78744}	-- Moose Fritz Fall
+Death[158] = {78760, 78890}	-- BW Cat
+Death[159] = {78906, 78981}	-- BW No Choice
+Death[160] = {78997, 79057}	-- BW Head
+Death[161] = {79073, 79399}	-- BW Skin No Choice
+Death[162] = {79415, 79714}	-- BW Bones No Choice
+Death[163] = {79730, 79768}	-- BW Cat Up
+Death[164] = {81652, 81703}	-- OW Front
+Death[165] = {79883, 79969}	-- BW Tower Hall No Choice
+Death[166] = {79918, 79969}	-- BW Front
+Death[167] = {79972, 80218}	-- BW Tower Front
+Death[168] = {80234, 80342}	-- BW Crash
+Death[169] = {80358, 80589}	-- BW Front Inside
+Death[170] = {80605, 80735}	-- OW Cat
+Death[171] = {80751, 80826}	-- OW No Choice
+Death[172] = {80842, 81154}	-- OW Skin No Choice
+Death[173] = {81170, 81230}	-- OW Head
+Death[174] = {81246, 81545}	-- OW Bone No Choice
+Death[175] = {81561, 81600}	-- OW Cat Up
+Death[176] = {81616, 81883}	-- OW Tower Hall No Choice
+Death[177] = {81899, 82131}	-- OW Tower Front
+Death[178] = {82147, 82232}	-- BOW Tower Fall L
+Death[179] = {72248, 82332}	-- BOW Tower Fall R
+Death[180] = {82348, 82456}	-- OW Crash
+Death[181] = {82472, 82531}	-- Garden Fritz R--
+Death[182] = {82547, 82641}	-- Garden Balcon Fritz
+Death[183] = {82657, 82716}	-- Garden Fritz L--
+Death[184] = {82732, 82843}	-- Garden Frog L--
+Death[185] = {82859, 82979}	-- Garden Plant R--
+Death[186] = {82995, 83136}	-- Garden Cross Up
+Death[187] = {83167, 83287}	-- Garden Plant L--
+Death[188] = {83303, 83496}	-- Garden Head Down
+Death[189] = {83512, 83623}	-- Garden Frog L
+Death[190] = {83639, 83782}	-- Garden Snake--
+Death[191] = {83798, 83983}	-- Garden Lady2 Up
+Death[192] = {84014, 84215}	-- Garden 2S Down
+Death[193] = {84231, 84474}	-- Garden 3S Right
+Death[194] = {84490, 84643}	-- Garden 2H Up
+Death[195] = {84659, 84754}	-- Garden Devil2 Down
+Death[196] = {84770, 85070}	-- Garden Bat R
+Death[197] = {85086, 85196}	-- Garden Bat 2 L
+Death[198] = {85216, 85406}	-- Garden Bat 2 R
+Death[199] = {85422, 85542}	-- Garden Plant R
+Death[200] = {85558, 85669}	-- Garden Frog R--
+Death[201] = {85685, 85984}	-- Garden Lady L
+Death[202] = {86000, 86095}	-- G Stat Fork R
+Death[203] = {86111, 86206}	-- G Stat Fork L
+Death[204] = {86222, 86286}	-- G Stat Fall Water R
+Death[205] = {86302, 86391}	-- G Stat Fork Fall Water R
+Death[206] = {86407, 86570}	-- G Stat Eject
+Death[207] = {86586, 86657}	-- G Stat Splat
+Death[208] = {86672, 86725}	-- G Stat Fall Up Water
+Death[209] = {86741, 86927}	-- G Stat Eject 2
+Death[210] = {86943, 87096}	-- G Stat Water R
+Death[211] = {87112, 87171}	-- G Stat Wall Water R
+Death[212] = {87187, 87340}	-- G Stat Water L
+Death[213] = {87356, 87405}	-- G Stat Acid R
+Death[214] = {87421, 87617}	-- G Stat Tongue L
+Death[215] = {87634, 87958}	-- Skull Hall Left ELE
+Death[216] = {87974, 88297}	-- Skull Hall Right ELE
+Death[217] = {88314, 88401}	-- Fritz Decap L
+Death[218] = {88417, 88500}	-- Fritz Fall Axe
+Death[219] = {88516, 88599}	-- Fritz Fall No Axe
+Death[220] = {88615, 88754}	-- Fritz Scalp Hockey
+Death[221] = {88770, 88901}	-- Fritz Axe Cut Stairs
+Death[222] = {88917, 88968}	-- Fritz Half Stairs L
+Death[223] = {88984, 89044}	-- Fritz Half Stairs R
+Death[224] = {89060, 89091}	-- Fritz Stairs Tumble
+Death[225] = {89107, 89194}	-- Fritz Decap R
+Death[226] = {89210, 89351}	-- Fritz Scalp R
+Death[227] = {89451, 89534}	-- Fritz Fall Masse
+Death[228] = {89550, 89634}	-- Fritz Fall R No Masse
+Death[229] = {89650, 89770}	-- Fritz Chainsaw
+Death[230] = {89786, 89905}	-- Fritz Chainsaw 2
+Death[231] = {89921, 89967}	-- Fritz Start R
+Death[232] = {89983, 90029}	-- Neuro Bullet 1
+Death[233] = {90045, 90089}	-- Neuro Bullet 2
+Death[234] = {90105, 90152}	-- Neuro Bullet Eye
+Death[235] = {93495, 93722}	-- Vivi Facial
+Death[236] = {56865, 56983}	-- Fritz Fire 
+Death[237] = {94636, 94781}	-- G Stat Dalles
+Death[238] = {94797, 94863}	-- G Stat Vomit
+Death[239] = {94879, 94926}	-- Final Piano
+
+----------------------------------------------------------------------------------------------------
+-- 3. List of Levels (Title, Start Frame, End of Intro Clip, Total Scenes, Mirror, Death Mirror.) --
+----------------------------------------------------------------------------------------------------
+
+finalstage = 65	     		     								-- Last stage of the story. Prevent the game to go to a level that does not exist.
+PlayOrder = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65}									-- Normal order of play for the levels.
+AllowSecret = false		  										-- If you have a "secret level" video then: replace false by true.
+RelativeFrames = false 											-- True if frame 1 starts with each level. False if frame 1 is the disc start.	
+													-- Informations about the Levels:	
+Level[1] = {"Start Hall", 8262, 8746, 1, 0, 0, -1}					-- Title, Start Frame, End of Intro Clip, Total Scenes, Mirror, Death Mirror. 
+Level[2] = {"Start Entrance", 8912, 8913 , 1, 0, 0, -1}				-- Each level has one line with those informations.
+Level[3] = {"Start Fireplace", 9019, 9020, 1, 0, 0, -1}	
+Level[4] = {"Start Stair", 9126, 9127, 1, 0, 0, -1}
+Level[5] = {"Start Basement", 9312, 9313, 1, 0, 0, -1}	
+Level[6] = {"Start Vivi", 9482, 9483, 1, 0, 0, -1}	
+Level[7] = {"Start Moose", 9628, 9629, 1, 0, 0, -1}		
+Level[8] = {"Start Statue", 9775, 9776, 1, 0, 0, -1}
+Level[9] = {"Start Witch", 9965, 9966, 1, 0, 0, -1}
+Level[10] = {"Entrance", 10087, 10088, 1, 0, 0, -1}
+Level[11] = {"Fireplace", 10284, 10285, 1, 0, 0, -1}
+Level[12] = {"Stair from Hall", 10403, 10404, 1, 0, 0, -1}
+Level[13] = {"Stair from Now", 10608, 10609, 1, 0, 0, -1}
+Level[14] = {"Base from Hall", 10784, 10785, 1, 0, 0, -1}
+Level[15] = {"Base from T", 10968, 10969, 1, 0, 0, -1}
+Level[16] = {"Now from Stair", 11158, 11159, 1, 0, 0, -1}
+Level[17] = {"Now from Cons", 11314, 11315, 1, 0, 0, -1}
+Level[18] = {"Now from Bed", 11434, 11435, 1, 0, 0, -1}
+Level[19] = {"T from Base", 11553, 11554, 1, 0, 0, -1}
+Level[20] = {"T from Kitchen", 11725, 11726, 1, 0, 0, -1}
+Level[21] = {"T from Cellar", 11846, 11847, 1, 0, 0, -1}
+Level[22] = {"Stat from Lib", 11966, 11967, 1, 0, 0, -1}
+Level[23] = {"Stat from Trophy", 12088, 12089, 1, 0, 0, -1}
+Level[24] = {"Stat from Garden", 12208, 12209, 1, 0, 0, -1}
+Level[25] = {"Out V from Cellar", 12380, 12381, 1, 0, 0, -1}
+Level[26] = {"Out V from Cave", 12501, 12502, 1, 0, 0, -1}
+Level[27] = {"Cave from Vivi", 12622, 12623, 1, 0, 0, -1}
+Level[28] = {"Cave from CatL", 12968, 12969, 1, 0, 0, -1}
+Level[29] = {"Cave from CatR", 13165, 13166, 1, 0, 0, -1}
+Level[30] = {"Cave from OUTV", 13376, 13377, 1, 0, 0, -1}
+Level[31] = {"Cave from Skull R", 13537, 13538, 1, 0, 0, -1}
+Level[32] = {"Cave from RELE", 13815, 13816, 1, 0, 0, -1}
+Level[33] = {"BB from Moose", 14093, 14094, 1, 0, 0, -1}
+Level[34] = {"BB from Cons", 14199, 14200, 1, 0, 0, -1}
+Level[35] = {"BB from Skull L", 14320, 14321, 1, 0, 0, -1} 
+Level[36] = {"BB from LELE", 14588, 14589, 1, 0, 0, -1}
+Level[37] = {"Cons Mario", 15287, 15288, 1, 0, 0, -1}
+Level[38] = {"Bed Ghost", 16038, 16039, 1, 0, 0, -1}
+Level[39] = {"Kitchen Gator", 16331, 16332, 1, 0, 0, -1}
+Level[40] = {"Giant Bug", 16774, 16775, 1, 0, 0, -1}
+Level[41] = {"Bugs", 17085, 17086, 1, 0, 0, -1}
+Level[42] = {"Bed Slasher", 17486, 17487, 1, 0, 0, -1}
+Level[43] = {"Kitchen Fire", 17965, 17966, 1, 0, 0, -1}
+Level[44] = {"Librarian", 18166, 18167, 1, 0, 0, -1}
+Level[45] = {"Trophy Bear", 18572, 18573, 1, 0, 0, -1}
+Level[46] = {"Lib Bookworms", 18708, 18709, 1, 0, 0, -1}
+Level[47] = {"Trophy Bat", 19096, 19097, 1, 0, 0, -1}
+Level[48] = {"Conser Empty", 19383, 19384, 1, 0, 0, -1}
+Level[49] = {"Catapie L", 19624, 19625, 1, 0, 0, -1}
+Level[50] = {"Catapie R", 19988, 19989, 1, 0, 0, -1}
+Level[51] = {"Vivi", 20365, 20366, 7, 0, 0, -1}
+Level[52] = {"Moose", 27455, 27456, 10, 0, 0, -1}
+Level[53] = {"Blue Witch", 32204, 32205, 8, 0, 0, -1}
+Level[54] = {"Orange Witch", 34388, 34389, 8, 0, 0, -1}
+Level[55] = {"Garden", 36031, 36032, 34, 0, 0, -1}
+Level[56] = {"To Skull LNO", 43817, 43818, 1, 0, 0, -1}
+Level[57] = {"To Skull RNO", 44954, 44955, 1, 0, 0, -1}
+Level[58] = {"To Skull LELE", 45335, 45336, 1, 0, 0, -1}
+Level[59] = {"To Skull RELE", 45698, 45699, 1, 0, 0, -1}
+Level[60] = {"Cave from BW", 13684, 13685, 1, 0, 0, -1}
+Level[61] = {"BB from OW", 14467, 14468, 1, 0, 0, -1}
+Level[62] = {"To Fritz R", 46080, 46081, 1, 0, 0, -1}
+Level[63] = {"To Fritz L", 46133, 46134, 1, 0, 0, -1}
+Level[64] = {"Fritz!!!", 47187, 47188, 8, 0, 0, -1}
+Level[65] = {"Dr. Neurosis", 50699, 50700, 8, 0, 0, -1}
+
+------------------------------------------------------------------------------------
+-- 4. List of moves for each level, by scene (StartFrame, EndFrame, MOVE, Death#) --
+------------------------------------------------------------------------------------
+
+function setupMoves(thisLevel, thisScene)	
+
+	if thisLevel == 1 then	--Start Hall from START
+
+		if thisScene == 1 then 
+		    		
+			sceneStart = 8836		
+			sceneEnd   = 8896							
+			totalMoves = 1 								
+
+			move[1] = {8845, 8895, PATH, 1,"U,10,D,11,L,12,R,14"}
+								
+		end
+
+	elseif thisLevel == 2 then	--Start Hall From UP
+
+		if thisScene == 1 then 
+		    		
+			sceneStart = 8914		
+			sceneEnd   = 9003							
+			totalMoves = 1 								
+
+			move[1] = {8950, 9002, PATH, 1,"U,10,D,11,L,12,R,14"}
+								
+		end
+
+	elseif thisLevel == 3 then	--Start Hall From DOWN
+
+		if thisScene == 1 then 
+		    		
+			sceneStart = 9021		
+			sceneEnd   = 9110							
+			totalMoves = 1 								
+
+			move[1] = {9057, 9109, PATH, 1,"U,10,D,11,L,12,R,14"}
+								
+		end
+
+	elseif thisLevel == 4 then	--Start Hall From LEFT
+
+		if thisScene == 1 then 
+		    		
+			sceneStart = 9128		
+			sceneEnd   = 9296							
+			totalMoves = 1 								
+
+			move[1] = {9243, 9295, PATH, 1,"U,10,D,11,L,12,R,14"}
+								
+		end
+
+	elseif thisLevel == 5 then	--Start Hall From RIGHT
+
+		if thisScene == 1 then 
+		    		
+			sceneStart = 9314		
+			sceneEnd   = 9466							
+			totalMoves = 1 								
+
+			move[1] = {9413, 9465, PATH, 1,"U,10,D,11,L,12,R,14"}
+								
+		end
+
+	elseif thisLevel == 6 then	--Start Hall From VIVI
+
+		if thisScene == 1 then 
+		    		
+			sceneStart = 9484		
+			sceneEnd   = 9612							
+			totalMoves = 1 								
+
+			move[1] = {9559, 9611, PATH, 1,"U,10,D,11,L,12,R,14"}
+								
+		end
+
+	elseif thisLevel == 7 then	--Start Hall From MOOSE
+
+		if thisScene == 1 then 
+		    		
+			sceneStart = 9630		
+			sceneEnd   = 9759							
+			totalMoves = 1 								
+
+			move[1] = {9706, 9758, PATH, 1,"U,10,D,11,L,12,R,14"}
+								
+		end
+
+	elseif thisLevel == 8 then	--Start Hall From STATUE
+
+		if thisScene == 1 then 
+		    		
+			sceneStart = 9777		
+			sceneEnd   = 9949							
+			totalMoves = 1 								
+
+			move[1] = {9896, 9948, PATH, 1,"U,10,D,11,L,12,R,14"}
+								
+		end
+
+	elseif thisLevel == 9 then	--Start Hall From WITCH
+
+		if thisScene == 1 then 
+		    		
+			sceneStart = 9967		
+			sceneEnd   = 10071							
+			totalMoves = 1 								
+
+			move[1] = {10018, 10070, PATH, 1,"U,10,D,11,L,12,R,14"}
+								
+		end
+
+	elseif thisLevel == 10 then	-- Entrance	
+		
+		if thisScene == 1 then   										
+
+			sceneStart = 10089 			
+			sceneEnd   = 10268
+			totalMoves = 2
+
+			move[1] = {10205, 10220, DOWN, 11}
+			move[2] = {10221, 10267, WAYOUT, 2}
+													
+		end
+
+	elseif thisLevel == 11 then --Fireplace
+
+		if thisScene == 1 then   										
+
+			sceneStart = 10286			
+			sceneEnd   = 10387
+			totalMoves = 2
+			 	
+			move[1] = {10334, 10373, LEFT, 12}
+			move[2] = {10374, 10387, WAYOUT, 3}
+											
+		end		
+
+	elseif thisLevel == 12 then  --Staircase from HALL
+
+		if thisScene == 1 then   										
+
+			sceneStart = 10405			
+			sceneEnd   = 10592
+			totalMoves = 1
+			 
+			move[1] = {10528, 10591, PATH, 13,"U,16,D,4"}
+									
+		end
+
+	elseif thisLevel == 13 then  --Staircase from NOW
+
+		if thisScene == 1 then   										
+
+			sceneStart = 10610			
+			sceneEnd   = 10766
+			totalMoves = 1
+			 
+			move[1] = {10702, 10765, PATH, 14,"U,16,D,4"}
+									
+		end				
+
+	elseif thisLevel == 14 then --Basement from HALL
+
+		if thisScene == 1 then   										
+
+			sceneStart = 10784
+			sceneEnd   = 10953
+			totalMoves = 1
+
+			move[1] = {10889, 10952, PATH, 15,"U,5,D,19"}
+					
+		end
+
+	elseif thisLevel == 15 then --Basement from T HALL
+
+		if thisScene == 1 then   										
+
+			sceneStart = 10971
+			sceneEnd   = 11142
+			totalMoves = 1
+
+			move[1] = {11078, 11141, PATH, 16,"U,5,D,19"}
+			
+		end
+
+	elseif thisLevel == 16 then  --Now Showing from STAIR
+
+		if thisScene == 1 then   										
+
+			sceneStart = 11160
+			sceneEnd   = 11298
+			totalMoves = 1
+
+			move[1] = {11237, 11297, PATH, 17, "D,13,L,37,R,38"}
+			
+		end
+
+	elseif thisLevel == 17 then  --Now Showing from CONSERVATORY
+
+		if thisScene == 1 then   										
+
+			sceneStart = 11316
+			sceneEnd   = 11418
+			totalMoves = 1
+
+			move[1] = {11357, 11417, PATH, 17, "D,13,L,37,R,38"}
+			
+		end
+
+	elseif thisLevel == 18 then  --Now Showing from BEDROOM
+
+		if thisScene == 1 then   										
+
+			sceneStart = 11436
+			sceneEnd   = 11538
+			totalMoves = 1
+
+			move[1] = {11477, 11537, PATH, 17, "D,13,L,37,R,38"}
+			
+		end
+	
+	elseif thisLevel == 19 then --T Hall from BASEMENT
+
+		if thisScene == 1 then   										
+
+			sceneStart = 11555
+			sceneEnd   = 11709
+			totalMoves = 1
+
+			move[1] = {11648, 11708, PATH, 26, "D,15,L,39,R,40"}
+			
+							
+		end
+
+	elseif thisLevel == 20 then --T Hall from KITCHEN
+
+		if thisScene == 1 then   										
+
+			sceneStart = 11727
+			sceneEnd   = 11830
+			totalMoves = 1
+
+			move[1] = {11769, 11829, PATH, 26, "D,15,L,39,R,40"}
+			
+							
+		end
+
+	elseif thisLevel == 21 then --T Hall from BUGS
+
+		if thisScene == 1 then   										
+
+			sceneStart = 11848
+			sceneEnd   = 11950
+			totalMoves = 1
+
+			move[1] = {11889, 11949, PATH, 26, "D,15,L,39,R,40"}
+			
+							
+		end
+
+	elseif thisLevel == 22 then --Statue Hall from LIB
+
+		if thisScene == 1 then   										
+
+			sceneStart = 11968
+			sceneEnd   = 12072
+			totalMoves = 1
+
+			move[1] = {12011, 12071, PATH, 35, "U,55,L,46,R,47"}
+										
+		end
+
+	elseif thisLevel == 23 then --Statue Hall from TROPHY
+
+		if thisScene == 1 then   										
+
+			sceneStart = 12090
+			sceneEnd   = 12192
+			totalMoves = 1
+
+			move[1] = {12131, 12191, PATH, 35, "U,55,L,46,R,47"}
+			
+							
+		end
+
+	elseif thisLevel == 24 then --Statue Hall from GARDEN
+
+		if thisScene == 1 then   										
+
+			sceneStart = 12210
+			sceneEnd   = 12364
+			totalMoves = 1
+
+			move[1] = {12303, 12363, PATH, 35, "U,55,L,46,R,47"}
+			
+							
+		end
+
+	elseif thisLevel == 25 then --Out V from BUGS
+
+		if thisScene == 1 then   										
+
+			sceneStart = 12382
+			sceneEnd   = 12485
+			totalMoves = 1
+
+			move[1] = {12424, 12484, PATH, 44, "U,51,L,41,R,30"}
+			
+							
+		end
+
+	elseif thisLevel == 26 then --Out V from CAVE
+
+		if thisScene == 1 then   										
+
+			sceneStart = 12503
+			sceneEnd   = 12606
+			totalMoves = 1
+
+			move[1] = {12545, 12605, PATH, 44, "U,51,L,41,R,30"}
+			
+							
+		end
+
+	elseif thisLevel == 27 then  --Cave Entrance from VIVI
+
+		if thisScene == 1 then   										
+
+			sceneStart = 12624
+			sceneEnd   = 12820
+			totalMoves = 1
+
+			move[1] = {12759, 12819, PATH, 53, "U,57,D,50,L,49,R,26"}
+								
+		end
+
+	elseif thisLevel == 28 then  --Cave Entrance from CATAPIE LEFT
+
+		if thisScene == 1 then   										
+
+			sceneStart = 12970
+			sceneEnd   = 13149
+			totalMoves = 1
+
+			move[1] = {13088, 13148, PATH, 53, "U,57,D,50,L,49,R,26"}
+								
+		end
+
+	elseif thisLevel == 29 then  --Cave Entrance from CATAPIE R
+
+		if thisScene == 1 then   										
+
+			sceneStart = 13167
+			sceneEnd   = 13360
+			totalMoves = 1
+
+			move[1] = {13299, 13359, PATH, 53, "U,57,D,50,L,49,R,26"}
+								
+		end
+
+	elseif thisLevel == 30 then  --Cave Entrance from OUT VIVI
+
+		if thisScene == 1 then   										
+
+			sceneStart = 13378
+			sceneEnd   = 13521
+			totalMoves = 1
+
+			move[1] = {13460, 13520, PATH, 53, "U,57,D,50,L,49,R,26"}
+								
+		end
+
+	elseif thisLevel == 31 then  --Cave Entrance from Skull R
+
+		if thisScene == 1 then   										
+
+			sceneStart = 13539
+			sceneEnd   = 13799
+			totalMoves = 1
+
+			move[1] = {13739, 13799, PATH, 53, "U,57,D,50,L,49,R,26"}
+								
+		end
+
+	elseif thisLevel == 32 then  --Cave Entrance from RELE
+
+		if thisScene == 1 then   										
+
+			sceneStart = 13817
+			sceneEnd   = 14077
+			totalMoves = 1
+
+			move[1] = {14017, 14077, PATH, 53, "U,59,D,50,L,49,R,26"}
+								
+		end
+
+
+	elseif thisLevel == 33 then  --Baseball Hall from MOOSE
+
+		if thisScene == 1 then   										
+
+			sceneStart = 14095
+			sceneEnd   = 14183
+			totalMoves = 1
+
+			move[1] = {14123, 14183, PATH, 62, "L,56,R,48,U,52"}
+								
+		end
+
+	elseif thisLevel == 34 then  --Baseball Hall from CONSERVATORY
+
+		if thisScene == 1 then   										
+
+			sceneStart = 14201
+			sceneEnd   = 14303
+			totalMoves = 1
+
+			move[1] = {14243, 14303, PATH, 62, "L,56,R,48,U,52"}
+								
+		end
+
+	elseif thisLevel == 35 then  --Baseball Hall from Skull L 
+
+		if thisScene == 1 then   										
+
+			sceneStart = 14323
+			sceneEnd   = 14572
+			totalMoves = 1
+
+			move[1] = {14512, 14572, PATH, 62, "L,56,R,48,U,52"}
+								
+		end
+
+	elseif thisLevel == 36 then  --Baseball Hall from LELE  
+
+		if thisScene == 1 then   										
+
+			sceneStart = 14590
+			sceneEnd   = 14841
+			totalMoves = 1
+
+			move[1] = {14780, 14840, PATH, 62, "L,58,R,48,U,52"}
+								
+		end
+
+	elseif thisLevel == 37 then --Marionette
+
+		if thisScene == 1 then   										
+
+			sceneStart = 15289 
+			sceneEnd   = 15990
+			totalMoves = 9
+
+			move[1] = {15469, 15484, LEFT, 110}
+			move[2] = {15504, 15519, RIGHT, 111}
+			move[3] = {15531, 15546, BUTTON1, 110}
+			move[4] = {15574, 15589, UP, 110}
+			move[5] = {15672, 15744, PATH, 109, "L,6,R,7",8}
+			move[6] = {15873, 15989, TOLEVEL, 34}
+			move[7] = {15762, 15798, WAY, 0}
+			move[8] = {15802, 15817, LEFT, 109}
+			move[9] = {15818, 15857, TOLEVEL, 34}
+
+		end
+
+	elseif thisLevel == 38 then --Bedroom Ghost
+
+		if thisScene == 1 then   										
+
+			sceneStart = 16040
+			sceneEnd   = 16315
+			totalMoves = 6
+
+			move[1] = {16139 , 16154, DOWN, 112}
+			move[2] = {16168, 16183, BUTTON1, 113}
+			move[3] = {16194, 16209, BUTTON1, 112}
+			move[4] = {16239, 16254, BUTTON1, 113}
+			move[5] = {16269, 16284, RIGHT, 113}
+			move[6] = {16285, 16315, TOLEVEL, 44}
+
+		end
+
+	elseif thisLevel == 39 then --Kitchen Gator
+
+		if thisScene == 1 then   										
+
+			sceneStart = 16333
+			sceneEnd   = 16758
+			totalMoves = 6
+
+			move[1] = {16575 , 16590, LEFT, 115}
+			move[2] = {16624, 16639, BUTTON1, 114}
+			move[3] = {16641, 16656, RIGHT, 115}
+			move[4] = {16679, 16694, BUTTON1, 114}
+			move[5] = {16700, 16715, UP, 115}
+			move[6] = {16716, 16758, TOLEVEL, 45}
+
+		end
+
+	elseif thisLevel == 40 then --Giant Bug
+
+		if thisScene == 1 then   										
+
+			sceneStart = 16776
+			sceneEnd   = 17069
+			totalMoves = 3
+
+			move[1] = {16894 , 16909, BUTTON1 , 116}
+			move[2] = {16923, 16938, UP, 116, BUTTON1}
+			move[3] = {16939, 17069, TOLEVEL, 25} 
+
+		end
+
+	elseif thisLevel == 41 then --Cellar
+
+		if thisScene == 1 then   										
+
+			sceneStart = 17087
+			sceneEnd   = 17470
+			totalMoves = 5
+
+			move[1] = {17234 , 17249, LEFT , 117}
+			move[2] = {17283, 17298, BUTTON1, 117}
+			move[3] = {17346, 17361, BUTTON1, 117}
+			move[4] = {17407, 17422, UP, 117}
+			move[5] = {17423, 12914, TOLEVEL, 21}
+
+		end
+
+	elseif thisLevel == 42 then --Bedroom Slasher
+
+		if thisScene == 1 then   										
+
+			sceneStart = 17488
+			sceneEnd   = 17889
+			totalMoves = 4
+
+			move[1] = {17654 , 17669, DOWN , 118}
+			move[2] = {17752, 17767, LEFT, 119}
+			move[3] = {17818, 17833, UP, 118}
+			move[4] = {17834, 17889, TOLEVEL, 18}
+
+		end
+
+	elseif thisLevel == 43 then --Kitchen Fire
+
+		if thisScene == 1 then   										
+
+			sceneStart = 17967
+			sceneEnd   = 18160
+			totalMoves = 2
+
+			move[1] = {18124 , 18139, UP , 120}
+			move[2] = {18140, 18160, TOLEVEL, 20}
+
+		end
+
+	elseif thisLevel == 44 then --Librarian
+
+		if thisScene == 1 then   										
+
+			sceneStart = 18178
+			sceneEnd   = 18556
+			totalMoves = 4
+
+			move[1] = {18331, 18346, DOWN , 121}
+			move[2] = {18410, 18425, UP, 122}
+			move[3] = {18468, 18483, RIGHT, 122}
+			move[4] = {18484, 18556, TOLEVEL, 22}
+
+		end
+	
+	elseif thisLevel == 45 then --Trophy Bear
+
+		if thisScene == 1 then   										
+
+			sceneStart = 18574
+			sceneEnd   = 18692
+			totalMoves = 2
+
+			move[1] = {18627 , 18642, BUTTON1, 123, LEFT}
+			move[2] = {18643, 18692, TOLEVEL, 23} 
+
+		end
+
+	elseif thisLevel == 46 then --Library worms
+
+		if thisScene == 1 then   										
+
+			sceneStart = 18710
+			sceneEnd   = 19080
+			totalMoves = 7
+
+			move[1] = {18787 , 18802, DOWN , 124}
+			move[2] = {18845, 18860, LEFT, 125}
+			move[3] = {18885, 18900, BUTTON1, 124}
+			move[4] = {18922, 18937, BUTTON1, 125}
+			move[5] = {18943, 18958, UP, 124}
+			move[6] = {19052, 19067, UP, 125}
+			move[7] = {19068, 19080, TOLEVEL, 42}
+
+		end
+
+	elseif thisLevel == 47 then --Trophy Bat
+
+		if thisScene == 1 then   										
+
+			sceneStart = 19098
+			sceneEnd   = 19367
+			totalMoves = 4
+
+			move[1] = {19189, 19204, DOWN, 127}
+			move[2] = {19284, 19299, LEFT, 126}
+			move[3] = {19322, 19337, RIGHT, 128}
+			move[4] = {19338, 19367, TOLEVEL, 43}
+
+		end
+
+	elseif thisLevel == 48 then --Conservatory
+
+		if thisScene == 1 then   										
+
+			sceneStart = 19385
+			sceneEnd   = 19609
+			totalMoves = 3
+
+			move[1] = {19497, 19512, RIGHT, 129}
+			move[2] = {19551, 19566, LEFT, 129, DOWN}
+			move[3] = {19567, 19609, TOLEVEL, 17}
+
+		end
+
+	elseif thisLevel == 49 then --Catapie Left
+
+		if thisScene == 1 then   										
+
+			sceneStart = 19626
+			sceneEnd   = 19972
+			totalMoves = 6
+
+			move[1] = {19797 , 19812, DOWN, 130}
+			move[2] = {19825, 19840, BUTTON1, 131}
+			move[3] = {19851, 19866, BUTTON1, 131}
+			move[4] = {19898, 19913, BUTTON1, 130}
+			move[5] = {19925, 19940, RIGHT, 130}
+			move[6] = {19941, 19972, TOLEVEL, 28}
+
+		end
+
+	elseif thisLevel == 50 then --Catapie Right
+
+		if thisScene == 1 then   										
+
+			sceneStart = 19990
+			sceneEnd   = 20349
+			totalMoves = 6
+
+			move[1] = {20105 , 20120, LEFT, 130}
+			move[2] = {20162, 20177, RIGHT, 130}
+			move[3] = {20207, 20222, LEFT, 131}
+			move[4] = {20228, 20243, LEFT, 130}
+			move[5] = {20272, 20287, UP, 131}
+			move[6] = {20288, 20349, TOLEVEL, 29}
+
+		end
+
+	elseif thisLevel == 51 then --Vivi's
+
+		if thisScene == 1 then   										
+
+			sceneStart = 20367 
+			sceneEnd   = 22617
+			totalMoves = 2
+
+			move[1] = {21976 , 21991, BUTTON1, 132}
+			move[2] = {22587, 22617, PATH, 135, "L,2,R,3"}
+
+		elseif thisScene == 2 then   -- Shave									
+
+			sceneStart = 23644 
+			sceneEnd   = 24464
+			totalMoves = 4
+
+			move[1] = {23927 , 23942, BUTTON1, 133}
+			move[2] = {24124 , 24139, DOWN, 134, RIGHT}
+			move[3] = {24150 , 24164, RIGHT, 134}
+			move[4] = {24165, 24464, PATH, 135, "L,3,R,5"}
+
+		elseif thisScene == 3 then --Manucure  										
+
+			sceneStart = 22648 
+			sceneEnd   = 23623
+			totalMoves = 8
+
+			move[1] = {23040 , 23054, RIGHT, 136}
+			move[2] = {23106 , 23121, LEFT, 136}
+			move[3] = {23162 , 23177, UP, 136}
+			move[4] = {23231 , 23246, RIGHT, 136}
+			move[5] = {23310 , 23325, LEFT, 136}
+			move[6] = {23378 , 23393, UP, 136}
+			move[7] = {23433 , 23448, LEFT , 136}
+			move[8] = {23449, 23623, TOSCENE, 4}
+
+		elseif thisScene == 4 then -- Shave or Facial  										
+
+			sceneStart = 24480 
+			sceneEnd   = 24659
+			totalMoves = 1
+
+			move[1] = {24606, 24659, PATH, 135, "L,2,R,6"}
+
+		elseif thisScene == 5 then -- Facial from Shave  										
+
+			sceneStart = 24675 
+			sceneEnd   = 24842
+			totalMoves = 1
+
+			move[1] = {24606, 24659, TOSCENE, 7}
+
+		elseif thisScene == 6 then -- Facial from Manucure  										
+
+			sceneStart = 24858 
+			sceneEnd   = 25025
+			totalMoves = 1
+
+			move[1] = {24859, 25025, TOSCENE, 7}
+
+
+		elseif thisScene == 7 then --Facial React 										
+
+			sceneStart = 25026 
+			sceneEnd   = 27394
+			totalMoves = 5
+
+			move[1] = {25673 , 25704, PATH, 235, "B1,2,L,5",0}
+			move[2] = {26328, 26343, BUTTON1, 137}
+			move[3] = {26747, 26762, LEFT, 138}
+			move[4] = {26763, 27082, TOLEVEL, 27}
+			move[5] = {27213, 27394, TOLEVEL, 6}
+		
+		end
+		
+	elseif thisLevel == 52 then --Moose
+
+		if thisScene == 1 then   										
+
+			sceneStart = 27457 
+			sceneEnd   = 27815
+			totalMoves = 1
+
+			move[1] = {27682, 27697, RIGHT, 139}
+
+		elseif thisScene == 2 then 
+
+			sceneStart = 27816 
+			sceneEnd   = 28303
+			totalMoves = 4
+
+			move[1] = {27825, 27840, BUTTON1, 141}
+			move[2] = {28147, 28162, UP, 141, BUTTON1}
+			move[3] = {28209, 28224, RIGHT, 142}
+			move[4] = {28244, 28259, RIGHT, 143}	
+
+		elseif thisScene == 3 then   										
+
+			sceneStart = 28304 
+			sceneEnd   = 28931
+			totalMoves = 5
+
+			move[1] = {28372, 28387, LEFT, 148}
+			move[2] = {28408, 28423, RIGHT, 147}
+			move[3] = {28449, 28464, UP, 148}
+			move[4] = {28662, 28677, BUTTON1, 149}
+			move[5] = {28883, 28898, RIGHT, 146}
+
+		elseif thisScene == 4 then   										
+
+			sceneStart = 28932 
+			sceneEnd   = 29675
+			totalMoves = 9
+			
+			move[1] = {29111, 29126, DOWN, 150}
+			move[2] = {29166, 29181, UP, 145}
+			move[3] = {29228, 29243, UP, 145}
+			move[4] = {29286, 29301, DOWN, 150}
+			move[5] = {29350, 29365, DOWN, 145}
+			move[6] = {29408, 29423, LEFT, 144}
+			move[7] = {29467, 29482, RIGHT, 144}
+			move[8] = {29518, 29533, UP, 145}
+			move[9] = {29534, 29675, TOSCENE, 6}
+
+		elseif thisScene == 5 then   										
+
+			sceneStart = 93795 
+			sceneEnd   = 94531
+			totalMoves = 9
+			
+			move[1] = {93968, 93983, DOWN, 150}
+			move[2] = {94021, 94036, UP, 151}
+			move[3] = {94085, 94100, UP, 151}
+			move[4] = {94142, 94157, DOWN, 150}
+			move[5] = {94205, 94220, DOWN, 151}
+			move[6] = {94264, 94279, RIGHT, 144}
+			move[7] = {94323, 94338, LEFT, 145}
+			move[8] = {94374, 94389, UP, 151}
+			move[9] = {94390, 94533, TOSCENE, 6}
+
+		elseif thisScene == 6 then   										
+
+			sceneStart = 30400 
+			sceneEnd   = 30801
+			totalMoves = 2
+			
+			move[1] = {30697, 30712, LEFT, 153}
+			move[2] = {30740, 30800, PATH, 152, "L,7,R,8"}
+
+
+		elseif thisScene == 7 then
+
+			sceneStart = 30802 
+			sceneEnd   = 30935
+			totalMoves = 1
+
+			move[1] = {30803, 30935, TOLEVEL, 7}
+						
+		elseif thisScene == 8 then   										
+
+			sceneStart = 30936 
+			sceneEnd   = 30995
+			totalMoves = 1
+
+			move[1] = {30950, 30965, UP, 154}
+
+
+		elseif thisScene == 9 then   										
+
+			sceneStart = 30996 
+			sceneEnd   = 31982
+			totalMoves = 1
+
+
+			move[1] = {31354, 31369, LEFT, 155}
+
+
+		elseif thisScene == 10 then   										
+
+			sceneStart = 31983
+			sceneEnd   = 32151
+			totalMoves = 3
+
+
+			move[1] = {32043, 32058, RIGHT, 156}
+			move[2] = {32091, 32106, RIGHT, 157}
+			move[3] = {32107, 32151,  TOLEVEL, 33}
+
+		end
+
+	elseif thisLevel == 53 then --Blue Witch
+
+		if thisScene == 1 then   										
+
+			sceneStart = 32204 
+			sceneEnd   = 32679
+			totalMoves = 2
+
+			move[1] = {32346, 32361, LEFT, 158, UP}
+			move[2] = {32618, 32678, PATH, 159, "L,2,R,3"}
+
+		elseif thisScene == 2 then   										
+
+			sceneStart = 34247 
+			sceneEnd   = 34373
+			totalMoves = 1
+
+			move[1] = {34248, 34373, TOLEVEL, 9}
+			
+		elseif thisScene == 3 then   										
+
+			sceneStart = 32695 
+			sceneEnd   = 33027
+			totalMoves = 3
+
+			move[1] = {32783, 32798, BUTTON1, 160}
+			move[2] = {32866, 32881, RIGHT, 162}
+			move[3] = {32967, 33027, PATH, 161, "R,4,D,5"}
+
+		elseif thisScene == 4 then   										
+
+			sceneStart = 33058 
+			sceneEnd   = 33215
+			totalMoves = 2
+
+			move[1] = {33150, 33165, RIGHT, 163}
+			move[2] = {33166, 33215, TOSCENE, 6}
+			
+		elseif thisScene == 5 then   										
+
+			sceneStart = 33228 
+			sceneEnd   = 33407
+			totalMoves = 1
+
+			move[1] = {33347, 33407, PATH, 165, "D,7,U,8,R,1166"}
+
+		elseif thisScene == 6 then   										
+
+			sceneStart = 33423 
+			sceneEnd   = 33538
+			totalMoves = 1
+
+			move[1] = {33478, 33538, PATH, 165, "D,7,U,8,R,1166"}
+
+		elseif thisScene == 7 then   										
+
+			sceneStart = 34008 
+			sceneEnd   = 34231
+			totalMoves = 2
+
+			move[1] = {34172, 34187, RIGHT, 169}
+			move[2] = {34188, 34231, TOSCENE, 6}
+
+		elseif thisScene == 8 then   										
+
+			sceneStart = 33554 
+			sceneEnd   = 33992
+			totalMoves = 6
+
+			move[1] = {33631, 33646, BUTTON1, 167}
+			move[2] = {33678, 33693, UP, 167}
+			move[3] = {33749, 33764, RIGHT, 178}
+			move[4] = {33852, 33867, RIGHT, 178}
+			move[5] = {33947, 33962, BUTTON1, 168}
+			move[6] = {33963, 33992, TOLEVEL, 60}
+
+		end
+
+	elseif thisLevel == 54 then --Orange Witch
+
+		if thisScene == 1 then   										
+
+			sceneStart = 34388 
+			sceneEnd   = 34872
+			totalMoves = 2
+
+			move[1] = {34534, 34549, RIGHT, 170, UP}
+			move[2] = {34812, 34872, PATH, 171, "R,2,L,3"}
+
+		elseif thisScene == 2 then   										
+
+			sceneStart = 36446 
+			sceneEnd   = 36571
+			totalMoves = 1
+
+			move[1] = {36447, 36571, TOLEVEL, 9}
+			
+		elseif thisScene == 3 then   										
+
+			sceneStart = 34888 
+			sceneEnd   = 35220
+			totalMoves = 3
+
+			move[1] = {34976, 34991, BUTTON1, 173}
+			move[2] = {35062, 35077, LEFT, 174}
+			move[3] = {35160, 35220, PATH, 172, "L,4,D,5"}
+
+		elseif thisScene == 4 then   										
+
+			sceneStart = 35251 
+			sceneEnd   = 35409
+			totalMoves = 2
+
+			move[1] = {35342, 35357, LEFT, 175}
+			move[2] = {35358, 35409, TOSCENE, 6}
+			
+		elseif thisScene == 5 then   										
+
+			sceneStart = 35425 
+			sceneEnd   = 35604
+			totalMoves = 1
+
+			move[1] = {35544, 35604, PATH, 176, "D,7,U,8,L,1164"}
+
+		elseif thisScene == 6 then   										
+
+			sceneStart = 35620 
+			sceneEnd   = 35736
+			totalMoves = 1
+
+			move[1] = {35676, 35736, PATH, 176, "D,7,U,8,L,1164"}
+
+		elseif thisScene == 7 then   										
+
+			sceneStart = 36206 
+			sceneEnd   = 36430
+			totalMoves = 2
+
+			move[1] = {36370, 36385, LEFT, 164}
+			move[2] = {36386, 36430, TOSCENE, 6}
+
+		elseif thisScene == 8 then   										
+
+			sceneStart = 35752 
+			sceneEnd   = 36190
+			totalMoves = 6
+
+			move[1] = {35828, 35843, BUTTON1, 177}
+			move[2] = {35878, 35893, UP, 177}
+			move[3] = {35969, 35984, LEFT, 179}
+			move[4] = {36051, 36066, LEFT, 179}
+			move[5] = {36145, 36160, BUTTON1, 180}
+			move[6] = {36161, 36190, TOLEVEL, 61}
+
+		end
+
+	elseif thisLevel == 55 then --Garden
+
+		if thisScene == 1 then   --Garden to Cross										
+
+			sceneStart = 36589 
+			sceneEnd   = 37057
+			totalMoves = 2
+
+			move[1] = {36801, 36816, RIGHT, 182}
+			move[2] = {36997, 37055, PATH, 181, "L,2,R,4,U,1186"}
+
+		elseif thisScene == 2 then -- Cross To Lady   										
+
+			sceneStart = 37073 
+			sceneEnd   = 37230
+			totalMoves = 1
+
+			move[1] = {37169, 37228, PATH, 181, "R,3,U,26,L,1201"}
+		
+		elseif thisScene == 3 then -- Lady to Cross   										
+
+			sceneStart = 37246 
+			sceneEnd   = 37397
+			totalMoves = 1
+
+			move[1] = {37336, 37395, PATH, 181, "L,2,R,4,U,1186"}
+		
+		elseif thisScene == 4 then -- Cross to Head   										
+
+			sceneStart = 37413
+			sceneEnd   = 37565
+			totalMoves = 1
+
+			move[1] = {37504, 37565, PATH, 181, "D,1188,U,5,L,6"}
+		
+		elseif thisScene == 5 then -- Head to Sword   										
+
+			sceneStart = 37581
+			sceneEnd   = 37742
+			totalMoves = 1
+
+			move[1] = {37681, 37740, PATH, 181, "U,7,D,8,L,9"}
+		
+		elseif thisScene == 6 then -- Head To Cross   										
+
+			sceneStart = 37758
+			sceneEnd   = 37911
+			totalMoves = 1
+
+			move[1] = {37850, 37911, PATH, 181, "U,1186,L,2,R,4"}
+
+		elseif thisScene == 7 then -- Sword to Devil   										
+
+			sceneStart = 37929
+			sceneEnd   = 38094
+			totalMoves = 1
+
+			move[1] = {38033, 38092, PATH, 181, "U,10,L,11,D,12"}
+
+		elseif thisScene == 8 then -- Sword to Head   										
+
+			sceneStart = 38110
+			sceneEnd   = 38282
+			totalMoves = 1
+
+			move[1] = {38221, 38281, PATH, 181, "U,5,L,6,D,1188"}
+
+		elseif thisScene == 9 then -- Sword to Lady2   										
+
+			sceneStart = 38298
+			sceneEnd   = 38444
+			totalMoves = 1
+
+			move[1] = {38383, 38443, PATH, 181, "R,13,L,14,U,1191"}
+
+		elseif thisScene == 10 then -- Devil to Devil   										
+
+			sceneStart = 38460
+			sceneEnd   = 38681
+			totalMoves = 1
+
+			move[1] = {38620, 38680, PATH, 181, "U,10,L,11,D,12"}
+		
+		elseif thisScene == 11 then -- Devil to Devil   										
+
+			sceneStart = 38697
+			sceneEnd   = 38920
+			totalMoves = 1
+
+			move[1] = {38859, 38919, PATH, 181, "U,10,L,11,D,12"}
+
+		elseif thisScene == 12 then -- Devil to Sword   										
+
+			sceneStart = 38936
+			sceneEnd   = 39109
+			totalMoves = 1
+
+			move[1] = {39048, 39108, PATH, 181, "U,7,D,8,L,9"}
+
+		elseif thisScene == 13 then -- Lady2 to Sword   										
+
+			sceneStart = 39125
+			sceneEnd   = 39264
+			totalMoves = 1
+
+			move[1] = {39203, 39263, PATH, 181, "U,7,D,8,L,9"}
+
+		elseif thisScene == 14 then -- Lady2 to 2S   										
+
+			sceneStart = 39280
+			sceneEnd   = 39565
+			totalMoves = 1
+
+			move[1] = {39504, 39564, PATH, 181, "L,15,R,16,D,1192"}
+
+		elseif thisScene == 15 then -- 2S to 3S   										
+
+			sceneStart = 39581
+			sceneEnd   = 39755
+			totalMoves = 1
+
+			move[1] = {39694, 39754, PATH, 181, "L,17,U,18,R,1193"}
+
+		elseif thisScene == 16 then -- 2S to Lady2    										
+
+			sceneStart = 39771
+			sceneEnd   = 40044
+			totalMoves = 1
+
+			move[1] = {39983, 40043, PATH, 181, "R,13,L,14,U,1191"}
+
+		elseif thisScene == 17 then -- 3S to 2H    										
+
+			sceneStart = 40060
+			sceneEnd   = 40206
+			totalMoves = 1
+
+			move[1] = {40145, 40205, PATH, 181, "D,19,R,20,U,1194"}
+
+		elseif thisScene == 18 then -- 3S to 2S    										
+
+			sceneStart = 40222
+			sceneEnd   = 40385
+			totalMoves = 1
+
+			move[1] = {40324, 40384, PATH, 181, "L,15,R,16,D,1192"}
+
+		elseif thisScene == 19 then -- 2H to NS    										
+
+			sceneStart = 40401
+			sceneEnd   = 40625
+			totalMoves = 1
+
+			move[1] = {40564, 40624, PATH, 181, "U,21,D,22,R,28"}
+
+		elseif thisScene == 20 then -- 2H to 3S    										
+
+			sceneStart = 40641
+			sceneEnd   = 40780
+			totalMoves = 1
+
+			move[1] = {40719, 40779, PATH, 181, "L,17,U,18,R,1193"}
+
+		elseif thisScene == 21 then -- NS to 2H    										
+
+			sceneStart = 40796
+			sceneEnd   = 41019
+			totalMoves = 1
+
+			move[1] = {40958, 41018, PATH, 181, "D,19,R,20,U,1194"}
+
+		elseif thisScene == 22 then -- NS to Devil2    										
+
+			sceneStart = 41035
+			sceneEnd   = 41226
+			totalMoves = 1
+
+			move[1] = {41165, 41225, PATH, 181, "L,23,R,24,D,1195"}
+
+		elseif thisScene == 23 then -- Devil2 to NS    										
+
+			sceneStart = 41242
+			sceneEnd   = 41460
+			totalMoves = 1
+
+			move[1] = {41399, 41459, PATH, 181, "U,21,D,22,R,28"}
+
+		elseif thisScene == 24 then -- Devil2 to Bat    										
+
+			sceneStart = 41476
+			sceneEnd   = 41615
+			totalMoves = 1
+
+			move[1] = {41554, 41614, PATH, 181, "U,25,L,27,R,1196"}
+
+		elseif thisScene == 25 then -- Bat to Bat2    										
+
+			sceneStart = 41631
+			sceneEnd   = 41900
+			totalMoves = 1
+
+			move[1] = {41839, 41899, PATH, 181, "U,29,L,1197,R,1198"}
+
+		elseif thisScene == 26 then -- Lady to Lady    										
+
+			sceneStart = 43817
+			sceneEnd   = 43997
+			totalMoves = 2
+
+			move[1] = {43875, 43890, LEFT, 185, DOWN}
+			move[2] = {43936, 43996, PATH, 181, "R,3,U,26,L,1201"}
+
+		elseif thisScene == 27 then -- Bat to Devil2    										
+
+			sceneStart = 44013
+			sceneEnd   = 44158
+			totalMoves = 1
+
+			move[1] = {44097, 44157, PATH, 181, "L,23,R,24,D,1195"}
+
+		elseif thisScene == 28 then -- NS to NS    										
+
+			sceneStart = 44174
+			sceneEnd   = 44360
+			totalMoves = 2
+
+			move[1] = {44230, 44245, LEFT, 185}
+			move[2] = {44299, 44359, PATH, 181, "U,21,D,22,R,28"}
+
+		elseif thisScene == 29 then -- Statue 1    										
+
+			sceneStart = 41916
+			sceneEnd   = 42409
+			totalMoves = 4
+
+			move[1] = {42231, 42246, LEFT, 237}
+			move[2] = {42278, 42293, LEFT, 237}
+			move[3] = {42303, 42318, LEFT, 237}
+			move[4] = {42354, 42369, LEFT, 237}
+
+		elseif thisScene == 30 then -- Statue 2    										
+
+			sceneStart = 42410
+			sceneEnd   = 42677
+			totalMoves = 4
+
+			move[1] = {42412, 42423, BUTTON1, 212}
+			move[2] = {42561, 42576, RIGHT, 213}
+			move[3] = {42601, 42616, BUTTON1, 214}
+			move[4] = {42641, 42656, DOWN, 214}
+		
+		elseif thisScene == 31 then -- Statue 3    										
+
+			sceneStart = 42678
+			sceneEnd   = 43079
+			totalMoves = 4
+
+			move[1] = {42679, 42692, BUTTON1, 210}
+			move[2] = {42706, 42721, BUTTON1, 211}
+			move[3] = {42946, 42961, RIGHT, 238}
+			move[4] = {43018, 43078, PATH, 202, "R,32,U,34"}
+
+		elseif thisScene == 32 then -- Statue 4   										
+
+			sceneStart = 43125
+			sceneEnd   = 43363
+			totalMoves = 4
+
+			move[1] = {43171, 43186, RIGHT, 202}
+			move[2] = {43228, 43243, LEFT, 203}
+			move[3] = {43291, 43306, RIGHT, 204}
+			move[4] = {43322, 43337, BUTTON1, 205}
+
+		elseif thisScene == 33 then -- Statue 5    										
+
+			sceneStart = 43364
+			sceneEnd   = 43079
+			totalMoves = 6
+
+			move[1] = {43405, 43420, BUTTON1, 206}
+			move[2] = {43484, 43499, BUTTON1, 207}
+			move[3] = {43563, 43578, RIGHT, 207}
+			move[4] = {43618, 43633, BUTTON1, 208}
+			move[5] = {43650, 43665, BUTTON1, 209}
+			move[6] = {43666, 43720, TOLEVEL, 24}
+
+		elseif thisScene == 34 then -- Statue Exit   										
+
+			sceneStart = 43751
+			sceneEnd   = 43801
+			totalMoves = 1
+
+			move[1] = {43751, 43801, TOLEVEL, 8}
+	
+		end
+
+	elseif thisLevel == 56 then  --Skull Hall Left
+
+		if thisScene == 1 then   										
+
+			sceneStart = 44593
+			sceneEnd   = 44938
+			totalMoves = 1
+
+			move[1] = {44877, 44937, PATH, 71, "L,53,R,35,U,1089"}
+								
+		end
+
+	elseif thisLevel == 57 then  --Skull Hall Right
+
+		if thisScene == 1 then   										
+
+			sceneStart = 44956
+			sceneEnd   = 45319
+			totalMoves = 1
+
+			move[1] = {45258, 45318, PATH, 80,"L,31,R,54,U,1090"}
+								
+		end
+
+	elseif thisLevel == 58 then  --Skull Hall Left Ele
+
+		if thisScene == 1 then   										
+
+			sceneStart = 45335
+			sceneEnd   = 45682
+			totalMoves = 1
+
+			move[1] = {45621, 45681, PATH, 91,"R,36,U,63,L,1215"}
+								
+		end
+
+	elseif thisLevel == 59 then  --Skull Hall Right Ele
+
+		if thisScene == 1 then   										
+
+			sceneStart = 45700  
+			sceneEnd   = 46064
+			totalMoves = 1
+
+			move[1] = {46003, 46063, PATH, 100,"L,32,U,62,R,1216"}
+								
+		end
+
+	elseif thisLevel == 60 then  --Cave Entrance from BW
+
+		if thisScene == 1 then   										
+
+			sceneStart = 13686
+			sceneEnd   = 13799
+			totalMoves = 1
+
+			move[1] = {13739, 13799, PATH, 53, "U,57,D,50,L,49,R,26"}
+								
+		end
+
+	elseif thisLevel == 61 then  --Baseball Hall from OW 
+
+		if thisScene == 1 then   										
+
+			sceneStart = 14469
+			sceneEnd   = 14572
+			totalMoves = 1
+
+			move[1] = {14512, 14572, PATH, 62, "L,56,R,48,U,52"}
+								
+		end
+
+	elseif thisLevel == 62 then  --To Fritz R
+
+		if thisScene == 1 then   										
+
+			sceneStart = 46082  
+			sceneEnd   = 46117
+			totalMoves = 1
+
+			move[1] = {46082, 46117, WAYOUT, 64}
+								
+		end
+
+	elseif thisLevel == 63 then  --To Fritz L
+
+		if thisScene == 1 then   										
+
+			sceneStart = 46135  
+			sceneEnd   = 46171
+			totalMoves = 1
+
+			move[1] = {46135, 46171, WAYOUT, 64}
+								
+		end
+
+	elseif thisLevel == 64 then  --Fritz!!!
+
+		if thisScene == 1 then   										
+
+			sceneStart = 47189  
+			sceneEnd   = 47674
+			totalMoves = 1
+
+			move[1] = {47614, 47674, PATH, 231, "B1,2,L,3"}
+
+		elseif thisScene == 2 then   										
+
+			sceneStart = 47690  
+			sceneEnd   = 48079
+			totalMoves = 6
+
+			move[1] = {47751, 47766, LEFT, 229}
+			move[2] = {47935, 47950, BUTTON1, 230}
+			move[3] = {48002, 48017, BUTTON1, 229}
+			move[4] = {48035, 48050, BUTTON1, 230}
+			move[5] = {48052, 48065, LEFT, 229}
+			move[6] = {48066, 48079, TOSCENE, 4}
+
+		elseif thisScene == 3 then   										
+
+			sceneStart = 48095  
+			sceneEnd   = 48144
+			totalMoves = 1
+
+			move[1] = {48095, 48144, TOSCENE, 4}
+
+		elseif thisScene == 4 then   										
+
+			sceneStart = 48160 
+			sceneEnd   = 48613
+			totalMoves = 4
+
+			move[1] = {48473, 48488, BUTTON1, 227}
+			move[2] = {48503, 48518, RIGHT, 228}
+			move[3] = {48529, 48544, LEFT, 228}
+			move[4] = {48584, 48599, RIGHT, 228}
+			--move[5] = {48600, 48613, TOSCENE, 5}
+
+		elseif thisScene == 5 then   										
+
+			sceneStart = 48629 
+			sceneEnd   = 49129
+			totalMoves = 2
+
+			move[1] = {48953, 48968, LEFT, 225}
+			move[2] = {48998, 49013, BUTTON1, 226}
+			--move[3] = {49014, 49129, TOSCENE, 6}
+
+		elseif thisScene == 6 then   										
+
+			sceneStart = 49145 
+			sceneEnd   = 49620
+			totalMoves = 5
+
+			move[1] = {49443, 49458, RIGHT, 220}
+			move[2] = {49475, 49490, BUTTON1, 221}
+			move[3] = {49499, 49514, LEFT, 222}
+			move[4] = {49530, 49545, BUTTON1, 223}
+			move[5] = {49558, 49573, RIGHT, 224}
+
+		elseif thisScene == 7 then   										
+
+			sceneStart = 49636
+			sceneEnd   = 50075
+			totalMoves = 4
+
+			move[1] = {49938, 49953, BUTTON1, 218}
+			move[2] = {49965, 49980, LEFT, 219}
+			move[3] = {49991, 50006, RIGHT, 219}
+			move[4] = {50045, 50060, LEFT, 219}
+
+		elseif thisScene == 8 then   										
+
+			sceneStart = 50091
+			sceneEnd   = 50698
+			totalMoves = 2
+
+			move[1] = {50435, 50440, RIGHT, 217}
+			move[2] = {50459, 50474, BUTTON1, 217}
+															
+		end
+
+	elseif thisLevel == 65 then  --Dr. Neurosis
+
+		if thisScene == 1 then   	--Intro									
+
+			sceneStart = 50701  
+			sceneEnd   = 51843
+			totalMoves = 1
+
+			move[1] = {50702, 51843, TOSCENE, 2}
+
+		elseif thisScene == 2 then   --Right Stance										
+
+			sceneStart = 51859  
+			sceneEnd   = 51973
+			totalMoves = 1
+			
+			move[1] = {51912, 51972, PATH, 236, "L,3,R,4"}
+
+		elseif thisScene == 3 then   -- Left Stance										
+
+			sceneStart = 51989  
+			sceneEnd   = 52110
+			totalMoves = 1
+
+			move[1] = {52049, 52109, PATH, 236, "L,5,R,6"}
+
+		elseif thisScene == 4 then  --Run to Right -> Left Stance 										
+
+			sceneStart = 52126  
+			sceneEnd   = 52833
+			totalMoves = 6
+
+			move[1] = {52210, 52235, RIGHT, 232}
+			move[2] = {52375, 52390, RIGHT, 232}
+			move[3] = {52484, 52499, UP, 232}
+			move[4] = {52595, 52610, DOWN, 232}
+			move[5] = {52629, 52644, RIGHT, 232}
+			move[6] = {52645, 52833, TOSCENE, 3}
+
+		elseif thisScene == 5 then  -- Run to Left -> Right Stance 										
+
+			sceneStart = 52849  
+			sceneEnd   = 53523
+			totalMoves = 6
+
+			move[1] = {52955, 52970, LEFT, 232}
+			move[2] = {53112, 53127, LEFT, 232}
+			move[3] = {53186, 53201, DOWN, 232}
+			move[4] = {53281, 53296, UP, 232}
+			move[5] = {53318, 53333, LEFT, 232}
+			move[6] = {53334, 53523, TOSCENE, 2}
+
+		elseif thisScene == 6 then --End 1   										
+
+			sceneStart = 53539  
+			sceneEnd   = 53897
+			totalMoves = 3
+
+			move[1] = {53810, 53825, RIGHT, 233}
+			move[2] = {53834, 53849, DOWN, 234}
+			move[3] = {53858, 53873, LEFT, 233}
+
+		elseif thisScene == 7 then --End 2   										
+
+			sceneStart = 53898  
+			sceneEnd   = 54169
+			totalMoves = 5	
+
+			move[1] = {54033, 54048, RIGHT, 234}
+			move[2] = {54058, 54073, DOWN, 233}
+			move[3] = {54082, 54097, BUTTON1, 234}
+			move[4] = {54106, 54121, RIGHT, 233}
+			move[5] = {54130, 54145, UP, 234}
+
+		elseif thisScene == 8 then --End 3   										
+
+			sceneStart = 54170  
+			sceneEnd   = 56790
+			totalMoves = 7	
+
+			move[1] = {54280, 54295, DOWN, 233}
+			move[2] = {54303, 54318, BUTTON1, 234}
+			move[3] = {54328, 54343, DOWN, 233}
+			move[4] = {54430, 54445, BUTTON1, 234}
+			move[5] = {54534, 54549, BUTTON1, 233}
+			move[6] = {54669, 54684, BUTTON1, 234}
+			move[7] = {55697, 55712, BUTTON1, 239}
+			
+		end	
+			
+	end
+
+end

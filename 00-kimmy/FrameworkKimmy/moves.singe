@@ -1,0 +1,4220 @@
+--[[
+
+PROGRAM NAME:	KIMMY SCRIPT ENGINE
+VERSION:		4.0
+AUTHOR:			KARIS (2020/2024)
+
+This file is part of KIMMY SCRIPT ENGINE.
+
+	KIMMY SCRIPT ENGINE is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation.
+
+	KIMMY SCRIPT ENGINE is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+	Thanks to Matthew P. Ownby, Scott Duensing, RDG, Bladescater, DirtBagXon.
+
+]]--
+
+function checkBasic(playerMove, curMove)    -- Test if the basic move is ok
+
+	local z = MOVEPENDING
+	local countcombo = 0
+	local countcombo2 = 0
+
+	for i= 1, 7 do
+
+		if acombo[i] == gcombo[i] then 
+
+			countcombo = countcombo +1
+
+		elseif acombo[i] == 1 and gcombo[i] == 0 then
+
+			z = MOVEFAIL
+
+		end
+
+		if move[currentMove][5] ~= nil then
+
+			if acombo[i] == g2combo[i] then 
+
+				countcombo2 = countcombo2 +1
+
+			elseif acombo[i] == 1 and g2combo[i] == 0 then
+
+				z = MOVEFAIL
+
+			end
+
+		end
+
+	
+	end
+	
+	if countcombo == 7 or countcombo2 == 7 then	
+							
+		z = curMove
+		
+	end	
+
+	return z
+
+end
+
+function checkCombo(playerMove, curMove)    -- Test if the combo is ok
+
+	local z = MOVEPENDING
+	local countcombo = 0
+
+	for i= 1, 7 do
+
+		if acombo[i] == gcombo[i] then 
+
+			countcombo = countcombo +1 
+
+		elseif acombo[i] == 1 and gcombo[i] == 0 then
+
+			z = MOVEFAIL
+
+		end
+	
+	end
+	
+	if countcombo == 7 then	
+							
+		z = curMove
+		
+	end	
+
+	return z
+
+end
+
+function checkHold(playerMove, curMove)     -- Test if the good button is pressed during a hold event.
+
+	local z = MOVEPENDING
+	local countcombo = 0
+
+	for i= 1, 7 do
+
+		if acombo[i] == gcombo[i] then 
+
+			countcombo = countcombo +1 
+
+		elseif acombo[i] == 1 and gcombo[i] == 0 then
+
+			z = MOVEFAIL
+
+		end
+	
+	end
+
+	if currentFrame == move[currentMove][inputFrmStart] and countcombo == 7 then
+
+		z = MOVEFAIL
+	
+	elseif currentFrame > move[currentMove][inputFrmStart] and countcombo == 7 then	
+		
+		if iLenHold >= lenCounter then
+				
+			z = curMove		
+			iLenHold = 0
+			
+		else
+			
+			z = MOVEPENDING
+			if bTestHold  and currentFrame == lastHold then
+
+				lastHold = currentFrame
+							
+			elseif bTestHold  and currentFrame == lastHold+1 then
+
+				iLenHold = iLenHold+1 
+				lastHold = currentFrame
+
+			else
+
+				lastHold = currentFrame
+
+			end
+							
+		end
+
+	elseif (countcombo == 5) then
+			
+		if z ~= NOMOVE then 
+
+			iLenHold = 0
+			
+		else
+
+			if iLenHold>0 then iLenHold = iLenHold - 1 end
+			z = MOVEPENDING
+															
+		end	
+
+	end	
+	
+	return z
+
+end
+
+function checkLet(playerMove, curMove)		-- Test Letgo event.
+
+	local z = MOVEPENDING
+		
+	if currentFrame == move[currentMove][inputFrmStart] and playerMove == NOMOVE then
+
+		z = MOVEFAIL
+
+	elseif currentFrame == move[currentMove][inputFrmEnd]-1 and playerMove == NOMOVE then 
+		
+		z = curMove
+	
+	end	
+	
+	return z
+
+end
+
+function checkMash(playerMove, curMove)     -- Test if the mash value is ok
+
+	local z = MOVEPENDING
+	local cMove = BUTTON1
+
+	if move[currentMove][5]~=nil then cMove = move[currentMove][5] end
+
+	local countcombo = 0
+
+	for i= 1, 7 do
+
+		if acombo[i] == gcombo[i] then 
+
+			countcombo = countcombo +1 
+
+		elseif acombo[i] == 1 and gcombo[i] == 0 then
+
+			iMash = 0
+			z = MOVEFAIL
+
+		end
+	
+	end
+	
+	if countcombo == 7 then	
+
+		bTestMash = false
+		bTestRunU = false
+		bTestRunD = false
+		bTestRunL = false
+		bTestRunR = false
+					
+		if iMash >= mashCounter then
+			
+			z = curMove	
+			p1BUTTON1 = false
+			p1UP = false
+			p1DOWN = false
+			p1LEFT = false
+			p1RIGHT = false
+
+		end
+
+	else
+		
+		if iMash > 0 then iMash = iMash - unMash end
+			
+	end	
+	
+	return z
+
+end
+
+function checkMashBB(playerMove, curMove)    -- Test if the mash B1/B2 value is ok
+
+	local z = MOVEPENDING
+	
+	if (playerMove == BUTTON1 and bTestMashL) then	
+
+		bTestMashL = false
+		bTestMashR = true
+			
+		if iMash >= mashCounter then
+			
+			z = curMove	
+			p1BUTTON1= false
+
+		end
+
+	elseif (playerMove == BUTTON2 and bTestMashR) then	
+
+		bTestMashR = false
+		bTestMashL = true
+			
+		if iMash >= mashCounter then
+			
+			z = curMove	
+			p1BUTTON2= false
+
+		end
+	
+	else
+		
+		if iMash > 0 then iMash = iMash - unMash end
+			
+		if playerMove ~= NOMOVE then 
+
+			iMash = 0
+			z = MOVEFAIL
+														
+		end	
+
+	end
+
+	return z
+
+end
+
+function checkMashLR(playerMove, curMove)     	-- Test if the mash L/R value is ok
+
+	local z = MOVEPENDING
+
+	if (playerMove == LEFT) then	
+
+		bTestRunL = false
+		bTestRunR = true
+		p1LEFT = false
+	
+		if iMash >= mashCounter then
+			
+			z = curMove	
+			p1LEFT= false
+
+		end
+
+	elseif (playerMove == RIGHT) then	
+
+		bTestRunL = true
+		bTestRunR = false
+		p1RIGHT = false
+	
+		if iMash >= mashCounter then
+			
+			z = curMove	
+			p1RIGHT= false
+
+		end
+
+	elseif (playerMove == UP) then
+
+		p1UP = false	
+
+		
+	elseif (playerMove == DOWN) then	
+
+		p1DOWN = false
+
+	else
+		
+		if iMash > 0 then iMash = iMash - unMash end
+			
+		if playerMove ~= NOMOVE then 
+
+			iMash = 0
+			z = MOVEFAIL
+														
+		end	
+
+	end	
+
+	return z
+
+end
+
+function checkMashUD(playerMove, curMove)     -- Test if the mash U/D value is ok
+
+	local z = MOVEPENDING
+	
+	if (playerMove == UP) then	
+
+		bTestRunU = false
+		bTestRunD = true
+		p1UP = false
+	
+		if iMash >= mashCounter then
+			
+			z = curMove	
+			p1UP= false
+
+		end
+
+	elseif (playerMove == DOWN) then	
+
+		bTestRunU = true
+		bTestRunD = false
+		p1DOWN = false
+	
+		if iMash >= mashCounter then
+			
+			z = curMove	
+			p1DOWN= false
+
+		end
+
+	elseif (playerMove == LEFT) then
+
+		p1LEFT = false	
+
+		
+	elseif (playerMove == RIGHT) then	
+
+		p1RIGHT = false
+
+	else
+		
+		if iMash > 0 then iMash = iMash - unMash end
+			
+		if playerMove ~= NOMOVE then 
+
+			iMash = 0
+			z = MOVEFAIL
+														
+		end	
+
+	end	
+
+	return z
+
+end
+
+function checkMulti(playerMove, curMove)    -- Test if the Sequence is ok
+
+	local z = MOVEPENDING
+	local countcombo = 0
+
+	if move[currentMove][6]~= nil and currentFrame < move[currentMove][inputFrmStart] + move[currentMove][6] and move[currentMove][inputFrmStart] + move[currentMove][6] < move[currentMove][inputFrmEnd] then
+
+
+	else 
+
+		for i = 1, 7 do	
+
+			if acombo[i] == mcombo[i] then
+			
+				countcombo = countcombo +1 
+								
+			elseif acombo[i] == 1 and mcombo[i] == 0 then
+				
+				z = MOVEFAIL
+		
+			end
+		
+		end
+		
+		if (countcombo == 7) and iMulti < #multi[currentMove] then	
+				
+				iMulti = iMulti+1
+				acombo = {0,0,0,0,0,0,0}
+		
+		elseif (countcombo == 7) and iMulti == #multi[currentMove] then
+					
+				z = curMove
+		
+		end
+
+	end	
+
+	return z
+
+end
+
+function checkSkip(playerMove, curMove)     -- Test if any button is pressed during a skip event.
+
+	local z = curMove
+		
+	if (playerMove == BUTTON1 or playerMove == BUTTON2 or playerMove == BUTTON3 or playerMove == UP or playerMove == DOWN or playerMove == LEFT or playerMove == RIGHT) then 
+			
+			p1BUTTON1 = false
+			p1BUTTON2 = false
+			p1BUTTON3 = false
+			p1UP = false
+			p1DOWN = false
+			p1LEFT = false
+			p1RIGHT = false
+
+			bShowAction = false
+			discSkipToFrame(move[currentMove][inputFrmEnd])
+			
+	else
+
+														
+	end	
+
+	return z
+
+end
+
+function doChoose()     -- Show and test the choose action
+	
+	numChoice = move[currentMove][moveDeath]
+	
+	if (altState == lvlSetup) then
+
+		altState = lvlRunning
+		iChoice = 1
+		bIgnoreJoy = false
+		bShowChoices = true
+	
+	elseif (altState == lvlRunning) then
+	
+		if (currentFrame > move[currentMove][inputFrmEnd]) then
+		
+			if choice[optorder[iChoice]][2] == true then
+					
+				soundPlay(sndright)
+				iRightMv = iRightMv +1
+				addPoints(SCOREMOVE + dip_Difficulty * BUFFMOVE,currentMove) 
+				iScoreTemp = iScoreTemp+(SCOREMOVE + dip_Difficulty * BUFFMOVE)
+				lvlState = lvlPlayRest
+			
+			else
+			
+				move[currentMove][moveDeath] = choice[optorder[iChoice]][3]
+				bShowAction = false
+				bShowNext = false				
+				lvlState = branch02	 -- Hints	(or setupDeathClip)									
+			
+			end
+
+			bShowChoices = false			
+		
+		elseif (currentFrame >= move[currentMove][inputFrmStart] and currentFrame <= move[currentMove][inputFrmEnd]) then
+		
+			local thisMove = NOMOVE	
+						
+			if bIgnoreJoy then 
+			
+				if timerDue() then bIgnoreJoy = false end
+				
+			else
+				
+				thisMove = scanInput()
+				
+			end
+			
+			if (thisMove ~= NOMOVE) then
+			
+				if thisMove == UP then				
+					
+					p1UP = false
+
+					if iChoice > 1 then 
+						iChoice = iChoice - 1 
+						soundPlay(sndcoin)
+						
+					end					
+				
+				elseif thisMove == DOWN then
+					
+					p1DOWN = false
+
+					if iChoice < numChoice then 
+						iChoice = iChoice + 1 
+						soundPlay(sndcoin)
+					end
+				
+				elseif thisMove == BUTTON1 then
+
+					p1BUTTON1 = false
+				
+					if choice[optorder[iChoice]][2] == true then					
+						
+						soundPlay(sndright)
+						iRightMv = iRightMv +1
+						addPoints(SCOREMOVE + dip_Difficulty * BUFFMOVE,currentMove) 
+						iScoreTemp = iScoreTemp+(SCOREMOVE + dip_Difficulty * BUFFMOVE)
+						discSkipToFrame(move[currentMove][inputFrmEnd])						
+						lvlState = lvlPlayRest
+					
+					else
+
+						move[currentMove][moveDeath] = choice[optorder[iChoice]][3]
+						bShowAction = false
+						bShowNext = false
+						if dip_GameType == 2 or dip_GameType == 1 then discSkipToFrame(move[currentMove][inputFrmEnd]) end
+						lvlState = branch02	 -- Hints	(or setupDeathClip)		
+					
+					end
+
+					bShowChoices = false
+				
+				end
+			
+			end			
+			
+		end
+		
+	elseif (altState == lvlEnd) then
+	
+	end
+
+end
+
+function doMove()		   -- Manage all the moves
+
+	if (move[currentMove][correctMove] == HOLD) then
+
+		bTestHold = true
+
+		if bCalc then lenCounter = (move[currentMove][inputFrmEnd] - move[currentMove][inputFrmStart]) - (14*(MovieFPS/24) - dip_Difficulty) end
+		
+		fillMove(5)
+
+		thisMove = checkHold(move[currentMove][5], move[currentMove][correctMove])
+													
+		resultMove()
+
+	elseif (move[currentMove][correctMove] == LETGO) then
+
+		thisMove = scanInput()
+				
+		thisMove=checkLet(thisMove, move[currentMove][correctMove])
+			
+		resultMove()
+	
+	elseif (move[currentMove][correctMove] == MASH) then
+
+		thisMove = scanInput()
+
+		if move[currentMove][5]==nil or move[currentMove][5]==BUTTON1 or move[currentMove][5]==BUTTON2 or move[currentMove][5]==BUTTON3 then 
+
+			bTestMash = true
+
+		elseif move[currentMove][5]==UP then
+
+			bTestRunU = true
+
+		elseif move[currentMove][5]==DOWN then
+
+			bTestRunD = true
+
+		elseif move[currentMove][5]==LEFT then
+
+			bTestRunL = true
+
+		elseif move[currentMove][5]==RIGHT then 
+
+			bTestRunR = true
+
+		elseif move[currentMove][5]==UPLEFT then 
+
+			bTestRunU = true
+			bTestRunL = true
+
+		elseif move[currentMove][5]==UPRIGHT then 
+
+			bTestRunU = true
+			bTestRunR = true
+
+		elseif move[currentMove][5]==DOWNLEFT then 
+
+			bTestRunD = true
+			bTestRunL = true
+
+		elseif move[currentMove][5]==DOWNRIGHT then 
+
+			bTestRunD = true
+			bTestRunR = true
+
+		end
+	
+		if bCalc then
+			
+			local MashAdj = 0
+
+			if move[currentMove][6]~=nil then MashAdj = move[currentMove][6] end
+
+			unMash = ((dip_MashRes+MashAdj)*(0.014 + (dip_Difficulty/500)))
+			mashCounter = ((move[currentMove][inputFrmEnd] - move[currentMove][inputFrmStart])/MovieFPS)*3
+
+			if move[currentMove][5] >= UPLEFT and move[currentMove][5] <= DOWNRIGHT then
+
+				mashCounter = mashCounter*2
+				unMash = unMash * 1.5
+
+			elseif move[currentMove][5] == UD then
+
+				bTestRunU = true
+				bTestRunD = true
+
+				if dip_MashtoRun == 1 then
+
+					mashCounter = mashCounter *1.5
+
+				else
+
+					mashCounter = mashCounter *2.5
+
+				end
+
+			elseif move[currentMove][5] == LR then
+
+				bTestRunL = true
+				bTestRunR = true
+
+				if dip_MashtoRun == 1 then
+
+					mashCounter = mashCounter *1.5
+
+				else
+
+					mashCounter = mashCounter *2.5
+
+				end
+
+			elseif move[currentMove][5] == B1B2 then
+
+				bTestMashL = true
+				bTestMashR = true
+
+				mashCounter = mashCounter *2.5
+
+			end
+						
+		end
+
+		if move[currentMove][5] == UD then
+
+			thisMove = checkMashUD(thisMove, move[currentMove][correctMove])
+
+		elseif move[currentMove][5] == LR then
+
+			thisMove = checkMashLR(thisMove, move[currentMove][correctMove])
+
+		elseif move[currentMove][5] == B1B2 then
+			
+			thisMove = checkMashBB(thisMove, move[currentMove][correctMove])
+
+		else
+			
+			fillMove(5)			
+			thisMove = checkMash(thisMove, move[currentMove][correctMove])
+		
+		end	
+
+		resultMove()
+	
+	elseif (move[currentMove][correctMove] <= DOWNRIGHT) then
+
+		thisMove = NOMOVE
+		fillMove(3)
+
+		thisMove = checkBasic(thisMove, move[currentMove][correctMove])
+
+		resultMove()
+
+	elseif (move[currentMove][correctMove] == COMBO) then
+
+		fillMove(5)
+
+		thisMove = checkCombo(thisMove, move[currentMove][correctMove])
+	
+		resultMove()
+
+	elseif (move[currentMove][correctMove] == MULTI) then
+
+		bTestCombo = true
+		bTestMulti = true
+		thisMove = scanInput()
+
+		if multi[currentMove][iMulti] == UP then 
+
+			mcombo = {1,0,0,0,0,0,0}
+			
+		elseif multi[currentMove][iMulti] == DOWN then
+
+			mcombo = {0,1,0,0,0,0,0}
+
+		elseif multi[currentMove][iMulti] == LEFT then
+
+			mcombo = {0,0,1,0,0,0,0}
+
+		elseif multi[currentMove][iMulti] == RIGHT then
+
+			mcombo = {0,0,0,1,0,0,0}
+
+		elseif multi[currentMove][iMulti] == BUTTON1 then
+
+			mcombo = {0,0,0,0,1,0,0}
+
+		elseif multi[currentMove][iMulti] == BUTTON2 then
+
+			mcombo = {0,0,0,0,0,1,0}
+
+		elseif multi[currentMove][iMulti] == BUTTON3 then
+
+			mcombo = {0,0,0,0,0,0,1}
+
+		elseif multi[currentMove][iMulti] == UPLEFT then
+
+			mcombo = {1,0,1,0,0,0,0}
+			
+		elseif multi[currentMove][iMulti] == UPRIGHT then
+
+			mcombo = {1,0,0,1,0,0,0}
+
+		elseif multi[currentMove][iMulti] == DOWNLEFT then
+
+			mcombo = {0,1,1,0,0,0,0}
+
+		elseif multi[currentMove][iMulti] == DOWNRIGHT then
+
+			mcombo = {0,1,0,1,0,0,0}
+
+		end
+
+		thisMove = checkMulti(thisMove, move[currentMove][correctMove])
+
+		resultMove()
+
+	elseif (move[currentMove][correctMove] == LOOP) then
+
+		bTestCombo = true
+		bTestMulti = true
+
+
+		if bCalc then
+
+			bCalc = false
+			
+			if multi[currentMove][1] == UP then
+
+				if multi[currentMove][2] == RIGHT and (#multi[currentMove]>4 or (#multi[currentMove] == 4 and multi[currentMove][#multi[currentMove]]<5)) then
+
+					sprite[LOOP] = spriteLoad(LOOPDIR.."loopuc.png")
+				
+				elseif multi[currentMove][2] == LEFT and (#multi[currentMove]>4 or (#multi[currentMove] == 4 and multi[currentMove][#multi[currentMove]]<5)) then
+
+					sprite[LOOP] = spriteLoad(LOOPDIR.."loopucc.png")
+								
+				elseif multi[currentMove][2] == RIGHT and ((#multi[currentMove] == 3 and multi[currentMove][#multi[currentMove]]<5) or (#multi[currentMove] == 4 and multi[currentMove][#multi[currentMove]] >=5)) then 
+
+					sprite[LOOP] = spriteLoad(LOOPDIR.."loopuhc.png")
+				
+				elseif multi[currentMove][2] == LEFT and ((#multi[currentMove] == 3 and multi[currentMove][#multi[currentMove]]<5) or (#multi[currentMove] == 4 and multi[currentMove][#multi[currentMove]] >=5)) then
+
+					sprite[LOOP] = spriteLoad(LOOPDIR.."loopuhcc.png")
+
+				elseif multi[currentMove][2] == RIGHT and (#multi[currentMove] == 2 or (#multi[currentMove] == 3 and multi[currentMove][#multi[currentMove]] >=5)) then
+
+					sprite[LOOP] = spriteLoad(LOOPDIR.."loopuqc.png")
+
+				elseif multi[currentMove][2] == LEFT and (#multi[currentMove] == 2 or (#multi[currentMove] == 3 and multi[currentMove][#multi[currentMove]] >=5)) then
+
+					sprite[LOOP] = spriteLoad(LOOPDIR.."loopuqcc.png")
+
+				end
+				
+			elseif multi[currentMove][1] == DOWN then
+
+				if multi[currentMove][2] == LEFT and (#multi[currentMove]>4 or (#multi[currentMove] == 4 and multi[currentMove][#multi[currentMove]]<5)) then  
+
+					sprite[LOOP] = spriteLoad(LOOPDIR.."loopdc.png")
+
+				elseif multi[currentMove][2] == RIGHT and (#multi[currentMove]>4 or (#multi[currentMove] == 4 and multi[currentMove][#multi[currentMove]]<5)) then 
+
+					sprite[LOOP] = spriteLoad(LOOPDIR.."loopdc.png")
+					
+				elseif multi[currentMove][2] == LEFT and ((#multi[currentMove] == 3 and multi[currentMove][#multi[currentMove]]<5) or (#multi[currentMove] == 4 and multi[currentMove][#multi[currentMove]] >=5)) then
+
+					sprite[LOOP] = spriteLoad(LOOPDIR.."loopdhc.png")
+
+				elseif multi[currentMove][2] == RIGHT and ((#multi[currentMove] == 3 and multi[currentMove][#multi[currentMove]]<5) or (#multi[currentMove] == 4 and multi[currentMove][#multi[currentMove]] >=5)) then
+
+					sprite[LOOP] = spriteLoad(LOOPDIR.."loopdhcc.png")
+				
+				elseif multi[currentMove][2] == LEFT and (#multi[currentMove] == 2 or (#multi[currentMove] == 3 and multi[currentMove][#multi[currentMove]] >=5)) then
+
+					sprite[LOOP] = spriteLoad(LOOPDIR.."loopdqc.png")
+				
+				elseif multi[currentMove][2] == RIGHT and (#multi[currentMove] == 2 or (#multi[currentMove] == 3 and multi[currentMove][#multi[currentMove]] >=5)) then 
+
+					sprite[LOOP] = spriteLoad(LOOPDIR.."loopdqcc.png")
+
+				end
+
+			elseif multi[currentMove][1] == LEFT then 
+
+				if multi[currentMove][2] == UP and (#multi[currentMove]>4 or (#multi[currentMove] == 4 and multi[currentMove][#multi[currentMove]]<5)) then 
+
+					sprite[LOOP] = spriteLoad(LOOPDIR.."looplc.png")
+
+				elseif multi[currentMove][2] == DOWN and (#multi[currentMove]>4 or (#multi[currentMove] == 4 and multi[currentMove][#multi[currentMove]]<5)) then
+
+					sprite[LOOP] = spriteLoad(LOOPDIR.."looplcc.png")
+
+				elseif multi[currentMove][2] == UP and ((#multi[currentMove] == 3 and multi[currentMove][#multi[currentMove]]<5) or (#multi[currentMove] == 4 and multi[currentMove][#multi[currentMove]] >=5)) then 
+
+					sprite[LOOP] = spriteLoad(LOOPDIR.."looplhc.png")
+				
+				elseif multi[currentMove][2] == DOWN and ((#multi[currentMove] == 3 and multi[currentMove][#multi[currentMove]]<5) or (#multi[currentMove] == 4 and multi[currentMove][#multi[currentMove]] >=5)) then 
+
+					sprite[LOOP] = spriteLoad(LOOPDIR.."looplhcc.png")
+
+				elseif multi[currentMove][2] == UP and (#multi[currentMove] == 2 or (#multi[currentMove] == 3 and multi[currentMove][#multi[currentMove]] >=5)) then 
+
+					sprite[LOOP] = spriteLoad(LOOPDIR.."looplqc.png")
+				
+				elseif multi[currentMove][2] == DOWN and (#multi[currentMove] == 2 or (#multi[currentMove] == 3 and multi[currentMove][#multi[currentMove]] >=5)) then 
+
+					sprite[LOOP] = spriteLoad(LOOPDIR.."looplqcc.png")
+
+				end
+
+			elseif multi[currentMove][1] == RIGHT then  
+
+				if multi[currentMove][2] == DOWN and (#multi[currentMove]>4 or (#multi[currentMove] == 4 and multi[currentMove][#multi[currentMove]]<5)) then  
+
+					sprite[LOOP] = spriteLoad(LOOPDIR.."looprc.png")
+				
+				elseif multi[currentMove][2] == UP and (#multi[currentMove]>4 or (#multi[currentMove] == 4 and multi[currentMove][#multi[currentMove]]<5)) then
+
+					sprite[LOOP] = spriteLoad(LOOPDIR.."looprcc.png")
+
+				elseif multi[currentMove][2] == DOWN and ((#multi[currentMove] == 3 and multi[currentMove][#multi[currentMove]]<5) or (#multi[currentMove] == 4 and multi[currentMove][#multi[currentMove]] >=5)) then 
+
+					sprite[LOOP] = spriteLoad(LOOPDIR.."looprhc.png")
+				
+				elseif multi[currentMove][2] == UP and ((#multi[currentMove] == 3 and multi[currentMove][#multi[currentMove]]<5) or (#multi[currentMove] == 4 and multi[currentMove][#multi[currentMove]] >=5)) then 
+
+					sprite[LOOP] = spriteLoad(LOOPDIR.."looprhcc.png")
+
+				elseif multi[currentMove][2] == DOWN and (#multi[currentMove] == 2 or (#multi[currentMove] == 3 and multi[currentMove][#multi[currentMove]] >=5)) then
+
+					sprite[LOOP] = spriteLoad(LOOPDIR.."looprqc.png")
+				
+				elseif multi[currentMove][2] == UP and (#multi[currentMove] == 2 or (#multi[currentMove] == 3 and multi[currentMove][#multi[currentMove]] >=5)) then
+
+					sprite[LOOP] = spriteLoad(LOOPDIR.."looprqcc.png")
+
+				end
+
+			end
+		
+		end
+
+		if multi[currentMove][iMulti] == UP then 
+
+			mcombo = {1,0,0,0,0,0,0}
+			
+		elseif multi[currentMove][iMulti] == DOWN then
+
+			mcombo = {0,1,0,0,0,0,0}
+
+		elseif multi[currentMove][iMulti] == LEFT then
+
+			mcombo = {0,0,1,0,0,0,0}
+
+		elseif multi[currentMove][iMulti] == RIGHT then
+
+			mcombo = {0,0,0,1,0,0,0}
+
+		elseif multi[currentMove][iMulti] == BUTTON1 then
+
+			mcombo = {0,0,0,0,1,0,0}
+
+		elseif multi[currentMove][iMulti] == BUTTON2 then
+
+			mcombo = {0,0,0,0,0,1,0}
+
+		elseif multi[currentMove][iMulti] == BUTTON3 then
+
+			mcombo = {0,0,0,0,0,0,1}
+
+		end
+
+		thisMove = scanInput()
+
+		thisMove = checkMulti(thisMove, move[currentMove][correctMove])
+	
+		resultMove()
+
+	elseif (move[currentMove][correctMove] == PATH) then
+
+		thisMove = scanInput()
+
+		if (thisMove ~= NOMOVE) then
+	
+			if thisMove == path[currentMove][1] then				
+				
+				iPath = path[currentMove][2]
+
+				if iPath > 1000 then 
+
+					bShowAction = false
+					move[currentMove][moveDeath] = iPath - 1000 
+					lvlState = branch02	 -- Hints	(or setupDeathClip)	
+					
+				else
+
+					iPathAend = path[currentMove][4] -1
+					iPathAjmp = path[currentMove][9]
+					bShowAction = false
+					
+					lvlState = branch04 -- Process Good Moves
+					
+				end
+
+			elseif thisMove == path[currentMove][3] then
+			
+				iPath = path[currentMove][4]
+
+				if iPath > 1000 then 
+					
+					bShowAction = false	
+					move[currentMove][moveDeath] = iPath - 1000 
+					lvlState = branch02	 -- Hints	(or setupDeathClip)
+			
+				else
+
+					if path[currentMove][5] == 0 then
+
+						iPathAend = 0
+						
+						if path[currentMove][9]~=OUT then 
+						
+							iPathAjmp = 0 
+
+						else
+
+							iPathAjmp = OUT
+
+						end
+
+					else
+						
+						iPathAend = path[currentMove][6] -1
+						iPathAjmp = path[currentMove][9]
+						
+					end
+
+					bShowAction = false
+					lvlState = branch04 -- Process Good Moves
+				
+				end
+
+
+			elseif thisMove == path[currentMove][5] then
+			
+				iPath = path[currentMove][6]
+
+				if iPath > 1000 then 
+					
+					bShowAction = false
+					move[currentMove][moveDeath] = iPath - 1000 
+					lvlState = branch02	 -- Hints	(or setupDeathClip)		
+	
+				else
+
+					if path[currentMove][7] == 0 then
+
+						iPathAend = 0
+
+						if path[currentMove][9]~=OUT then 
+						
+							iPathAjmp = 0 
+
+						else
+
+							iPathAjmp = OUT
+
+						end
+
+					else
+						
+						iPathAend = path[currentMove][8] -1
+						iPathAjmp = path[currentMove][9]
+
+					end
+
+					bShowAction = false
+					lvlState = branch04 -- Process Good Moves
+
+				end
+
+			elseif thisMove == path[currentMove][7] then
+			
+				iPath = path[currentMove][8]
+
+				if iPath > 1000 then 
+					
+					bShowAction = false
+					move[currentMove][moveDeath] = iPath - 1000 
+					lvlState = branch02	 -- Hints	(or setupDeathClip)			
+
+				else
+
+					iPathAend = 0
+
+					if path[currentMove][9]~=OUT then 
+						
+							iPathAjmp = 0 
+
+						else
+
+							iPathAjmp = OUT
+
+						end
+					
+					bShowAction = false
+					
+					lvlState = branch04 -- Process Good Moves
+
+				end
+
+			else
+				
+				bShowAction = false	
+				lvlState = branch02	 -- Hints	(or setupDeathClip)			
+																		
+			end
+		
+		end		
+
+	elseif (move[currentMove][correctMove] == YESNO) then
+
+		thisMove = scanInput()
+		
+		if (thisMove ~= NOMOVE) then
+	
+			if thisMove == BUTTON1 then				
+				
+				iPath = path[currentMove][1]	
+
+				if iPath > 1000 then 
+
+					bShowAction = false
+					move[currentMove][moveDeath] = iPath - 1000 
+					lvlState = branch02	 -- Hints	(or setupDeathClip)	
+
+				else
+
+					iPathAend = path[currentMove][2] -1
+					iPathAjmp = path[currentMove][3]
+					bShowAction = false
+					lvlState = branch04 -- Process Good Moves
+
+				end
+			
+			else
+
+				bShowAction = false	
+				lvlState = branch02	 -- Hints	(or setupDeathClip)		
+																		
+			end
+
+		elseif 	(thisMove == NOMOVE) and currentFrame == move[currentMove][inputFrmEnd] then
+
+			iPath = path[currentMove][2]
+
+			if iPath > 1000 then 
+				
+				bShowAction = false
+				move[currentMove][moveDeath] = iPath - 1000 
+				lvlState = branch02	 -- Hints	(or setupDeathClip)	
+								
+			else
+
+				iPathAend = 0
+				iPathAjmp = 0
+				bShowAction = false
+				lvlState = branch04 -- Process Good Moves
+
+			end
+
+		end	
+
+	elseif (move[currentMove][correctMove] == TIMED) then
+		
+		local tcount
+		local i
+		local j
+
+
+		if move[currentMove][5] == nil and move[currentMove][6] == nil then 
+
+			i = currentMove
+			j = currentMove
+
+		else
+
+			i = move[currentMove][5]
+			j = move[currentMove][6]
+
+		end
+						
+		thisMove = scanInput()
+		
+		if (thisMove ~= NOMOVE) then
+
+			if bTime then
+
+				bTime = false
+				Hit = currentFrame
+			
+			end
+
+			for tcount = i, j do
+			
+				if Hit >= timed[tcount][2] and Hit <= timed[tcount][3] then
+
+					if timed[tcount][1] == thisMove then	
+
+						if timed[tcount][5] ~= nil then 
+							
+							if timed[tcount][5] == 0 then
+
+								discSkipToFrame(move[currentMove][moveFrmEnd])
+
+							elseif timed[tcount][5] > 0 then
+
+								iPath = timed[tcount][5]
+								discSkipToFrame(move[currentMove][moveFrmEnd])
+
+							end
+															
+						end	
+						
+						lvlState = branch04 -- Process Good Moves
+						break
+
+					else	
+						
+						iPauseFrame = move[currentMove][inputFrmEnd] --currentFrame
+						bShowAction = false
+						move[currentMove][moveDeath] = timed[tcount][4]	
+						lvlState = branch02	 -- Hints	(or setupDeathClip)
+						break
+
+					end
+
+				else	
+					
+					if tcount == j then 	
+						
+						iPauseFrame = move[currentMove][inputFrmEnd] --currentFrame
+						move[currentMove][moveDeath] = timed[tcount][4]
+						bShowAction = false	
+						lvlState = branch02	 -- Hints	(or setupDeathClip)
+					 
+					end
+
+				end	
+
+			end
+
+		end
+
+	elseif (move[currentMove][correctMove] == SKIP) then
+		
+		thisMove = scanInput()
+		thisMove = checkSkip(thisMove, move[currentMove][correctMove])
+
+	end 		
+
+end
+
+function drawAction()      -- Draw all type of actions
+	
+	
+	if currentMove <= totalMoves then
+
+		local thisMove = move[currentMove][correctMove]
+		
+		if dip_ShowAction == 0 and thisMove ~= SKIP then
+
+		elseif dip_ShowAction == 1 and thisMove < 50 then
+				
+		elseif dip_ShowAction == 2 and thisMove < 50 then
+
+			spriteDraw(posxTEXT,posyBUTTONS,sprite[NOMOVES])
+
+		elseif dip_ShowAction == 3 and thisMove < 50 then
+
+			if (thisMove >= 1 and thisMove <= 4) or (thisMove >= 9 and thisMove <= 12) then
+
+				spriteDraw(posxTEXT,posyBUTTONS,sprite[STICK])
+
+			elseif thisMove >= 5 and thisMove <= 8 then
+
+				spriteDraw(posxTEXT,posyBUTTONS,sprite[BUTTONS])
+
+			elseif thisMove >= 13 and thisMove <= 16 then
+
+				spriteDraw(posxTEXT,posyBUTTONS+BUTH/2,sprite[BUTTONS])
+				spriteDraw(posxTEXT,posyBUTTONS-BUTH/2,sprite[STICK])
+
+			elseif thisMove >= 17 and thisMove < 50 then
+
+				spriteDraw(posxTEXT,posyBUTTONS+LINEH,sprite[SPECIALS])
+				
+			end
+
+		else
+
+			if thisMove == UP then
+			
+				goTimer(0.1)
+			
+				if heartbeat then
+
+					if posyUARROW > endyUARROW then posyUARROW = posyUARROW-LINEH end
+					spriteDraw(posxUDARROWS,posyUARROW,sprite[UP])
+								
+				end
+				
+			elseif thisMove == DOWN then
+
+				goTimer(0.1)
+			
+				if heartbeat then	
+
+					if posyDARROW < endyDARROW then posyDARROW = posyDARROW+LINEH end
+					spriteDraw(posxUDARROWS,posyDARROW,sprite[DOWN])
+											
+				end
+				
+			elseif thisMove == LEFT then
+
+				goTimer(0.1)
+			
+				if heartbeat then	
+						
+					if posxLARROW > endxLARROW then posxLARROW = posxLARROW-LINEW end
+					spriteDraw(posxLARROW,posyLRARROWS,sprite[LEFT])
+						
+				end
+							
+			elseif thisMove == RIGHT then
+
+				goTimer(0.1)
+			
+				if heartbeat then	
+
+					if posxRARROW < endxRARROW then posxRARROW = posxRARROW+LINEW end
+					spriteDraw(posxRARROW,posyLRARROWS,sprite[RIGHT])
+														
+				end
+
+			elseif thisMove == BUTTON1 or thisMove == BUTTON2 or thisMove == BUTTON3 then
+				
+				spriteDraw(posxBUTTONS,posyBUTTONS,sprite[thisMove])
+						
+			elseif thisMove == UPLEFT then
+
+				goTimer(0.1)
+		
+				if heartbeat then	
+					
+					if posxLARROW > endxLARROW then 
+
+						posxLARROW = posxLARROW-LINEW
+						posyLRARROWS = posyLRARROWS-LINEH
+
+					end
+
+					spriteDraw(posxLARROW,posyLRARROWS,sprite[UPLEFT])
+												
+				end
+
+			elseif thisMove == UPRIGHT then
+
+				goTimer(0.1)
+		
+				if heartbeat then	
+
+					if posxRARROW < endxRARROW then 
+
+						posxRARROW = posxRARROW+LINEW 
+						posyLRARROWS = posyLRARROWS-LINEH
+
+					end
+
+					spriteDraw(posxRARROW,posyLRARROWS,sprite[UPRIGHT])
+												
+				end
+
+			elseif thisMove == DOWNLEFT then
+
+				goTimer(0.1)
+		
+				if heartbeat then	
+
+					if posxLARROW > endxLARROW then 
+
+						posxLARROW = posxLARROW-LINEW
+						posyLRARROWS = posyLRARROWS+LINEH
+
+					end
+
+					spriteDraw(posxLARROW,posyLRARROWS,sprite[DOWNLEFT])
+												
+				end
+
+			elseif thisMove == DOWNRIGHT then
+
+				goTimer(0.1)
+		
+				if heartbeat then	
+
+					if posxRARROW < endxRARROW then 
+
+						posxRARROW = posxRARROW+LINEW
+						posyLRARROWS = posyLRARROWS+LINEH
+
+					end
+
+					spriteDraw(posxRARROW,posyLRARROWS,sprite[DOWNRIGHT])
+											
+				end
+
+			elseif thisMove == LOOP then
+
+				if move[currentMove][6] == nil or move[currentMove][inputFrmStart] + move[currentMove][6] >= move[currentMove][inputFrmEnd] then
+
+					if #multi[currentMove] == 4 or #multi[currentMove] == 6 or (#multi[currentMove] == 3 and multi[currentMove][3] >= 5) then 
+
+						if iMulti < #multi[currentMove] then spriteDraw((OVLW/2)-LOOPW,(OVLH/2)-(LOOPW/2),sprite[LOOP]) end
+						spriteDraw(OVLW/2,posyBUTTONS,sprite[multi[currentMove][#multi[currentMove]]])
+
+					elseif #multi[currentMove] >= 9  then
+
+						local iTurn = math.floor(#multi[currentMove]/4)
+						local FULLW = LOOPW*iTurn
+
+						if iTurn*4+1 ~= #multi[currentMove] then 
+
+							FULLW = FULLW+BUTW 
+
+						end
+
+						for i=1, iTurn do
+
+							if iMulti < 4*i+2 then spriteDraw(OVLW/2-FULLW/2+LOOPW*(i-1),(OVLH/2)-(LOOPW/2),sprite[LOOP]) end
+							
+						end 
+
+						if multi[currentMove][#multi[currentMove]]>=5 then spriteDraw(OVLW/2+FULLW/2-BUTW,posyBUTTONS,sprite[multi[currentMove][#multi[currentMove]]]) end
+
+					else
+
+						spriteDraw(OVLW/2-(LOOPW/2),(OVLH/2)-(LOOPW/2),sprite[LOOP])
+						
+					end
+
+				else
+
+					if currentFrame < move[currentMove][inputFrmStart] + move[currentMove][6] then 
+
+						spriteDraw(OVLW/2-WAITW/2,OVLH/3-LINEH,sprite[WAIT])
+
+						if #multi[currentMove] == 4 or #multi[currentMove] == 6 or (#multi[currentMove] == 3 and multi[currentMove][3] >= 5) then 
+
+							spriteDraw((OVLW/2)-LOOPW,(OVLH/2)-(LOOPW/2),sprite[LOOP])
+							spriteDraw(OVLW/2,posyBUTTONS,sprite[multi[currentMove][#multi[currentMove]]])
+
+						elseif #multi[currentMove] >= 9  then
+
+							local iTurn = math.floor(#multi[currentMove]/4)
+							local FULLW = LOOPW*iTurn
+
+							if iTurn*4+1 ~= #multi[currentMove] then 
+
+								FULLW = FULLW+BUTW 
+
+							end
+
+							for i=1, iTurn do
+
+								spriteDraw(OVLW/2-FULLW/2+LOOPW*(i-1),(OVLH/2)-(LOOPW/2),sprite[LOOP])
+								
+							end 
+
+							if string.sub(move[currentMove][5],7,8) ~= nil then spriteDraw(OVLW/2+FULLW/2-BUTW,posyBUTTONS,sprite[multi[currentMove][#multi[currentMove]]]) end
+
+						else
+
+							spriteDraw(OVLW/2-(LOOPW/2),(OVLH/2)-(LOOPW/2),sprite[LOOP])
+							
+						end	
+
+					else	
+
+						blinkTimer(0.2)
+						if heartbeat then spriteDraw(posxTEXT,posyBUTTONS,sprite[NOMOVES]) end
+					
+					end
+
+				end
+
+			elseif thisMove == MULTI then
+
+				multx = OVLW/2-(ARLW*#multi[currentMove])/2
+
+				if move[currentMove][6] == nil or move[currentMove][inputFrmStart] + move[currentMove][6] >= move[currentMove][inputFrmEnd] then 
+				
+					if #multi[currentMove] == 2 and ((multi[currentMove][1] == RIGHT and multi[currentMove][2] == LEFT) or (multi[currentMove][1] == LEFT and multi[currentMove][2] == RIGHT))  then
+
+						for i = iMulti, #multi[currentMove] do
+
+							if i == 1 then
+
+								spriteDraw(OVLW/2-ARLW/2,posyBUTTONS-ARLH,sprite[multi[currentMove][1]])
+
+							elseif i == 2 then 
+
+								spriteDraw(OVLW/2-ARLW/2,posyBUTTONS,sprite[multi[currentMove][2]])
+
+							end 
+						
+						end	
+
+					else  
+				
+						for i = iMulti, #multi[currentMove] do
+							
+							spriteDraw(multx+ (i-1)*ARLW,posyBUTTONS,sprite[multi[currentMove][i]])
+
+						end	
+
+					end
+
+				else
+
+					if currentFrame < move[currentMove][inputFrmStart] + move[currentMove][6] then 
+
+						spriteDraw(OVLW/2-WAITW/2,OVLH/3,sprite[WAIT])
+
+						for i = 1, #multi[currentMove] do
+							
+							spriteDraw(multx+ (i-1)*ARLW,posyBUTTONS,sprite[multi[currentMove][i]])
+
+						end	
+
+					else	
+
+						blinkTimer(0.2)
+						if heartbeat then spriteDraw(posxTEXT,posyBUTTONS,sprite[NOMOVES]) end
+					
+					end
+
+				end	
+										
+							
+			elseif thisMove == MASH then
+				
+				posGauge = iMash*9/mashCounter
+
+				blinkTimer(0.1)
+				
+				if move[currentMove][5] == nil or move[currentMove][5] == BUTTON1 then
+
+					if heartbeat then
+
+						spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprite[MASH])
+
+					else
+
+						spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprite[BUTTON1]) 
+						
+					end
+
+				elseif move[currentMove][5] == BUTTON2 then
+
+					if heartbeat then
+
+						spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprite[MASH2])
+
+					else
+
+						spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprite[BUTTON2]) 
+						
+					end
+
+				elseif move[currentMove][5] == BUTTON3 then
+
+					if heartbeat then
+
+						spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprite[MASH3])
+
+					else
+
+						spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprite[BUTTON3])
+						
+					end
+
+				elseif move[currentMove][5] == UP then
+
+					if heartbeat then spriteDraw(posxUDARROWS,OVLH/2-ARUH/2-BARH,sprite[UP]) end
+
+				elseif move[currentMove][5] == DOWN then
+
+					if heartbeat then spriteDraw(posxUDARROWS,OVLH/2-ARUH/2-BARH,sprite[DOWN]) end	
+
+				elseif move[currentMove][5] == LEFT then
+
+					if heartbeat then spriteDraw(OVLW/2-ARLW/2,OVLH/2-ARLH/2,sprite[LEFT]) end
+					
+				elseif move[currentMove][5] == RIGHT then
+
+					if heartbeat then spriteDraw(OVLW/2-ARLW/2,OVLH/2-ARLH/2,sprite[RIGHT]) end
+
+				elseif move[currentMove][5] == UPLEFT then
+
+					if heartbeat then spriteDraw(OVLW/2-ARLW/2,OVLH/2-ARLH/2,sprite[UPLEFT]) end
+
+				elseif move[currentMove][5] == UPRIGHT then
+
+					if heartbeat then spriteDraw(OVLW/2-ARLW/2,OVLH/2-ARLH/2,sprite[UPRIGHT]) end
+
+				elseif move[currentMove][5] == DOWNLEFT then
+
+					if heartbeat then spriteDraw(OVLW/2-ARLW/2,OVLH/2-ARLH/2,sprite[DOWNLEFT]) end
+
+				elseif move[currentMove][5] == DOWNRIGHT then
+
+					if heartbeat then spriteDraw(OVLW/2-ARLW/2,OVLH/2-ARLH/2,sprite[DOWNRIGHT]) end
+
+				elseif move[currentMove][5] == UD then
+
+					if heartbeat then
+
+						spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprite[HUP])
+
+					else
+					
+						spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprite[HDOWN])
+
+					end	
+
+				elseif move[currentMove][5] == LR then
+
+					if heartbeat then
+
+						spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprite[HLEFT])
+
+					else
+					
+						spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprite[HRIGHT])
+
+					end	
+				
+				elseif move[currentMove][5] == B1B2 then
+
+					if heartbeat then
+
+						spriteDraw(OVLW/2-BUTW-10,posyBUTTONS-LINEH,sprite[MASH])
+						spriteDraw(OVLW/2+10,posyBUTTONS-LINEH,sprite[BUTTON2])
+
+					else
+
+						spriteDraw(OVLW/2-BUTW-10,posyBUTTONS-LINEH,sprite[BUTTON1])
+						spriteDraw(OVLW/2+10,posyBUTTONS-LINEH,sprite[MASH2])
+
+					end	
+
+				end	
+
+				drawGauge()
+			
+			elseif thisMove == HOLD then
+
+				posGauge = iLenHold*9/lenCounter
+				goTimer(0.1)
+
+				if move[currentMove][5] == UP then
+				
+					if currentFrame > move[currentMove][inputFrmStart] + 5 then 
+
+						spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprite[HUP])
+
+					else
+					
+						spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprite[HOLD])
+
+					end	
+								
+					if heartbeat then	
+						
+						if posyUARROW > endyUARROW then posyUARROW = posyUARROW-LINEH end
+						spriteDraw(posxUDARROWS,posyUARROW,sprite[UP])
+								
+					end
+
+				elseif move[currentMove][5] == DOWN then
+
+					if currentFrame > move[currentMove][inputFrmStart] + 5 then 
+
+						spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprite[HDOWN])
+
+					else
+					
+						spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprite[HOLD])
+
+					end	
+			
+					if heartbeat then	
+						
+						if posyDARROW < endyDARROW then posyDARROW = posyDARROW+LINEH end
+						spriteDraw(posxUDARROWS,posyDARROW,sprite[DOWN])
+												
+					end
+
+				elseif move[currentMove][5] == LEFT then
+
+					if currentFrame > move[currentMove][inputFrmStart] + 5 then 
+
+						spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprite[HLEFT])
+
+					else
+					
+						spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprite[HOLD])
+
+					end	
+			
+					if heartbeat then	
+						
+						if posxLARROW > endxLARROW then posxLARROW = posxLARROW-LINEW end
+						spriteDraw(posxLARROW,posyLRARROWS,sprite[LEFT])
+								
+					end
+
+				elseif move[currentMove][5] == RIGHT then
+
+					if currentFrame > move[currentMove][inputFrmStart] + 5 then 
+
+						spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprite[HRIGHT])
+
+					else
+					
+						spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprite[HOLD])
+
+					end	
+			
+					if heartbeat then	
+									
+						if posxRARROW < endxRARROW then posxRARROW = posxRARROW+LINEW end
+						spriteDraw(posxRARROW,posyLRARROWS,sprite[RIGHT])
+								
+					end
+
+				elseif move[currentMove][5] == BUTTON1 then
+
+					if currentFrame > move[currentMove][inputFrmStart] + 5 then 
+
+						spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprite[MASH])
+						
+					else
+					
+						spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprite[BUTTON1])
+
+					end	
+					
+					spriteDraw(OVLW/2 - SELCH/2,posyBUTTONS-LINEH,sprite[SELMAP])
+
+				elseif move[currentMove][5] == BUTTON2 then
+
+					if currentFrame > move[currentMove][inputFrmStart] + 5 then 
+
+						spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprite[MASH2])
+						
+					else
+					
+						spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprite[BUTTON2])
+
+					end	
+
+					spriteDraw(OVLW/2 - SELCH/2,posyBUTTONS-LINEH,sprite[SELMAP])
+
+				elseif move[currentMove][5] == BUTTON3 then
+
+					if currentFrame > move[currentMove][inputFrmStart] + 5 then 
+
+						spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprite[MASH3])
+						
+					else
+					
+						spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprite[BUTTON3])
+
+					end	
+
+					spriteDraw(OVLW/2 - SELCH/2,posyBUTTONS-LINEH,sprite[SELMAP])
+
+				elseif move[currentMove][5] == UPLEFT then
+
+					if currentFrame > move[currentMove][inputFrmStart] + 5 then 
+
+						spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprite[HLEFT])
+
+					else
+					
+						spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprite[HOLD])
+
+					end			
+					
+					if heartbeat then	
+						
+						if posxLARROW > endxLARROW then 
+
+							posxLARROW = posxLARROW-LINEW
+							posyLRARROWS = posyLRARROWS-LINEH
+
+						end
+
+						spriteDraw(posxLARROW,posyLRARROWS,sprite[UPLEFT])
+								
+					end
+
+				elseif move[currentMove][5] == UPRIGHT then
+
+					if currentFrame > move[currentMove][inputFrmStart] + 5 then 
+
+						spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprite[HRIGHT])
+
+					else
+					
+						spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprite[HOLD])
+
+					end	
+			
+					if heartbeat then	
+
+						if posxRARROW < endxRARROW then 
+
+							posxRARROW = posxRARROW+LINEW 
+							posyLRARROWS = posyLRARROWS-LINEH
+
+						end
+
+						spriteDraw(posxRARROW,posyLRARROWS,sprite[UPRIGHT])
+													
+					end
+
+				elseif move[currentMove][5] == DOWNLEFT then
+
+					if currentFrame > move[currentMove][inputFrmStart] + 5 then 
+
+						spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprite[HLEFT])
+
+					else
+					
+						spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprite[HOLD])
+
+					end	
+			
+					if heartbeat then	
+
+						if posxLARROW > endxLARROW then 
+
+							posxLARROW = posxLARROW-LINEW
+							posyLRARROWS = posyLRARROWS+LINEH
+
+						end
+
+						spriteDraw(posxLARROW,posyLRARROWS,sprite[DOWNLEFT])
+													
+					end
+					
+				elseif move[currentMove][5] == DOWNRIGHT then
+
+					if currentFrame > move[currentMove][inputFrmStart] + 5 then 
+
+						spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprite[HRIGHT])
+
+					else
+					
+						spriteDraw(posxBUTTONS,posyBUTTONS-LINEH,sprite[HOLD])
+
+					end	
+			
+					if heartbeat then	
+
+						if posxRARROW < endxRARROW then 
+
+							posxRARROW = posxRARROW+LINEW
+							posyLRARROWS = posyLRARROWS+LINEH
+
+						end
+
+						spriteDraw(posxRARROW,posyLRARROWS,sprite[DOWNRIGHT])
+												
+					end
+					
+				end
+
+				drawGauge()
+
+			elseif thisMove == LETGO then
+				
+					spriteDraw(posxBUTTONS,posyBUTTONS,sprite[LETGO])
+
+			elseif thisMove == COMBO then
+
+				if move[currentMove][5] == UP then
+
+					goTimer(0.1)
+		
+					if heartbeat then
+
+						if posyUARROW > endyUARROW then posyUARROW = posyUARROW-LINEH end
+						spriteDraw(posxUDARROWS,posyUARROW,sprite[UP])
+						
+					end
+
+				elseif move[currentMove][5] == DOWN then
+
+					goTimer(0.1)
+		
+					if heartbeat then	
+
+						if posyDARROW < endyDARROW then posyDARROW = posyDARROW+LINEH end
+						spriteDraw(posxUDARROWS,posyDARROW,sprite[DOWN])
+													
+					end
+
+				elseif move[currentMove][5] == LEFT then
+
+					goTimer(0.1)
+			
+					if heartbeat then	
+						
+						if posxLARROW > endxLARROW then posxLARROW = posxLARROW-LINEW end
+						spriteDraw(posxLARROW,posyLRARROWS,sprite[LEFT])
+													
+					end
+
+				elseif move[currentMove][5] == RIGHT then
+
+					goTimer(0.1)
+		
+					if heartbeat then	
+
+						if posxRARROW < endxRARROW then posxRARROW = posxRARROW+LINEW end
+						spriteDraw(posxRARROW,posyLRARROWS,sprite[RIGHT])
+													
+					end
+
+				elseif move[currentMove][5] == BUTTON1 then
+
+					if move[currentMove][6]~=BUTTON2 and move[currentMove][6]~=BUTTON3 then 
+
+						spriteDraw(posxBUTTONS,posyBUTTONS,sprite[BUTTON1])
+
+					else
+
+						spriteDraw(OVLW/2-BUTW-BARW,posyBUTTONS,sprite[BUTTON1])
+
+					end	
+
+				elseif move[currentMove][5] == BUTTON2 then
+
+					if move[currentMove][6]~=BUTTON1 and move[currentMove][6]~=BUTTON3 then 
+
+						spriteDraw(posxBUTTONS,posyBUTTONS,sprite[BUTTON2])
+
+					else
+
+						spriteDraw(OVLW/2-BUTW-BARW,posyBUTTONS,sprite[BUTTON2])
+					
+					end
+
+				elseif move[currentMove][5] == BUTTON3 then
+
+					if move[currentMove][6]~=BUTTON1 and move[currentMove][6]~=BUTTON2 then 
+
+						spriteDraw(posxBUTTONS,posyBUTTONS,sprite[BUTTON3])
+
+					else
+
+						spriteDraw(OVLW/2-BUTW-BARW,posyBUTTONS,sprite[BUTTON3])
+					
+					end
+
+				elseif move[currentMove][5] == UPLEFT then
+
+					goTimer(0.1)
+		
+					if heartbeat then	
+						
+						if posxLARROW > endxLARROW then 
+
+							posxLARROW = posxLARROW-LINEW
+							posyLRARROWS = posyLRARROWS-LINEH
+
+						end
+
+						spriteDraw(posxLARROW,posyLRARROWS,sprite[UPLEFT])
+													
+					end
+			
+				elseif move[currentMove][5] == UPRIGHT then
+
+					goTimer(0.1)
+		
+					if heartbeat then	
+
+						if posxRARROW < endxRARROW then 
+
+							posxRARROW = posxRARROW+LINEW 
+							posyLRARROWS = posyLRARROWS-LINEH
+
+						end
+
+						spriteDraw(posxRARROW,posyLRARROWS,sprite[UPRIGHT])
+													
+					end
+
+				elseif move[currentMove][5] == DOWNLEFT then
+
+					goTimer(0.1)
+		
+					if heartbeat then	
+
+						if posxLARROW > endxLARROW then 
+
+							posxLARROW = posxLARROW-LINEW
+							posyLRARROWS = posyLRARROWS+LINEH
+
+						end
+
+						spriteDraw(posxLARROW,posyLRARROWS,sprite[DOWNLEFT])
+													
+					end
+					
+				elseif move[currentMove][5] == DOWNRIGHT then
+
+					goTimer(0.1)
+		
+					if heartbeat then	
+
+						if posxRARROW < endxRARROW then 
+
+							posxRARROW = posxRARROW+LINEW
+							posyLRARROWS = posyLRARROWS+LINEH
+
+						end
+
+						spriteDraw(posxRARROW,posyLRARROWS,sprite[DOWNRIGHT])
+												
+					end
+
+				end
+
+				if move[currentMove][6] == UP then
+
+					goTimer(0.1)
+			
+					if heartbeat then
+
+						if posyUARROW > endyUARROW then posyUARROW = posyUARROW-LINEH end
+						spriteDraw(posxUDARROWS,posyUARROW,sprite[UP])
+						
+					end
+
+				elseif move[currentMove][6] == DOWN then
+
+					goTimer(0.1)
+		
+					if heartbeat then	
+
+						if posyDARROW < endyDARROW then posyDARROW = posyDARROW+LINEH end
+						spriteDraw(posxUDARROWS,posyDARROW,sprite[DOWN])
+													
+					end
+
+				elseif move[currentMove][6] == LEFT then
+
+					goTimer(0.1)
+		
+					if heartbeat then	
+						
+						if posxLARROW > endxLARROW then posxLARROW = posxLARROW-LINEW end
+						spriteDraw(posxLARROW,posyLRARROWS,sprite[LEFT])
+													
+					end
+
+				elseif move[currentMove][6] == RIGHT then
+
+					goTimer(0.1)
+		
+					if heartbeat then	
+
+						if posxRARROW < endxRARROW then posxRARROW = posxRARROW+LINEW end
+						spriteDraw(posxRARROW,posyLRARROWS,sprite[RIGHT])
+													
+					end
+
+				elseif move[currentMove][6] == BUTTON1 then
+
+					if move[currentMove][5]~=BUTTON2 and move[currentMove][5]~=BUTTON3 then 
+
+						spriteDraw(posxBUTTONS,posyBUTTONS,sprite[BUTTON1])
+
+					else
+
+						spriteDraw(OVLW/2+BARW,posyBUTTONS,sprite[BUTTON1])
+
+					end	
+					
+				elseif move[currentMove][6] == BUTTON2 then
+
+					if move[currentMove][5]~=BUTTON1 and move[currentMove][5]~=BUTTON3 then 
+
+						spriteDraw(posxBUTTONS,posyBUTTONS,sprite[BUTTON2])
+
+					else
+						
+						spriteDraw(OVLW/2+BARW,posyBUTTONS,sprite[BUTTON2])
+
+					end	
+
+				elseif move[currentMove][6] == BUTTON3 then
+
+					if move[currentMove][5]~=BUTTON1 and move[currentMove][5]~=BUTTON2 then 
+
+						spriteDraw(posxBUTTONS,posyBUTTONS,sprite[BUTTON3])
+
+					else
+
+						spriteDraw(OVLW/2+BARW,posyBUTTONS,sprite[BUTTON3])
+
+					end	
+
+				elseif move[currentMove][6] == UPLEFT then
+
+					goTimer(0.1)
+		
+					if heartbeat then	
+						
+						if posxLARROW > endxLARROW then 
+
+							posxLARROW = posxLARROW-LINEW
+							posyLRARROWS = posyLRARROWS-LINEH
+
+						end
+
+						spriteDraw(posxLARROW,posyLRARROWS,sprite[UPLEFT])
+													
+					end
+			
+				elseif move[currentMove][6] == UPRIGHT then
+
+					goTimer(0.1)
+		
+					if heartbeat then	
+
+						if posxRARROW < endxRARROW then 
+
+							posxRARROW = posxRARROW+LINEW 
+							posyLRARROWS = posyLRARROWS-LINEH
+
+						end
+
+						spriteDraw(posxRARROW,posyLRARROWS,sprite[UPRIGHT])
+													
+					end
+
+				elseif move[currentMove][6] == DOWNLEFT then
+
+					goTimer(0.1)
+		
+					if heartbeat then	
+
+						if posxLARROW > endxLARROW then 
+
+							posxLARROW = posxLARROW-LINEW
+							posyLRARROWS = posyLRARROWS+LINEH
+
+						end
+
+						spriteDraw(posxLARROW,posyLRARROWS,sprite[DOWNLEFT])
+													
+					end
+					
+				elseif move[currentMove][6] == DOWNRIGHT then
+
+					goTimer(0.1)
+		
+					if heartbeat then	
+
+						if posxRARROW < endxRARROW then 
+
+							posxRARROW = posxRARROW+LINEW
+							posyLRARROWS = posyLRARROWS+LINEH
+
+						end
+
+						spriteDraw(posxRARROW,posyLRARROWS,sprite[DOWNRIGHT])
+												
+					end
+
+				end
+
+			elseif thisMove == TIMED then
+			
+				local i
+
+				if move[currentMove][5] == nil then
+
+					i = currentMove
+
+				else 
+
+					i = move[currentMove][5]
+
+				end
+
+				spriteDraw(posxBUTTONS,OVLH-BUTH,sprite[TIME])
+
+				if timed[i][1] == UP then 
+
+					spriteDraw(posxUDARROWS,posyUARROW,sprite[UP])
+
+				elseif timed[i][1] == DOWN then	
+
+					spriteDraw(posxUDARROWS,posyDARROW,sprite[DOWN])
+
+				elseif timed[i][1] == LEFT then
+
+					spriteDraw(posxLARROW,posyLRARROWS,sprite[LEFT])
+				
+				elseif timed[i][1] == RIGHT then
+
+					spriteDraw(posxRARROW,posyLRARROWS,sprite[RIGHT])
+
+				elseif timed[i][1] == BUTTON1 then	
+
+					spriteDraw(posxBUTTONS,posyBUTTONS,sprite[BUTTON1])
+
+				elseif timed[i][1] == BUTTON2 then
+
+					spriteDraw(posxBUTTONS,posyBUTTONS,sprite[BUTTON2])
+
+				elseif timed[i][1] == BUTTON3 then
+
+					spriteDraw(posxBUTTONS,posyBUTTONS,sprite[BUTTON3])
+
+				elseif timed[i][1] == ACTUP then
+
+					spriteDraw(posxBUTTONS,posyBUTTONS,sprite[BUTTON1])
+					spriteDraw(posxUDARROWS,posyUARROW,sprite[UP])
+
+				elseif timed[i][1] == ACTDOWN then
+
+					spriteDraw(posxBUTTONS,posyBUTTONS,sprite[BUTTON1])
+					spriteDraw(posxUDARROWS,posyDARROW,sprite[DOWN])
+
+				elseif timed[i][1] == ACTLEFT then
+
+					spriteDraw(posxBUTTONS,posyBUTTONS,sprite[BUTTON1])
+					spriteDraw(posxLARROW,posyLRARROWS,sprite[LEFT])
+
+				elseif timed[i][1] == ACTRIGHT then
+
+					spriteDraw(posxBUTTONS,posyBUTTONS,sprite[BUTTON1])
+					spriteDraw(posxRARROW,posyLRARROWS,sprite[RIGHT])
+
+				elseif timed[i][1] == UPLEFT then
+
+					spriteDraw(posxLARROW,posyLRARROWS,sprite[UPLEFT])
+
+				elseif timed[i][1] == UPRIGHT then
+
+					spriteDraw(posxRARROW,posyLRARROWS,sprite[UPRIGHT])
+
+				elseif timed[i][1] == DOWNLEFT then
+
+					spriteDraw(posxLARROW,posyLRARROWS,sprite[DOWNLEFT])
+				
+				elseif timed[i][1] == DOWNRIGHT then
+					
+					spriteDraw(posxRARROW,posyLRARROWS,sprite[DOWNRIGHT])
+
+				end	
+
+			elseif thisMove == PATH then
+
+				if path[currentMove][1] == UP or path[currentMove][3] == UP or path[currentMove][5] == UP or path[currentMove][7] == UP then spriteDraw(posxUDARROWS,posyUARROW-LINEH-BUTH,sprite[UP]) end
+
+				if path[currentMove][1] == DOWN or path[currentMove][3] == DOWN or path[currentMove][5] == DOWN or path[currentMove][7] == DOWN then spriteDraw(posxUDARROWS,posyDARROW+LINEH+BUTH,sprite[DOWN]) end
+				
+				if path[currentMove][1] == LEFT or path[currentMove][3] == LEFT or path[currentMove][5] == LEFT or path[currentMove][7] == LEFT then spriteDraw(posxLARROW-2*LINEW-BUTW,posyLRARROWS,sprite[LEFT]) end
+
+				if path[currentMove][1] == RIGHT or path[currentMove][3] == RIGHT or path[currentMove][5] == RIGHT or path[currentMove][7] == RIGHT then spriteDraw(posxRARROW+2*LINEW+BUTW,posyLRARROWS,sprite[RIGHT]) end
+
+				if path[currentMove][1] == BUTTON1 or path[currentMove][3] == BUTTON1 or path[currentMove][5] == BUTTON1 or path[currentMove][7] == BUTTON1 then spriteDraw(posxBUTTONS,posyBUTTONS,sprite[BUTTON1]) end
+
+				if path[currentMove][1] == BUTTON2 or path[currentMove][3] == BUTTON2 or path[currentMove][5] == BUTTON2 or path[currentMove][7] == BUTTON2 then spriteDraw(posxBUTTONS+BUTW,posyBUTTONS,sprite[BUTTON2]) end
+
+				if path[currentMove][1] == BUTTON3 or path[currentMove][3] == BUTTON3 or path[currentMove][5] == BUTTON3 or path[currentMove][7] == BUTTON3 then spriteDraw(posxBUTTONS-BUTW,posyBUTTONS,sprite[BUTTON3]) end
+				
+				blinkTimer(0.2)
+
+				if heartbeat then spriteDraw(posxTEXT,posyBUTTONS,sprite[NOMOVES]) end
+			
+			elseif thisMove == YESNO then
+
+				spriteDraw(posxBUTTONS,posyBUTTONS,sprite[BUTTON1])
+				
+				blinkTimer(0.2)
+
+				if heartbeat then spriteDraw(posxTEXT,posyBUTTONS,sprite[NOMOVES]) end
+
+			elseif thisMove == SKIP then
+
+				if move[currentMove][5]~= nil then
+
+					local infotext = move[currentMove][5]
+
+					fontSelect(fontGame)
+					fontPrint(getMiddle(move[currentMove][5]), OVLH/2-3*LINEH, move[currentMove][5])
+				
+				end	
+
+				blinkTimer(0.4)
+				if heartbeat then spriteDraw(OVLW/2-SKIPW/2,OVLH-LINEH-TEXTH,sprite[SKIPINTRO])  end
+
+			elseif thisMove == CHOOSE then
+			
+				spriteDraw(posxBUTTONS,posyBUTTONS,sprite[BUTTON1])
+			
+			end
+		
+		end	
+
+	end
+
+end
+
+function drawChoose()      -- Specific drawings for the choose action
+	
+	if bShuffleOrder then
+
+		bShuffleOrder = false
+
+		if move[currentMove][moveDeath] == 2 then
+
+			iShuffle = math.random(2)
+
+			if iShuffle == 1 then		
+				optorder = nil; optorder = {1,2}
+			elseif iShuffle == 2 then		
+				optorder = nil; optorder = {2,1}
+			end		
+
+		elseif move[currentMove][moveDeath] == 3 then
+
+			iShuffle = math.random(6)
+
+			if iShuffle == 1 then		
+				optorder = nil; optorder = {1,2,3}
+			elseif iShuffle == 2 then		
+				optorder = nil; optorder = {2,3,1}
+			elseif iShuffle == 3 then		
+				optorder = nil; optorder = {3,1,2}
+			elseif iShuffle == 4 then		
+				optorder = nil; optorder = {1,3,2}
+			elseif iShuffle == 5 then		
+				optorder = nil; optorder = {2,1,3}
+			elseif iShuffle == 6 then		
+				optorder = nil; optorder = {3,2,1}
+			end
+		
+		elseif move[currentMove][moveDeath] == 4 then
+
+			iShuffle = math.random(6)
+
+			if iShuffle == 1 then		
+				optorder = nil; optorder = {1,2,3,4}
+			elseif iShuffle == 2 then		
+				optorder = nil; optorder = {4,2,3,1}
+			elseif iShuffle == 3 then		
+				optorder = nil; optorder = {3,4,1,2}
+			elseif iShuffle == 4 then		
+				optorder = nil; optorder = {1,3,2,4}
+			elseif iShuffle == 5 then		
+				optorder = nil; optorder = {2,1,4,3}
+			elseif iShuffle == 6 then		
+				optorder = nil; optorder = {4,3,2,1}
+			end		
+
+		end
+
+	end
+
+	fontSelect(fontLCD)
+	setFontColor(mycolor2)
+	fontPrint(ml20, OVLH/5, "TIMESTOP")
+	setFontColor(mycolor1)
+	fontPrint(ml21, OVLH/5 + LINEH*3, "SELECT YOUR ACTION")
+	setFontColor(mycolor2)
+
+	if move[currentMove][moveDeath] == 2 then
+
+			fontPrint(OVLW/2.5, OVLH/3, choice[optorder[1]][1])
+			fontPrint(OVLW/2.5, OVLH/3+LINEH*6, choice[optorder[2]][1])
+				
+			if     iChoice == 1 then spriteDraw(OVLW/2.5 - SELCW -10, OVLH/3+5, sprite[ARROWSELR])
+			elseif iChoice == 2 then spriteDraw(OVLW/2.5 - SELCW -10, OVLH/3+LINEH*6+5, sprite[ARROWSELR]) end
+
+		elseif move[currentMove][moveDeath] == 3 then
+
+			fontPrint(OVLW/2.5, OVLH/3, choice[optorder[1]][1])
+			fontPrint(OVLW/2.5, OVLH/3+LINEH*6, choice[optorder[2]][1])
+			fontPrint(OVLW/2.5, OVLH/3+LINEH*12, choice[optorder[3]][1])	
+	
+			if     iChoice == 1 then spriteDraw(OVLW/2.5 - SELCW -10, OVLH/3+5, sprite[ARROWSELR])
+			elseif iChoice == 2 then spriteDraw(OVLW/2.5 - SELCW -10, OVLH/3+LINEH*6+5, sprite[ARROWSELR])
+			elseif iChoice == 3 then spriteDraw(OVLW/2.5 - SELCW -10, OVLH/3+LINEH*12+5, sprite[ARROWSELR]) end
+		
+		elseif move[currentMove][moveDeath] == 4 then
+
+			fontPrint(OVLW/2.5, OVLH/3, choice[optorder[1]][1])
+			fontPrint(OVLW/2.5, OVLH/3+LINEH*6, choice[optorder[2]][1])
+			fontPrint(OVLW/2.5, OVLH/3+LINEH*12, choice[optorder[3]][1])
+			fontPrint(OVLW/2.5, OVLH/3+LINEH*18, choice[optorder[4]][1])	
+	
+			if     iChoice == 1 then spriteDraw(OVLW/2.5 - SELCW -10, OVLH/3+5, sprite[ARROWSELR])
+			elseif iChoice == 2 then spriteDraw(OVLW/2.5 - SELCW -10, OVLH/3+LINEH*6+5, sprite[ARROWSELR])
+			elseif iChoice == 3 then spriteDraw(OVLW/2.5 - SELCW -10, OVLH/3+LINEH*12+5, sprite[ARROWSELR])
+			elseif iChoice == 4 then spriteDraw(OVLW/2.5 - SELCW -10, OVLH/3+LINEH*18+5, sprite[ARROWSELR]) end
+
+	end
+
+end
+
+function drawNext() -- Draw all type of actions
+
+	local XADJ = dip_Res + 1
+	local YADJ = 0
+	local YADJ2 = 0
+
+	if currentMove <= totalMoves then
+
+		local thisMoveNext = move[currentMove][correctMove]
+
+		if thisMoveNext == UP or (thisMoveNext == HOLD and move[currentMove][5] == UP) or (thisMoveNext == MULTI and multi[currentMove][1] == UP) or (thisMoveNext == LOOP and multi[currentMove][1] == UP) or (thisMoveNext == MASH and move[currentMove][5] == UP) then
+
+			YADJ = -LINEW/2
+			spriteDraw(OVLW-XADJ*ARUW/2-LINEW-shiftOVL,YNEXT+YADJ,sprite[NUP])
+			
+		elseif thisMoveNext == DOWN or (thisMoveNext == HOLD and move[currentMove][5] == DOWN) or (thisMoveNext == MULTI and multi[currentMove][1] == DOWN) or (thisMoveNext == LOOP and multi[currentMove][1] == DOWN) or (thisMoveNext == MASH and move[currentMove][5] == DOWN) then
+
+			YADJ = -LINEW/2
+			spriteDraw(OVLW-XADJ*ARUW/2-LINEW-shiftOVL,YNEXT+YADJ,sprite[NDOWN])
+
+		elseif thisMoveNext == LEFT or (thisMoveNext == HOLD and move[currentMove][5] == LEFT) or (thisMoveNext == MULTI and multi[currentMove][1] == LEFT) or (thisMoveNext == LOOP and multi[currentMove][1] == LEFT) or (thisMoveNext == MASH and move[currentMove][5] == LEFT) then
+
+			YADJ = LINEW/2
+			spriteDraw(OVLW-XADJ*ARLW/2-LINEW-shiftOVL,YNEXT+YADJ,sprite[NLEFT])
+
+		elseif thisMoveNext == RIGHT or (thisMoveNext == HOLD and move[currentMove][5] == RIGHT) or (thisMoveNext == MULTI and multi[currentMove][1] == RIGHT) or (thisMoveNext == LOOP and multi[currentMove][1] == RIGHT) or (thisMoveNext == MASH and move[currentMove][5] == RIGHT) then
+
+			YADJ = LINEW/2
+			spriteDraw(OVLW-XADJ*ARLW/2-LINEW-shiftOVL,YNEXT+YADJ,sprite[NRIGHT])
+
+		elseif thisMoveNext == BUTTON1 or (thisMoveNext == MASH and move[currentMove][5] == "") or (thisMoveNext == MASH and move[currentMove][5] == BUTTON1) or (thisMoveNext == HOLD and move[currentMove][5] == BUTTON1) or (thisMoveNext == MULTI and multi[currentMove][1] == BUTTON1) then
+
+			YADJ = LINEW/2
+			spriteDraw(OVLW-XADJ*BUTW/2-LINEW-shiftOVL,YNEXT+YADJ,sprite[NB1])
+
+		elseif thisMoveNext == BUTTON2 or (thisMoveNext == MASH and move[currentMove][5] == BUTTON2) or (thisMoveNext == HOLD and move[currentMove][5] == BUTTON2) or (thisMoveNext == MULTI and multi[currentMove][1] == BUTTON2) then
+
+			YADJ = LINEW/2
+			spriteDraw(OVLW-XADJ*BUTW/2-LINEW-shiftOVL,YNEXT+YADJ,sprite[NB2])
+
+		elseif thisMoveNext == BUTTON3 or (thisMoveNext == MASH and move[currentMove][5] == BUTTON3) or (thisMoveNext == HOLD and move[currentMove][5] == BUTTON3) or (thisMoveNext == MULTI and multi[currentMove][1] == BUTTON3) then
+
+			YADJ = LINEW/2
+			spriteDraw(OVLW-XADJ*BUTW/2-LINEW-shiftOVL,YNEXT+YADJ,sprite[NB3])
+		
+		elseif thisMoveNext == UPLEFT or (thisMoveNext == MULTI and multi[currentMove][1] == UPLEFT) or (thisMoveNext == MASH and move[currentMove][5] == UPLEFT) then
+
+			YADJ = LINEW/2
+			spriteDraw(OVLW-XADJ*ARDW/2-LINEW-shiftOVL,YNEXT+YADJ,sprite[NUL])
+
+		elseif thisMoveNext == UPRIGHT  or (thisMoveNext == MULTI and multi[currentMove][1] == UPRIGHT) or (thisMoveNext == MASH and move[currentMove][5] == UPRIGHT) then
+
+			YADJ = LINEW/2
+			spriteDraw(OVLW-XADJ*ARDW/2-LINEW-shiftOVL,YNEXT+YADJ,sprite[NUR])
+
+		elseif thisMoveNext == DOWNLEFT or (thisMoveNext == MULTI and multi[currentMove][1] == DOWNLEFT) or (thisMoveNext == MASH and move[currentMove][5] == DOWNLEFT) then
+
+			YADJ = LINEW/2
+			spriteDraw(OVLW-XADJ*ARDW/2-LINEW-shiftOVL,YNEXT+YADJ,sprite[NDL])
+
+		elseif thisMoveNext == DOWNRIGHT or (thisMoveNext == MULTI and multi[currentMove][1] == DOWNRIGHT) or (thisMoveNext == MASH and move[currentMove][5] == DOWNRIGHT) then
+
+			YADJ = LINEW/2
+			spriteDraw(OVLW-XADJ*ARDW/2-LINEW-shiftOVL,YNEXT+YADJ,sprite[NDR])
+
+		elseif thisMoveNext == COMBO and (move[currentMove][5] == BUTTON1 and move[currentMove][6] == UP) or (move[currentMove][5] == UP and move[currentMove][6] == BUTTON1) then
+
+			YADJ2 = LINEW/2
+			spriteDraw(OVLW-XADJ*ARUW/2-XADJ*BUTW/2-LINEW*2-shiftOVL,YNEXT+YADJ,sprite[NUP])
+			spriteDraw(OVLW-XADJ*BUTW/2-LINEW-shiftOVL,YNEXT+YADJ2,sprite[NB1])
+
+		elseif thisMoveNext == COMBO and (move[currentMove][5] == BUTTON2 and move[currentMove][6] == UP) or (move[currentMove][5] == UP and move[currentMove][6] == BUTTON2) then
+
+			YADJ2 = LINEW/2
+			spriteDraw(OVLW-XADJ*ARUW/2-XADJ*BUTW/2-LINEW*2-shiftOVL,YNEXT+YADJ,sprite[NUP])
+			spriteDraw(OVLW-XADJ*BUTW/2-LINEW-shiftOVL,YNEXT+YADJ2,sprite[NB2])
+			
+		elseif thisMoveNext == COMBO and (move[currentMove][5] == BUTTON3 and move[currentMove][6] == UP) or (move[currentMove][5] == UP and move[currentMove][6] == BUTTON3) then
+
+			YADJ2 = LINEW/2
+			spriteDraw(OVLW-XADJ*ARUW/2-XADJ*BUTW/2-LINEW*2-shiftOVL,YNEXT+YADJ,sprite[NUP])
+			spriteDraw(OVLW-XADJ*BUTW/2-LINEW-shiftOVL,YNEXT+YADJ2,sprite[NB3])
+			
+
+		elseif thisMoveNext == COMBO and (move[currentMove][5] == BUTTON1 and move[currentMove][6] == DOWN) or (move[currentMove][5] == DOWN and move[currentMove][6] == BUTTON1) then
+
+			YADJ2 = LINEW/2
+			spriteDraw(OVLW-XADJ*ARUW/2-XADJ*BUTW/2-LINEW*2-shiftOVL,YNEXT+YADJ,sprite[NDOWN])
+			spriteDraw(OVLW-XADJ*BUTW/2-LINEW-shiftOVL,YNEXT+YADJ2,sprite[NB1])
+			
+
+		elseif thisMoveNext == COMBO and (move[currentMove][5] == BUTTON2 and move[currentMove][6] == DOWN) or (move[currentMove][5] == DOWN and move[currentMove][6] == BUTTON2) then
+
+			YADJ2 = LINEW/2
+			spriteDraw(OVLW-XADJ*ARUW/2-XADJ*BUTW/2-LINEW*2-shiftOVL,YNEXT+YADJ,sprite[NDOWN])
+			spriteDraw(OVLW-XADJ*BUTW/2-LINEW-shiftOVL,YNEXT+YADJ2,sprite[NB2])
+
+		elseif thisMoveNext == COMBO and (move[currentMove][5] == BUTTON3 and move[currentMove][6] == DOWN) or (move[currentMove][5] == DOWN and move[currentMove][6] == BUTTON3) then
+
+			YADJ2 = LINEW/2
+			spriteDraw(OVLW-XADJ*ARUW/2-XADJ*BUTW/2-LINEW*2-shiftOVL, YNEXT+YADJ,sprite[NDOWN])
+			spriteDraw(OVLW-XADJ*BUTW/2-LINEW-shiftOVL,YNEXT+YADJ2,sprite[NB3])
+
+		elseif thisMoveNext == COMBO and (move[currentMove][5] == BUTTON1 and move[currentMove][6] == LEFT) or (move[currentMove][5] == LEFT and move[currentMove][6] == BUTTON1) then
+
+			YADJ = LINEW/2
+			YADJ2 = LINEW/2
+			spriteDraw(OVLW-XADJ*ARLW/2-XADJ*BUTW/2-LINEW*2-shiftOVL,YNEXT+YADJ,sprite[NLEFT])
+			spriteDraw(OVLW-XADJ*BUTW/2-LINEW-shiftOVL,YNEXT+YADJ2,sprite[NB1])
+
+		elseif thisMoveNext == COMBO and (move[currentMove][5] == BUTTON2 and move[currentMove][6] == LEFT) or (move[currentMove][5] == LEFT and move[currentMove][6] == BUTTON2) then
+
+			YADJ = LINEW/2
+			YADJ2 = LINEW/2
+			spriteDraw(OVLW-XADJ*ARLW/2-XADJ*BUTW/2-LINEW*2-shiftOVL,YNEXT+YADJ,sprite[NLEFT])
+			spriteDraw(OVLW-XADJ*BUTW/2-LINEW-shiftOVL,YNEXT+YADJ2,sprite[NB2])
+
+		elseif thisMoveNext == COMBO and (move[currentMove][5] == BUTTON3 and move[currentMove][6] == LEFT) or (move[currentMove][5] == LEFT and move[currentMove][6] == BUTTON3) then
+
+			YADJ = LINEW/2
+			YADJ2 = LINEW/2
+			spriteDraw(OVLW-XADJ*ARLW/2-XADJ*BUTW/2-LINEW*2-shiftOVL,YNEXT+YADJ,sprite[NLEFT])
+			spriteDraw(OVLW-XADJ*BUTW/2-LINEW-shiftOVL,YNEXT+YADJ2,sprite[NB3])
+
+		elseif thisMoveNext == COMBO and (move[currentMove][5] == BUTTON1 and move[currentMove][6] == RIGHT) or (move[currentMove][5] == RIGHT and move[currentMove][6] == BUTTON1) then
+
+			YADJ = LINEW/2
+			YADJ2 = LINEW/2
+			spriteDraw(OVLW-XADJ*ARLW/2-XADJ*BUTW/2-LINEW*2-shiftOVL,YNEXT+YADJ,sprite[NRIGHT])
+			spriteDraw(OVLW-XADJ*BUTW/2-LINEW-shiftOVL,YNEXT+YADJ2,sprite[NB1])
+
+		elseif thisMoveNext == COMBO and (move[currentMove][5] == BUTTON2 and move[currentMove][6] == RIGHT) or (move[currentMove][5] == RIGHT and move[currentMove][6] == BUTTON2) then
+
+			YADJ = LINEW/2
+			YADJ2 = LINEW/2
+			spriteDraw(OVLW-XADJ*ARLW/2-XADJ*BUTW/2-LINEW*2-shiftOVL,YNEXT+YADJ,sprite[NRIGHT])
+			spriteDraw(OVLW-XADJ*BUTW/2-LINEW-shiftOVL,YNEXT+YADJ2,sprite[NB2])
+
+		elseif thisMoveNext == COMBO and (move[currentMove][5] == BUTTON3 and move[currentMove][6] == RIGHT) or (move[currentMove][5] == RIGHT and move[currentMove][6] == BUTTON3) then
+
+			YADJ = LINEW/2
+			YADJ2 = LINEW/2
+			spriteDraw(OVLW-XADJ*ARLW/2-XADJ*BUTW/2-LINEW*2-shiftOVL,YNEXT+YADJ,sprite[NRIGHT])
+			spriteDraw(OVLW-XADJ*BUTW/2-LINEW-shiftOVL,YNEXT+YADJ2,sprite[NB3])
+
+		elseif thisMoveNext == COMBO and (move[currentMove][5] == BUTTON1 and move[currentMove][6] == UPLEFT) or (move[currentMove][5] == UPLEFT and move[currentMove][6] == BUTTON1) then
+
+			YADJ = LINEW/2
+			YADJ2 = LINEW/2
+			spriteDraw(OVLW-XADJ*ARDW/2-XADJ*BUTW/2-LINEW*2-shiftOVL,YNEXT+YADJ,sprite[NUL])
+			spriteDraw(OVLW-XADJ*BUTW/2-LINEW-shiftOVL,YNEXT+YADJ2,sprite[NB1])
+
+		elseif thisMoveNext == COMBO and (move[currentMove][5] == BUTTON2 and move[currentMove][6] == UPLEFT) or (move[currentMove][5] == UPLEFT and move[currentMove][6] == BUTTON2) then
+
+			YADJ = LINEW/2
+			YADJ2 = LINEW/2
+			spriteDraw(OVLW-XADJ*ARDW/2-XADJ*BUTW/2-LINEW*2-shiftOVL,YNEXT+YADJ,sprite[NUL])
+			spriteDraw(OVLW-XADJ*BUTW/2-LINEW-shiftOVL,YNEXT+YADJ2,sprite[NB2])
+
+		elseif thisMoveNext == COMBO and (move[currentMove][5] == BUTTON3 and move[currentMove][6] == UPLEFT) or (move[currentMove][5] == UPLEFT and move[currentMove][6] == BUTTON3) then
+
+			YADJ = LINEW/2
+			YADJ2 = LINEW/2
+			spriteDraw(OVLW-XADJ*ARDW/2-XADJ*BUTW/2-LINEW*2-shiftOVL,YNEXT+YADJ,sprite[NUL])
+			spriteDraw(OVLW-XADJ*BUTW/2-LINEW-shiftOVL,YNEXT+YADJ2,sprite[NB3])
+
+		elseif thisMoveNext == COMBO and (move[currentMove][5] == BUTTON1 and move[currentMove][6] == UPRIGHT) or (move[currentMove][5] == UPRIGHT and move[currentMove][6] == BUTTON1) then
+
+			YADJ = LINEW/2
+			YADJ2 = LINEW/2
+			spriteDraw(OVLW-XADJ*ARDW/2-XADJ*BUTW/2-LINEW*2-shiftOVL,YNEXT+YADJ,sprite[NUR])
+			spriteDraw(OVLW-XADJ*BUTW/2-LINEW-shiftOVL,YNEXT+YADJ2,sprite[NB1])
+
+		elseif thisMoveNext == COMBO and (move[currentMove][5] == BUTTON2 and move[currentMove][6] == UPRIGHT) or (move[currentMove][5] == UPRIGHT and move[currentMove][6] == BUTTON2) then
+
+			YADJ = LINEW/2
+			YADJ2 = LINEW/2
+			spriteDraw(OVLW-XADJ*ARDW/2-XADJ*BUTW/2-LINEW*2-shiftOVL,YNEXT+YADJ,sprite[NUR])
+			spriteDraw(OVLW-XADJ*BUTW/2-LINEW-shiftOVL,YNEXT+YADJ2,sprite[NB2])
+
+		elseif thisMoveNext == COMBO and (move[currentMove][5] == BUTTON3 and move[currentMove][6] == UPRIGHT) or (move[currentMove][5] == UPRIGHT and move[currentMove][6] == BUTTON3) then
+
+			YADJ = LINEW/2
+			YADJ2 = LINEW/2
+			spriteDraw(OVLW-XADJ*ARDW/2-XADJ*BUTW/2-LINEW*2-shiftOVL,YNEXT+YADJ,sprite[NUR])
+			spriteDraw(OVLW-XADJ*BUTW/2-LINEW-shiftOVL,YNEXT+YADJ2,sprite[NB3])
+
+		elseif thisMoveNext == COMBO and (move[currentMove][5] == BUTTON1 and move[currentMove][6] == DOWNLEFT) or (move[currentMove][5] == DOWNLEFT and move[currentMove][6] == BUTTON1) then
+
+			YADJ = LINEW/2
+			YADJ2 = LINEW/2
+			spriteDraw(OVLW-XADJ*ARDW/2-XADJ*BUTW/2-LINEW*2-shiftOVL,YNEXT+YADJ,sprite[NDL])
+			spriteDraw(OVLW-XADJ*BUTW/2-LINEW-shiftOVL,YNEXT+YADJ2,sprite[NB1])
+
+		elseif thisMoveNext == COMBO and (move[currentMove][5] == BUTTON2 and move[currentMove][6] == DOWNLEFT) or (move[currentMove][5] == DOWNLEFT and move[currentMove][6] == BUTTON2) then
+
+			YADJ = LINEW/2
+			YADJ2 = LINEW/2
+			spriteDraw(OVLW-XADJ*ARDW/2-XADJ*BUTW/2-LINEW*2-shiftOVL,YNEXT+YADJ,sprite[NDL])
+			spriteDraw(OVLW-XADJ*BUTW/2-LINEW-shiftOVL,YNEXT+YADJ2,sprite[NB2])
+
+		elseif thisMoveNext == COMBO and (move[currentMove][5] == BUTTON3 and move[currentMove][6] == DOWNLEFT) or (move[currentMove][5] == DOWNLEFT and move[currentMove][6] == BUTTON3) then
+
+			YADJ = LINEW/2
+			YADJ2 = LINEW/2
+			spriteDraw(OVLW-XADJ*ARDW/2-XADJ*BUTW/2-LINEW*2-shiftOVL,YNEXT+YADJ,sprite[NDL])
+			spriteDraw(OVLW-XADJ*BUTW/2-LINEW-shiftOVL,YNEXT+YADJ2,sprite[NB3])
+
+		elseif thisMoveNext == COMBO and (move[currentMove][5] == BUTTON1 and move[currentMove][6] == DOWNRIGHT) or (move[currentMove][5] == DOWNRIGHT and move[currentMove][6] == BUTTON1) then
+
+			YADJ = LINEW/2
+			YADJ2 = LINEW/2
+			spriteDraw(OVLW-XADJ*ARDW/2-XADJ*BUTW/2-LINEW*2-shiftOVL,YNEXT+YADJ,sprite[NDR])
+			spriteDraw(OVLW-XADJ*BUTW/2-LINEW-shiftOVL,YNEXT+YADJ2,sprite[NB1])
+
+		elseif thisMoveNext == COMBO and (move[currentMove][5] == BUTTON2 and move[currentMove][6] == DOWNRIGHT) or (move[currentMove][5] == DOWNRIGHT and move[currentMove][6] == BUTTON2) then
+
+			YADJ = LINEW/2
+			YADJ2 = LINEW/2
+			spriteDraw(OVLW-XADJ*ARDW/2-XADJ*BUTW/2-LINEW*2-shiftOVL,YNEXT+YADJ,sprite[NDR])
+			spriteDraw(OVLW-XADJ*BUTW/2-LINEW-shiftOVL,YNEXT+YADJ2,sprite[NB2])
+
+		elseif thisMoveNext == COMBO and (move[currentMove][5] == BUTTON3 and move[currentMove][6] == DOWNRIGHT) or (move[currentMove][5] == DOWNRIGHT and move[currentMove][6] == BUTTON3) then
+
+			YADJ = LINEW/2
+			YADJ2 = LINEW/2
+			spriteDraw(OVLW-XADJ*ARDW/2-XADJ*BUTW/2-LINEW*2-shiftOVL,YNEXT+YADJ,sprite[NDR])
+			spriteDraw(OVLW-XADJ*BUTW/2-LINEW-shiftOVL,YNEXT+YADJ2,sprite[NB3])
+
+		elseif thisMoveNext == MASH and move[currentMove][5] == LR then
+
+			YADJ = LINEW/2
+			YADJ2 = LINEW/2
+			spriteDraw(OVLW-XADJ*HOLDW-LINEW*2-shiftOVL,YNEXT+YADJ,sprite[NHLEFT])
+			spriteDraw(OVLW-XADJ*HOLDW/2-LINEW-shiftOVL,YNEXT+YADJ2,sprite[NHRIGHT])
+		
+		elseif thisMoveNext == MASH and move[currentMove][5] == UD then
+
+			YADJ = LINEW/2
+			YADJ2 = LINEW/2
+			spriteDraw(OVLW-XADJ*HOLDW-LINEW*2-shiftOVL,YNEXT+YADJ,sprite[NHUP])
+			spriteDraw(OVLW-XADJ*HOLDW/2-LINEW-shiftOVL,YNEXT+YADJ2,sprite[NHDOWN])
+					
+		elseif thisMoveNext == MASH and move[currentMove][5] == B1B2 then
+
+			YADJ = LINEW/2
+			YADJ2 = LINEW/2
+			spriteDraw(OVLW-XADJ*BUTW-LINEW*2-shiftOVL,YNEXT+YADJ,sprite[NB1])
+			spriteDraw(OVLW-XADJ*BUTW/2-LINEW-shiftOVL,YNEXT+YADJ2,sprite[NB2])
+
+		else
+			
+															
+		end
+
+	end
+
+end
+
+function fillMove(thisCol)
+
+	bTestCombo = true
+
+	if bCalc then 
+
+		bCalc = false
+
+		gcombo = nil
+		gcombo = {0,0,0,0,0,0,0}
+		
+		if move[currentMove][thisCol] == UP then
+
+			gcombo[1] = 1
+			
+		elseif move[currentMove][thisCol] == DOWN then
+
+			gcombo[2] = 1
+			
+		elseif move[currentMove][thisCol] == LEFT then
+
+			gcombo[3] = 1
+
+		elseif move[currentMove][thisCol] == RIGHT then
+
+			gcombo[4] = 1
+
+		elseif move[currentMove][thisCol] == BUTTON1 then
+
+			gcombo[5] = 1
+			
+		elseif move[currentMove][thisCol] == BUTTON2 then
+
+			gcombo[6] = 1
+
+		elseif move[currentMove][thisCol] == BUTTON3 then
+
+			gcombo[7] = 1
+
+		elseif move[currentMove][thisCol] == UPLEFT then
+
+			gcombo[1] = 1
+			gcombo[3] = 1
+
+		elseif move[currentMove][thisCol] == UPRIGHT then
+
+			gcombo[1] = 1
+			gcombo[4] = 1
+
+		elseif move[currentMove][thisCol] == DOWNLEFT then
+
+			gcombo[2] = 1
+			gcombo[3] = 1
+
+		elseif move[currentMove][thisCol] == DOWNRIGHT then
+
+			gcombo[2] = 1
+			gcombo[4] = 1
+
+		end
+
+		if move[currentMove][correctMove] <= DOWNRIGHT then
+
+			if move[currentMove][5] ~=nil then
+
+				g2combo = nil
+				g2combo = {0,0,0,0,0,0,0}	
+
+				if move[currentMove][5] == UP then
+
+					g2combo[1] = 1
+					
+				elseif move[currentMove][5] == DOWN then
+
+					g2combo[2] = 1
+					
+				elseif move[currentMove][5] == LEFT then
+
+					g2combo[3] = 1
+
+				elseif move[currentMove][5] == RIGHT then
+
+					g2combo[4] = 1
+
+				elseif move[currentMove][5] == BUTTON1 then
+
+					g2combo[5] = 1
+					
+				elseif move[currentMove][5] == BUTTON2 then
+
+					g2combo[6] = 1
+
+				elseif move[currentMove][5] == BUTTON3 then
+
+					g2combo[7] = 1
+
+				elseif move[currentMove][5] == UPLEFT then
+
+					g2combo[1] = 1
+					g2combo[3] = 1
+
+				elseif move[currentMove][5] == UPRIGHT then
+
+					gcombo[1] = 1
+					g2combo[4] = 1
+
+				elseif move[currentMove][5] == DOWNLEFT then
+
+					g2combo[2] = 1
+					g2combo[3] = 1
+
+				elseif move[currentMove][5] == DOWNRIGHT then
+
+					g2combo[2] = 1
+					g2combo[4] = 1
+
+				end
+
+			end
+
+		elseif move[currentMove][correctMove] == COMBO then
+
+			if move[currentMove][6] == UP then 
+
+				gcombo[1] = 1
+
+			elseif move[currentMove][6] == DOWN then
+
+				gcombo[2] = 1
+
+			elseif move[currentMove][6] == LEFT then
+
+				gcombo[3] = 1
+
+			elseif move[currentMove][6] == RIGHT then
+
+				gcombo[4] = 1
+
+			elseif move[currentMove][6] == BUTTON1 then
+
+				gcombo[5] = 1
+
+			elseif move[currentMove][6] == BUTTON2 then
+
+				gcombo[6] = 1
+
+			elseif move[currentMove][6] == BUTTON3 then
+
+				gcombo[7] = 1
+
+			elseif move[currentMove][6] == UPLEFT then
+
+				gcombo[1] = 1
+				gcombo[3] = 1
+
+			elseif move[currentMove][6] == UPRIGHT then
+
+				gcombo[1] = 1
+				gcombo[4] = 1
+
+			elseif move[currentMove][6] == DOWNLEFT then
+
+				gcombo[2] = 1
+				gcombo[3] = 1
+
+			elseif move[currentMove][6] == DOWNRIGHT then
+
+				gcombo[2] = 1
+				gcombo[4] = 1
+
+			end
+
+		end
+
+	end
+
+end
+
+function getHints() 						-- Manage the Hints
+
+	fontSelect(fontBig)
+
+	if bShowTilt then
+
+		fontPrint(mb5, 2*OVLH/3, "YOU BEGIN YOUR MOVES TOO EARLY")
+
+	else	
+
+		if (move[currentMove][correctMove] == UP) then
+			
+			fontPrint(mb6, OVLH/2, "YOU SHOULD HAVE GONE UP")
+										
+		elseif (move[currentMove][correctMove] == DOWN) then
+						
+			fontPrint(mb7, OVLH/2, "YOU SHOULD HAVE GONE DOWN")
+						
+		elseif (move[currentMove][correctMove] == LEFT) then
+						
+			fontPrint(mb8, OVLH/2, "YOU SHOULD HAVE GONE LEFT")
+
+		elseif (move[currentMove][correctMove] == RIGHT) then
+						
+			fontPrint(mb9, OVLH/2, "YOU SHOULD HAVE GONE RIGHT")
+						
+		elseif (move[currentMove][correctMove] == BUTTON1) then
+						
+			fontPrint(mb10, OVLH/2, "YOU SHOULD HAVE HIT BUTTON 1")
+								
+		elseif (move[currentMove][correctMove] == BUTTON2) then	
+
+			fontPrint(mb11, OVLH/2, "YOU SHOULD HAVE HIT BUTTON 2")
+
+		elseif (move[currentMove][correctMove] == BUTTON3) then	
+
+			fontPrint(mb12, OVLH/2, "YOU SHOULD HAVE HIT BUTTON 3")
+
+		elseif (move[currentMove][correctMove] == UPLEFT) then
+						
+			fontPrint(mb13, OVLH/2, "YOU SHOULD HAVE GONE UP + LEFT")
+						
+		elseif (move[currentMove][correctMove] == UPRIGHT) then
+						
+			fontPrint(mb14, OVLH/2, "YOU SHOULD HAVE GONE UP + RIGHT")
+
+		elseif (move[currentMove][correctMove] == DOWNLEFT) then
+						
+			fontPrint(mb15, OVLH/2, "YOU SHOULD HAVE GONE DOWN + LEFT")
+						
+		elseif (move[currentMove][correctMove] == DOWNRIGHT) then
+						
+			fontPrint(mb16, OVLH/2, "YOU SHOULD HAVE GONE DOWN + RIGHT")
+
+		elseif (move[currentMove][correctMove] == MASH) then
+
+			if move[currentMove][5] == 1 then 
+
+				fontPrint(mb17, OVLH/2, "YOU SHOULD HAVE MASHED UP FASTER")
+
+			elseif move[currentMove][5] == 2 then
+
+				fontPrint(mb18, OVLH/2, "YOU SHOULD HAVE MASHED DOWN FASTER")
+
+			elseif move[currentMove][5] == 3 then
+
+				fontPrint(mb19, OVLH/2, "YOU SHOULD HAVE MASHED LEFT FASTER")
+
+			elseif move[currentMove][5] == 4 then
+
+				fontPrint(mb20, OVLH/2, "YOU SHOULD HAVE MASHED RIGHT FASTER")
+
+			elseif move[currentMove][5] == 5 or move[currentMove][5] == nil then
+
+				fontPrint(mb21, OVLH/2, "YOU SHOULD HAVE MASHED BUTTON 1 FASTER")
+
+			elseif move[currentMove][5] == 6 then
+
+				fontPrint(mb22, OVLH/2, "YOU SHOULD HAVE MASHED BUTTON 2 FASTER")
+
+			elseif move[currentMove][5] == 7 then
+
+				fontPrint(mb23, OVLH/2, "YOU SHOULD HAVE MASHED BUTTON 3 FASTER")
+
+			elseif move[currentMove][5] == 9 then
+
+				fontPrint(mb24, OVLH/2, "YOU SHOULD HAVE MASHED UP + LEFT FASTER")
+
+			elseif move[currentMove][5] == 10 then
+
+				fontPrint(mb25, OVLH/2, "YOU SHOULD HAVE MASHED UP + RIGHT FASTER")
+
+			elseif move[currentMove][5] == 11 then
+
+				fontPrint(mb26, OVLH/2, "YOU SHOULD HAVE MASHED DOWN + LEFT FASTER")
+
+			elseif move[currentMove][5] == 12 then
+
+				fontPrint(mb27, OVLH/2, "YOU SHOULD HAVE MASHED DOWN + RIGHT FASTER")
+
+			elseif move[currentMove][5] == UD then
+
+				fontPrint(mb28, OVLH/2, "YOU SHOULD HAVE MASHED UP/DOWN FASTER")
+
+			elseif move[currentMove][5] == LR then
+
+				fontPrint(mb29, OVLH/2, "YOU SHOULD HAVE MASHED LEFT/RIGHT FASTER")
+
+			elseif move[currentMove][5] == B1B2 then
+
+				fontPrint(mb30, OVLH/2, "YOU SHOULD HAVE MASHED B1/B2 FASTER")
+
+			end	
+
+			
+		
+		elseif (move[currentMove][correctMove] == LETGO) then	
+
+			fontPrint(mb31, OVLH/2, "YOU SHOULD HAVE RELEASED THE KEY AT SHOOT")
+
+		elseif (move[currentMove][correctMove] == HOLD) then
+			
+			fontPrint(mb32, OVLH/2, "YOU SHOULD HAVE HOLD")
+					
+		elseif (move[currentMove][correctMove] == MULTI) then
+						
+			fontPrint(mb33, OVLH/2, "YOU SHOULD HAVE ENTERED THE SEQUENCE")
+
+		elseif (move[currentMove][correctMove] == COMBO) then
+
+			local cb1 = ""
+			local cb2 = ""
+			
+			if move[currentMove][5] == 1 then 
+
+				cb1 = "UP"
+
+			elseif move[currentMove][5] == 2 then
+
+				cb1 = "DOWN"
+
+			elseif move[currentMove][5] == 3 then
+
+				cb1 = "LEFT"
+
+			elseif move[currentMove][5] == 4 then
+
+				cb1 = "RIGHT"
+
+			elseif move[currentMove][5] == 5 then
+
+				cb1 = "BUTTON1"
+
+			elseif move[currentMove][5] == 6 then
+
+				cb1 = "BUTTON2"
+
+			elseif move[currentMove][5] == 7 then
+
+				cb1 = "BUTTON3"
+
+			elseif move[currentMove][5] == 9 then
+
+				cb1 = "UPLEFT"
+
+			elseif move[currentMove][5] == 10 then
+
+				cb1 = "UPRIGHT"
+
+			elseif move[currentMove][5] == 11 then
+
+				cb1 = "DOWNLEFT"
+
+			elseif move[currentMove][5] == 12 then
+
+				cb1 = "DOWNRIGHT"
+
+			end
+
+			if move[currentMove][6] == 1 then 
+
+				cb2 = "UP"
+
+			elseif move[currentMove][6] == 2 then
+
+				cb2 = "DOWN"
+
+			elseif move[currentMove][6] == 3 then
+
+				cb2 = "LEFT"
+
+			elseif move[currentMove][6] == 4 then
+
+				cb2 = "RIGHT"
+
+			elseif move[currentMove][6] == 5 then
+
+				cb2 = "BUTTON1"
+
+			elseif move[currentMove][6] == 6 then
+
+				cb2 = "BUTTON2"
+
+			elseif move[currentMove][6] == 7 then
+
+				cb2 = "BUTTON3"
+
+			elseif move[currentMove][6] == 9 then
+
+				cb2 = "UPLEFT"
+
+			elseif move[currentMove][6] == 10 then
+
+				cb2 = "UPRIGHT"
+
+			elseif move[currentMove][6] == 11 then
+
+				cb2 = "DOWNLEFT"
+
+			elseif move[currentMove][6] == 12 then
+
+				cb2 = "DOWNRIGHT"
+
+			end
+
+			fontPrint(mb34, OVLH/2, "YOU SHOULD HAVE ENTERED ".. cb1 .." + ".. cb2)
+
+		elseif (move[currentMove][correctMove] == LOOP) then
+
+			fontPrint(mb35, OVLH/2, "YOU SHOULD HAVE MADE A LOOP"..cb1..cb2)
+
+		elseif (move[currentMove][correctMove] == PATH) then
+
+			if iPath < 1000 then 
+
+				fontPrint(mb36, OVLH/2, "YOU SHOULD CHOOSE A DIRECTION")
+			
+			else
+
+				fontPrint(mb37, OVLH/2, "THIS CHOICE IS A DEAD END")
+							
+			end
+		
+		elseif (move[currentMove][correctMove] == TIMED) then
+						
+			fontPrint(mb38, OVLH/2, "YOU SHOULD FIND THE GOOD TIMING")
+				
+
+		end
+
+	end	 	
+
+end
+
+function getShortcuts(q) 					-- Shortcuts for some moves
+
+	if move[q][3] == ACTUP then
+
+		move[q][3] = COMBO
+		move[q][5] = BUTTON1
+		move[q][6] = UP
+
+	elseif move[q][3] == ACTDOWN then
+
+		move[q][3] = COMBO
+		move[q][5] = BUTTON1
+		move[q][6] = DOWN
+
+	elseif move[q][3] == ACTLEFT then
+
+		move[q][3] = COMBO
+		move[q][5] = BUTTON1
+		move[q][6] = LEFT
+
+	elseif move[q][3] == ACTRIGHT then
+
+		move[q][3] = COMBO
+		move[q][5] = BUTTON1
+		move[q][6] = RIGHT
+	
+	elseif move[q][3] == HOLDUP then
+
+		move[q][3] = HOLD
+		move[q][5] = UP
+
+	elseif move[q][3] == HOLDDOWN then
+
+		move[q][3] = HOLD
+		move[q][5] = DOWN
+
+	elseif move[q][3] == HOLDLEFT then
+
+		move[q][3] = HOLD
+		move[q][5] = LEFT
+
+	elseif move[q][3] == HOLDRIGHT then
+
+		move[q][3] = HOLD
+		move[q][5] = RIGHT
+
+	elseif move[q][3] == HOLDBUT then
+
+		move[q][3] = HOLD
+		move[q][5] = BUTTON1
+
+	elseif move[q][3] == RUN then
+
+		move[q][3] = MASH
+		move[q][5] = LR
+
+	elseif move[q][3] == MASH2 then
+
+		move[q][3] = MASH
+		move[q][5] = B1B2
+
+	elseif move[q][3] == MASHMIN then
+
+		move[q][3] = MASH
+		move[q][5] = BUTTON1
+		move[q][6] = -2
+
+	elseif move[q][3] == MASHMAX then
+
+		move[q][3] = MASH
+		move[q][5] = BUTTON1
+		move[q][6] = 2
+
+	elseif move[q][3] == MASH2MIN then
+
+		move[q][3] = MASH
+		move[q][5] = B1B2
+		move[q][6] = -2
+
+	elseif move[q][3] == MASH2MAX then
+
+		move[q][3] = MASH
+		move[q][5] = B1B2
+		move[q][6] = 2
+
+	elseif move[q][3] == MASH and move[q][5] == nil then
+
+		move[q][5] = BUTTON1
+
+	elseif move[q][3] == MASH and move[q][5] == DU then
+
+		move[q][5] = UD
+
+	elseif move[q][3] == MASH and move[q][5] == RL then
+
+		move[q][5] = LR
+
+	elseif move[q][3] == RUNMIN then
+
+		move[q][3] = MASH
+		move[q][5] = LR
+		move[q][6] = -2
+
+	elseif move[q][3] == RUNMAX then
+
+		move[q][3] = MASH
+		move[q][5] = LR
+		move[q][6] = 2
+
+	elseif move[q][3] == LOOP or move[q][3] == LOOPLEFT or move[q][3] == LOOPRIGHT then
+
+		local myString=""
+		local myMove = ""
+		local myTurn = 1
+
+		if move[q][3] == LOOPLEFT then
+		
+			move[q][3] = LOOP
+			move[q][5] = "L,+,1"
+		
+		elseif move[q][3] == LOOPRIGHT then
+
+			move[q][3] = LOOP
+			move[q][5] = "R,-,1"
+
+		end	
+
+		multi[q] = {}
+
+		myString = move[q][5]
+
+		if string.sub(myString,1,1) == "U" then
+
+			multi[q][1] = UP
+
+		elseif string.sub(myString,1,1) == "D" then
+
+			multi[q][1] = DOWN
+
+		elseif string.sub(myString,1,1) == "L" then
+
+			multi[q][1] = LEFT
+
+		elseif string.sub(myString,1,1) == "R" then
+
+			multi[q][1] = RIGHT
+
+		end
+
+		if string.sub(myString,5,5) == "Q" then
+
+			myTurn = 2
+
+		elseif string.sub(myString,5,5) == "H" then
+
+			myTurn = 3
+
+		else
+
+			myTurn = 4*tonumber(string.sub(myString,5,5))+1
+			
+		end
+
+		if string.sub(myString,3,3) == "+" then
+
+			for i = 2, myTurn do
+
+				if multi[q][i-1] == UP then
+
+					multi[q][i] = RIGHT
+
+				elseif multi[q][i-1] == DOWN then
+
+					multi[q][i] = LEFT 
+
+				elseif multi[q][i-1] == LEFT then
+
+					multi[q][i] = UP 
+
+				elseif multi[q][i-1] == RIGHT then
+
+					multi[q][i] = DOWN
+
+				end 
+
+				i = i+1
+
+			end	
+
+
+		elseif string.sub(myString,3,3) == "-" then
+
+			for i = 2, myTurn do
+
+				if multi[q][i-1] == UP then
+
+					multi[q][i] = LEFT
+
+				elseif multi[q][i-1] == DOWN then
+
+					multi[q][i] = RIGHT
+
+				elseif multi[q][i-1] == LEFT then
+
+					multi[q][i] = DOWN 
+
+				elseif multi[q][i-1] == RIGHT then
+
+					multi[q][i] = UP
+
+				end 
+
+				i = i+1
+
+			end	
+
+		end
+
+		if string.sub(myString,7,8) ~= nil then
+
+			if string.sub(myString,7,8) == "B1" then
+
+				multi[q][myTurn+1] = BUTTON1
+
+			elseif string.sub(myString,7,8) == "B2" then 
+
+				multi[q][myTurn+1] = BUTTON2
+
+			elseif string.sub(myString,7,8) == "B3" then
+
+				multi[q][myTurn+1] = BUTTON3 
+
+			end
+
+		end
+		
+	elseif move[q][3] == MULTI and move[q][6] ~= nil and string.find(tostring(move[q][5]),",") == nil then
+       	
+      	multi[q] = {}
+
+		for i=1, move[q][6] do
+
+			multi[q][i] = move[q][5]
+
+		end
+
+		move[q][6] = nil
+
+	elseif move[q][3] == MULTI  then
+
+		local myString=""
+		local myMove = ""
+		local P1 = 0
+		local P2 = 0
+		local myLen = 1
+
+		multi[q] = {}
+
+		myString = move[q][5]
+		
+		for i=1, #myString do
+   		
+   			if myString:sub(i, i) == "," or i == #myString then
+        	
+        		P2 = i
+
+        		if i == #myString and myString:sub(i, i) ~= "," then 
+
+        			myMove = string.sub(myString,P1+1,P2)
+
+        		else	
+
+        			myMove = string.sub(myString,P1+1,P2-1)
+
+        		end
+
+        		if myMove == "U" or myMove == "u" then 
+			
+					multi[q][myLen] = UP
+
+				elseif myMove == "D" or myMove == "d" then
+
+					multi[q][myLen] = DOWN
+
+				elseif myMove == "L" or myMove == "l" then
+
+					multi[q][myLen] = LEFT
+
+				elseif myMove == "R" or myMove == "r" then
+
+					multi[q][myLen] = RIGHT
+
+				elseif myMove == "B1" or myMove == "b1" then
+
+					multi[q][myLen] = BUTTON1
+
+				elseif myMove == "B2" or myMove == "b2" then
+
+					multi[q][myLen] = BUTTON2
+
+				elseif myMove == "B3" or myMove == "b3" then
+
+					multi[q][myLen] = BUTTON3
+
+				elseif myMove == "UL" or myMove == "ul" then
+
+					multi[q][myLen] = UPLEFT
+
+				elseif myMove == "UR" or myMove == "ur" then
+
+					multi[q][myLen] = UPRIGHT
+
+				elseif myMove == "DL" or myMove == "dl" then
+
+					multi[q][myLen] = DOWNLEFT
+
+				elseif myMove == "DR" or myMove == "dr" then
+
+					multi[q][myLen] = DOWNRIGHT
+
+				else
+
+					multi[q][myLen] = BUTTON1
+
+				end
+
+				myLen = myLen+1
+
+				P1 = P2
+    	
+    		end
+		
+		end
+
+	elseif move[q][3] == PATH and move[q][5]~=nil then
+
+		local myString=""
+		local myMove = ""
+		local P1 = 0
+		local P2 = 0
+		local myLen = 1
+
+		path[q] = {}
+		path[q] = {0,0,0,0,0,0,0,0,0}
+		
+		myString = move[q][5]
+
+		for i=1, #myString do
+   		
+   			if myString:sub(i, i) == "," or i == #myString then
+        	
+        		P2 = i
+
+        		if i == #myString then 
+
+        			myMove = string.sub(myString,P1+1,P2)
+        			
+        		else	
+
+        			myMove = string.sub(myString,P1+1,P2-1)
+
+        		end
+
+        		if myLen % 2 ~= 0 and i ~= #myString then 
+					        			
+	        		if myMove == "U" or myMove == "u" then 
+				
+						path[q][myLen] = UP
+
+					elseif myMove == "D" or myMove == "d" then
+
+						path[q][myLen] = DOWN
+
+					elseif myMove == "L" or myMove == "l" then
+
+						path[q][myLen] = LEFT
+
+					elseif myMove == "R" or myMove == "r" then
+
+						path[q][myLen] = RIGHT
+
+					elseif myMove == "B1" or myMove == "b1" then
+
+						path[q][myLen] = BUTTON1
+
+					elseif myMove == "B2" or myMove == "b2" then
+
+						path[q][myLen] = BUTTON2
+
+					elseif myMove == "B3" or myMove == "b3" then
+
+						path[q][myLen] = BUTTON3
+
+					end
+
+					myLen = myLen+1
+
+				elseif myLen % 2 == 0 then
+					
+					path[q][myLen] = tonumber(myMove)
+					myLen = myLen+1
+
+				end	
+			
+				P1 = P2
+    	
+    		end
+		
+		end
+
+		if move[q][6]~=nil then 
+
+			path[q][9] = move[q][6]
+
+		else
+
+			path[q][9] = OUT
+
+		end 
+		
+	elseif move[q][3] == YESNO and move[q][5]~=nil then
+
+		local myString=""
+		local myMove = ""
+		local P1 = 0
+		local P2 = 0
+		local myLen = 1
+
+		path[q] = {}
+		path[q] = {0,0,0}
+		
+		myString = move[q][5]
+
+		for i=1, #myString do
+   		
+   			if myString:sub(i, i) == "," or i == #myString then
+        	
+        		P2 = i
+
+        		if i == #myString then 
+
+        			myMove = string.sub(myString,P1+1,P2)
+        			
+        		else	
+
+        			myMove = string.sub(myString,P1+1,P2-1)
+
+        		end
+
+       			path[q][myLen] = tonumber(myMove)
+				myLen = myLen+1
+
+				P1 = P2
+    	
+    		end
+		
+		end
+
+		if move[q][6]~=nil then 
+
+			path[q][3] = move[q][6]
+
+		else
+
+			path[q][3] = OUT
+
+		end 
+
+
+	elseif move[q][3] == DOUBLE then
+
+		move[q][3] = MULTI
+		multi[q] = {BUTTON1,BUTTON1}
+
+	elseif move[q][3] == UD then
+
+		move[q][3] = MULTI
+		multi[q] = {UP,DOWN}
+
+	elseif move[q][3] == DU then
+
+		move[q][3] = MULTI
+		multi[q] = {DOWN,UP}
+
+	elseif move[q][3] == LR then
+
+		move[q][3] = MULTI
+		multi[q] = {LEFT,RIGHT}
+
+	elseif move[q][3] == RL then
+
+		move[q][3] = MULTI
+		multi[q] = {RIGHT,LEFT}
+	
+	end  
+
+end
+
+function onInputPressed(intWhat)      		-- Confirm the pressing of all buttons (with sometimes special things involved like mash)
+	
+	if not bPause then
+		
+		if (intWhat == SWITCH_UP) then
+			
+			p1UP = true
+			if bTestCombo then acombo[1] = 1 end
+			if bTestRunU then iMash = iMash + 1 end
+			if bTestMulti then soundPlay(sndroll) end
+									
+		elseif (intWhat == SWITCH_DOWN) then
+			
+			p1DOWN = true
+			if bTestCombo then acombo[2] = 1 end
+			if bTestRunD then iMash = iMash + 1 end
+			if bTestMulti then soundPlay(sndroll) end						
+		elseif (intWhat == SWITCH_LEFT) then
+			
+			p1LEFT = true
+			if bTestCombo then acombo[3] = 1 end
+			if bTestRunL then iMash = iMash + 1 end
+			if bTestMulti then soundPlay(sndroll) end
+									
+		elseif (intWhat == SWITCH_RIGHT) then
+			
+			p1RIGHT = true	
+			if bTestCombo then acombo[4] = 1 end
+			if bTestRunR then iMash = iMash + 1 end
+			if bTestMulti then soundPlay(sndroll) end
+
+		elseif (intWhat == SWITCH_BUTTON1) then
+
+			p1BUTTON1 = true
+			if bTestCombo then acombo[5] = 1 end
+			if bTestMash then iMash = iMash + 1 end
+			if bTestMashL then iMash = iMash + 1 end
+			if bTestMulti then soundPlay(sndroll) end
+														
+		elseif (intWhat == SWITCH_BUTTON2) then
+
+			p1BUTTON2 = true
+			if bTestCombo then acombo[6] = 1 end
+			if bTestMash then iMash = iMash + 1 end
+			if bTestMashR then iMash = iMash + 1 end
+			if bTestMulti then soundPlay(sndroll) end
+			
+		elseif (intWhat == SWITCH_BUTTON3) then
+
+			p1BUTTON3 = true
+			if bTestCombo then acombo[7] = 1 end
+			if bTestMash then iMash = iMash + 1 end
+			if bTestMulti then soundPlay(sndroll) end
+								
+		elseif (intWhat == SWITCH_SERVICE) then
+			
+			p1SERVICE = true
+			
+		elseif (intWhat == SWITCH_COIN1) then
+			
+			p1COIN1 = true
+
+			if p1START1 == true and currentLevel ~= levelContinue then
+
+				p1START1 = false
+
+				if currentLevel == levelNormal or currentLevel == levelMap then
+
+					bInPlayExit = true
+
+					if currentLevel == levelMap or ((currentMove <= totalMoves) and dip_GameType < 2) then
+
+						autoSave(4)
+						altState = branch01 
+						
+					end
+
+				end
+
+				lvlState = lvlSetup
+				currentLevel = levelExit
+				
+			end
+			
+		elseif (intWhat == SWITCH_COIN2) then
+			
+			p1COIN2 = true	
+			
+		elseif (intWhat == SWITCH_START1) then
+			
+			p1START1 = true	
+
+			if p1COIN1 == true and currentLevel ~= levelContinue then
+
+				p1COIN1 = false
+
+				if currentLevel == levelNormal or currentLevel == levelMap then
+
+					bInPlayExit = true
+
+					if currentLevel == levelMap or ((currentMove <= totalMoves) and dip_GameType < 2) then
+
+						autoSave(4)
+						altState = branch01 
+						
+					end
+
+				end
+				
+				lvlState = lvlSetup
+				currentLevel = levelExit
+				
+			end	
+			
+		elseif (intWhat == SWITCH_START2) then
+			
+			p1START2 = true
+			
+		elseif (intWhat == SWITCH_SKILL1) then
+			
+			p1SKILL1 = true	
+			
+		elseif (intWhat == SWITCH_SKILL2) then
+			
+			p1SKILL2 = true			
+			
+		elseif (intWhat == SWITCH_SKILL3) then
+			
+			p1SKILL3 = true
+
+		elseif (intWhat == SWITCH_TEST) then
+		
+			p1TEST = true
+
+		elseif (intWhat == SWITCH_CONSOLE) then
+		
+			p1CONSOLE = true
+
+		elseif (intWhat == SWITCH_RESET_CPU) then
+
+			p1RESET_CPU = true
+
+		end
+		
+	end
+
+end
+
+function onInputReleased(intWhat)      		-- Confirm the release of all buttons (with sometimes special things involved)
+
+	if (intWhat == SWITCH_PAUSE) then 
+
+		bPause = not bPause
+
+	end
+	
+	if (gameflow == flow_GameRunning and not bPause) then	
+	
+		if (intWhat == SWITCH_COIN1 or intWhat == SWITCH_COIN2) then 
+			
+			if (currentLevel ~= levelService and currentLevel ~= levelNormal) then
+			
+				p1COIN1 = false
+				p1COIN2 = false
+		
+				if not (dip_CoinsPerCredit == DOPT_FREEPLAY) then
+					
+					if (iCredits < 9) then
+					
+						iCoins = iCoins + 1			
+						
+						if (iCoins >= dip_CoinsPerCredit) then
+						
+							iCoins = iCoins - dip_CoinsPerCredit
+							iCredits = iCredits + 1
+							soundPlay(sndcredit)
+							
+						else
+						
+							soundPlay(sndcoin)					
+						
+						end
+
+						if currentLevel == levelContinue then bResetContinue = true end
+					
+					end
+					
+				end
+
+
+			else
+
+				p1COIN1 = false
+				p1COIN2 = false
+
+			end
+			
+		elseif (intWhat == SWITCH_UP) then
+		
+			p1UP = false
+			if bTestCombo then acombo[1] = 0 end
+		
+		elseif (intWhat == SWITCH_DOWN) then
+		
+			p1DOWN = false
+			if bTestCombo then acombo[2] = 0 end
+		
+		elseif (intWhat == SWITCH_LEFT) then
+		
+			p1LEFT = false
+			if bTestCombo then acombo[3] = 0 end
+		
+		elseif (intWhat == SWITCH_RIGHT) then
+		
+			p1RIGHT = false
+			if bTestCombo then acombo[4] = 0 end
+			
+		elseif (intWhat == SWITCH_BUTTON1) then
+			
+			p1BUTTON1 = false
+			if bTestCombo then acombo[5] = 0 end
+																	
+		elseif (intWhat == SWITCH_BUTTON2) then
+
+			p1BUTTON2 = false
+			if bTestCombo then acombo[6] = 0 end
+
+		elseif (intWhat == SWITCH_BUTTON3) then
+
+			p1BUTTON3 = false
+			if bTestCombo then acombo[7] = 0 end
+			
+		elseif (intWhat == SWITCH_SERVICE and gameflow == flow_GameRunning) then
+		
+			p1SERVICE = false
+
+			if currentLevel == levelNormal or currentLevel == levelMap then
+
+				bInPlayExit = true
+
+				if currentLevel == levelMap or ((currentMove <= totalMoves and dip_GameType < 2)) then
+
+					autoSave(4)
+								
+				end
+
+			end
+
+			if currentLevel == levelService then
+
+				lvlState = lvlSetup
+				currentLevel = levelIntro
+
+			else
+
+				bOneDiff = true
+				lvlState = lvlSetup
+				currentLevel = levelService
+			
+			end
+
+		elseif (intWhat == SWITCH_TEST and gameflow == flow_GameRunning) then
+
+			p1TEST = false
+
+			if currentLevel == levelNormal or currentLevel == levelMap and dip_GameType < 2 then
+
+				bInPlayExit = true
+
+				if currentLevel == levelMap or ((currentMove <= totalMoves and dip_GameType < 2)) then
+
+					autoSave(4)
+								
+				end
+
+			end
+
+			if currentLevel == levelSave then
+
+				lvlState = lvlSetup
+				currentLevel = levelIntro
+
+			elseif dip_GameType < 2 then
+
+				lvlState = lvlSetup
+				currentLevel = levelSave
+								
+			end
+
+		elseif (intWhat == SWITCH_START1) then
+			
+			p1START1 = false
+
+		elseif (intWhat == SWITCH_START2) then
+			
+			p1START2 = false
+						
+		elseif (intWhat == SWITCH_SKILL1 and gameflow == flow_GameRunning and dip_GameType~= 5) then
+			
+			p1SKILL1 = false
+
+			if dip_GameType ~= 2 and dip_GameType ~= 3 then
+
+				if currentLevel == levelNormal and (currentMove <= totalMoves and p1START1) == true then
+
+					loadSave(1)
+					p1START1 = false
+					bShowDisk1 = true
+					altState = branch01
+
+				elseif currentLevel == levelNormal and (currentMove <= totalMoves) then
+
+					autoSave(1)
+					bShowDisk1 = true
+					altState = branch01
+
+				end
+			
+			end	
+
+		elseif (intWhat == SWITCH_SKILL2 and gameflow == flow_GameRunning and dip_GameType~= 5) then
+			
+			p1SKILL2 = false
+
+			if dip_GameType < 2 then
+
+				if currentLevel == levelNormal and (currentMove <= totalMoves) and p1START1 == true then
+
+					loadSave(2)
+					p1START1 = false
+					bShowDisk2 = true
+					altState = branch01
+					
+				elseif currentLevel == levelNormal and (currentMove <= totalMoves) then
+
+					autoSave(2)
+					bShowDisk2 = true
+					altState = branch01
+					
+				end	
+
+			end
+
+		elseif (intWhat == SWITCH_SKILL3 and gameflow == flow_GameRunning and dip_GameType~= 5) then
+			
+			p1SKILL3 = false
+
+			if dip_GameType < 2 then
+
+				if currentLevel == levelNormal and (currentMove <= totalMoves) and p1START1 == true then
+
+					loadSave(3)
+					p1START1 = false
+					bShowDisk3 = true
+					altState = branch01
+
+				elseif currentLevel == levelNormal and (currentMove <= totalMoves) then
+
+					autoSave(3)
+					bShowDisk3 = true
+					altState = branch01
+				
+				end	
+
+			end
+
+		elseif (intWhat == SWITCH_CONSOLE) then
+
+			if currentLevel == levelNormal or currentLevel == levelMap then
+
+				bInPlayExit = true
+
+				if currentLevel == levelMap or ((currentMove <= totalMoves and dip_GameType < 2)) then
+
+					autoSave(4)
+								
+				end
+
+			end
+			
+			p1CONSOLE = false
+			lvlState = lvlSetup
+			currentLevel = levelExit	
+
+		elseif (intWhat == SWITCH_RESET_CPU) then
+
+			p1RESET_CPU = false
+			
+		end	
+	
+	end		
+	
+end
+
+function scanInput()      -- Test the inputs
+	
+	local iResult = NOMOVE
+
+	if 		p1BUTTON1 then iResult = BUTTON1 
+	elseif 	p1BUTTON2 then iResult = BUTTON2
+	elseif 	p1BUTTON3 then iResult = BUTTON3
+	elseif 	p1UP      then iResult = UP
+	elseif 	p1DOWN    then iResult = DOWN
+	elseif 	p1LEFT    then iResult = LEFT
+	elseif 	p1RIGHT   then iResult = RIGHT end
+
+	return iResult
+		
+end
+
+function setupFramesMoves()					-- Set the frames for each level + mirror things
+
+	for q=1,totalMoves do
+
+		if dip_GameType == 5 then
+
+			if move[q][3] >= CHOOSE and move[q][3] <= YESNO then 
+
+
+			else
+
+				move[q][3] = BUTTON1
+
+			end
+
+		else
+
+			getShortcuts(q)
+
+			if dip_Difficulty == 0  then 
+	
+				if (move[q][3] == HOLD) then move[q][3] = move[q][5]
+				elseif (move[q][3] == MASH) then move[q][3] = BUTTON1
+				elseif (move[q][3] == LETGO) then move[q][3] = BUTTON1 
+				elseif (move[q][3] == LOOP) then 
+
+					move[q][3] = multi[q][1]
+					move[q][5] = nil
+					
+				elseif (move[q][3] == COMBO) then move[q][3] = move[q][5]
+				elseif (move[q][3] == MULTI) then 
+
+					move[q][3] = multi[q][1] 
+					move[q][5] = nil
+
+				end		
+			
+			else
+
+				if dip_MashtoRun == 2 then
+
+					if (move[q][3] == MASH and (move[q][5] == UD or move[q][5] == LR)) then move[q][5] = B1B2 end
+
+				elseif dip_MashtoRun == 3 then
+
+					if (move[q][3] == MASH and (move[q][5] == UD or move[q][5] == LR or move[q][5] == B1B2)) then 
+
+						move[q][3] = MASH	
+						move[q][5] = BUTTON1
+
+					end
+					
+				end
+
+				if dip_HoldtoLoop == 1 then
+
+					if (move[q][3] == LOOP and string.sub(move[q][5],3,3) == "+") then 
+
+						move[q][3] = HOLD
+						move[q][5] = RIGHT
+
+					elseif (move[q][3] == LOOP and string.sub(move[q][5],3,3) == "-") then 
+
+						move[q][3] = HOLD
+						move[q][5] = LEFT
+
+					end
+					
+				end
+				
+			end
+
+		end
+
+		if bFlip then
+		
+			if ((move[q][3] == LEFT)) then move[q][3] = RIGHT 
+			elseif ((move[q][3] == RIGHT)) then move[q][3] = LEFT
+			elseif ((move[q][3] == UPLEFT)) then move[q][3] = UPRIGHT
+			elseif ((move[q][3] == UPRIGHT)) then move[q][3] = UPLEFT
+			elseif ((move[q][3] == DOWNLEFT)) then move[q][3] = DOWNRIGHT
+			elseif ((move[q][3] == DOWNRIGHT)) then move[q][3] = DOWNLEFT
+			elseif ((move[q][3] == HOLD) and (move[q][5] == LEFT)) then move[q][5] = RIGHT 
+			elseif ((move[q][3] == HOLD) and (move[q][5] == RIGHT)) then move[q][5] = LEFT
+			elseif ((move[q][3] == HOLD) and (move[q][5] == UPLEFT)) then move[q][5] = UPRIGHT 
+			elseif ((move[q][3] == HOLD) and (move[q][5] == UPRIGHT)) then move[q][5] = UPLEFT
+			elseif ((move[q][3] == HOLD) and (move[q][5] == DOWNLEFT)) then move[q][5] = DOWNRIGHT 
+			elseif ((move[q][3] == HOLD) and (move[q][5] == DOWNRIGHT)) then move[q][5] = DOWNLEFT
+			elseif ((move[q][3] == MASH) and (move[q][5] == LEFT)) then move[q][5] = RIGHT
+			elseif ((move[q][3] == MASH) and (move[q][5] == RIGHT)) then move[q][5] = LEFT
+			elseif ((move[q][3] == MASH) and (move[q][5] == UPLEFT)) then move[q][5] = UPRIGHT
+			elseif ((move[q][3] == MASH) and (move[q][5] == UPRIGHT)) then move[q][5] = UPLEFT
+			elseif ((move[q][3] == MASH) and (move[q][5] == DOWNLEFT)) then move[q][5] = DOWNRIGHT
+			elseif ((move[q][3] == MASH) and (move[q][5] == DOWNRIGHT)) then move[q][5] = DOWNLEFT
+			elseif ((move[q][3] == PATH)) then 
+
+				if path[q][1] == LEFT then path[q][1] = RIGHT
+				elseif path[q][1] == RIGHT then path[q][1] = LEFT	end
+				if path[q][3] == LEFT then path[q][3] = RIGHT
+				elseif path[q][3] == RIGHT then path[q][3] = LEFT	end
+				if path[q][5] == LEFT then path[q][5] = RIGHT
+				elseif path[q][5] == RIGHT then path[q][5] = LEFT	end
+				if path[q][7] == LEFT then path[q][7] = RIGHT
+				elseif path[q][7] == RIGHT then path[q][7] = LEFT	end
+							
+			elseif ((move[q][3] == TIMED)) then
+
+				if move[q][5] == nil then
+
+					if timed[q][1] == LEFT then timed[q][1] = RIGHT
+					elseif timed[q][1] == RIGHT then timed[q][1] = LEFT	end
+					timed[q][2] = timed[q][2]+offsetFlip
+					timed[q][3] = timed[q][3]+offsetFlip
+
+				else
+
+					for p = move[q][5],move[q][6] do
+
+						if timed[p][1] == LEFT then timed[p][1] = RIGHT
+						elseif timed[p][1] == RIGHT then timed[p][1] = LEFT	end
+						timed[p][2] = timed[p][2]+offsetFlip
+						timed[p][3] = timed[p][3]+offsetFlip
+
+					end
+
+				end
+
+			elseif ((move[q][3] == COMBO)) then
+
+				if move[q][5] == LEFT then move[q][5] = RIGHT
+				elseif move[q][5] == RIGHT then move[q][5] = LEFT
+				elseif move[q][5] == UPLEFT then move[q][5] = UPRIGHT
+				elseif move[q][5] == UPRIGHT then move[q][5] = UPLEFT
+				elseif move[q][5] == DOWNLEFT then move[q][5] = DOWNRIGHT
+				elseif move[q][5] == DOWNRIGHT then move[q][5] = DOWNLEFT end	
+
+				if move[q][6] == LEFT then move[q][6] = RIGHT
+				elseif move[q][6] == RIGHT then move[q][6] = LEFT
+				elseif move[q][6] == UPLEFT then move[q][6] = UPRIGHT
+				elseif move[q][6] == UPRIGHT then move[q][6] = UPLEFT
+				elseif move[q][6] == DOWNLEFT then move[q][6] = DOWNRIGHT
+				elseif move[q][6] == DOWNRIGHT then move[q][6] = DOWNLEFT end	
+
+			elseif move[q][3] == MULTI then
+
+				for i=1, #multi[q] do
+
+					if multi[q][i] == LEFT then multi[q][i] = RIGHT
+					elseif multi[q][i] == RIGHT then multi[q][i] = LEFT
+					elseif multi[q][i] == UPLEFT then multi[q][i] = UPRIGHT
+					elseif multi[q][i] == UPRIGHT then multi[q][i] = UPLEFT
+					elseif multi[q][i] == DOWNLEFT then multi[q][i] = DOWNRIGHT
+					elseif multi[q][i] == DOWNRIGHT then multi[q][i] = DOWNLEFT end
+
+				end
+
+			elseif (move[q][3] == LOOP) then 
+				
+				for i=1, #multi[q] do
+
+					if multi[q][i] == LEFT then multi[q][i] = RIGHT
+					elseif multi[q][i] == RIGHT then multi[q][i] = LEFT end
+
+				end
+			
+			end
+
+		end
+			
+		
+		if q < totalMoves then
+
+			if q == 1 or move[q][3] == WAY or move[q][3] == WAYOUT or move[q][3] == TOSCENE or move[q][3] == TOLEVEL then 
+
+				move[q][7] = move[q][1]
+				move[q][8] = move[q][2]
+
+			else	
+
+				if (move[q-1][3] == WAY or move[q][3] == WAYOUT or move[q][3] == TOSCENE or move[q][3] == TOLEVEL) and move[q-1][8] > move[q][1] then
+
+					move[q][7] = move[q-2][2] + 1
+					move[q][8] = move[q][2]
+
+				else
+
+					move[q][7] = move[q-1][2] + 1
+					move[q][8] = move[q][2]
+
+				end	
+
+			end
+		
+		elseif q == totalMoves then
+
+			if q == 1 or move[q][3] == WAY or move[q][3] == WAYOUT or move[q][3] == TOSCENE or move[q][3] == TOLEVEL then 
+
+				move[q][7] = move[q][1]
+				move[q][8] = sceneEnd
+
+			else
+
+				if (move[q-1][3] == WAY or move[q][3] == WAYOUT or move[q][3] == TOSCENE or move[q][3] == TOLEVEL) and move[q-1][8] > move[q][1] then
+
+					move[q][7] = move[q-2][2] + 1
+					move[q][8] = sceneEnd
+
+				else
+					
+					move[q][7] = move[q-1][2] + 1
+					move[q][8] = sceneEnd
+
+				end	
+						
+			end	
+
+		end
+
+	end
+
+end
+
+
+

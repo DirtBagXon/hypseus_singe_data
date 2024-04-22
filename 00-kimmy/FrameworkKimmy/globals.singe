@@ -1,0 +1,570 @@
+--[[
+
+PROGRAM NAME:	KIMMY SCRIPT ENGINE
+VERSION:		4.0
+AUTHOR:			KARIS (2020/2024)
+
+This file is part of KIMMY SCRIPT ENGINE.
+
+	KIMMY SCRIPT ENGINE is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation.
+
+	KIMMY SCRIPT ENGINE is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+	Thanks to Matthew P. Ownby, Scott Duensing, RDG, Bladescater, DirtBagXon.
+
+]]--
+
+
+dofile(BASEDIR .. "/FrameworkKimmy/framework.singe")
+dofile(BASEDIR .. "/FrameworkKimmy/main.singe")
+dofile(BASEDIR .. "/FrameworkKimmy/moves.singe")
+dofile(BASEDIR .. "/FrameworkKimmy/hscore.singe")
+dofile(BASEDIR .. "/FrameworkKimmy/service.singe")
+dofile(BASEDIR .. "/FrameworkKimmy/toolbox.singe")
+
+lfs = require("lfs")
+
+if (dip_MinimalOverlay == nil) or (dip_MinimalOverlay == 0) then
+        setOverlaySize(1)
+end
+
+--Framework.singe....
+
+p1UP = false		
+p1DOWN = false		
+p1LEFT = false
+p1RIGHT = false
+p1BUTTON1 = false
+p1BUTTON2 = false
+p1BUTTON3 = false
+p1COIN1 = false
+p1COIN2 = false
+p1SERVICE = false
+p1START1 = false
+p1START2 = false
+p1PAUSE = false
+p1CONSOLE = false
+
+-- default cfg values
+
+dip_Diffshow = 1
+dip_GameType = 0
+dip_PlayStyle = 1
+dip_StartLevel = 1
+dip_StartScene = 1
+dip_Rewind = 0
+dip_CoinsPerCredit = 0
+dip_LivesPerCredit = 1
+dip_LimitContinue = 0
+dip_ShowAction = 4
+dip_Extravid = 0
+dip_Hints = 0
+dip_Difficulty = 1
+dip_MashtoRun = 0
+dip_Res = 0
+ShowLCD = 0
+ShowLevel = 0
+ShowTop = 1
+ScorePos = 1
+LivPos = 1
+CoinPos = 2
+mycolor1 = 1
+mycolor2 = 4
+fontSize = 2
+fontType = 1
+ShowTitle = 0
+dip_Model = 0
+dip_Display = 0
+dip_Scanlines = 0
+dip_ScType = 1
+mycolor3 = 1
+dip_FontQ = 3
+dip_HoldtoLoop = 0
+dip_MashRes = 5
+dip_Tilt = 0
+dip_Next = 1
+dip_OVLS = 0
+
+--End Framework
+
+bPause = false
+bUnlockSel = false --For Devs only !
+bShowFrame = false
+bResetContinue = false
+bAct = false
+bShowCredits = false
+bShowAction = false
+bShowNext = false
+bShowLives = false
+bShowScore = false
+bShowLvl = false
+bShowSkip = false
+bShowGet = false
+bShowTop = false
+bShowDisk = false
+bSkipIntroClip = false
+bLevelComplete = false
+bCheckForCredits = false
+bPlayPrompt = false
+bIgnoreJoy = false
+bExtendedPlay = false
+bLCDLineWait = false
+bGOAlt = false
+bTestMash = false
+bTestRunL = false
+bTestRunR = false
+bTestRunU = false
+bTestRunD = false
+bTestHold = false
+bAllowSave = false
+bSave = false
+bCheckMove = false
+bShuffleOrder = true
+bRes = true
+bFlip = false
+bPath = false
+bCalc = true
+bOneDiff = true
+bSwap = false
+bInPlayExit = false
+bScan = false
+bGR = false
+ForceRewind = false
+altCfg = false
+bTime = true
+b1PStart = false 
+b2PStart = false
+b1PEnd = false
+b2PEnd = false 
+bNoScreen = false
+bLvlJump = false
+bScnJump = false
+bShowWarnTilt = false
+bShowTilt = false
+AllowNormal = true
+AllowLifeBar = true
+AllowPercent = true
+AllowSurvivor = true
+AllowKid = true
+AllowDie = true
+
+if devMode then bFrameCount = true
+else bFrameCount = false end
+
+dip_Loadsave = 0
+dip_Slot = 1
+
+DOPT_FREEPLAY = 0
+DOPT_INFINITE_CONTINUES = 4
+t1 = 0
+t2 = 0
+t3 = 0
+t4 = 0
+t1l = 0
+t2l = 0
+t3l = 0
+t4l = 0
+
+LivesPrev = 0
+ScorePrev = 0
+
+gameflow = 0
+flow_VLDPStart = 0
+flow_GameInit = 1
+flow_GameRunning = 2
+
+lvlState = 0
+lvlSetup = 0
+lvlRunning = 1
+lvlEnd = 2
+lvlPlayDeath = 3
+lvlPlayRest = 4
+branch01 = 10
+branch02 = 11
+branch03 = 12
+branch04 = 13
+branch05 = 14
+branch06 = 15
+branch07 = 16
+branch08 = 17
+branch09 = 18
+branch10 = 19
+branch11 = 20
+branch12 = 21
+
+sceneStart = 0
+sceneEnd = 0
+currentFrame = 0
+currentLevel = 0
+currentMove = 0
+levelIntro = 0
+levelContinue = 100
+levelGameOver = 101
+levelChoose = 102
+levelNormal = 103
+levelService = 104
+levelMap = 105
+levelHighScore = 106
+levelMovie = 107
+levelSave = 108
+levelDiffScreen = 109
+levelFinish = 110
+levelTrophy = 111
+levelExit = 112
+levelGraphic = 113
+levelPerf = 114
+level2P = 115
+level2PEnd = 116
+levelSelect = 117
+levelDR = 118
+levelSecret = 1000
+
+offsetIntroGame = 0			
+offsetIntroGameend = 0
+
+iCoins = 0
+iCredits = 0
+iScore = 0
+iScoreTemp = 0
+iScoreSave = 0
+iLiveSave = 5
+iBonus = 0
+iLives = 0
+iLevelStart = 0
+iLevelEnd = 0
+iTempLevel = 0
+iStageIndex = 0
+iContinues = 0
+iLastFiller = 1
+iChoice = 0
+iLevel = 1
+iPauseFrame = 0
+iDeathCount = 0
+iRoll = 0
+iTilt = 0
+curPath = 0
+iPath = 0
+iPathA = 0
+iPathAend = 0
+iPathAjmp = 0
+iPathB = 0
+thisMove = 0
+altState = 0
+altState2 = 0
+diffState = 0
+totalMoves = 0
+iMash = 0
+mashCounter = 5
+lenCounter = 8
+iMulti = 1
+iCountCombo = 0
+iMovie = 1
+iPenal = 0
+iTop = 0
+iLenHold = 0
+yscopos = 0
+ylivpos = 0
+ycoinpos = 0
+ylvlpos = 0
+ydskpos = 0
+numChoice = 3
+numTrophy = 0
+lastHold = 0
+fontSize = 0
+fontSizeNew = 0
+iRightMv = 0
+iWrongMv = 0
+iTiltMv = 0
+iExtraLife = 0
+iLifeBar = 10
+iScPlayed = 1
+iScDeath = 0
+iTotDeath = 0
+BarSize = 10
+BarMin = 2
+BarBonus = 3
+Tlimit = 0
+posGauge = 0
+Hit = 0
+i2P = 0
+i1PScore = 0
+i2PScore = 0
+iTimer = 1
+iTrigTilt = 50 - 10*dip_Tilt
+xFreePlay = 0
+xTop = 0
+xCredit = 0
+
+NOMOVE = -1
+MOVEPENDING = -2
+MOVEFAIL = -3
+
+-- Basic Moves
+UP = 1
+DOWN = 2
+LEFT = 3
+RIGHT = 4
+BUTTON1 = 5
+BUTTON2 = 6
+BUTTON3 = 7
+
+UPLEFT = 9
+UPRIGHT = 10
+DOWNLEFT = 11
+DOWNRIGHT = 12
+
+-- Complex moves
+COMBO = 20 		-- Any 2 Basic moves together
+MULTI = 21 		-- Any number of Basic moves sequence
+LOOP = 22 		-- Circles and half circles with the stick
+MASH = 23
+HOLD = 24  		-- Any Basic move
+LETGO = 25 		-- Only after HOLD
+
+
+-- Special Moves
+CHOOSE = 50 	-- QCM Style move (TimeGal)
+PATH = 51 		-- Directions (Space Ace/Hayate)
+YESNO = 52 		-- Button or Not (Space Ace/Hayate)
+TIMED = 53 		-- Timed Move (DL/Esh)
+
+-- Neutral Moves
+SKIP = 100 		-- Obvious
+WAY = 101 		-- Placeholder (short Skip) Death: Move Jump
+WAYOUT = 102	-- Placeholder with Scene/Level Jump
+TOLEVEL = 103	-- Placeholder with Level Jump (even if not the last scene)
+TOSCENE = 104	-- Placeholder with Scene Jump (even if the last scene)
+
+--Total active moves: 24 
+
+-- Deprecated Moves and Shortcuts (Kept for retrocompatibility. Shortcuts will still work)
+ACTUP = 120
+ACTDOWN = 121
+ACTLEFT = 122
+ACTRIGHT = 123
+RUN = 124 		
+MASH2 = 125 		
+MASHMIN = 126
+MASHMAX = 127
+MASH2MIN = 128
+MASH2MAX = 129
+RUNMIN = 130
+RUNMAX = 131
+HOLDUP = 132
+HOLDDOWN = 133
+HOLDLEFT = 134
+HOLDRIGHT = 135
+HOLDBUT = 136
+LOOPLEFT = 137 	
+LOOPRIGHT = 138
+
+
+--more shortcuts for Complex
+DOUBLE = 150
+UD = 151
+DU = 152
+LR = 153
+RL = 154
+B1B2 = 155
+
+BUTTON4 = 8 --reserved but not used for now
+
+-- Overlay elements
+INSERTCOIN = 201
+CREDIT	   = 202
+LIVES	   = 203
+LEVEL      = 204
+SKIPINTRO  = 205
+SCENES     = 206
+SCORE      = 207
+BONUS      = 208
+SELMAP	   = 209
+OKMAP      = 210 
+D1         = 211  
+D2         = 212
+D3         = 213  
+DA         = 214
+ARROWSELL  = 215
+ARROWSELR  = 216
+FREEPLAY   = 217
+GETREADY   = 218
+TOPSCORE   = 219
+SECRET     = 220
+PW0 	   = 221
+PW1 	   = 222
+PW2 	   = 223
+PW3 	   = 224
+PW4 	   = 225
+PW5 	   = 226
+PW6 	   = 227
+PW7		   = 228
+PWFULL 	   = 229
+MOVE 	   = 230
+WARNING	   = 231
+NOMOVES    = 232
+BUTTONS	   = 233
+STICK 	   = 234
+SPECIALS   = 235
+TN 		   = 236
+TB 		   = 237
+TS 		   = 238
+TG 		   = 239
+TP 		   = 240
+DEATH      = 241
+TOTAL      = 242
+MINUS      = 243
+PERFECT    = 244
+BARFULL    = 245
+BARNONE    = 246
+SCAN       = 247
+TIME       = 248
+NHOLD 	   = 249
+MASH3      = 250
+NEMPTY	   = 251
+NUP	  	   = 252
+NDOWN	   = 253
+NLEFT	   = 254
+NRIGHT	   = 255
+NB1		   = 256
+NB2		   = 257
+NB3		   = 258
+NSUP	   = 259
+NSDOWN	   = 260
+NSLEFT	   = 261
+NSRIGHT	   = 262
+NUL		   = 263 
+NUR        = 264
+NDL        = 265
+NDR        = 266
+NHUP	   = 267 
+NHDOWN     = 268
+NHLEFT     = 269
+NHRIGHT    = 270
+HUP        = 271
+HDOWN      = 272
+HLEFT      = 273
+HRIGHT     = 274
+TILT       = 275
+PAUSED     = 276
+WAIT       = 277
+KIMMY 	   = 278
+
+inputFrmStart = 1
+inputFrmEnd = 2
+correctMove = 3
+moveDeath = 4
+moveFrmStart = 7
+moveFrmEnd = 8
+
+curDeathStart = 1
+curDeathEnd = 2
+
+segID = 0
+iScene = 0
+
+WHITE = 1
+RED = 2
+BLUE = 3
+YELLOW = 4
+GREEN = 5
+ORANGE = 6	
+PINK = 7
+PURPLE = 8
+LIGHTBLUE = 9
+GREY = 10
+BLACK = 11
+MISC = 12
+
+TOP = 1
+BOTTOM = 2
+MIDDLE = 3
+
+Level = nil;
+Level = {}
+
+TITLE = 1
+INTROCLIP = 2
+INTROCLIPEND = 3
+TOTALSCENES = 4 
+MIRROR = 5
+DTHMIRROR = 6
+LVLREPLAY = 7
+
+LEVELSTARTED = 1
+BEATSTATUS = 2
+DEATHCOUNT = 3
+
+SCENEID = 1
+SCENECOMPLETE = 2
+
+NODEATH = -1
+NODEATHSCORE = -2
+
+OUT = 1000
+
+U = UP
+D = DOWN
+L = LEFT
+R = RIGHT
+B1 = BUTTON1
+B2 = BUTTON2
+B3 = BUTTON3
+UL = UPLEFT
+UR = UPRIGHT
+DL = DOWNLEFT
+DR = DOWNRIGHT
+NM = NOMOVE
+
+sLCD = ""
+iLCDline = 1; iLCDpointer = 1; iLCDx = 0; iLCDwait = 0.250
+bShowLCD = true
+
+choice = nil 
+optorder = nil
+acombo = nil
+acombo = {0,0,0,0,0,0,0}
+gcombo = nil
+gcombo = {0,0,0,0,0,0,0}
+mcombo = nil
+mcombo = {0,0,0,0,0,0,0}
+path = nil
+path = {}
+multi = nil
+multi = {}
+timed = nil
+timed = {}
+LvlMap = nil 
+LvlMap = {}
+PlayOrder = nil 
+PlayOrder = {}
+LvlOrder= nil
+LvlOrder = {}
+Tiers = nil 
+Tiers = {}
+sprite = nil
+sprNUM = nil
+Death = nil 
+Death = {}
+Group1 = {}
+Group2 = {}
+Group3 = {}
+Group4 = {}
+
+SKINDIR = "/DEFAULT"
+LOOPDIR = BASEDIR .. "/FrameworkKimmy/Skin" .. SKINDIR
+MYDIR = DIR
+
+sndright   = soundLoad(DIR.."/Sounds/right.wav")
+sndwrong   = soundLoad(DIR.."/Sounds/wrong.wav")
+snddeath   = soundLoad(DIR.."/Sounds/death.wav")
+sndvictory = soundLoad(DIR.."/Sounds/victory.wav")
+sndcoin    = soundLoad(DIR.."/Sounds/coin.wav")
+sndcredit  = soundLoad(DIR.."/Sounds/credit.wav")
+sndclear   = soundLoad(DIR.."/Sounds/clear.wav")
+sndroll    = soundLoad(DIR.."/Sounds/roll.wav")
+
+dofile(DIR .. "/Script/addons.singe")
