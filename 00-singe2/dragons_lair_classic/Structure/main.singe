@@ -624,11 +624,13 @@ function do2P() -- 2 Players Home
 		
 			b1PStart = true
 			startGame()
+			autoSave(5)
 
 		elseif bValid == true and i2P == 2 and b2PStart == false then
 		
 			b2PStart = true
 		 	startGame()
+			autoSave(6)
 
 		 else
 
@@ -4775,9 +4777,12 @@ function drawLives()       -- Draw Lives
 
 	if scoreBezelGetState() then
 
+		if (i2P == 0) then PlayerNum = 1
+		else PlayerNum = i2P end
+
 		if not (iLives == LivesPrev) then
 
-			scoreBezelLives(1, iLives)
+			scoreBezelLives(PlayerNum, iLives)
 			LivesPrev = iLives
 		end
 
@@ -4879,9 +4884,12 @@ function drawScore()       -- Draw score
 
 	if scoreBezelGetState() then
 
+		if (i2P == 0) then PlayerNum = 1
+		else PlayerNum = i2P end
+
 		if not (iScore == ScorePrev) then
 
-			scoreBezelScore(1, iScore)
+			scoreBezelScore(PlayerNum, iScore)
 			ScorePrev = iScore
 		end
 
@@ -6133,7 +6141,7 @@ function onOverlayUpdate()     -- Manage the game and look for any given situati
 			doSave()
 
 		elseif (currentLevel == level2P) then
-		
+
 			do2P()
 
 		elseif (currentLevel == level2PEnd) then
@@ -6602,7 +6610,7 @@ function setupLevel(thisLevel)      -- Setup each level (including mirrors)
 	setupMoves(thisLevel, iScene)		
 	setupFrames(thisLevel)
 				
-	if bAllowSave == true and dip_GameType ~= 2 and dip_GameType ~= 3 then
+	if bAllowSave == true and dip_GameType ~= 2 and dip_GameType ~= 3 and i2P == 0 then
 
 		autoSave(4) 
 		bShowDiskA = true
@@ -6627,7 +6635,7 @@ function startGame()      -- Starts the game according to each option
 			
 	else
 		
-		if iCredits > 0 then
+		if iCredits > 0 and i2P == 0 then
 
 			iCredits = iCredits - 1
 
@@ -6887,10 +6895,18 @@ function startSave()      -- Start saved game according to content of the save
 	if currentMove ~= 1 then bSave = true end
 
 	iContinues = 0
-	iScene = 0
 
-	iLevel = dip_StartLevel				
-	iScene = dip_StartScene -1
+	if i2P == 0 then
+		iScene = 0
+		iLevel = dip_StartLevel
+		iScene = dip_StartScene -1
+
+	else
+
+		iScene = iScene -1
+
+	end
+
 
 	iScoreTemp = iScore
 	iScPlayed = 0

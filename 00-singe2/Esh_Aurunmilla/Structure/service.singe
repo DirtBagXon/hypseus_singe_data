@@ -4547,9 +4547,18 @@ function loadSave(thisSlot)
 	local h1 = io.input(s0)
 
 	s1 = io.read("*line")
+
+	if thisSlot == 5 or thisSlot == 6 then
+
+		iLevel = tonumber(string.sub(s1,1,string.find(s1,",")-1))
+		iScene = tonumber(string.sub(s1,string.find(s1,",")+1, string.find(s1,"!")-1))
+
+	else
+		dip_StartLevel = tonumber(string.sub(s1,1,string.find(s1,",")-1))
+		dip_StartScene = tonumber(string.sub(s1,string.find(s1,",")+1, string.find(s1,"!")-1))
+
+	end
 	
-	dip_StartLevel = tonumber(string.sub(s1,1,string.find(s1,",")-1))
-	dip_StartScene = tonumber(string.sub(s1,string.find(s1,",")+1, string.find(s1,"!")-1))
 	currentMove = tonumber(string.sub(s1,string.find(s1,"!")+1, string.find(s1,"?")-1))
 	dip_GameType = tonumber(string.sub(s1,string.find(s1,"A")+1, string.find(s1,"B")-1))
 
