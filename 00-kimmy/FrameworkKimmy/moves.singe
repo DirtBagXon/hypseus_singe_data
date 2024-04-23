@@ -3759,6 +3759,9 @@ function onInputReleased(intWhat)      		-- Confirm the release of all buttons (
 						
 							iCoins = iCoins - dip_CoinsPerCredit
 							iCredits = iCredits + 1
+							if scoreBezelGetState() then
+								scoreBezelCredits(iCredits)
+							end
 							soundPlay(sndcredit)
 							
 						else

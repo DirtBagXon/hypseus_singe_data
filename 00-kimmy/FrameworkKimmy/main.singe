@@ -1545,7 +1545,15 @@ function doIntro()     -- Process attract mode
 		if (p1START2) then
 
 			p1START2 = false
-			if dip_GameType == 0 or dip_GameType == 3 then iCredits = iCredits - 2 end
+			if dip_GameType == 0 or dip_GameType == 3 then
+
+				iCredits = iCredits - 2
+
+				if scoreBezelGetState() then
+					scoreBezelCredits(iCredits)
+				end
+			end
+
 			lvlState = lvlSetup
 			i2P = 1
 			b1PStart = false
@@ -3203,16 +3211,19 @@ function drawCredits()     -- Draw the credits
 			spriteDraw(OVLW/2-FREEW/2,ycoinpos,sprite[FREEPLAY])
 		
 		else
+
+			if not scoreBezelGetState() then
 		
-			if (iCredits > 0) then			
+				if (iCredits > 0) then
 				
-				spriteDraw((OVLW/2)-CRDW/2-NUMW,ycoinpos,sprite[CREDIT])
-				drawSpriteNumber((OVLW/2)-CRDW/2+CRDW,ycoinpos,iCredits)
+					spriteDraw((OVLW/2)-CRDW/2-NUMW,ycoinpos,sprite[CREDIT])
+					drawSpriteNumber((OVLW/2)-CRDW/2+CRDW,ycoinpos,iCredits)
 				
-			else		
+				else
 				
-				spriteDraw(OVLW/2-INSW/2,ycoinpos,sprite[INSERTCOIN])
+					spriteDraw(OVLW/2-INSW/2,ycoinpos,sprite[INSERTCOIN])
 				
+				end
 			end
 			
 		end
@@ -3473,48 +3484,64 @@ end
 
 function drawLives()       -- Draw Lives
 
-	local k = 0
-	
-	if dip_GameType == 1 then
+	if scoreBezelGetState() then
 
-		if iLifeBar > 0 then
-			
-			for k = 1,iLifeBar do
+		local PlayerNum
 
-				spriteDraw(OVLW-(LINEW*(2+dip_Res))-(BARW*(BarSize+1))+((BARW+2)*k)-shiftOVL,ylivpos,sprite[BARFULL])
+		if (i2P == 0) then PlayerNum = 1
+		else PlayerNum = i2P end
 
-			end
+		if not (iLives == LivesPrev) then
 
-			if iLifeBar < BarSize then
-
-				for k = iLifeBar,BarSize do
-
-					spriteDraw(OVLW-(LINEW*(2+dip_Res))-(BARW*(BarSize+1))+((BARW+2)*k)-shiftOVL,ylivpos,sprite[BARNONE])
-
-				end
-
-			end
-
+			scoreBezelLives(PlayerNum, iLives)
+			LivesPrev = iLives
 		end
 
 	else
 
-		if dip_GameType ~= 4 then
+		local k = 0
+	
+		if dip_GameType == 1 then
 
-			if (iLives > 0) then
+			if iLifeBar > 0 then
 
-				for k = 1,iLives do
+				for k = 1,iLifeBar do
 
-					spriteDraw(OVLW-LINEW-(LIVW*k)-shiftOVL,ylivpos,sprite[LIVES])
-						
+					spriteDraw(OVLW-(LINEW*(2+dip_Res))-(BARW*(BarSize+1))+((BARW+2)*k)-shiftOVL,ylivpos,sprite[BARFULL])
+
 				end
-					
+
+				if iLifeBar < BarSize then
+
+					for k = iLifeBar,BarSize do
+
+						spriteDraw(OVLW-(LINEW*(2+dip_Res))-(BARW*(BarSize+1))+((BARW+2)*k)-shiftOVL,ylivpos,sprite[BARNONE])
+
+					end
+
+				end
+
 			end
 
-		end
-	
-	end
+		else
 
+			if dip_GameType ~= 4 then
+
+				if (iLives > 0) then
+
+					for k = 1,iLives do
+
+						spriteDraw(OVLW-LINEW-(LIVW*k)-shiftOVL,ylivpos,sprite[LIVES])
+						
+					end
+					
+				end
+
+			end
+	
+		end
+
+	end
 end
 
 function drawLvl()       -- Draw current level
@@ -3548,39 +3575,54 @@ end
 
 function drawScore()       -- Draw score
 
-	if dip_GameType ~= 4 then 
+	if scoreBezelGetState() then
 
-		drawSpriteNumber(LINEW+shiftOVL,yscopos,iScore)	
+		local PlayerNum
 
-		if (bShowTop and not bShowWarnTilt and not bShowTilt) or bPause then
+		if (i2P == 0) then PlayerNum = 1
+		else PlayerNum = i2P end
 
-			spriteDraw(OVLW/2-TOPW/2,LINEH/2,sprite[TOPSCORE])
-			
-			if dip_GameType == 3 then
+		if not (iScore == ScorePrev) then
 
-				drawSpriteNumber((OVLW/2)-NUMW, TOPH+LINEH/2, iTop)
-
-			else	
-
-				drawSpriteNumber((OVLW/2)-NUMW*3, TOPH+LINEH/2, iTop)
-
-			end	
-
+			scoreBezelScore(PlayerNum, iScore)
+			ScorePrev = iScore
 		end
-
 	else
 
-		fontSelect(fontGame)
-		setFontColor(mycolor2)
-		fontPrint(LINEW+shiftOVL,yscopos, "Death: "..iScDeath+iTotDeath)
+		if dip_GameType ~= 4 then
 
-		if (bShowTop and not bShowWarnTilt and not bShowTilt) or bPause then
+			drawSpriteNumber(LINEW+shiftOVL,yscopos,iScore)
 
-			spriteDraw(OVLW/2-TOPW/2,LINEH/2,sprite[TOPSCORE])
-			drawSpriteNumber((OVLW/2)-NUMW*1.5, TOPH+LINEH/2, iTop)
+			if (bShowTop and not bShowWarnTilt and not bShowTilt) or bPause then
+
+				spriteDraw(OVLW/2-TOPW/2,LINEH/2,sprite[TOPSCORE])
+			
+				if dip_GameType == 3 then
+
+					drawSpriteNumber((OVLW/2)-NUMW, TOPH+LINEH/2, iTop)
+
+				else
+
+					drawSpriteNumber((OVLW/2)-NUMW*3, TOPH+LINEH/2, iTop)
+
+				end
+
+			end
+
+		else
+
+			fontSelect(fontGame)
+			setFontColor(mycolor2)
+			fontPrint(LINEW+shiftOVL,yscopos, "Death: "..iScDeath+iTotDeath)
+
+			if (bShowTop and not bShowWarnTilt and not bShowTilt) or bPause then
+
+				spriteDraw(OVLW/2-TOPW/2,LINEH/2,sprite[TOPSCORE])
+				drawSpriteNumber((OVLW/2)-NUMW*1.5, TOPH+LINEH/2, iTop)
+
+			end
 
 		end
-
 	end
 		
 end
@@ -3816,7 +3858,6 @@ function getFont()		--Manage Fonts
 
 	elseif dip_Res == 2 then 
 		
-		fontSize = -4
 		fontSizeNew = (fontSize/4+OVLH/90)
 
 	end	
@@ -3904,7 +3945,6 @@ function getRes()		-- Manage Resolution and Sprites
 
 		fontpath = BASEDIR .. "/FrameworkKimmy/Skin/DEFAULT/fontul.ttf"
 
-		fontSize = -4
 		fontSizeNew = (fontSize/4+OVLH/90)
 		fontGame = fontLoad(fontpath, fontSizeNew*4)
 		fontLCD = fontLoad(fontpath, fontSizeNew*5)
@@ -5168,7 +5208,12 @@ function startGame()      -- Starts the game according to each option
 	else
 		
 		if iCredits > 0 and i2P == 0 then
+
 			iCredits = iCredits - 1
+
+			if scoreBezelGetState() then
+				scoreBezelCredits(iCredits)
+			end
 		end
 
 		iScore = 0	

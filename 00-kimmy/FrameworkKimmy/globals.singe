@@ -556,15 +556,14 @@ Group4 = {}
 
 SKINDIR = "/DEFAULT"
 LOOPDIR = BASEDIR .. "/FrameworkKimmy/Skin" .. SKINDIR
-MYDIR = DIR
 
-sndright   = soundLoad(DIR.."/Sounds/right.wav")
-sndwrong   = soundLoad(DIR.."/Sounds/wrong.wav")
-snddeath   = soundLoad(DIR.."/Sounds/death.wav")
-sndvictory = soundLoad(DIR.."/Sounds/victory.wav")
-sndcoin    = soundLoad(DIR.."/Sounds/coin.wav")
-sndcredit  = soundLoad(DIR.."/Sounds/credit.wav")
-sndclear   = soundLoad(DIR.."/Sounds/clear.wav")
-sndroll    = soundLoad(DIR.."/Sounds/roll.wav")
+sndright   = soundLoad(MYDIR.."/Sounds/right.wav")
+sndwrong   = soundLoad(MYDIR.."/Sounds/wrong.wav")
+snddeath   = soundLoad(MYDIR.."/Sounds/death.wav")
+sndvictory = soundLoad(MYDIR.."/Sounds/victory.wav")
+sndcoin    = soundLoad(MYDIR.."/Sounds/coin.wav")
+sndcredit  = soundLoad(MYDIR.."/Sounds/credit.wav")
+sndclear   = soundLoad(MYDIR.."/Sounds/clear.wav")
+sndroll    = soundLoad(MYDIR.."/Sounds/roll.wav")
 
-dofile(DIR .. "/Script/addons.singe")
+dofile(MYDIR .. "/Script/addons.singe")
