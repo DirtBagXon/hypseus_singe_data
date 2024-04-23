@@ -3848,7 +3848,7 @@ function onInputReleased(intWhat)      		-- Confirm the release of all buttons (
 			
 			end
 
-		elseif (intWhat == SWITCH_TEST and gameflow == flow_GameRunning) then
+		elseif (intWhat == SWITCH_TEST and gameflow == flow_GameRunning and dip_CoinsPerCredit == DOPT_FREEPLAY) then
 
 			p1TEST = false
 
@@ -3884,7 +3884,7 @@ function onInputReleased(intWhat)      		-- Confirm the release of all buttons (
 			
 			p1START2 = false
 						
-		elseif (intWhat == SWITCH_SKILL1 and gameflow == flow_GameRunning and dip_GameType~= 5) then
+		elseif (intWhat == SWITCH_SKILL1 and gameflow == flow_GameRunning and dip_GameType~= 5 and dip_CoinsPerCredit == DOPT_FREEPLAY) then
 			
 			p1SKILL1 = false
 
@@ -3907,7 +3907,7 @@ function onInputReleased(intWhat)      		-- Confirm the release of all buttons (
 			
 			end	
 
-		elseif (intWhat == SWITCH_SKILL2 and gameflow == flow_GameRunning and dip_GameType~= 5) then
+		elseif (intWhat == SWITCH_SKILL2 and gameflow == flow_GameRunning and dip_GameType~= 5 and dip_CoinsPerCredit == DOPT_FREEPLAY) then
 			
 			p1SKILL2 = false
 
@@ -3930,7 +3930,7 @@ function onInputReleased(intWhat)      		-- Confirm the release of all buttons (
 
 			end
 
-		elseif (intWhat == SWITCH_SKILL3 and gameflow == flow_GameRunning and dip_GameType~= 5) then
+		elseif (intWhat == SWITCH_SKILL3 and gameflow == flow_GameRunning and dip_GameType~= 5 and dip_CoinsPerCredit == DOPT_FREEPLAY) then
 			
 			p1SKILL3 = false
 

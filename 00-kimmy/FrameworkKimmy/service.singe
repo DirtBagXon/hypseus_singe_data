@@ -3067,7 +3067,7 @@ function updateOptsG(thisIndex)
 
 		dip_ScType = dip_ScType + 1
 
-		if dip_ScType >8 then dip_ScType = 0 end
+		if dip_ScType >9 then dip_ScType = 0 end
 
 		
 		setSkin()
@@ -3425,7 +3425,7 @@ function updateOptsMinG(thisIndex)
 
 		dip_ScType = dip_ScType - 1
 
-		if dip_ScType < 0 then dip_ScType = 8 end
+		if dip_ScType < 0 then dip_ScType = 9 end
 		
 		
 		setSkin()
@@ -3757,6 +3757,10 @@ function printOptsG()
 			elseif dip_ScType == 8 then
 
 				fontPrint(fntx, ypos, "Sci Fi")
+
+			elseif dip_ScType == 9 then
+
+				fontPrint(fntx, ypos, "Custom")
 					  
 			end
 
@@ -6104,6 +6108,15 @@ function setSkin()
 		mycolor1 = 1
 		mycolor2 = 9
 		mycolor3 = 3
+		if dip_Res ~= 2 then fontSize = 0 end
+		numFont = 2
+
+	elseif dip_ScType == 9 then
+
+		SKINDIR = "/CUSTOM"
+		mycolor1 = 1
+		mycolor2 = 2
+		mycolor3 = 4
 		if dip_Res ~= 2 then fontSize = 0 end
 		numFont = 2
 
