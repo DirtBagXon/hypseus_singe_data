@@ -31,11 +31,11 @@ function readConfig()
 
 	if altCfg == true then
 
-		s0 = DIR .."/Cfg/game2.cfg"
+		s0 = MYDIR .."/Cfg/game2.cfg"
 
 	else
 
-		s0 = DIR .."/Cfg/game.cfg"
+		s0 = MYDIR .."/Cfg/game.cfg"
 
 	end	
 
@@ -441,11 +441,11 @@ function writeConfig()
 
 	if altCfg == true then
 
-		s0 = DIR .."/Cfg/game2.cfg"
+		s0 = MYDIR .."/Cfg/game2.cfg"
 			
 	else
 
-		s0 = DIR .."/Cfg/game.cfg"
+		s0 = MYDIR .."/Cfg/game.cfg"
 
 	end
 
@@ -552,17 +552,17 @@ function setDefault()
 
 	if altCfg == true then
 
-		for file in lfs.dir(DIR.."/Cfg/") do
+		for file in lfs.dir(MYDIR.."/Cfg/") do
 
-			if file == "default2.cfg" then s0 = DIR .."/Cfg/default2.cfg" end
+			if file == "default2.cfg" then s0 = MYDIR .."/Cfg/default2.cfg" end
 
 		end
 
 	else
 
-		for file in lfs.dir(DIR.."/Cfg/") do
+		for file in lfs.dir(MYDIR.."/Cfg/") do
 
-			if file == "default.cfg" then s0 = DIR .."/Cfg/default.cfg" end
+			if file == "default.cfg" then s0 = MYDIR .."/Cfg/default.cfg" end
 
 		end
 
@@ -4857,11 +4857,11 @@ function readSave()
 
 		if altCfg == true and k < 5 then
 
-			s0 = DIR.."/Cfg/s" .. k .. "0.cfg"
+			s0 = MYDIR.."/Cfg/s" .. k .. "0.cfg"
 
 		else
 
-			s0 = DIR.."/Cfg/s" .. k .. ".cfg"
+			s0 = MYDIR.."/Cfg/s" .. k .. ".cfg"
 
 		end	
 
@@ -5385,11 +5385,11 @@ function writeSave(thisSlot)
 
 	if altCfg == true and k < 5 then
 
-		s0 = DIR.."/Cfg/s" .. thisSlot .. "0.cfg"
+		s0 = MYDIR.."/Cfg/s" .. thisSlot .. "0.cfg"
 
 	else
 
-		s0 = DIR.."/Cfg/s" .. thisSlot .. ".cfg"
+		s0 = MYDIR.."/Cfg/s" .. thisSlot .. ".cfg"
 
 	end	
 
@@ -5429,15 +5429,15 @@ function loadSave(thisSlot)
 	scene = nil; scene = {}
 	stage = nil; stage = {}
 
-	local s0 = DIR.."/Cfg/s" .. thisSlot .. ".cfg"
+	local s0 = MYDIR.."/Cfg/s" .. thisSlot .. ".cfg"
 
 	if altCfg == true and thisSlot < 5 then
 
-		s0 = DIR.."/Cfg/s" .. thisSlot .. "0.cfg"
+		s0 = MYDIR.."/Cfg/s" .. thisSlot .. "0.cfg"
 
 	else
 
-		s0 = DIR.."/Cfg/s" .. thisSlot .. ".cfg"
+		s0 = MYDIR.."/Cfg/s" .. thisSlot .. ".cfg"
 
 	end	
 

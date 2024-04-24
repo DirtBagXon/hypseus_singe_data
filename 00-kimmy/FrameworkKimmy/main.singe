@@ -850,7 +850,7 @@ function doFinish()      -- Process the end of a PERCENT level
 
 		if numTrophy < iTemp then
 
-			for file in lfs.dir(DIR..MIDIRES) do
+			for file in lfs.dir(MYDIR..MIDIRES) do
 
 				if file == "mash.png" then
 
@@ -901,7 +901,7 @@ function doFinish()      -- Process the end of a PERCENT level
 			fontSelect(fontBig)
 			fontPrint(mb52,1.16*OVLH/2,numTrophy .. "/100")
 
-			for file in lfs.dir(DIR..MIDIRES) do
+			for file in lfs.dir(MYDIR..MIDIRES) do
 
 				if file == "mash.png" then
 
@@ -1047,7 +1047,7 @@ function doFinish()      -- Process the end of a PERCENT level
 				setFontColor(mycolor3)
 				fontPrint(mb52,1.16*OVLH/2,numTrophy .. "/100")
 
-				for file in lfs.dir(DIR..MIDIRES) do
+				for file in lfs.dir(MYDIR..MIDIRES) do
 
 					if file == "mash.png" then
 
@@ -3720,11 +3720,11 @@ function fillOVL(thisSprite, thisItem)	--Load or create Main Sprites for OVL
 
 		if dip_Res ~= 2 then
 
-			for file in lfs.dir(DIR..MIDIRES) do
+			for file in lfs.dir(MYDIR..MIDIRES) do
 
 				if file == thisItem then
 
-					sprite[thisSprite] = spriteLoad(DIR..MIDIRES..thisItem)
+					sprite[thisSprite] = spriteLoad(MYDIR..MIDIRES..thisItem)
 					break
 
 				end
@@ -3753,11 +3753,11 @@ function fillOVLlo(thisSprite, thisItem)	--Load or create Lores Sprites for OVL
 
 		if dip_Res ~= 2 then
 
-			for file in lfs.dir(DIR.."/Overlay/Lores/") do
+			for file in lfs.dir(MYDIR.."/Overlay/Lores/") do
 
 				if file == thisItem then
 
-					sprite[thisSprite] = spriteLoad(DIR.."/Overlay/Lores/"..thisItem)
+					sprite[thisSprite] = spriteLoad(MYDIR.."/Overlay/Lores/"..thisItem)
 					break
 
 				end
@@ -3786,11 +3786,11 @@ function fillOVLnum(thisSprite, thisItem)	--Load or create Numbers Sprites for O
 
 		if dip_Res ~= 2 then
 
-			for file in lfs.dir(DIR..MIDIRES) do
+			for file in lfs.dir(MYDIR..MIDIRES) do
 
 				if file == thisItem then
 
-					sprNUM[thisSprite] = spriteLoad(DIR..MIDIRES..thisItem)
+					sprNUM[thisSprite] = spriteLoad(MYDIR..MIDIRES..thisItem)
 					break
 
 				end
@@ -3819,11 +3819,11 @@ function fillOVLtxt(thisSprite, thisItem, thatValue)	--Load or create Text Sprit
 
 		if dip_Res ~= 2 then
 
-			for file in lfs.dir(DIR..MIDIRES) do
+			for file in lfs.dir(MYDIR..MIDIRES) do
 
 				if file == thisItem then
 
-					sprite[thisSprite] = spriteLoad(DIR..MIDIRES..thisItem)
+					sprite[thisSprite] = spriteLoad(MYDIR..MIDIRES..thisItem)
 					break
 
 				end
@@ -3872,11 +3872,11 @@ function getFont()		--Manage Fonts
 
 			if fontType == 1 then
 
-				fontpath = DIR.."/Fonts/font.ttf"
+				fontpath = MYDIR.."/Fonts/font.ttf"
 
 			else
 
-				fontpath = DIR.."/Fonts/font2.ttf"
+				fontpath = MYDIR.."/Fonts/font2.ttf"
 
 			end
 
@@ -4040,11 +4040,11 @@ function getRes()		-- Manage Resolution and Sprites
 
 	if dip_Res ~= 2 then
 
-		for file in lfs.dir(DIR..MIDIRES) do
+		for file in lfs.dir(MYDIR..MIDIRES) do
 
 			if file == "scanlines.png" then	
 
-				sprite[SCAN] = spriteLoad(DIR..MIDIRES.."scanlines.png") 
+				sprite[SCAN] = spriteLoad(MYDIR..MIDIRES.."scanlines.png") 
 				bScan = true
 				break 
 				
@@ -4052,11 +4052,11 @@ function getRes()		-- Manage Resolution and Sprites
 
 		end
 
-		for file in lfs.dir(DIR..MIDIRES) do
+		for file in lfs.dir(MYDIR..MIDIRES) do
 
 			if file == "getready.png" then 
 
-				sprite[GETREADY]  	= spriteLoad(DIR..MIDIRES.."getready.png") 
+				sprite[GETREADY]  	= spriteLoad(MYDIR..MIDIRES.."getready.png") 
 				GRW = spriteGetWidth(sprite[GETREADY])
 				bGR = true
 				break
@@ -4073,11 +4073,11 @@ function getRes()		-- Manage Resolution and Sprites
 	
 	if dip_Res ~= 2 then
 
-		for file in lfs.dir(DIR..MIDIRES) do
+		for file in lfs.dir(MYDIR..MIDIRES) do
 
 			if file == "loopuc.png" then 
 									
-				LOOPDIR = DIR..MIDIRES
+				LOOPDIR = MYDIR..MIDIRES
 				break
 
 			else 

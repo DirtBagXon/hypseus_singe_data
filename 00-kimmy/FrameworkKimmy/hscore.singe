@@ -90,11 +90,11 @@ function readScore()
 
 	if altCfg == true then
 
-		s0 = DIR .."/Cfg/hscore2.cfg"
+		s0 = MYDIR .."/Cfg/hscore2.cfg"
 
 	else
 
-		s0 = DIR .."/Cfg/hscore.cfg"
+		s0 = MYDIR .."/Cfg/hscore.cfg"
 
 	end		
 
@@ -265,11 +265,11 @@ function resetScore()
 	local i
 	local o
 
-	for file in lfs.dir(DIR.."/Cfg/") do
+	for file in lfs.dir(MYDIR.."/Cfg/") do
 
 		if file == "defscore.cfg" then
 
-			i = io.open(DIR .."/Cfg/defscore.cfg", "r")
+			i = io.open(MYDIR .."/Cfg/defscore.cfg", "r")
 		  	
 		else
 
@@ -279,11 +279,11 @@ function resetScore()
 
 		if altCfg == true then
 
-			o = io.open(DIR .."/Cfg/hscore2.cfg", "w")
+			o = io.open(MYDIR .."/Cfg/hscore2.cfg", "w")
 
 		else
 
-			o = io.open(DIR .."/Cfg/hscore.cfg", "w")
+			o = io.open(MYDIR .."/Cfg/hscore.cfg", "w")
 
 		end	 
 
@@ -303,11 +303,11 @@ function writeScore()
 
 	if altCfg == true then
 
-		s0 = DIR .."/Cfg/hscore2.cfg"
+		s0 = MYDIR .."/Cfg/hscore2.cfg"
 
 	else
 
-		s0 = DIR .."/Cfg/hscore.cfg"
+		s0 = MYDIR .."/Cfg/hscore.cfg"
 
 	end		
 
