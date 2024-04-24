@@ -4436,7 +4436,7 @@ function initVLDP()      -- Start of the loop
 	-- VLDP has to run before any sprite drawing takes place.
 
 	if (dip_MinimalOverlay == 1) then
-		overlaySetResolution(vldpGetWidth()/4, vldpGetHeight()/4)
+		setOverlaySize(3)
 	end
 
 
