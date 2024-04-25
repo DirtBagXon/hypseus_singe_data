@@ -119,7 +119,12 @@ This should allow you to know the correct video files required.
 
 ### Conversion:
 
-    ffmpeg -i <original>.mp4 -an -qscale:v 4 -b:v 6000k -codec:v mpeg2video <game>.m2v
+Some games use the very last frames of the source MP4 within the game LUA, _i.e._ have no _laserdisc_ style _lead-out_ time. The _VLDP_ can sometimes have issues accessing these final frames. The last frame of video can be duplicated, using `ffmpeg` filters, to create a _lead-out_ time and avoid _VLDP_ issues. This can be achieved with the `ffmpeg` **v**ideo **f**ilter: `-vf tpad=stop_mode=clone:stop_duration=2`
+
+It is therefore advisable to add a _lead-out_ period by default.  
+_Note:_ This will extend the total number of frames seen in `mediainfo`. 
+
+    ffmpeg -i <original>.mp4 -an -qscale:v 4 -b:v 6000k -vf tpad=stop_mode=clone:stop_duration=2 -codec:v mpeg2video <game>.m2v
 
 _Singe 2_ has an audio bug and audio is delayed in the original MP4, check with VLC. Use `-ss` to delay encode start:
 
@@ -127,12 +132,12 @@ _Singe 2_ has an audio bug and audio is delayed in the original MP4, check with 
 
 **e.g.**
 
-    ffmpeg -i FaI.mp4 -an -qscale:v 4 -b:v 6000k -codec:v mpeg2video fireandice.m2v
+    ffmpeg -i FaI.mp4 -an -qscale:v 4 -b:v 6000k -vf tpad=stop_mode=clone:stop_duration=2 -codec:v mpeg2video fireandice.m2v
     ffmpeg -i FaI.mp4 -ss 00:00:00.330 -vn -c:a libvorbis -ar 44100 -map a -b:a 160k fireandice.ogg
 
 If your device is struggling with the HD content, _this is likely on a RPi_, you can resize HD in one of these operations:
 
-    ffmpeg -i FaI.mp4 -an -qscale:v 4 -b:v 6000k -vf scale=1280:720 -codec:v mpeg2video fireandice.m2v
+    ffmpeg -i FaI.mp4 -an -qscale:v 4 -b:v 6000k -vf tpad=stop_mode=clone:stop_duration=2,scale=1280:720 -codec:v mpeg2video fireandice.m2v
 
     ffmpeg -i FaI.mp4 -an -qscale:v 4 -b:v 6000k -vf tpad=stop_mode=clone:stop_duration=2,scale=1280:720 -codec:v mpeg2video fireandice.m2v
 
