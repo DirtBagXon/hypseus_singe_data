@@ -139,8 +139,6 @@ If your device is struggling with the HD content, _this is likely on a RPi_, you
 
     ffmpeg -i FaI.mp4 -an -qscale:v 4 -b:v 6000k -vf tpad=stop_mode=clone:stop_duration=2,scale=1280:720 -codec:v mpeg2video fireandice.m2v
 
-    ffmpeg -i FaI.mp4 -an -qscale:v 4 -b:v 6000k -vf tpad=stop_mode=clone:stop_duration=2,scale=1280:720 -codec:v mpeg2video fireandice.m2v
-
 ### Audio Delay (Singe 2 audio bug work-a-round)
 
 If sound is out of sync, use `-ss` to delay audio encode start in `ms` *(hh:mm:ss.SSS)* on the orignal MP4:
