@@ -1819,6 +1819,9 @@ function doIntro()     -- Process attract mode
 
 				if scoreBezelGetState() then
 					scoreBezelCredits(iCredits)
+					scoreBezelTwinScoreOn(true)
+					scoreBezelScore(1, 0)
+					scoreBezelScore(2, 0)
 				end
 
 			end
@@ -6640,6 +6643,7 @@ function startGame()      -- Starts the game according to each option
 
 			if scoreBezelGetState() then
 				scoreBezelCredits(iCredits)
+				scoreBezelScore(2, 0)
 			end
 		end
 

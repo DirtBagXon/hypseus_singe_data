@@ -1551,6 +1551,9 @@ function doIntro()     -- Process attract mode
 
 				if scoreBezelGetState() then
 					scoreBezelCredits(iCredits)
+					scoreBezelTwinScoreOn(true)
+					scoreBezelScore(1, 0)
+					scoreBezelScore(2, 0)
 				end
 			end
 
@@ -2508,6 +2511,8 @@ function doLevel()     -- Big process for level play
 
 				if iTilt >= iTrigTilt  then 
 
+					iPauseFrame = move[currentMove][inputFrmEnd]
+
 					if  dip_GameType == 0 or dip_GameType == 3 or dip_GameType == 4 then
 
 						lvlState = branch02
@@ -2636,6 +2641,10 @@ function doLevel()     -- Big process for level play
 		end
 		
 		if (currentFrame == iFrameEnd) then
+
+			iTilt = 0
+			bShowWarnTilt = false
+			bShowTilt = false
 
 			if i2P > 0 then 
 
@@ -5110,7 +5119,7 @@ function setupFrames(thisLevel)       -- Set the frames for each level + mirror 
 	local q = 0
 	local p = 1
 	local w = 1
-	local offsetFlip = 0
+	offsetFlip = 0
 
 	if not RelativeFrames then w = 0 end
 	if bFlip then offsetFlip = Level[thisLevel][MIRROR] end
@@ -5213,6 +5222,7 @@ function startGame()      -- Starts the game according to each option
 
 			if scoreBezelGetState() then
 				scoreBezelCredits(iCredits)
+				scoreBezelScore(2, 0)
 			end
 		end
 
