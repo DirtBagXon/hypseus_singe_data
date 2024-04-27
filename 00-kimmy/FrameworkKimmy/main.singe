@@ -1547,11 +1547,13 @@ function doIntro()     -- Process attract mode
 			p1START2 = false
 			if dip_GameType == 0 or dip_GameType == 3 then
 
-				iCredits = iCredits - 2
+				if not (dip_CoinsPerCredit == DOPT_FREEPLAY) then
+					iCredits = iCredits - 2
+				end
 
 				if scoreBezelGetState() then
-					scoreBezelCredits(iCredits)
 					scoreBezelTwinScoreOn(true)
+					scoreBezelCredits(iCredits)
 					scoreBezelScore(1, 0)
 					scoreBezelScore(2, 0)
 				end
