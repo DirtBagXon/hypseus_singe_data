@@ -3495,6 +3495,32 @@ function drawPause() -- Draw things when game is paused
 
 end
 
+function drawLifeBar() -- Life Bar
+
+	local k = 0
+
+	if iLifeBar > 0 then
+
+		for k = 1,iLifeBar do
+
+			spriteDraw(OVLW-(LINEW*(2+dip_Res))-(BARW*(BarSize+1))+((BARW+2)*k)-shiftOVL,ylivpos,sprite[BARFULL])
+
+		end
+
+		if iLifeBar < BarSize then
+
+			for k = iLifeBar,BarSize do
+
+				spriteDraw(OVLW-(LINEW*(2+dip_Res))-(BARW*(BarSize+1))+((BARW+2)*k)-shiftOVL,ylivpos,sprite[BARNONE])
+
+			end
+
+		end
+
+	end
+
+end
+
 function drawLives()       -- Draw Lives
 
 	if scoreBezelGetState() then
@@ -3510,31 +3536,15 @@ function drawLives()       -- Draw Lives
 			LivesPrev = iLives
 		end
 
+		if dip_GameType == 1 then drawLifeBar() end
+
 	else
 
 		local k = 0
 	
 		if dip_GameType == 1 then
 
-			if iLifeBar > 0 then
-
-				for k = 1,iLifeBar do
-
-					spriteDraw(OVLW-(LINEW*(2+dip_Res))-(BARW*(BarSize+1))+((BARW+2)*k)-shiftOVL,ylivpos,sprite[BARFULL])
-
-				end
-
-				if iLifeBar < BarSize then
-
-					for k = iLifeBar,BarSize do
-
-						spriteDraw(OVLW-(LINEW*(2+dip_Res))-(BARW*(BarSize+1))+((BARW+2)*k)-shiftOVL,ylivpos,sprite[BARNONE])
-
-					end
-
-				end
-
-			end
+			drawLifeBar()
 
 		else
 
