@@ -1504,7 +1504,7 @@ function doIntro()     -- Process attract mode
 
 	end
 	
-	if (dip_CoinsPerCredit == DOPT_FREEPLAY) or (bShowCredits == true and iCredits > 0) then
+	if (dip_CoinsPerCredit == DOPT_FREEPLAY) or (dip_CoinsPerCredit ~= DOPT_FREEPLAY and iCredits > 0) then
 	
 		if (p1START1 and (dip_GameType == 2 or dip_GameType == 3)) then
 		
@@ -1540,7 +1540,7 @@ function doIntro()     -- Process attract mode
 
 	end
 	
-	if (dip_CoinsPerCredit == DOPT_FREEPLAY) or (bShowCredits == true and iCredits > 1) then
+	if (dip_CoinsPerCredit == DOPT_FREEPLAY) or (dip_CoinsPerCredit ~= DOPT_FREEPLAY and iCredits > 1) then
 
 		if (p1START2) then
 
