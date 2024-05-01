@@ -18,6 +18,16 @@ This file is part of KIMMY SCRIPT ENGINE.
 
 ]]--
 
+function checkAny(playerMove, curMove)    -- Test if the basic move is ok
+
+	local z = MOVEPENDING
+	
+	if p1UP or p1DOWN or p1LEFT or p1RIGHT or p1BUTTON1 or p1BUTTON2 or p1BUTTON3 then z = curMove end	
+
+	return z
+
+end
+
 function checkBasic(playerMove, curMove)    -- Test if the basic move is ok
 
 	local z = MOVEPENDING
@@ -430,6 +440,18 @@ function checkMulti(playerMove, curMove)    -- Test if the Sequence is ok
 
 end
 
+function checkNo(playerMove, curMove)    -- Test if the basic move is ok
+
+	local z = MOVEPENDING
+	
+	if p1UP or p1DOWN or p1LEFT or p1RIGHT or p1BUTTON1 or p1BUTTON2 or p1BUTTON3 then z = MOVEFAIL	end	
+
+	if currentFrame == move[currentMove][inputFrmEnd] and z == MOVEPENDING then z = curMove end
+
+	return z
+
+end
+
 function checkSkip(playerMove, curMove)     -- Test if any button is pressed during a skip event.
 
 	local z = curMove
@@ -712,6 +734,22 @@ function doMove()		   -- Manage all the moves
 		fillMove(3)
 
 		thisMove = checkBasic(thisMove, move[currentMove][correctMove])
+
+		resultMove()
+
+	elseif (move[currentMove][correctMove] == ANYTHING) then
+
+		thisMove = NOMOVE
+		
+		thisMove = checkAny(thisMove, move[currentMove][correctMove])
+
+		resultMove()
+
+	elseif (move[currentMove][correctMove] == NOTHING) then
+
+		thisMove = NOMOVE
+		
+		thisMove = checkNo(thisMove, move[currentMove][correctMove])
 
 		resultMove()
 
@@ -1307,6 +1345,12 @@ function drawAction()      -- Draw all type of actions
 					spriteDraw(posxRARROW,posyLRARROWS,sprite[RIGHT])
 														
 				end
+
+			elseif thisMove == NOTHING or thisMove == ANYTHING then
+
+				blinkTimer(0.2)
+	
+				if heartbeat then spriteDraw(posxBUTTONS,posyBUTTONS,sprite[thisMove]) end
 
 			elseif thisMove == BUTTON1 or thisMove == BUTTON2 or thisMove == BUTTON3 then
 				
@@ -2869,6 +2913,14 @@ function getHints() 						-- Manage the Hints
 		elseif (move[currentMove][correctMove] == BUTTON3) then	
 
 			fontPrint(mb12, OVLH/2, "YOU SHOULD HAVE HIT BUTTON 3")
+
+		elseif (move[currentMove][correctMove] == ANYTHING) then	
+
+			fontPrint(mb12, OVLH/2, "YOU SHOULD HAVE HIT ANYTHING")
+
+		elseif (move[currentMove][correctMove] == NOTHING) then	
+
+			fontPrint(mb12, OVLH/2, "YOU SHOULD HAVE HIT NOTHING")
 
 		elseif (move[currentMove][correctMove] == UPLEFT) then
 						
