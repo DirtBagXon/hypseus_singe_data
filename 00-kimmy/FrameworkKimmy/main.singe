@@ -850,49 +850,41 @@ function doFinish()      -- Process the end of a PERCENT level
 
 		if numTrophy < iTemp then
 
-			for file in lfs.dir(MYDIR..MIDIRES) do
+			if numTrophy > 0 and numTrophy  < 12 then
 
-				if file == "mash.png" then
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW0])
 
-					if numTrophy > 0 and numTrophy  < 12 then
+			elseif numTrophy  >= 12 and numTrophy  < 24 then
 
-						spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW0])
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW1])
 
-					elseif numTrophy  >= 12 and numTrophy  < 24 then
+			elseif numTrophy  >= 24 and numTrophy  < 36 then
 
-						spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW1])
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW2])
 
-					elseif numTrophy  >= 24 and numTrophy  < 36 then
+			elseif numTrophy  >= 36 and numTrophy  < 48 then
 
-						spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW2])
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW3])
 
-					elseif numTrophy  >= 36 and numTrophy  < 48 then
+			elseif numTrophy  >= 48 and numTrophy  < 60 then
 
-						spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW3])
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW4])
 
-					elseif numTrophy  >= 48 and numTrophy  < 60 then
+			elseif numTrophy  >= 60 and numTrophy  < 72 then
 
-						spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW4])
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW5])
 
-					elseif numTrophy  >= 60 and numTrophy  < 72 then
+			elseif numTrophy  >= 72 and numTrophy  < 84 then
 
-						spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW5])
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW6])
 
-					elseif numTrophy  >= 72 and numTrophy  < 84 then
+			elseif numTrophy  >= 84 and numTrophy  < 96 then
 
-						spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW6])
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW7])
 
-					elseif numTrophy  >= 84 and numTrophy  < 96 then
+			elseif numTrophy >= 96 then
 
-						spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW7])
-
-					elseif numTrophy >= 96 then
-
-						spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PWFULL])
-
-					end
-
-				end
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PWFULL])
 
 			end
 
@@ -901,51 +893,43 @@ function doFinish()      -- Process the end of a PERCENT level
 			fontSelect(fontBig)
 			fontPrint(mb52,1.16*OVLH/2,numTrophy .. "/100")
 
-			for file in lfs.dir(MYDIR..MIDIRES) do
+			if numTrophy  < 12 then
 
-				if file == "mash.png" then
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW0])
 
-					if numTrophy  < 12 then
+			elseif numTrophy  >= 12 and numTrophy  < 24 then
 
-						spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW0])
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW1])
 
-					elseif numTrophy  >= 12 and numTrophy  < 24 then
+			elseif numTrophy  >= 24 and numTrophy  < 36 then
 
-						spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW1])
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW2])
 
-					elseif numTrophy  >= 24 and numTrophy  < 36 then
+			elseif numTrophy  >= 36 and numTrophy  < 48 then
 
-						spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW2])
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW3])
 
-					elseif numTrophy  >= 36 and numTrophy  < 48 then
+			elseif numTrophy  >= 48 and numTrophy  < 60 then
 
-						spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW3])
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW4])
 
-					elseif numTrophy  >= 48 and numTrophy  < 60 then
+			elseif numTrophy  >= 60 and numTrophy  < 72 then
 
-						spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW4])
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW5])
 
-					elseif numTrophy  >= 60 and numTrophy  < 72 then
+			elseif numTrophy  >= 72 and numTrophy  < 84 then
 
-						spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW5])
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW6])
 
-					elseif numTrophy  >= 72 and numTrophy  < 84 then
+			elseif numTrophy  >= 84 and numTrophy  < 96 then
 
-						spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW6])
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW7])
 
-					elseif numTrophy  >= 84 and numTrophy  < 96 then
+			elseif numTrophy >= 96 then
 
-						spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW7])
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PWFULL])
 
-					elseif numTrophy >= 96 then
-
-						spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PWFULL])
-
-					end
-			
-				end
-
-			end	
+			end
 
 			if iTemp <50 then
 
@@ -1030,8 +1014,6 @@ function doFinish()      -- Process the end of a PERCENT level
 
 		if timerDue() then
 
-			
-
 			if newPercent(iTemp) then
 
 				iScoreTemp = 0
@@ -1047,51 +1029,43 @@ function doFinish()      -- Process the end of a PERCENT level
 				setFontColor(mycolor3)
 				fontPrint(mb52,1.16*OVLH/2,numTrophy .. "/100")
 
-				for file in lfs.dir(MYDIR..MIDIRES) do
+				if numTrophy  < 12 then
 
-					if file == "mash.png" then
+					spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW0])
 
-						if numTrophy  < 12 then
+				elseif numTrophy  >= 12 and numTrophy  < 24 then
 
-							spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW0])
+					spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW1])
 
-						elseif numTrophy  >= 12 and numTrophy  < 24 then
+				elseif numTrophy  >= 24 and numTrophy  < 36 then
 
-							spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW1])
+					spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW2])
 
-						elseif numTrophy  >= 24 and numTrophy  < 36 then
+				elseif numTrophy  >= 36 and numTrophy  < 48 then
 
-							spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW2])
+					spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW3])
 
-						elseif numTrophy  >= 36 and numTrophy  < 48 then
+				elseif numTrophy  >= 48 and numTrophy  < 60 then
 
-							spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW3])
+					spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW4])
 
-						elseif numTrophy  >= 48 and numTrophy  < 60 then
+				elseif numTrophy  >= 60 and numTrophy  < 72 then
 
-							spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW4])
+					spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW5])
 
-						elseif numTrophy  >= 60 and numTrophy  < 72 then
+				elseif numTrophy  >= 72 and numTrophy  < 84 then
 
-							spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW5])
+					spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW6])
 
-						elseif numTrophy  >= 72 and numTrophy  < 84 then
+				elseif numTrophy  >= 84 and numTrophy  < 96 then
 
-							spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW6])
+					spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW7])
 
-						elseif numTrophy  >= 84 and numTrophy  < 96 then
+				elseif numTrophy >= 96 then
 
-							spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW7])
+					spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PWFULL])
 
-						elseif numTrophy >= 96 then
-
-							spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PWFULL])
-
-						end
-				
-					end
-
-				end	
+				end
 
 				if iTemp <50 then
 
