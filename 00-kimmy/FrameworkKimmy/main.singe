@@ -4549,7 +4549,7 @@ function levelReplay()	-- Manage the next level in case of death, depending on t
 		
 		end
 
-	elseif Level[iLevel][LVLREPLAY] > 1 then -- One replay later. Go to next level.
+	elseif Level[iLevel][LVLREPLAY] > 1 or Level[iLevel][LVLREPLAY] <-1 then -- One replay later or infinite replay later. Go to next level.
 
 		bSkipIntroClip = false
 		iLiveSave = iLives
@@ -4909,6 +4909,15 @@ function reOrder(thisLevel) 	-- Reorder Levels (when levels are not finished)
 	local i = 0
 	local j = 0
 	local n = 0
+	local bState = false
+
+	if Level[thisLevel][LVLREPLAY] <-1 then
+
+		Level[thisLevel][LVLREPLAY] =  Level[thisLevel][LVLREPLAY]*-1
+		bState = true
+
+	end
+
 
 	for k = 1,finalstage-1 do
 
@@ -4929,6 +4938,8 @@ function reOrder(thisLevel) 	-- Reorder Levels (when levels are not finished)
 		end	
 
 	end
+
+	if bState then Level[thisLevel][LVLREPLAY] = -1 end 
 
 	iLevel = n
 	iScene = 0

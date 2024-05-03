@@ -2427,31 +2427,297 @@ function drawAction()      -- Draw all type of actions
 
 			elseif thisMove == PATH then
 
-				if path[currentMove][1] == UP or path[currentMove][3] == UP or path[currentMove][5] == UP or path[currentMove][7] == UP then spriteDraw(posxUDARROWS,posyUARROW-LINEH-BUTH,sprite[UP]) end
+				local spriteAX
+				local spriteBX
+				local spriteCX
+				local spriteDX
+				local spriteAY
+				local spriteBY
+				local spriteCY
+				local spriteDY
+				local lenPath 
 
-				if path[currentMove][1] == DOWN or path[currentMove][3] == DOWN or path[currentMove][5] == DOWN or path[currentMove][7] == DOWN then spriteDraw(posxUDARROWS,posyDARROW+LINEH+BUTH,sprite[DOWN]) end
-				
-				if path[currentMove][1] == LEFT or path[currentMove][3] == LEFT or path[currentMove][5] == LEFT or path[currentMove][7] == LEFT then spriteDraw(posxLARROW-2*LINEW-BUTW,posyLRARROWS,sprite[LEFT]) end
+				if path[currentMove][5] ~= 0 and path[currentMove][7] == 0 then lenPath = 3
+				elseif  path[currentMove][5] == 0 then lenPath = 2
+				else lenPath = 4 end
 
-				if path[currentMove][1] == RIGHT or path[currentMove][3] == RIGHT or path[currentMove][5] == RIGHT or path[currentMove][7] == RIGHT then spriteDraw(posxRARROW+2*LINEW+BUTW,posyLRARROWS,sprite[RIGHT]) end
+				if lenPath >= 2 then
 
-				if path[currentMove][1] == BUTTON1 or path[currentMove][3] == BUTTON1 or path[currentMove][5] == BUTTON1 or path[currentMove][7] == BUTTON1 then spriteDraw(posxBUTTONS,posyBUTTONS,sprite[BUTTON1]) end
+					if path[currentMove][1]==UP then
 
-				if path[currentMove][1] == BUTTON2 or path[currentMove][3] == BUTTON2 or path[currentMove][5] == BUTTON2 or path[currentMove][7] == BUTTON2 then spriteDraw(posxBUTTONS+BUTW,posyBUTTONS,sprite[BUTTON2]) end
+						spriteAX = posxUDARROWS
+						spriteAY = posyUARROW-LINEH-BUTH
 
-				if path[currentMove][1] == BUTTON3 or path[currentMove][3] == BUTTON3 or path[currentMove][5] == BUTTON3 or path[currentMove][7] == BUTTON3 then spriteDraw(posxBUTTONS-BUTW,posyBUTTONS,sprite[BUTTON3]) end
-				
-				blinkTimer(0.2)
+					elseif path[currentMove][1]==DOWN then
 
-				if heartbeat then spriteDraw(posxTEXT,posyBUTTONS,sprite[NOMOVES]) end
+						spriteAX = posxUDARROWS
+						spriteAY = posyDARROW+LINEH+BUTH
+
+					elseif path[currentMove][1]==LEFT then
+
+						spriteAX = posxLARROW-2*LINEW-BUTW
+						spriteAY = posyLRARROWS
+
+					elseif path[currentMove][1]==RIGHT then
+
+						spriteAX = posxRARROW+2*LINEW+BUTW
+						spriteAY = posyLRARROWS
+
+					else 
+
+						spriteAX = posxBUTTONS
+						spriteAY = posyBUTTONS
+
+					end
+
+					if path[currentMove][3]==UP then
+
+						spriteBX = posxUDARROWS
+						spriteBY = posyUARROW-LINEH-BUTH
+
+					elseif path[currentMove][3]==DOWN then
+
+						spriteBX = posxUDARROWS
+						spriteBY = posyDARROW+LINEH+BUTH
+
+					elseif path[currentMove][3]==LEFT then
+
+						spriteBX = posxLARROW-2*LINEW-BUTW
+						spriteBY = posyLRARROWS
+
+					elseif path[currentMove][3]==RIGHT then
+
+						spriteBX = posxRARROW+2*LINEW+BUTW
+						spriteBY = posyLRARROWS
+
+					else 
+
+						spriteBX = posxBUTTONS
+						spriteBY = posyBUTTONS
+
+					end
+
+				end
+
+				if lenPath >= 3 then
+
+					if path[currentMove][5]==UP then
+
+						spriteCX = posxUDARROWS
+						spriteCY = posyUARROW-LINEH-BUTH
+
+					elseif path[currentMove][5]==DOWN then
+
+						spriteCX = posxUDARROWS
+						spriteCY = posyDARROW+LINEH+BUTH
+
+					elseif path[currentMove][5]==LEFT then
+
+						spriteCX = posxLARROW-2*LINEW-BUTW
+						spriteCY = posyLRARROWS
+
+					elseif path[currentMove][5]==RIGHT then
+
+						spriteCX = posxRARROW+2*LINEW+BUTW
+						spriteCY = posyLRARROWS
+
+					else 
+
+						spriteCX = posxBUTTONS
+						spriteCY = posyBUTTONS
+
+					end
+
+				end
+
+				if lenPath == 4 then
+
+					if path[currentMove][7]==UP then
+
+						spriteDX = posxUDARROWS
+						spriteDY = posyUARROW-LINEH-BUTH
+
+					elseif path[currentMove][7]==DOWN then
+
+						spriteDX = posxUDARROWS
+						spriteDY = posyDARROW+LINEH+BUTH
+
+					elseif path[currentMove][7]==LEFT then
+
+						spriteDX = posxLARROW-2*LINEW-BUTW
+						spriteDY = posyLRARROWS
+
+					elseif path[currentMove][7]==RIGHT then
+
+						spriteDX = posxRARROW+2*LINEW+BUTW
+						spriteDY = posyLRARROWS
+
+					else 
+
+						spriteDX = posxBUTTONS
+						spriteDY = posyBUTTONS
+
+					end
+
+				end
+
+				if pathLook == 1 then
+
+					if lenPath == 2 then 
+
+						spriteDraw(spriteAX,spriteAY,sprite[path[currentMove][1]])
+						spriteDraw(spriteBX,spriteBY,sprite[path[currentMove][3]])
+
+					elseif lenPath == 3 then
+
+						spriteDraw(spriteAX,spriteAY,sprite[path[currentMove][1]])
+						spriteDraw(spriteBX,spriteBY,sprite[path[currentMove][3]])
+						spriteDraw(spriteCX,spriteCY,sprite[path[currentMove][5]])
+
+					else
+
+						spriteDraw(spriteAX,spriteAY,sprite[path[currentMove][1]])
+						spriteDraw(spriteBX,spriteBY,sprite[path[currentMove][3]])
+						spriteDraw(spriteCX,spriteCY,sprite[path[currentMove][5]])
+						spriteDraw(spriteDX,spriteDY,sprite[path[currentMove][7]])
+
+					end
+
+
+				elseif pathLook == 2 then
+
+					blinkTimer(0.2)
+
+					if lenPath == 2 then
+
+						if heartbeat then  
+
+							spriteDraw(spriteAX,spriteAY,sprite[path[currentMove][1]])
+							spriteDraw(spriteBX,spriteBY,sprite[path[currentMove][3]])
+
+						end
+
+					elseif lenPath == 3 then
+
+						if heartbeat then
+
+							spriteDraw(spriteAX,spriteAY,sprite[path[currentMove][1]])
+							spriteDraw(spriteBX,spriteBY,sprite[path[currentMove][3]])
+							spriteDraw(spriteCX,spriteCY,sprite[path[currentMove][5]])
+
+						end
+
+					else
+
+						if heartbeat then
+
+							spriteDraw(spriteAX,spriteAY,sprite[path[currentMove][1]])
+							spriteDraw(spriteBX,spriteBY,sprite[path[currentMove][3]])
+							spriteDraw(spriteCX,spriteCY,sprite[path[currentMove][5]])
+							spriteDraw(spriteDX,spriteDY,sprite[path[currentMove][7]])
+
+						end
+
+					end
+
+				elseif pathLook == 3 then  
+
+					if lenPath == 2 then
+
+						blinkTimer(0.2)
+
+						if heartbeat then 
+
+							spriteDraw(spriteAX,spriteAY,sprite[path[currentMove][1]]) 
+
+						else 
+						
+							spriteDraw(spriteBX,spriteBY,sprite[path[currentMove][3]])
+
+
+						end
+
+					elseif lenPath == 3 then
+
+						blinkTimer3(0.2)
+
+						if Timer3 == 1 then spriteDraw(spriteAX,spriteAY,sprite[path[currentMove][1]])
+
+						elseif Timer3 == 2 then spriteDraw(spriteBX,spriteBY,sprite[path[currentMove][3]])
+
+						elseif Timer3 == 3 then spriteDraw(spriteCX,spriteCY,sprite[path[currentMove][5]]) end
+
+
+					else
+
+						blinkTimer4(0.2)
+
+						if Timer4 == 1 then spriteDraw(spriteAX,spriteAY,sprite[path[currentMove][1]])
+
+						elseif Timer4 == 2 then spriteDraw(spriteBX,spriteBY,sprite[path[currentMove][3]])
+
+						elseif Timer4 == 3 then spriteDraw(spriteCX,spriteCY,sprite[path[currentMove][5]]) 
+
+						elseif Timer4 == 4 then spriteDraw(spriteDX,spriteDY,sprite[path[currentMove][7]]) end
+
+					end
+
+				elseif pathLook == 4 then
+
+					blinkTimer(0.2)
+
+					if lenPath == 2 then
+
+						if heartbeat then 
+
+							spriteDraw(spriteAX,spriteAY,sprite[path[currentMove][1]]) 
+
+						else 
+						
+							spriteDraw(spriteBX,spriteBY,sprite[path[currentMove][3]])
+
+
+						end
+
+					elseif lenPath == 3 then
+
+						if heartbeat then
+
+							spriteDraw(spriteAX,spriteAY,sprite[path[currentMove][1]])
+							spriteDraw(spriteBX,spriteBY,sprite[path[currentMove][3]])
+							spriteDraw(spriteCX,spriteCY,sprite[path[currentMove][5]])
+
+						end
+
+					else
+
+						if heartbeat then
+
+							spriteDraw(spriteAX,spriteAY,sprite[path[currentMove][1]])
+							spriteDraw(spriteBX,spriteBY,sprite[path[currentMove][3]])
+							spriteDraw(spriteCX,spriteCY,sprite[path[currentMove][5]])
+							spriteDraw(spriteDX,spriteDY,sprite[path[currentMove][7]])
+
+						end
+
+					end
+
+
+				end
 			
 			elseif thisMove == YESNO then
 
-				spriteDraw(posxBUTTONS,posyBUTTONS,sprite[BUTTON1])
-				
 				blinkTimer(0.2)
 
-				if heartbeat then spriteDraw(posxTEXT,posyBUTTONS,sprite[NOMOVES]) end
+				if heartbeat then 
+
+					spriteDraw(posxTEXT,posyBUTTONS,sprite[NOMOVES]) 
+
+				else
+
+					spriteDraw(posxBUTTONS,posyBUTTONS,sprite[BUTTON1])
+
+				end
 
 			elseif thisMove == SKIP then
 

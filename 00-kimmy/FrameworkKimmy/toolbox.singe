@@ -40,6 +40,8 @@ iMuteFrames = 0
 MUTE_DELAY = 35
 
 heartbeat = false
+Timer3 = 0
+Timer4 = 0
 blinkSecs = 0
 lastBlinkSecs = 0
 
@@ -85,6 +87,52 @@ function blinkTimer(thisMS)
 			lastBlinkSecs = blinkSecs
 
 		end
+		
+	end	
+	
+end
+
+function blinkTimer3(thisMS)
+
+	blinkSecs = os.clock()
+	
+	if bPause then
+	
+		lastBlinkSecs = blinkSecs
+		
+	else
+
+		if (blinkSecs - lastBlinkSecs > thisMS) then
+		
+			Timer3 = Timer3+1
+			lastBlinkSecs = blinkSecs
+
+		end
+
+		if Timer3 > 3 then Timer3 = 1 end
+		
+	end	
+	
+end
+
+function blinkTimer4(thisMS)
+
+	blinkSecs = os.clock()
+	
+	if bPause then
+	
+		lastBlinkSecs = blinkSecs
+		
+	else
+
+		if (blinkSecs - lastBlinkSecs > thisMS) then
+		
+			Timer4 = Timer4+1
+			lastBlinkSecs = blinkSecs
+
+		end
+
+		if Timer4 > 4 then Timer4 = 1 end
 		
 	end	
 	
