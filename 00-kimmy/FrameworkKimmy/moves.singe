@@ -1346,11 +1346,21 @@ function drawAction()      -- Draw all type of actions
 														
 				end
 
-			elseif thisMove == NOTHING or thisMove == ANYTHING then
+			elseif thisMove == ANYTHING then
 
 				blinkTimer(0.2)
 	
 				if heartbeat then spriteDraw(posxBUTTONS,posyBUTTONS,sprite[thisMove]) end
+
+			elseif thisMove == NOTHING then
+
+				if move[currentMove][5] == nil or move[currentMove][5]== 1 then
+
+					blinkTimer(0.2)
+		
+					if heartbeat then spriteDraw(posxBUTTONS,posyBUTTONS,sprite[thisMove]) end
+
+				end
 
 			elseif thisMove == BUTTON1 or thisMove == BUTTON2 or thisMove == BUTTON3 then
 				
@@ -2209,84 +2219,211 @@ function drawAction()      -- Draw all type of actions
 			elseif thisMove == TIMED then
 			
 				local i
+				local j
+				local k = false
 
 				if move[currentMove][5] == nil then
 
 					i = currentMove
+					if currentFrame >= timed[i][2] and currentFrame <= timed[i][3] then	k = true end
 
 				else 
 
 					i = move[currentMove][5]
 
+					for j = i, move[currentMove][6] do
+
+						if currentFrame >= timed[j][2] and currentFrame <= timed[j][3] then	k = true end
+
+						j=j+1
+
+					end
+
 				end
 
 				spriteDraw(posxBUTTONS,OVLH-BUTH,sprite[TIME])
-
-				if timed[i][1] == UP then 
-
-					spriteDraw(posxUDARROWS,posyUARROW,sprite[UP])
-
-				elseif timed[i][1] == DOWN then	
-
-					spriteDraw(posxUDARROWS,posyDARROW,sprite[DOWN])
-
-				elseif timed[i][1] == LEFT then
-
-					spriteDraw(posxLARROW,posyLRARROWS,sprite[LEFT])
 				
-				elseif timed[i][1] == RIGHT then
+				if k then
 
-					spriteDraw(posxRARROW,posyLRARROWS,sprite[RIGHT])
+					if timed[i][1] == UP then 
 
-				elseif timed[i][1] == BUTTON1 then	
+						goTimer(0.1)
+			
+						if heartbeat then
 
-					spriteDraw(posxBUTTONS,posyBUTTONS,sprite[BUTTON1])
+							if posyUARROW > endyUARROW then posyUARROW = posyUARROW-LINEH end
+							spriteDraw(posxUDARROWS,posyUARROW,sprite[UP])
+							
+						end
 
-				elseif timed[i][1] == BUTTON2 then
+					elseif timed[i][1] == DOWN then	
 
-					spriteDraw(posxBUTTONS,posyBUTTONS,sprite[BUTTON2])
+						goTimer(0.1)
+		
+						if heartbeat then	
 
-				elseif timed[i][1] == BUTTON3 then
+							if posyDARROW < endyDARROW then posyDARROW = posyDARROW+LINEH end
+							spriteDraw(posxUDARROWS,posyDARROW,sprite[DOWN])
+														
+						end
 
-					spriteDraw(posxBUTTONS,posyBUTTONS,sprite[BUTTON3])
+					elseif timed[i][1] == LEFT then
 
-				elseif timed[i][1] == ACTUP then
-
-					spriteDraw(posxBUTTONS,posyBUTTONS,sprite[BUTTON1])
-					spriteDraw(posxUDARROWS,posyUARROW,sprite[UP])
-
-				elseif timed[i][1] == ACTDOWN then
-
-					spriteDraw(posxBUTTONS,posyBUTTONS,sprite[BUTTON1])
-					spriteDraw(posxUDARROWS,posyDARROW,sprite[DOWN])
-
-				elseif timed[i][1] == ACTLEFT then
-
-					spriteDraw(posxBUTTONS,posyBUTTONS,sprite[BUTTON1])
-					spriteDraw(posxLARROW,posyLRARROWS,sprite[LEFT])
-
-				elseif timed[i][1] == ACTRIGHT then
-
-					spriteDraw(posxBUTTONS,posyBUTTONS,sprite[BUTTON1])
-					spriteDraw(posxRARROW,posyLRARROWS,sprite[RIGHT])
-
-				elseif timed[i][1] == UPLEFT then
-
-					spriteDraw(posxLARROW,posyLRARROWS,sprite[UPLEFT])
-
-				elseif timed[i][1] == UPRIGHT then
-
-					spriteDraw(posxRARROW,posyLRARROWS,sprite[UPRIGHT])
-
-				elseif timed[i][1] == DOWNLEFT then
-
-					spriteDraw(posxLARROW,posyLRARROWS,sprite[DOWNLEFT])
-				
-				elseif timed[i][1] == DOWNRIGHT then
+						goTimer(0.1)
+		
+						if heartbeat then	
+							
+							if posxLARROW > endxLARROW then posxLARROW = posxLARROW-LINEW end
+							spriteDraw(posxLARROW,posyLRARROWS,sprite[LEFT])
+														
+						end
 					
-					spriteDraw(posxRARROW,posyLRARROWS,sprite[DOWNRIGHT])
+					elseif timed[i][1] == RIGHT then
 
-				end	
+						goTimer(0.1)
+		
+						if heartbeat then	
+
+							if posxRARROW < endxRARROW then posxRARROW = posxRARROW+LINEW end
+							spriteDraw(posxRARROW,posyLRARROWS,sprite[RIGHT])
+													
+						end
+
+					elseif timed[i][1] == BUTTON1 then	
+
+						spriteDraw(posxBUTTONS,posyBUTTONS,sprite[BUTTON1])
+
+					elseif timed[i][1] == BUTTON2 then
+
+						spriteDraw(posxBUTTONS,posyBUTTONS,sprite[BUTTON2])
+
+					elseif timed[i][1] == BUTTON3 then
+
+						spriteDraw(posxBUTTONS,posyBUTTONS,sprite[BUTTON3])
+
+					elseif timed[i][1] == ACTUP then
+
+						spriteDraw(posxBUTTONS,posyBUTTONS,sprite[BUTTON1])
+						goTimer(0.1)
+		
+						if heartbeat then
+
+							if posyUARROW > endyUARROW then posyUARROW = posyUARROW-LINEH end
+							spriteDraw(posxUDARROWS,posyUARROW,sprite[UP])
+							
+						end
+
+					elseif timed[i][1] == ACTDOWN then
+
+						spriteDraw(posxBUTTONS,posyBUTTONS,sprite[BUTTON1])
+						goTimer(0.1)
+		
+						if heartbeat then	
+
+							if posyDARROW < endyDARROW then posyDARROW = posyDARROW+LINEH end
+							spriteDraw(posxUDARROWS,posyDARROW,sprite[DOWN])
+														
+						end
+
+					elseif timed[i][1] == ACTLEFT then
+
+						spriteDraw(posxBUTTONS,posyBUTTONS,sprite[BUTTON1])
+						goTimer(0.1)
+		
+						if heartbeat then	
+							
+							if posxLARROW > endxLARROW then posxLARROW = posxLARROW-LINEW end
+							spriteDraw(posxLARROW,posyLRARROWS,sprite[LEFT])
+														
+						end
+						
+					elseif timed[i][1] == ACTRIGHT then
+
+						spriteDraw(posxBUTTONS,posyBUTTONS,sprite[BUTTON1])
+						goTimer(0.1)
+		
+						if heartbeat then	
+
+							if posxRARROW < endxRARROW then posxRARROW = posxRARROW+LINEW end
+							spriteDraw(posxRARROW,posyLRARROWS,sprite[RIGHT])
+													
+						end
+
+					elseif timed[i][1] == UPLEFT then
+
+						goTimer(0.1)
+		
+						if heartbeat then	
+							
+							if posxLARROW > endxLARROW then 
+
+								posxLARROW = posxLARROW-LINEW
+								posyLRARROWS = posyLRARROWS-LINEH
+
+							end
+
+							spriteDraw(posxLARROW,posyLRARROWS,sprite[UPLEFT])
+														
+						end
+
+					elseif timed[i][1] == UPRIGHT then
+
+						goTimer(0.1)
+		
+						if heartbeat then	
+
+							if posxRARROW < endxRARROW then 
+
+								posxRARROW = posxRARROW+LINEW 
+								posyLRARROWS = posyLRARROWS-LINEH
+
+							end
+
+							spriteDraw(posxRARROW,posyLRARROWS,sprite[UPRIGHT])
+														
+						end
+
+					elseif timed[i][1] == DOWNLEFT then
+
+						goTimer(0.1)
+		
+						if heartbeat then	
+
+							if posxLARROW > endxLARROW then 
+
+								posxLARROW = posxLARROW-LINEW
+								posyLRARROWS = posyLRARROWS+LINEH
+
+							end
+
+							spriteDraw(posxLARROW,posyLRARROWS,sprite[DOWNLEFT])
+														
+						end
+					
+					elseif timed[i][1] == DOWNRIGHT then
+						
+						goTimer(0.1)
+		
+						if heartbeat then	
+
+							if posxRARROW < endxRARROW then 
+
+								posxRARROW = posxRARROW+LINEW
+								posyLRARROWS = posyLRARROWS+LINEH
+
+							end
+
+							spriteDraw(posxRARROW,posyLRARROWS,sprite[DOWNRIGHT])
+													
+						end
+
+					end	
+
+				else
+
+					spriteDraw(posxBUTTONS,posyBUTTONS,sprite[NOTHING])
+
+				end
 
 			elseif thisMove == PATH then
 

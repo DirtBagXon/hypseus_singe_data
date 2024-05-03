@@ -1793,16 +1793,20 @@ function doLevel()     -- Big process for level play
 
 		lvlState = lvlPlayRest
 
-		if bPlayRight then 
-					
-			soundPlay(sndright)
-			bPlayRight = false
+		if thisMove ~= NOTHING or (thisMove==NOTHING and move[currentMove][5]==nil) then
 
-		end
+			if bPlayRight then 
+						
+				soundPlay(sndright)
+				bPlayRight = false
 
-		iRightMv = iRightMv +1
-		addPoints(SCOREMOVE + dip_Difficulty * BUFFMOVE,currentMove) 
-		iScoreTemp = iScoreTemp+(SCOREMOVE + dip_Difficulty * BUFFMOVE)		
+			end
+
+			iRightMv = iRightMv +1
+			addPoints(SCOREMOVE + dip_Difficulty * BUFFMOVE,currentMove) 
+			iScoreTemp = iScoreTemp+(SCOREMOVE + dip_Difficulty * BUFFMOVE)
+
+		end		
 		
 	elseif (lvlState == branch05) then     	-- Flags for the end of the game (unlock secret level)
 		
