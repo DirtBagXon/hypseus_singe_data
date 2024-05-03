@@ -379,7 +379,7 @@ PlayOrder = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,2
 AllowSecret = false		  										-- If you have a "secret level" video then: replace false by true.
 RelativeFrames = false 											-- True if frame 1 starts with each level. False if frame 1 is the disc start.	
 													-- Informations about the Levels:	
-Level[1] = {"Start Hall", 8262, 8746, 1, 0, 0, -1}					-- Title, Start Frame, End of Intro Clip, Total Scenes, Mirror, Death Mirror. 
+Level[1] = {"Start Hall", 8265, 8746, 1, 0, 0, -1}					-- Title, Start Frame, End of Intro Clip, Total Scenes, Mirror, Death Mirror.
 Level[2] = {"Start Entrance", 8912, 8913 , 1, 0, 0, -1}				-- Each level has one line with those informations.
 Level[3] = {"Start Fireplace", 9019, 9020, 1, 0, 0, -1}	
 Level[4] = {"Start Stair", 9126, 9127, 1, 0, 0, -1}
@@ -2026,7 +2026,7 @@ function setupMoves(thisLevel, thisScene)
 			move[4] = {54430, 54445, BUTTON1, 234}
 			move[5] = {54534, 54549, BUTTON1, 233}
 			move[6] = {54669, 54684, BUTTON1, 234}
-			move[7] = {55697, 55712, BUTTON1, 239}
+			move[7] = {55697, 55712, ANYTHING, 239}
 			
 		end	
 			
