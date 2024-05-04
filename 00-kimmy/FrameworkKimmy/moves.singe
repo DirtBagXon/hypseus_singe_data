@@ -2438,37 +2438,38 @@ function drawAction()      -- Draw all type of actions
 				local lenPath 
 
 				if path[currentMove][5] ~= 0 and path[currentMove][7] == 0 then lenPath = 3
-				elseif  path[currentMove][5] == 0 then lenPath = 2
+				elseif path[currentMove][3] ~= 0 and path[currentMove][5] == 0 then lenPath = 2
+				elseif path[currentMove][3] == 0 then lenPath = 1	
 				else lenPath = 4 end
 
+				if path[currentMove][1]==UP then
+
+					spriteAX = posxUDARROWS
+					spriteAY = posyUARROW-LINEH-BUTH
+
+				elseif path[currentMove][1]==DOWN then
+
+					spriteAX = posxUDARROWS
+					spriteAY = posyDARROW+LINEH+BUTH
+
+				elseif path[currentMove][1]==LEFT then
+
+					spriteAX = posxLARROW-2*LINEW-BUTW
+					spriteAY = posyLRARROWS
+
+				elseif path[currentMove][1]==RIGHT then
+
+					spriteAX = posxRARROW+2*LINEW+BUTW
+					spriteAY = posyLRARROWS
+
+				else 
+
+					spriteAX = posxBUTTONS
+					spriteAY = posyBUTTONS
+
+				end
+
 				if lenPath >= 2 then
-
-					if path[currentMove][1]==UP then
-
-						spriteAX = posxUDARROWS
-						spriteAY = posyUARROW-LINEH-BUTH
-
-					elseif path[currentMove][1]==DOWN then
-
-						spriteAX = posxUDARROWS
-						spriteAY = posyDARROW+LINEH+BUTH
-
-					elseif path[currentMove][1]==LEFT then
-
-						spriteAX = posxLARROW-2*LINEW-BUTW
-						spriteAY = posyLRARROWS
-
-					elseif path[currentMove][1]==RIGHT then
-
-						spriteAX = posxRARROW+2*LINEW+BUTW
-						spriteAY = posyLRARROWS
-
-					else 
-
-						spriteAX = posxBUTTONS
-						spriteAY = posyBUTTONS
-
-					end
 
 					if path[currentMove][3]==UP then
 
@@ -2563,7 +2564,11 @@ function drawAction()      -- Draw all type of actions
 
 				if pathLook == 1 then
 
-					if lenPath == 2 then 
+					if lenPath == 1 then
+
+						spriteDraw(spriteAX,spriteAY,sprite[path[currentMove][1]])
+
+					elseif lenPath == 2 then 
 
 						spriteDraw(spriteAX,spriteAY,sprite[path[currentMove][1]])
 						spriteDraw(spriteBX,spriteBY,sprite[path[currentMove][3]])
@@ -2588,7 +2593,11 @@ function drawAction()      -- Draw all type of actions
 
 					blinkTimer(0.2)
 
-					if lenPath == 2 then
+					if lenPath == 1 then
+
+						if heartbeat then spriteDraw(spriteAX,spriteAY,sprite[path[currentMove][1]]) end
+
+					elseif lenPath == 2 then
 
 						if heartbeat then  
 
@@ -2607,7 +2616,7 @@ function drawAction()      -- Draw all type of actions
 
 						end
 
-					else
+					elseif lenPath == 4 then
 
 						if heartbeat then
 
@@ -2622,7 +2631,11 @@ function drawAction()      -- Draw all type of actions
 
 				elseif pathLook == 3 then  
 
-					if lenPath == 2 then
+					if lenPath == 1 then
+
+						if heartbeat then spriteDraw(spriteAX,spriteAY,sprite[path[currentMove][1]]) end
+
+					elseif lenPath == 2 then
 
 						blinkTimer(0.2)
 
@@ -2648,7 +2661,7 @@ function drawAction()      -- Draw all type of actions
 						elseif Timer3 == 3 then spriteDraw(spriteCX,spriteCY,sprite[path[currentMove][5]]) end
 
 
-					else
+					elseif lenPath == 4 then
 
 						blinkTimer4(0.2)
 
@@ -2666,7 +2679,11 @@ function drawAction()      -- Draw all type of actions
 
 					blinkTimer(0.2)
 
-					if lenPath == 2 then
+					if lenPath == 1 then
+
+						if heartbeat then spriteDraw(spriteAX,spriteAY,sprite[path[currentMove][1]]) end
+
+					elseif lenPath == 2 then
 
 						if heartbeat then 
 
@@ -2689,7 +2706,7 @@ function drawAction()      -- Draw all type of actions
 
 						end
 
-					else
+					elseif lenPath == 4 then
 
 						if heartbeat then
 
