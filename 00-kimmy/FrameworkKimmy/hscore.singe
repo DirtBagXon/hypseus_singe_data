@@ -904,7 +904,7 @@ function drawHSAll()
 
 	local k = 0
 
-	if AllowNormal or AllowLifeBar or AllowSurvivor then 
+	if AllowNormal and AllowLifeBar and AllowSurvivor then 
 	
 		if ShowTitle == true then
 
@@ -979,6 +979,218 @@ function drawHSAll()
 
 		end
 
+	elseif AllowNormal and AllowLifeBar and not AllowSurvivor then 
+
+		if ShowTitle == true then
+
+			fontSelect(fontTit)
+			setFontColor(mycolor2)
+			fontPrint(mt5,LINEH*1.5, "RANKINGS")
+			
+		end	
+
+		fontSelect(fontGame)
+
+		setFontColor(mycolor2)
+			
+		if OVLW/OVLH > 1.7 then
+
+			fontPrint(LINEW*9+OVLW/10.58,LINEH*15, "NORMAL")
+			fontPrint(OVLW/1.28-LINEW*5,LINEH*15, "LIFE BAR") 
+		
+		else
+
+			fontPrint(LINEW*9+OVLW/11.9,LINEH*15, "NORMAL")
+			fontPrint(OVLW/1.34-LINEW*2,LINEH*15, "LIFE BAR")
+
+		end
+		
+		setFontColor(mycolor1)
+			
+		for k = 1, 10 do
+				
+			if k==1 then
+
+				setFontColor(mycolor2)
+				fontPrint(LINEW*7+OVLW/21.8, OVLH/4.59 + k *LINEH*5, k ..".")
+				fontPrint(LINEW*7+OVLW/13.33, OVLH/4.59 + k *LINEH*5, highscore[k][1])
+				fontPrint(LINEW*7+OVLW/5.69, OVLH/4.59 + k *LINEH*5, highscore[k][2])
+				fontPrint(OVLW/1.34-LINEW*7, OVLH/4.59 + k *LINEH*5, k ..".")
+				fontPrint(OVLW/1.28-LINEW*7, OVLH/4.59 + k *LINEH*5, highscoreLB[k][1])
+				fontPrint(OVLW/1.13-LINEW*7, OVLH/4.59 + k *LINEH*5, highscoreLB[k][2])
+			
+			elseif k==10 then
+
+				setFontColor(mycolor1)
+				fontPrint(LINEW*7+OVLW/43.64, OVLH/4.59 + k *LINEH*5, k ..".")
+				fontPrint(LINEW*7+OVLW/13.33, OVLH/4.59 + k *LINEH*5, highscore[k][1])
+				fontPrint(LINEW*7+OVLW/5.69, OVLH/4.59 + k *LINEH*5, highscore[k][2])
+				fontPrint(OVLW/1.37-LINEW*7, OVLH/4.59 + k *LINEH*5, k ..".")
+				fontPrint(OVLW/1.28-LINEW*7, OVLH/4.59 + k *LINEH*5, highscoreLB[k][1])
+				fontPrint(OVLW/1.13-LINEW*7, OVLH/4.59 + k *LINEH*5, highscoreLB[k][2])
+
+			else
+
+				setFontColor(mycolor1)
+				fontPrint(LINEW*7+OVLW/29.4, OVLH/4.59 + k *LINEH*5, k ..".")
+				fontPrint(LINEW*7+OVLW/13.33, OVLH/4.59 + k *LINEH*5, highscore[k][1])
+				fontPrint(LINEW*7+OVLW/5.69, OVLH/4.59 + k *LINEH*5, highscore[k][2])
+				fontPrint(OVLW/1.36-LINEW*7, OVLH/4.59 + k *LINEH*5, k ..".")
+				fontPrint(OVLW/1.28-LINEW*7, OVLH/4.59 + k *LINEH*5, highscoreLB[k][1])
+				fontPrint(OVLW/1.13-LINEW*7, OVLH/4.59 + k *LINEH*5, highscoreLB[k][2])
+			
+			end
+
+		end
+
+	elseif AllowNormal and not AllowLifeBar and AllowSurvivor then 
+
+		if ShowTitle == true then
+
+			fontSelect(fontTit)
+			setFontColor(mycolor2)
+			fontPrint(mt5,LINEH*1.5, "RANKINGS")
+			
+		end	
+
+		fontSelect(fontGame)
+		setFontColor(mycolor2)
+			
+		if OVLW/OVLH > 1.7 then
+
+			fontPrint(LINEW*9+OVLW/10.58,LINEH*15, "NORMAL")
+			fontPrint(OVLW/1.28-LINEW*8,LINEH*15, "SURVIVOR") 
+		
+		else
+
+			fontPrint(LINEW*9+OVLW/11.9,LINEH*15, "NORMAL")
+			fontPrint(OVLW/1.34-LINEW*5,LINEH*15, "SURVIVOR")
+
+		end
+		
+		setFontColor(mycolor1)
+			
+		for k = 1, 10 do
+				
+			if k==1 then
+
+				setFontColor(mycolor2)
+				fontPrint(LINEW*7+OVLW/21.8, OVLH/4.59 + k *LINEH*5, k ..".")
+				fontPrint(LINEW*7+OVLW/13.33, OVLH/4.59 + k *LINEH*5, highscore[k][1])
+				fontPrint(LINEW*7+OVLW/5.69, OVLH/4.59 + k *LINEH*5, highscore[k][2])
+				fontPrint(OVLW/1.34-LINEW*7, OVLH/4.59 + k *LINEH*5, k ..".")
+				fontPrint(OVLW/1.28-LINEW*7, OVLH/4.59 + k *LINEH*5, highscoreS[k][1])
+				fontPrint(OVLW/1.13-LINEW*7, OVLH/4.59 + k *LINEH*5, highscoreS[k][2])
+			
+			elseif k==10 then
+
+				setFontColor(mycolor1)
+				fontPrint(LINEW*7+OVLW/43.64, OVLH/4.59 + k *LINEH*5, k ..".")
+				fontPrint(LINEW*7+OVLW/13.33, OVLH/4.59 + k *LINEH*5, highscore[k][1])
+				fontPrint(LINEW*7+OVLW/5.69, OVLH/4.59 + k *LINEH*5, highscore[k][2])
+				fontPrint(OVLW/1.37-LINEW*7, OVLH/4.59 + k *LINEH*5, k ..".")
+				fontPrint(OVLW/1.28-LINEW*7, OVLH/4.59 + k *LINEH*5, highscoreS[k][1])
+				fontPrint(OVLW/1.13-LINEW*7, OVLH/4.59 + k *LINEH*5, highscoreS[k][2])
+
+			else
+
+				setFontColor(mycolor1)
+				fontPrint(LINEW*7+OVLW/29.4, OVLH/4.59 + k *LINEH*5, k ..".")
+				fontPrint(LINEW*7+OVLW/13.33, OVLH/4.59 + k *LINEH*5, highscore[k][1])
+				fontPrint(LINEW*7+OVLW/5.69, OVLH/4.59 + k *LINEH*5, highscore[k][2])
+				fontPrint(OVLW/1.36-LINEW*7, OVLH/4.59 + k *LINEH*5, k ..".")
+				fontPrint(OVLW/1.28-LINEW*7, OVLH/4.59 + k *LINEH*5, highscoreS[k][1])
+				fontPrint(OVLW/1.13-LINEW*7, OVLH/4.59 + k *LINEH*5, highscoreS[k][2])
+			
+			end
+
+		end
+
+	elseif not AllowNormal and AllowLifeBar and AllowSurvivor then 
+
+		if ShowTitle == true then
+
+			fontSelect(fontTit)
+			setFontColor(mycolor2)
+			fontPrint(mt5,LINEH*1.5, "RANKINGS")
+			
+		end	
+
+		fontSelect(fontGame)
+		setFontColor(mycolor2)
+			
+		if OVLW/OVLH > 1.7 then
+
+			fontPrint(LINEW*7+OVLW/10.58,LINEH*15, "LIFE BAR")
+			fontPrint(OVLW/1.28-LINEW*7,LINEH*15, "SURVIVOR") 
+		
+		else
+
+			fontPrint(LINEW*9+OVLW/11.9,LINEH*15, "LIFE BAR")
+			fontPrint(OVLW/1.34-LINEW*5,LINEH*15, "SURVIVOR")
+
+		end
+		
+		setFontColor(mycolor1)
+			
+		for k = 1, 10 do
+				
+			if k==1 then
+
+				setFontColor(mycolor2)
+				fontPrint(LINEW*7+OVLW/21.8, OVLH/4.59 + k *LINEH*5, k ..".")
+				fontPrint(LINEW*7+OVLW/13.33, OVLH/4.59 + k *LINEH*5, highscoreLB[k][1])
+				fontPrint(LINEW*7+OVLW/5.69, OVLH/4.59 + k *LINEH*5, highscoreLB[k][2])
+				fontPrint(OVLW/1.34-LINEW*7, OVLH/4.59 + k *LINEH*5, k ..".")
+				fontPrint(OVLW/1.28-LINEW*7, OVLH/4.59 + k *LINEH*5, highscoreS[k][1])
+				fontPrint(OVLW/1.13-LINEW*7, OVLH/4.59 + k *LINEH*5, highscoreS[k][2])
+			
+			elseif k==10 then
+
+				setFontColor(mycolor1)
+				fontPrint(LINEW*7+OVLW/43.64, OVLH/4.59 + k *LINEH*5, k ..".")
+				fontPrint(LINEW*7+OVLW/13.33, OVLH/4.59 + k *LINEH*5, highscoreLB[k][1])
+				fontPrint(LINEW*7+OVLW/5.69, OVLH/4.59 + k *LINEH*5, highscoreLB[k][2])
+				fontPrint(OVLW/1.37-LINEW*7, OVLH/4.59 + k *LINEH*5, k ..".")
+				fontPrint(OVLW/1.28-LINEW*7, OVLH/4.59 + k *LINEH*5, highscoreS[k][1])
+				fontPrint(OVLW/1.13-LINEW*7, OVLH/4.59 + k *LINEH*5, highscoreS[k][2])
+
+			else
+
+				setFontColor(mycolor1)
+				fontPrint(LINEW*7+OVLW/29.4, OVLH/4.59 + k *LINEH*5, k ..".")
+				fontPrint(LINEW*7+OVLW/13.33, OVLH/4.59 + k *LINEH*5, highscore[k][1])
+				fontPrint(LINEW*7+OVLW/5.69, OVLH/4.59 + k *LINEH*5, highscore[k][2])
+				fontPrint(OVLW/1.36-LINEW*7, OVLH/4.59 + k *LINEH*5, k ..".")
+				fontPrint(OVLW/1.28-LINEW*7, OVLH/4.59 + k *LINEH*5, highscoreS[k][1])
+				fontPrint(OVLW/1.13-LINEW*7, OVLH/4.59 + k *LINEH*5, highscoreS[k][2])
+			
+			end
+
+		end
+
+	elseif AllowNormal and not AllowLifeBar and not AllowSurvivor then
+
+		drawHS()
+
+	elseif not AllowNormal and AllowLifeBar and not AllowSurvivor then
+
+		drawHSLB()
+
+	elseif not AllowNormal and not AllowLifeBar and AllowSurvivor then
+
+		drawHSS()
+
+	elseif not AllowNormal and not AllowLifeBar and not AllowSurvivor then
+
+		if AllowPercent or AllowDie then 
+
+			drawPercent()
+
+		else
+
+		end
+
 	end
 
 end
@@ -997,7 +1209,7 @@ function drawHS()
 
 	fontSelect(fontLCD)
 	setFontColor(mycolor2)
-	fontPrint(ml13,LINEH*11, "NORMAL MODE")
+	fontPrint(ml13,LINEH*15, "NORMAL MODE")
 	setFontColor(mycolor1)
 		
 	for k = 1, 10 do
@@ -1043,7 +1255,7 @@ function drawHSLB()
 
 	fontSelect(fontLCD)
 	setFontColor(mycolor2)
-	fontPrint(ml14,LINEH*11, "LIFE BAR MODE")
+	fontPrint(ml14,LINEH*15, "LIFE BAR MODE")
 	setFontColor(mycolor1)
 	
 	for k = 1, 10 do
@@ -1090,7 +1302,7 @@ function drawHSS()
 
 	fontSelect(fontLCD)
 	setFontColor(mycolor2)
-	fontPrint(ml15,LINEH*11, "SURVIVOR MODE")
+	fontPrint(ml15,LINEH*15, "SURVIVOR MODE")
 	setFontColor(mycolor1)
 		
 	for k = 1, 10 do
@@ -1126,19 +1338,28 @@ function drawPercent()
 
 	local k = 0
 	local j = 0
+	local l = 0
 
-	if AllowPercent or AllowDie then
-	
-		if ShowTitle == true then
+	if ShowTitle == true then
 
 			fontSelect(fontTit)
 			setFontColor(mycolor2)
 			fontPrint(mt5,LINEH*1.5, "RANKINGS")
 			
-		end		
+	end		
 
-		
-		
+	if not AllowPercent and not AllowDie then
+
+		if AllowNormal or AllowLifeBar or AllowSurvivor then 
+
+			drawHSAll()
+
+		else
+
+		end
+
+	elseif AllowPercent and AllowDie then 
+			
 		j = 4
 
 		if finalstage > 11 then
@@ -1149,65 +1370,146 @@ function drawPercent()
 
 			j = 1.5
 
+		elseif finalstage > 31 then
+
+			j = 1
+
 		end
 
-		if AllowPercent then 
+		fontSelect(fontLCD)
+		
+		setFontColor(mycolor2)
+		fontPrint(ml16,LINEH*15, "BEST PERCENT")
+		setFontColor(mycolor1)
 
-			fontSelect(fontLCD)
+		fontSelect(fontGame)
+
+		for k = 1,finalstage,4 do
+
+			l=l+1
 			
-			setFontColor(mycolor2)
-			fontPrint(ml16,LINEH*11, "BEST PERCENT")
-			setFontColor(mycolor1)
+			if k + 3 < finalstage then
 
-			fontSelect(fontGame)
-
-			for k = 1,finalstage,3 do
 				
-				if k + 2 < finalstage then
+				fontPrint(mg11, OVLH/5 + l *LINEH*5, "L" .. k .. ": " .. percent[k][1] .. " " .. percent[k][2] .. " (" .. percent[k][3] .. ")    L" .. k+1 .. ": " .. percent[k+1][1] .. " " .. percent[k+1][2] .. " (" .. percent[k+1][3] .. ")    L" .. k+2 .. ": " .. percent[k+2][1] .. " " .. percent[k+2][2] .. " (" .. percent[k+2][3] .. ")    L" .. k+3 .. ": " .. percent[k+3][1] .. " " .. percent[k+3][2] .. " (" .. percent[k+3][3] .. ")")
+		
+			else
 
-					
-					fontPrint(mg5, OVLH/5 + k *LINEH*j, "L" .. k .. ": " .. percent[k][1] .. " " .. percent[k][2] .. " (" .. percent[k][3] .. ")    L" .. k+1 .. ": " .. percent[k+1][1] .. " " .. percent[k+1][2] .. " (" .. percent[k+1][3] .. ")    L" .. k+2 .. ": " .. percent[k+2][1] .. " " .. percent[k+2][2] .. " (" .. percent[k+2][3] .. ")")
-			
-				else
+				if k+3 == finalstage then 
 
-					if k+2 == finalstage then 
+					fontPrint(mg11, OVLH/5 + l *LINEH*5, "L" .. k .. ": " .. percent[k][1] .. " " .. percent[k][2] .. " (" .. percent[k][3] .. ")    L" .. k+1 .. ": " .. percent[k+1][1] .. " " .. percent[k+1][2] .. " (" .. percent[k+1][3] .. ")    L" .. k+2 .. ": " .. percent[k+2][1] .. " " .. percent[k+2][2] .. " (" .. percent[k+2][3] .. ")    L" .. k+3 .. ": " .. percent[k+3][1] .. " " .. percent[k+3][2] .. " (" .. percent[k+3][3] .. ")")
+					break
 
-						fontPrint(mg5, OVLH/5 + k *LINEH*j, "L" .. k .. ": " .. percent[k][1] .. " " .. percent[k][2] .. " (" .. percent[k][3] .. ")    L" .. k+1 .. ": " .. percent[k+1][1] .. " " .. percent[k+1][2] .. " (" .. percent[k+1][3] .. ")    L" .. k+2 .. ": " .. percent[k+2][1] .. " " .. percent[k+2][2] .. " (" .. percent[k+2][3] .. ")")
-						break
 
-					elseif k+2 == finalstage + 1 then
+				elseif k+3 == finalstage+1 then 
 
-						fontPrint(mg6, OVLH/5 + k *LINEH*j, "L" .. k .. ": " .. percent[k][1] .. " " .. percent[k][2] .. " (" .. percent[k][3].. ")    L" .. k+1 .. ": " .. percent[k+1][1] .. " " .. percent[k+1][2] .. " (" .. percent[k][3] .. ")")
-						break
+					fontPrint(mg5, OVLH/5 + l *LINEH*5, "L" .. k .. ": " .. percent[k][1] .. " " .. percent[k][2] .. " (" .. percent[k][3] .. ")    L" .. k+1 .. ": " .. percent[k+1][1] .. " " .. percent[k+1][2] .. " (" .. percent[k+1][3] .. ")    L" .. k+2 .. ": " .. percent[k+2][1] .. " " .. percent[k+2][2] .. " (" .. percent[k+2][3] .. ")")
+					break
 
-					elseif k+2 == finalstage + 2 then
+				elseif k+3 == finalstage + 2 then
 
-						fontPrint(mg7, OVLH/5 + k *LINEH*j, "L" .. k .. ": " .. percent[k][1] .. " " .. percent[k][2] .. " (" .. percent[k][3] .. ")")
-						break
+					fontPrint(mg6, OVLH/5 + l *LINEH*5, "L" .. k .. ": " .. percent[k][1] .. " " .. percent[k][2] .. " (" .. percent[k][3].. ")    L" .. k+1 .. ": " .. percent[k+1][1] .. " " .. percent[k+1][2] .. " (" .. percent[k][3] .. ")")
+					break
 
-					end 
-							
-				end
+				elseif k+3 == finalstage + 3 then
+
+					fontPrint(mg7, OVLH/5 + l *LINEH*5, "L" .. k .. ": " .. percent[k][1] .. " " .. percent[k][2] .. " (" .. percent[k][3] .. ")")
+					break
+
+				end 
 						
 			end
+					
+		end
+
+		l = l+1.5
+
+		fontSelect(fontLCD)
+		setFontColor(mycolor2)
+		fontPrint(ml25,OVLH/5 + l *LINEH*5, "DIE AND RETRY DIFFICULTY CHAMPS")
+
+		l = l +1.3
+
+		fontSelect(fontGame)
+		setFontColor(mycolor1)
+		fontPrint(mg8, OVLH/5 + l *LINEH*5, "Easy: " .. hsDR[1][1] .. " " .. hsDR[1][2] .. "   Norm: " .. hsDR[2][1] .. " " .. hsDR[2][2] .. "   Diff: " .. hsDR[3][1] .. " " .. hsDR[3][2] .. "   Ext: " .. hsDR[4][1] .. " " .. hsDR[4][2])
+	
+	elseif AllowPercent and not AllowDie then
+
+		j = 4
+
+		if finalstage > 11 then
+
+			j = 2
+
+		elseif finalstage > 23 then
+
+			j = 1.5
+
+		elseif finalstage > 31 then
+
+			j = 1
 
 		end
 
-		if AllowDie then
+		fontSelect(fontLCD)
+		
+		setFontColor(mycolor2)
+		fontPrint(ml16,LINEH*15, "BEST PERCENT")
+		setFontColor(mycolor1)
 
-			local q = finalstage
+		fontSelect(fontGame)
 
-			if not AllowPercent then q = 1 end  
+		for k = 1,finalstage,4 do
 
-			fontSelect(fontLCD)
-			setFontColor(mycolor2)
-			fontPrint(ml25,OVLH/4 + j*LINEH*(q+1), "DIE AND RETRY DIFFICULTY CHAMPS")
+			l=l+1
+			
+			if k + 3 < finalstage then
 
-			fontSelect(fontGame)
-			setFontColor(mycolor1)
-			fontPrint(mg8, OVLH/4 + (q+4)*LINEH*j, "Easy: " .. hsDR[1][1] .. " " .. hsDR[1][2] .. "   Norm: " .. hsDR[2][1] .. " " .. hsDR[2][2] .. "   Diff: " .. hsDR[3][1] .. " " .. hsDR[3][2] .. "   Ext: " .. hsDR[4][1] .. " " .. hsDR[4][2])
+				
+				fontPrint(mg11, OVLH/5 + l *LINEH*5, "L" .. k .. ": " .. percent[k][1] .. " " .. percent[k][2] .. " (" .. percent[k][3] .. ")    L" .. k+1 .. ": " .. percent[k+1][1] .. " " .. percent[k+1][2] .. " (" .. percent[k+1][3] .. ")    L" .. k+2 .. ": " .. percent[k+2][1] .. " " .. percent[k+2][2] .. " (" .. percent[k+2][3] .. ")    L" .. k+3 .. ": " .. percent[k+3][1] .. " " .. percent[k+3][2] .. " (" .. percent[k+3][3] .. ")")
+		
+			else
 
+				if k+3 == finalstage then 
+
+					fontPrint(mg11, OVLH/5 + l *LINEH*5, "L" .. k .. ": " .. percent[k][1] .. " " .. percent[k][2] .. " (" .. percent[k][3] .. ")    L" .. k+1 .. ": " .. percent[k+1][1] .. " " .. percent[k+1][2] .. " (" .. percent[k+1][3] .. ")    L" .. k+2 .. ": " .. percent[k+2][1] .. " " .. percent[k+2][2] .. " (" .. percent[k+2][3] .. ")    L" .. k+3 .. ": " .. percent[k+3][1] .. " " .. percent[k+3][2] .. " (" .. percent[k+3][3] .. ")")
+					break
+
+
+				elseif k+3 == finalstage+1 then 
+
+					fontPrint(mg5, OVLH/5 + l *LINEH*5, "L" .. k .. ": " .. percent[k][1] .. " " .. percent[k][2] .. " (" .. percent[k][3] .. ")    L" .. k+1 .. ": " .. percent[k+1][1] .. " " .. percent[k+1][2] .. " (" .. percent[k+1][3] .. ")    L" .. k+2 .. ": " .. percent[k+2][1] .. " " .. percent[k+2][2] .. " (" .. percent[k+2][3] .. ")")
+					break
+
+				elseif k+3 == finalstage + 2 then
+
+					fontPrint(mg6, OVLH/5 + l *LINEH*5, "L" .. k .. ": " .. percent[k][1] .. " " .. percent[k][2] .. " (" .. percent[k][3].. ")    L" .. k+1 .. ": " .. percent[k+1][1] .. " " .. percent[k+1][2] .. " (" .. percent[k][3] .. ")")
+					break
+
+				elseif k+3 == finalstage + 3 then
+
+					fontPrint(mg7, OVLH/5 + l *LINEH*5, "L" .. k .. ": " .. percent[k][1] .. " " .. percent[k][2] .. " (" .. percent[k][3] .. ")")
+					break
+
+				end 
+						
+			end
+					
 		end
+
+	elseif not AllowPercent and AllowDie then
+
+		j = 4
+		local q = 1
+
+		fontSelect(fontLCD)
+		setFontColor(mycolor2)
+		fontPrint(ml25,OVLH/4 + j*LINEH*(q+1), "DIE AND RETRY DIFFICULTY CHAMPS")
+
+		fontSelect(fontGame)
+		setFontColor(mycolor1)
+		fontPrint(mg8, OVLH/4 + (q+4)*LINEH*j, "Easy: " .. hsDR[1][1] .. " " .. hsDR[1][2] .. "   Norm: " .. hsDR[2][1] .. " " .. hsDR[2][2] .. "   Diff: " .. hsDR[3][1] .. " " .. hsDR[3][2] .. "   Ext: " .. hsDR[4][1] .. " " .. hsDR[4][2])
 		
 	end
 
