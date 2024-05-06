@@ -1271,7 +1271,7 @@ function drawAction()      -- Draw all type of actions
 
 		local thisMove = move[currentMove][correctMove]
 		
-		if dip_ShowAction == 0 and thisMove ~= SKIP then
+		if (dip_ShowAction == 0 or move[currentMove][moveDeath] == -3) and thisMove ~= SKIP then
 
 		elseif dip_ShowAction == 1 and thisMove < 50 then
 				

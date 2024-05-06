@@ -2547,7 +2547,7 @@ function doLevel()     -- Big process for level play
 			
 			doMove()
 
-		elseif (currentFrame > move[currentMove][inputFrmEnd] and (thisMove == NOMOVE or thisMove == MOVEPENDING) and move[currentMove][moveDeath] == -1) then -- Optional Move
+		elseif (currentFrame > move[currentMove][inputFrmEnd] and (thisMove == NOMOVE or thisMove == MOVEPENDING) and (move[currentMove][moveDeath] == -1 or move[currentMove][moveDeath] == -3)) then -- Optional Move
 
 			bShowAction = false
 			lvlState = lvlPlayRest
