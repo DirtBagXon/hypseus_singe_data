@@ -2442,127 +2442,303 @@ function drawAction()      -- Draw all type of actions
 				elseif path[currentMove][3] == 0 then lenPath = 1	
 				else lenPath = 4 end
 
-				if path[currentMove][1]==UP then
+				if pathLook ~= 5 then
 
-					spriteAX = posxUDARROWS
-					spriteAY = posyUARROW-LINEH-BUTH
+					if path[currentMove][1]==UP then
 
-				elseif path[currentMove][1]==DOWN then
+						spriteAX = posxUDARROWS
+						spriteAY = posyUARROW-LINEH-BUTH
 
-					spriteAX = posxUDARROWS
-					spriteAY = posyDARROW+LINEH+BUTH
+					elseif path[currentMove][1]==DOWN then
 
-				elseif path[currentMove][1]==LEFT then
+						spriteAX = posxUDARROWS
+						spriteAY = posyDARROW+LINEH+BUTH
 
-					spriteAX = posxLARROW-2*LINEW-BUTW
-					spriteAY = posyLRARROWS
+					elseif path[currentMove][1]==LEFT then
 
-				elseif path[currentMove][1]==RIGHT then
+						spriteAX = posxLARROW-2*LINEW-BUTW
+						spriteAY = posyLRARROWS
 
-					spriteAX = posxRARROW+2*LINEW+BUTW
-					spriteAY = posyLRARROWS
+					elseif path[currentMove][1]==RIGHT then
 
-				else 
-
-					spriteAX = posxBUTTONS
-					spriteAY = posyBUTTONS
-
-				end
-
-				if lenPath >= 2 then
-
-					if path[currentMove][3]==UP then
-
-						spriteBX = posxUDARROWS
-						spriteBY = posyUARROW-LINEH-BUTH
-
-					elseif path[currentMove][3]==DOWN then
-
-						spriteBX = posxUDARROWS
-						spriteBY = posyDARROW+LINEH+BUTH
-
-					elseif path[currentMove][3]==LEFT then
-
-						spriteBX = posxLARROW-2*LINEW-BUTW
-						spriteBY = posyLRARROWS
-
-					elseif path[currentMove][3]==RIGHT then
-
-						spriteBX = posxRARROW+2*LINEW+BUTW
-						spriteBY = posyLRARROWS
+						spriteAX = posxRARROW+2*LINEW+BUTW
+						spriteAY = posyLRARROWS
 
 					else 
 
-						spriteBX = posxBUTTONS
-						spriteBY = posyBUTTONS
+						spriteAX = posxBUTTONS
+						spriteAY = posyBUTTONS
 
+					end
+
+					if lenPath >= 2 then
+
+						if path[currentMove][3]==UP then
+
+							spriteBX = posxUDARROWS
+							spriteBY = posyUARROW-LINEH-BUTH
+
+						elseif path[currentMove][3]==DOWN then
+
+							spriteBX = posxUDARROWS
+							spriteBY = posyDARROW+LINEH+BUTH
+
+						elseif path[currentMove][3]==LEFT then
+
+							spriteBX = posxLARROW-2*LINEW-BUTW
+							spriteBY = posyLRARROWS
+
+						elseif path[currentMove][3]==RIGHT then
+
+							spriteBX = posxRARROW+2*LINEW+BUTW
+							spriteBY = posyLRARROWS
+
+						else 
+
+							spriteBX = posxBUTTONS
+							spriteBY = posyBUTTONS
+
+						end
+
+					end
+
+					if lenPath >= 3 then
+
+						if path[currentMove][5]==UP then
+
+							spriteCX = posxUDARROWS
+							spriteCY = posyUARROW-LINEH-BUTH
+
+						elseif path[currentMove][5]==DOWN then
+
+							spriteCX = posxUDARROWS
+							spriteCY = posyDARROW+LINEH+BUTH
+
+						elseif path[currentMove][5]==LEFT then
+
+							spriteCX = posxLARROW-2*LINEW-BUTW
+							spriteCY = posyLRARROWS
+
+						elseif path[currentMove][5]==RIGHT then
+
+							spriteCX = posxRARROW+2*LINEW+BUTW
+							spriteCY = posyLRARROWS
+
+						else 
+
+							spriteCX = posxBUTTONS
+							spriteCY = posyBUTTONS
+
+						end
+
+					end
+
+					if lenPath == 4 then
+
+						if path[currentMove][7]==UP then
+
+							spriteDX = posxUDARROWS
+							spriteDY = posyUARROW-LINEH-BUTH
+
+						elseif path[currentMove][7]==DOWN then
+
+							spriteDX = posxUDARROWS
+							spriteDY = posyDARROW+LINEH+BUTH
+
+						elseif path[currentMove][7]==LEFT then
+
+							spriteDX = posxLARROW-2*LINEW-BUTW
+							spriteDY = posyLRARROWS
+
+						elseif path[currentMove][7]==RIGHT then
+
+							spriteDX = posxRARROW+2*LINEW+BUTW
+							spriteDY = posyLRARROWS
+
+						else 
+
+							spriteDX = posxBUTTONS
+							spriteDY = posyBUTTONS
+
+						end
+
+					end
+
+				else
+
+					goTimer(0.1)
+
+					if path[currentMove][1]==UP then
+						
+						if heartbeat then
+							if posyUARROW > endyUARROW then posyUARROW = posyUARROW-LINEH end
+							spriteAX = posxUDARROWS
+							spriteAY = posyUARROW
+						end
+
+					elseif path[currentMove][1]==DOWN then
+						
+						if heartbeat then
+							if posyDARROW < endyDARROW then posyDARROW = posyDARROW+LINEH end
+							spriteAX = posxUDARROWS
+							spriteAY = posyDARROW
+						end
+				
+					elseif path[currentMove][1]==LEFT then
+				
+						if heartbeat then
+							if posxLARROW > endxLARROW then posxLARROW = posxLARROW-LINEW end
+							spriteAX = posxLARROW
+							spriteAY = posyLRARROWS
+						end
+				
+					elseif path[currentMove][1]==RIGHT then
+				
+						if heartbeat then
+							if posxRARROW < endxRARROW then posxRARROW = posxRARROW+LINEW end
+							spriteAX = posxRARROW
+							spriteAY = posyLRARROWS
+						end
+
+					else
+
+						spriteAX = posxBUTTONS
+						spriteAY = posyBUTTONS
+				
+					end					
+
+					if lenPath >= 2 then
+						
+						if path[currentMove][3]==UP then
+						
+							if heartbeat then
+								if posyUARROW > endyUARROW then posyUARROW = posyUARROW-LINEH end
+								spriteBX = posxUDARROWS
+								spriteBY = posyUARROW
+							end
+						
+						elseif path[currentMove][3]==DOWN then
+						
+							if heartbeat then
+								if posyDARROW < endyDARROW then posyDARROW = posyDARROW+LINEH end
+								spriteBX = posxUDARROWS
+								spriteBY = posyDARROW
+							end
+						
+						elseif path[currentMove][3]==LEFT then
+						
+							if heartbeat then
+								if posxLARROW > endxLARROW then posxLARROW = posxLARROW-LINEW end
+								spriteBX = posxLARROW
+								spriteBY = posyLRARROWS
+							end
+						
+						elseif path[currentMove][3]==RIGHT then
+						
+							if heartbeat then
+								if posxRARROW < endxRARROW then posxRARROW = posxRARROW+LINEW end
+								spriteBX = posxRARROW
+								spriteBY = posyLRARROWS
+							end
+						
+						else 
+						
+							spriteBX = posxBUTTONS
+							spriteBY = posyBUTTONS
+						
+						end
+					
+					end
+
+					if lenPath >= 3 then
+						
+						if path[currentMove][5]==UP then
+						
+							if heartbeat then
+								if posyUARROW > endyUARROW then posyUARROW = posyUARROW-LINEH end
+								spriteCX = posxUDARROWS
+								spriteCY = posyUARROW
+							end
+					
+						elseif path[currentMove][5]==DOWN then
+					
+							if heartbeat then
+								if posyDARROW < endyDARROW then posyDARROW = posyDARROW+LINEH end
+								spriteCX = posxUDARROWS
+								spriteCY = posyDARROW
+							end
+					
+						elseif path[currentMove][5]==LEFT then
+					
+							if heartbeat then
+								if posxLARROW > endxLARROW then posxLARROW = posxLARROW-LINEW end
+								spriteCX = posxLARROW
+								spriteCY = posyLRARROWS
+							end
+					
+						elseif path[currentMove][5]==RIGHT then
+								
+							if heartbeat then
+								if posxRARROW < endxRARROW then posxRARROW = posxRARROW+LINEW end
+								spriteCX = posxRARROW
+								spriteCY = posyLRARROWS
+							end
+
+						else 
+
+							spriteCX = posxBUTTONS
+							spriteCY = posyBUTTONS
+						
+						end
+					
+					end
+
+					if lenPath == 4 then
+						
+						if path[currentMove][7]==UP then
+						
+							if heartbeat then
+								if posyUARROW > endyUARROW then posyUARROW = posyUARROW-LINEH end
+								spriteDX = posxUDARROWS
+								spriteDY = posyUARROW
+							end
+						
+						elseif path[currentMove][7]==DOWN then
+						
+							if heartbeat then
+								if posyDARROW < endyDARROW then posyDARROW = posyDARROW+LINEH end
+								spriteDX = posxUDARROWS
+								spriteDY = posyDARROW
+							end
+						
+						elseif path[currentMove][7]==LEFT then
+						
+							if heartbeat then
+								if posxLARROW > endxLARROW then posxLARROW = posxLARROW-LINEW end
+								spriteDX = posxLARROW
+								spriteDY = posyLRARROWS
+							end
+						
+						elseif path[currentMove][7]==RIGHT then
+						
+							if heartbeat then
+								if posxRARROW < endxRARROW then posxRARROW = posxRARROW+LINEW end
+								spriteDX = posxRARROW
+								spriteDY = posyLRARROWS
+							end
+						
+						else 
+							
+							spriteDX = posxBUTTONS
+							spriteDY = posyBUTTONS
+						
+						end
+					
 					end
 
 				end
 
-				if lenPath >= 3 then
-
-					if path[currentMove][5]==UP then
-
-						spriteCX = posxUDARROWS
-						spriteCY = posyUARROW-LINEH-BUTH
-
-					elseif path[currentMove][5]==DOWN then
-
-						spriteCX = posxUDARROWS
-						spriteCY = posyDARROW+LINEH+BUTH
-
-					elseif path[currentMove][5]==LEFT then
-
-						spriteCX = posxLARROW-2*LINEW-BUTW
-						spriteCY = posyLRARROWS
-
-					elseif path[currentMove][5]==RIGHT then
-
-						spriteCX = posxRARROW+2*LINEW+BUTW
-						spriteCY = posyLRARROWS
-
-					else 
-
-						spriteCX = posxBUTTONS
-						spriteCY = posyBUTTONS
-
-					end
-
-				end
-
-				if lenPath == 4 then
-
-					if path[currentMove][7]==UP then
-
-						spriteDX = posxUDARROWS
-						spriteDY = posyUARROW-LINEH-BUTH
-
-					elseif path[currentMove][7]==DOWN then
-
-						spriteDX = posxUDARROWS
-						spriteDY = posyDARROW+LINEH+BUTH
-
-					elseif path[currentMove][7]==LEFT then
-
-						spriteDX = posxLARROW-2*LINEW-BUTW
-						spriteDY = posyLRARROWS
-
-					elseif path[currentMove][7]==RIGHT then
-
-						spriteDX = posxRARROW+2*LINEW+BUTW
-						spriteDY = posyLRARROWS
-
-					else 
-
-						spriteDX = posxBUTTONS
-						spriteDY = posyBUTTONS
-
-					end
-
-				end
-
-				if pathLook == 1 then
+				if pathLook == 1 or pathLook == 5 then
 
 					if lenPath == 1 then
 
@@ -2718,8 +2894,7 @@ function drawAction()      -- Draw all type of actions
 						end
 
 					end
-
-
+			
 				end
 			
 			elseif thisMove == YESNO then
