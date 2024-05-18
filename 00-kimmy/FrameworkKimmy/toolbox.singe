@@ -353,3 +353,14 @@ function getFontHeight(thisPhrase)
 	return x
 	
 end
+
+function scoreBezelReset()
+
+	if scoreBezelGetState() then
+		scoreBezelCredits(iCredits)
+		scoreBezelScore(1, 0)
+		scoreBezelLives(1, 0)
+		scoreBezelLives(2, -1)
+		scoreBezelScore(2, -1)
+	end
+end
