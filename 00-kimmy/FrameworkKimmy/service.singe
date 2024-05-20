@@ -343,7 +343,7 @@ function readConfig()
 
 	if (s1 ~= nil and s1 ~= "") then
 	
-		dip_Scanlines = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		dip_LivType = tonumber(string.sub(s1,string.find(s1,"=")+1))
 		
 	end
 
@@ -519,7 +519,7 @@ function writeConfig()
 
 	io.write("dip_Model = " .. dip_Model .. sNewLine)
 	io.write("dip_Display = " .. dip_Display .. sNewLine)
-	io.write("dip_Scanlines = " .. dip_Scanlines .. sNewLine)
+	io.write("dip_LivType = " .. dip_LivType .. sNewLine)
 	io.write("dip_ScType = " .. dip_ScType .. sNewLine)
 	io.write("mycolor3 = " .. mycolor3 .. sNewLine)
 	io.write("dip_FontQ = " .. dip_FontQ .. sNewLine)
@@ -872,7 +872,7 @@ function setDefault()
 
 	if (s1 ~= nil) then
 	
-		dip_Scanlines = tonumber(string.sub(s1,string.find(s1,"=")+1))
+		dip_LivType = tonumber(string.sub(s1,string.find(s1,"=")+1))
 		
 	end
 
@@ -4142,14 +4142,10 @@ function updateOptsP(thisIndex)
 
 	elseif (thisIndex == 4) then	
 
-		if bScan then
-	
-			dip_Scanlines = dip_Scanlines + 1
+		dip_LivType = dip_LivType + 1
 
-			if dip_Scanlines > 2 then dip_Scanlines = 0 end
-
-		end
-		
+		if dip_LivType > 2 then dip_LivType = 0 end
+				
 	elseif (thisIndex == 5) then
 	
 		dip_FontQ = dip_FontQ + 1
@@ -4303,13 +4299,9 @@ function updateOptsMinP(thisIndex)
 		
 	elseif (thisIndex == 4) then
 
-		if bScan then	
-	
-			dip_Scanlines = dip_Scanlines - 1
+		dip_LivType = dip_LivType - 1
 
-			if dip_Scanlines < 0 then dip_Scanlines = 2 end
-
-		end
+		if dip_LivType < 0 then dip_LivType = 2 end
 				
 	elseif (thisIndex == 5) then
 	
@@ -4452,7 +4444,7 @@ function printOptsP()
 	smenu[1] = "Extra Options"
 	smenu[2] = "Overlay Res"
 	smenu[3] = "Display Score/Lives"
-	smenu[4] = "Scanlines"
+	smenu[4] = "Lives Type"
 	smenu[5] = "Font Quality"
 	smenu[6] = "Stick Mash with"
 	smenu[7] = "Loop Action as"
@@ -4560,28 +4552,20 @@ function printOptsP()
 
 		elseif (k == 4) then
 
-			if bScan then
+			if dip_LivType == 0 then
 
-				if dip_Scanlines == 0 then
+				fontPrint(fntx, ypos, "Picture")
 
-					fontPrint(fntx, ypos, "No")
+			elseif dip_LivType == 1 then
 
-				elseif dip_Scanlines == 1 then
+				fontPrint(fntx, ypos, "Number")
 
-					fontPrint(fntx, ypos, "Over text")
+			elseif dip_LivType == 2 then
 
-				elseif dip_Scanlines == 2 then
-
-					fontPrint(fntx, ypos, "Under text")
+				fontPrint(fntx, ypos, "Bar")
 				
-				end
-
-			else
-
-				fontPrint(fntx, ypos, "N/A")
-
 			end
-
+			
 		elseif (k == 5) then
 
 			if dip_FontQ == 1 then

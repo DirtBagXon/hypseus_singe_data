@@ -3479,9 +3479,11 @@ function drawLifeBar() -- Life Bar
 
 	if iLifeBar > 0 then
 
+		spriteDraw(OVLW-(LINEW)-(BARW*(BarSize+1))-LIVW-10-shiftOVL,ylivpos,sprite[LIVES])
+
 		for k = 1,iLifeBar do
 
-			spriteDraw(OVLW-(LINEW*(2+dip_Res))-(BARW*(BarSize+1))+((BARW+2)*k)-shiftOVL,ylivpos,sprite[BARFULL])
+			spriteDraw(OVLW-(LINEW*(2+dip_Res))-(BARW*(BarSize+1))+((BARW+2)*k)-shiftOVL,ylivpos+(LIVH-BARH)/2,sprite[BARFULL])
 
 		end
 
@@ -3489,7 +3491,7 @@ function drawLifeBar() -- Life Bar
 
 			for k = iLifeBar,BarSize do
 
-				spriteDraw(OVLW-(LINEW*(2+dip_Res))-(BARW*(BarSize+1))+((BARW+2)*k)-shiftOVL,ylivpos,sprite[BARNONE])
+				spriteDraw(OVLW-(LINEW*(2+dip_Res))-(BARW*(BarSize+1))+((BARW+2)*k)-shiftOVL,ylivpos+(LIVH-BARH)/2,sprite[BARNONE])
 
 			end
 
@@ -3519,27 +3521,55 @@ function drawLives()       -- Draw Lives
 	else
 
 		local k = 0
-	
-		if dip_GameType == 1 then
 
-			drawLifeBar()
+		if dip_GameType == 1 then drawLifeBar()
 
-		else
+		else 
 
 			if dip_GameType ~= 4 then
 
-				if (iLives > 0) then
+				if dip_LivType == 0 and (iLives > 0) then
 
 					for k = 1,iLives do
 
 						spriteDraw(OVLW-LINEW-(LIVW*k)-shiftOVL,ylivpos,sprite[LIVES])
-						
+							
 					end
-					
+
+				elseif dip_LivType == 1 and (iLives > 0) then
+
+					spriteDraw(OVLW-LINEW-2*NUMW-LIVW-10-shiftOVL,ylivpos,sprite[LIVES])
+					spriteDraw(OVLW-LINEW-(2*NUMW)-shiftOVL,ylivpos+(LIVH-NUMH)/2,sprite[NUMX])
+					spriteDraw(OVLW-LINEW-NUMW-shiftOVL,ylivpos+(LIVH-NUMH)/2,sprNUM[iLives+1])
+
+				elseif dip_LivType == 2 then
+
+					if iLives > 0 then
+
+						spriteDraw(OVLW-(LINEW)-(BARW*6)-LIVW-10-shiftOVL,ylivpos,sprite[LIVES])
+				
+						for k = 1,iLives do
+
+							spriteDraw(OVLW-(LINEW*(2+dip_Res))-(BARW*6)+((BARW+2)*k)-shiftOVL,ylivpos+(LIVH-BARH)/2,sprite[BARFULL])
+
+						end
+
+						if iLives < 5 then
+
+							for k = iLives,5 do
+
+								spriteDraw(OVLW-(LINEW*(2+dip_Res))-(BARW*6)+((BARW+2)*k)-shiftOVL,ylivpos+(LIVH-BARH)/2,sprite[BARNONE])
+
+							end
+
+						end
+
+					end
+										
 				end
 
 			end
-	
+
 		end
 
 	end
@@ -4045,18 +4075,6 @@ function getRes()		-- Manage Resolution and Sprites
 
 		for file in lfs.dir(MYDIR..MIDIRES) do
 
-			if file == "scanlines.png" then	
-
-				sprite[SCAN] = spriteLoad(MYDIR..MIDIRES.."scanlines.png") 
-				bScan = true
-				break 
-				
-			end
-
-		end
-
-		for file in lfs.dir(MYDIR..MIDIRES) do
-
 			if file == "getready.png" then 
 
 				sprite[GETREADY]  	= spriteLoad(MYDIR..MIDIRES.."getready.png") 
@@ -4115,6 +4133,7 @@ function getRes()		-- Manage Resolution and Sprites
 	fillOVLnum(9,"num08.png")
 	fillOVLnum(10,"num09.png")
 	fillOVLtxt(MINUS,"minus.png","-")
+	fillOVLtxt(NUMX,"numx.png", "X")
 
 	setFontColor(mycolor1)
 	fontSelect(fontGame)
@@ -4237,16 +4256,7 @@ function getRes()		-- Manage Resolution and Sprites
 
 	else 
 
-		if dip_GameType == 1 then
-
-			ylivpos = OVLH-BARH-LINEH
-
-		else
-
-			ylivpos = OVLH-LIVH-LINEH
-
-		end
-				
+		ylivpos = OVLH-LIVH-LINEH
 		YNEXT = LINEH
 
 	end
@@ -4785,8 +4795,6 @@ function onOverlayUpdate()     -- Manage the game and look for any given situati
 				
 	elseif (gameflow == flow_GameRunning) then	
 
-		if dip_Scanlines == 2 and bScan then spriteDraw(0,0,sprite[SCAN]) end
-		
 		if (currentLevel == levelIntro) then
 		
 			doIntro()		
@@ -4886,9 +4894,7 @@ function onOverlayUpdate()     -- Manage the game and look for any given situati
 		if bShowLvl and ShowLevel then drawLvl() end
 		if bShowWarnTilt then drawWarning() end
 		if bShowTilt then drawTilt() end
-
-		if dip_Scanlines == 1 and bScan then spriteDraw(0,0,sprite[SCAN]) end
-		
+			
 	end
 
 	if bFrameCount then overlayPrint(2, 10, currentFrame) end
@@ -5196,7 +5202,7 @@ function sprUnload()	  -- Unloads all the sprite to avoid multiple
 
 	end
 
-	for i = 1, 278 do
+	for i = 1, 279 do
 
 		if sprite[i] ~= nil then spriteUnload(sprite[i]) end
 		i = i +1
