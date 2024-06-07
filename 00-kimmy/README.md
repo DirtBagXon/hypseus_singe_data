@@ -25,6 +25,18 @@ On SBC's the following header should be enabled to start the game in the correct
 
 <sup>_(See ffmpeg examples on main page)_</sup>
 
+## Older Framework games
+
+Games that previously used the `v3` Framework, _not standalone_, can easily be converted to `Kimmy`
+
+Simply alter the following in the main game `.singe` file headers:
+
+    dofile(BASEDIR .. "/Framework/globals.singe")    -- Don't touch this line
+
+Should become:
+
+    dofile(BASEDIR .. "/FrameworkKimmy/globals.singe")    -- Don't touch this line
+
 ## Starting games
 
 _Example:_
