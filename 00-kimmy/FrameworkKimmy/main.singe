@@ -4732,8 +4732,9 @@ function nextLevel(thisLevel)      -- Define next level
 
 	local k = 0
 	iScPlayed = 0
-	iScDeath = 0
 	bLvlJump = false
+
+	if not MazeGame then iScDeath = 0 end
 
 	if dip_GameType ~= 4 then iTotDeath = 0 end
 
@@ -4752,16 +4753,20 @@ function nextLevel(thisLevel)      -- Define next level
 			iScene = 0	
 					
 		else
+
+			if not MazeGame then
 	
-			for k = 1,finalstage-1 do
+				for k = 1,finalstage-1 do
 
-				if LvlOrder[k] == thisLevel then
+					if LvlOrder[k] == thisLevel then
 
-					iLevel = LvlOrder[k+1]
-					iScene = 0	
-					break
+						iLevel = LvlOrder[k+1]
+						iScene = 0	
+						break
 
-				end	
+					end	
+
+				end
 
 			end
 
