@@ -13,6 +13,14 @@ These games are updated frequently, ensure files are up-to-date.
 
 Feel free to submit pull requests for any fixes or improvements.
 
+### Downloading specific folders
+
+To grab specific folders from this repo, this GitHub tool is highly recommended:
+
+https://download-directory.github.io/
+
+Paste the relevant repo _folder_ URL into the tool, it will allow you to download just that _folder_ content, as a zip.
+
 # Version 2.11.2
 
 From version **2.11.2**, Hypseus Singe supports zipped LUA _(zlua)_ ROMS.
