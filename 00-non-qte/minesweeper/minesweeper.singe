@@ -1,0 +1,18 @@
+	--[[
+
+	Minesweeper - by Widge - June 2024
+	Designed to resemble classic Windows 3.1 Minesweeper.
+
+	Left Click : remove a tile.
+	Right Click : mark a tile with a flag or question mark.
+	Left + Right Click together on a numbered square : remove all unmarked adjacent tiles if the number of surrounding flags equals the square's number.
+
+	Left Click Smiley to reset.
+	Right Click Smiley for options.
+	Point cursor at lower right corner to reveal Quit button
+
+]]--
+
+BASEDIR = 'singe'	-- This should be 'singe'
+MYDIR = BASEDIR .."/".. "minesweeper/" 
+dofile(MYDIR .. "game.singe")

@@ -1,0 +1,1369 @@
+--[[
+
+	Adventures in Videoland: Rollercoaster
+	
+	by David Lubar.
+	
+	Published in Creative Computing Nagazine V8N1, January 1982.
+	Original game and upgrades are in the public domain.
+	https://archive.org/details/creativecomputing-1982-01
+
+	Singe port by Scott Duensing.
+	Kangaroo Punch Studios   https://SingeEngine.com  https://KangarooPunch.com
+	
+	Singe version based on web port by Scott Lawrence.
+	https://www.umlautllama.com/projects/Rollercoaster/
+	
+	"Rollercoaster"(1977) is used without permission but probably considered 
+	fair use under 17 U.S.C. § 107, "for nonprofit educational purposes", etc.
+	Please buy the LD/VHS/Betamax/DVD/Blu-Ray!
+	
+]]--
+
+-- Hypseus Game Setup --
+
+BASEDIR = "singe"                        -- This should be 'singe'
+
+GAME = BASEDIR .."/".. "Rollercoaster"  -- This is the directory where your game is 
+
+MovieFPS = 29.97    -- Number of frames per second of your movies (used for timed actions).
+
+SCALE = 1.5           -- Allow scaling on JPG Images, "1" is default
+
+-- End Hypseus Game Setup --
+
+
+-- Load the Singe Framework.
+dofile(BASEDIR .. "/Framework/framework.singe")     -- Don't touch this line
+
+ON  = 1
+OFF = 0
+
+MARGIN       = 10   -- How many pixels from the edges to display text
+INPUT        = ""   -- Keyboard input buffer
+KEY          = 0    -- Last key pressed
+BLINK        = 0    -- Cursor blink timer
+KEYHIT_ON    = OFF  -- Waiting for a single key?
+KEYBOARD_ON  = OFF  -- Keyboard on or off
+SCREEN       = {}   -- Text screen buffer
+SCREEN_LINES = 0    -- Number of lines that fit on the screen
+SCREEN_COLS  = 0    -- Number of columns that fit on the screen
+SCREEN_ON    = ON   -- Screen being displayed or hidden
+STATES       = {}   -- Game engine states
+STATE        = 0    -- Current game state
+NEXT_STATE   = 0    -- Used when we need to assign a new state after a long operation
+STATE_DATA   = ""   -- Used when there is data to pass to a future state
+JPGS         = {}   -- Loaded JPG images
+SHOW_JPG     = -1   -- If not -1, the id of the JPG to display
+END_FRAME    = -1   -- If not -1, play video until this frame is reached
+DELAY        = 0    -- How long to sit before next state, in roughly half seconds
+INTRO        = 0    -- Intro count
+INTROLEN     = 400  -- Intro length
+TITLE        = 31   -- Title frame
+BLANK        = 38   -- Blank frame
+
+-- Game Engine States
+STATE_NONE          = 0  -- Lua tables start at 1, so this is an invalid state
+STATE_GET_NAME      = 1
+STATE_GOT_NAME      = 2
+STATE_BOMB_PLANTED  = 3
+STATE_PLANE_ARRIVED = 4
+STATE_INSTRUCTIONS  = 5
+STATE_LOOK          = 6
+STATE_LOOK_DELAY    = 7
+STATE_LOOK_VIDEO    = 8
+STATE_LOOK_TEXT     = 9
+STATE_ROOM_5        = 10
+STATE_ROOM_8        = 11
+STATE_ROOM_9        = 12
+STATE_ROOM_15       = 13
+STATE_ROOM_18       = 14
+STATE_PARSER        = 15
+STATE_BOOM          = 16
+STATE_PLAY_AGAIN    = 17
+STATE_BREAK_BOX     = 18
+STATE_WON_BEAR      = 19
+STATE_CHOOSE_PRIZE  = 20
+STATE_WON_GAME      = 21
+STATE_EXIT_GAME     = 22
+STATE_PUT_WHERE     = 23
+STATE_DONT_CHANGE   = 24 -- Not actually a game state - prevents parser from changing the state to parser
+
+-- Apple II 40 column font.
+fntApple12       = fontLoad(GAME .. "/Fonts/PrintChar21.ttf", 12)
+fntApple12Height = 0  -- We'll figure this out later
+fntApple12Width  = 0  -- We'll figure this out later
+
+-- Game Data
+L  = 0   -- Current location
+NO = 0  -- Number of objects
+NF = 0   -- Number of furniture
+NA = ""  -- Player's name
+T  = 0   -- Time
+BK = 0   -- Has read book
+B  = 0   -- Batteries in jammer
+
+DIRECTIONS = {
+	"NORTH",
+	"EAST",
+	"SOUTH",
+	"WEST"
+}
+
+ROOMS = {
+	{	-- A 1
+		EXITS       = "EDKC", 
+		NAME        = "THE MIDWAY", 
+		DESCRIPTION = "WHICH STRETCHES TO THE EAST AND WEST. A RESTAURANT IS TO THE NORTH.",
+		VIDEO       = "FR4002SE/"
+	}, { 
+		-- B 2
+		EXITS       = "@JC@", 
+		NAME        = "THE FIRST AID STATION", 
+		DESCRIPTION = "CONTAINING STRANGE EQUIPMENT. LIGHTS FLASH FROM AN ELECTRONIC BOX.",
+		VIDEO       = "FR21130SE/"
+	}, { 
+		-- C 3
+		EXITS       = "BAFG", 
+		NAME        = "THE MIDWAY", 
+		DESCRIPTION = "AN AID STATION IS TO THE NORTH. THE SOUND OF GUNFIRE COMES FROM A SHOOTING  GALLERY TO THE SOUTH.",
+		VIDEO       = "FR4627SE/"
+	}, { 
+		-- D 4
+		EXITS       = "@PHA", 
+		NAME        = "THE MIDWAY", 
+		DESCRIPTION = "FROM A TENT TO THE SOUTH YOU HEAR EXOTIC MUSIC.",
+		VIDEO       = "FR4750SE/"
+	}, { 
+		-- E 5
+		EXITS       = "@@A@", 
+		NAME        = "A RESTAURANT", 
+		DESCRIPTION = "THE ROOM IS CROWDED BUT YOU SEE AN EMPTY TABLE IN THE CORNER.",
+		VIDEO       = "FR23100SE/"
+	}, { 
+		-- F 6
+		EXITS       = "C@@@", 
+		NAME        = "A SHOOTING GALLERY", 
+		DESCRIPTION = "A SIGN READS '3 SHOTS FOR 25 CENTS.'",
+		VIDEO       = "FR11000SE/"
+	}, { 
+		-- G 7
+		EXITS       = "MCQ@", 
+		NAME        = "A MAINTENANCE ROOM", 
+		DESCRIPTION = "THERE ARE DOORS TO THE NORTH AND SOUTH. THE NORTHERN DOOR IS OPEN. YOU CAN HEAR THE ROLLER COASTER.",
+		VIDEO       = "FR14038SE/FR14170PL/"
+	}, { 
+		-- H 8
+		EXITS       = "D@N@", 
+		NAME        = "THE BELLY DANCER'S TENT", 
+		DESCRIPTION = "SHE STOPS AND LOOKS AT YOU.",
+		VIDEO       = "FR11818SE/FR11922PL/"
+	}, { 
+		-- I 9
+		EXITS       = "@@M@", 
+		NAME        = "THE TOP OF THE ROLLER COASTER", 
+		DESCRIPTION = "A DANGEROUS PLACE TO BE.",
+		VIDEO       = "FR15362SE/"
+	}, { 
+		-- J 10
+		EXITS       = "@@@B", 
+		NAME        = "A CLOSET", 
+		DESCRIPTION = "",
+		VIDEO       = ""
+	}, { 
+		-- K 11
+		EXITS       = "A@O@", 
+		NAME        = "AN ALLEY", 
+		DESCRIPTION = "THERE IS A DOOR LEADING TO A SMALL ROOM TO THE SOUTH.",
+		VIDEO       = ""
+	}, { 
+		-- L 12
+		EXITS       = "Q@@@", 
+		NAME        = "THE OBSERVATION TOWER", 
+		DESCRIPTION = "BELOW, YOU CAN SEE THE WHOLE CARNIVAL. THE TOP OF THE ROLLER COASTER IS IN SIGHT.",
+		VIDEO       = "FR8300SE/FR8456PL/"
+	}, { 
+		-- M 13
+		EXITS       = "I@G@", 
+		NAME        = "A CRAWLWAY", 
+		DESCRIPTION = "THE PASSAGE LEADS NORTH TO THE TOP OF THE ROLLER COASTER. THE NOISE IS QUITE LOUD.",
+		VIDEO       = "FR14724SE/FR14885PL/"
+	}, { 
+		-- N 14
+		EXITS       = "@@@R", 
+		NAME        = "A STORAGE ROOM", 
+		DESCRIPTION = "THE DOOR IS LOCKED BEHIND YOU, BUT THERE IS A WINDOW TO THE WEST.",
+		VIDEO       = "FR33900SE/"
+	}, { 
+		-- O 15
+		EXITS       = "K@@@", 
+		NAME        = "A SMALL SHACK", 
+		DESCRIPTION = "THE ROOM IS LITTERED WITH FRAGMENTS OF ELECTRONIC PARTS, BUT NONE OF IT IS SALVAGEABLE. A GUARD BLOCKS YOUR PATH.",
+		VIDEO       = "FR28322SE/"
+	}, { 
+		-- P 16
+		EXITS       = "@@@D", 
+		NAME        = "A GAME BOOTH", 
+		DESCRIPTION = "A SIGN SAYS, '50 CENTS A BALL. WINNER'S CHOICE.'",
+		VIDEO       = "FR7343SE/"
+	}, { 
+		-- Q 17
+		EXITS       = "G@L@", 
+		NAME        = "A NARROW TUNNEL", 
+		DESCRIPTION = "THE PASSAGE LEADS SOUTH TO THE TOP OF THE OBSERVATION TOWER.",
+		VIDEO       = ""
+	}, { 
+		-- R 18
+		EXITS       = "@@@@", 
+		NAME        = "A DARK, TWISTING PATH.", 
+		DESCRIPTION = "",
+		VIDEO       = ""
+	}
+}
+
+OBJECTS = {}  -- Initialized in resetGameData
+
+FURNITURE = {
+	{
+		NAME        = "BOX",
+		DESCRIPTION = "IT IS FIRMLY ATTACHED TO THE TABLE. THERE ARE KNOBS AND A BUTTON ON IT.",
+		LOCATION    = 0
+	}, {
+		NAME        = "RIFLE",
+		DESCRIPTION = "IT IS CHAINED TO THE COUNTER.",
+		LOCATION    = 6
+	}, {
+		NAME        = "GUN",
+		DESCRIPTION = "IT IS CHAINED TO THE COUNTER.",
+		LOCATION    = 6
+	}
+}
+
+function framePad(f)
+	while(string.len(f) < 5) do
+		f = "0" .. f
+	end
+	return f
+end
+
+function getVerbNoun(what)
+	local N  = ""  -- Noun
+	local V  = ""  -- Verb
+	local c  = ""
+	local t  = 0
+	
+	-- Split input into verb/noun.
+	for i = 1,string.len(what),1 do
+		c = what:sub(i, i)
+		if c == " " then
+			t = 1
+		else
+			if t == 1 then
+				N = N .. c
+			else
+				V = V .. c
+			end
+		end
+	end
+	
+	return V, N
+end
+
+function onInputPressed(key)
+
+        --Have to leave this function even when not monitoring the event.
+end
+
+function onInputReleased(key)
+
+	if KEYBOARD_ON == ON then
+		-- SPACE, ENTER, and BACKSPACE
+		if key == 32 or key == 13 or key == 8 then
+			KEY = key
+		end
+		
+		-- Letters
+		if key > 96 and key < 123 then
+			KEY = key - 32
+		end
+	end
+
+	-- Handle waiting for any keypress
+	if KEYHIT_ON == ON then
+		KEYHIT_ON  = OFF
+		STATE      = NEXT_STATE
+		NEXT_STATE = STATE_NONE
+	end
+
+end
+
+
+function onOverlayUpdate()
+
+	if INTRO < INTROLEN then
+
+		if INTRO > (INTROLEN / 2) then
+			if not title2 then
+				discSkipToFrame(framePad(TITLE + 2))
+				discPause()
+				title2 = true
+			end
+		else
+			if not title1 then
+				discSkipToFrame(framePad(TITLE))
+				discPause()
+				title1 = true
+			end
+		end
+
+		INTRO = INTRO + 1
+		return(OVERLAY_UPDATED)
+	end
+
+	if not introDone then
+		pioneer(STATE, "FR2818SE/")
+		introDone = true
+	end
+
+
+	local cursor = "_"  -- Can't use the nice Apple II cursor - it's outside the ASCII range on this font!
+	local x = 0
+	local y = 0
+		
+	if SHOW_JPG ~= -1 then
+		colorBackground(0, 0, 0, 255)  -- The 255 makes this black opaque to hide the blue disc stopped screen.
+		overlayClear()
+		discSearch(framePad(BLANK))
+		colorBackground(0, 0, 0, 0)  -- Then we set it back to transparent for future rendering.
+		x = (overlayGetWidth()  - spriteGetWidth(SHOW_JPG))  * 0.5
+		y = (overlayGetHeight() - spriteGetHeight(SHOW_JPG)) * 0.5
+		if x < 0 then x = 0 end
+		if y < 0 then y = 0 end
+		spriteDraw(x, y, SHOW_JPG)
+		discStop()
+	else
+		overlayClear()
+	end
+
+	if END_FRAME ~= -1 then
+		if (discGetFrame() >= END_FRAME) then
+			discSearch(END_FRAME)
+			END_FRAME   = -1
+			STATE       = NEXT_STATE
+			NEXT_STATE  = STATE_NONE
+			KEYBOARD_ON = ON
+		end
+	end
+
+	-- Blink cursor and handle delay events
+	BLINK = BLINK + 1
+	if BLINK > 15 then
+		cursor = " "
+		if BLINK > 30 then
+			BLINK = 0
+			-- Are we delaying for something?
+			if DELAY > 0 then
+				STATE = STATE_NONE
+				KEYBOARD_ON = OFF
+				DELAY = DELAY - 1
+				if DELAY == 0 then
+					STATE       = NEXT_STATE
+					NEXT_STATE  = STATE_NONE
+					KEYBOARD_ON = ON
+				end
+			end
+		end
+	end
+	
+	if KEYHIT_ON == ON then
+		KEYBOARD_ON = OFF
+	end
+	
+	if KEYBOARD_ON == ON then
+		-- Handle keyboard
+		if KEY ~= 0 then
+			if KEY == 13 then
+				-- ENTER
+				processInput()
+			else
+				if KEY == 8 then
+					-- Backspace
+					if string.len(INPUT) > 0 then
+						INPUT = INPUT:sub(1, -2)
+					end
+				else
+					-- Typing
+					if string.len(INPUT) < 40 then
+						INPUT = INPUT .. string.char(KEY)
+					end
+				end
+			end
+			KEY = 0
+		end
+		
+		-- Draw input buffer
+		shadowPrint(MARGIN, overlayGetHeight() - fntApple12Height - MARGIN, ">" .. INPUT .. cursor)
+		
+	end
+	
+	if SCREEN_ON == ON then
+		-- Draw text screen
+		y = overlayGetHeight() - fntApple12Height * (SCREEN_LINES + 1) - MARGIN
+		for i = 1,SCREEN_LINES,1 do
+			shadowPrint(MARGIN, y, SCREEN[i])
+			y = y + fntApple12Height
+		end
+	end
+	
+	processGameState("")
+	
+	return(OVERLAY_UPDATED)
+end
+
+
+function pioneer(newstate, command)
+
+	local frames = {}  -- List of frames in command string.
+	local count  = 0   -- How many did we get?
+	
+	-- Split up multiple commands
+	for temp in string.gmatch(command, "([^/]+)") do
+		-- Clean up string so we only have frame numbers
+		temp = temp:gsub("FR", "")
+		temp = temp:gsub("SE", "")
+		temp = temp:gsub("PL", "")
+		-- Ensure frame numbers are zero padded to 5 digits.
+		while(string.len(temp) < 5) do
+			temp = "0" .. temp
+		end
+		-- Add to frame list
+		table.insert(frames, temp)
+		count = count + 1
+	end
+
+	-- All used commands in this program are either a single
+	-- seek to display a JPG or a seek and then a play to
+	-- display a bit of video.  That's all we handle.
+	
+	-- Are we just seeking to a static frame?
+	if count == 1 then
+		-- Have we loaded this JPG already?
+		if JPGS[frames[1]] == nil then
+			-- Nope!  Load it.
+			JPGS[frames[1]] = spriteLoad(GAME .. "/Images/" .. frames[1] .. ".jpg")
+		end
+		-- Show it.
+		SHOW_JPG = JPGS[frames[1]]
+		if newstate == STATE_PARSER then
+			NEXT_STATE = newstate
+			STATE = STATE_DONT_CHANGE
+		else
+			STATE = newstate
+		end
+	end
+	
+	-- Are we playing a sequence?
+	if count == 2 then
+		-- Hide any displayed JPG.
+		SHOW_JPG = -1
+		-- Start playing at requested frame.
+		discSkipToFrame(tonumber(frames[1]))
+		-- Tell onOverlayUpdate to watch for the end frame.
+		END_FRAME = tonumber(frames[2])
+		-- Hide keyboard while video runs.
+		KEYBOARD_ON = OFF
+		NEXT_STATE = newstate
+		STATE = STATE_DONT_CHANGE
+	end
+	
+end
+
+
+function processGameState(what)
+
+	-- If we have a next state, we should not have a current state.
+	if NEXT_STATE ~= STATE_NONE then
+		STATE = STATE_NONE
+	end
+
+	local func = STATES[STATE]
+	
+	if (func) then
+		func(what)
+	end
+
+end
+
+
+function processInput()
+
+	-- Send input to processGameState and display on screen.
+	if INPUT ~= "" then
+		screenPrint(">" .. INPUT)
+		if NEXT_STATE ~= STATE_NONE then
+			STATE      = NEXT_STATE
+			NEXT_STATE = STATE_NONE
+		end
+		processGameState(INPUT)
+	end
+	
+	INPUT = ""
+
+end
+
+
+function resetGameData()
+	L  = 1   -- Current location
+	NO = 12  -- Number of objects
+	NF = 3   -- Number of furniture
+	NA = ""  -- Player's name
+	T  = 0   -- Time
+	BK = 0   -- Has read book
+	B  = 0   -- Batteries in jammer
+
+	OBJECTS = {
+		{
+			-- 1
+			NAME        = "COINS",
+			DESCRIPTION = "TWO DIMES AND A NICKEL",
+			LOCATION    = 4
+		}, {
+			-- 2
+			NAME        = "TOOLKIT",
+			DESCRIPTION = "IT CONTAINS EVERYTHING NEEDED FOR SMALL ELECTRONIC REPAIRS",
+			LOCATION    = 7
+		}, {
+			-- 3
+			NAME        = "TICKET",
+			DESCRIPTION = "IT SAYS, 'GOOD FOR 1 FREE GAME AT THE BALL TOSS, COURTESY OF CREATIVE COMPUTING, THE #1 MAGAZINE OF SOFTWARE AND APPLICATIONS.'",
+			LOCATION    = 14
+		}, {
+			-- 4
+			NAME        = "BOOK",
+			DESCRIPTION = "THE TITLE IS 'RADIO FREQUENCY JAMMING TECHNIQUES.'",
+			LOCATION    = 15
+		}, {
+			-- 5
+			NAME        = "LAMP",
+			DESCRIPTION = "IT IS VERY GAUDY.",
+			LOCATION    = -1
+		}, {
+			-- 6
+			NAME        = "TOWELS",
+			DESCRIPTION = "NICE AND FLUFFY.",
+			LOCATION    = -1
+		}, {
+			-- 7
+			NAME        = "POSTER",
+			DESCRIPTION = "WHOOPIE -- IT'S THE DALLAS CHEERLEADERS.",
+			LOCATION    = -1
+		}, {
+			-- 8
+			NAME        = "BEAR",
+			DESCRIPTION = "WHEN YOU PUSH THE BUTTON ON ITS BACK, IT SAYS 'I WUV YOU.'",
+			LOCATION    = -1
+		}, {
+			-- 9
+			NAME        = "UNIFORM",
+			DESCRIPTION = "",
+			LOCATION    = 10
+		}, {
+			-- 10
+			NAME        = "RADIO",
+			DESCRIPTION = "",
+			LOCATION    = -1
+		}, {
+			-- 11
+			NAME        = "BATTERIES",
+			DESCRIPTION = "",
+			LOCATION    = -1
+		}, {
+			-- 12
+			NAME        = "JAMMER",
+			DESCRIPTION = "",
+			LOCATION    = -1
+		}
+	}
+end
+
+
+function screenClear()
+	-- Set our screen metrics
+	SCREEN_LINES = 40 * SCALE
+	SCREEN_COLS  = 60 * SCALE
+	
+	-- Fill it with nothing.
+	for i = 1,SCREEN_LINES,1 do
+		SCREEN[i] = " "
+	end
+end
+
+
+function screenPrint(what)
+
+	local x = 0
+
+	-- Do we need to word wrap this line?
+	if string.len(what) > SCREEN_COLS then
+		x = SCREEN_COLS
+		while (what:sub(x, x) ~= " " and x > 1) do
+			x = x - 1
+		end
+		if x > 1 then
+			screenPrint(what:sub(1, x - 1))
+			screenPrint(what:sub(x + 1, string.len(what)))
+			return
+		end
+	end
+
+	-- Scroll screen up a line.
+	for i = 1,SCREEN_LINES-1,1 do
+		SCREEN[i] = SCREEN[i + 1]
+	end
+	
+	-- Can't render empty text, it crashes Singe.
+	if what == "" then
+		what = " "
+	end
+	
+	SCREEN[SCREEN_LINES] = what
+
+end
+
+
+function shadowPrint(x, y, what)
+
+	colorForeground(0, 0, 0)
+	for i = -1,1,1 do
+		fontPrint(x + 1, y + i, what)
+		fontPrint(x - 1, y + i, what)
+	end
+	colorForeground(255, 255, 255)
+	fontPrint(x, y, what)
+
+end
+
+
+-- Game engine states
+STATES = {
+	[STATE_GET_NAME] = function(what)
+		screenPrint("WHAT IS YOUR FIRST NAME?")
+		KEYBOARD_ON = ON
+		NEXT_STATE = STATE_GOT_NAME
+	end,
+	
+	[STATE_GOT_NAME] = function(what)
+		NA = what
+		screenPrint("")
+		screenPrint("YOU HAVE JUST RECEIVED AN ANONYMOUS")
+		screenPrint("TIP THAT A BOMB HAS BEEN PLANTED")
+		screenPrint("ON A ROLLER COASTER.")
+		pioneer(STATE_BOMB_PLANTED, "FR6726SE/FR7020PL/")
+	end,
+	
+	[STATE_BOMB_PLANTED] = function(what)
+		screenPrint("")
+		screenPrint("YOU ARE CALLED TO INVESTIGATE AND FLY")
+		screenPrint("OFF TO STOP THE SABOTEUR.")
+		pioneer(STATE_PLANE_ARRIVED, "FR30032SE/FR30255PL/")
+ 	end,
+	
+ 	[STATE_PLANE_ARRIVED] = function(what)
+		screenPrint("")
+		screenPrint("ON HIS SIDE, HE HAS THE BRILLIANCE OF")
+		screenPrint("AN INSANE MIND, AND THE AID OF ALLIES")
+		screenPrint("WHO ARE DETERMINED TO SEE THAT YOU FAIL.")
+		screenPrint("")
+		screenPrint("ON YOUR SIDE, YOU HAVE CUNNING,")
+		screenPrint("TRAINING, AND DEDICATION.")
+ 		screenPrint("")
+		screenPrint("YOU HAVE INFILTRATED THE PARK WITH")
+		screenPrint("THE KNOWLEDGE THAT THE SABOTEUR")
+		screenPrint("WILL STRIKE SOMETIME TONIGHT.")
+ 		screenPrint("")
+		screenPrint("ALL YOU NEED DO IS STOP HIM.")
+ 		screenPrint("")
+ 		screenPrint("")
+ 		screenPrint("PRESS ANY KEY TO CONTINUE.")
+ 		KEYHIT_ON = ON
+ 		NEXT_STATE = STATE_INSTRUCTIONS
+	end,
+
+	[STATE_INSTRUCTIONS] = function(what)
+		screenClear()
+		screenPrint("BY GIVING THE RIGHT COMMAND, YOU CAN")
+		screenPrint("MOVE, EXAMINE OBJECTS, AND PERFORM")
+		screenPrint("OTHER ACTIONS.")
+		screenPrint("")
+		screenPrint("I UNDERSTAND TWO-WORD COMMANDS SUCH AS")
+		screenPrint("'DROP BOOK' OR 'TAKE KNIFE'.")
+		screenPrint("TO MOVE, YOU CAN SIMPLY ENTER 'N' FOR")
+		screenPrint("NORTH, ETC.")
+		screenPrint("")
+		screenPrint("AT TIMES, I WILL AWAIT YOUR COMMAND")
+		screenPrint("IN OTHER SITUATIONS, I WILL PRESENT YOU")
+		screenPrint("WITH A CHOICE OF ACTIONS.")
+		screenPrint("")
+		screenPrint("BUT SUCCESS OR FAILURE IS UP TO YOU.")
+		screenPrint("")
+		screenPrint("")
+		screenPrint("PRESS ANY KEY TO BEGIN. MAY LUCK BE")
+		screenPrint("WITH YOU, " .. NA .. ".")
+ 		KEYHIT_ON = ON
+ 		NEXT_STATE = STATE_LOOK
+ 	end,
+
+	[STATE_LOOK] = function(what)
+		-- Do we want to show the "looking" frame?
+		if math.random() > 0.6 then
+			pioneer(STATE_LOOK_DELAY, "FR2550SE/")
+		else
+			STATE = STATE_LOOK_VIDEO
+		end
+	end,
+
+	[STATE_LOOK_DELAY] = function(what)
+			DELAY = 4
+			NEXT_STATE = STATE_LOOK_VIDEO
+	end,
+
+	[STATE_LOOK_VIDEO] = function(what)
+		if ROOMS[L].VIDEO ~= "" then
+			-- Show room
+			pioneer(STATE_LOOK_TEXT, ROOMS[L].VIDEO)
+		else
+			STATE = STATE_LOOK_TEXT
+		end
+	end,
+	
+	[STATE_LOOK_TEXT] = function(what)
+		local found = 0
+		local exits = ""
+		
+		KEYBOARD_ON = ON
+
+		-- Description
+		screenPrint("")
+		screenPrint("YOU ARE IN " .. ROOMS[L].NAME)
+		screenPrint(ROOMS[L].DESCRIPTION)
+		-- Contents
+		screenPrint("THIS LOCATION CONTAINS:")
+		for i = 1,NO,1 do
+			if OBJECTS[i].LOCATION == L then
+				screenPrint(OBJECTS[i].NAME)
+				found = 1
+			end
+		end
+		if found == 0 then
+			screenPrint("NOTHING")
+		end
+		-- Exits
+		for i = 1,4,1 do
+			if ROOMS[L].EXITS:sub(i, i) ~= "@" then
+				exits = exits .. DIRECTIONS[i] .. "  "
+			end
+		end
+		if exits == "" then
+			exits = "DON'T EXIST"
+		end
+		screenPrint("VISIBLE EXITS: " .. exits)
+		screenPrint("")
+
+		-- Special room code.  Not the best way to do this, but it follows the original code.
+		if L ==  5 then 
+			STATE = STATE_ROOM_5  
+			return
+		end
+		if L ==  8 then 
+			STATE = STATE_ROOM_8  
+			return
+		end
+		if L ==  9 then 
+			STATE = STATE_ROOM_9  
+			return
+		end
+		if L == 15 then 
+			STATE = STATE_ROOM_15 
+			return
+		end
+		if L == 18 then 
+			STATE = STATE_ROOM_18 
+			return
+		end
+
+		-- Use standard parser for this room.
+		NEXT_STATE  = STATE_PARSER
+	end,
+
+	[STATE_ROOM_5] = function(what)
+		if what == "" then
+			screenPrint("")
+			screenPrint("A WAITER APPROACHES AND ASKS IF YOU")
+			screenPrint("WOULD LIKE A SEAT.")
+			screenPrint("SINCE YOU MISSED LUNCH TODAY, YOU")
+			screenPrint("ARE HUNGRY.")
+			screenPrint("")
+			screenPrint("DO YOU WANT TO EAT?")
+			NEXT_STATE  = STATE_ROOM_5
+		else
+			screenPrint("")
+			if what == "NO" or what == "N" then
+				screenPrint("THE WAITER CALLED YOU A STIFF")
+				screenPrint("AND THREW YOU OUT.")
+				L = 3
+				STATE = STATE_LOOK
+			else
+				if what == "YES" or what == "Y" then
+					screenPrint("YOU ARE SERVED A DELICIOUS MEAL")
+					screenPrint("UNFORTUNATELY, THE SERVICE IS")
+					screenPrint("RATHER SLOW.")
+					pioneer(STATE_BOOM, "FR19453SE/FR19799PL/")
+				else
+					screenPrint("PLEASE ANSWER YES OR NO.")
+					NEXT_STATE  = STATE_ROOM_5
+				end
+			end
+		end
+	end,
+	
+	[STATE_ROOM_8] = function(what)
+		if what == "" then
+			if OBJECTS[8].LOCATION ~= 0 and OBJECTS[8].LOCATION ~= -2 then
+				screenPrint("SHE SAYS YOU CAN'T COME IN UNLESS YOU")
+				screenPrint("HAVE A PRESENT FOR HER. SHE PUSHES YOU OUT.")
+				L = 4
+				STATE = STATE_LOOK
+				return
+			end
+	
+			if OBJECTS[8].LOCATION == -2 then
+				screenPrint("SHE SAYS, 'YOU THINK ONE PRESENT")
+				screenPrint("ENTITLES YOU TO COME IN HERE ANY TIME")
+				screenPrint("YOU WANT?' SHE TURNS HER BACK AND IGNORES YOU.")
+				STATE = STATE_NONE
+				NEXT_STATE = STATE_PARSER
+				return
+			end
+		
+			screenPrint("SHE LETS YOU IN AND EYES THE BEAR.")
+			screenPrint("DO YOU WANT TO GIVE IT TO HER?")
+			
+			NEXT_STATE = STATE_ROOM_8
+		else
+			screenPrint("")
+			if what == "NO" or what == "N" then
+				screenPrint("SHE THROWS YOU OUT.")
+				L = 4
+				STATE = STATE_LOOK
+			else
+				if what == "YES" or what == "Y" then
+					screenPrint("SHE UNLOCKS THE DOOR TO THE SOUTH.")
+					OBJECTS[8].LOCATION = -2
+					STATE = STATE_NONE
+					NEXT_STATE = STATE_PARSER
+				else
+					screenPrint("PLEASE ANSWER YES OR NO.")
+					NEXT_STATE  = STATE_ROOM_8
+				end
+			end
+		end
+	end,
+	
+	[STATE_ROOM_9] = function(what)
+		screenPrint("IF YOU LOOK BACK, YOU'LL NOTICE")
+		screenPrint("A CAR SPEEDING TOWARD YOU.")
+		pioneer(STATE_PLAY_AGAIN, "FR16185SE/FR16233PL/")
+ 	end,
+	
+	[STATE_ROOM_15] = function(what)
+		-- 47100
+		if OBJECTS[9].LOCATION == 0 then
+			screenPrint("HE SEES YOUR UNIFORM AND LETS YOU IN.")
+			STATE = STATE_NONE
+			NEXT_STATE = STATE_PARSER
+		else
+			screenPrint("HE SAYS, 'EMPLOYEES ONLY' AND THROWS YOU OUT.")
+			L = 11
+			STATE = STATE_LOOK
+		end
+	end,
+	
+	[STATE_ROOM_18] = function(what)
+		screenPrint("YOU FOLLOW A WINDING PATH, FINALLY")
+		screenPrint("RETURNING TO FAMILIAR GROUND.")
+		L = 1
+		STATE = STATE_LOOK
+	end,
+	
+	[STATE_PARSER] = function(what)
+		local N  = ""  -- Noun
+		local V  = ""  -- Verb
+		local D  = 0   -- Direction to go
+		local KW = 0   -- Known word?
+		local R  = 0   -- Room to exit to
+		local t  = 0
+		local t2 = 0
+		
+		V, N = getVerbNoun(what)
+		
+		STATE = STATE_NONE
+		
+		-- And now the fun!
+		if L == 2 and (what == "BREAK BOX" or what == "PUSH BUTTON" or what == "PRESS BUTTON" or what == "TURN KNOB" or what == "TURN DIAL") then
+			KW = 1
+			screenPrint("UH OH, I THINK THAT WAS A MISTAKE.")
+			pioneer(STATE_BREAK_BOX, "FR18722SE/FR18824PL/")
+		end
+		
+		if what == "BREAK DOOR" then
+			KW = 1
+			screenPrint("TOO SOLID TO EVEN TRY.")
+		end
+		
+		if V == "DROP" and N ~= "" then
+			KW = 1
+			t = 0
+			for i = 1,NO,1 do
+				if (N == OBJECTS[i].NAME or N == "ALL" or N == "EVERYTHING") and OBJECTS[i].LOCATION == 0 then
+					OBJECTS[i].LOCATION = L
+					t = 1
+				end
+			end
+			if t == 0 then
+				screenPrint("YOU CAN'T DROP WHAT YOU AREN'T CARRYING.")
+			else
+				screenPrint("OK.")
+			end
+		end
+		
+		if what == "E" or what == "EAST" then
+			KW = 1
+			D = 2
+		end
+		
+		if (V == "EXAMINE" or V == "LOOK") and N ~= "" then
+			KW = 1
+			t = 0
+			for i = 1,NO,1 do
+				if (OBJECTS[i].LOCATION == 0 or OBJECTS[i].LOCATION == L) and N == OBJECTS[i].NAME then
+					if OBJECTS[i].DESCRIPTION == "" then
+						screenPrint("I SEE NOTHING IMPORTANT.")
+					else
+						screenPrint(OBJECTS[i].DESCRIPTION)
+					end
+					t = 1
+				end
+			end
+			for i = 1,NF,1 do
+				if (FURNITURE[i].LOCATION == 0 or FURNITURE[i].LOCATION == L) and N == FURNITURE[i].NAME then
+					if FURNITURE[i].DESCRIPTION == "" then
+						screenPrint("NOTHING EXTRAORDINARY HERE.")
+					else
+						screenPrint(FURNITURE[i].DESCRIPTION)
+					end
+					t = 1
+				end
+			end
+			if t == 0 then
+				screenPrint("I CAN'T DESCRIBE THAT.")
+			end
+		end
+		
+		if V == "FIND" then
+			KW = 1
+			if N == "BATTERIES" then
+				screenPrint("TRY THE BEAR.")
+			else
+				screenPrint("I CAN'T HELP YOU.")
+			end
+		end
+		
+		if V == "GO" then
+			KW = 1
+			STATE = STATE_PARSER
+			processGameState(N)
+		end
+		
+		if (what == "GIVE COINS" or what == "PLAY" or what == "SHOOT") and L == 6 then
+			KW = 1
+			if OBJECTS[1].LOCATION ~= 0 then
+				screenPrint("THE MAN BEHIND THE COUNTER TELLS")
+				screenPrint("YOU, 'IF YOU WANNA PLAY YOU GOTTA PAY.'")
+			else
+				screenPrint("YOU HAND OVER THE COINS AND PICK")
+				screenPrint("UP THE GUN.")
+				OBJECTS[1].LOCATION = -1
+				pioneer(STATE_WON_BEAR, "FR10960SE/FR11137PL/")
+			end
+		end
+		
+		if (what == "GIVE TICKET" or what == "SHOW TICKET" or what == "PLAY") and L == 16 then
+			KW = 1
+			if OBJECTS[3].LOCATION ~= 0 then
+				screenPrint("YOU CAN'T AFFORD THE GAME.")
+			else
+				screenPrint("YOU HAND OVER THE TICKET AND THROW THE BALL.")
+				soundPlay(sndBeeps)
+				screenPrint("IT'S A WINNER.")
+				screenPrint("YOU HAVE A CHOICE OF FOUR PRIZES!")
+				screenPrint("A LAMP, TOWELS, RADIO, OR POSTER.")
+				screenPrint("WHICH DO YOU WANT?")
+				OBJECTS[3].LOCATION = -2
+				STATE = STATE_DONT_CHANGE
+				NEXT_STATE = STATE_CHOOSE_PRIZE
+			end
+		end
+		
+		if V == "HELP" then
+			KW = 1
+			screenPrint("JUST KEEP MOVING AND EXAMINING THINGS, AND AVOID DANGEROUS PLACES.")
+		end
+		
+		if what == "I" or what == "INV" or what == "INVENTORY" then
+			KW = 1
+			screenPrint("YOU ARE CARRYING:")
+			t = 0
+			for i = 1,NO,1 do
+				if OBJECTS[i].LOCATION == 0 then
+					t = 1
+					screenPrint(OBJECTS[i].NAME)
+				end
+			end
+			if t == 0 then
+				screenPrint("NOTHING.")
+			end
+		end
+		
+		if V == "JAM" or what == "USE JAMMER" then
+			KW = 1
+			-- 54000
+			if L ~= 12 then
+				screenPrint("YOU AREN'T IN LINE OF SIGHT WITH")
+				screenPrint("THE ROLLER COASTER.")
+			else
+				if OBJECTS[12].LOCATION ~= 0 then
+					screenPrint("YOU DON'T HAVE A JAMMER.")
+				else
+					if B == 0 then
+						screenPrint("IT DOESN'T WORK, MAYBE IT NEEDS BATTERIES?") 
+					else
+						pioneer(STATE_WON_GAME, "FR12169SE/FR12240PL/")
+					end
+				end
+			end
+		end
+		
+		if V == "KILL" then
+			KW = 1
+			screenPrint("THAT IS BEYOND MY POWER.")
+		end
+
+		if what == "LOOK" then
+			KW = 1
+			STATE = STATE_LOOK
+		end
+		
+		if what == "MAKE JAMMER" then
+			KW = 1
+			if BK == 0 then
+				screenPrint("YOU DON'T KNOW HOW.")
+			else
+				if OBJECTS[10].LOCATION ~= 0 then
+					screenPrint("SOMETHING VITAL IS MISSING.")
+				else
+					if OBJECTS[2].LOCATION ~= 0 then
+						screenPrint("YOU DON'T HAVE THE REQUIRED TOOLS.")
+					else
+						screenPrint("CONGRATULATIONS, YOU NOW HAVE A")
+						screenPrint("JAMMER.")
+						OBJECTS[10].LOCATION = -1
+						OBJECTS[12].LOCATION = 0
+					end
+				end
+			end
+		end
+		
+		if what == "N" or what == "NORTH" then
+			KW = 1
+			D = 1
+		end
+		
+		if what == "OPEN BEAR" then
+			KW = 1
+			screenPrint("TWO BATTERIES JUST FELL")
+			screenPrint("OUT OF THE BACK.")
+			screenPrint("THEY'RE ON THE GROUND.")
+			OBJECTS[11].LOCATION = L
+		end
+
+		if (V == "PUT" or V == "PLACE") and N ~= "" then
+			KW = 1
+			t = 0
+			for i = 1,NO,1 do
+				if N == OBJECTS[i].NAME and OBJECTS[i].LOCATION == 0 then
+					t = i
+				end
+			end
+			if t == 0 then
+				screenPrint("YOU AREN'T CARRYING THE " .. N .. ".")
+			else
+				screenPrint("WHERE?")
+				STATE_DATA = N
+				STATE = STATE_DONT_CHANGE
+				NEXT_STATE = STATE_PUT_WHERE
+			end
+		end
+		
+		if what == "QUIT" then
+			KW = 1
+			singeQuit()
+		end
+		
+		if what == "READ BOOK" and (OBJECTS[4].LOCATION == 0 or OBJECTS[4].LOCATION == L) then
+			KW = 1
+			screenPrint("YOU NOW KNOW HOW TO MAKE A")
+			screenPrint("JAMMER FROM A RADIO.")
+			BK = 1
+		end
+		
+		if what == "READ TICKET" then
+			KW = 1
+			STATE = STATE_PARSER
+			processGameState("LOOK TICKET")
+		end
+
+		if what == "S" or what == "SOUTH" then
+			KW = 1
+			D = 3
+		end
+
+		if (V == "TAKE" or V == "GET") and N ~= "" then
+			KW = 1
+			t  = 0
+			t2 = 0
+			for i = 1,NO,1 do
+				if N == OBJECTS[i].NAME and OBJECTS[i].LOCATION == 0 then
+					screenPrint("YOU ALREADY HAVE THE " .. N .. ".")
+					t = -1
+				end
+				if (N == "ALL" or N == "EVERYTHING" or N == OBJECTS[i].NAME) and OBJECTS[i].LOCATION == L then
+					OBJECTS[i].LOCATION = 0
+					t = 1
+					screenPrint(N .. " TAKEN.")
+				end
+				if N == OBJECTS[i].NAME then
+					t2 = 1
+				end
+			end
+			if t == 0 and t2 == 0 then
+				if N ~= "ALL" and N ~= "EVERYTHING" then
+					screenPrint("I CAN'T TAKE THE " .. N .. ".")
+				else
+					screenPrint("THERE IS NOTHING HERE I CAN TAKE.")
+				end
+			end
+			if t == 0 and t2 == 1 then
+				screenPrint("I DON'T SEE IT HERE.")
+			end
+		end
+
+		if what == "VISIT DANCER" then
+			KW = 1
+			screenPrint("SHE DOESN'T WANT TO SEE YOU.")
+		end
+
+		if what == "W" or what == "WEST" then
+			KW = 1
+			D = 4
+		end
+
+		if what == "WEAR UNIFORM" and (OBJECTS[9].LOCATION == 0 or OBJECTS[9].LOCATION == L) then
+			KW = 1
+			screenPrint("IT FITS WELL AND MAKES A GOOD")
+			screenPrint("DISGUISE.")
+			pioneer(STATE_PARSER, "FR5890SE/")
+		end
+		
+		-- Did they move?
+		if D > 0 then
+			R = ROOMS[L].EXITS:byte(D) - 64
+			if R > 0 then
+				L = R
+				STATE = STATE_LOOK
+			else
+				screenPrint("YOU CAN'T GO THAT WAY.")
+			end
+		end
+		
+		-- Did any of this make sense?
+		if KW == 0 then
+			screenPrint("I DON'T KNOW HOW TO DO THAT.")
+		end
+		
+		-- Tick, tick goes the bomb!
+		T = T + 1
+		if T > 150 then
+			screenPrint("I THINK TIME JUST RAN OUT.")
+			pioneer(STATE_PLAY_AGAIN, "FR19801SE/FR20007PL/")
+		end
+
+		-- Make sure we keep parsing.
+		if STATE == STATE_NONE then
+			NEXT_STATE = STATE_PARSER
+		end
+
+	end,
+	
+	[STATE_BOOM] = function(what)
+		screenPrint("")
+		screenPrint("THE BOMB WENT OFF AND THE BOMBER ESCAPED.")
+		DELAY = 8
+		NEXT_STATE = STATE_PLAY_AGAIN
+	end,
+
+	[STATE_PLAY_AGAIN] = function(what)
+		if what == "" then
+			screenPrint("")
+			screenPrint("IT IS ONE YEAR LATER.")
+			screenPrint("THE ROLLER COASTER HAS BEEN REBUILT.")
+			screenPrint("THE SABOTEUR PLANS TO DESTROY IT AGAIN.")
+			screenPrint("WOULD YOU LIKE TO TRY TO SAVE IT?")
+			STATE = STATE_DONT_CHANGE
+			NEXT_STATE  = STATE_PLAY_AGAIN
+		else
+			screenPrint("")
+			if what == "NO" or what == "N" then
+				singeQuit()
+			else
+				if what == "YES" or what == "Y" then
+					resetGameData()
+					screenClear()
+					STATE = STATE_LOOK
+				else
+					screenPrint("YES OR NO.")
+					STATE = STATE_DONT_CHANGE
+					NEXT_STATE  = STATE_PLAY_AGAIN
+				end
+			end
+		end
+	end,
+	
+	[STATE_BREAK_BOX] = function(what)
+		 screenPrint("YOU SET OFF THE BOMB.")
+		 DELAY = 6
+		 NEXT_STATE = STATE_PLAY_AGAIN
+	end,
+
+	[STATE_WON_BEAR] = function(what)
+		screenPrint("GOOD SHOOTING.")
+		screenPrint("HE HANDS YOU A TEDDY BEAR.")
+		OBJECTS[8].LOCATION = 0
+		STATE = STATE_NONE
+		NEXT_STATE = STATE_PARSER
+	end,
+	
+	[STATE_CHOOSE_PRIZE] = function(what)
+		local t = 0
+		
+		for i = 5,10,1 do
+			if OBJECTS[i].NAME == what then
+				t = 1
+				OBJECTS[i].LOCATION = 0
+				screenPrint("IT'S YOURS.")
+				if what == "RADIO" then
+					pioneer(STATE_PARSER, "FR1234SE/")
+				else
+					STATE = STATE_NONE
+					NEXT_STATE = STATE_PARSER
+				end
+			end
+		end
+		if t == 0 then
+			screenPrint("")
+			screenPrint("PLEASE ANSWER WITH LAMP, POSTER, RADIO  OR TOWELS.")
+			STATE = STATE_NONE
+			NEXT_STATE = STATE_CHOOSE_PRIZE
+		end
+	end,
+	
+	[STATE_WON_GAME] = function(what)
+		screenPrint("")
+		screenPrint("CONGRATULATIONS!")
+		screenPrint("")
+		screenPrint("YOU SAVED THE ROLLER COASTER!")
+		screenPrint("")
+		screenPrint("ANY KEY TO EXIT.")
+ 		KEYHIT_ON = ON
+ 		NEXT_STATE = STATE_EXIT_GAME
+	end,
+
+	[STATE_EXIT_GAME] = function(what)
+		singeQuit()
+	end,
+	
+	[STATE_PUT_WHERE] = function(what)
+		local N  = ""  -- Noun
+		local V  = ""  -- Verb
+		local t  = 0
+
+		V, N = getVerbNoun(what)
+
+		if what == "DOWN" then
+			STATE = STATE_PARSER
+			processGameState("DROP " .. STATE_DATA)
+		else
+			if V ~= "IN" and V ~= "ON" then
+				screenPrint("I CAN'T DO THAT.")
+				STATE = STATE_NONE
+				NEXT_STATE = STATE_PARSER
+			else
+				if N == "FLOOR" or N == "TABLE" then
+					STATE = STATE_PARSER
+					processGameState("DROP " .. STATE_DATA)
+				else
+					for i = 1,NO,1 do
+						if N == OBJECTS[i].NAME and (OBJECTS[i].LOCATION == L or OBJECTS[i].LOCATION == 0) then
+							t = i
+						end
+					end
+					if t == 0 then
+						screenPrint("THE " .. N .. " ISN'T HERE.")
+					else
+						screenPrint("OK.")
+						if ( N == "RADIO" or N == "JAMMER") and STATE_DATA == "BATTERIES" then
+							B = 1
+							OBJECTS[11].LOCATION = -2
+						end
+					end
+					STATE = STATE_NONE
+					NEXT_STATE = STATE_PARSER
+				end
+			end
+		end
+	end
+}
+
+-- Startup
+discPause()
+setOverlayResolution(vldpGetWidth() * SCALE, vldpGetHeight() * SCALE)
+keyboardSetMode(MODE_FULL)
+colorBackground(0, 0, 0)
+fontQuality(FONT_QUALITY_SHADED)
+fontSelect(fntApple12)
+math.randomseed(os.time())
+
+-- Ugly hack to get the metrics of our font
+sprApple12 = fontToSprite("X")
+fntApple12Height = spriteGetHeight(sprApple12) + 2
+fntApple12Width  = spriteGetWidth(sprApple12) + 1
+spriteUnload(sprApple12)
+
+sndBeeps = soundLoad(GAME .. "/Sounds/beep3.wav")
+
+resetGameData()
+
+-- Initialize text screen
+screenClear()
+
+NEXT_STATE = STATE_NONE
+STATE      = STATE_GET_NAME

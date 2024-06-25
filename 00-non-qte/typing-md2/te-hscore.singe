@@ -1,0 +1,265 @@
+--[[
+
+PROGRAM NAME:	MAD DOG 2 THE LOST GOLD (SINGE EDITION)
+AUTHOR:			RDG2010
+
+This file is part of MAD DOG 2 THE LOST GOLD (TYPING EDITION)
+
+    MAD DOG 2 THE LOST GOLD (SINGE EDITION) is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation.
+
+    MAD DOG 2 THE LOST GOLD (SINGE EDITION) is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+    Read COPYING.TXT for more info.
+
+
+]]--
+
+
+
+HS_RUB = 27
+HS_END = 28
+
+bHSDone = true
+bHSMute = true
+
+highscore = nil; highscore = {}
+
+function doHighScore()
+
+	local k = 0
+
+	if (lvlState == lvlSetup) then
+	
+		if bDebug then debugPrint("Entering doHighScore()") end
+	
+		colorForeground(0, 255, 0)		
+		
+		sName = ""		
+		bShowScore = false
+		bShowCredits = false
+		bHSMute = true
+		bHSDone = false
+		
+		iKey = SWITCH_NONE
+		
+		levelFrameStart = offsetMenus + 2481
+		levelFrameEnd = offsetMenus + 3422 		
+		discSkipToFrame(levelFrameStart)
+		sName = ""
+		iKeyLen = 0
+		lvlState = lvlRunning
+	
+	elseif (lvlState == lvlRunning) then
+	
+		if (currentFrame == levelFrameEnd) then
+		
+			if (sName == "") then 
+				
+				doHighScoreGetName() 				
+				
+			end
+			
+			updateHS(sName, iScore)
+			writeConfig()				
+			bHSDone = true
+			
+			lvlState = levelPlayClip1
+			discSkipToFrame(offsetMenus + 3515)				
+			
+		elseif (currentFrame <= offsetMenus + 3275) then		
+		
+			
+			if iKey == SWITCH_BACKSPACE then
+				
+				iKey = SWITCH_NONE
+				soundPlay(sndBullet[rndegg:value(1,6)])
+				iKeyLen = string.len(sName)
+				if iKeyLen == 1 then
+				
+					sName = ""
+					
+				elseif iKeyLen > 1 then
+				
+					sName = string.sub(sName,1,iKeyLen - 1)
+					iKeyLen = iKeyLen - 1
+				
+				end
+				
+			elseif iKey == SWITCH_RETURN then
+			
+				iKey = SWITCH_NONE
+				soundPlay(sndTing)
+				discSkipToFrame(offsetMenus + 3275)
+			
+			elseif validKey() then
+			
+				iKeyLen = string.len(sName)				
+				if iKeyLen < 8 then
+				
+					soundPlay(sndGunshot)				
+					sName = sName .. string.upper(string.char(iKey))
+				
+				end	
+				iKey = SWITCH_NONE			
+			
+			end
+
+			if not bHSDone then drawName() end
+		
+		end
+		
+	elseif (lvlState == levelPlayClip1) then
+	
+		if (currentFrame == offsetMenus + 3885) then
+			
+			lvlState = lvlEnd
+			
+		else
+
+			drawHStable()
+			
+		end	
+	
+	elseif (lvlState == lvlEnd) then		
+		
+		iScore = 0
+		lvlState = lvlSetup		
+		sNicks = nil
+		currentLevel = levelGameOver
+		bShowCredits = true
+		
+		if bDebug then debugPrint("Leaving doHighScore()") end
+	
+	end
+
+
+end
+
+function doHighScoreGetName()
+
+
+	local sNicks = nil
+	sNicks = {}; sNicks = {"NASTYDAN","H.HARRY","TRIXIE","ELLOCO","BEAVER","BONNIE","THEKID","SKYE","ZELLER","KAYLA"}
+
+	j = rndegg:value(1,10)
+	sName = sNicks[j]
+
+end
+
+function drawHStable()
+
+	local k = 0
+	local posy = 65
+	local s1 = ""
+	local s2 = ""
+	
+	colorForeground(0, 255, 0)
+	fontSelect(fontOldWest28pt)
+	fontPrint(95, 20, "T O P  S H O O T E R S")
+	fontSelect(fontOldWest24pt)
+
+	for k=1,6 do
+	
+		s1 = tostring(k) .. ". " .. highscore[k][1]
+		s2 = highscore[k][2]
+		fontPrint(80,posy, s1)
+		fontPrint(230,posy, s2)
+		posy = posy + 26
+	
+	end
+
+end
+
+function drawName()
+	
+	local k = 0
+	local posx = 64
+	local p = string.len(sName)	
+
+	fontSelect(fontOldWest28pt)
+	colorForeground(94, 18, 0)
+
+	for k=1,p do
+	
+		sprName = nil
+		sprName = fontToSprite(string.sub(sName,k,k))
+		spriteDraw(posx, 74, sprName)
+		posx = posx + 32
+	
+	
+	end
+
+end
+
+function newScore(thisScore)
+
+	local bResult = false
+	local k = 0
+	
+	for k=1,6 do
+	
+		if (tonumber(thisScore) >= tonumber(highscore[k][2])) then
+			
+			bResult = true			
+			break
+		
+		end	
+	
+	end
+	
+	return bResult
+
+end
+
+function updateHS(thisName, thisScore)
+
+	local k = 0
+	local tempName = ""
+	local tempScore = ""
+	local tempHS = nil
+	local bFound = false
+	local fromHere = 0
+	
+	tempHS = {}
+	
+	for k=1,6 do
+	
+		tempHS[k] = {}
+		tempHS[k] = {highscore[k][1], highscore[k][2]}
+		
+	end
+		
+	for k=1,6 do
+	
+		tempName = highscore[k][1]
+		tempScore = highscore[k][2]
+	
+		if (tonumber(thisScore) >= tonumber(highscore[k][2])) then
+		
+			bFound = true
+			highscore[k][1] = thisName
+			highscore[k][2] = thisScore
+			fromHere = k
+			break
+		
+		end
+	
+	
+	end
+	
+	if bFound then
+		
+		for k=fromHere,5 do
+		
+			highscore[k+1][1] = tempHS[k][1]
+			highscore[k+1][2] = tempHS[k][2]
+		
+		end	
+
+	end
+	
+end
