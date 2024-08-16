@@ -317,9 +317,7 @@ function onOverlayUpdate()
 	local cursor = "_"  -- Can't use the nice Apple II cursor - it's outside the ASCII range on this font!
 		
 	if SHOW_JPG ~= -1 then
-		colorBackground(0, 0, 0, 255)  -- The 255 makes this black opaque to hide the blue disc stopped screen.
 		overlayClear()
-		colorBackground(0, 0, 0, 0)  -- Then we set it back to transparent for future rendering.
 		discSkipToFrame(SHOW_JPG)
 		discStop()
 	else
