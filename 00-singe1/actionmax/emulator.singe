@@ -125,8 +125,15 @@ sprGameOver = fontToSprite("GAME OVER")
 discSearch(backgroundFrame)
 
 
+function deadzone(intX, intY)
+
+	return intX == 0 or intY == 0 or intX > sensorX or intY > sensorY
+end
+
 
 function getPixelState(intX, intY)
+
+	if deadzone(intX, intY) then return pixelUnknown end
 
 	r1, g1, b1 = vldpGetPixel(intX, intY)
 
