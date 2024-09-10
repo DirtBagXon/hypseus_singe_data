@@ -13,14 +13,10 @@ sensorY         = 205
 
 MYDIR = "singe/actionmax"
 
-if pcall(require, "lfs") then
 
-	-- Check for -retropath environment
-	if (lfs.attributes("singe/" ..  string.lower(gameID) .. ".daphne", "mode") == "directory") then
+if rewriteStatus ~= nil and rewriteStatus() then
 
-		MYDIR = "singe/" ..  string.lower(gameID)
-	end
-
+	MYDIR = "singe/" ..  string.lower(gameID)
 end
 
 dofile(MYDIR .. "/emulator.singe")
