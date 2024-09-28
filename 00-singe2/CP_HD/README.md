@@ -1,6 +1,5 @@
 ## (Singe 2) Crime Patrol HD
 
-* Required `-overlay_set full`
 * Recommended `-manymouse`
 * Optional `-linear_scale`
 

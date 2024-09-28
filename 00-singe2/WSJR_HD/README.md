@@ -1,6 +1,5 @@
 ## (Singe 2) Who Shot Johnny Rock HD (Noir)?
 
-* Required `-overlay_set full`
 * Recommended `-manymouse`
 * Optional `-linear_scale`
 

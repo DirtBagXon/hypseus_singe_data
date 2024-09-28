@@ -1,6 +1,5 @@
 ## (Singe 2) Maddog McCree  HD
 
-* Required `-overlay_set full`
 * Recommended `-manymouse`
 * Optional `-linear_scale`
 

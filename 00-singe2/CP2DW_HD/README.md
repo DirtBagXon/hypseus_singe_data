@@ -1,6 +1,5 @@
 ## (Singe 2) Crime Patrol 2: Drug Wars HD
 
-* Required `-overlay_set full`
 * Recommended `-manymouse`
 * Optional `-linear_scale`
 
