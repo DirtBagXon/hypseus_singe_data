@@ -28,6 +28,29 @@ vldp
 │   └── timegal.txt
 ```
 
+## Multi-Game Zipped ROM Packages _(v2.11.3)_
+
+For multi-game zip ROM packages, use the `-usealt` argument to determine which game within the zip to start.
+
+```
+hypseus singe vldp -zlua roms/actionmax.zip -usealt bluethunder -framefile vldp/actionmax/bluethunder.txt ...
+```
+
+The folder structure remains as above:
+
+```
+roms
+├── actionmax.zip
+│ 
+vldp
+├── actionmax
+│   ├── <game>.m2v
+│   ├── <game>.ogg
+│   └── bluethunder.txt
+│   └── sonicfury.txt
+│   └── ...
+```
+
 ## Zipped ROM Packages
 
 Some zipped ROM games are packaged with extra files, these will be bundled to enable easier downloads.

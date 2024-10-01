@@ -1,7 +1,7 @@
 # Hypseus Singe
 # Support for Singe 1 and 2 games
 
-Hypseus Singe game demos on [Youtube](https://www.youtube.com/playlist?list=PLRLuhkf2c3OeRoXydn0upKyIBUXNMK13x)
+Hypseus Singe game demos on [Youtube](https://www.youtube.com/@DirtBagXon/videos)
 
 #### Firstly, ensure you are running the latest version of Hypseus Singe.
 
@@ -21,9 +21,10 @@ https://download-directory.github.io/
 
 Paste the relevant repo _folder_ URL into the tool, it will allow you to download just that _folder_ content, as a zip.
 
-# Version 2.11.2
+# Version 2.11.x
 
-From version **2.11.2**, Hypseus Singe supports zipped LUA _(zlua)_ ROMS.
+From version **2.11.2**, Hypseus Singe supports zipped LUA _(zlua)_ ROMS.  
+From version **2.11.3**, Hypseus Singe supports multi-game zipped ROMS with `-usealt`
 
 ### Zipped ROMs
 
