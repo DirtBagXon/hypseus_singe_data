@@ -39,18 +39,12 @@ A typical argument set using zip ROMS may begin:
 hypseus singe vldp -zlua roms/timegal.zip -framefile vldp/timegal/timegal.txt ...
 ```
 
-## Earlier version information
+### Categorizations
 
-All games in this repo now have been switched to use the new overlay functions. You should therefore begin to replace the `.singe` LUA code on existing games with the latest code from this repository. A future version of `hypseus` will remove the legacy overlay compeltely and overlays will/may look misaligned, or not work, on releases beyond **2.10.4** of hypseus.
+New `sbc` games will utilize the `Minimal` overlay switching within the `00-singe2/Framework`. Some games have been left within the `sbc` categories as they do not utilize the `Framework` and remain to allow running on the lower spec hardware. The `00-singe2-ports-gungames` being the most obvious. These games should still update LUA from the repo to ensure overlays are aligned correctly moving forward.
 
-The following categories still apply, but new `sbc` games will utilize the `Minimal` overlay switching within the `00-singe2/Framework`. Some games have been left within the `sbc` categories as they do not utilize the `Framework` and remain to allow running on the lower spec hardware. The `00-singe2-ports-gungames` being the most obvious. These games should still update LUA from the repo to ensure overlays are aligned correctly moving forward.
-
-For any third party full game repos, video/audio from these is still valid. You are only required to change the LUA and peripheral files of these games to the new format. No re-encoding is required with `ffmpeg`. These repos should update their files in due course. This is analagous to updating the game `ROM` to a later version.
-
-### Earlier Categorizations
-
-This will allow a recategorization of currently ported games which were created to run on lower  
-powered single-board computer devices, such as the _Raspberry Pi_ and _RK3328_, and used  
+Categorization of currently ported games which were created to run on lower  
+powered single-board computer devices, such as the _Raspberry Pi_ and _RK3328_, used  
 minimalist overlays. These will now be part of the `00-singe2-ports-sbc` folder.  
 **Note:** This format is now deprecated in favor of the new _Minimal Overlay_ within the `00-singe2`  
 games folder.
@@ -60,11 +54,16 @@ owners. These also use minimalist overlays, but continue to simulate the 8bit '_
 Games_' (_ALG_) games, from which they derive, using upscaled (_AI enhanced_) video. These will  
 be now within `00-singe2-ports-gungames`.
 
-The `00-singe2` folder will contain Singe 2 games using native sprites, fonts and full overlays.  
-LUA changes are only to restructure asset layout.
+The `00-singe1` folder will contain original Daphne era Singe games that have received updates and bugfixes..  
 
-All games will still require the _MPEG-2_ and _Ogg_, video and audio streams required by the  
-Daphne VLDP. So recoding of _mp4_ and other formats is still required.
+The `00-singe2` folder will contain Singe 2 games using native sprites, fonts and full overlays.  
+
+`00-non-qte` contains any game format that move away from the Dragon's Lair _QTE_ format.
+
+`00-kimmy` contains games that were created using _FrameworkKimmy_.  
+_Note_: Earlier _Framework_ games can be easily ported to use the new framework via the Singe header files.
+
+`00-zip-roms` are detailed above.  
 
 Download the latest complete repository via [**Releases**](https://github.com/DirtBagXon/hypseus_singe_data/releases) (*zip* or *tgz*).
 
