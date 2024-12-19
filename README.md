@@ -1,7 +1,7 @@
 # Hypseus Singe
 # Support for Singe 1 and 2 games
 
-Hypseus Singe game demos on [Youtube](https://www.youtube.com/@DirtBagXon/videos)
+Hypseus Singe game demos on [Youtube](https://www.youtube.com/playlist?list=PLRLuhkf2c3OeRoXydn0upKyIBUXNMK13x)
 
 #### Firstly, ensure you are running the latest version of Hypseus Singe.
 
