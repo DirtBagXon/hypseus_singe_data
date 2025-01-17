@@ -1,0 +1,3808 @@
+--[[
+
+Space Rocks for Hypseus
+Copyright © Widge 2025
+www.youtube.com/@widge
+
+This game, Space Rocks, is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+See LICENSE.TXT for more information
+
+]]--
+
+if singeVersion() < 1.9001 then
+        debugPrint("Error: Incompatible version! Upgrade Hypseus Singe to the latest version")
+        singeQuit()
+end
+
+
+discSetFPS(30)
+vidResX = vldpGetWidth()
+vidResY = vldpGetHeight()
+resX = 896
+resY = 504
+overlaySetResolution(resX, resY)
+
+math.randomseed(os.time() + os.clock() * 1000000)
+
+SWITCH_UP         =  0
+SWITCH_LEFT       =  1
+SWITCH_DOWN       =  2
+SWITCH_RIGHT      =  3
+SWITCH_START1     =  4
+SWITCH_START2     =  5
+SWITCH_BUTTON1    =  6
+SWITCH_BUTTON2    =  7
+SWITCH_BUTTON3    =  8
+SWITCH_COIN1      =  9
+SWITCH_COIN2      = 10
+SWITCH_SKILL1     = 11
+SWITCH_SKILL2     = 12
+SWITCH_SKILL3     = 13
+SWITCH_SERVICE    = 14
+SWITCH_TEST       = 15
+SWITCH_RESET      = 16
+SWITCH_SCREENSHOT = 17
+SWITCH_QUIT       = 18
+SWITCH_PAUSE      = 19
+SWITCH_CONSOLE    = 20
+SWITCH_TILT       = 21
+
+FONT_QUALITY_SOLID   = 1
+FONT_QUALITY_SHADED  = 2
+FONT_QUALITY_BLENDED = 3
+
+SOUND_ERROR_INVALID = -1
+SOUND_REMOVE_HANDLE = -1
+SOUND_ERROR_FULL    = -2
+
+OVERLAY_NOT_UPDATED = 0
+OVERLAY_UPDATED     = 1
+
+mouseX = 0
+mouseY = 0
+
+bDebug = false
+
+STATE_OPTIONS = 0
+STATE_STARTUP = 1
+STATE_TITLE = 2
+STATE_INIT = 3
+STATE_PLAYING = 4
+STATE_GAMEOVER = 5
+STATE_HISCORE = 6
+
+OPT_EXIT        =  0
+OPT_MUSICENABLE =  1
+OPT_MUSICVOL    =  2
+OPT_SFXVOL      =  3
+OPT_CONTROLMODE =  4
+OPT_TURNSENS    =  5
+OPT_ROTATION    =  6
+OPT_INVERTBOOST =  7
+OPT_SWAPBUTTONS =  8
+OPT_VIBRATION   = 9
+
+MODE_NORMAL  = 0
+MODE_GAMEPAD = 1
+MODE_MOUSEX  = 2
+MODE_MOUSEY  = 3
+
+SCORE_BIG = 50
+SCORE_MEDIUM = 75
+SCORE_SMALL = 100
+
+SCORE_DEATH = -100
+SCORE_MULTIPLIER = 1
+
+SAUCER_BIG = 200
+SAUCER_SMALL = 250
+SAUCER_FLINGER = 300
+SAUCER_ORB = 1000
+
+outline = {
+	{ -1, -1 },
+	{ -1,  1 },
+	{  1, -1 },
+	{  1,  1 }}
+
+fntScore = fontLoad(ASSETSDIR.."font_bangers_mod.ttf",22)
+fntSettings = fontLoad(ASSETSDIR.."font_bangers_mod.ttf",24)
+fntStats = fontLoad(ASSETSDIR.."font_bangers_mod.ttf",30)
+fntHiscore = fontLoad(ASSETSDIR.."font_bangers_mod.ttf",34)
+fntTitle = fontLoad(ASSETSDIR.."font_bangers_mod.ttf",42)
+fntBanner = fontLoad(ASSETSDIR.."font_bangers_mod.ttf",72)
+fntPopup12 = fontLoad(ASSETSDIR.."font_homespun.ttf",12)
+fntNowPlaying = fontLoad(ASSETSDIR.."font_homespun.ttf",24)
+
+sndSpaceRocks = soundLoad(ASSETSDIR.."sound_spacerocks.wav")
+sndZap = soundLoad(ASSETSDIR.."sound_zap.wav")
+sndThrust = soundLoad(ASSETSDIR.."sound_thrust.wav")
+sndRetro = soundLoad(ASSETSDIR.."sound_retro.wav")
+sndBoom = soundLoad(ASSETSDIR.."sound_boom.wav")
+sndWarp = soundLoad(ASSETSDIR.."sound_warp.wav")
+snd1Up = soundLoad(ASSETSDIR.."sound_1up.wav")
+sndSpawn = soundLoad(ASSETSDIR.."sound_spawn.wav")
+sndNewWave = soundLoad(ASSETSDIR.."sound_nextwave.wav")
+sndLaser = soundLoad(ASSETSDIR.."sound_laser.wav")
+sndFling = soundLoad(ASSETSDIR.."sound_fling.wav")
+sndSaucer = soundLoad(ASSETSDIR.."sound_saucer.wav")
+sndNewGame = soundLoad(ASSETSDIR.."sound_newgame.wav")
+sndNextShip = soundLoad(ASSETSDIR.."sound_nextship.wav")
+sndHostile = soundLoad(ASSETSDIR.."sound_hostile.wav")
+sndHiscore = soundLoad(ASSETSDIR.."sound_hiscore.wav")
+sndBonusPoints = soundLoad(ASSETSDIR.."sound_bonuspoints.wav")
+sndShieldUp = soundLoad(ASSETSDIR.."sound_shieldup.wav")
+sndShieldDown = soundLoad(ASSETSDIR.."sound_shielddown.wav")
+sndDeathBlossom = soundLoad(ASSETSDIR.."sound_blossom.wav")
+sndSpreadShot = soundLoad(ASSETSDIR.."sound_spread.wav")
+
+sprSwitch = spriteLoadFrames(2, ASSETSDIR .. "sprite_switch.png")
+sprSaucer1 = spriteLoad(ASSETSDIR.."sprite_saucer1.png")
+sprSaucer2 = spriteLoad(ASSETSDIR.."sprite_saucer2.png")
+sprSaucer3 = spriteLoad(ASSETSDIR.."sprite_saucer3.png")
+sprOrb = spriteLoad(ASSETSDIR.."sprite_orb.png")
+sprPowerup = spriteLoad(ASSETSDIR.."sprite_powerup.png")
+sprWarp = spriteLoad(ASSETSDIR.."sprite_warp.png")
+
+xOrb = spriteGetWidth(sprOrb)/2
+yOrb = spriteGetHeight(sprOrb)/2
+oSaucer1 = -10
+oSaucer2 = -8
+oSaucer3 = -4
+xSaucer1 = spriteGetWidth(sprSaucer1)/2
+ySaucer1 = (spriteGetHeight(spSaucer1)/2) +oSaucer1
+xSaucer2 = spriteGetWidth(sprSaucer2)/2
+ySaucer2 = (spriteGetHeight(spSaucer2)/2) +oSaucer2
+xSaucer3 = spriteGetWidth(sprSaucer3)/2
+ySaucer3 = (spriteGetHeight(spSaucer3)/2) +oSaucer3
+
+pSaucer1 = nil; pSaucer1 = {{},{},{}}
+pSaucer1[1][1] = -14; pSaucer1[1][2] =  14; pSaucer1[1][3] =  24; pSaucer1[1][4] = 24
+pSaucer1[1][5] =  12; pSaucer1[1][6] = -12; pSaucer1[1][7] = -24; pSaucer1[1][8] = -24
+pSaucer1[2][1] = -5; pSaucer1[2][2] = -5; pSaucer1[2][3] = 0; pSaucer1[2][4] =  1
+pSaucer1[2][5] =  6; pSaucer1[2][6] =  6; pSaucer1[2][7] = 1; pSaucer1[2][8] = -1
+
+for i = 1,#pSaucer1[2] do
+	pSaucer1[2][i] = pSaucer1[2][i] -oSaucer1
+end
+
+pSaucer2 = nil; pSaucer2 = {{},{},{}}
+pSaucer2[1][1] = -12; pSaucer2[1][2] = 12; pSaucer2[1][3] =  19; pSaucer2[1][4] =  19 
+pSaucer2[1][5] =   7; pSaucer2[1][6] = -7; pSaucer2[1][7] = -19; pSaucer2[1][8] = -19
+pSaucer2[2][1] = -5; pSaucer2[2][2] = -5; pSaucer2[2][3] = -1; pSaucer2[2][4] =  0 
+pSaucer2[2][5] =  5; pSaucer2[2][6] =  5; pSaucer2[2][7] =  0; pSaucer2[2][8] = -1
+
+for i = 1,#pSaucer2[2] do
+	pSaucer2[2][i] = pSaucer2[2][i] -oSaucer2
+end
+
+pSaucer3 = nil; pSaucer3 = {{},{},{}}
+pSaucer3[1][1] = -14; pSaucer3[1][2] =  14; pSaucer3[1][3] =  24; pSaucer3[1][4] =  24 
+pSaucer3[1][5] =  13; pSaucer3[1][6] = -13; pSaucer3[1][7] = -24; pSaucer3[1][8] = -24
+pSaucer3[2][1] = -7; pSaucer3[2][2] = -7; pSaucer3[2][3] = -2; pSaucer3[2][4] =  0 
+pSaucer3[2][5] =  5; pSaucer3[2][6] =  5; pSaucer3[2][7] =  0; pSaucer3[2][8] = -2
+
+for i = 1,#pSaucer3[2] do
+	pSaucer3[2][i] = pSaucer3[2][i] +11
+end
+
+orb = nil; orb = {{},{}}
+orb[1][1] = -3; orb[1][2] =  3; orb[1][3] =  9; orb[1][4] =  9
+orb[1][5] =  3; orb[1][6] = -3; orb[1][7] = -9; orb[1][8] = -9
+orb[2][1] = -9; orb[2][2] = -9; orb[2][3] = -3; orb[2][4] =  3
+orb[2][5] =  9; orb[2][6] =  9; orb[2][7] =  3; orb[2][8] = -3
+
+deathMsg = nil; deathMsg = {"OUCH!","NO WAY!","NOT FAIR!","WHAT!?","HUH?","UH OH!","OH DEAR!","TRY AGAIN","OOF!","BOOM!","AAAGH!","NOOOOO!","CRAZY!","WHAT THE...?","HEY!","OW!","NO!","OOPS","GRRR!","BUMMER","BOGUS"}
+rndMsg = nil; rndMsg = {"NICE","GREAT","SWEET","DUDE","AWESOME","BOOM!","BYE BYE", "SEE YA!", "TAKE THAT!", "HA HA!", "YEEHA!", "ADIOS", "EXCELLENT", "SMASHING", "CRACKERJACK", "GOAL!", "JURASSIC PARK", "FAB!", "FANTASTIC", "YOU'RE HISTORY", "GET LOST","WOW!","WHOA","SUPER","GOTCHA!","POW!","ZAP!","BLAMMO!","KABOOM!","MEGA"}
+
+SIZE_BIG = 1
+SIZE_MEDIUM = 2
+SIZE_SMALL = 3
+
+turnInterval = 0.008
+waitInterval = 0.03
+shootInterval = 0.4
+bulletInterval = 0.015
+popupInterval = 0.05
+spawnInterval = 25
+saucerInterval = 35
+
+extraLifeThreshold = 50000
+		
+ship = nil; ship ={}
+--1st 6 are used for drawing, the rest are extra collision points
+ship[1] = {  0,-5,5,-5,0,5,  -2, 2,-4,4}
+ship[2] = {-10, 7,7, 6,5,6,  -4,-4, 3,3}
+
+partiX = 1 -- x coordinate
+partiY = 2 -- y coordinate
+partiH = 3 -- horizontal velocity
+partiV = 4 -- vertical velocity
+partiDie = 5 -- Time to die
+partiR = 6 -- colour red
+partiG = 7 -- colour blue
+partiB = 8 -- colour green
+
+bScoreOrStat = false
+
+gameState = STATE_STARTUP
+
+
+
+
+function onOverlayUpdate()
+	
+	overlayClear()
+	currentFrame = discGetFrame()
+	currentTime = os.clock()
+	
+	
+	if gameState <= STATE_INIT then
+		if currentFrame == 175 and not soundIsPlaying(hndIntro) then
+			hndIntro = soundPlay(sndSpaceRocks)
+			if bVibration and controllerIsValid(0) then controllerDoRumble(0, 2, 4) end
+		end
+	end
+	
+	if gameState == STATE_STARTUP then
+		getData()
+
+		hndThrust = -1
+		hndRetro = -1
+		hndWarp = -1
+		hndNewWave = -1
+		hndLaser = -1
+		hndSaucer = -1
+		buttonLeft = false
+		buttonRight = false
+		buttonThrust = false
+		buttonRetro = false
+		buttonShoot = false
+		buttonStart = false
+		buttonWarp = false
+		buttonCoin = false
+		buttonService = false
+		bService = false
+		bInSettings = false
+		iOptions = 0
+		if bInvertBoost then
+			buttonBoost = true
+		else
+			buttonBoost = false
+		end
+		
+		discSearch(4)
+		discPlay()
+		
+		titlemusic = musicLoad(MUSICDIR..titleMusic[1])
+		hiscoremusic = musicLoad(MUSICDIR..hiscoreMusic[1])
+		music = musicLoad(MUSICDIR..hiscoreMusic[1]) -- just to make sure there's something to unload later
+		musicOrder = nil; musicOrder = {}
+		
+		musicSetVolume(musicVol)
+		soundSetVolume(sfxVol)
+		
+		titleTimer = currentTime
+		gameState = STATE_TITLE
+		
+	elseif gameState == STATE_TITLE then
+	
+		if bMusic and not musicIsPlaying() then
+			musicPlay(titlemusic,-1)
+			musicName = titleMusic[2]
+			musicArtist = titleMusic[3]
+		elseif not bMusic and musicIsPlaying() then
+			musicStop()
+		end
+	
+
+		if not bInSettings then 
+		
+			if not bService then
+
+				if buttonService then
+					bService = true
+				end
+
+				if buttonStart then gameState = STATE_INIT end
+				fontSelect(fntTitle)
+				drawTxt((resX -getFontWidth("PRESS START TO PLAY"))/2,  resY*0.9, "PRESS START TO PLAY" ,255,192,16, 5)
+
+			else
+				if not buttonService then
+				
+					if currentFrame ~= 880 then
+						fontSelect(fntTitle)
+						drawTxt((resX -getFontWidth("Entering Service Menu..."))/2,  resY*0.9, "Entering Service Menu..." ,255,192,192, 5)
+					end
+				end
+			end
+			
+		else
+		
+			if buttonService then
+				bService = false
+			end
+			if not buttonService and not bService then
+				bInSettings = false
+			end
+				
+		end
+		
+		if currentFrame == 224 or curentFrame == 400 then
+				discSearch(225) -- start
+				discPause()
+		end
+		
+		if currentTime >= titleTimer + 20 then --animate
+			if currentFrame == 225 then
+				discSearch(227)
+				discPlay()
+			elseif currentFrame == 405 then
+				discSearch(406)
+				discPause()
+				titleTimer = currentTime
+			elseif currentFrame == 406 then -- move to highscore/stats image
+				discSearch(695)
+				discPlay()
+			elseif currentFrame == 879 then
+				discSearch(880)
+				discPause()
+				bScoreOrStat = not bScoreOrStat
+				titleTimer = currentTime
+			elseif currentFrame == 880 then --back to start
+				discPlay()
+			elseif currentFrame == 1061 then
+				discSearch(225) -- start
+				discPause()
+				titleTimer = currentTime
+			elseif currentFrame == 576 then
+				discSearch(1095) -- start
+				discPlay()
+			end
+		else
+			if bService and not buttonService then
+				if currentFrame == 225 or currentFrame == 406 or currentFrame == 1061 then 
+					discSearch(695)
+					discPlay()
+				elseif currentFrame == 879 then 
+					discSearch(880)
+					discPause()
+				elseif currentFrame == 880 then 
+					settingsMenu()
+					if not bInSettings then
+						bInSettings = true
+						bScoreOrStat = not bScoreOrStat
+						iOptions = 0
+					end
+					titleTimer = currentTime
+				end
+				return OVERLAY_UPDATED
+			end
+		end
+		
+		if currentFrame == 880 then --show scores/stats
+			if bScoreOrStat then 
+				showHighScores()
+			else
+				showStats()
+			end
+		end
+		
+		
+	elseif gameState == STATE_INIT then
+
+		if currentFrame == 225 or currentFrame == 406 or currentFrame == 1061 then 
+			discSearch(505)
+			discPlay()
+		elseif currentFrame == 880 then 
+			discPlay()
+		elseif currentFrame == 575 then 
+			discPause()
+			bPause = false
+			shipR = {{},{}}; --shipR = ship
+			bDamage = false
+			bInert = true
+			hndThrust = -1
+			hndRetro = -1
+			hndWarp = -1
+			hndNewWave = -1
+			hndLaser = -1
+			hndSaucer = -1
+			buttonLeft = false
+			buttonRight = false
+			buttonThrust = false
+			buttonRetro = false
+			buttonShoot = false
+			shipX = resX/2
+			shipY = resY/2
+			gunX = 0
+			gunY = 0
+			iRotation = 0
+			iThrustX = 0
+			iThrustY = 0
+			timeWait = currentTime
+			timeTurn = currentTime
+			timeThrust = currentTime
+			timeBullet = currentTime
+			timeLaser = currentTime
+			timeSpread = currentTime
+			bulletWait = currentTime
+			timePopup = currentTime
+			bullet = nil; bullet = {}
+			laser = nil; laser = {}
+			rock = nil; rock = {}
+			saucer = nil; saucer = {{},{},{}}
+			particle = nil; particle = {}
+			popup = nil; popup = {}
+			partiTime = currentTime
+			bSaucer = false
+			bOrb = false
+			bPowerup = false
+			extraLifeTarget = extraLifeThreshold
+			iStartWave = 0
+			timeStartWave = currentTime
+			timeSpawn = currentTime
+			timeSaucer = currentTime
+			chanceOfSaucer = 10
+			chanceCheck = chanceOfSaucer
+			chanceBigSaucer = 10
+			chanceSmallSaucer = 10
+			iScore = 0
+			updateScore(0)
+			iLevel = 0
+			iLives = 3
+			iWarps = 3
+			iTimer = 99.991
+			SCORE_MULTIPLIER = 1
+			bPlaying = false
+			bSafe = true
+			bShield = false
+			bSpread = false
+			iBlossom = 0
+			
+			gameState = STATE_PLAYING
+			
+			if musicIsPlaying() then musicStop(titlemusic) end
+			
+		end
+	
+	elseif gameState == STATE_PLAYING then
+	
+		inGameMusic()
+		if bPause then
+			settingsMenu()			
+			return OVERLAY_UPDATED
+		end
+	
+		if iLevel >0 then
+			drawLevelNum()
+			drawScore()
+			drawLivesAndWarps()
+			drawTimer()
+		end
+
+		if #rock <=0 and not bSaucer and not bOrb then
+			if bPlaying then bPlaying = not bPlaying end
+			newWave()
+		else
+			if currentTime >= timeSpawn then
+				createRock(SIZE_BIG,nil,nil,((iLevel-1)/5)+1)
+				soundPlay(sndSpawn)
+				timeSpawn = currentTime + spawnInterval
+			end
+			if currentTime >= timeSaucer then
+				if not bSaucer and not bOrb and not bPowerup then
+					chooseSaucer()
+				end
+				timeSaucer = currentTime + saucerInterval
+			end
+		end
+		
+		
+		moveObjects()
+		
+		drawRocks()
+		drawLasers() -- must come before drawSaucer()
+		drawSaucer()
+		
+		drawBullets()
+		checkForHit()
+		drawParticles()
+		drawPopups()		
+		
+		if bDamage then
+			if not bInert then bInert = true end
+			if bShield then
+				bShield = false
+				bDamage = false
+				soundPlay(sndShieldDown)
+				
+				if bVibration and controllerIsValid(0) then
+					controllerDoRumble(0, 2, 2)
+				end
+			else
+				playerDeath()
+			end
+		else
+			drawShip(shipX, shipY, math.rad(iRotation))
+			if bPlaying and bSafe then
+				if bInert then
+					bInert = false
+					if bVibration and controllerIsValid(0) then controllerDoRumble(0, 2, 2) end
+				end
+			end
+			if bPowerup then checkForPower() end
+			if bShield then
+				colorForeground(224,224,224)
+				overlayCircle (shipX, shipY, 11)
+			end
+			
+			if iBlossom == 0 then
+				checkForDamage()
+				if checkForLaserHit() then
+					bDamage = true
+					breakShip()
+				end
+			else
+				deathBlossom()
+			end
+			
+		end
+		
+		if not bInert then
+			if buttonThrust and not buttonRetro then
+				drawThrust(shipX, shipY, math.rad(iRotation))
+			end
+			if (buttonThrust and not buttonRetro) or (buttonRetro and not buttonThrust) then
+				drawThrust(shipX, shipY, math.rad(iRotation))
+				if bVibration and controllerIsValid(0) then
+					controllerDoRumble(0, 1, 1)
+				end
+			end
+			moveShip()
+			fireBullet()
+			if buttonWarp and iWarps > 0 then hyperspace() end
+		else
+			if hndThrust >= 0 then
+				soundStop(hndThrust)
+			end
+			if hndRetro >= 0 then
+				soundStop(hndRetro)
+			end
+			buttonLeft = false
+			buttonRight = false
+			buttonThrust = false
+			buttonRetro = false
+			buttonShoot = false
+			buttonWarp = false
+		end
+	
+	elseif gameState == STATE_GAMEOVER then
+		
+		if currentFrame < 1095 then
+
+			if hndThrust >= 0 then soundStop(hndThrust) end
+			if hndRetro >= 0 then soundStop(hndRetro) end 
+			if hndSaucer >= 0 then soundStop(hndSaucer) end
+			if hndLaser >=0 then soundStop(hndLaser) end
+			if hndWarp >=0 then soundStop(hndWarp) end
+			discSearch(1095)
+			discPlay()	
+		elseif currentFrame == 1245 then
+			discSearch(880)
+			discPause()
+			if musicIsPlaying() then musicStop(music) end
+			if iScore > highscore[10][2] then
+			
+				local i
+				for i = 1, #highscore do
+					if iScore > highscore[i][2] then
+						newHiscorePos = i
+						break
+					end
+				end
+				if bMusic then musicPlay(hiscoremusic) end
+				gameState = STATE_HISCORE
+				table.insert(highscore,newHiscorePos,{"",iScore,iLevel})
+				table.remove(highscore,11)
+				hsChar = "A"
+				hsNameCount = 1
+				soundPlay(sndHiscore)
+				bScoreOrStat = true
+
+			else
+				gameState = STATE_TITLE
+				titleTimer = currentTime
+			end
+		end
+	
+	elseif gameState == STATE_HISCORE then
+	
+		showHighScores()
+		if bMusic and not musicIsPlaying() then
+			musicPlay(titlemusic,-1)
+		end
+	end
+	
+	return(OVERLAY_UPDATED)
+end
+
+
+function newWave()
+	if iStartWave == 0 then
+		timeStartWave = currentTime + 2
+		iStartWave = 1
+		if iLevel>0 then
+			if iBonus > 0 then
+				popupMsg(shipX,shipY,"BONUS "..(iBonus * SCORE_MULTIPLIER))
+			else
+				popupMsg(shipX,shipY,"NO BONUS")
+			end
+			iScore = iScore + (iBonus * SCORE_MULTIPLIER)
+		end
+	elseif iStartWave == 1 then
+		if currentTime >= timeStartWave then
+			iLevel = iLevel + 1
+			if iLevel == 1 then
+				soundPlay(sndNewGame)
+			else
+				soundPlay(sndNewWave)
+			end
+			if bVibration and controllerIsValid(0) then controllerDoRumble(0, 2, 2) end
+			SCORE_MULTIPLIER = (math.ceil((iLevel+1) /5)) -- increase multiplier every 5 levels
+			if sprLevelNum ~= nil then spriteUnload(sprLevelNum) end
+			fontSelect(fntTitle)
+			colorForeground(255,255,0)
+			sprLevelNum = fontToSprite(iLevel)
+			xLevelNum = spriteGetWidth(sprLevelNum) /2
+			yLevelNum = spriteGetHeight(sprLevelNum) /2
+			timeStartWave = currentTime + 2
+			iStartWave = 2
+		end
+	elseif iStartWave == 2 then
+		if currentTime >= timeStartWave then
+			local speed = ((iLevel-1)/5) + 1
+			for i = 1,4 do
+				createRock(SIZE_BIG,nil,nil,speed)
+			end
+			timeSpawn = currentTime + spawnInterval
+			timeSaucer = currentTime + saucerInterval
+			iStartWave = 0
+			iTimer = 99.99
+			bPlaying = true
+		end
+	end
+
+end
+
+
+function playerDeath()
+	
+	if iParts == 0 then
+		updateScore(SCORE_DEATH,shipX,shipY)
+		iParts = 1
+		stat_deaths = stat_deaths +1
+		bSpread = false
+	end
+	
+	if iParts < 150  then
+		local i
+		if currentTime >= timeParts + (waitInterval) then
+			for i = 1,#parts do
+				parts[i][1] = parts[i][1]+parts[i][5] +(iThrustX/2)
+				parts[i][2] = parts[i][2]+parts[i][6] +(iThrustY/2)
+				parts[i][3] = parts[i][3]+parts[i][5] +(iThrustX/2)
+				parts[i][4] = parts[i][4]+parts[i][6] +(iThrustY/2)
+				
+				parts[i][1],parts[i][2] = rotatePoint( (parts[i][1]+parts[i][3])/2, (parts[i][2]+parts[i][4])/2, 	parts[i][1], parts[i][2], parts[i][7])
+				parts[i][3],parts[i][4] = rotatePoint( (parts[i][1]+parts[i][3])/2, (parts[i][2]+parts[i][4])/2, parts[i][3], parts[i][4], parts[i][7])
+				
+			end
+			timeParts = currentTime
+			iParts = iParts + 1
+		end
+		colorForeground(255,255,0)
+		for i = 1,#parts do
+			overlayLine(parts[i][1],parts[i][2],parts[i][3],parts[i][4])
+		end
+	elseif iParts == 150 then
+		iLives = iLives -1
+		iParts = iParts + 1
+	else
+		if iLives <= 0 then
+			gameState = STATE_GAMEOVER
+		else
+			if currentTime >= timeParts +1 then
+				shipX = resX/2
+				shipY = resY/2
+				iRotation = 0
+				
+				bSafe = checkForSafety()
+				
+				if bSafe then
+					soundPlay(sndNextShip)
+					bDamage = false
+					iThrustX = 0
+					iThrustY = 0
+					timeLaser = currentTime + math.random(2,5)
+				else
+					timeParts = currentTime
+				end
+			end
+		end
+	end
+	
+
+end
+
+
+function breakShip()
+
+	soundPlay(sndBoom)
+	
+	if bVibration and controllerIsValid(0) then
+		controllerDoRumble(0, 4, 4)
+	end
+	
+	
+	addParticles(shipX,shipY)
+	parts=nil; parts ={}
+	parts[1] = {shipR[1][1],shipR[2][1],shipR[1][2],shipR[2][2]}
+	parts[2] = {shipR[1][3],shipR[2][3],shipR[1][1],shipR[2][1]}
+	parts[3] = {shipR[1][4],shipR[2][4],shipR[1][5],shipR[2][5]}
+	parts[4] = {shipR[1][5],shipR[2][5],shipR[1][6],shipR[2][6]}
+	for i = 1,4 do
+		parts[i][5] = math.random(-1,1)
+		parts[i][6] = math.random(-1,1)
+		parts[i][7] = math.rad(math.random(-5,5))
+	end
+	iParts = 0
+	timeParts = currentTime
+
+end
+
+
+function updateScore(newPoints,x,y)
+	iScore = iScore + newPoints
+	fontSelect(fntScore)
+	scoreSprite = fontToSprite(iScore)
+	scoreX = 50 - (spriteGetWidth(scoreSprite) / 2)
+	spriteUnload(scoreSprite)
+	
+	if iScore >= extraLifeTarget then
+		iLives = iLives + 1
+		soundPlay(snd1Up)
+		popupMsg(shipX,shipY,"1 UP!")
+		extraLifeTarget = extraLifeTarget + (extraLifeThreshold * SCORE_MULTIPLIER)
+	end
+	
+	if x ~= nil and y ~= nil then
+		popupMsg(x,y,newPoints)
+	
+		if newPoints > 0 then
+			if math.random(20) == 1 then
+				popupMsg(x,y+12,rndMsg[math.random(#rndMsg)])
+			end
+		elseif newPoints < 0 then
+			popupMsg(x,y+12,deathMsg[math.random(#deathMsg)])
+		end
+	end
+	
+end
+
+
+function onSoundCompleted(soundID)
+
+	if gameState == STATE_PLAYING then
+		if soundID == hndThrust then
+			if buttonThrust then
+				hndThrust = soundPlay(sndThrust)
+			end
+		elseif soundID == hndRetro then
+			if buttonRetro then
+				hndRetro = soundPlay(sndRetro)
+			end
+		elseif soundID == hndSaucer then
+			if bSaucer then
+				hndSaucer = soundPlay(sndSaucer)
+			end
+		elseif soundID == hndWarp then
+			hndWarp = -1
+		elseif soundID == hndLaser then
+			hndLaser = -1
+		end
+	end
+
+end
+
+
+
+-- ## Actions ## --
+
+function onInputPressed(key)
+	
+	if bDebug then
+		debugPrint("KEY PRESSED: "..key)
+	end
+
+	if key == SWITCH_SERVICE then
+		buttonService = true
+	end
+		
+	if key == SWITCH_START1 then
+		buttonStart = true
+	end
+	
+	
+	if not (gameState == STATE_PLAYING and not bPause and (controlMode == MODE_MOUSEX or controlMode == MODE_MOUSEY)) then
+	
+		if key == SWITCH_LEFT then
+			buttonLeft = true
+		elseif key == SWITCH_RIGHT then
+			buttonRight = true
+		end
+	
+	end
+	
+	if (key == SWITCH_UP and controlMode ~= MODE_GAMEPAD) or (key == SWITCH_SKILL3 and controlMode == MODE_GAMEPAD) then
+		if gameState == STATE_PLAYING and not bInert and not bPause then
+			if not buttonThrust then
+				hndThrust = soundPlay(sndThrust)	
+			end
+		end
+		buttonThrust = true
+	
+	elseif (key == SWITCH_DOWN and controlMode ~= MODE_GAMEPAD) or (key == SWITCH_SKILL2 and controlMode == MODE_GAMEPAD) then
+		if gameState == STATE_PLAYING and not bInert and not bPause then
+			if not buttonRetro then
+				hndRetro = soundPlay(sndRetro)
+			end
+		end
+		buttonRetro = true
+	end
+	
+	if key == SWITCH_UP then
+		buttonUp = true
+	end
+	
+	if key == SWITCH_DOWN then
+		buttonDown = true
+	end
+	
+	if key == SWITCH_BUTTON3 then
+		buttonShoot = true
+	end
+	
+	if key == SWITCH_BUTTON1 then
+		buttonErase = true
+	end
+	
+	if key == SWITCH_BUTTON2 then
+		if bInvertBoost then
+			buttonBoost = false
+		else
+			buttonBoost = true
+		end
+	end
+	
+end
+
+
+function onInputReleased(key)
+
+	if bDebug then
+		debugPrint("KEY RELEASED: "..key)
+	end
+
+	if key == SWITCH_COIN1 then
+		if gameState <= STATE_TITLE then
+			bService = true
+		end
+	end
+		
+	if key == SWITCH_START1 then
+		buttonStart = false
+		if gameState == STATE_PLAYING then
+			key = SWITCH_PAUSE
+		end
+	end
+
+	if key == SWITCH_SERVICE then
+		buttonService = false
+		if gameState == STATE_PLAYING then
+			key = SWITCH_PAUSE
+		end
+	end
+	
+	if key == SWITCH_LEFT then
+		buttonLeft = false	
+	end
+	
+	if key == SWITCH_RIGHT then
+		buttonRight = false		
+	end
+
+	if (key == SWITCH_UP and controlMode ~= MODE_GAMEPAD) or (key == SWITCH_SKILL3 and controlMode == MODE_GAMEPAD) then
+		if hndThrust >= 0 then
+			soundStop(hndThrust)
+		end
+		hndThrust = -1
+		buttonThrust = false
+	end
+	
+	if key == SWITCH_UP then
+		buttonUp = false
+	end
+
+	if (key == SWITCH_DOWN and controlMode ~= MODE_GAMEPAD) or (key == SWITCH_SKILL2 and controlMode == MODE_GAMEPAD) then
+		if hndRetro >= 0 then
+			soundStop(hndRetro)
+		end
+		hndRetro = -1
+		buttonRetro = false
+	end
+
+	if key == SWITCH_DOWN then
+		buttonDown = false
+	end
+	
+	if key == SWITCH_BUTTON3 then
+		buttonShoot = false
+		timeBullet = currentTime - shootInterval
+	end
+	
+	if key == SWITCH_BUTTON1 then
+		buttonWarp = true
+		buttonErase = false
+	end
+	
+	if key == SWITCH_BUTTON2 then
+		if bInvertBoost then
+			buttonBoost = true
+		else
+			buttonBoost = false
+		end
+	end
+	
+	
+	if key == SWITCH_RESET then
+		gameState = STATE_STARTUP
+		if bPause then bPause = false end
+		if hndThrust >= 0 then soundStop(hndThrust) end
+		if hndRetro >= 0 then soundStop(hndRetro) end 
+		if hndSaucer >= 0 then soundStop(hndSaucer) end
+		if hndLaser >=0 then soundStop(hndLaser) end
+		if hndWarp >=0 then soundStop(hndWarp) end
+		if musicIsPlaying() then musicStop() end
+	end
+
+	if key == SWITCH_PAUSE then
+		if gameState ~= STATE_PLAYING then
+			--don't permit the video to pause on the title screen transitions
+			if not singeGetPauseFlag() then discPlay() end --...or mess with the init transition
+		else
+		
+			if singeGetPauseFlag() then discPause() end --...or unpause during the playing session
+			bPause = not bPause
+			
+			if bPause then
+				pauseTime = currentTime
+				iOptions = 0
+			else
+				unPause()
+			end
+			
+		end
+	end
+	
+
+	if key == SWITCH_TILT then
+		if musicIsPlaying() then musicStop() end -- The Fonz Feature
+	end
+	
+
+end
+
+
+function onMouseMoved(intX, intY, intXrel, intYrel, mID)
+
+	if gameState == STATE_PLAYING then
+	
+		if controlMode == MODE_MOUSEX then
+			if bTurnwise then
+				iRotation = iRotation - (intXrel*(iMouseSensitivity/20))
+			else
+				iRotation = iRotation + (intXrel*(iMouseSensitivity/20))
+			end
+		elseif controlMode == MODE_MOUSEY then
+			if bTurnwise then
+				iRotation = iRotation - (intYrel*(iMouseSensitivity/20))
+			else
+				iRotation = iRotation + (intYrel*(iMouseSensitivity/20))
+			end
+		end
+	end
+end
+
+
+function fireBullet()
+
+	if buttonShoot and (currentTime >= (timeBullet + shootInterval)) then	
+		soundPlay(sndZap)
+		
+		table.insert(bullet,{})
+		stat_bullets = stat_bullets +1
+		bullet[#bullet][1] = gunX --Location
+		bullet[#bullet][2] = gunY --Location
+		bullet[#bullet][3] = (math.cos(math.rad((iRotation -90)%360)))/2 --speed X
+		bullet[#bullet][4] = (math.cos(math.rad(iRotation %360)))/-2 --speed Y
+		bullet[#bullet][5] = 0 -- lifecycle on X
+		bullet[#bullet][6] = 0 -- lifecycle on Y
+		
+		if bSpread then
+			if currentTime > timeSpread then
+				bSpread = false
+			else
+				table.insert(bullet,{})
+				bullet[#bullet][1] = gunX --Location
+				bullet[#bullet][2] = gunY --Location
+				bullet[#bullet][3] = (math.cos(math.rad((iRotation -100)%360)))/2 --speed X
+				bullet[#bullet][4] = (math.cos(math.rad((iRotation -10)%360)))/-2 --speed Y
+				bullet[#bullet][5] = 0 -- lifecycle on X
+				bullet[#bullet][6] = 0 -- lifecycle on Y
+				
+				table.insert(bullet,{})
+				bullet[#bullet][1] = gunX --Location
+				bullet[#bullet][2] = gunY --Location
+				bullet[#bullet][3] = (math.cos(math.rad((iRotation -80)%360)))/2 --speed X
+				bullet[#bullet][4] = (math.cos(math.rad((iRotation +10)%360)))/-2 --speed Y
+				bullet[#bullet][5] = 0 -- lifecycle on X
+				bullet[#bullet][6] = 0 -- lifecycle on Y
+				
+				stat_bullets = stat_bullets +2
+			end
+		end
+		
+		
+		timeBullet = currentTime
+	end
+
+end
+
+
+function hyperspace()
+	
+	buttonWarp = false
+	if hndWarp >=0 then return end
+
+	bSafe = false
+	
+	while not bSafe do	
+		shipX = math.random(resX *0.1, resX *0.9)
+		shipY = math.random(resY *0.1, resY *0.9)
+		bSafe = checkForSafety()
+	end
+	
+	iThrustX = 0
+	iThrustY = 0
+	iRotation = math.random(0,359)
+	hndWarp = soundPlay(sndWarp)
+
+	if bVibration and controllerIsValid(0) then
+		controllerDoRumble(0, 2, 3)
+	end
+	iWarps = iWarps -1
+	stat_warps = stat_warps +1
+	
+	if bInert then bInert = false end
+	
+end
+
+
+function deathBlossom()
+	
+	if iBlossom < 625 then
+
+		if not buttonShoot then buttonShoot = true end
+		iThrustX = 0
+		iThrustY = 0
+
+		if currentTime >= blossomTime + turnInterval then
+			iRotation = iRotation + iBlossom/5
+			iBlossom = iBlossom + 1
+			
+			if iBlossom % 75 == 0 then
+				if bVibration and controllerIsValid(0) then
+					controllerDoRumble(0, 1, 2)
+				end
+			end
+			
+		end
+	
+	elseif iBlossom >= 300 then
+		
+		--blow up everything
+		local x,y
+		
+		while #rock >0 do
+			soundPlay(sndBoom)
+			size = rock[#rock][3][6]
+			speed = rock[#rock][3][7]
+			x = rock[#rock][3][1]
+			y = rock[#rock][3][2]
+			table.remove(rock,#rock)
+			if size == SIZE_BIG then
+				updateScore(SCORE_BIG * SCORE_MULTIPLIER,x,y)
+			elseif size == SIZE_MEDIUM then
+				updateScore(SCORE_MEDIUM * SCORE_MULTIPLIER,x,y)
+			elseif size == SIZE_SMALL then
+				updateScore(SCORE_SMALL * SCORE_MULTIPLIER,x,y)
+			end
+			stat_rocks = stat_rocks +1
+			addParticles(x,y)
+		end
+		
+		if bSaucer then
+			soundPlay(sndBoom)
+			x = saucer[3][1]
+			y = saucer[3][2]
+			updateScore(saucer[3][6] * SCORE_MULTIPLIER,x,y)
+			if hndLaser >=0 then
+				soundStop(hndLaser)
+				hndLaser = -1
+			end
+			bSaucer = false
+			stat_saucers = stat_saucers +1
+			soundStop(hndSaucer)
+			hndSaucer = -1
+			saucer = {{},{},{}}
+			laser = {}
+			addParticles(x,y)
+		end
+		
+		if bOrb then
+			soundPlay(sndBoom)
+			x = orb[3][1]
+			y = orb[3][2]
+			updateScore(SAUCER_ORB * SCORE_MULTIPLIER,x,y)
+			stat_orbs = stat_orbs +1
+			bOrb = false
+			addParticles(x,y)
+		end
+		
+		if bVibration and controllerIsValid(0) then
+			controllerDoRumble(0, 3, 4)
+		end
+		
+		if buttonShoot then buttonShoot = false end
+		iBlossom = 0
+	end
+		
+end
+
+
+
+-- ##  Drawing things ## --
+
+function drawShip(x, y, theta)
+    local function justDrawTheShip(x1, y1, x2, y2, x3, y3, x4, y4, x5, y5, x6, y6)
+        function drawFilledTriangle(xa, ya, xb, yb, xc, yc)
+            -- Sort vertices by Y
+            if ya > yb then xa, ya, xb, yb = xb, yb, xa, ya end
+            if ya > yc then xa, ya, xc, yc = xc, yc, xa, ya end
+            if yb > yc then xb, yb, xc, yc = xc, yc, xb, yb end
+
+            -- Interpolate X based on Y
+            local function interpX(y, x1, y1, x2, y2)
+                if y1 == y2 then return x1 end  -- Handle horizontal edges
+                return x1 + (y - y1) * (x2 - x1) / (y2 - y1)
+            end
+
+            -- Draw horizontal lines between interpolated X coordinates
+            for y = ya, yc do
+                local x1 = interpX(y, xa, ya, xc, yc)
+                local x2 = y < yb and interpX(y, xa, ya, xb, yb) or interpX(y, xb, yb, xc, yc)
+                if x1 > x2 then x1, x2 = x2, x1 end  -- Ensure x1 is always left of x2
+                overlayLine(x1, y, x2, y)
+            end
+        end
+        
+        -- Draw the infill
+        colorForeground(32, 32, 32)
+        drawFilledTriangle(x1, y1, x4, y4, x6, y6)
+        -- Draw the ship
+		if bInert then
+			colorForeground(192, 96, 0) -- when inactive
+        else
+			colorForeground(255, 255, 0) -- when active
+		end
+        overlayLine(x1, y1, x2, y2)
+        overlayLine(x1, y1, x3, y3)
+        overlayLine(x4, y4, x5, y5)
+        overlayLine(x6, y6, x5, y5)
+    end
+
+    -- Define the original points for the shape
+    local p1_x, p1_y = x + ship[1][1], y + ship[2][1]
+    local p2_x, p2_y = x + ship[1][2], y + ship[2][2]
+    local p3_x, p3_y = x + ship[1][3], y + ship[2][3]
+    local p4_x, p4_y = x + ship[1][4], y + ship[2][4]
+    local p5_x, p5_y = x + ship[1][5], y + ship[2][5]
+    local p6_x, p6_y = x + ship[1][6], y + ship[2][6]
+    
+    -- Rotate each point around the center (x, y) by the angle theta
+    shipR[1][1], shipR[2][1] = rotatePoint(x, y, p1_x, p1_y, theta)
+    shipR[1][2], shipR[2][2] = rotatePoint(x, y, p2_x, p2_y, theta)
+    shipR[1][3], shipR[2][3] = rotatePoint(x, y, p3_x, p3_y, theta)
+    shipR[1][4], shipR[2][4] = rotatePoint(x, y, p4_x, p4_y, theta)
+    shipR[1][5], shipR[2][5] = rotatePoint(x, y, p5_x, p5_y, theta)
+    shipR[1][6], shipR[2][6] = rotatePoint(x, y, p6_x, p6_y, theta)
+	
+	--extra collision points (not used for drawing)
+	local p7_x,  p7_y =  x + ship[1][7],  y + ship[2][7]
+    local p8_x,  p8_y =  x + ship[1][8],  y + ship[2][8]
+    local p9_x,  p9_y =  x + ship[1][9],  y + ship[2][9]
+    local p10_x, p10_y = x + ship[1][10], y + ship[2][10]
+	shipR[1][7],  shipR[2][7]  = rotatePoint(x, y, p7_x,  p7_y,  theta)
+	shipR[1][8],  shipR[2][8]  = rotatePoint(x, y, p8_x,  p8_y,  theta)
+	shipR[1][9],  shipR[2][9]  = rotatePoint(x, y, p9_x,  p9_y,  theta)
+	shipR[1][10], shipR[2][10] = rotatePoint(x, y, p10_x, p10_y, theta)
+	
+
+    -- Declare the tip of the ship as bullet origin
+    gunX = shipR[1][1]  -- Updated to use shipR for gunX
+    gunY = shipR[2][1]  -- Updated to use shipR for gunY
+    
+    justDrawTheShip(shipR[1][1], shipR[2][1], shipR[1][2], shipR[2][2], shipR[1][3], shipR[2][3], shipR[1][4], shipR[2][4], shipR[1][5], shipR[2][5], shipR[1][6], shipR[2][6])
+    
+    -- Wrap over the edges
+    if shipX >= resX - 18 then
+        justDrawTheShip(shipR[1][1] - resX, shipR[2][1], shipR[1][2] - resX, shipR[2][2], shipR[1][3] - resX, shipR[2][3], shipR[1][4] - resX, shipR[2][4], shipR[1][5] - resX, shipR[2][5], shipR[1][6] - resX, shipR[2][6])
+    elseif shipX <= 18 then
+        justDrawTheShip(shipR[1][1] + resX, shipR[2][1], shipR[1][2] + resX, shipR[2][2], shipR[1][3] + resX, shipR[2][3], shipR[1][4] + resX, shipR[2][4], shipR[1][5] + resX, shipR[2][5], shipR[1][6] + resX, shipR[2][6])
+    end
+
+    if shipY >= resY - 18 then
+        justDrawTheShip(shipR[1][1], shipR[2][1] - resY, shipR[1][2], shipR[2][2] - resY, shipR[1][3], shipR[2][3] - resY, shipR[1][4], shipR[2][4] - resY, shipR[1][5], shipR[2][5] - resY, shipR[1][6], shipR[2][6] - resY)
+    elseif shipY <= 18 then
+        justDrawTheShip(shipR[1][1], shipR[2][1] + resY, shipR[1][2], shipR[2][2] + resY, shipR[1][3], shipR[2][3] + resY, shipR[1][4], shipR[2][4] + resY, shipR[1][5], shipR[2][5] + resY, shipR[1][6], shipR[2][6] + resY)
+    end
+end
+
+
+function drawThrust(x, y, theta)
+
+	local function justDrawTheThrust(x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6)
+		-- Draw the rotated thrust
+		overlayLine(x1, y1, x2, y2) -- Line 1
+		overlayLine(x3, y3, x4, y4) -- Line 2
+		overlayLine(x5, y6, x6, y6) -- Line 3
+	end
+
+    -- Define the original points for the shape
+    local p1_x, p1_y = x - 1, y + 6
+    local p2_x, p2_y = x - 1, y + 8
+    local p3_x, p3_y = x, y + 5
+    local p4_x, p4_y = x, y + 10
+    local p5_x, p5_y = x +1, y + 6
+    local p6_x, p6_y = x + 1, y + 8
+    
+    -- Rotate each point around the center (x, y) by the angle theta
+    local p1_rot_x, p1_rot_y = rotatePoint(x, y, p1_x, p1_y, theta)
+    local p2_rot_x, p2_rot_y = rotatePoint(x, y, p2_x, p2_y, theta)
+    local p3_rot_x, p3_rot_y = rotatePoint(x, y, p3_x, p3_y, theta)
+    local p4_rot_x, p4_rot_y = rotatePoint(x, y, p4_x, p4_y, theta)
+    local p5_rot_x, p5_rot_y = rotatePoint(x, y, p5_x, p5_y, theta)
+    local p6_rot_x, p6_rot_y = rotatePoint(x, y, p6_x, p6_y, theta)
+
+    -- Draw the rotated shape using overlayLine
+	colorForeground(255,128,0)
+	justDrawTheThrust(p1_rot_x, p1_rot_y, p2_rot_x, p2_rot_y, p3_rot_x, p3_rot_y, p4_rot_x, p4_rot_y, p5_rot_x, p5_rot_y, p6_rot_x, p6_rot_y)
+	
+	if shipX >= resX-18 then
+		justDrawTheThrust(p1_rot_x -resX, p1_rot_y, p2_rot_x -resX, p2_rot_y, p3_rot_x -resX, p3_rot_y, p4_rot_x -resX, p4_rot_y, p5_rot_x -resX, p5_rot_y, p6_rot_x -resX, p6_rot_y)
+	elseif shipX <= 18 then
+		justDrawTheThrust(p1_rot_x +resX, p1_rot_y, p2_rot_x +resX, p2_rot_y, p3_rot_x +resX, p3_rot_y, p4_rot_x +resX, p4_rot_y, p5_rot_x +resX, p5_rot_y, p6_rot_x +resX, p6_rot_y)
+	end
+
+	if shipY >= resY-18 then
+		justDrawTheThrust(p1_rot_x, p1_rot_y -resY, p2_rot_x, p2_rot_y -resY, p3_rot_x, p3_rot_y -resY, p4_rot_x, p4_rot_y -resY, p5_rot_x, p5_rot_y -resY, p6_rot_x, p6_rot_y -resY)
+	elseif shipY <= 18 then
+		justDrawTheThrust(p1_rot_x, p1_rot_y +resY, p2_rot_x, p2_rot_y +resY, p3_rot_x, p3_rot_y +resY, p4_rot_x, p4_rot_y +resY, p5_rot_x, p5_rot_y +resY, p6_rot_x, p6_rot_y +resY)
+	end
+	
+end
+
+
+function drawRocks()
+
+	local function justDrawTheRock(points)
+		-- Fill polygon using horizontal scanlines
+		colorForeground(96, 32, 0)
+		
+		-- Find the min and max Y coordinates of the shape for the scanline loop
+		local minY, maxY = math.huge, -math.huge
+		for i = 1, #points[2] do
+			if points[2][i] < minY then minY = points[2][i] end
+			if points[2][i] > maxY then maxY = points[2][i] end
+		end
+		
+		-- Constrain the scanline bounds within the screen
+		minY = math.max(0, minY)
+		maxY = math.min(resY, maxY)
+
+		-- Scanline filling
+		for yCoord = minY, maxY do
+			local intersections = {}
+			for j = 1, #points[1] do
+				local p1x, p1y = points[1][j], points[2][j]
+				local p2x, p2y = points[1][(j % #points[1]) + 1], points[2][(j % #points[2]) + 1]
+				
+				-- Find the intersections between the scanline and polygon edges
+				if (p1y <= yCoord and p2y > yCoord) or (p2y <= yCoord and p1y > yCoord) then
+					local intersectX = p1x + (yCoord - p1y) * (p2x - p1x) / (p2y - p1y)
+					table.insert(intersections, intersectX)
+				end
+			end
+			
+			-- Sort intersections and draw lines between pairs
+			table.sort(intersections)
+			for k = 1, #intersections, 2 do
+				overlayLine(intersections[k], yCoord, intersections[k + 1], yCoord)
+			end
+		end
+
+		-- Draw the blue outline
+		colorForeground(1, 1, 1)
+		for j = 1, #points[1] do
+			local nextIndex = (j % #points[1]) + 1
+			overlayLine(points[1][j], points[2][j], points[1][nextIndex], points[2][nextIndex])
+		end
+	end
+
+
+	local i,j,k
+	local tempRock = nil; tempRock = {{},{}}
+	local tempRockN = nil; tempRockN = {{},{}}
+	local tempRockS = nil; tempRockS = {{},{}}
+	local tempRockE = nil; tempRockE = {{},{}}
+	local tempRockW = nil; tempRockW = {{},{}}
+	
+	if rock ~= nil then
+		if #rock > 0 then  -- Check if there are any rocks in the table
+			for i = #rock,1,-1 do  -- Iterate over the rocks in reverse order
+				
+				for k = 1,#rock[i][1] do
+					tempRock[1][k] = rock[i][3][1] + rock[i][1][k]
+					tempRock[2][k] = rock[i][3][2] + rock[i][2][k]
+					
+					tempRockN[1][k] = tempRock[1][k]
+					tempRockN[2][k] = tempRock[2][k] -resY
+					
+					tempRockS[1][k] = tempRock[1][k]
+					tempRockS[2][k] = tempRock[2][k] +resY
+					
+					tempRockE[1][k] = tempRock[1][k] +resX
+					tempRockE[2][k] = tempRock[2][k]
+					
+					tempRockW[1][k] = tempRock[1][k] -resX
+					tempRockW[2][k] = tempRock[2][k]
+					
+				end
+				
+				justDrawTheRock(tempRock)
+				
+				if rock[i][3][5] then
+					for j = 1,#tempRock[1] do
+						
+						if tempRock[1][j] < 0 then
+							justDrawTheRock(tempRockE)
+							break
+						elseif tempRock[1][j] > resX then
+							justDrawTheRock(tempRockW)
+							break
+						end
+					end
+					
+					for j = 1,#tempRock[2] do
+										
+						if tempRock[2][j] < 0 then
+							justDrawTheRock(tempRockS)
+							break
+						elseif tempRock[2][j] > resY then
+							justDrawTheRock(tempRockN)
+							break
+						end
+						
+					end
+				 end
+				 
+			end
+		end
+	end
+end
+
+
+function drawBullets()
+
+	local i,j
+	if bullet ~= nil then
+		if #bullet >0 then
+			
+			for i = #bullet,1,-1 do
+				colorForeground(255,128,0)
+				overlayBox(bullet[i][1]-1,bullet[i][2]-1,bullet[i][1]+1,bullet[i][2]+1)
+				colorForeground(255,255,255)
+				overlayPlot(bullet[i][1],bullet[i][2])
+				
+			end
+		end
+	end
+
+end
+
+
+function drawSaucer()
+	
+	if bSaucer then
+		spriteDraw(saucer[3][1]-xOrb,saucer[3][2]-yOrb,sprOrb)
+		if saucer[3][6] == SAUCER_SMALL then
+			spriteDraw(saucer[3][1]-xSaucer2,saucer[3][2]-ySaucer2,sprSaucer2)
+			shootingSaucer(SAUCER_SMALL)
+		elseif saucer[3][6] == SAUCER_FLINGER then
+			spriteDraw(saucer[3][1]-xSaucer3,saucer[3][2]-ySaucer3,sprSaucer3)
+			shootingSaucer(SAUCER_FLINGER)
+		else
+			spriteDraw(saucer[3][1]-xSaucer1,saucer[3][2]-ySaucer1,sprSaucer1)
+			shootingSaucer(SAUCER_BIG)
+		end
+		
+	elseif bOrb then
+		spriteDraw(orb[3][1]-xOrb,orb[3][2]-yOrb,sprOrb)
+	elseif bPowerup then
+		spriteDraw(orb[3][1]-xOrb,orb[3][2]-yOrb,sprPowerup)
+	end
+	
+end
+
+
+function drawLasers()
+	
+	-- draw the laser beams
+	local i,j
+	if laser ~= nil then
+		if #laser >0 then
+			
+			for i = #laser,1,-1 do
+				colorForeground(0,255,0)
+				overlayLine(saucer[3][1]-1,saucer[3][2]-1,laser[i][1]-1,laser[i][2]-1)
+				overlayLine(saucer[3][1]+1,saucer[3][2]+1,laser[i][1],laser[i][2]+1)
+				colorForeground(255,255,0)
+				overlayLine(saucer[3][1],saucer[3][2],laser[i][1],laser[i][2])
+			end
+		end
+	end
+
+end
+
+
+function drawParticles()
+
+	local function moveParticles()
+		
+		local i = 0
+		local killList = nil; killList = {}
+		
+		if #particle <= 0 then
+			return
+		end
+		
+		for i = 1,#particle do
+		
+			if particle[i][partiH] > 0 then
+				particle[i][partiH] = particle[i][partiH] -- -1
+			elseif particle[i][partiH] < 0 then
+				particle[i][partiH] = particle[i][partiH] -- +1
+			end
+			
+			if particle[i][partiV] > 0 then
+				particle[i][partiV] = particle[i][partiV] -- -1
+			elseif particle[i][partiV] < 0 then
+				particle[i][partiV] = particle[i][partiV] -- +1
+			end
+			-- if particle[i][partiV] > -1 then
+				-- particle[i][partiV] = particle[i][partiV] - 1
+			-- end
+				
+			particle[i][partiX] = particle[i][partiX] + particle[i][partiH]
+			particle[i][partiY] = particle[i][partiY] - particle[i][partiV]
+
+		end
+			
+	end
+
+	if #particle <= 0 then
+		return
+	end
+	
+	local i = 0
+	
+	for i = #particle,1,-1 do
+		colorForeground(particle[i][partiR],particle[i][partiG],particle[i][partiB])
+		overlayPlot(particle[i][partiX],particle[i][partiY])
+		
+		if currentTime >= particle[i][partiDie] then -- kill off old particles
+			table.remove(particle,i)
+		end
+	end
+	
+	if currentTime >= partiTime + 0.018 then
+		moveParticles()
+		partiTime = currentTime
+	end
+
+end
+
+
+function drawPopups()
+
+	if popup ~= nil then
+	
+		if #popup >0 then
+		
+			colorForeground(255,255,96)
+			fontSelect(fntPopup12)
+			local i
+			for i = #popup,1,-1 do
+				fontPrint(popup[i][1],popup[i][2],popup[i][4])
+				
+			end
+			if currentTime >= timePopup + popupInterval then
+				for i = #popup,1,-1 do
+					if popup[i][3] >= 40 then
+						table.remove(popup,i)
+					else
+						popup[i][2] = popup[i][2]-1
+						popup[i][3] = popup[i][3]+1
+					end
+				end
+				timePopup = currentTime
+			end
+		end
+	
+	end
+
+end
+
+
+function drawSolidEgg(x, y, w, h, angle, segments)
+-- Function to draw a solid egg shape with rotation
+    local k = 0.4  -- Adjust this value to control the elongation of the egg
+
+    -- Define points along the parametric egg shape
+    local eggPoints = {}
+    for i = 0, segments do
+        local t = (i / segments) * 2 * math.pi
+        local px = w * math.cos(t)
+        local py = h * (math.sin(t) * (1 + k * math.cos(t)))
+
+        -- Rotate the point around the center (x, y)
+        local rotatedX, rotatedY = rotatePoint(0, 0, px, py, angle)
+
+        table.insert(eggPoints, {rotatedX + x, rotatedY + y})
+    end
+
+    -- Fill the egg shape using horizontal scanlines
+    --colorForeground(32, 32, 32)  -- Set the fill color
+    local minY, maxY = eggPoints[1][2], eggPoints[1][2]
+
+    -- Find the min and max Y for scanline interpolation
+    for i = 1, #eggPoints do
+        if eggPoints[i][2] < minY then minY = eggPoints[i][2] end
+        if eggPoints[i][2] > maxY then maxY = eggPoints[i][2] end
+    end
+
+    -- Scanline fill between minY and maxY
+    for yCoord = minY, maxY do
+        local intersections = {}
+        -- Find intersections of the scanline with egg's edges
+        for j = 1, #eggPoints do
+            local p1x, p1y = eggPoints[j][1], eggPoints[j][2]
+            local p2x, p2y = eggPoints[(j % #eggPoints) + 1][1], eggPoints[(j % #eggPoints) + 1][2]
+
+            -- Check if the scanline intersects the edge
+            if (p1y <= yCoord and p2y > yCoord) or (p2y <= yCoord and p1y > yCoord) then
+                local intersectX = p1x + (yCoord - p1y) * (p2x - p1x) / (p2y - p1y)
+                table.insert(intersections, intersectX)
+            end
+        end
+
+        -- Sort intersections and draw horizontal lines between them
+        table.sort(intersections)
+        for k = 1, #intersections, 2 do
+            overlayLine(intersections[k], yCoord, intersections[k + 1], yCoord)
+        end
+    end
+
+    -- Outline the egg with a different colour
+    -- colorForeground(0, 0, 128)
+    -- for j = 1, #eggPoints do
+        -- local nextIndex = (j % #eggPoints) + 1
+        -- overlayLine(eggPoints[j][1], eggPoints[j][2], eggPoints[nextIndex][1], eggPoints[nextIndex][2])
+    -- end
+end
+
+
+function drawTimer()
+	
+	if bPlaying then
+		iTimer = 99.99 - (currentTime - timeStartWave)
+		if iTimer < 0 then iTimer = 0 end
+	end
+	
+	local iSeconds = math.floor(iTimer)
+	local iMilliseconds = math.floor((iTimer - iSeconds) *100)
+	iBonus = iSeconds * 100
+	
+	fontSelect(fntTitle)
+	local sprTemp
+	sprTemp	= fontToSprite(iSeconds)
+	local wSecs = spriteGetWidth(sprTemp)
+	spriteUnload(sprTemp)
+	
+	colorForeground(0,0,160)
+	drawSolidEgg(resX-80, resY -30, 28, 18, math.rad(35), 20)
+	
+	fontSelect(fntTitle)
+	drawTxt(resX-80, resY -62,". _",255,255,0)
+	drawTxt(resX-85-wSecs, resY -55, iSeconds,255,255,0,4)
+	fontSelect(fntScore)
+	if iMilliseconds < 10 then
+		drawTxt(resX-65, resY -50, "0"..iMilliseconds,255,255,0,4)
+	else
+		drawTxt(resX-65, resY -50, iMilliseconds,255,255,0,4)
+	end
+end
+
+
+function drawScore()
+	
+	colorForeground(0,0,160)
+	drawSolidEgg(50, 32, 30, 10, math.rad(10), 20)
+	fontSelect(fntScore)
+	drawTxt(scoreX,20, iScore,255,255,0,4)
+	
+end
+
+
+function drawLevelNum()
+	
+	colorForeground(0,0,160)
+	drawSolidEgg(resX-50, 32, 23, 12, math.rad(20), 20)
+	fontSelect(fntTitle)
+	drawTxt(resX-50-xLevelNum, 32-yLevelNum, iLevel,255,255,0,4)
+	
+end
+
+
+function drawLivesAndWarps()
+	colorForeground(0,0,160)
+	drawSolidEgg(resX * 0.08, resY * 0.92, 40, 16, math.pi, 40)
+	
+	if iLives > 1 then
+		for i = 1,iLives-1 do
+			drawShip(resX *(0.04+(0.02*(i -1))), resY *0.95, 0)
+		end
+	end
+	
+	if iWarps > 0 then
+		for i = 1,iWarps do
+			spriteDraw( resX *(0.04+(0.02*(i -1)))-xOrb, (resY *0.89) -yOrb, sprWarp)
+		end
+	end
+	
+end
+
+
+function drawTxt(x1,y1,tText,r,g,b,shadow)
+	
+	local offset
+	colorForeground(1,1,1)
+	for _, offset in ipairs(outline) do
+		fontPrint(x1 + offset[1], y1 + offset[2], tText)
+	end
+	
+	if shadow ~= nil then
+		fontPrint(x1 -shadow, y1 -shadow, tText)
+	end
+	
+	if r ~= nil and g ~= nil and b ~= nil then
+		colorForeground(r,g,b)
+		fontPrint(x1, y1, tText)
+	end
+	
+end
+
+
+
+-- ## Movement ## --
+
+function rotatePoint(x, y, x_prime, y_prime, theta)
+	-- Helper function to rotate a point (x', y') around center (x, y) by angle theta
+	local cos_theta = math.cos(theta)
+	local sin_theta = math.sin(theta)
+	local x_new = x + (x_prime - x) * cos_theta - (y_prime - y) * sin_theta
+	local y_new = y + (x_prime - x) * sin_theta + (y_prime - y) * cos_theta
+	
+	return x_new, y_new
+end
+
+
+function checkForSafety()
+
+	local zone = 20
+	local i,j,k
+
+	for i = shipX -zone,shipX +zone do
+		for j = shipY -zone,shipY +zone do
+			if rock ~=nil then
+				if #rock > 0 then
+					for k = #rock,1,-1 do
+						if checkCollision(i,j,rock[k]) then
+							return false
+						end
+					end
+				end
+			end
+			
+			if bSaucer then
+				if checkCollision(i,j,saucer) then
+					return false
+				end
+			end
+			if bOrb then
+				if checkCollision(i,j,orb) then
+					return false
+				end
+			end
+
+			if laser ~= nil then
+				if #laser >0 then return false end
+			end
+			
+		end
+	end
+	
+	return true
+
+end
+
+
+function moveShip()
+	
+	local i
+	
+	if currentTime >= timeTurn+turnInterval then
+		
+		-- Rotating the Ship
+		local tempRotation, tempThrustY, tempThrustX
+	
+		if (buttonLeft and not buttonRight and not bTurnwise)
+		or (buttonRight and not buttonLeft and bTurnwise) then
+
+			if buttonBoost then
+				iRotation = iRotation - (iTurnSensitivity *2)
+			else
+				iRotation = iRotation - iTurnSensitivity
+			end
+			
+			if iRotation < -179 then iRotation = iRotation + 360 end
+
+		elseif (buttonRight and not buttonLeft and not bTurnwise)
+			or (buttonLeft and not buttonRight and bTurnwise) then
+		
+			if buttonBoost then
+				iRotation = iRotation + (iTurnSensitivity *2)
+			else
+				iRotation = iRotation + iTurnSensitivity
+			end
+		
+			if iRotation > 180 then iRotation = iRotation - 360 end
+		end
+	
+	timeTurn = currentTime
+	
+	end	
+	
+	
+	if currentTime >= timeThrust+waitInterval then
+		
+		--Thrusting the Ship
+		
+		tempThrustX = (math.cos(math.rad((iRotation -90)%360)))/2    
+		tempThrustY = (math.cos(math.rad(iRotation %360)))/2
+		
+		if buttonThrust and not buttonRetro then
+		
+			iThrustX = iThrustX + tempThrustX
+			iThrustY = iThrustY - tempThrustY
+					
+		elseif buttonRetro and not buttonThrust then
+		
+			iThrustX = iThrustX - tempThrustX
+			iThrustY = iThrustY + tempThrustY
+			
+		end
+		if iThrustX > 15 then
+			iThrustX = 15
+		elseif iThrustX < -15 then
+			iThrustX = -15
+		end
+		if iThrustY > 15 then
+			iThrustY = 15
+		elseif iThrustY < -15 then
+			iThrustY = -15
+		end
+		
+		shipX = shipX + iThrustX
+		shipY = shipY + iThrustY
+		
+		if shipX > resX then shipX = shipX - resX elseif shipX < 0 then shipX = shipX + resX end
+		if shipY > resY then shipY = shipY - resY elseif shipY < 0 then shipY = shipY + resY end
+	
+	-- Time Step
+		timeThrust = currentTime
+	
+	end
+	
+end
+
+
+function moveObjects()
+	
+	local i
+	
+	function fluctuateTowardsMid(currentValue, minValue, maxValue, step)
+		--keeps the small and flinger saucers on screen.
+		local midValue = (minValue + maxValue) / 2  -- Calculate mid-point
+		local bias = (midValue - currentValue) * 0.1 -- Bias factor pulling towards mid
+
+		-- Generate a small random fluctuation
+		local direction = math.random(-1, 1) 
+		local newValue = currentValue + (direction * step) + bias  -- Apply fluctuation and bias
+
+		-- Ensure the new value stays within the min-max range
+		if newValue < minValue then
+			newValue = minValue
+		elseif newValue > maxValue then
+			newValue = maxValue
+		end
+
+		return newValue
+	end
+	
+	
+	if currentTime >= timeWait+waitInterval then
+		
+		-- move rocks
+		if rock ~= nil then
+			if #rock >0 then
+				for i = #rock,1,-1 do
+					rock[i][3][1] = rock[i][3][1] + rock[i][3][3]	
+					rock[i][3][2] = rock[i][3][2] - rock[i][3][4]
+					
+					if not (i == 1 and saucer[3][8]) then
+						if rock[i][3][1] > resX then
+							rock[i][3][1] = rock[i][3][1] - resX
+						elseif rock[i][3][1] < 0 then
+							rock[i][3][1] = rock[i][3][1] + resX
+						end
+					end
+					
+					if rock[i][3][2] > resY then
+						rock[i][3][2] = rock[i][3][2] - resY
+					elseif rock[i][3][2] < 0 then
+						rock[i][3][2] = rock[i][3][2] + resY
+					end
+					
+					--New rock has fully entered the playfield and can now wrap
+					if rock[i][3][5] == false then
+					local test = true
+						for j = 1,#rock[i][1] do
+							if rock[i][3][1] + rock[i][1][j] < 0
+							or rock[i][3][1] + rock[i][1][j] > resX
+							or rock[i][3][2] + rock[i][2][j] < 0
+							or rock[i][3][2] + rock[i][2][j] > resY then
+								test = false
+							end
+						end
+						rock[i][3][5] = test
+					end
+					
+				end
+			end
+		end
+		
+		
+		
+		
+		--Move the Flying Saucer
+		if bSaucer then
+					
+			if saucer[3][6] == SAUCER_BIG then
+				saucer[3][1] = saucer[3][1] + (saucer[3][3] * saucer[3][7])
+				saucer[3][4] = fluctuateTowardsMid(saucer[3][4], -7, 7, 1)
+			
+			else --SMALL and FLINGER
+				
+				if saucer[3][1] <= resX*0.1 then
+					saucer[3][3] = (math.cos(math.rad((math.random(40,140) -90)%360)))*2.5
+				elseif saucer[3][1] >= resX*0.9 then
+					saucer[3][3] = (math.cos(math.rad((math.random(220,320) -90)%360)))*2.5
+				else			
+					saucer[3][3] = fluctuateTowardsMid(saucer[3][3], -7, 7, 1)
+				end
+				
+				if saucer[3][2] <= resY*0.1 then
+					saucer[3][4] = (math.sin(math.rad(math.random(310,410) %360)))*2
+				elseif saucer[3][2] >= resY*0.9 then
+					saucer[3][4] = (math.sin(math.rad(math.random(130,230) %360)))*2
+				else			
+					saucer[3][4] = fluctuateTowardsMid(saucer[3][4], -7, 7, 1)
+				end
+				
+				if saucer[3][1] - shipX >= resX*0.3 then
+					saucer[3][1] = saucer[3][1] - 1
+				elseif saucer[3][1] - shipX <= resX*0.1 then
+					saucer[3][1] = saucer[3][1] + 1.5
+				elseif shipX - saucer[3][1] >= resX*0.3 then
+					saucer[3][1] = saucer[3][1] + 1
+				elseif shipX - saucer[3][1] <= resX*0.1 then
+					saucer[3][1] = saucer[3][1] - 1.5
+				end
+				
+				if saucer[3][2] - shipY >= resY*0.3 then
+					saucer[3][2] = saucer[3][2] - 1
+				elseif saucer[3][2] - shipY <= resY*0.1 then
+					saucer[3][2] = saucer[3][2] + 1.5
+				elseif shipY - saucer[3][2] >= resY*0.3 then
+					saucer[3][2] = saucer[3][2] + 1
+				elseif shipY - saucer[3][2] <= resY*0.1 then
+					saucer[3][2] = saucer[3][2] - 1.5
+				end
+						
+			end
+			
+			saucer[3][1] = saucer[3][1] + (saucer[3][3] * saucer[3][7])
+			saucer[3][2] = saucer[3][2] + (saucer[3][4] * saucer[3][7])
+			
+			
+			if saucer[3][8] then --if has rock, align rock to saucer
+					rock[1][3][1] = saucer[3][1]
+					rock[1][3][2] = saucer[3][2] + 20
+				end
+			
+			-- kill it when it reaches the opposite edge
+			if saucer[3][1] >= resX + 20 or saucer[3][1] <= -20 or saucer[3][2] >= resY + 20 or saucer[3][2] <= -20 then
+				bSaucer = false
+				soundStop(hndSaucer)
+				hndSaucer = -1
+				laser = {}
+			end
+		
+		--Move the floating orb
+		elseif bOrb or bPowerup then
+		
+			orb[3][1] = orb[3][1] + (orb[3][3] * orb[3][7])
+			orb[3][2] = orb[3][2] + (orb[3][4] * orb[3][7])
+			
+			--when it reaches the opposite edge
+			if orb[3][1] >= resX + 20 or orb[3][1] <= -20 or orb[3][2] >= resY + 20 or orb[3][2] <= -20 then
+				bOrb = false
+				bPowerup = false
+			end
+		
+		end
+		
+		-- Time Step
+		timeWait = currentTime
+	end
+
+
+	-- Moving the Bullets
+	if currentTime >= bulletWait+bulletInterval then
+		
+		if bullet ~= nil then
+			if #bullet >0 then
+				for i = #bullet,1,-1 do
+					bullet[i][1] = bullet[i][1]+(bullet[i][3]*16)
+					bullet[i][2] = bullet[i][2]+(bullet[i][4]*16)
+					
+					if bullet[i][1] < 0 then
+						bullet[i][1] = bullet[i][1]+resX
+					elseif bullet[i][1] >=resX then
+						bullet[i][1] = bullet[i][1]-resX
+					end
+					
+					if bullet[i][2] < 0 then
+						bullet[i][2] = bullet[i][2]+resY
+					elseif bullet[i][2] >=resY then
+						bullet[i][2] = bullet[i][2]-resY
+					end
+					
+					--kill off old bullets
+					bullet[i][5] = bullet[i][5]-(bullet[i][3]*16)
+					bullet[i][6] = bullet[i][6]-(bullet[i][4]*16)
+					if bullet[i][5] >= resX -30
+					or bullet[i][5] <= 30 -resX
+					or bullet[i][6] >= resY -30
+					or bullet[i][6] <= 30 -resY
+					then
+						table.remove(bullet,i)
+					end
+				end
+			end
+		end
+		
+		
+		if laser ~= nil then
+			if #laser >0 then
+				for i = #laser,1,-1 do
+					laser[i][1] = laser[i][1]+(laser[i][3]*16)
+					laser[i][2] = laser[i][2]+(laser[i][4]*16)
+					
+					--kill off old lasers
+					if currentTime >= laser[i][5] then
+						table.remove(laser,i)
+						soundStop(hndLaser)
+						hndLaser = -1
+					end
+				end
+			end
+		end
+		
+		bulletWait = currentTime
+	end
+	
+end
+
+
+
+-- ## Creating things ## --
+
+function createRock(size,x,y,speed,bCarried)
+    local minRadius
+    local maxRadius
+	
+	local points = nil; points = {}
+	points[1] = {}; points[2] = {}; points[3] = {}
+	
+    local numPoints = 8
+    
+	if size == nil then size = SIZE_BIG end
+	if speed == nil then speed = 1 end
+	
+	if size == SIZE_SMALL then
+		minRadius = 5
+		maxRadius = 10
+	elseif size == SIZE_MEDIUM  then
+		minRadius = 15
+		maxRadius = 25
+	else
+		minRadius = 30
+		maxRadius = 40
+	end
+
+    -- Generate points in a circular order (clockwise)
+    for i = 1, numPoints do
+        local angle = (i - 1) * (2 * math.pi / numPoints)  -- Evenly spaced angles
+        local radius = math.random(minRadius, maxRadius)    -- Random radius between 50-60 pixels
+        local px = radius * math.cos(angle)
+        local py = radius * math.sin(angle)
+		table.insert(points[1], px)  -- Insert into x-coordinates array
+        table.insert(points[2], py)  -- Insert into y-coordinates array
+    end
+	
+  
+	
+    -- Store the points in the global rock array
+    if bCarried then
+		table.insert(rock, 1, points)
+		iPos = 1
+	else
+		table.insert(rock, points)
+		iPos = #rock
+	end
+	
+	-- Store coordinates and 
+	i = math.random(4)
+	
+	-- Make sure a spawn isn't too close
+	if x == nil then
+		if i == 1 then
+			if shipX < resX*0.25 then i = 3 end
+		elseif i == 2 then
+			if shipY < resY*0.25 then i = 4 end
+		elseif i == 3 then
+			if shipX > resX*0.75 then i = 1 end
+		elseif i == 4 then
+			if shipY > resY*0.74 then i = 2 end
+		end
+	end
+	
+	if i == 1 then -- left edge
+		if x == nil then 
+			rock[iPos][3][1] = 0
+		else
+			rock[iPos][3][1] = x + math.random(-15,15)
+		end
+		if y == nil then 
+			rock[iPos][3][2] = math.random(70,resY-70)
+		else
+			rock[iPos][3][2] = y + math.random(-10,10)
+		end
+		rock[iPos][3][3] = (math.cos(math.rad((math.random(40,140) -90)%360)))/2 
+		rock[iPos][3][4] = (math.cos(math.rad(math.random(40,140) %360)))/2
+		
+	elseif i == 2 then -- top edge
+		if x == nil then 
+			rock[iPos][3][1] = math.random(70,resX-70)
+		else
+			rock[iPos][3][1] = x + math.random(-15,15)
+		end
+		if y == nil then 
+			rock[iPos][3][2] = 0
+		else
+			rock[iPos][3][2] = y + math.random(-15,15)
+		end
+		rock[iPos][3][3] = (math.cos(math.rad((math.random(130,230) -90)%360)))/2 
+		rock[iPos][3][4] = (math.cos(math.rad(math.random(130,230) %360)))/2
+		
+	elseif i == 3 then -- right edge
+		if x == nil then 
+			rock[iPos][3][1] = resX
+		else
+			rock[iPos][3][1] = x + math.random(-15,15)
+		end
+		if y == nil then 
+			rock[iPos][3][2] = math.random(70,resY-70)
+		else
+			rock[iPos][3][2] = y + math.random(-15,15)
+		end
+		rock[iPos][3][3] = (math.cos(math.rad((math.random(220,320) -90)%360)))/2 
+		rock[iPos][3][4] = (math.cos(math.rad(math.random(220,320) %360)))/2
+		
+	else -- bottom edge
+		if x == nil then 
+			rock[iPos][3][1] = math.random(70,resX-70)
+		else
+			rock[iPos][3][1] = x + math.random(-15,15)
+		end
+		if y == nil then 
+			rock[iPos][3][2] = resY
+		else
+			rock[iPos][3][2] = y + math.random(-15,15)
+		end
+		rock[iPos][3][3] = (math.cos(math.rad((math.random(310,410) -90)%360)))/2 
+		rock[iPos][3][4] = (math.cos(math.rad(math.random(310,410) %360)))/2
+		
+	end
+	
+	rock[iPos][3][3] = rock[iPos][3][3] * size * speed
+	rock[iPos][3][4] = rock[iPos][3][4] * size * speed
+	
+	if x == nil then
+		rock[iPos][3][5] = false -- wrap permission
+	else 
+		rock[iPos][3][5] = true
+	end
+	rock[iPos][3][6] = size --Rock Type
+	rock[iPos][3][7] = speed --Speed multiplier
+
+
+    return points
+end
+
+
+function chooseSaucer()
+
+	if math.random(chanceCheck) > (chanceOfSaucer +1 -iLevel) then
+		soundPlay(sndHostile)
+		if math.random(10) <= chanceBigSaucer then 
+			spawnSaucer(SAUCER_BIG)
+			chanceBigSaucer = chanceBigSaucer -1
+		else	
+			if math.random(10) <= chanceSmallSaucer then 
+				spawnSaucer(SAUCER_SMALL)
+				chanceSmallSaucer = chanceSmallSaucer -1
+			else
+				spawnSaucer(SAUCER_FLINGER)
+			end	
+		end
+		return true
+	else
+		return false
+	end
+	
+end
+
+
+function spawnSaucer(sType)
+	
+	local i
+	
+	if sType == nil then
+		sType = SAUCER_BIG
+	end
+	
+	if sType == SAUCER_FLINGER then
+		saucer = pSaucer3
+	elseif sType == SAUCER_SMALL then
+		saucer = pSaucer2
+	else -- SAUCER_BIG
+		saucer = pSaucer1
+	end
+	
+	if math.random(2) == 2 then
+		saucer[3][1] = resX +20
+		saucer[3][3] = -1
+	else
+		saucer[3][1] = -20
+		saucer[3][3] = 1
+	end
+	
+	saucer[3][2] = math.random(resY *0.1, resY*0.9)	
+	saucer[3][4] = 0
+	saucer[3][5] = false --wrap permission
+	saucer[3][6] = sType
+	saucer[3][7] = 1 --speed multiplier
+	saucer[3][8] = false -- has no rock
+	
+	if sType == SAUCER_FLINGER then
+		-- Flinger carries rock, so create a small one in the first position
+		createRock(SIZE_SMALL,nil,nil,nil,true)
+		rock[1][3][5] = false
+		saucer[3][8] = true -- has rock	
+	end
+	
+	orb[3] = nil; orb[3] = {}
+	orb[3] = saucer[3]
+	
+	timeLaser = currentTime + math.random(2,4)
+	bSaucer = true
+	hndSaucer = soundPlay(sndSaucer)
+	
+end
+
+
+function shootingSaucer(sType)
+
+	if bInert then
+		-- Wait for player to respawn
+		timeLaser = timeLaser +3
+		return
+	end
+
+	local function calculateDirection(x, y, x2, y2)
+		local deltaX = x2 - x
+		local deltaY = y2 - y
+		local angle = math.atan2(deltaY, deltaX)  -- Calculate the angle in radians
+		return angle
+	end
+	
+	if sType == nil then
+		sType = saucer[3][6]
+	end
+	
+	
+	local laserInterval
+	if sType == SAUCER_BIG or sType == SAUCER_FLINGER then
+		laserInterval = shootInterval *6
+	elseif sType == SAUCER_SMALL then
+		laserInterval = shootInterval *3
+	end
+	
+	-- Fire a shot
+	if currentTime >= (timeLaser + (laserInterval)) then	
+	
+		local angle = calculateDirection(saucer[3][1],saucer[3][2],shipX,shipY)
+		local length = resX
+		local newX = saucer[3][1] + length * math.cos(angle)
+		local newY = saucer[3][2] + length * math.sin(angle)
+		
+	
+		if (sType == SAUCER_FLINGER and saucer[3][8] and math.random(3) == 1) then
+		-- if it's a flinger carrying rock, then consider flinging it
+			
+			saucer[3][8] = false
+			rock[1][3][3] = (math.cos(angle))*15 --speed X
+			rock[1][3][4] = (math.sin(angle))*-15 --speed Y
+			soundPlay(sndFling)
+			stat_flings = stat_flings +1		
+	
+		else
+		
+			hndLaser = soundPlay(sndLaser)
+			table.insert(laser,{})
+			stat_lasers = stat_lasers +1
+			laser[#laser][1] = saucer[3][1] --Location
+			laser[#laser][2] = saucer[3][2] --Location
+			
+			
+			if sType == SAUCER_SMALL or sType == SAUCER_FLINGER then
+			
+				
+				laser[#laser][3] = (math.cos(angle))/1.5 --speed X
+				laser[#laser][4] = (math.sin(angle))/1.5 --speed Y
+			else
+				laser[#laser][3] = (math.cos(math.rad((math.random(0,359) -90)%360)))/1.5 --speed X
+				laser[#laser][4] = (math.cos(math.rad(math.random(0,359) %360)))/1.5 --speed Y
+			end
+
+			laser[#laser][5] = currentTime + 3 -- time to stop
+
+		end
+		
+		timeLaser = currentTime + math.random(3,7) -- time to next laser
+		
+	end
+
+end
+
+
+function addParticles(ix,iy)
+	
+	local i , ih, iv, idie, ir, ig, ib, ic
+	local iq = math.random(10,100)
+	local maxVelocity = 10
+	
+	for i = 1,iq do
+		ih = math.random(0-maxVelocity,maxVelocity)
+		iv = math.random(0-maxVelocity,maxVelocity)
+		--iv = math.random(0-(math.floor(maxVelocity/2)),maxVelocity)
+		idie = currentTime + (math.random(50,600)/1000)
+		ic = math.random(256)
+		ir = 255
+		ig = ic-1
+		ib = (ic/2)-1
+		table.insert(particle,{})
+		particle[#particle][partiX] = ix
+		particle[#particle][partiY] = iy
+		particle[#particle][partiH] = ih
+		particle[#particle][partiV] = iv
+		particle[#particle][partiDie] = idie
+		particle[#particle][partiR] = ir
+		particle[#particle][partiG] = ig
+		particle[#particle][partiB] = ib
+	end
+end
+
+
+function popupMsg(x,y,txt)
+
+	fontSelect(fntPopup12)
+	local sprTxt = fontToSprite(txt)
+	local wTxt = spriteGetWidth(sprTxt)/2
+	local hTxt = spriteGetHeight(sprTxt)/2
+	spriteUnload(sprTxt)
+
+	if popup == nil then	popup = {} end
+	
+	table.insert(popup,{})
+	
+	popup[#popup][1] = x -wTxt
+	popup[#popup][2] = y -hTxt
+	popup[#popup][3] = 20 -- lifespan
+	popup[#popup][4] = txt
+	
+end
+
+
+
+-- ## Checking things ## --
+
+function checkForHit()
+
+	local i,j,x,y,size
+	
+	if bullet ~= nil then 
+		if #bullet >0 then
+			for i = #bullet,1,-1 do
+				if rock ~=nil then	
+					if #rock > 0 then
+						for j = #rock,1,-1 do
+							if checkCollision(bullet[i][1],bullet[i][2],rock[j])
+							or checkCollision(bullet[i][1]+resX,bullet[i][2],rock[j])
+							or checkCollision(bullet[i][1]-resX,bullet[i][2],rock[j])
+							or checkCollision(bullet[i][1],bullet[i][2]+resY,rock[j])
+							or checkCollision(bullet[i][1],bullet[i][2]-resY,rock[j])
+							then
+								soundPlay(sndBoom)
+								size = rock[j][3][6]
+								speed = rock[j][3][7]
+								x = rock[j][3][1]
+								y = rock[j][3][2]
+								if j==1 then
+									-- if this is the rock the flinger is carrying, change the marker.
+									if saucer[3][8] then
+										saucer[3][8] = false
+									end
+								end
+								table.remove(bullet,i)
+								table.remove(rock,j)
+								addParticles(x,y)
+								if size == SIZE_BIG then
+									updateScore(SCORE_BIG * SCORE_MULTIPLIER,x,y)
+									createRock(SIZE_MEDIUM,x,y,speed)
+									createRock(SIZE_MEDIUM,x,y,speed)
+								elseif size == SIZE_MEDIUM then
+									updateScore(SCORE_MEDIUM * SCORE_MULTIPLIER,x,y)
+									createRock(SIZE_SMALL,x,y,speed)
+									createRock(SIZE_SMALL,x,y,speed)
+									createRock(SIZE_SMALL,x,y,speed)
+								elseif size == SIZE_SMALL then
+									updateScore(SCORE_SMALL * SCORE_MULTIPLIER,x,y)
+								end
+								stat_rocks = stat_rocks +1
+								return -- Need to quit here, or we get errors when we add things to a table while looping through it.
+							end
+						end
+					end
+				end
+			
+				if bSaucer then
+					if checkCollision(bullet[i][1],bullet[i][2],saucer) or checkCollision(bullet[i][1],bullet[i][2],orb) then
+						soundPlay(sndBoom)
+						if saucer[3][8] then --blow the carried rock first
+							x = rock[1][3][1]
+							y = rock[1][3][2]
+							table.remove(rock,1)
+							saucer[3][8] = false
+							updateScore(SCORE_SMALL * SCORE_MULTIPLIER,x,y)
+							stat_rocks = stat_rocks +1
+						else
+							x = saucer[3][1]
+							y = saucer[3][2]
+							updateScore(saucer[3][6] * SCORE_MULTIPLIER,x,y)
+							if hndLaser >=0 then
+								soundStop(hndLaser)
+								hndLaser = -1
+							end
+							bSaucer = false
+							stat_saucers = stat_saucers +1
+							soundStop(hndSaucer)
+							hndSaucer = -1
+							saucer = {{},{},{}}
+							laser = {}
+							bOrb = true
+							orb[3][3] = (math.sin(math.rad(math.random(0,359))))*3
+							orb[3][4] = (math.cos(math.rad(math.random(0,359))))*3
+							
+						end
+						table.remove(bullet,i)
+						addParticles(x,y)
+						return
+					end
+				end	
+				
+				if bOrb then
+					if checkCollision(bullet[i][1],bullet[i][2],orb) then
+						soundPlay(sndBoom)
+						x = orb[3][1]
+						y = orb[3][2]
+						updateScore(SAUCER_ORB * SCORE_MULTIPLIER,x,y)
+						stat_orbs = stat_orbs +1
+						bOrb = false
+						table.remove(bullet,i)
+						addParticles(x,y)
+						bPowerup = true
+						orb[3][3] = (math.sin(math.rad(math.random(0,359))))*3
+						orb[3][4] = (math.cos(math.rad(math.random(0,359))))*3
+						
+						return
+					end	
+				end
+			end
+		end
+	end
+end
+
+
+function checkForPower()
+	local i
+	for i = #shipR[1],1,-1 do
+		if checkCollision(shipR[1][i],shipR[2][i],orb) then
+			--award powerup
+			bPowerup = false
+			stat_powerup = stat_powerup +1
+			local j = math.random(6)
+			if j == 1 then --1up
+				iLives = iLives + 1
+				soundPlay(snd1Up)
+				popupMsg(shipX,shipY,"1 UP!")
+			elseif j == 2 then --points
+				updateScore(5000 * SCORE_MULTIPLIER, shipX,shipY)
+				soundPlay(sndBonusPoints)
+			elseif j == 3 then -- shield bubble
+				bShield = true
+				soundPlay(sndShieldUp)
+				stat_shield = stat_shield +1
+			elseif j == 4 then -- Death Blossom
+				iBlossom = 1
+				blossomTime = currentTime
+				soundPlay(sndDeathBlossom)
+				stat_blossom = stat_blossom +1
+			elseif j == 5 then -- Spread Shot
+				bSpread = true
+				timeSpread = currentTime + 30
+				soundPlay(sndSpreadShot)
+			elseif j == 6 then -- +1 Warp
+				iWarps = iWarps + 1
+				soundPlay(sndWarp)
+			end
+			break
+		end
+	end
+end
+
+
+function checkForDamage()
+	bDamage = false
+	if rock ~=nil then
+		if #rock > 0 then
+			local i,j
+			for i = #shipR[1],1,-1 do
+				for j = #rock,1,-1 do
+					if checkCollision(shipR[1][i],shipR[2][i],rock[j]) then
+						bDamage = true
+						local size = rock[j][3][6]
+						local speed = rock[j][3][7]
+						local x = rock[j][3][1]
+						local y = rock[j][3][2]
+						table.remove(rock,j)
+						if j==1 then
+							-- if this is the rock the flinger is carrying, change the marker.
+							if saucer[3][8] then saucer[3][8] = false end
+						end
+						if size == SIZE_BIG then
+							createRock(SIZE_MEDIUM,x,y,speed)
+							createRock(SIZE_MEDIUM,x,y,speed)
+						elseif size == SIZE_MEDIUM then
+							createRock(SIZE_SMALL,x,y,speed)
+							createRock(SIZE_SMALL,x,y,speed)
+							createRock(SIZE_SMALL,x,y,speed)
+						end
+						break
+					end
+				end
+				
+				if bSaucer then
+					if checkCollision(shipR[1][i],shipR[2][i],saucer) then
+						bDamage = true
+						break
+					end
+				end
+				
+				if bSaucer or bOrb then
+					if checkCollision(shipR[1][i],shipR[2][i],orb) then
+						bDamage = true
+						break
+					end
+				end
+			end
+		end
+	end
+	
+	if bDamage then
+		breakShip()
+	end
+end
+
+
+function checkCollision(x, y, points)
+    
+    if #points[1] == nil then
+        return false  -- No such shape exists
+    end
+
+    local inside = false
+    local numPoints = #points[1]
+
+    -- Ray-casting algorithm
+    for i = 1, numPoints do
+        local p1x = points[1][i] + points[3][1]  -- x-coordinate of point i
+        local p1y = points[2][i] + points[3][2]  -- y-coordinate of point i
+        local p2x = points[1][(i % numPoints) + 1] + points[3][1]  -- x-coordinate of next point
+        local p2y = points[2][(i % numPoints) + 1] + points[3][2]  -- y-coordinate of next point
+
+        -- Check if the point (x, y) intersects with the edge from p1 to p2
+        if ((p1y > y) ~= (p2y > y)) and 
+           (x < (p2x - p1x) * (y - p1y) / (p2y - p1y) + p1x) then
+            inside = not inside
+        end
+    end
+
+    return inside
+end
+
+
+function checkBulletCollision(x, y, points)
+        
+    if #points[1] == nil then
+        return false  -- No such shape exists
+    end
+
+    local inside = false
+    local numPoints = #points[1]
+
+    -- Ray-casting algorithm
+    for i = 1, numPoints do
+        local p1x = points[1][i]  -- x-coordinate of point i
+        local p1y = points[2][i]  -- y-coordinate of point i
+        local p2x = points[1][(i % numPoints) + 1]   -- x-coordinate of next point
+        local p2y = points[2][(i % numPoints) + 1]   -- y-coordinate of next point
+
+        -- Check if the point (x, y) intersects with the edge from p1 to p2
+        if ((p1y > y) ~= (p2y > y)) and 
+           (x < (p2x - p1x) * (y - p1y) / (p2y - p1y) + p1x) then
+            inside = not inside
+        end
+    end
+
+    return inside
+end
+
+
+function checkForLaserHit()
+
+	if laser ~= nil then
+		if #laser > 0 then
+		
+				local x = saucer[3][1]
+				local y = saucer[3][2]
+				local x2 = laser[1][1]
+				local y2 = laser[1][2]
+				
+				
+			    local tolerance = 10
+
+				-- Calculate the distance from (shipX, shipY) to the line segment (x, y) -> (x2, y2)
+				local lineLengthSquared = (x2 - x) * (x2 - x) + (y2 - y) * (y2 - y)
+				if lineLengthSquared == 0 then
+					-- The line is a point, check if the ship is exactly at the point
+					return math.abs(shipX - x) <= tolerance and math.abs(shipY - y) <= tolerance
+				end
+
+				-- Project the point onto the line segment, checking the parametric t value
+				local t = ((shipX - x) * (x2 - x) + (shipY - y) * (y2 - y)) / lineLengthSquared
+				if t < 0 then
+					-- The projection is outside the line segment on the (x, y) side
+					return false
+				elseif t > 1 then
+					-- The projection is outside the line segment on the (x2, y2) side
+					return false
+				end
+
+				-- Find the nearest point on the line
+				local projX = x + t * (x2 - x)
+				local projY = y + t * (y2 - y)
+
+				-- Check if the point is within the tolerance of the nearest point on the line
+				local distanceSquared = (shipX - projX) * (shipX - projX) + (shipY - projY) * (shipY - projY)
+    
+
+				if distanceSquared <= tolerance * tolerance then
+					return true
+				end
+		end
+	end
+
+end
+
+
+
+-- ## Outside ## --
+
+function getCharacter(currentChar, ascend, descend)
+    local charCode = string.byte(currentChar)
+
+    if ascend then
+		
+		if charCode == 182 then
+			charCode = string.byte('A')
+		elseif charCode == string.byte('Z') then
+			charCode = string.byte('0')
+        elseif charCode == string.byte('9') then
+			charCode = 182
+        else
+			charCode = charCode + 1
+		end
+   
+    elseif descend then
+	
+        if charCode == 182 then
+			charCode = string.byte('9')
+        elseif charCode == string.byte('0') then
+			charCode = string.byte('Z')
+        elseif charCode == string.byte('A') then
+			charCode = 182
+		else
+			charCode = charCode - 1
+        end
+    end
+
+    return string.char(charCode)
+end
+
+
+function getFontWidth(txt)
+
+	local spr = fontToSprite(txt)
+	local value = spriteGetWidth(spr)
+	spriteUnload(spr)
+	return value
+
+end
+
+
+function getFontHeight(txt)
+
+	local spr = fontToSprite(txt)
+	local value = spriteGetHeight(spr)
+	spriteUnload(spr)
+	return value
+
+end
+
+
+function showStats()
+
+		fontSelect(fntBanner)
+		drawTxt((resX - getFontWidth("STATISTICS"))/2, ((resY * 0.18) - getFontHeight("STATISTICS"))/2, "STATISTICS",192,192,0,5)
+		
+		
+		local i,j
+
+	if #highscore >=10 then
+		j = 10
+	else
+		j = #highscore
+	end
+	
+	if not (j > 0) then return end
+		
+	local x  = resX *0.47
+	local x2 = resX *0.53
+	local y = resY *0.18
+	local yInc = resY *0.063
+	
+	
+	fontSelect(fntStats)
+	drawTxt(x -getFontWidth("BULLETS FIRED"),     y, "BULLETS FIRED" ,255,48,48, 3)
+	drawTxt(x2, y, stat_bullets ,255,32,255, 3)
+	y = y + yInc
+	drawTxt(x -getFontWidth("ROCKS SMASHED"),     y, "ROCKS SMASHED" ,255,48,48, 3)
+	drawTxt(x2, y, stat_rocks ,255,32,255, 3)
+	y = y + yInc
+	drawTxt(x -getFontWidth("SAUCERS DESTROYED"), y, "SAUCERS DESTROYED" ,255,48,48, 3)
+	drawTxt(x2, y, stat_saucers ,255,32,255, 3)
+	y = y + yInc
+	drawTxt(x -getFontWidth("ORBS OBLITERATED"),  y, "ORBS OBLITERATED" ,255,48,48, 3)
+	drawTxt(x2, y, stat_orbs ,255,32,255, 3)
+	y = y + yInc
+	drawTxt(x -getFontWidth("ROCKS FLUNG"),       y, "ROCKS FLUNG" ,255,48,48, 3)
+	drawTxt(x2, y, stat_flings ,255,32,255, 3)
+	y = y + yInc
+	drawTxt(x -getFontWidth("LASERS ZAPPED"),     y, "LASERS ZAPPED" ,255,48,48, 3)
+	drawTxt(x2, y, stat_lasers ,255,32,255, 3)
+	y = y + yInc
+	drawTxt(x -getFontWidth("DROPS GRABBED"),        y, "DROPS GRABBED" ,255,48,48, 3)
+	drawTxt(x2, y, stat_powerup ,255,32,255, 3)
+	y = y + yInc
+	drawTxt(x -getFontWidth("DEATH BLOSSOMS"),        y, "DEATH BLOSSOMS" ,255,48,48, 3)
+	drawTxt(x2, y, stat_blossom ,255,32,255, 3)
+	y = y + yInc
+	drawTxt(x -getFontWidth("SHIELDS RAISED"),        y, "SHIELDS RAISED" ,255,48,48, 3)
+	drawTxt(x2, y, stat_shield ,255,32,255, 3)
+	y = y + yInc
+	drawTxt(x -getFontWidth("WARPS JUMPED"),        y, "WARPS JUMPED" ,255,48,48, 3)
+	drawTxt(x2, y, stat_warps ,255,32,255, 3)
+	y = y + yInc
+	drawTxt(x -getFontWidth("SHIPS LOST"),        y, "SHIPS LOST" ,255,48,48, 3)
+	drawTxt(x2, y, stat_deaths ,255,32,255, 3)	
+
+end
+
+
+function addNewHighScore()
+
+	local function findInsertPosition(newHiscorePos)
+		for i = 1, #highscore do
+			if newHiscorePos > highscore[i][2] then
+				return i  -- Return the current position where the new score should be inserted
+			end
+		end
+		return #highscore + 1  -- If no greater score is found, the new score goes at the end
+	end
+
+	newHiscorePos = findInsertPosition(iScore)
+
+
+end
+
+
+function showHighScores()
+		
+	local i,j
+
+	if #highscore >=10 then
+		j = 10
+	else
+		j = #highscore
+	end
+	
+	if not (j > 0) then return end
+		
+	local x  = resX *0.25
+	local xN = resX *0.3
+	local xS = resX *0.7
+	local xL = resX *0.8
+	
+	local y = resY *0.22
+	local yInc = 34
+	
+	fontSelect(fntHiscore)
+	
+	drawTxt(x - getFontWidth("#"),  y -yInc, "#" ,255,255,255, 3)
+	drawTxt(xN, y -yInc, "PILOT" ,64,64,255, 3)
+	drawTxt(xS - getFontWidth("SCORE"), y -yInc, "SCORE" ,1,255,1, 3)
+	drawTxt(xL - (getFontWidth("LEVEL")/2), y -yInc, "LEVEL" ,255,1,1, 3)
+	
+	for i = 1,j do
+	
+		if not (gameState == STATE_HISCORE and i == newHiscorePos) then
+			drawTxt(x - getFontWidth(i.."."),  y, i.."." ,192,192,192, 3)
+			drawTxt(xN, y, highscore[i][1] ,128,128,255, 3)
+			k = string.format("%d", highscore[i][2]):reverse():gsub("(%d%d%d)", "%1,"):reverse():gsub("^,", "")
+			drawTxt(xS - getFontWidth(k), y, k ,128,255,128, 3)
+			drawTxt(xL - (getFontWidth(highscore[i][3])/2), y, highscore[i][3] ,255,128,128, 3)
+		end
+		y = y +yInc
+	end
+	
+	
+	if gameState == STATE_HISCORE then
+		
+		
+		fontSelect(fntBanner)
+		drawTxt((resX - getFontWidth("NEW HIGH SCORE"))/2, ((resY * 0.18) - getFontHeight("NEW HIGH SCORE"))/2, "NEW HIGH SCORE",192,192,0,5)
+		
+		fontSelect(fntTitle)
+		drawTxt((resX -getFontWidth("'</>' CYCLE - 'FIRE' SELECT - 'WARP' ERASE - 'START' CONFIRM "))/2,  resY*0.9, "'</>' CYCLE - 'FIRE' SELECT - 'WARP' ERASE - 'START' CONFIRM " ,192,192,255, 5)
+		
+		i=newHiscorePos
+		y = (resY *0.22) + (yInc *(i -1))
+		
+		 
+		if currentTime >= timeWait + shootInterval then
+			bHeld = false
+		end
+		
+		if not (buttonLeft or buttonRight or buttonUp or buttonDown or buttonShoot or buttonErase or buttonStart) then
+			bHeld = false
+		end
+		
+		
+		if not bHeld then
+			if (buttonLeft or buttonDown) and not (buttonRight or buttonUp) then
+				hsChar = getCharacter(hsChar,false,true)
+				bHeld = true
+				timeWait = currentTime
+			elseif (buttonRight or buttonUp) and not (buttonLeft or buttonDown) then
+				hsChar = getCharacter(hsChar,true,false)
+				bHeld = true
+				timeWait = currentTime
+			end
+			
+			if hsNameCount == 10 then 
+				hsChar = string.char(182)
+			end
+			
+			if buttonShoot and hsNameCount <= 10 then
+				if string.byte(hsChar) == 182 then
+					if hsNameCount > 1 then
+						buttonStart = true
+					end
+				else
+					highscore[i][1] = highscore[i][1]..hsChar
+					hsNameCount = hsNameCount + 1
+					soundPlay(sndZap)
+					if bVibration and controllerIsValid(0) then controllerDoRumble(0, 2, 1) end
+					bHeld = true
+					timeWait = currentTime
+				end
+			end
+			
+			if buttonErase and hsNameCount > 1 then
+				hsChar = string.sub(highscore[i][1], -1)
+				highscore[i][1] = string.sub(highscore[i][1], 1, -2) 
+				hsNameCount = hsNameCount - 1
+				soundPlay(sndBoom)
+				if bVibration and controllerIsValid(0) then controllerDoRumble(0, 2, 2) end
+				addParticles(xN + getFontWidth(highscore[i][1]..hsChar)-(getFontWidth(hsChar)/2), y + (getFontHeight(hsChar)/2))
+				bHeld = true
+				timeWait = currentTime
+			end
+			
+			if buttonStart then
+				
+				if not (hsNameCount <= 1 and hsChar == string.char(182)) then
+			
+					if string.byte(hsChar) ~= 182 then 
+						if hsNameCount < 10 then
+							highscore[i][1] = highscore[i][1]..hsChar
+						end
+					end
+					buttonStart = false
+					soundPlay(sndWarp)
+					if bVibration and controllerIsValid(0) then controllerDoRumble(0, 3, 3) end
+					gameState = STATE_TITLE
+					titleTimer = currentTime
+				end
+				
+			end
+			
+			
+		end
+		
+		local str = highscore[i][1]
+		
+		if hsNameCount <= 10 then
+			str = str..hsChar
+		end
+		
+		fontSelect(fntHiscore)
+				
+		if os.time()%2 == 0 then
+			drawTxt(xN, y, str ,255,255,0, 3)
+		else
+			drawTxt(xN, y, str ,128,128,0, 3)
+		end
+		
+		drawTxt(x - getFontWidth(i.."."),  y, i.."." ,255,255,0, 3)
+		k = string.format("%d", highscore[i][2]):reverse():gsub("(%d%d%d)", "%1,"):reverse():gsub("^,", "")
+		drawTxt(xS - getFontWidth(k), y, k ,255,255,0, 3)
+		drawTxt(xL - (getFontWidth(highscore[i][3])/2), y, highscore[i][3] ,255,255,0, 3)
+		
+		drawParticles()
+	
+	else
+	
+		fontSelect(fntBanner)
+		drawTxt((resX - getFontWidth("TOP OF THE ROCKS"))/2, ((resY * 0.18) - getFontHeight("TOP OF THE ROCKS"))/2, "TOP OF THE ROCKS",192,192,0,5)
+			
+	end	
+	
+end
+
+
+function getData()
+
+	local function readData(filename)
+		
+		local s1, s2, s3, k
+		local pattern = "(%S+)%s-=%s-(%d+)"
+		local file = pcall(io.input,filename, "r")
+		
+		if file then
+			s1 = io.read("*line")
+			while (s1 == "") do
+				s1 = io.read("*line")
+			end
+
+			while s1 and s1:find("=") do
+				s2, s3 = s1:match(pattern)
+				if (s2 == "stat_rocks") then
+					stat_rocks = tonumber(s3)
+				elseif (s2 == "stat_saucers") then
+					stat_saucers = tonumber(s3)
+				elseif (s2 == "stat_orbs") then
+					stat_orbs = tonumber(s3)
+				elseif (s2 == "stat_flings") then
+					stat_flings = tonumber(s3)
+				elseif (s2 == "stat_deaths") then
+					stat_deaths = tonumber(s3)
+				elseif (s2 == "stat_bullets") then
+					stat_bullets = tonumber(s3)
+				elseif (s2 == "stat_lasers") then
+					stat_lasers = tonumber(s3)
+				elseif (s2 == "stat_powerup") then
+					stat_powerup = tonumber(s3)
+				elseif (s2 == "stat_blossom") then
+					stat_blossom = tonumber(s3)
+				elseif (s2 == "stat_shield") then
+					stat_shield = tonumber(s3)
+				elseif (s2 == "stat_warps") then
+					stat_warps = tonumber(s3)
+				end
+				s1 = io.read("*line")
+			end
+				
+			
+			while (s1 == "") do
+				s1 = io.read("*line")
+			end
+
+			
+			k = 0
+			while (s1 and s1 ~= "" and string.find(s1, ",") ~= nil ) do
+				k = k + 1
+
+				local firstComma = string.find(s1, ",")
+				local secondComma = string.find(s1, ",", firstComma + 1)
+
+				hsName = string.sub(s1, 1, firstComma - 1)
+				hsScore = string.sub(s1, firstComma + 1, secondComma - 1)
+				hsLevel = string.sub(s1, secondComma + 1, string.len(s1))
+
+				highscore[k] = {hsName, tonumber(hsScore), tonumber(hsLevel)}
+				
+				s1 = io.read("*line")
+				if k >= 10 then break end
+			end
+			
+		end
+		
+		if #highscore < 10 then
+			if bDebug then debugPrint ( "Applying default scores") end
+			highscore = {
+				{"WIDGE"    ,1000000,25},
+				{"TROUSER"  ,750000,20},
+				{"BLACKJACK",500000,15},
+				{"MOG"      ,250000,10},
+				{"LUCAS"    ,100000,9},
+				{"CLETUS"   ,50000,7},
+				{"TOM"      ,25000,3},
+				{"PHILIP"   ,10000,2},
+				{"BORIS"    ,1000,1},
+				{"BROWNIE"  ,100,1},
+			}
+		end
+	end
+
+	
+	local function readCfg(filename)
+		local s1, s2, s3, k
+		local firstComma, secondComma
+		local pattern = "(.-)%s-=%s*(.-)%s*$"
+		local file = pcall(io.input,filename, "r")
+		
+		if file then
+			s1 = io.read("*line")
+			while (s1 == "") do
+				s1 = io.read("*line")
+			end
+
+			while s1 and s1:find("=") do
+				s2, s3 = s1:match(pattern)
+				if (s2 == "musicOn") then
+					if (tonumber(s3) == 1) then
+						bMusic = true
+					else
+						bMusic = false
+					end
+				elseif (s2 == "musicVol") then
+					musicVol = tonumber(s3)
+					if musicVol > 128 then
+						musicVol = 128
+					elseif musicVol < 1 then
+						musicVol = 1
+					end
+				elseif (s2 == "sfxVol") then
+					sfxVol = tonumber(s3)
+					if sfxVol > 64 then
+						sfxVol = 64
+					elseif sfxVol < 1 then
+						sfxVol = 1
+					end
+				elseif (s2 == "swapButtons") then
+					if (tonumber(s3) == 1) then
+						bSwapButtons = true
+					else
+						bSwapButtons = false
+					end
+				elseif (s2 == "turnSensitivity") then
+					iTurnSensitivity = tonumber(s3)
+					if iTurnSensitivity > 5 then
+						iTurnSensitivity = 5
+					elseif iTurnSensitivity < 1 then
+						iTurnSensitivity = 1
+					end
+				elseif (s2 == "invertBoost") then
+					if (tonumber(s3) == 1) then
+						bInvertBoost = true
+					else
+						bInvertBoost = false
+					end
+				elseif (s2 == "controlMode") then
+					 controlMode = tonumber(s3)
+					if (controlMode > 3 or controlMode < 0) then
+						controlMode = MODE_NORMAL
+					end
+				elseif (s2 == "mouseSensitivity") then
+					iMouseSensitivity = tonumber(s3)
+					if iMouseSensitivity > 10 then
+						iMouseSensitivity = 10
+					elseif iMouseSensitivity < 1 then
+						iMouseSensitivity = 1
+					end
+				elseif (s2 == "reverseTurn") then
+					if (tonumber(s3) == 1) then
+						bTurnwise = true
+					else
+						bTurnwise = false
+					end
+				elseif (s2 == "vibrationOn") then
+					if (tonumber(s3) == 1) then
+						bVibration = true
+					else
+						bVibration = false
+					end
+					
+				elseif (s2 == "titleTheme") then
+					firstComma = string.find(s3, ",")
+					secondComma = string.find(s3, ",", firstComma + 1)
+					titleMusic[1] = string.sub(s3, 1, firstComma - 1)
+					titleMusic[2] = string.sub(s3, firstComma + 1, secondComma - 1)
+					titleMusic[3] = string.sub(s3, secondComma + 1, string.len(s3))
+				elseif (s2 == "hiscoreTheme") then
+					firstComma = string.find(s3, ",")
+					secondComma = string.find(s3, ",", firstComma + 1)
+					hiscoreMusic[1] = string.sub(s3, 1, firstComma - 1)
+					hiscoreMusic[2] = string.sub(s3, firstComma + 1, secondComma - 1)
+					hiscoreMusic[3] = string.sub(s3, secondComma + 1, string.len(s3))
+				end
+				s1 = io.read("*line")
+			end
+			
+			s1 = ""
+			
+			while (s1 == "") do
+				s1 = io.read("*line")
+			end
+			
+			k = 0
+			while (s1 and s1 ~= "" and string.find(s1, ",") ~= nil ) do
+				k = k + 1
+
+				firstComma = string.find(s1, ",")
+				secondComma = string.find(s1, ",", firstComma + 1)
+				
+				playlist[k] = {{},{},{}}
+				playlist[k][1] = string.sub(s1, 1, firstComma - 1)
+				playlist[k][2] = string.sub(s1, firstComma + 1, secondComma - 1)
+				playlist[k][3] = string.sub(s1, secondComma + 1, string.len(s1))
+
+				if bDebug then debugPrint ("Added song: "..playlist[k][1].."--"..playlist[k][2].."--"..playlist[k][3]) end
+	
+				s1 = io.read("*line")
+			end
+
+		end
+
+		if #playlist < 1 then
+			playlist = {
+				{"mp3_solar_wave.mp3","Solar Wave","Widge"},
+				{"mp3_quasar.mp3","Quasar","Widge"},
+				{"mp3_pixel_war.mp3","Pixel War","Widge"},
+				{"mp3_galactic_showdown.mp3","Galactic Showdown","Widge"},
+				{"mp3_rocket_race.mp3","Rocket Race","Widge"},
+				{"mp3_galactic_groove.mp3","Galactic Groove","Widge"},
+				{"mp3_cosmic adventure.mp3","Cosmic Adventure","Widge"},
+				{"mp3_code_breaker.mp3","Code Breaker","Widge"},
+				{"mp3_hero_time.mp3","Hero Time","Widge"},
+				{"mp3_zero_hour.mp3","Zero Hour","Widge"},
+				{"mp3_traveller.mp3","Traveller","Widge"},
+				{"mp3_star_quest.mp3","Star Quest","Widge"},
+				{"mp3_space_chase.mp3","Space Chase","Widge"}
+			}
+		end
+		
+	end
+
+	stat_rocks = 0
+	stat_saucers = 0
+	stat_orbs = 0
+	stat_flings = 0
+	stat_deaths = 0
+	stat_bullets = 0
+	stat_lasers = 0
+	stat_powerup = 0
+	stat_blossom = 0
+	stat_shield = 0
+	stat_warps = 0
+	highscore = nil; highscore = {}
+	
+	bMusic = true
+	musicVol = 40
+	sfxVol = soundGetVolume()
+	iTurnSensitivity = 3
+	bSwapButtons = false
+	bInvertBoost = false
+	controlMode = MODE_NORMAL
+	iMouseSensitivity = 5
+	bTurnwise = false
+	bVibration = true
+	
+	titleMusic = nil; titleMusic = {"mp3_anthem.mp3","Anthem","Widge"}
+	hiscoreMusic = nil;	hiscoreMusic = {"mp3_the_hero.mp3","The Hero","Widge"}
+	playlist = nil; playlist = {}
+	
+	readData(MYDIR .. gameID..".ram")
+	readCfg(MYDIR .. gameID..".cfg")
+	
+	if bSwapButtons then
+		SWITCH_BUTTON1 = 8
+		SWITCH_BUTTON3 = 6
+	else
+		SWITCH_BUTTON1 = 6
+		SWITCH_BUTTON3 = 8
+	end
+	
+	writeData()
+end	
+
+
+function writeData()
+
+	local sNewLine = "\n"
+	local s1 = ""
+
+	local h1 = io.output(MYDIR .. gameID..".ram")
+	
+	io.write(sNewLine)
+	
+	io.write("stat_rocks = "   .. stat_rocks   .. sNewLine)
+	io.write("stat_saucers = " .. stat_saucers .. sNewLine)
+	io.write("stat_orbs = "    .. stat_orbs    .. sNewLine)	
+	io.write("stat_flings = "  .. stat_flings  .. sNewLine) 
+	io.write("stat_deaths = "  .. stat_deaths  .. sNewLine)
+	io.write("stat_bullets = " .. stat_bullets .. sNewLine)
+	io.write("stat_lasers = "  .. stat_lasers  .. sNewLine)
+	io.write("stat_powerup = "  .. stat_powerup  .. sNewLine)
+	io.write("stat_blossom = "  .. stat_blossom  .. sNewLine)
+	io.write("stat_shield = "  .. stat_shield .. sNewLine)
+	io.write("stat_warps = "  .. stat_warps .. sNewLine)
+	
+	io.write(sNewLine)
+	
+	if #highscore > 0 then 
+		for k=1,10 do
+			s1 = highscore[k][1] .. "," .. highscore[k][2] .. "," .. highscore[k][3]
+			io.write(s1 .. sNewLine)
+		end
+	end
+	
+	io.write(sNewLine)
+	
+	io.close(h1)
+	
+	
+	
+	local h2 = io.output(MYDIR .. gameID..".cfg")
+	
+	io.write(sNewLine)
+	
+	if (bMusic == true) then
+		io.write("musicOn = 1"  .. sNewLine)
+	else
+		io.write("musicOn = 0"  .. sNewLine)
+	end
+	
+	io.write("musicVol = "   .. musicVol   .. sNewLine)
+	io.write("sfxVol = "   .. sfxVol   .. sNewLine)
+	
+	if (bSwapButtons == true) then
+		io.write("swapButtons = 1"  .. sNewLine)
+	else
+		io.write("swapButtons = 0"  .. sNewLine)
+	end
+	
+	io.write("turnSensitivity = "   .. iTurnSensitivity   .. sNewLine)
+	
+	if (bInvertBoost == true) then
+		io.write("invertBoost = 1"  .. sNewLine)
+	else
+		io.write("invertBoost = 0"  .. sNewLine)
+	end
+
+	io.write("controlMode = "   .. controlMode   .. sNewLine)
+	io.write("mouseSensitivity = "   .. iMouseSensitivity   .. sNewLine)
+	
+	if (bTurnwise == true) then
+		io.write("reverseTurn = 1"  .. sNewLine)
+	else
+		io.write("reverseTurn = 0"  .. sNewLine)
+	end
+	
+	if (bVibration == true) then
+		io.write("vibrationOn = 1"  .. sNewLine)
+	else
+		io.write("vibrationOn = 0"  .. sNewLine)
+	end
+
+	io.write("titleTheme = "  .. titleMusic[1]..",".. titleMusic[2]..","..titleMusic[3]   .. sNewLine)
+	io.write("hiscoreTheme = "  .. hiscoreMusic[1]..",".. hiscoreMusic[2]..","..hiscoreMusic[3] .. sNewLine)
+	
+	io.write(sNewLine)
+	
+	if #playlist > 0 then 
+		for k=1,#playlist do
+			s1 = playlist[k][1] .. "," .. playlist[k][2] .. "," .. playlist[k][3]
+			io.write(s1 .. sNewLine)
+		end
+	end
+	
+	io.write(sNewLine)
+	
+	io.close(h2)
+	
+	
+end
+
+
+function onShutdown()
+
+	if gameState == STATE_HISCORE then
+		highscore[newHiscorePos][1] = "NOBODY"
+	end
+	
+	writeData()
+	
+	pSaucer1 = nil
+	pSaucer2 = nil
+	pSaucer3 = nil
+	orb = nil
+	ship = nil
+	shipR = nil
+	bullet = nil
+	laser = nil
+	rock = nil
+	saucer = nil
+	particle = nil
+	parts = nil
+	popup = nil
+	outline = nil
+	deathMsg = nil
+	rndMsg = nil
+	parts = nil
+	highscore = nil
+	playlist = nil
+	titleMusic = nil
+	hiscoreMusic = nil
+	musicOrder = nil
+	
+end
+
+
+function rndSequence(nRange, nDigits)
+
+	local n = 0
+	local tOptions = {}
+
+    for n = 1, nRange do
+        table.insert(tOptions, n)
+    end
+
+    local tOutput = {}
+
+    for n = 1, nDigits do
+        local nIndex = math.random(1, #tOptions)
+		table.insert(tOutput, tOptions[nIndex])
+        table.remove(tOptions, nIndex)
+    end
+
+    if bDebug then debugPrint("Generated playlist sequence: " .. table.concat(tOutput, "|")) end
+
+    return tOutput
+end
+
+
+
+function inGameMusic()
+
+	if bMusic then
+		if #musicOrder < 1 then
+			musicOrder = rndSequence(#playlist,#playlist)
+		else
+			if not musicIsPlaying() then
+				musicUnload(music)
+				music = musicLoad(MUSICDIR..playlist[musicOrder[1]][1])
+				musicName = playlist[musicOrder[1]][2]
+				musicArtist = playlist[musicOrder[1]][3]
+				musicPlay(music)
+				if bDebug then debugPrint("Now playing: "..musicName.." - "..musicArtist) end
+				table.remove(musicOrder,1)
+			end
+		end
+	else
+		if musicIsPlaying() then
+			musicStop()
+			musicOrder = {}
+			musicName = " "
+			musicArtist = " "
+		end
+	end
+
+end
+
+function unPause()
+	writeData()
+	if bInvertBoost then
+		buttonBoost = true
+	else
+		buttonBoost = false
+	end
+	
+	pauseTime = currentTime - pauseTime
+	timeWait = timeWait + pauseTime
+	timeTurn = timeTurn + pauseTime
+	timeThrust = timeThrust + pauseTime
+	timeBullet = timeBullet + pauseTime
+	timeLaser = timeLaser + pauseTime
+	bulletWait = bulletWait + pauseTime
+	timePopup = timePopup + pauseTime
+	partiTime = partiTime + pauseTime
+	timeStartWave = timeStartWave + pauseTime
+	timeSpawn = timeSpawn + pauseTime
+	timeSaucer = timeSaucer + pauseTime
+	
+	local i
+	if particle ~= nil then
+		if #particle >0 then
+			for i = 1,#particle do
+				particle[i][partiDie] = particle[i][partiDie] + pauseTime
+			end
+		end
+	end
+end
+
+
+function settingsMenu()
+
+
+	local optPos = 0.20
+	local optOffset = 0.06
+	local barRange = 128
+	
+	local i = 0
+	
+	fontSelect(fntTitle)
+	drawTxt((resX -getFontWidth("SETTINGS"))/2, (resY *0.05),"SETTINGS",112,112,255,5)
+	
+	fontSelect(fntSettings)
+	if iOptions == OPT_MUSICENABLE then
+		drawTxt((resX /2) -getFontWidth("MUSIC")-10, (resY *optPos),"MUSIC",255,64,64,3)
+	else
+		drawTxt((resX /2) -getFontWidth("MUSIC")-10, (resY *optPos),"MUSIC",160,160,255,3)
+	end
+	if bMusic then
+		spriteDrawFrame((math.floor(resX /2))+10, math.floor(resY *(optPos+0.01)), 2, sprSwitch)
+		drawTxt((resX /2)+50, (resY *optPos),"ON",160,160,255,3)
+	else
+		spriteDrawFrame((math.floor(resX /2))+10, math.floor(resY *(optPos+0.01)), 1, sprSwitch)
+		drawTxt((resX /2)+50, (resY *optPos),"OFF",160,160,255,3)
+	end
+	
+	optPos = optPos + optOffset
+	
+	if iOptions == OPT_MUSICVOL then
+		drawTxt((resX /2) -getFontWidth("MUSIC VOLUME")-10, (resY *optPos),"MUSIC VOLUME",255,64,64,3)
+	else
+		drawTxt((resX /2) -getFontWidth("MUSIC VOLUME")-10, (resY *optPos),"MUSIC VOLUME",160,160,255,3)
+	end
+	drawTxt((resX /2)+10, (resY *optPos),musicVol,160,160,255,3)
+	colorForeground(255,255,0)
+	for i = 1,barRange do
+		if i > musicVol/128*barRange then colorForeground(64,64,0) end
+		overlayLine ((resX /2)+50+i,resY *(optPos +0.01),(resX /2)+50+i,resY *(optPos +0.04))
+	end
+	colorForeground(1,1,1)
+	overlayBox ((resX /2)+50,(resY *(optPos +0.01))-1,(resX /2)+50+barRange,(resY *(optPos +0.04))+1)
+	
+	optPos = optPos + optOffset
+	
+	if iOptions == OPT_SFXVOL then
+		drawTxt((resX /2) -getFontWidth("SFX VOLUME")-10, (resY *optPos),"SFX VOLUME",255,64,64,3)
+	else
+		drawTxt((resX /2) -getFontWidth("SFX VOLUME")-10, (resY *optPos),"SFX VOLUME",160,160,255,3)
+	end
+	drawTxt((resX /2)+10, (resY *optPos),sfxVol,160,160,255,3)
+	colorForeground(255,255,0)
+	for i = 1,barRange do
+		if i > sfxVol/64*barRange then colorForeground(64,64,0) end
+		overlayLine ((resX /2)+50+i,resY *(optPos +0.01),(resX /2)+50+i,resY *(optPos +0.04))
+	end
+	colorForeground(1,1,1)
+	overlayBox ((resX /2)+50,(resY *(optPos +0.01))-1,(resX /2)+50+barRange,(resY *(optPos +0.04))+1)
+	
+	optPos = optPos + 1.5*optOffset
+	
+	if iOptions == OPT_CONTROLMODE then
+		drawTxt((resX /2) -getFontWidth("CONTROL MODE")-10, (resY *optPos),"CONTROL MODE",255,64,64,3)
+	else
+		drawTxt((resX /2) -getFontWidth("CONTROL MODE")-10, (resY *optPos),"CONTROL MODE",160,160,255,3)
+	end
+	if controlMode == MODE_GAMEPAD then
+		drawTxt((resX /2)+10, (resY *optPos),"GAMEPAD",160,160,255,3)
+	elseif controlMode == MODE_MOUSEX then
+		drawTxt((resX /2)+10, (resY *optPos),"MOUSE X-AXIS",160,160,255,3)
+	elseif controlMode == MODE_MOUSEY then
+		drawTxt((resX /2)+10, (resY *optPos),"MOUSE Y-AXIS",160,160,255,3)
+	else
+		drawTxt((resX /2)+10, (resY *optPos),"NORMAL",160,160,255,3)
+	end
+
+	
+	optPos = optPos + optOffset
+	
+	if controlMode == MODE_MOUSEX or controlMode == MODE_MOUSEY then
+		if iOptions == OPT_TURNSENS then
+			drawTxt((resX /2) -getFontWidth("MOUSE ROTATION SENSITIVITY")-10, (resY *optPos),"MOUSE ROTATION SENSITIVITY",255,64,64,3)
+		else
+			drawTxt((resX /2) -getFontWidth("MOUSE ROTATION SENSITIVITY")-10, (resY *optPos),"MOUSE ROTATION SENSITIVITY",160,160,255,3)
+		end
+		drawTxt((resX /2)+10, (resY *optPos),iMouseSensitivity,160,160,255,3)
+		colorForeground(255,255,0)
+		for i = 1,barRange do
+			if (i > (iMouseSensitivity /10*barRange)) then colorForeground(64,64,0) end
+			overlayLine ((resX /2)+50+(i),resY *(optPos +0.01),(resX /2)+50+(i),resY *(optPos +0.04))
+		end
+	else
+		if iOptions == OPT_TURNSENS then
+			drawTxt((resX /2) -getFontWidth("NORMAL ROTATION SENSITIVITY")-10, (resY *optPos),"NORMAL ROTATION SENSITIVITY",255,64,64,3)
+		else
+			drawTxt((resX /2) -getFontWidth("NORMAL ROTATION SENSITIVITY")-10, (resY *optPos),"NORMAL ROTATION SENSITIVITY",160,160,255,3)
+		end
+		drawTxt((resX /2)+10, (resY *optPos),iTurnSensitivity,160,160,255,3)
+		colorForeground(255,255,0)
+		for i = 1,barRange do
+			if (i > (iTurnSensitivity/5*barRange)) then colorForeground(64,64,0) end
+			overlayLine ((resX /2)+50+(i),resY *(optPos +0.01),(resX /2)+50+(i),resY *(optPos +0.04))
+		end
+	end
+	colorForeground(1,1,1)
+	overlayBox ((resX /2)+50,(resY *(optPos +0.01))-1,(resX /2)+50+barRange,(resY *(optPos +0.04))+1)
+	
+	optPos = optPos + optOffset
+	
+	if iOptions == OPT_ROTATION then
+		drawTxt((resX /2) -getFontWidth("REVERSE ROTATION")-10, (resY *optPos),"REVERSE ROTATION",255,64,64,3)
+	else
+		drawTxt((resX /2) -getFontWidth("REVERSE ROTATION")-10, (resY *optPos),"REVERSE ROTATION",160,160,255,3)
+	end
+	if bTurnwise then
+		spriteDrawFrame((math.floor(resX /2))+10, math.floor(resY *(optPos+0.01)), 2, sprSwitch)
+		drawTxt((resX /2)+50, (resY *optPos),"ON",160,160,255,3)
+	else
+		spriteDrawFrame((math.floor(resX /2))+10, math.floor(resY *(optPos+0.01)), 1, sprSwitch)
+		drawTxt((resX /2)+50, (resY *optPos),"OFF",160,160,255,3)
+	end
+	
+	optPos = optPos + optOffset
+	
+	if iOptions == OPT_INVERTBOOST then
+		drawTxt((resX /2) -getFontWidth("INVERT ROTATION BOOST")-10, (resY * optPos),"INVERT ROTATION BOOST",255,64,64,3)
+	else
+		drawTxt((resX /2) -getFontWidth("INVERT ROTATION BOOST")-10, (resY * optPos),"INVERT ROTATION BOOST",160,160,255,3)
+	end
+	if bInvertBoost then
+		spriteDrawFrame((math.floor(resX /2))+10, math.floor(resY *(optPos+0.01)), 2, sprSwitch)
+		drawTxt((resX /2)+50, (resY * optPos),"ON",160,160,255,3)
+	else
+		spriteDrawFrame((math.floor(resX /2))+10, math.floor(resY *(optPos+0.01)), 1, sprSwitch)
+		drawTxt((resX /2)+50, (resY * optPos),"OFF",160,160,255,3)
+	end
+	
+	optPos = optPos + optOffset
+	
+	if iOptions == OPT_SWAPBUTTONS then
+		drawTxt((resX /2) -getFontWidth("SWAP FIRE & WARP BUTTONS")-10, (resY * optPos),"SWAP FIRE & WARP BUTTONS",255,64,64,3)
+	else
+		drawTxt((resX /2) -getFontWidth("SWAP FIRE & WARP BUTTONS")-10, (resY * optPos),"SWAP FIRE & WARP BUTTONS",160,160,255,3)
+	end
+	if bSwapButtons then
+		spriteDrawFrame((math.floor(resX /2))+10, math.floor(resY *(optPos+0.01)), 2, sprSwitch)
+		drawTxt((resX /2)+50, (resY * optPos),"ON",160,160,255,3)
+	else
+		spriteDrawFrame((math.floor(resX /2))+10, math.floor(resY *(optPos+0.01)), 1, sprSwitch)
+		drawTxt((resX /2)+50, (resY * optPos),"OFF",160,160,255,3)
+	end
+	
+	optPos = optPos + optOffset
+	
+	
+	
+	if controllerIsValid(0) then
+		if iOptions == OPT_VIBRATION then
+			drawTxt((resX /2) -getFontWidth("VIBRATION")-10, (resY * optPos),"VIBRATION",255,64,64,3)
+		else
+			drawTxt((resX /2) -getFontWidth("VIBRATION")-10, (resY * optPos),"VIBRATION",160,160,255,3)
+		end
+		if bVibration then
+			spriteDrawFrame((math.floor(resX /2))+10, math.floor(resY *(optPos+0.01)), 2, sprSwitch)
+			drawTxt((resX /2)+50, (resY * optPos),"ON",160,160,255,3)
+		else
+			spriteDrawFrame((math.floor(resX /2))+10, math.floor(resY *(optPos+0.01)), 1, sprSwitch)
+			drawTxt((resX /2)+50, (resY * optPos),"OFF",160,160,255,3)
+		end
+	else
+		drawTxt((resX /2) -getFontWidth("VIBRATION")-10, (resY * optPos),"VIBRATION",128,128,128,3)
+		drawTxt((resX /2)+10, (resY * optPos),"N/A",128,128,128,3)
+	end
+	
+	optPos = optPos + 1.5*optOffset
+	
+	
+	if iOptions == OPT_EXIT then
+		fontSelect(fntStats)
+		drawTxt((resX -getFontWidth("<< GO BACK >>"))/2, (resY * optPos),"<< GO BACK >>",255,64,64,3)
+	else
+		drawTxt((resX -getFontWidth("<< GO BACK >>"))/2, (resY * optPos),"<< GO BACK >>",160,160,255,3)
+	end
+			
+	if bMusic then
+		fontSelect(fntNowPlaying)
+		drawTxt(resX *0.05, (resY *0.83),"NOW PLAYING",160,160,112,2)
+		drawTxt(resX *0.05, (resY *0.9),(musicName.." - "..musicArtist),255,112,112,2)
+	end
+	
+	
+	if buttonDown then --press down
+		iOptions = iOptions +1
+		buttonDown = false
+		if iOptions > OPT_VIBRATION or (iOptions == OPT_VIBRATION and not controllerIsValid(0)) then
+			iOptions = OPT_EXIT
+		end
+	end
+	
+	if buttonUp then
+		iOptions = iOptions -1
+		buttonUp = false
+		if iOptions < OPT_EXIT then
+			if controllerIsValid(0) then
+				iOptions = OPT_VIBRATION
+			else
+				iOptions = OPT_VIBRATION -1
+			end
+		end
+	end
+	
+	if buttonLeft then
+		if iOptions == OPT_MUSICENABLE then
+			bMusic = not bMusic
+		elseif iOptions == OPT_MUSICVOL then
+			musicVol = musicVol - 1
+			if musicVol < 1 then musicVol = 1 end
+			musicSetVolume(musicVol)
+		elseif iOptions == OPT_SFXVOL then
+			sfxVol = sfxVol - 1
+			if sfxVol < 1 then sfxVol = 1 end
+			soundSetVolume(sfxVol)
+		elseif iOptions == OPT_SWAPBUTTONS then
+			bSwapButtons = not bSwapButtons
+			if bSwapButtons then
+				SWITCH_BUTTON1 = 8
+				SWITCH_BUTTON3 = 6
+			else
+				SWITCH_BUTTON1 = 6
+				SWITCH_BUTTON3 = 8
+			end
+		elseif iOptions == OPT_TURNSENS then
+			if controlMode == MODE_MOUSEX or controlMode == MODE_MOUSEY then
+				iMouseSensitivity = iMouseSensitivity - 1
+			else
+				iTurnSensitivity = iTurnSensitivity - 1
+			end
+			if iTurnSensitivity < 1 then iTurnSensitivity = 1 end
+			if iMouseSensitivity < 1 then iMouseSensitivity = 1 end
+		elseif iOptions == OPT_INVERTBOOST then
+			bInvertBoost = not bInvertBoost
+		elseif iOptions == OPT_ROTATION then
+			bTurnwise = not bTurnwise
+		elseif iOptions == OPT_CONTROLMODE then
+			controlMode = controlMode - 1
+			if controlMode < 0 then controlMode = 3 end
+		elseif iOptions == OPT_VIBRATION then
+			bVibration = not bVibration
+			if bVibration and controllerIsValid(0) then controllerDoRumble(0, 1, 2) end
+		end
+		buttonLeft = false
+	end
+	
+	if buttonRight then
+		if iOptions == OPT_MUSICENABLE then
+			bMusic = not bMusic
+		elseif iOptions == OPT_MUSICVOL then
+			musicVol = musicVol + 1
+			if musicVol > 128 then musicVol = 128 end
+			musicSetVolume(musicVol)
+		elseif iOptions == OPT_SFXVOL then
+			sfxVol = sfxVol + 1
+			if sfxVol > 64 then sfxVol = 64 end
+			soundSetVolume(sfxVol)
+		elseif iOptions == OPT_SWAPBUTTONS then
+			bSwapButtons = not bSwapButtons
+			if bSwapButtons then
+				SWITCH_BUTTON1 = 8
+				SWITCH_BUTTON3 = 6
+			else
+				SWITCH_BUTTON1 = 6
+				SWITCH_BUTTON3 = 8
+			end
+		elseif iOptions == OPT_TURNSENS then
+			if controlMode == MODE_MOUSEX or controlMode == MODE_MOUSEY then
+				iMouseSensitivity = iMouseSensitivity + 1
+			else
+				iTurnSensitivity = iTurnSensitivity + 1
+			end
+			if iTurnSensitivity > 5 then iTurnSensitivity = 5 end
+			if iMouseSensitivity > 10 then iMouseSensitivity = 10 end
+		elseif iOptions == OPT_INVERTBOOST then
+			bInvertBoost = not bInvertBoost
+		elseif iOptions == OPT_ROTATION then
+			bTurnwise = not bTurnwise
+		elseif iOptions == OPT_CONTROLMODE then
+			controlMode = controlMode + 1
+			if controlMode > 3 then controlMode = 0 end
+		elseif iOptions == OPT_VIBRATION then
+			bVibration = not bVibration
+			if bVibration and controllerIsValid(0) then controllerDoRumble(0, 1, 2) end
+		end
+		buttonRight = false
+	end
+	
+	if buttonShoot then
+		if iOptions == OPT_MUSICENABLE then
+			bMusic = not bMusic
+		elseif iOptions == OPT_SWAPBUTTONS then
+			bSwapButtons = not bSwapButtons
+			if bSwapButtons then
+				SWITCH_BUTTON1 = 8
+				SWITCH_BUTTON3 = 6
+			else
+				SWITCH_BUTTON1 = 6
+				SWITCH_BUTTON3 = 8
+			end
+		elseif iOptions == OPT_TURNSENS then
+			if controlMode == MODE_MOUSEX or controlMode == MODE_MOUSEY then
+				iMouseSensitivity = iMouseSensitivity + 1
+			else
+				iTurnSensitivity = iTurnSensitivity + 1
+			end
+			if iTurnSensitivity > 5 then iTurnSensitivity = 1 end
+			if iMouseSensitivity > 10 then iMouseSensitivity = 1 end
+		elseif iOptions == OPT_INVERTBOOST then
+			bInvertBoost = not bInvertBoost
+		elseif iOptions == OPT_ROTATION then
+			bTurnwise = not bTurnwise
+		elseif iOptions == OPT_CONTROLMODE then
+			controlMode = controlMode + 1
+			if controlMode > 3 then controlMode = 0 end
+		elseif iOptions == OPT_VIBRATION then
+			bVibration = not bVibration
+			if bVibration and controllerIsValid(0) then controllerDoRumble(0, 1, 2) end
+		elseif iOptions == OPT_EXIT then
+			if gameState == STATE_PLAYING then
+				bPause = false
+				unPause()
+			elseif gameState == STATE_TITLE then
+				bService = false
+			end
+		end
+		buttonShoot = false
+	end
+
+
+end
