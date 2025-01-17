@@ -1,0 +1,1787 @@
+--[[
+
+PROGRAM NAME:	Super Don Quix-ote Singe 2
+VERSION:		2.2
+AUTHOR:			POIU (2021)
+
+This file is part of Super Don Quix-ote Singe 2
+
+	Super Don Quix-ote Singe 2 is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation.
+
+	Super Don Quix-ote Singe 2 is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+	Thanks to RDG (original author of the program).
+
+]]--
+
+
+-------------------------
+-- 1. General settings --
+-------------------------
+
+-- Hypseus Game Setup --
+
+-- Do Not Remove/Alter these --
+OVERLAY_DEFAULT  = 0
+OVERLAY_FULL     = 1
+OVERLAY_HALF     = 2
+OVERLAY_OVERSIZE = 3
+-- Do Not Remove/Alter these --
+
+singeSetGameName("Super Don Quix-ote")
+
+BASEDIR = "singe"                      -- This should be 'singe'
+
+BASEOVERLAY = OVERLAY_FULL             -- Set the default Overlay
+
+MYDIR = BASEDIR .."/".. "Super_Don_Quix-ote"     -- This is the directory where your game is 
+
+MovieFPS = 29.970                                -- Number of frames per second of your movies (used for timed actions).
+
+-- End Hypseus Game Setup --
+
+dofile(MYDIR .. "/Script/globals.singe")         -- Don't touch this line
+
+-- Appearance Settings --
+
+ShowTitle = true 								
+ShowLCD = false									
+ShowLevel = false 								
+ShowTop = true									
+ScorePos = TOP								
+LivPos = TOP									
+CoinPos = MID	 						
+
+fontSize = 12
+mycolor1 = YELLOW								
+mycolor2 = RED 									
+mycolor3 = WHITE 								
+mycolor4 = YELLOW		
+
+-- Stages Settings --
+
+finalstage = 31	    
+
+  		     				
+PlayOrder = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31}  		
+AllowSecret = false							
+
+-- Scoring Settings --
+
+SCOREMOVE = 700									
+BUFFMOVE = 300									
+SCORESCENE = 5000								
+DEATHPENALTY = 1000								 
+SCORELEVEL = 20000								
+SCOREGAME = 200000								
+SCORESECRET = 1			
+PERFECTBONUS = 10000
+EXTRALIFE = 75000						
+
+-- Difficulty Settings --					
+
+PenalNormal = 5									
+PenalHard = 10									
+PenalExtreme  = 12	
+		  				
+-- Advanced Settings --
+
+AllowRandom = true								
+
+AllowTier = true								
+iNumGroup = 2													
+iGroup1Size = 1									
+iGroup2Size = 6									
+iGroup3Size = 1									
+iGroup4Size = 1	
+								
+Group1 = {1}								
+Group2 = {2,3,4,5,6,7}								
+Group3 = {8}							
+Group4 = {10}
+
+AllowMap = true 								
+MapStart = 1		
+
+IngameDiffchoice = true					
+
+RelativeFrames = true 	
+
+------------------------------------------------------------------------
+-- 2. Starting and ending frames for the various elements of the game --
+------------------------------------------------------------------------
+
+-- Intro frames --													
+												
+offsetTitle = 0	
+offsetTitleend = 149
+
+offsetIntro01 = 448	
+offsetIntro01end = 1661	
+
+offsetIntro02 = 160   							
+offsetIntro02end = 448			
+
+offsetIntro03 = 160								
+offsetIntro03end = 448		
+
+-- Menu frames --
+
+offsetMenus = 25216																						
+												
+frameOptions = offsetMenus +1					
+frameSave = offsetMenus +13						
+frameRankings =offsetMenus +18					
+frameControls = offsetMenus +29
+frameSpecial = offsetMenus +1667					
+frameVictory = offsetMenus +7
+frameSecret = offsetMenus +0
+frameTrophy = offsetMenus +33					
+frameHints = offsetMenus +39	
+			
+frameCredit = offsetMenus +1408					
+
+
+frameEasy = offsetMenus +45						
+frameNormal = offsetMenus +78
+frameHard = offsetMenus +102
+frameExtreme = offsetMenus +125
+
+offsetContinue = offsetMenus +1036				
+offsetContinueend = offsetMenus +1335
+
+offsetGameOver = offsetMenus +150				
+offsetGameOverend = offsetMenus +252
+
+offsetGameOverAlt = offsetMenus +262		
+offsetGameOverAltend = offsetMenus +360		
+
+offsetNewHScore = offsetMenus +370			
+offsetNewHScoreend = offsetMenus +418	
+
+offsetEnterHScore = offsetMenus +419			
+offsetEnterHScoreend = offsetMenus +972	
+
+offsetRankings = offsetMenus +1417				
+offsetRankingsend = offsetMenus +1600			
+
+offsetClear = offsetMenus +1348					
+offsetClearend = offsetMenus +1390		
+
+offsetMap = offsetMenus +0						
+offsetMapend = offsetMenus +0					
+
+offsetGetReady = offsetMenus +1420			
+offsetGetReadyEnd = offsetMenus +1500
+
+offsetSupDeath = 0				
+offsetSupDeathEnd = 0
+
+offsetMap = offsetMenus +0			
+offsetMapend = offsetMenus +0
+
+-- Death frames --
+
+totalDeath = 98
+offsetDeath = 26898								
+
+offsetDeath01 = offsetDeath +1 						
+offsetDeath01end = offsetDeath +76
+
+offsetDeath02 = offsetDeath +87					
+offsetDeath02end = offsetDeath +124
+
+offsetDeath03 = offsetDeath +135							
+offsetDeath03end = offsetDeath +211
+
+offsetDeath04 = offsetDeath +222
+offsetDeath04end = offsetDeath +288
+
+offsetDeath05 = offsetDeath +299
+offsetDeath05end = offsetDeath +368
+
+offsetDeath06 = offsetDeath +379
+offsetDeath06end = offsetDeath +448
+
+offsetDeath07 = offsetDeath +459
+offsetDeath07end = offsetDeath +532
+
+offsetDeath08 = offsetDeath +543 
+offsetDeath08end = offsetDeath +614
+
+offsetDeath09 = offsetDeath +625
+offsetDeath09end = offsetDeath +682
+
+offsetDeath10 = offsetDeath +693
+offsetDeath10end = offsetDeath +761
+
+offsetDeath11 = offsetDeath +772
+offsetDeath11end = offsetDeath +844
+
+offsetDeath12 = offsetDeath +855
+offsetDeath12end = offsetDeath +927
+
+offsetDeath13 = offsetDeath +938							 			
+offsetDeath13end = offsetDeath +1015
+
+offsetDeath14 = offsetDeath +1026							
+offsetDeath14end = offsetDeath +1103
+
+offsetDeath15 = offsetDeath +1114
+offsetDeath15end = offsetDeath +1201
+
+offsetDeath16 = offsetDeath +1212
+offsetDeath16end = offsetDeath +1299
+
+offsetDeath17 = offsetDeath +1310
+offsetDeath17end = offsetDeath +1357
+
+offsetDeath18 = offsetDeath +1368
+offsetDeath18end = offsetDeath +1415
+
+offsetDeath19 = offsetDeath +1426
+offsetDeath19end = offsetDeath +1491
+
+offsetDeath20 = offsetDeath +1502
+offsetDeath20end = offsetDeath +1581
+
+offsetDeath21 = offsetDeath +1618					
+offsetDeath21end = offsetDeath +1635
+
+offsetDeath22 = offsetDeath +1646
+offsetDeath22end = offsetDeath +1703
+
+offsetDeath23 = offsetDeath +1714
+offsetDeath23end = offsetDeath +1771
+
+offsetDeath24 = offsetDeath +1800
+offsetDeath24end = offsetDeath +1826
+
+offsetDeath25 = offsetDeath +1845
+offsetDeath25end = offsetDeath +1880
+
+offsetDeath26 = offsetDeath +1900							 			
+offsetDeath26end = offsetDeath +1920
+
+offsetDeath27 = offsetDeath +1940							
+offsetDeath27end = offsetDeath +1960
+
+offsetDeath28 = offsetDeath +1971
+offsetDeath28end = offsetDeath +2033
+
+offsetDeath29 = offsetDeath +2044
+offsetDeath29end = offsetDeath +2119
+
+offsetDeath30 = offsetDeath +2130
+offsetDeath30end = offsetDeath +2172
+
+offsetDeath31 = offsetDeath +2183
+offsetDeath31end = offsetDeath +2225
+
+offsetDeath32 = offsetDeath +2236
+offsetDeath32end = offsetDeath +2284
+
+offsetDeath33 = offsetDeath +2295
+offsetDeath33end = offsetDeath +2376
+
+offsetDeath34 = offsetDeath +2387
+offsetDeath34end = offsetDeath +2456
+
+offsetDeath35 = offsetDeath +2467							
+offsetDeath35end = offsetDeath +2515
+
+offsetDeath36 = offsetDeath +2526												
+offsetDeath36end = offsetDeath +2563
+
+offsetDeath37 = offsetDeath +2574							
+offsetDeath37end = offsetDeath +2622
+
+offsetDeath38 = offsetDeath +2633
+offsetDeath38end = offsetDeath +2692
+
+offsetDeath39 = offsetDeath +2703
+offsetDeath39end = offsetDeath +2751
+
+offsetDeath40 = offsetDeath +2762							
+offsetDeath40end = offsetDeath +2810
+
+offsetDeath41 = offsetDeath +2821												
+offsetDeath41end = offsetDeath +2869
+
+offsetDeath42 = offsetDeath +2880							
+offsetDeath42end = offsetDeath +2939
+
+offsetDeath43 = offsetDeath +2950							
+offsetDeath43end = offsetDeath +2998
+
+offsetDeath44 = offsetDeath +3009							
+offsetDeath44end = offsetDeath +3068
+
+offsetDeath45 = offsetDeath +3079
+offsetDeath45end = offsetDeath +3131
+
+offsetDeath46 = offsetDeath +3142							 			
+offsetDeath46end = offsetDeath +3202
+
+offsetDeath47 = offsetDeath +3213							
+offsetDeath47end = offsetDeath +3281
+
+offsetDeath48 = offsetDeath +3292
+offsetDeath48end = offsetDeath +3349
+
+offsetDeath49 = offsetDeath +3360
+offsetDeath49end = offsetDeath +3423
+
+offsetDeath50 = offsetDeath +3434
+offsetDeath50end = offsetDeath +3497
+
+offsetDeath51 = offsetDeath +3508
+offsetDeath51end = offsetDeath +3549
+
+offsetDeath52 = offsetDeath +3560
+offsetDeath52end = offsetDeath +3617
+
+offsetDeath53 = offsetDeath +3628
+offsetDeath53end = offsetDeath +3685
+
+offsetDeath54 = offsetDeath +3696
+offsetDeath54end = offsetDeath +3757
+
+offsetDeath55 = offsetDeath +3768							
+offsetDeath55end = offsetDeath +3820
+
+offsetDeath56 = offsetDeath +3831												
+offsetDeath56end = offsetDeath +3883
+
+offsetDeath57 = offsetDeath +3894							
+offsetDeath57end = offsetDeath +3947
+
+offsetDeath58 = offsetDeath +3958
+offsetDeath58end = offsetDeath +4012
+
+offsetDeath59 = offsetDeath +4023
+offsetDeath59end = offsetDeath +4080
+
+offsetDeath60 = offsetDeath +4091							
+offsetDeath60end = offsetDeath +4160
+
+offsetDeath61 = offsetDeath +4171												
+offsetDeath61end = offsetDeath +4228
+
+offsetDeath62 = offsetDeath +4239						
+offsetDeath62end = offsetDeath +4296
+
+offsetDeath63 = offsetDeath +4307						
+offsetDeath63end = offsetDeath +4372
+
+offsetDeath64 = offsetDeath +4383							
+offsetDeath64end = offsetDeath +4440
+
+offsetDeath65 = offsetDeath +4455							
+offsetDeath65end = offsetDeath +4503
+
+offsetDeath66 = offsetDeath +4514
+offsetDeath66end = offsetDeath +4571
+
+offsetDeath67 = offsetDeath +4582							 			
+offsetDeath67end = offsetDeath +4639
+
+offsetDeath68 = offsetDeath +4650							
+offsetDeath68end = offsetDeath +4746
+
+offsetDeath69 = offsetDeath +4757
+offsetDeath69end = offsetDeath +4818
+
+offsetDeath70 = offsetDeath +4829
+offsetDeath70end = offsetDeath +4874
+
+offsetDeath71 = offsetDeath +4885
+offsetDeath71end = offsetDeath +4956
+
+offsetDeath72 = offsetDeath +4967
+offsetDeath72end = offsetDeath +5037
+
+offsetDeath73 = offsetDeath +5048
+offsetDeath73end = offsetDeath +5064
+
+offsetDeath74 = offsetDeath +5075
+offsetDeath74end = offsetDeath +5124 
+
+offsetDeath75 = offsetDeath +5135						
+offsetDeath75end = offsetDeath +5188
+
+offsetDeath76 = offsetDeath +5199												
+offsetDeath76end = offsetDeath +5255
+
+offsetDeath77 = offsetDeath +5266							
+offsetDeath77end = offsetDeath +5316
+
+offsetDeath78 = offsetDeath +5327
+offsetDeath78end = offsetDeath +5376
+
+offsetDeath79 = offsetDeath +5387
+offsetDeath79end = offsetDeath +5453
+
+offsetDeath80 = offsetDeath +5464							
+offsetDeath80end = offsetDeath +5502
+
+offsetDeath81 = offsetDeath +5513												
+offsetDeath81end = offsetDeath +5551  
+
+offsetDeath82 = offsetDeath +5562							
+offsetDeath82end = offsetDeath +5617
+
+offsetDeath83 = offsetDeath +5628							
+offsetDeath83end = offsetDeath +5667
+
+offsetDeath84 = offsetDeath +5678							
+offsetDeath84end = offsetDeath +5726
+
+offsetDeath85 = offsetDeath +5737
+offsetDeath85end = offsetDeath +5778
+
+offsetDeath86 = offsetDeath +5789							 			
+offsetDeath86end = offsetDeath +5821
+
+offsetDeath87 = offsetDeath +5832							
+offsetDeath87end = offsetDeath +5917
+
+offsetDeath88 = offsetDeath +5928
+offsetDeath88end = offsetDeath +5985
+
+offsetDeath89 = offsetDeath +5996
+offsetDeath89end = offsetDeath +6053
+
+offsetDeath90 = offsetDeath +6064
+offsetDeath90end = offsetDeath +6121
+
+offsetDeath91 = offsetDeath +6132
+offsetDeath91end = offsetDeath +6193
+
+offsetDeath92 = offsetDeath +6204
+offsetDeath92end = offsetDeath +6312
+
+offsetDeath93 = offsetDeath +6323
+offsetDeath93end = offsetDeath +6398
+
+offsetDeath94 = offsetDeath +6409
+offsetDeath94end = offsetDeath +6491
+
+offsetDeath95 = offsetDeath +6502							
+offsetDeath95end = offsetDeath +6572
+
+offsetDeath96 = offsetDeath +6583												
+offsetDeath96end = offsetDeath +6688 
+
+offsetDeath97 = offsetDeath +6699							
+offsetDeath97end = offsetDeath +6741
+
+offsetDeath98 = offsetDeath +6752
+offsetDeath98end = offsetDeath +6791
+
+offsetDeath99 = offsetDeath +4507
+offsetDeath99end = offsetDeath +4573
+
+offsetDeath100 = offsetDeath +4580
+offsetDeath100end = offsetDeath +4640
+
+offsetDeath101 = offsetDeath +4648
+offsetDeath101end = offsetDeath +4747
+
+offsetDeath102 = offsetDeath +4755
+offsetDeath102end = offsetDeath +4820
+
+------------------------------------------------------------------------------------------
+-- 3. List of moves for each level, by scene (StartFrame, EndFrame, MOVE, Death#, 0, 0) --
+------------------------------------------------------------------------------------------
+
+TitleLevel01 = "Level 1"
+offsetLevel01 = 1671	
+offsetLevel01Clipend = 1672	
+TotalScenesLevel01 = 1												
+Lvl01mirror = 0																			
+Death01mirror = 0												
+
+function setupLevel01(thisScene)									
+																	
+	if thisScene == 1 then 								
+
+		sceneStart = offsetLevel01Clipend + 1						
+		sceneEnd   = 2709							
+		totalMoves   = 7											
+														
+		move[1] = {362, 380, RIGHT, 1}
+		move[2] = {463, 481, RIGHT, 1}
+		move[3] = {539, 557, RIGHT, 1}
+		move[4] = {601, 619, LEFT, 2}
+		move[5] = {698, 716, BUTTON1, 3}
+		move[6] = {768, 786, BUTTON1, 3}
+		move[7] = {880, 898, BUTTON1, 4}
+
+	end
+
+end
+
+TitleLevel02 = "Level 2"
+offsetLevel02 = 2720
+offsetLevel02Clipend = offsetLevel02 +1
+TotalScenesLevel02 = 1	
+Lvl02mirror = 0														
+Death02mirror = 0
+
+function setupLevel02(thisScene)
+
+	if thisScene == 1 then   										
+
+		sceneStart = offsetLevel02Clipend + 1
+		sceneEnd   = 3656
+		totalMoves = 8
+
+		move[1] = {331, 349, BUTTON1, 5}
+		move[2] = {388, 406, BUTTON1, 6}
+		move[3] = {477, 495, BUTTON1, 7}
+		move[4] = {521, 539, RIGHT, 8}
+		move[5] = {569, 587, BUTTON1, 9}
+		move[6] = {651, 669, BUTTON1, 9}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[7] = {699, 717, RIGHT, 9}
+		
+		elseif (t == 2) then
+		
+		move[7] = {699, 717, RIGHT, 9}
+		
+		end
+		move[8] = {736, 754, BUTTON1, 9}
+		
+	end
+	
+end
+
+TitleLevel03 = "Level 3"
+offsetLevel03 = 1671
+offsetLevel03Clipend = offsetLevel03 + 1			
+TotalScenesLevel03 = 1							
+Lvl03mirror = 0														
+Death03mirror = 0
+
+function setupLevel03(thisScene)	
+
+	if thisScene == 1 then   										
+
+		sceneStart = offsetLevel03Clipend + 1
+		sceneEnd   = 2709
+		totalMoves   = 7											
+														
+		move[1] = {362, 380, RIGHT, 1}
+		move[2] = {463, 481, RIGHT, 1}
+		move[3] = {539, 557, RIGHT, 1}
+		move[4] = {601, 619, LEFT, 2}
+		move[5] = {698, 716, BUTTON1, 3}
+		move[6] = {768, 786, BUTTON1, 3}
+		move[7] = {880, 898, BUTTON1, 4}
+
+	end
+
+end
+
+TitleLevel04 = "Level 4"
+offsetLevel04 = 2720
+offsetLevel04Clipend = offsetLevel04 + 1
+TotalScenesLevel04 = 1	
+Lvl04mirror = 0														
+Death04mirror = 0
+
+function setupLevel04(thisScene)	
+
+	if thisScene == 1 then   										
+
+		sceneStart = offsetLevel04Clipend + 1
+		sceneEnd   = 3656
+		totalMoves = 8
+
+		move[1] = {331, 349, BUTTON1, 5}
+		move[2] = {388, 406, BUTTON1, 6}
+		move[3] = {477, 495, BUTTON1, 7}
+		move[4] = {521, 539, RIGHT, 8}
+		move[5] = {569, 587, BUTTON1, 9}
+		move[6] = {651, 669, BUTTON1, 9}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[7] = {699, 717, RIGHT, 9}
+		
+		elseif (t == 2) then
+		
+		move[7] = {699, 717, RIGHT, 9}
+		
+		end
+		move[8] = {736, 754, BUTTON1, 9}
+		
+	end
+	
+end
+
+TitleLevel05 = "Level 5"
+offsetLevel05 = 3667
+offsetLevel05Clipend = offsetLevel05 + 1
+TotalScenesLevel05 = 1	
+Lvl05mirror = 0														
+Death05mirror = 0
+
+function setupLevel05(thisScene)
+
+	if thisScene == 1 then   										
+
+		sceneStart = offsetLevel05Clipend + 1
+		sceneEnd   = 5112
+		totalMoves = 9
+
+		move[1] = {394, 412, LEFT, 10}
+		move[2] = {830, 848, BUTTON1, 11}
+		move[3] = {872, 890, BUTTON1, 12}
+		move[4] = {916, 934, BUTTON1, 12}
+		move[5] = {1045, 1063, RIGHT, 13}
+		move[6] = {1093, 1111, LEFT, 14}
+		move[7] = {1163, 1181, BUTTON1, 15}
+		move[8] = {1209, 1227, BUTTON1, 16}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[9] = {1285, 1303, UP, 17}
+		
+		elseif (t == 2) then
+		
+		move[9] = {1285, 1303, LEFT, 17}
+		
+		end
+		
+	end
+	
+end
+
+TitleLevel06 = "Level 6"
+offsetLevel06 = 3667
+offsetLevel06Clipend = offsetLevel06 + 1
+TotalScenesLevel06 = 1	
+Lvl06mirror = 0														
+Death06mirror = 0
+
+function setupLevel06(thisScene)
+
+	if thisScene == 1 then
+
+		sceneStart = offsetLevel06Clipend + 1
+	    sceneEnd   = 5112
+		totalMoves = 9
+
+		move[1] = {394, 412, LEFT, 10}
+		move[2] = {830, 848, BUTTON1, 11}
+		move[3] = {872, 890, BUTTON1, 12}
+		move[4] = {916, 934, BUTTON1, 12}
+		move[5] = {1045, 1063, RIGHT, 13}
+		move[6] = {1093, 1111, LEFT, 14}
+		move[7] = {1163, 1181, BUTTON1, 15}
+		move[8] = {1209, 1227, BUTTON1, 16}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[9] = {1285, 1303, DOWN, 17}
+		
+		elseif (t == 2) then
+		
+		move[9] = {1285, 1303, RIGHT, 17}
+		
+		end
+		
+	end
+	
+end
+
+TitleLevel07 = "Level 7"
+offsetLevel07 = 1671
+offsetLevel07Clipend = offsetLevel07 +1
+TotalScenesLevel07 = 1	
+Lvl07mirror = 0														
+Death07mirror = 0
+
+function setupLevel07(thisScene)
+
+	if thisScene == 1 then
+
+		sceneStart = offsetLevel07Clipend + 1
+		sceneEnd   = 2709
+		totalMoves   = 7											
+														
+		move[1] = {362, 380, RIGHT, 1}
+		move[2] = {463, 481, RIGHT, 1}
+		move[3] = {539, 557, RIGHT, 1}
+		move[4] = {601, 619, LEFT, 2}
+		move[5] = {698, 716, BUTTON1, 3}
+		move[6] = {768, 786, BUTTON1, 3}
+		move[7] = {880, 898, BUTTON1, 4}
+
+	end
+
+end
+
+TitleLevel08 = "Level 8"
+offsetLevel08 = 2720
+offsetLevel08Clipend = offsetLevel08 + 1
+TotalScenesLevel08 = 1	
+Lvl08mirror = 0														
+Death08mirror = 0
+
+function setupLevel08(thisScene)
+
+	if thisScene == 1 then
+
+		sceneStart = offsetLevel08Clipend + 1
+		sceneEnd   = 3656
+		totalMoves = 8
+
+		move[1] = {331, 349, BUTTON1, 5}
+		move[2] = {388, 406, BUTTON1, 6}
+		move[3] = {477, 495, BUTTON1, 7}
+		move[4] = {521, 539, RIGHT, 8}
+		move[5] = {569, 587, BUTTON1, 9}
+		move[6] = {651, 669, BUTTON1, 9}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[7] = {699, 717, RIGHT, 9}
+		
+		elseif (t == 2) then
+		
+		move[7] = {699, 717, RIGHT, 9}
+		
+		end
+		move[8] = {736, 754, BUTTON1, 9}
+		
+	end
+	
+end
+
+TitleLevel09 = "Level 9"
+offsetLevel09 = 3667
+offsetLevel09Clipend = offsetLevel09 + 1
+TotalScenesLevel09 = 1	
+Lvl09mirror = 0														
+Death09mirror = 0
+
+function setupLevel09(thisScene)
+
+	if thisScene == 1 then
+
+		sceneStart = offsetLevel09Clipend + 1
+		sceneEnd   = 5112
+		totalMoves = 9
+
+		move[1] = {394, 412, LEFT, 10}
+		move[2] = {830, 848, BUTTON1, 11}
+		move[3] = {872, 890, BUTTON1, 12}
+		move[4] = {916, 934, BUTTON1, 12}
+		move[5] = {1045, 1063, RIGHT, 13}
+		move[6] = {1093, 1111, LEFT, 14}
+		move[7] = {1163, 1181, BUTTON1, 15}
+		move[8] = {1209, 1227, BUTTON1, 16}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[9] = {1285, 1303, DOWN, 17}
+		
+		elseif (t == 2) then
+		
+		move[9] = {1285, 1303, RIGHT, 17}
+		
+		end
+		
+	end
+	
+end
+
+TitleLevel10 = "Level 10"
+offsetLevel10 = 5123
+offsetLevel10Clipend = offsetLevel10 + 1
+TotalScenesLevel10 = 1	
+Lvl10mirror = 0														
+Death10mirror = 0
+
+function setupLevel10(thisScene)
+
+	if thisScene == 1 then
+
+		sceneStart = offsetLevel10Clipend + 1
+		sceneEnd   = 6061
+		totalMoves = 5
+
+		move[1] = {355, 373, RIGHT, 18}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[2] = {448, 466, UP, 19}
+		
+		elseif (t == 2) then
+		
+		move[2] = {448, 466, LEFT, 19}
+		
+		end
+		
+		move[3] = {586, 604, BUTTON1, 19}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[4] = {775, 793, RIGHT, 20}
+		
+		elseif (t == 2) then
+		
+		move[4] = {775, 793, BUTTON1, 20}
+		
+		end
+		
+		move[5] = {824, 842, BUTTON1, 19}
+			
+	end
+	
+end
+
+TitleLevel11 = "Level 11"
+offsetLevel11 = 5123
+offsetLevel11Clipend = offsetLevel11 + 1
+TotalScenesLevel11 = 1	
+Lvl11mirror = 0														
+Death11mirror = 0
+
+function setupLevel11(thisScene)
+
+	if thisScene == 1 then
+
+		sceneStart = offsetLevel11Clipend + 1
+		sceneEnd   = 6061
+		totalMoves = 5
+
+		move[1] = {355, 373, RIGHT, 18}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[2] = {448, 466, UP, 19}
+		
+		elseif (t == 2) then
+		
+		move[2] = {448, 466, LEFT, 19}
+		
+		end
+		
+		move[3] = {586, 604, BUTTON1, 19}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[4] = {775, 793, RIGHT, 20}
+		
+		elseif (t == 2) then
+		
+		move[4] = {775, 793, BUTTON1, 20}
+		
+		end
+		
+		move[5] = {824, 842, BUTTON1, 19}
+			
+	end
+	
+end
+
+TitleLevel12 = "Level 12"
+offsetLevel12 = 3667
+offsetLevel12Clipend = offsetLevel12 + 1
+TotalScenesLevel12 = 1	
+Lvl12mirror = 0														
+Death12mirror = 0
+
+function setupLevel12(thisScene)
+
+	if thisScene == 1 then
+
+		sceneStart = offsetLevel12Clipend + 1
+		sceneEnd   = 5112
+		totalMoves = 9
+
+		move[1] = {394, 412, LEFT, 10}
+		move[2] = {830, 848, BUTTON1, 11}
+		move[3] = {872, 890, BUTTON1, 12}
+		move[4] = {916, 934, BUTTON1, 12}
+		move[5] = {1045, 1063, RIGHT, 13}
+		move[6] = {1093, 1111, LEFT, 14}
+		move[7] = {1163, 1181, BUTTON1, 15}
+		move[8] = {1209, 1227, BUTTON1, 16}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[9] = {1285, 1303, DOWN, 17}
+		
+		elseif (t == 2) then
+		
+		move[9] = {1285, 1303, RIGHT, 17}
+		
+		end
+		
+	end
+	
+end
+
+TitleLevel13 = "Level 13"
+offsetLevel13 = 6072
+offsetLevel13Clipend = offsetLevel13 + 1
+TotalScenesLevel13 = 1	
+Lvl13mirror = 0														
+Death13mirror = 0
+
+function setupLevel13(thisScene)
+
+	if thisScene == 1 then
+
+		sceneStart = offsetLevel13Clipend + 1
+		sceneEnd   = 7282
+		totalMoves = 6
+
+		move[1] = {402, 420, LEFT, 21}
+		move[2] = {462, 480, RIGHT, 22}
+		move[3] = {604, 622, LEFT, 24}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[4] = {683, 701, RIGHT, 25}
+		
+		elseif (t == 2) then
+		
+		move[4] = {683, 701, BUTTON1, 25}
+		
+		end
+		
+		move[5] = {918, 936, DOWN, 26}
+		move[6] = {977, 995, UP, 27}
+		
+	end
+	
+end
+
+TitleLevel14 = "Level 14"
+offsetLevel14 = 6072
+offsetLevel14Clipend = offsetLevel14 + 1
+TotalScenesLevel14 = 1	
+Lvl14mirror = 0														
+Death14mirror = 0
+
+function setupLevel14(thisScene)
+
+	if thisScene == 1 then
+
+		sceneStart = offsetLevel14Clipend + 1
+		sceneEnd   = 7282
+		totalMoves = 6
+
+		move[1] = {402, 420, LEFT, 21}
+		move[2] = {462, 480, RIGHT, 22}
+		move[3] = {604, 622, LEFT, 24}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[4] = {683, 701, RIGHT, 25}
+		
+		elseif (t == 2) then
+		
+		move[4] = {683, 701, BUTTON1, 25}
+		
+		end
+		
+		move[5] = {918, 936, DOWN, 26}
+		move[6] = {977, 995, UP, 27}
+		
+	end
+	
+end
+
+TitleLevel15 = "Level 15"
+offsetLevel15 = 6072
+offsetLevel15Clipend = offsetLevel15 + 1
+TotalScenesLevel15 = 1	
+Lvl15mirror = 0														
+Death15mirror = 0
+
+function setupLevel15(thisScene)
+
+	if thisScene == 1 then
+
+		sceneStart = offsetLevel15Clipend + 1
+		sceneEnd   = 7282
+		totalMoves = 6
+
+		move[1] = {402, 420, LEFT, 21}
+		move[2] = {462, 480, RIGHT, 22}
+		move[3] = {604, 622, LEFT, 24}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[4] = {683, 701, RIGHT, 25}
+		
+		elseif (t == 2) then
+		
+		move[4] = {683, 701, BUTTON1, 25}
+		
+		end
+		
+		move[5] = {918, 936, DOWN, 26}
+		move[6] = {977, 995, UP, 27}
+		
+	end
+	
+end
+
+TitleLevel16 = "Level 16"
+offsetLevel16 = 5123
+offsetLevel16Clipend = offsetLevel16 + 1
+TotalScenesLevel16 = 1	
+Lvl16mirror = 0														
+Death16mirror = 0
+
+function setupLevel16(thisScene)
+
+	if thisScene == 1 then
+
+		sceneStart = offsetLevel16Clipend + 1
+		sceneEnd   = 6061
+		totalMoves = 5
+
+		move[1] = {355, 373, RIGHT, 18}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[2] = {448, 466, UP, 19}
+		
+		elseif (t == 2) then
+		
+		move[2] = {448, 466, LEFT, 19}
+		
+		end
+		
+		move[3] = {586, 604, BUTTON1, 19}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[4] = {775, 793, RIGHT, 20}
+		
+		elseif (t == 2) then
+		
+		move[4] = {775, 793, BUTTON1, 20}
+		
+		end
+		
+		move[5] = {824, 842, BUTTON1, 19}
+			
+	end
+	
+end
+
+TitleLevel17 = "Level 17"
+offsetLevel17 = 7293
+offsetLevel17Clipend = offsetLevel17 + 1
+TotalScenesLevel17 = 1	
+Lvl17mirror = 0														
+Death17mirror = 0
+
+function setupLevel17(thisScene)
+
+	if thisScene == 1 then
+
+		sceneStart = offsetLevel17Clipend + 1
+		sceneEnd   = 8065
+		totalMoves = 6
+		
+		
+		move[1] = {221, 239, RIGHT, 28}
+		move[2] = {267, 285, LEFT, 28}
+		move[3] = {300, 318, UP, 28}
+		move[4] = {426, 444, BUTTON1, 29}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[5] = {523, 541, UP, 29}
+		
+		elseif (t == 2) then
+		
+		move[5] = {523, 541, LEFT, 29}
+		
+		end
+		
+		move[6] = {583, 601, BUTTON1, 29}
+
+	end
+	
+end
+
+TitleLevel18 = "Level 18"
+offsetLevel18 = 3667
+offsetLevel18Clipend = offsetLevel18 + 1
+TotalScenesLevel18 = 1	
+Lvl18mirror = 0														
+Death18mirror = 0
+
+function setupLevel18(thisScene)
+
+	if thisScene == 1 then
+
+		sceneStart = offsetLevel18Clipend + 1
+		sceneEnd   = 5112
+		totalMoves = 9
+
+		move[1] = {394, 412, LEFT, 10}
+		move[2] = {830, 848, BUTTON1, 11}
+		move[3] = {872, 890, BUTTON1, 12}
+		move[4] = {916, 934, BUTTON1, 12}
+		move[5] = {1045, 1063, RIGHT, 13}
+		move[6] = {1093, 1111, LEFT, 14}
+		move[7] = {1163, 1181, BUTTON1, 15}
+		move[8] = {1209, 1227, BUTTON1, 16}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[9] = {1285, 1303, DOWN, 17}
+		
+		elseif (t == 2) then
+		
+		move[9] = {1285, 1303, RIGHT, 17}
+		
+		end
+		
+	end
+	
+end
+
+TitleLevel19 = "Level 19"
+offsetLevel19 = 7293
+offsetLevel19Clipend = offsetLevel19 + 1
+TotalScenesLevel19 = 1	
+Lvl19mirror = 0														
+Death19mirror = 0
+
+function setupLevel19(thisScene)
+
+	if thisScene == 1 then
+
+		sceneStart = offsetLevel19Clipend + 1
+		sceneEnd   = 8065
+		totalMoves = 6
+		
+		
+		move[1] = {221, 239, RIGHT, 28}
+		move[2] = {267, 285, LEFT, 28}
+		move[3] = {300, 318, UP, 28}
+		move[4] = {426, 444, BUTTON1, 29}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[5] = {523, 541, UP, 29}
+		
+		elseif (t == 2) then
+		
+		move[5] = {523, 541, LEFT, 29}
+		
+		end
+		
+		move[6] = {583, 601, BUTTON1, 29}
+
+	end
+	
+end
+
+TitleLevel20 = "Level 20"
+offsetLevel20 = 8076
+offsetLevel20Clipend = offsetLevel20 + 1
+TotalScenesLevel20 = 1	
+Lvl20mirror = 0														
+Death20mirror = 0
+
+function setupLevel20(thisScene)
+
+	if thisScene == 1 then
+
+		sceneStart = offsetLevel20Clipend + 1
+		sceneEnd   = 8733
+		totalMoves = 6
+		
+		move[1] = {183, 198, DOWN, 30}
+		move[2] = {236, 254, LEFT, 31}
+		move[3] = {354, 372, RIGHT, 32}
+		move[4] = {418, 436, LEFT, 33}
+		move[5] = {469, 487, LEFT, 34}
+		move[6] = {513, 531, LEFT, 34}
+
+	end
+	
+end
+
+TitleLevel21 = "Level 21"
+offsetLevel21 = 6072
+offsetLevel21Clipend = offsetLevel21 + 1
+TotalScenesLevel21 = 1	
+Lvl21mirror = 0														
+Death21mirror = 0
+
+function setupLevel21(thisScene)
+
+	if thisScene == 1 then
+
+		sceneStart = offsetLevel21Clipend + 1
+		sceneEnd   = 7282
+		totalMoves = 6
+
+		move[1] = {402, 420, LEFT, 21}
+		move[2] = {462, 480, RIGHT, 22}
+		move[3] = {604, 622, LEFT, 24}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[4] = {683, 701, RIGHT, 25}
+		
+		elseif (t == 2) then
+		
+		move[4] = {683, 701, BUTTON1, 25}
+		
+		end
+		
+		move[5] = {918, 936, DOWN, 26}
+		move[6] = {977, 995, UP, 27}
+		
+	end
+	
+end
+
+TitleLevel22 = "Level 22"
+offsetLevel22 = 8076
+offsetLevel22Clipend = offsetLevel22 + 1
+TotalScenesLevel22 = 1	
+Lvl22mirror = 0														
+Death22mirror = 0
+
+function setupLevel22(thisScene)
+
+	if thisScene == 1 then
+
+		sceneStart = offsetLevel22Clipend + 1
+		sceneEnd   = 8733
+		totalMoves = 6
+		
+		move[1] = {183, 198, DOWN, 30}
+		move[2] = {236, 254, LEFT, 31}
+		move[3] = {354, 372, RIGHT, 32}
+		move[4] = {418, 436, LEFT, 33}
+		move[5] = {469, 487, LEFT, 34}
+		move[6] = {513, 531, LEFT, 34}
+
+	end
+	
+end
+
+TitleLevel23 = "Level 23"
+offsetLevel23 = 7293
+offsetLevel23Clipend = offsetLevel23 + 1
+TotalScenesLevel23 = 1	
+Lvl23mirror = 0														
+Death23mirror = 0
+
+function setupLevel23(thisScene)
+
+	if thisScene == 1 then
+
+		sceneStart = offsetLevel23Clipend + 1
+		sceneEnd   = 8065
+		totalMoves = 6
+		
+		
+		move[1] = {221, 239, RIGHT, 28}
+		move[2] = {267, 285, LEFT, 28}
+		move[3] = {300, 318, UP, 28}
+		move[4] = {426, 444, BUTTON1, 29}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[5] = {523, 541, UP, 29}
+		
+		elseif (t == 2) then
+		
+		move[5] = {523, 541, LEFT, 29}
+		
+		end
+		
+		move[6] = {583, 601, BUTTON1, 29}
+
+	end
+	
+end
+
+TitleLevel24 = "Level 24"
+offsetLevel24 = 8744
+offsetLevel24Clipend = offsetLevel24 + 1
+TotalScenesLevel24 = 2	
+Lvl24mirror = 0														
+Death24mirror = 0
+
+function setupLevel24(thisScene)
+
+	if thisScene == 1 then
+
+		sceneStart = offsetLevel24Clipend + 1
+		sceneEnd   = 10089
+		totalMoves = 16
+		
+		move[1] = {139, 157, RIGHT, 35}
+		move[2] = {190, 208, BUTTON1, 36}
+		move[3] = {228, 246, BUTTON1, 37}
+		move[4] = {289, 307, BUTTON1, 38}
+		move[5] = {332, 350, BUTTON1, 38}
+		move[6] = {459, 477, RIGHT, 39}
+		move[7] = {605, 623, BUTTON1, 44}
+		move[8] = {735, 753, BUTTON1, 40}
+		move[9] = {784, 802, BUTTON1, 41}
+		move[10] = {812, 830, BUTTON1, 42}
+		move[11] = {940, 958, BUTTON1, 43}
+		move[12] = {972, 990, BUTTON1, 44}
+		move[13] = {1014, 1032, BUTTON1, 44}
+		move[14] = {1065, 1083, RIGHT, 45}
+		move[15] = {1112, 1130, BUTTON1, 44}
+		move[16] = {1180, 1198, BUTTON1, 44}
+		
+	elseif thisScene == 2 then 						
+
+		sceneStart = 10100			
+		sceneEnd   = 10978
+		totalMoves = 11
+		
+		move[1] = {1485, 1503, RIGHT, 46}
+		move[2] = {1581, 1599, UP, 47}
+		move[3] = {1638, 1656, BUTTON1, 48}
+		move[4] = {1686, 1704, LEFT, 49}
+		move[5] = {1710, 1727, BUTTON1, 50}
+		move[6] = {1773, 1791, BUTTON1, 51}
+		move[7] = {1805, 1823, LEFT, 52}
+		move[8] = {1878, 1896, BUTTON1, 53}
+		move[9] = {1924, 1942, BUTTON1, 54}
+		move[10] = {2012, 2030, BUTTON1, 54}
+		move[11] = {2081, 2099, BUTTON1, 54}
+	
+	end
+	
+end
+
+TitleLevel25 = "Level 25"
+offsetLevel25 = 10989
+offsetLevel25Clipend = offsetLevel25 + 1
+TotalScenesLevel25 = 1	
+Lvl25mirror = 0														
+Death25mirror = 0
+
+function setupLevel25(thisScene)
+
+	if thisScene == 1 then
+
+		sceneStart = offsetLevel25Clipend + 1
+		sceneEnd   = 12531
+		totalMoves = 11
+		
+		move[1] = {220, 238, RIGHT, 55}
+		move[2] = {367, 385, LEFT, 56}
+	    move[3] = {529, 547, DOWN, 57}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[4] = {609, 627, RIGHT, 57}
+		
+		elseif (t == 2) then
+		
+		move[4] = {609, 627, DOWN, 57}
+		
+		end
+		
+		move[5] = {678, 696, UP, 58}
+		move[6] = {729, 747, LEFT, 59}
+		move[7] = {805, 823, LEFT, 59}
+		move[8] = {861, 879, LEFT, 60}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[9] = {915, 933, UP, 60}
+		
+		elseif (t == 2) then
+		
+		move[9] = {915, 933, LEFT, 60}
+		
+		end
+		
+		move[10] = {1099, 1117, RIGHT, 61}
+		move[11] = {1131, 1149, BUTTON1, 61}
+		
+	end
+	
+end
+
+TitleLevel26 = "Level 26"
+offsetLevel26 = 12542
+offsetLevel26Clipend = offsetLevel26 + 1
+TotalScenesLevel26 = 1	
+Lvl26mirror = 0														
+Death26mirror = 0
+
+function setupLevel26(thisScene)
+
+	if thisScene == 1 then
+
+		sceneStart = offsetLevel26Clipend + 1
+		sceneEnd   = 13720
+		totalMoves = 10
+		
+		move[1] = {244, 262, BUTTON1, 62}
+		move[2] = {294, 312, BUTTON1, 62}
+		move[3] = {382, 400, BUTTON1, 62}
+		move[4] = {416, 434, BUTTON1, 62}
+		move[5] = {525, 543, BUTTON1, 63}
+		move[6] = {571, 589, BUTTON1, 62}
+		move[7] = {679, 697, BUTTON1, 64}
+		move[8] = {723, 741, BUTTON1, 64}
+		move[9] = {894, 912, UP, 65}
+		move[10] = {932, 950, BUTTON1, 64}
+		
+	end
+	
+end
+
+TitleLevel27 = "Level 27"
+offsetLevel27 = 12542
+offsetLevel27Clipend = offsetLevel27 + 1
+TotalScenesLevel27 = 1	
+Lvl27mirror = 0														
+Death27mirror = 0
+
+function setupLevel27(thisScene)
+
+	if thisScene == 1 then
+
+		sceneStart = offsetLevel27Clipend + 1
+		sceneEnd   = 13720
+		totalMoves = 10
+		
+		move[1] = {244, 262, BUTTON1, 62}
+		move[2] = {294, 312, BUTTON1, 62}
+		move[3] = {382, 400, BUTTON1, 62}
+		move[4] = {416, 434, BUTTON1, 62}
+		move[5] = {525, 543, BUTTON1, 63}
+		move[6] = {571, 589, BUTTON1, 62}
+		move[7] = {679, 697, BUTTON1, 64}
+		move[8] = {723, 741, BUTTON1, 64}
+		move[9] = {894, 912, UP, 65}
+		move[10] = {932, 950, BUTTON1, 64}
+		
+	end
+	
+end
+
+TitleLevel28 = "Level 28"
+offsetLevel28 = 10989
+offsetLevel28Clipend = offsetLevel28 + 1
+TotalScenesLevel28 = 1	
+Lvl28mirror = 0														
+Death28mirror = 0
+
+function setupLevel28(thisScene)
+
+	if thisScene == 1 then
+
+		sceneStart = offsetLevel28Clipend + 1
+		sceneEnd   = 12531
+		totalMoves = 11
+		
+		move[1] = {220, 238, RIGHT, 55}
+		move[2] = {367, 385, LEFT, 56}
+	    move[3] = {529, 547, DOWN, 57}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[4] = {609, 627, RIGHT, 57}
+		
+		elseif (t == 2) then
+		
+		move[4] = {609, 627, DOWN, 57}
+		
+		end
+		
+		move[5] = {678, 696, UP, 58}
+		move[6] = {729, 747, LEFT, 59}
+		move[7] = {805, 823, LEFT, 59}
+		move[8] = {861, 879, LEFT, 60}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[9] = {915, 933, UP, 60}
+		
+		elseif (t == 2) then
+		
+		move[9] = {915, 933, LEFT, 60}
+		
+		end
+		
+		move[10] = {1099, 1117, RIGHT, 61}
+		move[11] = {1131, 1149, BUTTON1, 61}
+		
+	end
+	
+end
+
+TitleLevel29 = "Level 29"
+offsetLevel29 = 13731
+offsetLevel29Clipend = offsetLevel29 + 1
+TotalScenesLevel29 = 1	
+Lvl29mirror = 0														
+Death29mirror = 0
+
+function setupLevel29(thisScene)
+
+	if thisScene == 1 then
+
+		sceneStart = offsetLevel29Clipend + 1
+		sceneEnd   = 14500
+		totalMoves = 7
+
+		move[1] = {195, 218, LEFT, 99}
+		move[2] = {310, 328, UP, 100}
+		move[3] = {337, 357, UP, 100}
+		move[4] = {473, 489, LEFT, 99}
+		move[5] = {525, 540, UP, 99}
+		move[6] = {628, 645, LEFT, 101}
+		move[7] = {672, 684, RIGHT, 102}
+		
+	end
+	
+end
+
+TitleLevel30 = "Level 30"
+offsetLevel30 = 14576
+offsetLevel30Clipend = offsetLevel30 + 1
+TotalScenesLevel30 = 3	
+Lvl30mirror = 0														
+Death30mirror = 0
+
+function setupLevel30(thisScene)
+
+	if thisScene == 1 then
+
+		sceneStart = offsetLevel30Clipend + 1
+		sceneEnd   = 15295
+		totalMoves = 6
+		
+		move[1] = {89, 107, DOWN, 70}
+		move[2] = {223, 241, UP, 71}
+		move[3] = {334, 352, RIGHT, 72}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[4] = {378, 396, DOWN, 72}
+		
+		elseif (t == 2) then
+		
+		move[4] = {378, 396, LEFT, 72}
+		
+		end
+		
+		move[5] = {517, 535, RIGHT, 72}
+		move[6] = {563, 581, UP, 73}
+		
+	elseif thisScene == 2 then
+	
+		sceneStart = 15306
+		sceneEnd   = 16529
+		totalMoves   = 9
+		
+		move[1] = {947, 965, RIGHT, 74}
+		move[2] = {1111, 1129, LEFT, 75}
+		move[3] = {1168, 1186, RIGHT, 75}
+		move[4] = {1218, 1236, LEFT, 75}
+		move[5] = {1372, 1390, LEFT, 75}
+		move[6] = {1429, 1447, UP, 76}
+		move[7] = {1618, 1636, DOWN, 78}
+		move[8] = {1688, 1706, LEFT, 78}
+		move[9] = {1856, 1874, RIGHT, 78}
+		
+	elseif thisScene == 3 then
+	
+		sceneStart = 16530
+		sceneEnd   = 18288
+		totalMoves   = 9
+		
+	    move[1] = {2089, 2107, UP, 79}
+	    move[2] = {2450, 2468, RIGHT, 80}
+	    move[3] = {2506, 2524, RIGHT, 80}
+	    move[4] = {2564, 2582, UP, 80}
+	    move[5] = {2668, 2686, RIGHT, 81}
+	    move[6] = {2738, 2756, LEFT, 81}
+	    move[7] = {2890, 2908, LEFT, 82}
+	    move[8] = {2990, 3008, DOWN, 83}
+	    move[9] = {3459, 3477, RIGHT, 84}
+	
+	end
+	
+end
+
+TitleLevel31 = "Final"
+offsetLevel31 = 18299
+offsetLevel31Clipend = offsetLevel31 + 1
+TotalScenesLevel31 = 5	
+Lvl31mirror = 0														
+Death31mirror = 0
+
+function setupLevel31(thisScene)
+
+	if thisScene == 1 then
+
+		sceneStart = offsetLevel31Clipend + 1
+		sceneEnd   = 19155
+		totalMoves = 5
+		
+		move[1] = {250, 268, LEFT, 85}
+		move[2] = {309, 327, UP, 86}
+		move[3] = {391, 409, BUTTON1, 86}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[4] = {443, 461, RIGHT, 85}
+		
+		elseif (t == 2) then
+		
+		move[4] = {443, 461, BUTTON1, 85}
+		
+		end
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[5] = {603, 621, UP, 87}
+		
+		elseif (t == 2) then
+		
+		move[5] = {603, 621, LEFT, 87}
+		
+		end 
+		
+	elseif thisScene == 2 then
+	
+		sceneStart = 19156
+		sceneEnd   = 19709
+		totalMoves   = 6
+		
+		move[1] = {1100, 1118, UP, 88}
+		move[2] = {1142, 1160, UP, 88}
+		move[3] = {1184, 1202, UP, 88}
+		move[4] = {1234, 1252, UP, 88}
+		move[5] = {1274, 1292, UP, 89}
+		move[6] = {1318, 1336, UP, 89}
+		
+	elseif thisScene == 3 then
+	
+		sceneStart = 19720
+		sceneEnd   = 20447
+		totalMoves   = 2
+		
+	    move[1] = {1600, 1618, LEFT, 90}
+		move[2] = {2081, 2099, UP, 91}
+	
+	elseif thisScene == 4 then
+	
+		sceneStart = 20448
+		sceneEnd   = 21893
+		totalMoves   = 6
+		
+	    move[1] = {2650, 2668, BUTTON1, 92}
+		move[2] = {2680, 2698, BUTTON1, 92}
+		move[3] = {3069, 3087, LEFT, 93}
+		move[4] = {3128, 3146, RIGHT, 93}
+		move[5] = {3168, 3186, UP, 93}
+		move[6] = {3412, 3430, LEFT, 94}
+		
+	elseif thisScene == 5 then
+	
+		sceneStart = 21904
+		sceneEnd   = 25205
+		totalMoves   = 11
+		
+	    move[1] = {3763, 3781, RIGHT, 95}
+		move[2] = {3803, 3821, BUTTON1, 95}
+		move[3] = {4097, 4115, LEFT, 96}
+		move[4] = {4122, 4140, UP, 97}
+		move[5] = {4205, 4223, RIGHT, 97}
+		move[6] = {4292, 4310, LEFT, 98}
+		move[7] = {4406, 4424, BUTTON1, 98}
+		move[8] = {4445, 4463, BUTTON1, 98}
+		move[9] = {4509, 4527, RIGHT, 97}
+		move[10] = {4533, 4551, LEFT, 97}
+		move[11] = {4643, 4661, BUTTON1, 97}
+		
+	end
+	
+end
