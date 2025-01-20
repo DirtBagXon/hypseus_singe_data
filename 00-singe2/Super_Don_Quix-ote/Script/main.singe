@@ -1860,7 +1860,9 @@ function doLevel()     -- Big process for level play
 		end
 
 	elseif (lvlState == lvlRunning) then      -- Game waiting for a move
-		
+
+		if currentMove > totalMoves then currentMove = 1 end
+
 		if (currentFrame >= move[currentMove][inputFrmStart] and currentFrame <= move[currentMove][inputFrmEnd]) then 
 			
 			bShowAction = true
