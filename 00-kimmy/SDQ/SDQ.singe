@@ -1,0 +1,782 @@
+--[[
+
+PROGRAM NAME:	Super Don Quixote
+Singe version by poiu
+Hypseus version by Gig71 (2024) 
+framework VERSION:		3.32b
+
+
+]]--
+
+-------------------------
+-- 1. General settings --
+-------------------------
+
+-- Hypseus Game Setup --
+
+-- Do Not Remove/Alter these --
+
+singeSetGameName("Super Don Quixote")
+
+BASEDIR = "singe"                                  -- This should be 'singe'
+
+BASEOVERLAY = OVERLAY_FULL                       -- Set the default Overlay
+
+MYDIR = BASEDIR .."/".. "SDQ"                      -- This is the directory where your game is
+
+MovieFPS = 29.970    -- Number of frames per second of your movies (used for timed actions).
+
+dip_MinimalOverlay = 0  -- Start/Enable the Ultralo Overlay
+
+-- End Hypseus Game Setup --
+
+dofile(BASEDIR .. "/FrameworkKimmy/globals.singe")       	-- Don't touch this line
+
+
+-- Scoring Settings --
+
+SCOREMOVE = 700								
+BUFFMOVE = 300									
+SCORESCENE = 1000								
+DEATHPENALTY = 1000								 
+SCORELEVEL = 1000								
+SCOREGAME = 200000								
+SCORESECRET = 1			
+PERFECTBONUS = 5000
+EXTRALIFE = 0	
+
+-- Difficulty Settings --					
+
+PenalNormal = 1								
+PenalHard = 3									
+PenalExtreme  = 5	
+
+-- Advanced Settings --							-- Those settings allow to setup complex behavior. You don't need them in most cases.
+
+altCfg = false
+bAddons = false
+
+miscR = 153										-- You can also create a misc color for the font.
+miscG = 76										-- In that case fill RGB values (0 to 255)
+miscB = 0
+
+--  AllowRandom Show/hide the random level order mode in Game Type (menu)
+--	AllowTier Show/hide the tier mode in Game Type (menu). If you don't want tiers: false.
+
+AllowRandom = false
+AllowTier = true
+
+-- Tier 0 = init. First number is number of Tiers, followed by size of each Tier
+-- Levels to be mixed in Tier 1 (and so on).
+-- In this example there are 30 levels Tiered in 16 groups	
+-- Level 40 is played last. Not included in any Tier.
+
+Tiers[0] = {5,1,3,3,3,2}
+Tiers[1] = {1}
+Tiers[2] = {2,3,4}
+Tiers[3] = {5,6,7}
+Tiers[4] = {8,9,10}
+Tiers[5] = {11,12}
+
+
+
+AllowMap = false								-- Show/hide the map mode in Game Type (menu)
+MapStart = 1									-- 0: Map start at the beginning / 1: Map after the first level. 
+
+IngameDiffchoice = true						-- If true, you will choose the difficulty with a video at the start of the game.
+
+BarSize = 10									-- Size of the Life Bar (Life bar Game Type)
+BarMin = 2										-- Decrease of the Life bar for missed move
+BarBonus = 2									-- Number of good moves to gain 1 in Life Bar
+
+LvlTrophy3 = 3
+LvlTrophy4 = 4									-- Which Level for gives trophy 4 (0 if no trophy)
+
+------------------------------------------------------------------------
+-- 2. Starting and ending frames for the various elements of the game --
+------------------------------------------------------------------------
+
+-- Intro frames --													
+												
+offsetTitle = 160 --0	
+offsetTitleend = 448 --149
+
+offsetIntro01 = 448	
+offsetIntro01end = 1661	
+
+offsetIntro02 = 160   							
+offsetIntro02end = 448			
+
+offsetIntro03 = 160								
+offsetIntro03end = 448		
+
+-- Menu frames --
+
+offsetMenus = 25216																						
+												
+frameOptions = offsetMenus +1					
+frameSave = offsetMenus +13						
+frameRankings =offsetMenus +18					
+frameControls = offsetMenus +29
+frameSpecial = offsetMenus +1667					
+frameVictory = offsetMenus +7
+frameSecret = offsetMenus +0
+frameTrophy = offsetMenus +33					
+frameHints = offsetMenus +39	
+			
+frameCredit = offsetMenus +1408					
+
+
+frameEasy = offsetMenus +45						
+frameNormal = offsetMenus +78
+frameHard = offsetMenus +102
+frameExtreme = offsetMenus +125
+
+offsetContinue = offsetMenus +1036				
+offsetContinueend = offsetMenus +1335
+
+offsetGameOver = offsetMenus +150				
+offsetGameOverend = offsetMenus +252
+
+offsetGameOverAlt = offsetMenus +262		
+offsetGameOverAltend = offsetMenus +360		
+
+offsetNewHScore = offsetMenus +370			
+offsetNewHScoreend = offsetMenus +418	
+
+offsetEnterHScore = offsetMenus +419			
+offsetEnterHScoreend = offsetMenus +972	
+
+offsetRankings = offsetMenus +1417				
+offsetRankingsend = offsetMenus +1600			
+
+offsetClear = offsetMenus +1348 --0  -- offsetMenus +1348		non deve essere 0 per funzionare percent mode			
+offsetClearend = offsetMenus +1390	-- 							non deve essere 0 per funzionare percent mode	
+
+offsetMap = offsetMenus +0						
+offsetMapend = offsetMenus +0					
+
+offsetGetReady = 0 -- offsetMenus +1420			
+offsetGetReadyEnd = 0 -- offsetMenus +1500
+
+offsetSupDeath = 0				
+offsetSupDeathEnd = 0
+
+offsetMap = offsetMenus +0			
+offsetMapend = offsetMenus +0
+
+totalDeath = 98 -- 98
+offsetDeath = 26898	
+
+-- Death frames --
+
+
+Death[1] = {offsetDeath +1, offsetDeath +76}
+Death[2] = {offsetDeath +87, offsetDeath +124}
+Death[3] = {offsetDeath +135, offsetDeath +211}
+Death[4] = {offsetDeath +222, offsetDeath +288}
+Death[5] = {offsetDeath +299, offsetDeath +368}
+Death[6] = {offsetDeath +379, offsetDeath +448}
+Death[7] = {offsetDeath +459, offsetDeath +532}
+Death[8] = {offsetDeath +543, offsetDeath +614}
+Death[9] = {offsetDeath +625, offsetDeath +682}
+Death[10] = {offsetDeath +693, offsetDeath +761}
+Death[11] = {offsetDeath +772, offsetDeath +844}
+Death[12] = {offsetDeath +855, offsetDeath +927}
+Death[13] = {offsetDeath +938, offsetDeath +1015}
+Death[14] = {offsetDeath +1026, offsetDeath +1103}
+Death[15] = {offsetDeath +1114, offsetDeath +1201}
+Death[16] = {offsetDeath +1212, offsetDeath +1299}
+Death[17] = {offsetDeath +1310, offsetDeath +1357}
+Death[18] = {offsetDeath +1368, offsetDeath +1415}
+Death[19] = {offsetDeath +1426, offsetDeath +1491}
+Death[20] = {offsetDeath +1502, offsetDeath +1581}
+Death[21] = {offsetDeath +1618, offsetDeath +1635}
+Death[22] = {offsetDeath +1646, offsetDeath +1703}
+Death[23] = {offsetDeath +1714, offsetDeath +1771}
+Death[24] = {offsetDeath +1800, offsetDeath +1826}
+Death[25] = {offsetDeath +1845, offsetDeath +1880}
+Death[26] = {offsetDeath +1900, offsetDeath +1920}
+Death[27] = {offsetDeath +1940, offsetDeath +1960}
+Death[28] = {offsetDeath +1971, offsetDeath +2033}
+Death[29] = {offsetDeath +2044, offsetDeath +2119}
+Death[30] = {offsetDeath +2130, offsetDeath +2172}
+Death[31] = {offsetDeath +2183, offsetDeath +2225}
+Death[32] = {offsetDeath +2236, offsetDeath +2284}
+Death[33] = {offsetDeath +2295, offsetDeath +2376}
+Death[34] = {offsetDeath +2387, offsetDeath +2456}
+Death[35] = {offsetDeath +2467, offsetDeath +2515}
+Death[36] = {offsetDeath +2526, offsetDeath +2563}
+Death[37] = {offsetDeath +2574, offsetDeath +2622}
+Death[38] = {offsetDeath +2633, offsetDeath +2692}
+Death[39] = {offsetDeath +2703, offsetDeath +2751}
+Death[40] = {offsetDeath +2762, offsetDeath +2810}
+Death[41] = {offsetDeath +2821, offsetDeath +2869}
+Death[42] = {offsetDeath +2880, offsetDeath +2939}
+Death[43] = {offsetDeath +2950, offsetDeath +2998}
+Death[44] = {offsetDeath +3009, offsetDeath +3068}
+Death[45] = {offsetDeath +3079, offsetDeath +3131}
+Death[46] = {offsetDeath +3142, offsetDeath +3202}
+Death[47] = {offsetDeath +3213, offsetDeath +3281}
+Death[48] = {offsetDeath +3292, offsetDeath +3349}
+Death[49] = {offsetDeath +3360, offsetDeath +3423}
+Death[50] = {offsetDeath +3434, offsetDeath +3497}
+Death[51] = {offsetDeath +3508, offsetDeath +3549}
+Death[52] = {offsetDeath +3560, offsetDeath +3617}
+Death[53] = {offsetDeath +3628, offsetDeath +3685}
+Death[54] = {offsetDeath +3696, offsetDeath +3757}
+Death[55] = {offsetDeath +3768, offsetDeath +3820}
+Death[56] = {offsetDeath +3831, offsetDeath +3883}
+Death[57] = {offsetDeath +3894, offsetDeath +3947}
+Death[58] = {offsetDeath +3958, offsetDeath +4012}
+Death[59] = {offsetDeath +4023, offsetDeath +4080}
+Death[60] = {offsetDeath +4091, offsetDeath +4160}
+Death[61] = {offsetDeath +4171, offsetDeath +4228}
+Death[62] = {offsetDeath +4239, offsetDeath +4296}
+Death[63] = {offsetDeath +4307, offsetDeath +4372}
+Death[64] = {offsetDeath +4383, offsetDeath +4440}
+Death[65] = {offsetDeath +4455, offsetDeath +4503}
+Death[66] = {offsetDeath +4514, offsetDeath +4571}
+Death[67] = {offsetDeath +4582, offsetDeath +4639}
+Death[68] = {offsetDeath +4650, offsetDeath +4746}
+Death[69] = {offsetDeath +4757, offsetDeath +4818}
+Death[70] = {offsetDeath +4829, offsetDeath +4874}
+Death[71] = {offsetDeath +4885, offsetDeath +4956}
+Death[72] = {offsetDeath +4967, offsetDeath +5037}
+Death[73] = {offsetDeath +5048, offsetDeath +5064}
+Death[74] = {offsetDeath +5075, offsetDeath +5124}
+Death[75] = {offsetDeath +5135, offsetDeath +5188}
+Death[76] = {offsetDeath +5199, offsetDeath +5255}
+Death[77] = {offsetDeath +5266, offsetDeath +5316}
+Death[78] = {offsetDeath +5327, offsetDeath +5376}
+Death[79] = {offsetDeath +5387, offsetDeath +5453}
+Death[80] = {offsetDeath +5464, offsetDeath +5502}
+Death[81] = {offsetDeath +5513, offsetDeath +5551}
+Death[82] = {offsetDeath +5562, offsetDeath +5617}
+Death[83] = {offsetDeath +5628, offsetDeath +5667}
+Death[84] = {offsetDeath +5678, offsetDeath +5726}
+Death[85] = {offsetDeath +5737, offsetDeath +5778}
+Death[86] = {offsetDeath +5789, offsetDeath +5821}
+Death[87] = {offsetDeath +5832, offsetDeath +5917}
+Death[88] = {offsetDeath +5928, offsetDeath +5985}
+Death[89] = {offsetDeath +5996, offsetDeath +6053}
+Death[90] = {offsetDeath +6064, offsetDeath +6121}
+Death[91] = {offsetDeath +6132, offsetDeath +6193}
+Death[92] = {offsetDeath +6204, offsetDeath +6312}
+Death[93] = {offsetDeath +6323, offsetDeath +6398}
+Death[94] = {offsetDeath +6409, offsetDeath +6491}
+Death[95] = {offsetDeath +6502, offsetDeath +6572}
+Death[96] = {offsetDeath +6583, offsetDeath +6688}
+Death[97] = {offsetDeath +6699, offsetDeath +6741}
+Death[98] = {offsetDeath +6752, offsetDeath +6791}
+
+
+finalstage = 13
+PlayOrder = {1,2,3,4,5,6,7,8,9,10,11,12,13}  
+
+AllowSecret = false
+RelativeFrames = true 
+
+-- livelli editati tutti
+
+Level[1] = {"Bats", 1671, 1672, 1, 0, 0, -11}
+Level[2] = {"Salaman", 2720, 2721, 1, 0, 0,-11}
+Level[3] = {"Geyser e Snakes", 3667, 3668, 1, 0, 0, -11}
+Level[4] = {"Mummy", 5123, 5124, 1, 0, 0, -11}
+Level[5] = {"Totem Pole", 6072, 6073, 1, 0, 0, -11}
+Level[6] = {"Witch", 7293, 7294, 1, 0, 0, -11}
+Level[7] = {"Earthquake", 8076, 8077, 1, 0, 0, -11}
+Level[8] = {"Skeletons e Arms", 8744, 8745, 1, 0, 0, -11}
+Level[9] = {"Tornado", 10989, 10990, 1, 0, 0, -11}
+Level[10] = {"Jellyfish", 12542, 12543, 1, 0, 0, -11}
+Level[11] = {"Anaconda", 13731, 13732, 1, 0, 0, -11}
+Level[12] = {"Raft", 14576, 14577, 1, 0, 0, -12}
+Level[13] = {"Final", 18299, 18300, 5, 0, 0, -1}
+
+------------------------------------------------------------------------------------------
+-- 3. List of moves for each level, by scene (StartFrame, EndFrame, MOVE, Death#, 0, 0) --
+------------------------------------------------------------------------------------------
+
+function setupMoves(thisLevel, thisScene)
+
+	if thisLevel == 1 then												-- LEVEL 1 Bats
+
+		if thisScene == 1 then 
+
+			sceneStart = 2
+			sceneEnd   = 1038
+			totalMoves   = 7
+
+		move[1] = {362, 380, RIGHT, 1}
+		move[2] = {463, 481, RIGHT, 1}
+		move[3] = {539, 557, RIGHT, 1}
+		move[4] = {601, 619, LEFT, 2}
+		move[5] = {698, 716, BUTTON1, 3}
+		move[6] = {768, 786, BUTTON1, 3}
+		move[7] = {880, 898, BUTTON1, 4}
+
+		end
+
+	elseif thisLevel == 2 then											-- LEVEL 2 Salaman
+
+		if thisScene == 1 then  
+
+			sceneStart = 2
+			sceneEnd   = 936
+			totalMoves   = 8
+
+		move[1] = {331, 349, BUTTON1, 5}
+		move[2] = {388, 406, BUTTON1, 6}
+		move[3] = {477, 495, BUTTON1, 7}
+		move[4] = {521, 539, RIGHT, 8}
+		move[5] = {569, 587, BUTTON1, 9}
+		move[6] = {651, 669, BUTTON1, 9}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[7] = {699, 717, RIGHT, 9}
+		
+		elseif (t == 2) then
+		
+		move[7] = {699, 717, RIGHT, 9}
+		
+		end
+		move[8] = {736, 754, BUTTON1, 9}
+
+		end
+
+
+
+	elseif thisLevel == 3 then											-- Level 3 Geyser e Snakes
+
+		if thisScene == 1 then  
+
+			sceneStart = 2
+			sceneEnd   = 1445
+			totalMoves   = 9
+
+		move[1] = {394, 412, LEFT, 10}
+		move[2] = {830, 848, BUTTON1, 11}
+		move[3] = {872, 890, BUTTON1, 12}
+		move[4] = {916, 934, BUTTON1, 12}
+		move[5] = {1045, 1063, RIGHT, 13}
+		move[6] = {1093, 1111, LEFT, 14}
+		move[7] = {1163, 1181, BUTTON1, 15}
+		move[8] = {1209, 1227, BUTTON1, 16}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[9] = {1285, 1303, DOWN, 17}
+		
+		elseif (t == 2) then
+		
+		move[9] = {1285, 1303, RIGHT, 17}
+		
+		end
+
+		end
+
+
+	elseif thisLevel == 4 then											-- Level 4 Mummy
+
+		if thisScene == 1 then  
+
+			sceneStart = 2
+			sceneEnd   = 938
+			totalMoves   = 5
+
+		move[1] = {355, 373, RIGHT, 18}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[2] = {448, 466, UP, 19}
+		
+		elseif (t == 2) then
+		
+		move[2] = {448, 466, LEFT, 19}
+		
+		end
+		
+		move[3] = {586, 604, BUTTON1, 19}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[4] = {775, 793, RIGHT, 20}
+		
+		elseif (t == 2) then
+		
+		move[4] = {775, 793, BUTTON1, 20}
+		
+		end
+		
+		move[5] = {824, 842, BUTTON1, 19}
+
+end
+
+
+
+
+	elseif thisLevel == 5 then											-- Level 5 Totem Pole
+
+		if thisScene == 1 then   										
+
+			sceneStart = 2
+			sceneEnd   = 1210
+			totalMoves = 6
+
+		move[1] = {402, 420, LEFT, 21}
+		move[2] = {462, 480, RIGHT, 22}
+		move[3] = {604, 622, LEFT, 24}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[4] = {683, 701, RIGHT, 25}
+		
+		elseif (t == 2) then
+		
+		move[4] = {683, 701, BUTTON1, 25}
+		
+		end
+		
+		move[5] = {918, 936, DOWN, 26}
+		move[6] = {977, 995, UP, 27}
+		
+
+		end
+
+
+
+	elseif thisLevel == 6 then											-- Level 6 Witch
+
+		if thisScene == 1 then  
+
+			sceneStart = 2
+			sceneEnd   = 772
+			totalMoves = 6
+		
+		
+		move[1] = {221, 239, RIGHT, 28}
+		move[2] = {267, 285, LEFT, 28}
+		move[3] = {300, 318, UP, 28}
+		move[4] = {426, 444, BUTTON1, 29}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[5] = {523, 541, UP, 29}
+		
+		elseif (t == 2) then
+		
+		move[5] = {523, 541, LEFT, 29}
+		
+		end
+		
+		move[6] = {583, 601, BUTTON1, 29}
+		
+		
+
+		end
+
+
+
+	elseif thisLevel == 7 then											-- Level 7 Earthquake
+
+		if thisScene == 1 then  
+
+			sceneStart = 2
+			sceneEnd   = 657
+		totalMoves = 6
+		
+		move[1] = {183, 198, DOWN, 30}
+		move[2] = {236, 254, LEFT, 31}
+		move[3] = {354, 372, RIGHT, 32}
+		move[4] = {418, 436, LEFT, 33}
+		move[5] = {469, 487, LEFT, 34}
+		move[6] = {513, 531, LEFT, 34}
+
+	end
+
+
+	elseif thisLevel == 8 then											-- Level 8 Skeletons e Arms
+
+		if thisScene == 1 then  
+
+			sceneStart = 2
+			sceneEnd   = 2234
+		totalMoves = 27
+		
+		move[1] = {139, 157, RIGHT, 35}
+		move[2] = {190, 208, BUTTON1, 36}
+		move[3] = {228, 246, BUTTON1, 37}
+		move[4] = {289, 307, BUTTON1, 38}
+		move[5] = {332, 350, BUTTON1, 38}
+		move[6] = {459, 477, RIGHT, 39}
+		move[7] = {605, 623, BUTTON1, 44}
+		move[8] = {735, 753, BUTTON1, 40}
+		move[9] = {784, 802, BUTTON1, 41}
+		move[10] = {812, 830, BUTTON1, 42}
+		move[11] = {940, 958, BUTTON1, 43}
+		move[12] = {972, 990, BUTTON1, 44}
+		move[13] = {1014, 1032, BUTTON1, 44}
+		move[14] = {1065, 1083, RIGHT, 45}
+		move[15] = {1112, 1130, BUTTON1, 44}
+		move[16] = {1180, 1198, BUTTON1, 44}
+-- arms
+		move[17] = {1485, 1503, RIGHT, 46}
+		move[18] = {1581, 1599, UP, 47}
+		move[19] = {1638, 1656, BUTTON1, 48}
+		move[20] = {1686, 1704, LEFT, 49}
+		move[21] = {1710, 1727, BUTTON1, 50}
+		move[22] = {1773, 1791, BUTTON1, 51}
+		move[23] = {1805, 1823, LEFT, 52}
+		move[24] = {1878, 1896, BUTTON1, 53}
+		move[25] = {1924, 1942, BUTTON1, 54}
+		move[26] = {2012, 2030, BUTTON1, 54}
+		move[27] = {2081, 2099, BUTTON1, 54}
+
+		end
+
+	elseif thisLevel == 9 then											-- Level 9 Tornado
+
+		if thisScene == 1 then  
+
+			sceneStart = 2
+			sceneEnd   = 1542
+		totalMoves = 11
+		
+		move[1] = {220, 238, RIGHT, 55}
+		move[2] = {367, 385, LEFT, 56}
+	    move[3] = {529, 547, DOWN, 57}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[4] = {609, 627, RIGHT, 57}
+		
+		elseif (t == 2) then
+		
+		move[4] = {609, 627, DOWN, 57}
+		
+		end
+		
+		move[5] = {678, 696, UP, 58}
+		move[6] = {729, 747, LEFT, 59}
+		move[7] = {805, 823, LEFT, 59}
+		move[8] = {861, 879, LEFT, 60}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[9] = {915, 933, UP, 60}
+		
+		elseif (t == 2) then
+		
+		move[9] = {915, 933, LEFT, 60}
+		
+		end
+		
+		move[10] = {1099, 1117, RIGHT, 61}
+		move[11] = {1131, 1149, BUTTON1, 61}
+
+		end
+
+	elseif thisLevel == 10 then											-- Level 10 Jellyfish
+
+		if thisScene == 1 then  
+
+			sceneStart = 2
+			sceneEnd   = 1178
+		totalMoves = 10
+		
+		move[1] = {244, 262, BUTTON1, 62}
+		move[2] = {294, 312, BUTTON1, 62}
+		move[3] = {382, 400, BUTTON1, 62}
+		move[4] = {416, 434, BUTTON1, 62}
+		move[5] = {525, 543, BUTTON1, 63}
+		move[6] = {571, 589, BUTTON1, 62}
+		move[7] = {679, 697, BUTTON1, 64}
+		move[8] = {723, 741, BUTTON1, 64}
+		move[9] = {894, 912, UP, 65}
+		move[10] = {932, 950, BUTTON1, 64}
+
+		end
+
+
+
+	elseif thisLevel == 11 then											-- Level 11 Anaconda
+
+		if thisScene == 1 then  
+
+			sceneStart = 2
+			sceneEnd   = 836
+		totalMoves = 7
+		
+		move[1] = {186, 216, LEFT, 66} -- OK
+		move[2] = {314, 334, UP, 67} --OK
+		move[3] = {329, 349, UP, 67} --OK
+		move[4] = {442, 462, LEFT, 66} -- OK
+		move[5] = {507, 527, UP, 66}  -- OK
+		move[6] = {616, 636, LEFT, 68} -- OK
+		move[7] = {655, 670, RIGHT, 69}	-- OK	
+				
+		end
+
+	elseif thisLevel == 12 then											-- Level 12 Raft
+
+		if thisScene == 1 then  
+
+			sceneStart = 2
+			sceneEnd   = 3712 --719
+		totalMoves = 24
+		
+		move[1] = {89, 107, DOWN, 70}
+		move[2] = {223, 241, UP, 71}
+		move[3] = {334, 352, RIGHT, 72}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[4] = {378, 396, DOWN, 72}
+		
+		elseif (t == 2) then
+		
+		move[4] = {378, 396, LEFT, 72}
+		
+		end
+		
+		move[5] = {517, 535, RIGHT, 72}
+		move[6] = {563, 581, UP, 73}
+
+		move[7] = {947, 965, RIGHT, 74}								-- Rapide
+		move[8] = {1111, 1129, LEFT, 75}
+		move[9] = {1168, 1186, RIGHT, 75}
+		move[10] = {1218, 1236, LEFT, 75}
+		move[11] = {1372, 1390, LEFT, 75}
+		move[12] = {1429, 1447, UP, 76}
+		move[13] = {1618, 1636, DOWN, 78}
+		move[14] = {1688, 1706, LEFT, 78}
+		move[15] = {1856, 1874, RIGHT, 78}
+
+	    move[16] = {2089, 2107, UP, 79}								-- zattera
+	    move[17] = {2450, 2468, RIGHT, 80}
+	    move[18] = {2506, 2524, RIGHT, 80}
+	    move[19] = {2564, 2582, UP, 80}
+	    move[20] = {2668, 2686, RIGHT, 81}
+	    move[21] = {2738, 2756, LEFT, 81}
+	    move[22] = {2890, 2908, LEFT, 82}
+	    move[23] = {2990, 3008, DOWN, 83}
+	    move[24] = {3459, 3477, RIGHT, 84}
+
+
+
+		end
+
+	elseif thisLevel == 13 then											-- Level 13 Final    
+
+		if thisScene == 1 then 											-- gigante su mulino a vento							
+
+			sceneStart = 2
+			sceneEnd   = 856
+		totalMoves = 5
+		
+		move[1] = {250, 268, LEFT, 85}
+		move[2] = {309, 327, UP, 86}
+		move[3] = {391, 409, BUTTON1, 86}
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[4] = {443, 461, RIGHT, 85}
+		
+		elseif (t == 2) then
+		
+		move[4] = {443, 461, BUTTON1, 85}
+		
+		end
+		
+		local t = math.random(1,2)
+		
+		if (t == 1) then
+		
+		move[5] = {603, 621, UP, 87}
+		
+		elseif (t == 2) then
+		
+		move[5] = {603, 621, LEFT, 87}
+		
+		end 
+		
+	elseif thisScene == 2 then											-- teleferica e karts
+	
+		sceneStart = 857
+		sceneEnd   = 1410
+		totalMoves   = 6
+		
+		move[1] = {1100, 1118, UP, 88}
+		move[2] = {1142, 1160, UP, 88}
+		move[3] = {1184, 1202, UP, 88}
+		move[4] = {1234, 1252, UP, 88}
+		move[5] = {1274, 1292, UP, 89}
+		move[6] = {1318, 1336, UP, 89}
+		
+	elseif thisScene == 3 then											-- scala scivolo
+	
+		sceneStart = 1421
+		sceneEnd   = 2148
+		totalMoves   = 2
+		
+	    move[1] = {1600, 1618, LEFT, 90}
+		move[2] = {2081, 2099, UP, 91}
+	
+	elseif thisScene == 4 then											-- mostri alati
+	
+		sceneStart = 2149
+		sceneEnd   = 3594
+		totalMoves   = 6
+		
+	    move[1] = {2650, 2668, BUTTON1, 92}
+		move[2] = {2680, 2698, BUTTON1, 92}
+		move[3] = {3069, 3087, LEFT, 93}
+		move[4] = {3128, 3146, RIGHT, 93}
+		move[5] = {3168, 3186, UP, 93}
+		move[6] = {3412, 3430, LEFT, 94}
+		
+	elseif thisScene == 5 then											-- strega finale
+	
+		sceneStart = 3605
+		sceneEnd   = 6906
+		totalMoves   = 11
+		
+	    move[1] = {3763, 3781, RIGHT, 95}
+		move[2] = {3803, 3821, BUTTON1, 95}
+		move[3] = {4097, 4115, LEFT, 96}
+		move[4] = {4122, 4140, UP, 97}
+		move[5] = {4205, 4223, RIGHT, 97}
+		move[6] = {4292, 4310, LEFT, 98}
+		move[7] = {4406, 4424, BUTTON1, 98}
+		move[8] = {4445, 4463, BUTTON1, 98}
+		move[9] = {4509, 4527, RIGHT, 97}
+		move[10] = {4533, 4551, LEFT, 97}
+		move[11] = {4643, 4661, BUTTON1, 97}
+			
+		end
+
+
+	end
+
+end
