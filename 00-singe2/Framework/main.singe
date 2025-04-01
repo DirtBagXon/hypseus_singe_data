@@ -5802,7 +5802,7 @@ function onInputPressed(intWhat)      -- Confirm the pressing of all buttons (wi
 
 			p1BUTTON4 = true
 
-		elseif (intWhat == SWITCH_CONSOLE) then
+		elseif (intWhat == SWITCH_CONSOLE or intWhat == SWITCH_QUIT) then
 		
 			p1CONSOLE = true
 
@@ -6030,7 +6030,7 @@ function onInputReleased(intWhat)      -- Confirm the release of all buttons (wi
 
 			end
 
-		elseif (intWhat == SWITCH_CONSOLE) then
+		elseif (intWhat == SWITCH_CONSOLE or intWhat == SWITCH_QUIT) then
 
 			if currentLevel == levelNormal or currentLevel == levelMap then
 

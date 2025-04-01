@@ -38,6 +38,10 @@ elseif (BASEOVERLAY ~= nil) then
         setOverlaySize(BASEOVERLAY)
 end
 
+if (keyboardCatchQuit ~= nil) then
+	keyboardCatchQuit(true)
+end
+
 --Framework.singe....
 
 p1UP = false		
