@@ -1,5 +1,5 @@
 # Hypseus Singe
-# Support for Singe 1 and 2 games
+## Support for Singe 1, 2 and Hypseus fan made LUA games
 
 Hypseus Singe game demos on [Youtube](https://www.youtube.com/playlist?list=PLRLuhkf2c3OeRoXydn0upKyIBUXNMK13x)
 
@@ -56,11 +56,11 @@ be now within `00-singe2-ports-gungames`.
 
 The `00-singe1` folder will contain original Daphne era Singe games that have received updates and bugfixes..  
 
-The `00-singe2` folder will contain Singe 2 games using native sprites, fonts and full overlays.  
+The `00-singe2` folder contains games using the new engine with higher resolution assets and full overlays.  
 
-`00-non-qte` contains any game format that move away from the Dragon's Lair _QTE_ format.
+`00-non-qte` contains any game formats that move away from the Dragon's Lair _QTE_ format.
 
-`00-kimmy` contains games that were created using _FrameworkKimmy_.  
+`00-kimmy` contains games that were created using the newer, extended feature: _FrameworkKimmy_.  
 _Note_: Earlier _Framework_ games can be easily ported to use the new framework via the Singe header files.
 
 `00-zip-roms` are detailed above.  
@@ -71,7 +71,8 @@ Download the latest complete repository via [**Releases**](https://github.com/Di
 
 This repo does not contain Copyrighted &copy; material, purely fan made graphics, sounds and LUA scripts.
 
-All data in the subdirectories of this repository has been ported from Singe 2 *LUA*.
+Data in this repository has been created from several _Fan Made_ sources, including Singe, Singe 2 and original  
+creations specifically for Hypseus.
 
 You should not **need** to alter any of the peripheral data in these subdirectories. However, these \
 are customizable games. If you make improvements, please consider contributing back to the repository.
