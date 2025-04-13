@@ -5742,10 +5742,11 @@ function drawScore()
 	
 	if (iScore > 999999) then iScore = 999999 end
 	
-	sprScore = fontToSprite(string.format('%06d',iScore))	
+	local lScore = fontToSprite(string.format('%06d',iScore))
 	
-	
-	spriteDraw(sx, sy, sprScore)
+	spriteDraw(sx, sy, lScore)
+
+	spriteUnload(lScore)
 
 end
 
