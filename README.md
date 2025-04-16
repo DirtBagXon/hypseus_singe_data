@@ -94,8 +94,7 @@ The files in this repository should be installed alongside the required game vid
 
 Refer to the game framefile (*txt*) for video file layout structure.
 
-This repository does not contain any game video or audio files. You are required to acquire these files from other \
-sources, [archive.org](https://archive.org) may help.
+This repository does not contain any game video or audio files. You are required to acquire these files from other sources, [archive.org](https://archive.org) may help.
 
 Download the latest complete repository via [**Releases**](https://github.com/DirtBagXon/hypseus_singe_data/releases) (*zip* or *tgz*).
 

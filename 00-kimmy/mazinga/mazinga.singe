@@ -1,0 +1,795 @@
+--[[
+
+PROGRAM NAME:	Mazinga Z
+VERSION:		4.0
+AUTHOR:			MaX7o (2025) tnks to KARIS and Discord Hypseus Singe and Special Thanks to Bladescater for patch this game.
+
+This file is part of Mazinga Z
+
+	Hypseus Singe - Mazinga Z is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation.
+
+	Hypseus Singe - Mazinga Z is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+	Special Thanks to Karris, Matthew P. Ownby, Scott Duensing, RDG, Bladescater, DirtBagXon.
+	
+Hypseus Singe:
+
+	https://github.com/DirtBagXon/hypseus-singe	
+
+]]--
+-------------------------
+-- 1. General settings --
+-------------------------
+-- Hypseus Game Setup --
+
+singeSetGameName("mazinga")
+
+patch_mazinga = 61078
+
+BASEDIR = "singe"                         -- This should be 'singe'
+
+MYDIR = BASEDIR .."/".. "mazinga"         -- This is the directory where your game is
+
+MovieFPS = 25                   -- Number of frames per second of your movies (used for timed actions).
+
+dip_MinimalOverlay = 0  -- Start/Enable the Ultralo Overlay
+
+-- End Hypseus Game Setup --
+
+dofile(BASEDIR .. "/FrameworkKimmy/globals.singe")    -- Don't touch this line	
+AllowNormal = true
+AllowLifeBar = true
+AllowPercent = true
+AllowSurvivor = true
+AllowKid = true
+AllowDie= true
+bShowFrame = true
+
+
+-- Scoring Settings --
+
+SCOREMOVE = 700									
+BUFFMOVE = 300									
+SCORESCENE = 10000								
+SCORELEVEL = 50000								
+SCOREGAME = 250000								
+DEATHPENALTY = 1000
+PERFECTBONUS = 10000							
+EXTRALIFE = 0									
+SCORESECRET = 1									
+
+-- Difficulty Settings --						
+
+PenalNormal = 0									
+PenalHard = 2									
+PenalExtreme  = 4									
+
+-- Advanced Settings --
+
+alCfg = true								
+											
+miscR = 153										
+miscG = 76										
+miscB = 0
+
+AllowRandom = false							
+
+AllowTier = false								
+Tiers[0] = {4,4,4,5,3}							-- Tier 0 = init. First number is number of Tiers, followed by size of each Tier
+Tiers[1] = {1,2,3,4}							-- Levels to be mixed in Tier 1 (and so on).
+Tiers[2] = {5,6,7,8}							-- In this example there are 17 levels Tiered in 4 groups	
+Tiers[3] = {9,10,11,12,13}
+Tiers[4] = {14,15,16}							-- Level 17 is played last. Not included in any Tier.
+						
+
+AllowMap = false								
+MapStart = 0	
+
+IngameDiffchoice = true
+
+LvlTrophy3 = 5
+LvlTrophy4 = 6
+
+------------------------------------------------------------------------
+-- 2. Starting and ending frames for the various elements of the game --
+------------------------------------------------------------------------
+													
+-- Intro frames --
+												-- For this part, you just need to adjust the frames values.
+offsetTitle = 0									-- Title start frame (short video with the logo).
+offsetTitleend = 248							-- End frame of the title video. 
+
+offsetIntro01 = 286								-- Attract video start frame.
+offsetIntro01end = 5148							-- End frame of the Attract video #1.
+
+offsetIntro02 = 59611							-- Attract video #2 start frame (if you've got only one : match title or Intro01).
+offsetIntro02end = 61050						-- End frame of the Attract video #2.
+
+offsetIntro03 = 0	 	  						-- You can have a third attract video.
+offsetIntro03end = 248							-- I've got only 1 so i just matched The rankings video values.
+
+offsetIntroGame = 0   							-- Optional: a sequence played only when the game starts
+offsetIntroGameend = 0							-- Leave to zero if you don't have such sequence
+
+
+-- Menu frames --
+
+offsetMenus = 55130								-- Menu video start frame (continue, high score, game over, etc).														
+												-- Now we set the frames for the menu video.
+frameOptions = offsetMenus +0					-- Frame for the background picture of the Service Menu.
+frameVictory = offsetMenus +75					-- Frame for the picture shown when the game is completed.
+frameSave = offsetMenus +24						-- Frame for the background picture of the Save Menu.
+frameRankings = 57950       					-- Frame for the background picture of the Top 10.
+frameControls = offsetMenus +46       		    -- Frame for the picture with instructions for key/buttons (appear between attract videos). 
+frameSpecial = offsetMenus +313					-- Frame to show special moves (you can replace with same value than frameCommands).
+frameSecret = offsetMenus +393					-- Frame for the "secret level" (if you finish the game with only one life).
+frameTrophy = offsetMenus +339					-- Frame for the trophies (optional).
+frameHints = offsetMenus +368					-- Frame for the hints (optional).
+frameQuit = offsetMenus +368					-- Frame for the Quit screen.
+frameNewGame = offsetMenus +0					-- Frame for the New Game Screen.
+
+frameEasy = offsetMenus +440				
+frameNormal = offsetMenus +472
+frameHard = offsetMenus +502
+frameExtreme = offsetMenus +523
+
+-- Game Frames --
+
+offsetGameOver = 55993							-- Positions of the Game over #1 video in the menus (regular ending).
+offsetGameOverend = 56390
+
+offsetGameOverAlt = 56413						-- Positions of the Game over #2 video in the menus (happy ending, like high sore).
+offsetGameOverAltend = 56816					-- You can also copy the values of game over #1.
+
+offsetNewHScore = 56824							-- Positions of the High score announcement video.
+offsetNewHScoreend = 56955						-- Not too long
+
+offsetEnterHScore = 56975						-- Positions of the video for entering High Scores (quite long to give enough time).
+offsetEnterHScoreend = 57683					-- This video is quite long to grant enough time to enter the name.
+
+offsetRankings = 57740							-- Positions of the video for Rankings (after High Score).
+offsetRankingsend = 58093						-- If you don't have this, replace with the values of NewHscore (above)
+
+offsetContinue = 55697							-- Positions of the Continue video (quite long to give enough time for the player).
+offsetContinueend = 55970
+
+offsetClear = offsetMenus +126								-- Positions of the video after clearing a level (can be a single frame).
+offsetClearend = offsetMenus +301				
+
+offsetGetReady = offsetMenus +0				
+offsetGetReadyEnd = offsetMenus +0 
+
+offsetSupDeath = offsetMenus +0					
+offsetSupDeathEnd = offsetMenus +0				-- Example of extra death video: Borf laughing in Space Ace. 
+
+offsetMap = offsetMenus +99						
+offsetMapend = offsetMenus +100
+
+offsetQuit = offsetMenus +368									-- Position of the (optional) Quit video. 
+offsetQuitend = offsetMenus +369	
+
+offsetMovieEnd = 55113							-- Last frame of the last level. Used by Movie mode.
+
+
+-- Death frames --
+
+totalDeath = 25									-- Total number of death scenes.
+offsetDeath = 58098								-- Start frame for the death video.
+
+Death[1] = {offsetDeath + 0, offsetDeath +58}	 -- The following lines define the positions for different death scenes. You need at least Death[1].		
+Death[2] = {offsetDeath +61, offsetDeath +117}	 -- For each death, the first number is the beginning of death scene, the second number is the end.
+Death[3] = {offsetDeath +119, offsetDeath +174}	 -- Death Gettaman rotate .
+Death[4] = {offsetDeath +178, offsetDeath +234}	 -- Death Gettaman Agganciamento.
+Death[5] = {offsetDeath +238, offsetDeath +293}  -- Death Gettaman Laser.
+Death[6] = {offsetDeath +296, offsetDeath +352}  -- Death Mazinga Laser.
+Death[7] = {offsetDeath +355, offsetDeath +413}  -- Death Ryo Cabina.
+Death[8] = {offsetDeath +415, offsetDeath +473}  -- Death Mazinga Acid.
+Death[9] = {offsetDeath +476, offsetDeath +533}  -- Death Mazinga Burrone.
+Death[10] = {offsetDeath +536, offsetDeath +592}  -- Death Mazinga Cielo 1.
+Death[11] = {offsetDeath +596, offsetDeath +650}  -- Death Mazinga Cielo 2.
+Death[12] = {offsetDeath +655, offsetDeath +713}  -- Death Mazinga Cielo 3.
+Death[13] = {offsetDeath +716, offsetDeath +773}  -- Death Mazinga Stormwind.
+Death[14] = {offsetDeath +775, offsetDeath +834}  -- Death Mazinga Acid Green.
+Death[15] = {offsetDeath +837, offsetDeath +893}  -- Death Ryo SL Coocpit.
+Death[16] = {offsetDeath +894, offsetDeath +951}  -- Death Mazinga Razzi.
+Death[17] = {offsetDeath +952, offsetDeath +1009}  -- Death Mazinga Start Hangar.
+Death[18] = {offsetDeath +1011, offsetDeath +1066}  -- Death Mazinga Rotate Hangar.
+Death[19] = {offsetDeath +1068, offsetDeath +1124}  -- Death Mazinga Sgancio Razzi.
+Death[20] = {offsetDeath +1128, offsetDeath +1185}  -- Death Ryo Agganciamento.
+Death[21] = {offsetDeath +1187, offsetDeath +1244}  -- Death Ryo Entrata Hangar.
+Death[22] = {offsetDeath +1246, offsetDeath +1302}  -- Death Ryo Salto.
+Death[23] = {offsetDeath +1305, offsetDeath +1361}  -- Death Entrata Coocpit.
+Death[24] = {offsetDeath +1364, offsetDeath +1420}  -- Death Salita Astronave.
+Death[25] = {offsetDeath +1424, offsetDeath +1479}  -- Death Entrata Astronave Piscina.
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------
+-- 3. List of Levels (Title, Start Frame, End of Intro Clip, Total Scenes, Mirror, Death Mirror, Replay, Select (optional)) --
+------------------------------------------------------------------------------------------------------------------------------
+
+finalstage = 6	     		     								-- Last stage of the story. Prevent the game to go to a level that does not exist.
+PlayOrder = {1,2,3,4,5,6}											-- Normal order of play for the levels.
+AllowSecret = true		  										-- If you have a "secret level" video then: replace false by true.
+RelativeFrames = false 											-- True if frame 1 starts with each level. False if frame 1 is the disc start.	
+
+																-- Informations about the Levels:	
+Level[1] = {"Giant Robots", 5153, 9295, 2, 0, 0, -1} 			-- Title, Start Frame, End of Intro Clip, Total Scenes, Mirror, Death Mirror, Replay. 
+Level[2] = {"Slava", 11950, 12005, 2, 0, 0, -1}				    -- Each level has one line with those informations.
+Level[3] = {"The Miceneans", 14019, 14854, 3, 0, 0, -1}		    -- Replay -1 is default (loop), 0 no replay, 1 is one replay now.
+Level[4] = {"Mechanical Monsters", 16989, 17192, 7, 0, 0, -1}				-- Higher values means 1 replay later (value is the position).		
+Level[5] = {"Demons", 32659, 34231, 2, 0, 0, -1}				-- The total number of Levels lines must match finalstage (here 5).
+Level[6] = {"Doctor Hell", 39610, 40045, 2, 0, 0, -1}
+Level[levelSecret] = {"Gettaman", 45224, 45416, 3, 0, 0, -1}  -- Secret Level infos (just for demo: useless if you don't have a secret level)
+
+
+------------------------------------------------------------------------------------
+-- 4. List of moves for each level, by scene (StartFrame, EndFrame, MOVE, Death#) --
+------------------------------------------------------------------------------------
+
+-- A scene is a list of moves you need to complete without "dying" in order to advance to the next scene.
+-- If you die during a scene, you restart this scene (though you can alter this in the game's menu).
+-- Basic moves: UP, DOWN, LEFT, RIGHT, BUTTON1, BUTTON2, BUTTON3, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT.
+-- COMBO (2 Basic Moves at a same time), MASH (hit one or two basic moves quickly), MULTI (Sequence of Basic moves).  
+-- LOOP (all kind of loops with the Stick), HOLD (hold one basic move), LETGO (release the thing you HOLD), SKIP (skip some narrative frames).
+-- Advanced Moves: CHOOSE, TIMED, PATH, YESNO, TOSCENE, TOLEVEL, WAY (RTFM!!!)
+
+function setupMoves(thisLevel, thisScene)	
+
+	if thisLevel == 1 then 										-- We begin with Level 1 (which has 2 scenes, as defined in part 3)
+	
+		if thisScene == 1 then 									-- And Scene 1					
+
+			sceneStart = 9330									-- The scene 1 starts at frame 236
+			sceneEnd   = 10282									-- And ends at frame 2047
+			n=0							-- Scene 1 has 10 moves
+
+			n=n+1;move[n] = {9341, 9363, LEFT, 21}							-- Move 1 between frames 271 and 286, the player must go UP. If not Death 4. 
+			n=n+1;move[n] = {9398, 9420, UP, 22}						-- Move 2 is just a SKIP (death is irrelevant).					
+			n=n+1;move[n] = {9429, 9449, LEFT, 23}					-- 15 is a good starting point for the lenght of a move. 10 is quite short.
+			n=n+1;move[n] = {9450, 9470, DOWN, 23}				
+			n=n+1;move[n] = {9480, 9502, DOWN, 23}
+			n=n+1;move[n] = {9528, 9550, BUTTON1, 7}
+			n=n+1;move[n] = {9659, 9679, BUTTON1, 7}	
+			n=n+1;move[n] = {9690, 9710, UP, 7}
+			n=n+1;move[n] = {9750, 9770, RIGHT, 24}
+			n=n+1;move[n] = {9800, 9822, RIGHT, 24}
+			n=n+1;move[n] = {9963, 9985, UP, 25}
+			n=n+1;move[n] = {10031, 10053, UP, 25}
+			n=n+1;move[n] = {10118, 10140, DOWN, 20}
+            n=n+1;move[n] = {10215, 10238, UP, 7}
+
+			totalMoves = n
+			-- Move 10 is the last move of the scene (as defined earlier).
+
+		elseif thisScene == 2 then 								-- Now scene 2					
+
+			sceneStart = 10283									-- Scene starts at 2048 (it's just where the previous scene ends +1).		
+			sceneEnd   = 11934									-- And so on... 
+			n=0
+
+
+            n=n+1;move[n] = {10350, 10375, UP, 7}
+         	n=n+1;move[n] = {10395, 10417, UPLEFT, 7}
+			n=n+1;move[n] = {10439, 10460, DOWN, 9}
+			n=n+1;move[n] = {10520, 10542, LEFT, 16}			
+			n=n+1;move[n] = {10554, 10570, BUTTON1, 16}
+			n=n+1;move[n] = {10630, 10652, RIGHT, 12}
+			n=n+1;move[n] = {10690, 11000, SKIP, 0}
+			n=n+1;move[n] = {11303, 11325, LEFT, 10}
+			n=n+1;move[n] = {11339, 11352, UP, 10}
+			n=n+1;move[n] = {11354, 11376, BUTTON1, 10}
+			n=n+1;move[n] = {11692, 11714, LEFT, 10}
+			n=n+1;move[n] = {11818, 11838, RIGHT, 11}
+			n=n+1;move[n] = {11846, 11866, RIGHT, 11}
+			n=n+1;move[n] = {11890, 11912, LEFT, 12}
+			
+			totalMoves = n	
+			
+		    end 													-- We made 2 scenes, this Level is finished.
+
+	elseif thisLevel == 2 then									-- Now Level 2. Exact same process than level 1.
+
+		if thisScene == 1 then   										
+
+			sceneStart = 12006
+			sceneEnd   = 12671
+			n=0
+
+			n=n+1;move[n] = {12051, 12072, BUTTON1, 11}
+			n=n+1;move[n] = {12080, 12143, MASH, 11}
+			n=n+1;move[n] = {12150, 12170, LEFT, 11}
+			n=n+1;move[n] = {12179, 12201, UP, 12}
+			n=n+1;move[n] = {12205, 12227, LEFT, 7}
+			n=n+1;move[n] = {12233, 12250, DOWN, 7}
+			n=n+1;move[n] = {12297, 12320, MULTI, 7,"D,D"}
+			n=n+1;move[n] = {12362, 12384, DOWN, 7}
+			n=n+1;move[n] = {12435, 12450, B1, 7}
+			n=n+1;move[n] = {12455, 12475, RIGHT, 7}
+			n=n+1;move[n] = {12479, 12509, LOOP, 7,"R,-,1"}
+			n=n+1;move[n] = {12509, 12509, WAY,n+2}--------------------------------------patch
+			n=n+1;move[n] = {12509, patch_mazinga+283, WAY,n+2}--------------------------patch
+			n=n+1;move[n] = {patch_mazinga+326, patch_mazinga+344, D, 7}-----------------patch
+			n=n+1;move[n] = {patch_mazinga+351, patch_mazinga+529, MASH, 7}--------------patch
+			n=n+1;move[n] = {patch_mazinga+706, patch_mazinga+721, D, 7}----------------patch
+			n=n+1;move[n] = {patch_mazinga+742, patch_mazinga+782, DOWN, 7}--------------patch
+			n=n+1;move[n] = {patch_mazinga+867, patch_mazinga+882, B1, 7}----------------patch
+			n=n+1;move[n] = {patch_mazinga+960, patch_mazinga+980, DOUBLE, 7}------------patch
+			n=n+1;move[n] = {patch_mazinga+989, patch_mazinga+1004, DOUBLE, 7}-----------patch
+			n=n+1;move[n] = {patch_mazinga+1042, patch_mazinga+1075, MASH, 7,RIGHT,-4}---patch
+			n=n+1;move[n] = {patch_mazinga+1085, patch_mazinga+1132, MASH, 7}------------patch
+			n=n+1;move[n] = {patch_mazinga+1214, patch_mazinga+1253, HOLDBUT, 7}---------patch
+			n=n+1;move[n] = {patch_mazinga+1257, patch_mazinga+1277, B1, 7}--------------patch
+			n=n+1;move[n] = {patch_mazinga+1278, patch_mazinga+1537, WAY, n+2}-----------patch
+			n=n+1;move[n] = {patch_mazinga+1538, 12525, SKIP, 0}-------------------------patch
+			n=n+1;move[n] = {12526, 12650, WAY, 0}---------------------------------------patch
+
+
+			totalMoves = n								
+							
+		elseif thisScene == 2 then
+		
+			sceneStart = 12672
+			sceneEnd   = 14011
+			n=0
+
+			n=n+1;move[n] = {12820, 12842, BUTTON1, 7}
+			n=n+1;move[n] = {12870, 12892, BUTTON1, 7}
+			n=n+1;move[n] = {12901, 12924, DOWN, 7}
+			n=n+1;move[n] = {12938, 12960, BUTTON1, 7}
+			n=n+1;move[n] = {12965, 12987, DOWN, 12}
+			n=n+1;move[n] = {13115, 13177, MASH, 12}
+			n=n+1;move[n] = {13336, 13396, MASH, 7}
+			n=n+1;move[n] = {13550, 13572, UP, 10}
+			n=n+1;move[n] = {13585, 13607, LEFT, 10}
+			n=n+1;move[n] = {13610, 13632, LEFT, 10}						
+
+		    totalMoves = n
+		   
+		    end
+
+	elseif thisLevel == 3 then
+
+		if thisScene == 1 then   										
+
+			sceneStart = 14855
+			sceneEnd   = 15400
+			n=0
+
+			n=n+1;move[n] = {14944, 14964, RIGHT, 24}
+			n=n+1;move[n] = {14969, 14990, DOWN, 24}
+			n=n+1;move[n] = {15120, 15142, UP, 14}
+			n=n+1;move[n] = {15222, 15244, DOWN, 20}
+			n=n+1;move[n] = {15271, 15293, BUTTON1, 7}
+			n=n+1;move[n] = {15300, 15322, UP, 7}
+			n=n+1;move[n] = {15326, 15348, BUTTON1, 7}
+			
+			totalMoves = n
+							
+		elseif thisScene == 2 then
+		
+			sceneStart = 15401
+			sceneEnd   = 16192
+			n=0
+			
+			n=n+1;move[n] = {15529, 15549, RIGHT, 7}
+			n=n+1;move[n] = {15555, 15575, DOWN, 7}
+			n=n+1;move[n] = {15694, 15716, RIGHT, 7}
+			n=n+1;move[n] = {15758, 15780, LEFT, 7}
+			n=n+1;move[n] = {15803, 15863, MASH, 9}
+			n=n+1;move[n] = {15924, 15984, MASH, 7}
+			n=n+1;move[n] = {16002, 16024, LEFT, 7}
+			
+			totalMoves = n
+					
+		elseif thisScene == 3 then
+		
+			sceneStart = 16194
+			sceneEnd   = 16975
+			n=0
+
+			n=n+1;move[n] = {16248, 16270, UP, 7}
+			n=n+1;move[n] = {16307, 16329, LEFT, 7}
+			n=n+1;move[n] = {16348, 16370, RIGHT, 7}
+			n=n+1;move[n] = {16420, 16440, LEFT, 7}
+			n=n+1;move[n] = {16456, 16478, RIGHT, 7}
+			n=n+1;move[n] = {16482, 16506, RIGHT, 12}
+			n=n+1;move[n] = {16528, 16548, LEFT, 7}
+			n=n+1;move[n] = {16557, 16580, RIGHT, 12}
+			n=n+1;move[n] = {16598, 16622, UP, 20}
+			n=n+1;move[n] = {16636, 16658, UP, 20}
+			n=n+1;move[n] = {16670, 16690, LEFT, 7}
+			n=n+1;move[n] = {16731, 16756, RIGHT, 7}
+			n=n+1;move[n] = {16779, 16799, RIGHT, 12}
+			n=n+1;move[n] = {16805, 16830, RIGHT, 12}
+			n=n+1;move[n] = {16862, 16887, BUTTON1, 19}
+			n=n+1;move[n] = {16910, 16935, UP, 11}
+			n=n+1;move[n] = {16940, 16962, RIGHT, 11} 
+			
+			totalMoves = n
+							
+		    end
+
+	elseif thisLevel == 4 then
+
+		if thisScene == 1 then   										
+
+			sceneStart = 17193
+			sceneEnd   = 19260
+			n=0
+
+			n=n+1;move[n] = {17305, 17329, BUTTON1, 6}
+			n=n+1;move[n] = {17372, 17394, LEFT, 6}
+			n=n+1;move[n] = {17442, 17504, MASH, 7}
+			n=n+1;move[n] = {17523, 17544, LEFT, 7}
+			n=n+1;move[n] = {17570, 17592, RIGHT, 7}
+			n=n+1;move[n] = {17645, 17677, RIGHT, 7}
+		    n=n+1;move[n] = {17730, 17752, LEFT, 7}
+			n=n+1;move[n] = {17820, 17880, MASH, 7}
+			n=n+1;move[n] = {18200, 18222, UP, 15}
+			n=n+1;move[n] = {18260, 18277, RIGHT, 15}
+			n=n+1;move[n] = {18291, 18311, RIGHT, 15}
+			n=n+1;move[n] = {18317, 18337, LEFT, 15}
+			n=n+1;move[n] = {18560, 18580, UP, 15}
+		    n=n+1;move[n] = {18677, 18699, UP, 15}
+			n=n+1;move[n] = {18760, 18820, HOLD, 15,D}
+			n=n+1;move[n] = {18878, 18900, UP, 7}
+			n=n+1;move[n] = {18934, 18956, UP, 7}
+			n=n+1;move[n] = {19064, 19083, DOWN, 12}
+			
+			totalMoves = n
+									
+		elseif thisScene == 2 then
+		
+			sceneStart = 19278
+			sceneEnd   = 20297
+			n=0
+
+			n=n+1;move[n] = {19555, 19577, BUTTON1, 7}
+			n=n+1;move[n] = {19600, 19622, BUTTON1, 7}
+			n=n+1;move[n] = {19663, 19683, RIGHT, 20}
+			n=n+1;move[n] = {19734, 19764, MASH, 12}
+			n=n+1;move[n] = {19811, 19824, UP, 12}
+			n=n+1;move[n] = {19870, 19886, DOWN, 12}
+			n=n+1;move[n] = {19902, 19924, UP, 11}
+			n=n+1;move[n] = {19952, 19974, UP, 11}
+			n=n+1;move[n] = {20093, 20115, BUTTON1, 7}
+			n=n+1;move[n] = {20162, 20212, MASH, 7}
+			
+			totalMoves = n
+			
+		elseif thisScene == 3 then   				
+		
+			sceneStart = 20308
+			sceneEnd   = 21470
+			n=0
+
+            n=n+1;move[n] = {20346, 20366, UP, 7}
+			n=n+1;move[n] = {20603, 20663, MASH, 25}
+			n=n+1;move[n] = {20704, 20726, UP, 7}
+			n=n+1;move[n] = {20742, 20764, RIGHT, 7}
+			n=n+1;move[n] = {20849, 20871, UP, 25}
+			n=n+1;move[n] = {20885, 20905, LEFT, 7}
+			n=n+1;move[n] = {20930, 20952, UP, 8}
+			n=n+1;move[n] = {21011, 21034, UP, 12}
+			n=n+1;move[n] = {21091, 21113, BUTTON1, 11}
+			n=n+1;move[n] = {21141, 21162, BUTTON1, 7}
+			n=n+1;move[n] = {21238, 21260, LEFT, 7}
+			n=n+1;move[n] = {21270, 21292, BUTTON1, 7}
+			n=n+1;move[n] = {21300, 21322, LEFT, 7}
+            n=n+1;move[n] = {21330, 21352, UP, 7}
+			n=n+1;move[n] = {21385, 21407, LEFT, 7}
+			n=n+1;move[n] = {21435, 21452, LEFT, 7}
+			
+			totalMoves = n
+
+		elseif thisScene == 4 then   										
+
+			sceneStart = 21485
+			sceneEnd   = 24958
+			n=0
+
+			n=n+1;move[n] = {21540, 21562, LEFT, 12}
+			n=n+1;move[n] = {21660, 21682, BUTTON1, 12}
+			n=n+1;move[n] = {21742, 21762, UP, 11}
+			n=n+1;move[n] = {21855, 21877, BUTTON1, 7}
+			n=n+1;move[n] = {21921, 21944, BUTTON1, 7}
+			n=n+1;move[n] = {22228, 22250, LEFT, 7}
+			n=n+1;move[n] = {22260, 22282, LEFT, 7}
+			n=n+1;move[n] = {22291, 22313, DOWN, 7}
+			n=n+1;move[n] = {22320, 22343, BUTTON1, 7}
+			n=n+1;move[n] = {22388, 22433, MASH, 7}
+			n=n+1;move[n] = {22468, 22518, MASH, 7}
+			n=n+1;move[n] = {22632, 22654, BUTTON1, 7}
+			n=n+1;move[n] = {22700, 22762, MASH, 7}
+			n=n+1;move[n] = {22859, 22940, HOLD, 12, UP}
+			n=n+1;move[n] = {22966, 23010, MASH, 12}
+			n=n+1;move[n] = {23017, 23037, UP, 12}
+			n=n+1;move[n] = {23083, 23132, MASH, 12}
+			n=n+1;move[n] = {23145, 24050, SKIP, 1}
+			n=n+1;move[n] = {24067, 24087, LEFT, 15}
+			n=n+1;move[n] = {24170, 24190, DOWN, 15}
+			n=n+1;move[n] = {24242, 24262, UP, 15}
+			n=n+1;move[n] = {24378, 24398, UP, 15}
+			n=n+1;move[n] = {24428, 24448, RIGHT, 15}
+			
+			totalMoves = n
+							
+		elseif thisScene == 5 then
+
+			sceneStart = 26736
+			sceneEnd   = 28262
+			n=0
+			
+			n=n+1;move[n] = {26770, 26790, RIGHT, 7}
+			n=n+1;move[n] = {26801, 26822, DOWN, 7}
+			n=n+1;move[n] = {26840, 26862, LEFT, 23}
+			n=n+1;move[n] = {26920, 26944, DOWN, 23}
+			n=n+1;move[n] = {26986, 27016, BUTTON1, 7}
+			n=n+1;move[n] = {27050, 27070, BUTTON1, 7}
+			n=n+1;move[n] = {27109, 27159, MASH, 7}
+			n=n+1;move[n] = {27175, 27197, DOWN, 7}
+			n=n+1;move[n] = {27277, 27297, LEFT, 7}
+			n=n+1;move[n] = {27336, 27360, LEFT, 7}
+			n=n+1;move[n] = {27633, 27655, RIGHT, 7}
+			n=n+1;move[n] = {27667, 27687, LEFT, 7}
+			n=n+1;move[n] = {27700, 27722, UP, 7}
+			n=n+1;move[n] = {27766, 27786, LEFT, 7}
+			n=n+1;move[n] = {27830, 27850, DOWN, 7}
+		    n=n+1;move[n] = {27866, 27886, RIGHT, 7}
+			n=n+1;move[n] = {27924, 27948, DOWN, 7}
+			n=n+1;move[n] = {27969, 27989, LEFT, 7}
+			n=n+1;move[n] = {28059, 28081, UP, 7}
+			n=n+1;move[n] = {28138, 28160, RIGHT, 7}
+			
+			totalMoves = n
+
+	    elseif thisScene == 6 then
+
+			sceneStart = 28267
+			sceneEnd   = 31233
+			n=0
+			
+			n=n+1;move[n] = {28346, 28366, LEFT, 7}
+			n=n+1;move[n] = {28420, 28508, MASH, 7}
+			n=n+1;move[n] = {28534, 28555, UP, 7}
+			n=n+1;move[n] = {28688, 28712, DOWN, 7}
+			n=n+1;move[n] = {28812, 28850, MASH, 7}
+			n=n+1;move[n] = {29064, 29086, BUTTON1, 9}
+			n=n+1;move[n] = {29100, 29122, BUTTON1, 9}
+			n=n+1;move[n] = {29135, 29157, UP, 9}
+			n=n+1;move[n] = {29170, 29192, LEFT, 9}
+			n=n+1;move[n] = {29425, 29447, BUTTON1, 9}
+			n=n+1;move[n] = {29710, 29730, RIGHT, 9}
+			n=n+1;move[n] = {29883, 29905, RIGHT, 9}
+			n=n+1;move[n] = {29932, 29952, LEFT, 9}
+			n=n+1;move[n] = {29972, 29994, RIGHT, 9}
+			n=n+1;move[n] = {30014, 30034, RIGHT, 9}
+			n=n+1;move[n] = {30044, 30054, DOWN, 9}
+			n=n+1;move[n] = {30060, 30082, DOWN, 9}
+			n=n+1;move[n] = {30100, 30160, MASH, 9}
+			n=n+1;move[n] = {30180, 30202, RIGHT, 9}
+			n=n+1;move[n] = {30240, 30262, BUTTON1, 9}
+			n=n+1;move[n] = {30288, 30310, BUTTON1, 9}
+			n=n+1;move[n] = {30317, 30337, LEFT, 9}
+			n=n+1;move[n] = {30366, 30380, DOWN, 7}
+			n=n+1;move[n] = {30386, 30405, RIGHT, 7}
+			n=n+1;move[n] = {30487, 30537, MASH, 9, LR}
+			n=n+1;move[n] = {30600, 30622, BUTTON1, 7}
+			n=n+1;move[n] = {30670, 30695, LEFT, 9}
+			n=n+1;move[n] = {30812, 30836, LEFT, 9}
+			n=n+1;move[n] = {30973, 30995, BUTTON1, 9}
+			n=n+1;move[n] = {31038, 31060, BUTTON1, 9}
+			
+			totalMoves = n			
+		
+	    elseif thisScene == 7 then
+
+			sceneStart = 31234
+			sceneEnd   = 32645
+			n=0
+					
+			n=n+1;move[n] = {31334, 31352, RIGHT, 9}
+			n=n+1;move[n] = {31630, 31650, LEFT, 9}
+			n=n+1;move[n] = {31657, 31677, DOWN, 7}
+			n=n+1;move[n] = {31725, 31749, BUTTON1, 6}
+			n=n+1;move[n] = {31793, 31815, UP, 6}
+			n=n+1;move[n] = {31834, 31854, RIGHT, 6}
+			n=n+1;move[n] = {32038, 32062, LEFT, 6}
+			n=n+1;move[n] = {32137, 32159, DOWN, 6}
+			n=n+1;move[n] = {32206, 32228, BUTTON1, 6}
+			n=n+1;move[n] = {32260, 32280, DOWN, 6}
+			n=n+1;move[n] = {32296, 32320, BUTTON1, 7}
+			n=n+1;move[n] = {32386, 32406, RIGHT, 9}
+			n=n+1;move[n] = {32599, 32620, DOWN, 7}
+			
+			totalMoves = n
+			
+		    end
+			
+	elseif thisLevel == 5 then
+
+		if thisScene == 1 then   										
+
+			sceneStart = 34263
+			sceneEnd   = 37141
+			n=0
+			
+            n=n+1;move[n] = {34272, 34292, BUTTON1, 7}
+			n=n+1;move[n] = {34634, 34656, DOWN, 12}
+			n=n+1;move[n] = {34683, 34707, RIGHT, 12}
+			n=n+1;move[n] = {35089, 35113, LEFT, 12}
+			n=n+1;move[n] = {35244, 35266, LEFT, 11}
+			n=n+1;move[n] = {35300, 35324, BUTTON1, 12}
+			n=n+1;move[n] = {35400, 35424, BUTTON1, 12}
+			n=n+1;move[n] = {35528, 35550, UP, 12}
+			n=n+1;move[n] = {35698, 35720, LEFT, 12}
+			n=n+1;move[n] = {35882, 35942, MASH, 12}
+			n=n+1;move[n] = {36338, 36360, BUTTON1, 3}
+			n=n+1;move[n] = {36389, 36411, BUTTON1, 3}
+			n=n+1;move[n] = {36621, 36643, LEFT, 3}
+			n=n+1;move[n] = {36738, 36760, UP, 3}
+			n=n+1;move[n] = {36895, 36960, MASH, 9}
+			n=n+1;move[n] = {36970, 37023, MASH, 9}
+			
+			totalMoves = n
+																		
+		elseif thisScene == 2 then
+		
+			sceneStart = 37144
+			sceneEnd   = 39600
+			n=0
+			
+            n=n+1;move[n] = {37285, 37340, MASH, 7, LEFT}
+			n=n+1;move[n] = {37347, 37369, BUTTON1, 7}
+			n=n+1;move[n] = {37450, 37480, MASH, 7}
+			n=n+1;move[n] = {37553, 37576, BUTTON1, 7}
+			n=n+1;move[n] = {37695, 37717, LEFT, 7}
+			n=n+1;move[n] = {37999, 38021, UP, 7}
+			n=n+1;move[n] = {38070, 38094, RIGHT, 7}
+			n=n+1;move[n] = {38165, 38230, MASH, 12}
+			n=n+1;move[n] = {38478, 38807, UP, 12}
+			n=n+1;move[n] = {38949, 38971, BUTTON1, 7}
+			n=n+1;move[n] = {39103, 39125, DOWN, 11}
+			n=n+1;move[n] = {39270, 39292, BUTTON1, 7}
+			n=n+1;move[n] = {39350, 39397, MASH, 7}
+			n=n+1;move[n] = {39475, 39497, BUTTON1, 7}
+			
+			totalMoves = n
+			
+		end
+			
+	elseif thisLevel == 6 then
+
+		if thisScene == 1 then 
+		
+			sceneStart = 40058
+			sceneEnd   = 41772
+			n=0
+			
+    		n=n+1;move[n] = {40124, 40146, RIGHT, 7}
+			n=n+1;move[n] = {40154, 40176, BUTTON1, 7}
+			n=n+1;move[n] = {40213, 40236, UP, 7}
+			n=n+1;move[n] = {40339, 40362, DOWN, 7}
+			n=n+1;move[n] = {40464, 40645, SKIP,1}
+			n=n+1;move[n] = {40704, 40723, BUTTON1, 7}
+			n=n+1;move[n] = {40917, 40937, LEFT, 7}
+			n=n+1;move[n] = {41025, 41050, BUTTON1, 7}
+			n=n+1;move[n] = {41063, 41103, MASH, 7}
+			n=n+1;move[n] = {41111, 41160, MASH, 7}
+			n=n+1;move[n] = {41279, 41299, RIGHT, 12}
+			n=n+1;move[n] = {41310, 41335, DOWN, 7}
+			n=n+1;move[n] = {41511, 41531, RIGHT, 7}
+			n=n+1;move[n] = {41577, 41600, BUTTON1, 7}
+			
+			totalMoves = n
+			
+		elseif thisScene == 2 then 
+		
+			sceneStart = 41773
+			sceneEnd   = 45169
+			n=0
+			
+			n=n+1;move[n] = {41981, 42006, DOWN, 11}
+			n=n+1;move[n] = {42025, 42054, BUTTON1, 12}
+			n=n+1;move[n] = {42155, 42192, MASH, 11, LR}
+			n=n+1;move[n] = {42210, 42252, MASH, 12}
+			n=n+1;move[n] = {42488, 42513, UP, 11}
+            n=n+1;move[n] = {42542, 42566, RIGHT, 12}
+			n=n+1;move[n] = {42588, 42610, UP, 12}
+			n=n+1;move[n] = {42628, 42690, MASH, 12}
+			n=n+1;move[n] = {42760, 42786, BUTTON1, 11}
+			n=n+1;move[n] = {42873, 42939, MASH, 11, UP}
+			n=n+1;move[n] = {43386, 43408, BUTTON1, 7}
+			n=n+1;move[n] = {43416, 43444, DOWN, 12}
+			n=n+1;move[n] = {43567, 43700, MASH, 11}
+			
+			totalMoves = n
+			
+        end
+			
+    elseif thisLevel == levelSecret then
+	
+		if thisScene == 1 then
+		
+			sceneStart = 45417
+			sceneEnd   = 46904
+			n=0
+			
+			n=n+1;move[n] = {45526, 45550, UP, 16}
+			n=n+1;move[n] = {45723, 45763, LEFT, 18}
+			n=n+1;move[n] = {45774, 45800, LEFT, 17}
+			n=n+1;move[n] = {46031, 46061, BUTTON1, 19}
+			n=n+1;move[n] = {46141, 46164, BUTTON1, 5}
+			n=n+1;move[n] = {46206, 46228, LEFT, 3}
+			n=n+1;move[n] = {46249, 46272, ACTLEFT, 3}
+			n=n+1;move[n] = {46359, 46382, UP, 3}
+			n=n+1;move[n] = {46500, 46526, DOWN, 3}
+			n=n+1;move[n] = {46623, 46648, LEFT, 3}
+			n=n+1;move[n] = {46680, 46712, BUTTON1, 3}
+			n=n+1;move[n] = {46797, 46827, BUTTON1, 3}
+			
+			totalMoves = n
+			
+		elseif thisScene == 2 then
+		
+			sceneStart = 46907
+			sceneEnd   = 49977
+			n=0
+			
+			n=n+1;move[n] = {47259, 47284, UP, 7}
+			n=n+1;move[n] = {47338, 47364, LEFT, 7}
+			n=n+1;move[n] = {47387, 47450, MASH, 7}
+			n=n+1;move[n] = {47482, 47512, BUTTON1, 7}
+			n=n+1;move[n] = {47530, 47555, BUTTON1, 7}
+			n=n+1;move[n] = {47590, 47620, RIGHT, 5}
+			n=n+1;move[n] = {47690, 47719, BUTTON1, 5}
+			n=n+1;move[n] = {47809, 47840, BUTTON1, 5}
+			n=n+1;move[n] = {48570, 48595, BUTTON1, 5}
+			n=n+1;move[n] = {48620, 48645, BUTTON1, 3}
+			n=n+1;move[n] = {49300, 49325, LEFT, 12}
+			n=n+1;move[n] = {49352, 49375, BUTTON1, 5}
+			
+			totalMoves = n
+			
+		elseif thisScene == 3 then
+		
+			sceneStart = 49978
+			sceneEnd   = 55113
+			n=0
+			
+			n=n+1;move[n] = {50324, 50368, BUTTON1, 3}
+			n=n+1;move[n] = {50380, 50405, LEFT, 3}
+			n=n+1;move[n] = {50578, 50604, RIGHT, 3}
+			n=n+1;move[n] = {50731, 50755, LEFT, 3}
+			n=n+1;move[n] = {50856, 50880, BUTTON1, 12}
+			n=n+1;move[n] = {50980, 51006, BUTTON1, 12}
+			n=n+1;move[n] = {51128, 51155, BUTTON1, 3}
+			n=n+1;move[n] = {51240, 51264, UP, 12}
+			n=n+1;move[n] = {51389, 51449, MASH, 12}
+			n=n+1;move[n] = {51575, 51600, UP, 4}
+			n=n+1;move[n] = {51667, 51690, BUTTON1, 4}
+			n=n+1;move[n] = {51751, 51776, BUTTON1, 12}		
+			n=n+1;move[n] = {51983, 52007, BUTTON1, 12}
+			n=n+1;move[n] = {52190, 52405, SKIP, 1}
+			n=n+1;move[n] = {52567, 52588, DOWN, 3}
+			n=n+1;move[n] = {52819, 52880, MASH, 12}
+			n=n+1;move[n] = {52920, 52990, MASH, 12}
+			n=n+1;move[n] = {53233, 53255, BUTTON1, 7}
+			n=n+1;move[n] = {53424, 53449, BUTTON1, 5}
+			n=n+1;move[n] = {53510, 53540, RIGHT, 5}
+			
+			totalMoves = n
+					
+		end
+
+	end	
+	
+end
+
