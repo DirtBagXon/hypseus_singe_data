@@ -1,0 +1,88 @@
+--[[
+		Rick's Revenge - by Widge - April 2025
+]]--
+
+if singeVersion() < 1.9001 then
+        debugPrint("Error: Incompatible version! Upgrade Hypseus Singe to the latest version")
+        singeQuit()
+end
+
+rX = 160
+rY = 120
+fR = 6
+overlaySetResolution(rX, rY)
+singeSetGameName("Rick's Revenge")
+discSetFPS(fR)
+OVERLAY_UPDATED = 1
+OVERLAY_NOT_UPDATED = 0
+fcheck = 0
+scheck = 0
+f = 0
+x = 0
+y = 0
+dofile(MYDIR .. "rick.03")
+roll = musicLoad(MYDIR .. "rick.02")
+store = nil; store = {
+	 65,  32, 103,  97, 109, 101,  32,  98, 121,  32,
+	 87, 105, 100, 103, 101,  63,  32,  45,  32,  78,
+	111,  44,  32, 105, 116,  39, 115,  32,  97,  32,
+	116, 114, 105,  99, 107,  33,  32,  32,  32,  32,
+	 65,  32, 109, 117, 115, 105,  99,  32, 118, 105,
+	100, 101, 111,  32, 115, 116,  97, 114, 114, 105,
+	110, 103,  32,  82, 105,  99, 107,  46,  32,  32,
+	 32,  32, 78,  111, 119,  32, 121, 111, 117,  32,
+	107, 110, 111, 119,  44,  32, 100, 111, 110,  39,
+	116,  32, 115, 112, 111, 105, 108,  32, 116, 104,
+	101,  32, 102, 117, 110,  46,  32,  32,  32,  32,
+	 76, 101, 116,  32, 111, 116, 104, 101, 114, 115,
+	 32, 102, 105, 110, 100,  32, 111, 117, 116,  32,
+	119, 104,  97, 116,  39, 115,  32,  98, 101, 101,
+	110,  32, 100, 111, 110, 101,  33}
+scrl = string.char(unpack(store))
+xMsg = rX /4
+musicSetVolume(videoGetVolume()*2)
+startTime = os.clock()
+lastTime = startTime
+musicPlay(roll)
+
+
+function onOverlayUpdate()
+
+	currentTime = os.clock()
+	f = math.ceil((currentTime - startTime) * fR)
+	
+	if currentTime >= lastTime + (0.8/fR)  then
+		xMsg = xMsg -1
+		lastTime = currentTime
+	end
+	
+	if fcheck >= f then return OVERLAY_NOT_UPDATED end
+
+	if f <= #rick then
+		overlayClear()
+		local frameData = rick[f]
+		for x = 1, rX do
+			for y = 1, rY do
+				local index = ((x - 1) * rY + y - 1) * 2 + 1
+				local hex = frameData:sub(index, index + 1)
+				local g = tonumber(hex, 16)
+				if g == 0 then g = 1 end
+				colorForeground(g, g, g)
+				overlayPlot(x, y)
+			end
+		end
+	else
+		singeQuit()
+	end
+	
+	overlayPrint(xMsg,rY-14,scrl)
+	return OVERLAY_UPDATED
+end
+
+
+
+function onShutdown()
+	rick = nil
+	musicStop()
+	discStop()
+end
