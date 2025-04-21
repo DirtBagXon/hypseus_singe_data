@@ -77,9 +77,9 @@ creations specifically for Hypseus.
 You should not **need** to alter any of the peripheral data in these subdirectories. However, these \
 are customizable games. If you make improvements, please consider contributing back to the repository.
 
-The **only required step** is to obtain the video files from Singe 2 for your required game and perform  
-a video conversion as detailed **below** using *ffmpeg*. This can be performed on any PC including  
-Windows: https://ffmpeg.org/download.html
+If you are porting Singe 2 games, the **only required step** is to obtain the video files from Singe 2  
+for your required game and perform a video conversion as detailed **below** using *ffmpeg*. This can  
+be performed on any PC including Windows: https://ffmpeg.org/download.html
 
 Once you have the new **.m2v** and **.ogg** video and audio files: 
 
