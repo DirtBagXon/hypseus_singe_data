@@ -25,6 +25,30 @@ On SBC's the following header should be enabled to start the game in the correct
 
 <sup>_(See ffmpeg examples on main page)_</sup>
 
+## Multi Language Support
+
+Hypseus Singe version **2.11.5** is required.
+
+By including the LangOpt array in a game header, Kimmy now supports language switching in the Service Menu.
+
+An example of defining multiple languages is show here:
+
+```
+LangOpt = {
+    { "English", "" },  -- Default [no suffix]
+    { "Spanish", "-es" },
+    { "Italian", "-it" },
+}
+```
+
+The appropriate language `.ogg` files must be included in the media folder:
+
+```
+audio.ogg
+audio-es.ogg
+audio-it.ogg
+```
+
 ## Older Framework games
 
 Games that previously used the `v3` Framework, _not standalone_, can easily be converted to `Kimmy`

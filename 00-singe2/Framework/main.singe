@@ -5271,6 +5271,7 @@ function initJob()      -- Initialization process
 
 	readConfig()
 	readScore()
+	setLang()
 	
 	getRes()
 
@@ -6178,8 +6179,6 @@ function onOverlayUpdate()     -- Manage the game and look for any given situati
 		if dip_Scanlines == 1 and bScan then spriteDraw(0,0,sprite[SCAN]) end
 		
 	end
-
-	if bFrameCount then overlayPrint(2, 10, currentFrame) end
 
 	return(OVERLAY_UPDATED)
 	

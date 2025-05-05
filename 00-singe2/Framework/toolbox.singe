@@ -165,6 +165,18 @@ function muteSound()
 
 end
 
+function setLang()
+
+	if LangOpt == nil then return end
+
+	if not discAudioSuffix(LangOpt[dip_Lang+1][2]) then
+		debugPrint(LangOpt[dip_Lang+1][1] .. " audio file unavailable, using default instead.")
+		discAudioSuffix("")
+	end
+
+end
+
+
 function blinkRev()
 
 	iRevFrames = 0

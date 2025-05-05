@@ -52,7 +52,8 @@ games folder.
 A subsection of the above ports were **gun games**, used by communities such as Sinden Gun  
 owners. These also use minimalist overlays, but continue to simulate the 8bit '_American Laser  
 Games_' (_ALG_) games, from which they derive, using upscaled (_AI enhanced_) video. These will  
-be now within `00-singe2-ports-gungames`.
+be now within `00-singe2-ports-gungames`. However, many of these games are now deprecated in favor  
+of [zip rom](https://github.com/DirtBagXon/hypseus_singe_data/tree/master/00-zip-roms) versions.
 
 The `00-singe1` folder will contain original Daphne era Singe games that have received updates and bugfixes..  
 
@@ -134,7 +135,7 @@ _Note:_ This will extend the total number of frames seen in `mediainfo`.
 
     ffmpeg -i <original>.mp4 -an -qscale:v 4 -b:v 6000k -vf tpad=stop_mode=clone:stop_duration=2 -codec:v mpeg2video <game>.m2v
 
-_Singe 2_ has an audio bug and audio is delayed in the original MP4, check with VLC. Use `-ss` to delay encode start:
+_Singe 2_ has an audio bug and audio is purposefully delayed in the original MP4, check with VLC. Use `-ss` to delay encode start to compensate:
 
     ffmpeg -i <original>.mp4 -ss 00:00:00.330 -vn -c:a libvorbis -ar 44100 -map a -b:a 160k <game>.ogg
 

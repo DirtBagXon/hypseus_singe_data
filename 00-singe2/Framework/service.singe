@@ -378,6 +378,15 @@ function readConfig()
 		
 	end
 
+	s1 = io.read("*line")
+
+	if (s1 ~= nil) then
+
+		dip_Lang = tonumber(string.sub(s1,string.find(s1,"=")+1))
+
+	end
+
+
 	fontQuality(dip_FontQ)
 
 	io.close(h1)
@@ -478,6 +487,7 @@ function writeConfig()
 	io.write("dip_LivType = " .. dip_LivType .. sNewLine)
 	io.write("dip_FontQ = " .. dip_FontQ .. sNewLine)
 	io.write("dip_HoldtoLoop = " .. dip_HoldtoLoop .. sNewLine)
+	io.write("dip_Lang = " .. dip_Lang .. sNewLine)
 
 	io.close(h1)
 
@@ -836,6 +846,18 @@ function setDefault()
 	
 		dip_HoldtoLoop = tonumber(string.sub(s1,string.find(s1,"=")+1))
 		
+	end
+
+	s1 = io.read("*line")
+
+	if (s1 ~= nil) then
+
+		dip_Lang = tonumber(string.sub(s1,string.find(s1,"=")+1))
+
+	else
+
+		dip_Lang = 0
+
 	end
 
 	fontQuality(dip_FontQ)
@@ -3369,12 +3391,17 @@ function updateOptsP(thisIndex)
 
 	elseif (thisIndex == 11) then		
 
-		if bFrameCount then
+		if LangOpt ~= nil then
 
-			bFrameCount = false
-		else
+			dip_Lang = dip_Lang + 1
 
-			bFrameCount = true
+			if dip_Lang >= #LangOpt then
+
+				dip_Lang = 0
+
+			end
+
+			setLang()
 
 		end
 
@@ -3541,12 +3568,17 @@ function updateOptsMinP(thisIndex)
 
 	elseif (thisIndex == 11) then		
 
-		if bFrameCount then
+		if LangOpt ~= nil then
 
-			bFrameCount = false
-		else
+			dip_Lang = dip_Lang + 1
 
-			bFrameCount = true
+			if dip_Lang >= #LangOpt then
+
+				dip_Lang = 0
+
+			end
+
+			setLang()
 
 		end
 
@@ -3592,7 +3624,7 @@ function printOptsP()
 	smenu[8] = "Font Quality"
 	smenu[9] = "Run Action"
 	smenu[10] = "Loop Action"
-	smenu[11] = "Show Frame Number"
+	smenu[11] = "Audio Language"
 	
 	if bInPlayExit then
 
@@ -3804,13 +3836,14 @@ function printOptsP()
 
 		elseif (k == 11) then
 
-			if bFrameCount then
 
-				fontPrint(fntx, ypos, "On")
+			if LangOpt == nil then
+
+				fontPrint(fntx, ypos, "Unspecified")
 
 			else
 
-				fontPrint(fntx, ypos, "Off")
+				fontPrint(fntx, ypos, LangOpt[dip_Lang+1][1])
 
 			end
 						

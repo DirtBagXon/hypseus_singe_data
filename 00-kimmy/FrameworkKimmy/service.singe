@@ -417,6 +417,14 @@ function readConfig()
 		
 	end
 
+	s1 = io.read("*line")
+
+	if (s1 ~= nil and s1 ~= "") then
+
+		dip_Lang = tonumber(string.sub(s1,string.find(s1,"=")+1))
+
+	end
+
 	fontQuality(dip_FontQ)
 
 	io.close(h1)
@@ -534,6 +542,7 @@ function writeConfig()
 	end
 
 	io.write("dip_OVLS = " .. dip_OVLS .. sNewLine)
+	io.write("dip_Lang = " .. dip_Lang .. sNewLine)
 
 	io.close(h1)
 
@@ -944,6 +953,18 @@ function setDefault()
 
 		dip_OVLS = tonumber(string.sub(s1,string.find(s1,"=")+1))
 		
+	end
+
+	s1 = io.read("*line")
+
+	if (s1 ~= nil and s1 ~= "") then
+
+		dip_Lang = tonumber(string.sub(s1,string.find(s1,"=")+1))
+
+	else
+
+		dip_Lang = 0
+
 	end
 
 	svCol1 = mycolor1
@@ -4240,12 +4261,17 @@ function updateOptsP(thisIndex)
 
 	elseif (thisIndex == 13) then
 
-		if bFrameCount then
+		if LangOpt ~= nil then
 
-			bFrameCount = false
-		else
+			dip_Lang = dip_Lang + 1
 
-			bFrameCount = true
+			if dip_Lang >= #LangOpt then
+
+				dip_Lang = 0
+
+			end
+
+			setLang()
 
 		end
 	
@@ -4397,12 +4423,18 @@ function updateOptsMinP(thisIndex)
 
 	elseif (thisIndex == 13) then
 
-		if bFrameCount then
+		if LangOpt ~= nil then
 
-			bFrameCount = false
-		else
+			dip_Lang = dip_Lang + 1
 
-			bFrameCount = true
+			if dip_Lang >= #LangOpt then
+
+				dip_Lang = 0
+
+			end
+
+			setLang()
+
 		end
 
 	elseif (thisIndex == 14) then		
@@ -4453,7 +4485,7 @@ function printOptsP()
 	smenu[10] = "Coin Position"
 	smenu[11] = "Overlay Size"
 	smenu[12] = "Reset Score ?"
-	smenu[13] = "Show Frame Number"
+	smenu[13] = "Audio Language"
 	
 	if bInPlayExit then
 
@@ -4683,15 +4715,14 @@ function printOptsP()
 
 		elseif (k == 13) then
 
-			if bFrameCount then
+			if LangOpt == nil then
 
-				fontPrint(fntx, ypos, "On")
-
+				fontPrint(fntx, ypos, "Unspecified")
 			else
 
-				fontPrint(fntx, ypos, "Off")
-									
+				fontPrint(fntx, ypos, LangOpt[dip_Lang+1][1])
 			end
+
 		end
 
 		ypos = OVLH/7 + k *LINEH*4.2
