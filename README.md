@@ -52,8 +52,8 @@ games folder.
 A subsection of the above ports were **gun games**, used by communities such as Sinden Gun  
 owners. These also use minimalist overlays, but continue to simulate the 8bit '_American Laser  
 Games_' (_ALG_) games, from which they derive, using upscaled (_AI enhanced_) video. These will  
-be now within `00-singe2-ports-gungames`. However, many of these games are now deprecated in favor  
-of [zip rom](https://github.com/DirtBagXon/hypseus_singe_data/tree/master/00-zip-roms) versions.
+be now within `00-singe2-ports-gungames`. However, many of these games are now deprecated  
+in favor of [zip rom](https://github.com/DirtBagXon/hypseus_singe_data/tree/master/00-zip-roms) versions.
 
 The `00-singe1` folder will contain original Daphne era Singe games that have received updates and bugfixes..  
 
