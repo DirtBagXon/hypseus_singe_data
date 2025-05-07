@@ -169,6 +169,8 @@ function setLang()
 
 	if LangOpt == nil then return end
 
+	if dip_Lang+1 > #LangOpt then dip_Lang = 0 end
+
 	if not discAudioSuffix(LangOpt[dip_Lang+1][2]) then
 		debugPrint(LangOpt[dip_Lang+1][1] .. " audio file unavailable, using default instead.")
 		discAudioSuffix("")
