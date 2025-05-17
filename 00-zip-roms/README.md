@@ -56,3 +56,10 @@ vldp
 Some zipped ROM games are packaged with extra files, these will be bundled to enable easier downloads.
 
 The filename will include the `rompack` phrase to indicate it is not the direct zipped ROM and should be examined for installation instructions within the first level of the compressed bundle file.
+
+#### Annotations:
+
+```
+'ML' signifies multi-language/audio
+'MP' signifies multi-player
+```
