@@ -1,0 +1,1264 @@
+--[[
+
+PROGRAM NAME:	CONAN IL RAGAZZO DEL FUTURO Hypseus Singe
+VERSION:		2.2
+AUTHOR:			POIU (2020) UPDATE (2025) MaX7o
+
+    This file is part of Future Boy Conan Hypseus Singe
+
+	CONAN IL RAGAZZO DEL FUTURO singe edition. is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation.
+
+	CONAN IL RAGAZZO DEL FUTURO singe edition is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+	Thanks to Scott Duensing (author of Singe), Karis for all technical support
+
+]]--
+
+-------------------------
+-- 1. General settings --
+-------------------------
+
+BASEDIR = "singe"                     -- This should be 'singe'
+
+MYDIR = BASEDIR .."/".. "FBC"         -- This is the directory where your game is
+
+MovieFPS = 25 -- Number of frames per second of your movies (used for timed actions).
+
+dip_MinimalOverlay = 0  -- Start/Enable the Ultralo Overlay
+
+LangOpt = {
+	{ "English", "" },
+	{ "Italian", "-it" },
+	{ "French", "-fr" }
+}
+
+-- End Hypseus Game Setup --
+
+dofile(BASEDIR .. "/FrameworkKimmy/globals.singe")    -- Don't touch this line	
+dofile(BASEDIR .. "/FBC/Script/toolbox.singe")
+dofile(BASEDIR .. "/FBC/Script/main.singe")
+dofile(BASEDIR .. "/FBC/Script/service.singe")
+dofile(BASEDIR .. "/FBC/Script/addons.singe")
+
+
+-- Scoring Settings --
+
+SCOREMOVE    = 1000								-- Points for a correct move. A difficulty buff will then be applyied. 
+BUFFMOVE     = 200								-- Each difficulty level above "easy" will add this value for a correct move.
+SCORESCENE   = 7000								-- Points for finishing a Scene. Each death will then reduce this score.
+SCORELEVEL   = 30000							-- Points for finishing a Level.
+SCOREGAME    = 100000							-- Points for finishing the Game.
+PERFECTBONUS = 40000							-- Points for finishing a level with 0 death
+EXTRALIFE    = 0									-- Points needed for Extra life (0 = No Extra Life)
+DEATHPENALTY = 1000								-- Each death will reduce the score of the scene by this value. 
+SCORESECRET  = 1									-- Points for finishing the Game with one life : 1 point that makes a difference!
+
+-- Difficulty Settings --					-- Normally, you don't need to change those settings 
+
+PenalNormal  = 0									-- Number of input frames to remove for level Normal.
+PenalHard    = 1									-- Number of input frames to remove for level Hard.	
+PenalExtreme = 2									-- Number of input frames to remove for level Extreme.	
+
+-- Advanced Settings --						-- Those settings allow to setup complex behavior. You don't need them in most cases.
+
+altCfg = false 										-- true if you've got 2 singe game files sharing different configurations.
+											
+miscR  = 153											-- You can also create a misc color for the font.
+miscG  = 76												-- In that case fill RGB values (0 to 255)
+miscB  = 0
+
+AllowRandom = false								-- Show/hide the random level order mode in Game Type (menu)
+
+AllowMap = false									-- Show/hide the map mode in Game Type (menu)
+MapStart = 0											-- 0: Map start at the beginning / 1: Map after the first level. 
+
+IngameDiffchoice = true					-- If true, you will choose the difficulty with a video at the start of the game.
+
+BarSize  = 10											-- Size of the Life Bar (Life bar Game Type)
+BarMin   =  2											-- Decrease of the Life bar for missed move
+BarBonus =  3											-- Number of good moves to gain 1 in Life Bar
+
+LvlTrophy3 = 1										-- Which Level for gives trophy 3 (0 if no trophy)fonction difficulty
+LvlTrophy4 = 2										-- Which Level for gives trophy 4 (0 if no trophy)
+
+
+------------------------------------------------------------------------
+-- 2. Starting and ending frames for the various elements of the game --
+------------------------------------------------------------------------
+													
+-- Intro frames --
+												-- For this part, you just need to adjust the frames values.
+offsetTitle = 0									-- Title start frame (short video with the logo).
+offsetTitleend = 328							-- End frame of the title video. 
+
+offsetIntro01 = 329								-- Attract video start frame.
+offsetIntro01end = 2235							-- End frame of the Attract video #1.
+
+offsetIntro02 = 136326							-- Attract video #2 start frame (if you've got only one : match title or Intro01).
+offsetIntro02end = 138453						-- End frame of the Attract video #2.
+
+offsetIntro03 = 138536	 	  						-- You can have a third attract video.
+offsetIntro03end = 139694						-- I've got only 1 so i just matched The rankings video values.
+
+offsetIntroGame = 0   							-- Optional: a sequence played only when the game starts
+offsetIntroGameend = 0							-- Leave to zero if you don't have such sequence
+
+
+-- Menu frames --
+
+
+offsetMenus = 60555								-- Menu video start frame (continue, high score, game over, etc).														
+												-- Now we set the frames for the menu video.
+frameOptions = offsetMenus +0					-- Frame for the background picture of the Service Menu.
+frameVictory = offsetMenus +148					-- Frame for the picture shown when the game is completed.
+frameSave = offsetMenus +16						-- Frame for the background picture of the Save Menu.
+frameRankings =offsetMenus +28					-- Frame for the background picture of the Top 10.
+frameControls = offsetMenus +35					-- Frame for the picture with instructions for key/buttons (appear between attract videos). 
+frameSpecial = offsetMenus +119					-- Frame to show special moves (you can replace with same value than frameCommands).
+frameTrophy = offsetMenus +128				    -- Frame for the trophies (optional).
+frameHints = offsetMenus +128					-- Frame for the hints (optional).
+frameQuit = offsetMenus +137					-- Frame for the Quit screen.
+frameNewGame = offsetMenus +137					-- Frame for the New Game Screen.
+
+frameEasy    = offsetMenus +45								-- MENU difficulty.
+frameNormal  = offsetMenus +64							-- MENU difficulty.				 
+frameHard    = offsetMenus +80								-- MENU difficulty.
+frameExtreme = offsetMenus +98							-- MENU difficulty.	
+
+-- Game Frames --
+
+offsetGameOver = offsetMenus +680							-- Positions of the Game over #1 video in the menus (regular ending).
+offsetGameOverend = offsetMenus +1090
+
+offsetGameOverAlt = offsetMenus +411						-- Positions of the Game over #2 video in the menus (happy ending, like high sore).
+offsetGameOverAltend = offsetMenus +671					-- You can also copy the values of game over #1.
+
+offsetNewHScore = offsetMenus +1104							-- Positions of the High score announcement video.
+offsetNewHScoreend = offsetMenus +1131						-- Not too long
+
+offsetEnterHScore = offsetMenus +79141						-- Positions of the video for entering High Scores (quite long to give enough time).
+offsetEnterHScoreend = offsetMenus +80314					-- This video is quite long to grant enough time to enter the name.
+
+offsetRankings = offsetMenus +1259							-- Positions of the video for Rankings (after High Score).
+offsetRankingsend = offsetMenus +1334					-- If you don't have this, replace with the values of NewHscore (above)
+
+offsetContinue = offsetMenus +190							-- Positions of the Continue video (quite long to give enough time for the player).
+offsetContinueend = offsetMenus +389
+
+offsetClear = offsetMenus +1375						-- Positions of the video after clearing a level (can be a single frame).
+offsetClearend = offsetMenus +1473		
+
+offsetGetReady = 0							-- Position of the (optional) resurrect video. 
+offsetGetReadyEnd = 0						-- Example of get ready video: Dirk appears in Dragon's Lair
+
+offsetSupDeath = 0						-- Position of the (optional) extra death video. 
+offsetSupDeathEnd = 0						-- Example of extra death video: Borf laughing in Space Ace. 
+
+offsetQuit = offsetMenus +136									-- Position of the (optional) Quit video. 
+offsetQuitend = offsetMenus +137	
+
+offsetMovieEnd = 60550							-- Last frame of the last level. Used by Movie mode.
+
+
+-- Death frames --
+
+totalDeath = 383									-- Total number of death scenes.
+offsetDeath = 62108								-- Start frame for the death video.
+
+Death[1] = { 62108, 62294}	-- The following lines define the positions for different death scenes. You need at least Death[1].
+Death[2] = { 62295, 62473}
+Death[3] = { 62474, 62668}
+Death[4] = { 62669, 62939}
+Death[5] = { 62940, 63184}
+Death[6] = { 63185, 63370}
+Death[7] = { 63371, 63572}
+Death[8] = { 63573, 63755}
+Death[9] = { 63756, 63955}
+Death[10] = {63956, 64162}
+Death[11] = {64163, 64356}
+Death[12] = {64357, 64535}
+Death[13] = {64536, 64761}
+Death[14] = {64762, 64976}
+Death[15] = {64977, 65169}
+Death[16] = {65170, 65349}
+Death[17] = {65350, 65537}
+Death[18] = {65538, 65715}
+Death[19] = {65716, 65915}
+Death[20] = {65916, 66213}
+Death[21] = {66214, 66433}
+Death[22] = {66434, 66613}
+Death[23] = {66614, 66789}
+Death[24] = {66790, 66971}
+Death[25] = {66972, 67145}
+Death[26] = {67146, 67326}
+Death[27] = {67327, 67547}
+Death[28] = {67548, 67842}
+Death[29] = {67843, 68018}
+Death[30] = {68019, 68218}
+Death[31] = {68219, 68398}
+Death[32] = {68399, 68772}
+Death[33] = {68773, 69000}
+Death[34] = {69001, 69187}
+Death[35] = {69188, 69380}
+Death[36] = {69381, 69592}
+Death[37] = {69593, 69796}
+Death[38] = {69797, 69991}
+Death[39] = {69992, 70174}
+Death[40] = {70175, 70340}
+Death[41] = {70341, 70579}
+Death[42] = {70580, 70824}
+Death[43] = {70825, 71000}
+Death[44] = {71001, 71187}
+Death[45] = {71188, 71387}
+Death[46] = {71388, 71582}
+Death[47] = {71583, 71762}
+Death[48] = {71763, 71944}
+Death[49] = {71945, 72177}
+Death[50] = {72178, 72395}
+Death[51] = {72396, 72580}
+Death[52] = {72581, 72831}
+Death[53] = {72832, 73044}   --end level01--
+Death[54] = {73045, 73343}   --start level02--
+Death[55] = {73344, 73518}
+Death[56] = {73519, 73709}
+Death[57] = {73710, 73919}
+Death[58] = {73920, 74100}
+Death[59] = {74101, 74341}
+Death[60] = {74342, 74530}
+Death[61] = {74531, 74730}
+Death[62] = {74731, 74917}
+Death[63] = {74918, 75109}
+Death[64] = {75110, 75306}
+Death[65] = {75307, 75535}
+Death[66] = {75536, 75726}
+Death[67] = {75727, 75912}
+Death[68] = {75913, 76189}
+Death[69] = {76190, 76361}
+Death[70] = {76362, 76553}
+Death[71] = {76554, 76749}
+Death[72] = {76750, 76942}
+Death[73] = {76943, 77198}
+Death[74] = {77199, 77372}
+Death[75] = {77373, 77551}
+Death[76] = {77552, 77747}
+Death[77] = {77748, 77925}
+Death[78] = {77926, 78097}
+Death[79] = {78098, 78301}
+Death[80] = {78302, 78523}
+Death[81] = {78524, 78699}
+Death[82] = {78700, 78874}
+Death[83] = {78875, 79146}
+Death[84] = {79147, 79332}
+Death[85] = {79333, 79537}
+Death[86] = {79538, 79720}
+Death[87] = {79721, 79909}
+Death[88] = {79910, 80104}
+Death[89] = {80105, 80287}
+Death[90] = {80288, 80474}
+Death[91] = {80475, 80693}
+Death[92] = {80698, 80907}   --end level02--
+Death[93] = {80908, 81084}  --start level03--
+Death[94] = {81085, 81268}
+Death[95] = {81269, 81481}
+Death[96] = {81482, 81703}
+Death[97] = {81704, 81970}
+Death[98] = {81971, 82145}
+Death[99] = {82146, 82322}
+Death[100] = {82323, 82501}
+Death[101] = {82602, 82680}
+Death[102] = {82681, 82853}
+Death[103] = {82854, 83034}
+Death[104] = {83035, 83206}
+Death[105] = {83207, 83392}
+Death[106] = {83393, 83568}
+Death[107] = {83569, 83765}
+Death[108] = {83766, 83961}
+Death[109] = {83962, 84146}
+Death[110] = {84147, 84330}
+Death[111] = {84331, 84511}
+Death[112] = {84512, 84706}
+Death[113] = {84707, 84902}
+Death[114] = {84903, 85206}
+Death[115] = {85207, 85385}
+Death[116] = {85386, 85590}
+Death[117] = {85591, 85833}
+Death[118] = {85834, 86044}
+Death[119] = {86045, 86331}
+Death[120] = {85332, 86514}
+Death[121] = {86515, 86708}
+Death[122] = {86709, 86884}
+Death[123] = {86885, 87060}
+Death[124] = {87061, 87230}
+Death[125] = {87231, 87418}
+Death[126] = {85419, 87589}
+Death[127] = {87590, 87845}
+Death[128] = {87846, 88045}
+Death[129] = {88046, 88224}
+Death[130] = {88225, 88418}
+Death[131] = {88419, 88605}
+Death[132] = {88606, 88792}
+Death[133] = {88793, 88978}
+Death[134] = {88979, 89162}
+Death[135] = {89163, 89334}
+Death[136] = {89335, 89506}
+Death[137] = {89507, 89718}
+Death[138] = {89719, 89895}
+Death[139] = {89896, 90073}
+Death[140] = {90074, 90300}
+Death[141] = {90301, 90525}
+Death[142] = {90526, 90709}
+Death[143] = {90710, 90894}
+Death[144] = {90895, 91104}
+Death[145] = {91105, 91305}
+Death[146] = {91306, 91484}
+Death[147] = {91485, 91709}
+Death[148] = {91710, 91913}
+Death[149] = {91914, 92101}
+Death[150] = {92102, 92277}   --end level03-- 
+Death[151] = {92278, 92488}   --start level04--
+Death[152] = {92489, 92676}
+Death[153] = {92677, 92862}
+Death[154] = {92863, 93064}
+Death[155] = {93075, 93265}
+Death[156] = {93266, 93457}
+Death[157] = {93458, 93631}
+Death[158] = {93632, 93805}
+Death[159] = {93806, 94015}
+Death[160] = {94016, 94189}
+Death[161] = {94190, 94386}
+Death[162] = {94387, 94566}
+Death[163] = {94567, 94744}
+Death[164] = {94745, 94937}
+Death[165] = {94938, 95112}
+Death[166] = {95113, 95283}
+Death[167] = {95284, 95500}
+Death[168] = {95501, 95683}
+Death[169] = {95684, 95853}
+Death[170] = {95854, 96027}
+Death[171] = {96028, 96228}
+Death[172] = {96229, 96411}
+Death[173] = {96412, 96585}
+Death[174] = {96586, 96775}
+Death[175] = {96776, 96973}
+Death[176] = {96974, 97152}
+Death[177] = {97153, 97335}
+Death[178] = {97336, 97603}
+Death[179] = {97604, 97801}
+Death[180] = {97802, 98010}
+Death[181] = {98011, 98206}
+Death[182] = {98207, 98398}
+Death[183] = {98399, 98582}
+Death[184] = {98583, 98757}
+Death[185] = {98758, 98939}
+Death[186] = {98940, 99112}
+Death[187] = {99113, 99284}
+Death[188] = {99285, 99464}
+Death[189] = {99465, 99653}
+Death[190] = {99654, 99841}
+Death[191] = {99842, 100044}
+Death[192] = {100045, 100245}
+Death[193] = {100246, 100442}
+Death[194] = {100443, 100624}
+Death[195] = {100625, 100810}
+Death[196] = {100811, 100980}
+Death[197] = {100981, 101184}
+Death[198] = {101185, 101363}
+Death[199] = {101364, 101553}
+Death[200] = {101554, 101748}
+Death[201] = {101749, 101923}
+Death[202] = {101924, 102110}
+Death[203] = {102111, 102292}
+Death[204] = {102293, 102487}
+Death[205] = {102488, 102683}
+Death[206] = {102684, 102871}
+Death[207] = {102872, 103048}
+Death[208] = {103049, 103233}
+Death[209] = {103234, 103409}
+Death[210] = {103410, 103615}
+Death[211] = {103616, 103808}
+Death[212] = {103809, 104016}
+Death[213] = {104017, 104285}
+Death[214] = {104286, 104501}
+Death[215] = {104502, 104721}
+Death[216] = {104722, 104899}
+Death[217] = {104900, 105110}
+Death[218] = {105111, 105303}
+Death[219] = {105304, 105519}
+Death[220] = {105520, 105696}
+Death[221] = {105697, 105904}
+Death[222] = {105905, 106090}
+Death[223] = {106091, 106280}
+Death[224] = {106281, 106454}  --end level04--
+Death[225] = {106455, 106640}  --start level05--
+Death[226] = {106641, 106857}
+Death[227] = {106858, 107067}
+Death[228] = {107068, 107245}
+Death[229] = {107246, 107454}
+Death[230] = {107455, 107653}
+Death[231] = {107654, 107856}
+Death[232] = {107857, 108049}
+Death[233] = {108050, 108231}
+Death[234] = {108232, 108417}
+Death[235] = {108418, 108615}
+Death[236] = {108616, 108787}
+Death[237] = {108788, 108969}
+Death[238] = {108970, 109240}
+Death[239] = {109241, 109425}
+Death[240] = {109426, 109606}
+Death[241] = {109607, 109786}
+Death[242] = {109787, 109974}
+Death[243] = {109975, 110164}
+Death[244] = {110165, 110341}
+Death[245] = {110342, 110523}
+Death[246] = {110524, 110702}
+Death[247] = {110703, 110875}
+Death[248] = {110876, 111056}
+Death[249] = {111057, 111242}
+Death[250] = {111243, 111434}
+Death[251] = {111435, 111650}
+Death[252] = {111651, 111867}
+Death[253] = {111868, 112039}
+Death[254] = {112040, 112220}
+Death[255] = {112221, 112394}
+Death[256] = {112395, 112588}
+Death[257] = {112589, 112776}
+Death[258] = {112777, 112964}
+Death[259] = {112965, 113164}
+Death[260] = {113165, 113359}
+Death[261] = {113360, 113547}
+Death[262] = {113548, 113728}
+Death[263] = {113729, 113940}
+Death[264] = {113941, 114114}
+Death[265] = {114115, 114283}
+Death[266] = {114284, 114495}
+Death[267] = {114496, 114673}
+Death[268] = {114674, 114847}
+Death[269] = {114848, 115020}
+Death[270] = {115021, 115209}
+Death[271] = {115210, 115379}
+Death[272] = {115380, 115560}
+Death[273] = {115561, 115768}
+Death[274] = {115769, 115956}
+Death[275] = {115957, 116130}
+Death[276] = {116131, 116322}
+Death[277] = {116323, 116504}
+Death[278] = {117045, 116698}
+Death[279] = {116699, 116884}
+Death[280] = {116885, 117117}
+Death[281] = {117118, 117326}
+Death[282] = {117327, 117506}
+Death[283] = {117507, 117715}
+Death[284] = {117716, 117906}
+Death[285] = {117907, 118124}    --end level05--
+Death[286] = {118125, 118314}    --start level06--
+Death[287] = {118315, 118509}
+Death[288] = {118510, 118753}
+Death[289] = {118754, 118934}
+Death[290] = {118935, 119134}
+Death[291] = {119135, 119369}
+Death[292] = {119370, 119567}
+Death[293] = {119568, 119832}
+Death[294] = {119833, 120015}
+Death[295] = {120016, 120204}
+Death[296] = {120205, 120381}
+Death[297] = {120382, 120566}
+Death[298] = {120567, 120771}   --end level06--
+Death[299] = {120772, 120955}   --start level07-
+Death[300] = {120956, 121140}
+Death[301] = {121141, 121318}
+Death[302] = {121319, 121489}
+Death[303] = {121490, 121679}
+Death[304] = {121680, 121870}
+Death[305] = {121871, 122047}
+Death[306] = {122048, 122222}
+Death[307] = {122223, 122407}
+Death[308] = {122338, 122593}
+Death[309] = {122594, 122782}
+Death[310] = {122783, 122970}
+Death[311] = {122971, 123157}
+Death[312] = {123158, 123336}
+Death[313] = {123337, 123521}
+Death[314] = {123522, 123701}
+Death[315] = {123702, 123878}
+Death[316] = {123879, 124058}
+Death[317] = {124059, 124235}
+Death[318] = {124236, 124412}
+Death[319] = {124413, 124586}
+Death[320] = {124587, 124800}
+Death[321] = {124801, 124977}
+Death[322] = {124978, 125150}
+Death[323] = {125151, 125338}
+Death[324] = {125339, 125510}
+Death[325] = {125511, 125684}
+Death[326] = {125685, 125868}
+Death[327] = {125869, 126043}
+Death[328] = {126044, 126229}
+Death[329] = {126230, 126413}
+Death[330] = {126414, 126592}
+Death[331] = {126593, 126762}
+Death[332] = {126763, 126941}
+Death[333] = {126942, 127125}
+Death[334] = {127126, 127301}
+Death[335] = {127302, 127489}
+Death[336] = {127490, 127659}
+Death[337] = {127660, 127850}
+Death[338] = {127851, 128031}
+Death[339] = {128032, 128208}
+Death[340] = {128209, 128390}
+Death[341] = {128391, 128562}
+Death[342] = {128563, 128740}
+Death[343] = {128741, 128934}
+Death[344] = {128935, 129110}
+Death[345] = {129111, 129299}
+Death[346] = {129300, 129474}
+Death[347] = {129475, 129649}
+Death[348] = {129650, 129827}
+Death[349] = {129828, 130013}
+Death[350] = {130014, 130191}
+Death[351] = {130192, 130368}
+Death[352] = {130375, 130541}
+Death[353] = {130542, 130747}
+Death[354] = {130748, 130959}
+Death[355] = {130960, 131134}
+Death[356] = {131135, 131308}
+Death[357] = {131309, 131496}
+Death[358] = {131497, 131670}
+Death[359] = {131671, 131850}
+Death[360] = {131851, 132026}
+Death[361] = {132027, 132197}
+Death[362] = {132198, 132397}
+Death[363] = {132398, 132574}
+Death[364] = {132575, 132793}
+Death[365] = {132794, 133007}
+Death[366] = {133008, 133183}
+Death[367] = {133184, 133365}
+Death[368] = {133366, 133541}
+Death[369] = {133542, 133714}
+Death[370] = {133715, 133885}
+Death[371] = {133886, 134072}
+Death[372] = {134073, 134270}
+Death[373] = {134271, 134441}
+Death[374] = {134442, 134615}
+Death[375] = {134616, 134789}
+Death[376] = {134790, 134995}
+Death[377] = {134996, 135179}
+Death[378] = {135180, 135358}
+Death[379] = {135359, 135533}
+Death[380] = {135534, 135707}
+Death[381] = {135708, 135878}
+Death[382] = {135879, 136136}
+Death[383] = {136137, 136325}   --end game--
+
+
+------------------------------------------------------------------------------------------------------------------------------
+-- 3. List of Levels (Title, Start Frame, End of Intro Clip, Total Scenes, Mirror, Death Mirror, Replay, Select (optional)) --
+------------------------------------------------------------------------------------------------------------------------------
+
+finalstage = 9	     		     								-- Last stage of the story. Prevent the game to go to a level that does not exist.
+PlayOrder = {1,2,3,4,5,6,7,8,9}										-- Normal order of play for the levels.
+AllowSecret = false		  										-- If you have a "secret level" video then: replace false by true.
+RelativeFrames = false 											-- True if frame 1 starts with each level. False if frame 1 is the disc start.	
+
+																-- Informations about the Levels:	
+Level[1] = {"Remnat Island", 2240, 2627, 2, 0, 0, -1, 60712} 		    -- Title, Start Frame, End of Intro Clip, Total Scenes, Mirror, Death Mirror, Replay. 
+Level[2] = {"The Journei", 8354, 8486, 1, 0, 0, -1, 60717}			-- Each level has one line with those informations.
+Level[3] = {"Dice's Rebellion", 12227, 12386, 6, 0, 0, -1, 60720}			-- Replay -1 is default (loop), 0 no replay, 1 is one replay now.
+Level[4] = {"The Salvage Ship", 24030, 24221, 1, 0, 0, -1, 60724}				-- Higher values means 1 replay later (value is the position).		
+Level[5] = {"Flight", 27390, 27570, 1, 0, 0, -1, 60729}				-- The total number of Levels lines must match finalstage (here 5).
+Level[6] = {"Rescue", 28849, 29144, 3, 0, 0, -1, 60733}
+Level[7] = {"Solar Tower", 37099, 37825, 5, 0, 0, -1, 60736}
+Level[8] = {"Giganto", 46131, 47675, 2, 0, 0, -1, 60741}
+Level[9] = {"Giganto Final", 50119, 50243, 6, 0, 0, -1, 60745}
+
+------------------------------------------------------------------------------------
+-- 4. List of moves for each level, by scene (StartFrame, EndFrame, MOVE, Death#) --
+------------------------------------------------------------------------------------
+
+-- A scene is a list of moves you need to complete without "dying" in order to advance to the next scene.
+-- If you die during a scene, you restart this scene (though you can alter this in the game's menu).
+-- Basic moves: UP, DOWN, LEFT, RIGHT, BUTTON1, BUTTON2, BUTTON3, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT.
+-- COMBO (2 Basic Moves at a same time), MASH (hit one or two basic moves quickly), MULTI (Sequence of Basic moves).  
+-- LOOP (all kind of loops with the Stick), HOLD (hold one basic move), LETGO (release the thing you HOLD), SKIP (skip some narrative frames).
+-- Advanced Moves: CHOOSE, TIMED, PATH, YESNO, TOSCENE, TOLEVEL, WAY (RTFM!!!)
+
+function setupMoves(thisLevel, thisScene)	
+
+if thisLevel == 1 then 									
+   
+   if thisScene == 1 then 
+   	
+   sceneStart = 2628		
+   sceneEnd   = 4435			
+   n = 1
+   
+move[n] = {2658, 2698, MASH, 1}; n=n+1		    
+move[n] = {2732, 2753, UP, 2}; n=n+1
+move[n] = {2874, 2894, DOWN, 3}; n=n+1			
+move[n] = {3258, 3298, MASH, 4}; n=n+1		   
+move[n] = {3596, 3616, RIGHT, 5}; n=n+1	
+move[n] = {3699, 3719, RIGHT, 6}; n=n+1		
+move[n] = {3823, 3848, LEFT, 7}; n=n+1
+move[n] = {3912, 3932, RIGHT, 8}; n=n+1
+move[n] = {4036, 4056, RIGHT, 9}; n=n+1		
+move[n] = {4204, 4224, UP, 10}; n=n+1
+move[n] = {4316, 4356, MASH, 11}; n=n+1
+move[n] = {4378, 4398, DOWN, 12}; n=n+1
+   		
+   totalMoves   = n-1
+   	 
+   elseif thisScene == 2 then 												
+   
+   sceneStart = 4436										
+   sceneEnd   = 8353									
+   n = 1
+   
+move[n] = {4652, 4673, RIGHT, 13}; n=n+1
+move[n] = {4841, 4871, MASH, 14}; n=n+1			
+move[n] = {4967, 4987, RIGHT, 15}; n=n+1
+move[n] = {5067, 5087, UP, 16}; n=n+1
+move[n] = {5125, 5145, UP, 17}; n=n+1
+move[n] = {5166, 5186, LEFT, 18}; n=n+1
+move[n] = {5321, 5341, ACTDOWN, 19}; n=n+1
+move[n] = {5856, 5876, DOWN, 20}; n=n+1
+move[n] = {6071, 6091, LEFT, 21}; n=n+1
+move[n] = {6121, 6136, RIGHT, 22}; n=n+1
+move[n] = {6166, 6186, RIGHT, 23}; n=n+1
+move[n] = {6212, 6256, MASH, 24}; n=n+1
+move[n] = {6263, 6283, ACTUP, 25}; n=n+1
+move[n] = {6326, 6346, UP, 26}; n=n+1
+move[n] = {6554, 6574, BUTTON1, 27}; n=n+1	
+move[n] = {7076, 7096, UP, 28}; n=n+1		
+move[n] = {7130, 7150, BUTTON1, 29}; n=n+1
+move[n] = {7240, 7280, MASH, 30}; n=n+1
+move[n] = {7296, 7336, MASH, 31}; n=n+1
+move[n] = {8151, 8171, UP, 32}; n=n+1
+   			
+   totalMoves   = n-1
+   	 
+   end
+   		
+elseif thisLevel == 2 then
+   
+   if thisScene == 1 then
+   	
+   sceneStart = 8486									
+   sceneEnd   = 12226							
+   n = 1
+   			
+move[n] = {8591, 8608, LEFT, 33}; n=n+1
+move[n] = {8665, 8685, DOWN, 34}; n=n+1
+move[n] = {8790, 8810, BUTTON1, 35}; n=n+1
+move[n] = {8953, 8995, MASH, 36}; n=n+1
+move[n] = {9109, 9169, MASH, 37}; n=n+1
+move[n] = {9233, 9253, DOWN, 38}; n=n+1
+move[n] = {9273, 9293, BUTTON1, 39}; n=n+1
+move[n] = {9320, 9340, LEFT, 40}; n=n+1
+move[n] = {9601, 9638, MASH, 41}; n=n+1
+move[n] = {9943, 9963, BUTTON1, 42}; n=n+1
+move[n] = {9986, 10006, BUTTON1, 43}; n=n+1
+move[n] = {10051, 10188, MASH, 44}; n=n+1
+move[n] = {10214, 10234, RIGHT, 45}; n=n+1
+move[n] = {10333, 10353, LEFT, 46}; n=n+1
+move[n] = {10383, 10403, LEFT, 47}; n=n+1
+move[n] = {10443, 10483, MASH, 48}; n=n+1
+move[n] = {10733, 10753, ACTLEFT, 49}; n=n+1
+move[n] = {10930, 10980, MASH, 50}; n=n+1
+move[n] = {11025, 11045, RIGHT, 51}; n=n+1
+move[n] = {11368, 11388, RIGHT, 52}; n=n+1
+move[n] = {11561, 11581, RIGHT, 53}; n=n+1
+   	
+   totalMoves   = n-1
+   		 
+   end
+   	
+elseif thisLevel == 3 then									-- Now Level 2. Exact same process than level 1.
+   
+   if thisScene == 1 then   										
+   
+   sceneStart = 12387
+   sceneEnd   = 14725
+   n = 1
+   
+move[n] = {12747, 12761, UP, 54}; n=n+1
+move[n] = {12786, 12801, LEFT, 55}; n=n+1
+move[n] = {12890, 12905, LEFT, 56}; n=n+1
+move[n] = {13070, 13085, ACTDOWN, 57}; n=n+1
+move[n] = {13133, 13148, UP, 58}; n=n+1
+move[n] = {13435, 13451, DOWN, 59}; n=n+1
+move[n] = {13528, 13543, RIGHT, 60}; n=n+1
+move[n] = {13667, 13682, RIGHT, 61}; n=n+1
+move[n] = {13758, 13773, RIGHT, 62}; n=n+1
+move[n] = {13920, 13940, RIGHT, 63}; n=n+1
+move[n] = {14000, 14020, RIGHT, 64}; n=n+1
+   								
+   totalMoves   = n-1
+   			
+   elseif thisScene == 2 then
+   	
+   sceneStart = 14726
+   sceneEnd   = 16794
+   n = 1
+   
+move[n] = {14834, 14854, DOWN, 65}; n=n+1
+move[n] = {14970, 15010, MASH, 66}; n=n+1
+move[n] = {15044, 15064, ACTDOWN, 67}; n=n+1
+move[n] = {15453, 15493, MASH, 68}; n=n+1
+move[n] = {15543, 15563, UP, 69}; n=n+1
+move[n] = {15580, 15600, RIGHT, 70}; n=n+1
+move[n] = {15639, 15659, DOWN, 71}; n=n+1
+move[n] = {15750, 15810, MASH, 72}; n=n+1
+move[n] = {16310, 16330, LEFT, 73}; n=n+1
+move[n] = {16343, 16363, RIGHT, 74}; n=n+1
+move[n] = {16422, 16442, UP, 75}; n=n+1
+   	 
+   totalMoves   = n-1	
+   		
+   elseif thisScene == 3 then
+   	
+   sceneStart = 16795
+   sceneEnd   = 19068
+   n = 1
+   
+move[n] = {16888, 16908, DOWN, 76}; n=n+1    
+move[n] = {16952, 16972, LEFT, 77}; n=n+1
+move[n] = {16987, 17007, ACTUP, 78}; n=n+1
+move[n] = {17134, 17154, ACTRIGHT, 79}; n=n+1
+move[n] = {17365, 17385, LEFT, 80}; n=n+1
+move[n] = {17411, 17431, RIGHT, 81}; n=n+1
+move[n] = {17447, 17467, ACTUP, 82}; n=n+1
+move[n] = {17880, 17900, UP, 83}; n=n+1
+move[n] = {17943, 17983, MASH, 84}; n=n+1
+move[n] = {18122, 18142, DOWN, 85}; n=n+1
+move[n] = {18199, 18219, UP, 86}; n=n+1
+move[n] = {18295, 18315, LEFT, 87}; n=n+1
+move[n] = {18379, 18399, BUTTON1, 88}; n=n+1
+move[n] = {18447, 18467, ACTLEFT, 89}; n=n+1
+move[n] = {18520, 18555, MASH, 90}; n=n+1
+move[n] = {18735, 18770, MASH, 91}; n=n+1
+move[n] = {18945, 18965, ACTRIGHT, 92}; n=n+1
+   		
+   totalMoves   = n-1
+   	 
+   elseif thisScene == 4 then 
+   	
+   sceneStart = 19202
+   sceneEnd   = 20613
+   n = 1
+   
+move[n] = {19233, 19248, BUTTON1, 93}; n=n+1
+move[n] = {19310, 19325, UP, 94}; n=n+1
+move[n] = {19486, 19526, MASH, 95}; n=n+1
+move[n] = {19697, 19735, MASH, 96}; n=n+1
+move[n] = {20129, 20144, ACTRIGHT, 97}; n=n+1
+move[n] = {20171, 20186, LEFT, 98}; n=n+1
+move[n] = {20220, 20235, LEFT, 99}; n=n+1
+move[n] = {20275, 20290, DOWN, 100}; n=n+1
+move[n] = {20329, 20344, LEFT, 101}; n=n+1
+move[n] = {20360, 20375, UP, 102}; n=n+1
+move[n] = {20423, 20438, LEFT, 103}; n=n+1
+move[n] = {20449, 20464, LEFT, 104}; n=n+1
+move[n] = {20532, 20547, BUTTON1, 105}; n=n+1
+move[n] = {20560, 20595, MASH, 106}; n=n+1
+   		            
+   totalMoves   = n-1
+   
+   elseif thisScene == 5 then   				
+   	
+   sceneStart = 20614
+   sceneEnd   = 21249
+   n = 1
+   
+move[n] = {20772, 20792, BUTTON1, 107}; n=n+1
+move[n] = {20896, 20916, RIGHT, 108}; n=n+1
+move[n] = {20977, 20997, LEFT, 109}; n=n+1
+move[n] = {21054, 21074, BUTTON1, 110}; n=n+1
+move[n] = {21099, 21139, MASH, 111}; n=n+1
+move[n] = {21200, 21235, MASH, 112}; n=n+1
+   	              
+   totalMoves   = n-1					  
+   		
+   elseif thisScene == 6 then   				
+   
+   sceneStart = 21250
+   sceneEnd   = 24029
+   n = 1
+   
+move[n] = {21360, 21380, LEFT, 113}; n=n+1
+move[n] = {21895, 21915, DOWN, 114}; n=n+1
+move[n] = {21952, 21972, DOWN, 115}; n=n+1
+move[n] = {22110, 22130, BUTTON1, 116}; n=n+1
+move[n] = {22321, 22341, LEFT, 117}; n=n+1
+move[n] = {22425, 22445, DOWN, 118}; n=n+1
+move[n] = {23090, 23110, BUTTON1, 119}; n=n+1
+move[n] = {23160, 23180, UP, 120}; n=n+1
+move[n] = {23253, 23293, MASH, 121}; n=n+1
+move[n] = {23325, 23345, BUTTON1, 122}; n=n+1
+move[n] = {23363, 23383, DOWN, 123}; n=n+1
+move[n] = {23384, 23404, UP, 124}; n=n+1
+move[n] = {23450, 23490, MASH, 125}; n=n+1
+move[n] = {23500, 23520, UP, 126}; n=n+1
+   		 
+   totalMoves   = n-1
+   	   
+   end
+   
+elseif thisLevel == 4 then  
+   
+   if thisScene == 1 then
+   	
+   sceneStart = 24222
+   sceneEnd   = 27389
+   n = 1
+   
+move[n] = {24223, 24480, SKIP, 1}; n=n+1
+move[n] = {24759, 24779, UP, 127}; n=n+1
+move[n] = {24883, 24903, LEFT, 128}; n=n+1
+move[n] = {24937, 24957, RIGHT, 129}; n=n+1
+move[n] = {25053, 25063, DOWN, 130}; n=n+1
+move[n] = {25142, 25162, DOWN, 131}; n=n+1
+move[n] = {25228, 25248, DOWN, 132}; n=n+1
+move[n] = {25313, 25333, UP, 133}; n=n+1
+move[n] = {25390, 25410, BUTTON1, 134}; n=n+1
+move[n] = {25418, 25438, BUTTON1, 135}; n=n+1
+move[n] = {25444, 25464, BUTTON1, 136}; n=n+1
+move[n] = {25630, 25650, UP, 137}; n=n+1
+move[n] = {25678, 25698, DOWN, 138}; n=n+1
+move[n] = {25728, 25748, UP, 139}; n=n+1
+move[n] = {25975, 25995, RIGHT, 140}; n=n+1
+move[n] = {26213, 26233, ACTRIGHT, 141}; n=n+1
+move[n] = {26287, 26307, ACTLEFT, 142}; n=n+1
+move[n] = {26368, 26388, ACTLEFT, 143}; n=n+1
+move[n] = {26548, 26568, LEFT, 144}; n=n+1
+move[n] = {26675, 26715, MASH, 145}; n=n+1
+move[n] = {26748, 26768, DOWN, 146}; n=n+1
+move[n] = {26988, 27008, RIGHT, 147}; n=n+1
+move[n] = {27143, 27163, ACTRIGHT, 148}; n=n+1
+move[n] = {27212, 27252, MASH, 149}; n=n+1
+move[n] = {27276, 27296, ACTRIGHT, 150}; n=n+1
+   	 
+   totalMoves = n-1           
+   	
+   end
+   	 
+elseif thisLevel == 5 then 
+   
+  if thisScene == 1 then 				
+   	
+   sceneStart = 27571
+   sceneEnd   = 28848
+   n = 1
+   
+move[n] = {28055, 28075, ACTUP, 151}; n=n+1
+move[n] = {28146, 28165, RIGHT, 152}; n=n+1
+move[n] = {28230, 28250, RIGHT, 153}; n=n+1
+move[n] = {28379, 28399, UP, 154}; n=n+1
+move[n] = {28521, 28541, LEFT, 155}; n=n+1
+move[n] = {28628, 28648, LEFT, 156}; n=n+1
+move[n] = {28662, 28682, RIGHT, 157}; n=n+1
+move[n] = {28696, 28716, ACTLEFT, 158}; n=n+1
+   
+   totalMoves = n-1
+   	  
+   end
+   
+elseif thisLevel == 6 then 
+   
+   if thisScene == 1 then  										
+   
+   sceneStart = 29145
+   sceneEnd   = 31702
+   n = 1
+   
+move[n] = {29323, 29343, DOWN, 159}; n=n+1
+move[n] = {29364, 29384, DOWN, 160}; n=n+1
+move[n] = {29500, 29520, ACTDOWN, 161}; n=n+1
+move[n] = {29548, 29568, DOWN, 162}; n=n+1
+move[n] = {29605, 29620, UP, 163}; n=n+1
+move[n] = {29725, 29745, LEFT, 164}; n=n+1
+move[n] = {29758, 29778, BUTTON1, 165}; n=n+1
+move[n] = {29780, 29800, LEFT, 166}; n=n+1
+move[n] = {29988, 30008, RIGHT, 167}; n=n+1
+move[n] = {30054, 30069, ACTUP, 168}; n=n+1
+move[n] = {30074, 30089, ACTUP, 169}; n=n+1
+move[n] = {30100, 30120, ACTRIGHT, 170}; n=n+1
+move[n] = {30250, 30270, ACTRIGHT, 171}; n=n+1
+move[n] = {30326, 30346, ACTDOWN, 172}; n=n+1
+move[n] = {30364, 30384, ACTLEFT, 173}; n=n+1
+move[n] = {30462, 30477, BUTTON1, 174}; n=n+1
+move[n] = {30564, 30604, MASH, 175}; n=n+1
+move[n] = {30643, 30663, RIGHT, 176}; n=n+1
+move[n] = {30700, 30740, MASH, 177}; n=n+1
+move[n] = {31112, 31132, RIGHT, 178}; n=n+1
+move[n] = {31240, 31260, RIGHT, 179}; n=n+1
+move[n] = {31453, 31473, ACTUP, 180}; n=n+1
+move[n] = {31546, 31566, DOWN, 181}; n=n+1
+move[n] = {31670, 31690, LEFT, 182}; n=n+1
+   	 
+   totalMoves   = n-1
+   						
+   elseif thisScene == 2 then
+   	
+   sceneStart = 31703
+   sceneEnd   = 34840
+   n = 1
+   
+move[n] = {31764, 31784, DOWN, 183}; n=n+1
+move[n] = {31805, 31825, UP, 184}; n=n+1
+move[n] = {31874, 31894, RIGHT, 185}; n=n+1
+move[n] = {31906, 31926, DOWN, 186}; n=n+1
+move[n] = {31933, 31953, ACTLEFT, 187}; n=n+1
+move[n] = {31994, 32014, RIGHT, 188}; n=n+1
+move[n] = {32089, 32109, DOWN, 189}; n=n+1
+move[n] = {32180, 32200, RIGHT, 190}; n=n+1
+move[n] = {32331, 32351, LEFT, 191}; n=n+1
+move[n] = {32474, 32494, ACTLEFT, 192}; n=n+1
+move[n] = {32600, 32620, UP, 193}; n=n+1
+move[n] = {32666, 32686, ACTLEFT, 194}; n=n+1
+move[n] = {32742, 32762, UP, 195}; n=n+1
+move[n] = {32768, 32788, DOWN, 196}; n=n+1
+move[n] = {32924, 32944, RIGHT, 197}; n=n+1
+move[n] = {32978, 32998, DOWN, 198}; n=n+1
+move[n] = {33079, 33099, DOWN, 199}; n=n+1
+move[n] = {33199, 33219, ACTUP, 200}; n=n+1
+move[n] = {33240, 33260, DOWN, 201}; n=n+1
+move[n] = {33304, 33344, MASH, 202}; n=n+1
+move[n] = {33398, 33418, RIGHT, 203}; n=n+1
+move[n] = {33488, 33528, MASH, 204}; n=n+1
+move[n] = {33640, 33660, LEFT, 205}; n=n+1
+move[n] = {33733, 33753, ACTUP, 206}; n=n+1
+move[n] = {33781, 33801, DOWN, 207}; n=n+1
+move[n] = {33838, 33878, MASH, 208}; n=n+1
+move[n] = {33903, 33923, BUTTON1, 209}; n=n+1
+move[n] = {34065, 34085, BUTTON1, 210}; n=n+1
+move[n] = {34177, 34197, DOWN, 211}; n=n+1
+   		 
+   totalMoves   = n-1
+   	  				
+   elseif thisScene == 3 then
+   	
+   sceneStart = 34841
+   sceneEnd   = 37098
+   n = 1
+   
+move[n] = {34997, 35017, RIGHT, 212}; n=n+1
+move[n] = {35413, 35433, UP, 213}; n=n+1
+move[n] = {35615, 35635, UP, 214}; n=n+1
+move[n] = {35834, 35854, LEFT, 215}; n=n+1
+move[n] = {35884, 35904, UP, 216}; n=n+1
+move[n] = {36068, 36088, RIGHT, 217}; n=n+1
+move[n] = {36181, 36201, RIGHT, 218}; n=n+1
+move[n] = {36385, 36405, LEFT, 219}; n=n+1
+move[n] = {36434, 36454, LEFT, 220}; n=n+1
+move[n] = {36607, 36627, DOWN, 221}; n=n+1
+move[n] = {36692, 36712, UP, 222}; n=n+1
+move[n] = {36791, 36811, LEFT, 223}; n=n+1
+move[n] = {36840, 36860, UP, 224}; n=n+1
+   		 
+   totalMoves   = n-1
+   	   
+   end
+   		
+elseif thisLevel == 7 then 
+   
+   if thisScene == 1 then  				
+   	
+   sceneStart = 37826
+   sceneEnd   = 40326
+   n = 1
+   
+move[n] = {37898, 37918, DOWN, 225}; n=n+1
+move[n] = {38107, 38127, UP, 226}; n=n+1
+move[n] = {38288, 38308, UP, 227}; n=n+1
+move[n] = {38341, 38356, UP, 228}; n=n+1
+move[n] = {38518, 38533, UP, 229}; n=n+1
+move[n] = {38655, 38670, BUTTON1, 230}; n=n+1
+move[n] = {38786, 38826, MASH, 231}; n=n+1
+move[n] = {38916, 38931, UP, 232}; n=n+1
+move[n] = {38983, 38998, ACTUP, 233}; n=n+1
+move[n] = {39065, 39080, ACTUP, 234}; n=n+1
+move[n] = {39297, 39312, BUTTON1, 235}; n=n+1
+move[n] = {39325, 39340, ACTUP, 236}; n=n+1
+move[n] = {39368, 39408, MASH, 237}; n=n+1
+move[n] = {39713, 39728, LEFT, 238}; n=n+1
+move[n] = {39791, 39806, LEFT, 239}; n=n+1
+move[n] = {39856, 39871, UP, 240}; n=n+1
+move[n] = {39914, 39929, RIGHT, 241}; n=n+1
+move[n] = {40007, 40022, UP, 242}; n=n+1
+move[n] = {40107, 40122, ACTDOWN, 243}; n=n+1
+move[n] = {40156, 40171, UP, 244}; n=n+1
+move[n] = {40224, 40239, UP, 245}; n=n+1
+move[n] = {40281, 40301, RIGHT, 246}; n=n+1
+   		 
+   totalMoves   = n-1
+   
+   elseif thisScene == 2 then   				
+   	
+   sceneStart = 40327
+   sceneEnd   = 41459
+   n = 1	
+   
+move[n] = {40329, 40568, SKIP, 1}; n=n+1
+move[n] = {40581, 40601, RIGHT, 247}; n=n+1
+move[n] = {40650, 40670, UP, 248}; n=n+1
+move[n] = {40734, 40754, DOWN, 249}; n=n+1
+move[n] = {40809, 40829, UP, 250}; n=n+1
+move[n] = {41063, 41083, UP, 251}; n=n+1
+move[n] = {41255, 41275, RIGHT, 252}; n=n+1
+move[n] = {41288, 41308, ACTUP, 253}; n=n+1
+move[n] = {41356, 41376, UP, 254}; n=n+1
+move[n] = {41388, 41408, UP, 255}; n=n+1
+   		 
+   totalMoves   = n-1
+   	
+   elseif thisScene == 3 then   				
+   	
+   sceneStart = 41460
+   sceneEnd   = 42030
+   n = 1
+   
+move[n] = {41565, 41585, RIGHT, 256}; n=n+1
+move[n] = {41658, 41678, RIGHT, 257}; n=n+1
+move[n] = {41731, 41766, MASH, 258}; n=n+1
+move[n] = {41888, 41908, DOWN, 259}; n=n+1
+move[n] = {42008, 42028, UP, 260}; n=n+1
+   	 
+   totalMoves   = n-1
+   		
+   elseif thisScene == 4 then   				
+   	
+   sceneStart = 42031
+   sceneEnd   = 44011
+   n = 1
+   
+move[n] = {42052, 43064, SKIP, 1}; n=n+1
+move[n] = {43141, 43161, LEFT, 261}; n=n+1
+move[n] = {43204, 43224, UP, 262}; n=n+1
+move[n] = {43390, 43410, DOWN, 263}; n=n+1
+move[n] = {43424, 43444, BUTTON1, 264}; n=n+1
+move[n] = {43441, 43461, LEFT, 265}; n=n+1
+move[n] = {43559, 43594, MASH, 266}; n=n+1
+move[n] = {43679, 43699, UP, 267}; n=n+1
+move[n] = {43713, 43733, LEFT, 268}; n=n+1
+move[n] = {43744, 43764, LEFT, 269}; n=n+1
+move[n] = {43812, 43832, MASH, 270}; n=n+1
+move[n] = {43859, 43879, LEFT, 271}; n=n+1
+move[n] = {43922, 43942, ACTUP, 272}; n=n+1
+   		 
+   totalMoves   = n-1
+   		
+   elseif thisScene == 5 then   				
+   	
+   sceneStart = 44012
+   sceneEnd   = 46130
+   n = 1
+   
+move[n] = {44168, 44188, ACTLEFT, 273}; n=n+1
+move[n] = {44260, 44280, DOWN, 274}; n=n+1
+move[n] = {44296, 44316, UP, 275}; n=n+1
+move[n] = {44402, 44422, LEFT, 276}; n=n+1
+move[n] = {44468, 44488, BUTTON1, 277}; n=n+1
+move[n] = {44583, 44603, ACTDOWN, 278}; n=n+1
+move[n] = {44665, 44685, RIGHT, 279}; n=n+1
+move[n] = {44937, 44957, UP, 280}; n=n+1
+move[n] = {45114, 45134, BUTTON1, 281}; n=n+1
+move[n] = {45175, 45195, ACTUP, 282}; n=n+1
+move[n] = {45350, 45370, BUTTON1, 283}; n=n+1
+move[n] = {45454, 45474, ACTRIGHT, 284}; n=n+1
+move[n] = {45589, 45629, MASH, 285}; n=n+1
+   		 
+   totalMoves   = n-1
+   	   
+   end
+   		
+elseif thisLevel == 8 then 
+   
+   if thisScene == 1 then   				
+   	
+   sceneStart = 47676
+   sceneEnd   = 48770
+   n = 1
+   
+move[n] = {47766, 47786, RIGHT, 286}; n=n+1
+move[n] = {47886, 47906, RIGHT, 287}; n=n+1
+move[n] = {48198, 48218, BUTTON1, 288}; n=n+1
+move[n] = {48266, 48286, DOWN, 289}; n=n+1
+move[n] = {48419, 48439, LEFT, 290}; n=n+1
+move[n] = {48685, 48706, RIGHT, 291}; n=n+1
+   	 
+   totalMoves   = n-1
+   
+   elseif thisScene == 2 then   				
+   	
+   sceneStart = 48771
+   sceneEnd   = 50118
+   n = 1
+   
+move[n] = {48886, 48906, ACTDOWN, 292}; n=n+1
+move[n] = {49287, 49307, LEFT, 293}; n=n+1
+move[n] = {49357, 49377, LEFT, 294}; n=n+1
+move[n] = {49456, 49476, ACTUP, 295}; n=n+1
+move[n] = {49498, 49518, ACTRIGHT, 296}; n=n+1
+move[n] = {49578, 49598, DOWN, 297}; n=n+1
+move[n] = {49738, 49758, BUTTON1, 298}; n=n+1
+   	 
+   totalMoves   = n-1
+   	   
+   end
+   		
+elseif thisLevel == 9 then 
+   
+   if thisScene == 1 then   				
+   	
+   sceneStart = 50244
+   sceneEnd   = 51309
+   n = 1
+   
+move[n] = {50310, 50330, DOWN, 299}; n=n+1
+move[n] = {50391, 50411, UP, 300}; n=n+1
+move[n] = {50442, 50463, RIGHT, 301}; n=n+1
+move[n] = {50466, 50486, LEFT, 302}; n=n+1
+move[n] = {50566, 50586, UP, 303}; n=n+1
+move[n] = {50668, 50708, RIGHT, 304}; n=n+1
+move[n] = {50718, 50753, MASH, 305}; n=n+1
+move[n] = {50761, 50801, MASH, 306}; n=n+1
+move[n] = {50829, 50849, RIGHT, 307}; n=n+1
+move[n] = {50919, 50939, ACTUP, 308}; n=n+1
+move[n] = {51015, 51035, RIGHT, 309}; n=n+1
+move[n] = {51106, 51126, UP, 310}; n=n+1
+move[n] = {51174, 51214, MASH, 311}; n=n+1
+   	 
+   totalMoves   = n-1
+   
+   elseif thisScene == 2 then   				
+   	
+   sceneStart = 51310
+   sceneEnd   = 52056
+   n = 1
+   
+move[n] = {51325, 51682, SKIP, 1}; n=n+1
+move[n] = {51722, 51742, ACTRIGHT, 312}; n=n+1
+move[n] = {51802, 51822, DOWN, 313}; n=n+1
+move[n] = {51841, 51881, MASH, 314}; n=n+1
+move[n] = {51900, 51920, BUTTON1, 315}; n=n+1
+move[n] = {51975, 51995, ACTUP, 316}; n=n+1
+move[n] = {52021, 52039, BUTTON1, 317}; n=n+1
+   	 
+   totalMoves   = n-1
+   		
+   elseif thisScene == 3 then   				
+   	
+   sceneStart = 52057
+   sceneEnd   = 53130
+   n = 1
+   
+move[n] = {52058, 52438, SKIP, 1}; n=n+1
+move[n] = {52439, 52459, DOWN, 318}; n=n+1
+move[n] = {52469, 52489, DOWN, 319}; n=n+1
+move[n] = {52670, 52690, LEFT, 320}; n=n+1
+move[n] = {52723, 52743, LEFT, 321}; n=n+1
+move[n] = {52748, 52768, ACTDOWN, 322}; n=n+1
+move[n] = {52825, 52865, MASH, 323}; n=n+1
+move[n] = {52868, 52888, RIGHT, 324}; n=n+1
+move[n] = {52910, 52930, BUTTON1, 325}; n=n+1
+move[n] = {52985, 53005, BUTTON1, 326}; n=n+1
+move[n] = {53028, 53048, DOWN, 327}; n=n+1
+   		 
+   totalMoves   = n-1
+   								
+   elseif thisScene == 4 then
+   	
+   sceneStart = 53131
+   sceneEnd   = 55424
+   n = 1
+   
+move[n] = {53132, 53440, SKIP, 1}; n=n+1
+move[n] = {53473, 53493, RIGHT, 328}; n=n+1
+move[n] = {53550, 53570, DOWN, 329}; n=n+1
+move[n] = {53596, 53611, BUTTON1, 330}; n=n+1
+move[n] = {53615, 53635, RIGHT, 331}; n=n+1
+move[n] = {53680, 53700, BUTTON1, 332}; n=n+1
+move[n] = {53755, 53775, LEFT, 333}; n=n+1
+move[n] = {53790, 53810, LEFT, 334}; n=n+1
+move[n] = {53870, 53890, LEFT, 335}; n=n+1
+move[n] = {53903, 53923, BUTTON1, 336}; n=n+1
+move[n] = {54014, 54034, RIGHT, 337}; n=n+1
+move[n] = {54077, 54097, UP, 338}; n=n+1
+move[n] = {54129, 54149, DOWN, 339}; n=n+1
+move[n] = {54183, 54203, ACTRIGHT, 340}; n=n+1
+move[n] = {54209, 54229, BUTTON1, 341}; n=n+1
+move[n] = {54270, 54290, DOWN, 342}; n=n+1
+move[n] = {54369, 54389, BUTTON1, 343}; n=n+1
+move[n] = {54422, 54442, DOWN, 344}; n=n+1
+move[n] = {54513, 54533, BUTTON1, 345}; n=n+1
+move[n] = {54550, 54570, DOWN, 346}; n=n+1
+move[n] = {54592, 54612, UP, 347}; n=n+1
+move[n] = {54647, 54667, BUTTON1, 348}; n=n+1
+move[n] = {54726, 54746, BUTTON1, 349}; n=n+1
+move[n] = {54781, 54801, RIGHT, 350}; n=n+1
+move[n] = {54815, 54845, MASH, 351}; n=n+1
+move[n] = {54860, 54880, BUTTON1, 352}; n=n+1
+move[n] = {55160, 55423, SKIP, 1}; n=n+1
+   		 
+   totalMoves   = n-1
+   		
+   elseif thisScene == 5 then   				
+   	
+   sceneStart = 55425
+   sceneEnd   = 56891
+   n = 1
+   
+move[n] = {55426, 55760, SKIP, 1}; n=n+1
+move[n] = {55865, 55885, UP, 353}; n=n+1
+move[n] = {56032, 56052, LEFT, 354}; n=n+1
+move[n] = {56086, 56106, UP, 355}; n=n+1
+move[n] = {56122, 56142, DOWN, 356}; n=n+1
+move[n] = {56188, 56228, MASH, 357}; n=n+1
+move[n] = {56249, 56269, BUTTON1, 358}; n=n+1
+move[n] = {56307, 56327, UP, 359}; n=n+1
+move[n] = {56351, 56371, LEFT, 360}; n=n+1
+move[n] = {56376, 56396, DOWN, 361}; n=n+1
+move[n] = {56516, 56536, LEFT, 362}; n=n+1
+move[n] = {56563, 56583, LEFT, 363}; n=n+1
+move[n] = {56781, 56801, LEFT, 364}; n=n+1
+   	 
+   totalMoves   = n-1
+   
+   elseif thisScene == 6 then   										
+   
+   sceneStart = 56892
+   sceneEnd   = 60553
+   n = 1
+   
+move[n] = {57077, 57097, ACTLEFT, 365}; n=n+1
+move[n] = {57121, 57141, DOWN, 366}; n=n+1
+move[n] = {57163, 57203, MASH, 367}; n=n+1
+move[n] = {57231, 57251, DOWN, 368}; n=n+1
+move[n] = {57259, 57279, ACTLEFT, 369}; n=n+1
+move[n] = {57287, 57307, ACTRIGHT, 370}; n=n+1
+move[n] = {57375, 57395, ACTRIGHT, 371}; n=n+1
+move[n] = {57487, 57527, MASH, 372}; n=n+1
+move[n] = {57532, 57552, ACTRIGHT, 373}; n=n+1
+move[n] = {57568, 57585, ACTRIGHT, 374}; n=n+1
+move[n] = {57587, 57627, MASH, 375}; n=n+1
+move[n] = {57767, 57787, ACTLEFT, 376}; n=n+1
+move[n] = {57842, 57862, BUTTON1, 377}; n=n+1
+move[n] = {57870, 57905, MASH, 378}; n=n+1
+move[n] = {57920, 57940, MASH, 379}; n=n+1
+move[n] = {57950, 57987, MASH, 380}; n=n+1
+move[n] = {57997, 58017, ACTRIGHT, 381}; n=n+1
+move[n] = {58368, 58388, ACTDOWN, 382}; n=n+1
+move[n] = {58443, 58483, MASH, 383}; n=n+1
+   		 
+   totalMoves   = n-1
+   	   
+   end
+   	
+   
+end	
+	
+end
+

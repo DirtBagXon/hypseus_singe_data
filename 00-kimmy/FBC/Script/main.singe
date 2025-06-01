@@ -1,0 +1,5915 @@
+--[[
+
+PROGRAM NAME:	KIMMY SCRIPT ENGINE
+VERSION:		4.0
+AUTHOR:			KARIS (2020/2024)
+
+This file is part of KIMMY SCRIPT ENGINE.
+
+	KIMMY SCRIPT ENGINE is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation.
+
+	KIMMY SCRIPT ENGINE is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+	Thanks to Matthew P. Ownby, Scott Duensing, RDG, Bladescater, DirtBagXon.
+
+]]--
+
+function addPoints(thisMuch,thisValue)     -- Add points to the score (and maybe Extra Life)
+	
+	if specialScore ~= nil then specialScore(thisValue) end
+	
+	if dip_GameType ~= 4 then 
+
+		thisScore = 0
+
+		if dip_GameType ~=3 then
+
+			if thisScore == 0 then
+
+				iScore = iScore + thisMuch
+				iExtraLife = iExtraLife + thisMuch
+
+			else
+
+				iScore = iScore + thisScore
+				iExtraLife = iExtraLife + thisScore
+
+			end	
+
+
+			if EXTRALIFE > 0 and iExtraLife >= EXTRALIFE and dip_GameType == 0 and i2P == 0 then
+				
+				iExtraLife = 0
+
+				if iLives < dip_LivesPerCredit then
+
+					soundPlay(sndvictory)
+					iLives = iLives +1
+
+				end
+
+			end
+
+			if dip_GameType == 1 then
+
+				if iRightMv == BarBonusT then
+
+					iRightMv = 0
+					iTilt = 0
+					bShowWarnTilt = false
+					bShowTilt = false
+
+					if BarBonusT ~= 0 and iLifeBar < BarSize then iLifeBar = iLifeBar +1 end
+																	
+				end
+
+			end
+
+		else
+
+			if thisValue == 1 then iScore = iScore + 1 end
+
+		end
+
+		if iScore>iTop and dip_GameType ~=4 then iTop = iScore end
+		if (iScore > 99999999) then iScore = 99999999 end	
+
+	end
+
+end
+
+function BeatGame()      -- Test if the Game was finished
+
+	local k = 0
+	local l = true
+	
+	for k=1, finalstage do
+
+		l = l and stage[k][BEATSTATUS]  
+
+	end
+	
+	return (l)
+	
+end
+
+function BeatGameWithOneCredit()     -- Test if the Game was finished with one credit
+
+	local j = 0
+	local k = 0
+	local l = true
+
+	for k=1, finalstage do
+
+		l = l and stage[k][BEATSTATUS]  
+
+	end
+
+	if l == true then
+		
+		j = j + iContinues
+					
+	else
+
+		j = 1
+		
+	end	
+
+	return (j == 0)
+
+end
+
+function BeatGameWithOneLife()      -- Test if the Game was finished with one life
+
+	local j = 0
+	local k = 0
+	local l = true
+	local q = 0
+	
+	for k=1, finalstage do
+
+		l = l and stage[k][BEATSTATUS]  
+
+	end
+
+	if l == true then
+		
+		for q=1,finalstage do
+	
+			j = j + stage[q][DEATHCOUNT]
+		
+		end
+					
+	else
+
+		j = 1
+		
+	end	
+	
+	return (j == 0)
+	
+end
+
+function BeatLevel(thisLevel)      -- Flag for Level finished
+
+	local k = 0
+	local b1 = true
+
+	k = Level[thisLevel][TOTALSCENES]
+	
+	b1 = b1 and scene[thisLevel][k][SCENECOMPLETE]
+	
+	return b1
+
+end
+
+function BeatLevelWithOneLife(thisLevel)      -- Test if the Level was finished with one life
+
+	local j = 0
+	local k = 0
+	local l = true
+	
+	for k=1,Level[thisLevel][TOTALSCENES] do
+
+		l = l and scene[thisLevel][k][SCENECOMPLETE] 
+
+	end
+
+	if l == true then
+		
+		j = j + stage[thisLevel][DEATHCOUNT]
+					
+	else
+
+		j = 1
+		
+	end	
+
+	return (j == 0)
+
+end
+
+function do2P() -- 2 Players Home
+
+
+	if (lvlState == lvlSetup) then
+
+		discSkipToFrame(frameNewGame)
+		discPause()		
+		timerON(3)		
+		bShowLvl = false
+		bShowScene = false
+		bShowLvl = false
+		bShowScore = false
+		bShowLives = false
+		bShowSkip = false		
+		bShowCredits = false
+		bShowGet = false
+		bShowLCD = false
+		bShowAction = false	
+		bShowNext = false
+		bIgnoreJoy = false
+		local bValid = false
+		
+		fontSelect(fontBig)
+
+		if dip_GameType ~= 0 and dip_GameType ~= 3 then
+
+			lvlState = branch02
+
+		else
+
+			lvlState = branch01
+
+		end
+
+	elseif (lvlState == branch01) then
+	
+		bValid = true
+		
+		if timerDue() then
+				
+			lvlState = lvlEnd
+
+		else 
+
+			blinkTimer(0.5)
+				
+			if heartbeat then fontPrint(mb39, OVLH/2-3*LINEH, "Player " .. i2P .." Get Ready!") end
+			
+		end
+
+	elseif (lvlState == branch02) then
+
+		bValid = false
+	
+		if timerDue() then
+				
+			lvlState = lvlEnd
+
+		else 
+
+			fontSelect(fontLCD)	
+			setFontColor(mycolor2)
+
+			fontPrint(ml18, OVLH/2-3*LINEH, "2 Players Game only")
+			fontPrint(ml19, OVLH/2-3*LINEH+2*RENDH, "for Normal or Survivor mode!") 
+						
+		end
+
+	elseif (lvlState == lvlEnd) then
+		
+		fontSelect(fontGame)
+
+		if bValid == true and i2P == 1 and b1PStart then
+		
+		 	loadSave(5)
+
+		elseif bValid == true and i2P == 2 and b2PStart then
+		
+		 	loadSave(6)
+
+		elseif bValid == true and i2P == 1 and b1PStart == false then
+		
+			b1PStart = true
+			startGame()
+			autoSave(5)
+
+		elseif bValid == true and i2P == 2 and b2PStart == false then
+		
+			b2PStart = true
+		 	startGame()
+		 	autoSave(6)
+
+		 else
+
+		 	gameflow = flow_GameInit
+		 	lvlState = lvlSetup
+			currentLevel = levelIntro
+
+		end
+
+	end
+
+end
+
+function do2PEnd() -- 2 Players end of game
+
+	local w = OVLW/2-BUTW
+	local w2 = OVLW/2-BUTW  
+
+	if (lvlState == lvlSetup) then  
+
+		bShowScore = false
+		bRes = true
+		discSkipToFrame(frameHints)
+		discPause()		
+		timerON(2)
+		soundPlay(sndvictory)	
+		fontSelect(fontBig)
+		
+		lvlState = branch01
+
+	elseif (lvlState == branch01) then   
+				
+		if timerDue() then 
+
+			discPause()
+			timerON(1)
+			soundPlay(sndroll)
+			lvlState = branch02
+
+		else
+
+			setFontColor(mycolor2)
+			fontPrint(mb40,LINEH*4, "Game Over")
+			
+		end
+	
+	elseif lvlState == branch02 then  
+	
+		if timerDue() then
+
+			discPause()
+			timerON(1)
+			soundPlay(sndcoin)
+			lvlState = branch03
+
+		else
+
+			setFontColor(mycolor2)
+			fontPrint(mb40,LINEH*4, "Game Over")
+			setFontColor(mycolor1)
+			fontPrint(mb41,OVLH/3, "Player 1 Score")
+			
+		end
+		
+	elseif lvlState == branch03 then 
+
+		if timerDue() then
+
+			discPause()
+			timerON(1)
+			soundPlay(sndroll)
+			lvlState = branch04
+
+		else
+
+			setFontColor(mycolor2)
+			fontPrint(mb40,LINEH*4, "Game Over")
+			setFontColor(mycolor1)
+			fontPrint(mb41,OVLH/3, "Player 1 Score")
+			setFontColor(mycolor2)
+			fontPrint(w,OVLH/3 + RENDH*2, i1PScore)
+			
+		end
+
+	elseif lvlState == branch04 then 
+
+		if timerDue() then
+
+			discPause()
+			timerON(1)
+			soundPlay(sndcoin)
+			lvlState = branch05
+
+		else
+
+			setFontColor(mycolor2)
+			fontPrint(mb40,LINEH*4, "Game Over")
+			setFontColor(mycolor1)
+			fontPrint(mb41,OVLH/3, "Player 1 Score")
+			setFontColor(mycolor2)
+			fontPrint(w,OVLH/3 + RENDH*2, i1PScore)
+			setFontColor(mycolor1)
+			fontPrint(mb42,2*OVLH/3, "Player 2 Score")
+			
+		end
+
+	elseif lvlState == branch05 then 
+
+		if timerDue() then
+
+			discPause()
+			timerON(3)
+			soundPlay(sndvictory)
+			lvlState = lvlEnd
+
+		else
+
+			setFontColor(mycolor2)
+			fontPrint(mb40,LINEH*4, "Game Over")
+			setFontColor(mycolor1)
+			fontPrint(mb41,OVLH/3, "Player 1 Score")
+			setFontColor(mycolor2)
+			fontPrint(w,OVLH/3 + RENDH*2, i1PScore)
+			setFontColor(mycolor1)
+			fontPrint(mb42,2*OVLH/3, "Player 2 Score")
+			setFontColor(mycolor2)
+			fontPrint(w2,2*OVLH/3 + RENDH*2, i2PScore)
+			
+		end
+	
+	elseif lvlState == lvlEnd then
+
+		if timerDue() then
+
+			i2P = 0
+			lvlState = lvlSetup
+			currentLevel = levelGameOver
+
+		else
+
+			setFontColor(mycolor2)
+			fontPrint(mb40,LINEH*4, "Game Over")
+			setFontColor(mycolor1)
+			fontPrint(mb41,OVLH/3, "Player 1 Score")
+			setFontColor(mycolor2)
+			fontPrint(w,OVLH/3 + RENDH*2, i1PScore)
+			setFontColor(mycolor1)
+			fontPrint(mb42,2*OVLH/3, "Player 2 Score")
+			setFontColor(mycolor2)
+			fontPrint(w2,2*OVLH/3 + RENDH*2, i2PScore)
+			
+			setFontColor(mycolor2)
+			blinkTimer(0.1)
+
+			if heartbeat then
+
+
+				if i1PScore > i2PScore then
+
+					fontPrint(mb43,5*OVLH/6, "Player 1 is the winner!")
+
+				elseif i2PScore > i1PScore then
+				
+					fontPrint(mb44,5*OVLH/6, "Player 2 is the winner!")
+
+				elseif i2PScore == i1PScore then
+				
+					fontPrint(mb45,5*OVLH/6, "It's a Tie!")	
+
+				end
+
+			end	
+
+		end	
+	
+	end
+
+end
+
+function doClear()      -- Process the end of a NORMAL level (Cleared)
+
+	bShowScore = false
+	bShowWarnTilt = false
+	bShowTilt = false
+	bRes = true
+	local iRatio = 25/NUMW
+
+	if  currentFrame > offsetClear and lvlState ~= lvlEnd then -- Draw the things
+
+		if ShowTitle == true then
+
+			fontSelect(fontTit)
+			setFontColor(mycolor2)
+			fontPrint(mt7,LINEH*1.5, "LEVEL CLEARED")
+			fontSelect(fontGame)
+		
+		end		
+
+		spriteDraw(OVLW/2 - 2*LEVELW-NUMW,OVLH/4,sprite[LEVEL])
+		spriteDraw(OVLW/2 - LEVELW,OVLH/4,sprite[SCORE])
+		drawSpriteNumber(OVLW/2 + LEVELW, OVLH/4,iScoreTemp)
+
+		if iBonus > 0 then 
+
+			spriteDraw(OVLW/2 - 2*LEVELW-NUMW,OVLH/3+TEXTH+LINEH*2,sprite[LEVEL])
+			spriteDraw(OVLW/2 - LEVELW,OVLH/3+TEXTH+LINEH*2,sprite[BONUS])
+			drawSpriteNumber(OVLW/2 + LEVELW, OVLH/3+TEXTH+LINEH*2,SCORELEVEL)
+			spriteDraw(OVLW/2 - 2*LEVELW-NUMW,OVLH/3+TEXTH*2+LINEH*4,sprite[SCENES])
+			spriteDraw(OVLW/2 - LEVELW,OVLH/3+TEXTH*2+LINEH*4,sprite[BONUS])
+			drawSpriteNumber(OVLW/2 + LEVELW, OVLH/3+TEXTH*2+LINEH*4,SCORESCENE*iScPlayed)
+
+			if dip_GameType == 1 then
+
+				if iTotDeath == 0 then
+					spriteDraw(OVLW/2 - 2*LEVELW-NUMW,OVLH/3+TEXTH*3+LINEH*6,sprite[PERFECT])
+					drawSpriteNumber(OVLW/2 + LEVELW, OVLH/3+TEXTH*3+LINEH*6,PERFECTBONUS)
+
+				else	
+
+					spriteDraw(OVLW/2 - 2*LEVELW-NUMW,OVLH/3+TEXTH*3+LINEH*6,sprite[DEATH])
+					spriteDraw(OVLW/2 + LEVELW-NUMW,OVLH/3+TEXTH*3+LINEH*6,sprite[MINUS])
+					drawSpriteNumber(OVLW/2 + LEVELW, OVLH/3+TEXTH*3+LINEH*6, iTotDeath*DEATHPENALTY)
+	
+				end
+
+			else
+
+				if stage[iLevel][DEATHCOUNT] == 0 then
+
+					spriteDraw(OVLW/2 - 2*LEVELW-NUMW,OVLH/3+TEXTH*3+LINEH*6,sprite[PERFECT])
+					drawSpriteNumber(OVLW/2 + LEVELW, OVLH/3+TEXTH*3+LINEH*6,PERFECTBONUS)
+
+				else	
+
+					spriteDraw(OVLW/2 - 2*LEVELW-NUMW,OVLH/3+TEXTH*3+LINEH*6,sprite[DEATH])
+					spriteDraw(OVLW/2 + LEVELW-NUMW,OVLH/3+TEXTH*3+LINEH*6,sprite[MINUS])
+					drawSpriteNumber(OVLW/2 + LEVELW, OVLH/3+TEXTH*3+LINEH*6, iTotDeath*DEATHPENALTY)
+
+				end
+
+			end
+
+			spriteDraw(OVLW/2 - 2*LEVELW-NUMW,OVLH/3+TEXTH*4+LINEH*8,sprite[TOTAL])
+			spriteDraw(OVLW/2 - LEVELW,OVLH/3+TEXTH*4+LINEH*8,sprite[BONUS])
+			drawSpriteNumber(OVLW/2 + LEVELW, OVLH/3+TEXTH*4+LINEH*8, iBonus)
+
+		else
+
+			if numTrophy ~= 0 then
+
+				if numTrophy == 1 then
+
+					spriteDraw(OVLW/2-NUMW*2,OVLH/2,sprite[TB])
+
+				elseif numTrophy == 2 then
+
+					spriteDraw(OVLW/2-NUMW*2,OVLH/2,sprite[TS])
+
+				elseif numTrophy == 3 then
+
+					spriteDraw(OVLW/2-NUMW*2,OVLH/2,sprite[TG])
+
+				elseif numTrophy == 4 then
+
+					spriteDraw(OVLW/2-NUMW*2,OVLH/2,sprite[TP])
+
+				end
+				
+			end
+
+		end
+
+	end
+
+
+	if (lvlState == lvlSetup) then     -- Plays Level Cleared video 
+
+		setupClip(offsetClear, offsetClearend)
+		lvlState = branch01	
+
+	elseif (lvlState == branch01) then     -- Pause
+				
+		if (currentFrame == iFrameEnd) then 
+
+			discPause()
+			timerON(0.1)
+			lvlState = branch02
+
+		end
+
+	elseif lvlState == branch02 then     -- Calculate Level Score
+
+		if timerDue() then
+
+			if iBonus > 0 then
+
+				if timerDue() then
+
+					iBonus = iBonus - 500
+					iScoreTemp = iScoreTemp + 500
+					timerON(0.01)
+					soundPlay(sndroll)
+									
+				end
+	
+			else
+
+				soundPlay(sndvictory)
+				timerON(2)
+				lvlState = branch03
+
+			end
+
+		end
+		
+	elseif lvlState == branch03 then	-- Back to normal	
+
+		if timerDue() then
+
+			iScoreTemp = 0
+			iBonus = 0
+			numTrophy = 0
+
+			if dip_PlayStyle == 3 then 
+
+				lvlState = lvlSetup
+				currentLevel = levelMap	
+
+			else
+				
+				iWrongMv = 0
+				iTiltMv = 0
+
+				if dip_PlayStyle == 4 then
+
+					dip_StartLevel = dip_StartLevel+1
+				    iScene = 0	
+					altState = lvlSetup
+					currentLevel = levelSelect	
+			
+				else 
+
+					nextLevel(iLevel)
+					lvlState = lvlSetup
+					currentLevel = levelNormal	
+
+				end 
+			
+			end
+
+		end
+	
+	end
+
+end
+
+function doContinue()     -- Process the continue event
+
+	if (lvlState == lvlSetup) then
+		
+		setupClip(offsetContinue,offsetContinueend)		
+		bShowLives = false
+		bShowLvl = false
+		bShowScore = false
+		bShowCredits = true
+		bShowAction = false
+		bShowNext = false
+		iTilt = 0
+		bShowWarnTilt = false
+		bShowTilt = false
+
+		lvlState = lvlRunning		
+	
+	elseif (lvlState == lvlRunning) then
+
+		if currentFrame >= iFrameEnd then
+			
+			lvlState = lvlEnd
+		
+		elseif (p1START1) then
+		
+			p1START1 = false
+			
+			if (iCredits > 0 or dip_CoinsPerCredit == DOPT_FREEPLAY) then
+
+				bOneDiff = false
+				bSkipIntroClip = true
+				if iScene > 0 then iScene = iScene - 1 end
+				startGame()								
+	
+			end
+
+		elseif (p1BUTTON2) then
+		
+			p1BUTTON2 = false
+			lvlState = lvlEnd
+		
+		end
+		
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+
+		if newScore(iScore) then -- Has player achieved a high score?							
+			
+			currentLevel = levelHighScore
+			bGOAlt = true	
+			
+		else							
+			
+			currentLevel = levelGameOver		
+		
+		end		
+
+	end
+
+end
+
+function doDiffSelect() -- Ingame selection for the difficulty
+
+	if (altState == lvlSetup) then
+		
+		bShowScore = false
+		bShowLives = false
+		bIgnoreJoy = false
+		dip_Difficulty = 0
+
+		discSkipToFrame(frameEasy)
+		discPause()
+		timerON(30)
+		altState = lvlRunning
+		
+	elseif (altState == lvlRunning) then
+		
+		if timerDue() then
+			
+			altState = lvlEnd
+		
+		else		
+			
+			if (p1BUTTON1) then
+
+				soundPlay(sndcredit)
+				p1BUTTON1 = false			
+				altState = lvlEnd
+
+			else
+				
+				moveFrameDiff()			
+				
+			end
+			
+		end
+ 
+	elseif (altState == lvlEnd) then	
+
+		if dip_GameType == 1 then
+
+			iLives = 1	
+
+			if dip_Difficulty == 0 then
+
+				BarMinT = BarMin
+				if BarBonus > 0 then BarBonusT = BarBonus - 1 end
+
+			elseif dip_Difficulty == 1 then	
+
+				BarMinT = BarMin
+				BarBonusT = BarBonus
+			
+			elseif dip_Difficulty == 2 then
+
+				BarMinT = BarMin + 1
+				BarBonusT = BarBonus								
+			
+			elseif dip_Difficulty == 3 then
+
+				BarMinT = BarMin + 1
+				BarBonusT = BarBonus + 1
+
+			end	
+
+		elseif dip_GameType == 3 then
+
+			iLives = 1
+
+		else
+
+			iLives = dip_LivesPerCredit	
+
+		end		
+		
+		if offsetIntroGame ~= 0 and dip_StartScene == 1 then
+
+			setupClip(offsetIntroGame, offsetIntroGameend)
+			lvlState = branch11
+	
+		else
+
+			lvlState = lvlSetup
+		
+		end	
+
+		if dip_PlayStyle == 3 and MapStart == 0 then
+
+			currentLevel = levelMap	
+
+		elseif dip_GameType == 2 or dip_GameType == 4 or dip_PlayStyle == 4 then
+
+			altState = lvlSetup
+			currentLevel = levelSelect
+		
+		else	
+
+			currentLevel = levelNormal
+
+		end
+	
+	end
+
+end
+
+function doFillerFrame()     -- Choose one movie for intro
+	
+	local b1 = true
+	local k = 0
+
+	if iLastFiller  == 1 then setupClip(offsetIntro02, offsetIntro02end)
+			
+	elseif iLastFiller  == 2 then setupClip(offsetIntro03, offsetIntro03end) end
+
+	if iLastFiller  == 1 then iLastFiller = 2
+			
+	else iLastFiller = 1 end
+
+end
+
+function doFinish()      -- Process the end of a PERCENT level
+
+	bShowScore = false
+	bShowWarnTilt = false
+	bShowTilt = false
+
+	bRes = true
+	fontSelect(fontBig)
+	local iTemp = math.floor(100*(iRightMv/(iRightMv+iWrongMv))) - 5*iTiltMv
+
+	if iTemp < 0 then iTemp = 0 end
+	
+	if currentFrame > offsetClear and lvlState ~= lvlEnd then -- Draw the things
+
+		setFontColor(mycolor1)
+		fontPrint(LINEW, LINEH, dip_StartLevel..". "..Level[dip_StartLevel][1])
+		fontPrint(mb46,OVLH/6,iRightMv .. " completed moves out of " .. iRightMv+iWrongMv.." ("..iTiltMv.." Tilt: - "..5*iTiltMv.."%)")
+
+		if ShowTitle == true then
+
+			fontSelect(fontTit)
+			setFontColor(mycolor2)
+			fontPrint(mt7,LINEH*1.5, "LEVEL CLEARED")
+			fontSelect(fontGame)
+
+		end	
+
+		if numTrophy < iTemp then
+
+			if numTrophy > 0 and numTrophy  < 12 then
+
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW0])
+
+			elseif numTrophy  >= 12 and numTrophy  < 24 then
+
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW1])
+
+			elseif numTrophy  >= 24 and numTrophy  < 36 then
+
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW2])
+
+			elseif numTrophy  >= 36 and numTrophy  < 48 then
+
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW3])
+
+			elseif numTrophy  >= 48 and numTrophy  < 60 then
+
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW4])
+
+			elseif numTrophy  >= 60 and numTrophy  < 72 then
+
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW5])
+
+			elseif numTrophy  >= 72 and numTrophy  < 84 then
+
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW6])
+
+			elseif numTrophy  >= 84 and numTrophy  < 96 then
+
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW7])
+
+			elseif numTrophy >= 96 then
+
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PWFULL])
+
+			end
+
+		else
+
+			fontSelect(fontBig)
+			fontPrint(mb52,1.16*OVLH/2,numTrophy .. "/100")
+
+			if numTrophy  < 12 then
+
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW0])
+
+			elseif numTrophy  >= 12 and numTrophy  < 24 then
+
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW1])
+
+			elseif numTrophy  >= 24 and numTrophy  < 36 then
+
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW2])
+
+			elseif numTrophy  >= 36 and numTrophy  < 48 then
+
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW3])
+
+			elseif numTrophy  >= 48 and numTrophy  < 60 then
+
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW4])
+
+			elseif numTrophy  >= 60 and numTrophy  < 72 then
+
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW5])
+
+			elseif numTrophy  >= 72 and numTrophy  < 84 then
+
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW6])
+
+			elseif numTrophy  >= 84 and numTrophy  < 96 then
+
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW7])
+
+			elseif numTrophy >= 96 then
+
+				spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PWFULL])
+
+			end
+
+			if iTemp <50 then
+
+				fontPrint(mb53,1.16*OVLH/2+2*h3+GAUH, "YOU NEED MORE TRAINING!")
+
+			elseif iTemp >=50 and iTemp <60 then
+
+				fontPrint(mb54,1.16*OVLH/2+2*h3+GAUH, "STILL LEARNING!")
+
+			elseif iTemp >=60 and iTemp <70 then
+
+				fontPrint(mb55,1.16*OVLH/2+2*h3+GAUH, "NOT BAD!")
+
+			elseif iTemp >=70 and iTemp <80 then
+
+				fontPrint(mb56,1.16*OVLH/2+2*h3+GAUH, "YOUR SKILLS IMPROVE!")
+			
+			elseif iTemp >=80 and iTemp <90 then
+
+				fontPrint(mb57,1.16*OVLH/2+2*h3+GAUH, "YOU'RE ALMOST THERE!")
+
+			elseif iTemp >=90 and iTemp <100 then
+
+				fontPrint(mb58,1.16*OVLH/2+2*h3+GAUH, "AMAZING! NOW TRY FOR PERFECT.")
+
+			elseif iTemp == 100 then
+
+				fontPrint(mb59,1.16*OVLH/2+2*h3+GAUH, "PERFECT!")	
+
+			end			
+
+			if newPercent(iTemp) then
+
+				fontPrint(mb60,5*OVLH/6, "NEW HIGH SCORE!")
+
+			end
+
+		end
+
+	end
+
+	if (lvlState == lvlSetup) then     -- Plays Level Cleared video 
+
+		setupClip(offsetClear, offsetClearend)	
+		lvlState = branch01	
+
+	elseif (lvlState == branch01) then     -- Pause
+				
+		if (currentFrame == iFrameEnd) then 
+
+			discPause()
+			timerON(0.1)
+			lvlState = branch02
+			
+		end
+	
+	elseif lvlState == branch02 then     -- Calculate Level Percent
+	
+		if timerDue() then
+
+			if numTrophy < iTemp then
+
+				if timerDue() then
+
+					numTrophy = numTrophy + 1
+					timerON(0.01)
+					soundPlay(sndroll)
+									
+				end
+
+			else
+
+				soundPlay(sndvictory)
+				timerON(2)
+				lvlState = branch03
+
+			end
+
+		end
+	
+	elseif lvlState == branch03 then     -- End
+
+		if timerDue() then
+
+			if newPercent(iTemp) then
+
+				iScoreTemp = 0
+				iBonus = 0
+				numTrophy = 0
+
+				lvlState = lvlSetup  
+				currentLevel = levelHighScore
+
+			else
+
+				fontSelect(fontBig)
+				setFontColor(mycolor3)
+				fontPrint(mb52,1.16*OVLH/2,numTrophy .. "/100")
+
+				if numTrophy  < 12 then
+
+					spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW0])
+
+				elseif numTrophy  >= 12 and numTrophy  < 24 then
+
+					spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW1])
+
+				elseif numTrophy  >= 24 and numTrophy  < 36 then
+
+					spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW2])
+
+				elseif numTrophy  >= 36 and numTrophy  < 48 then
+
+					spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW3])
+
+				elseif numTrophy  >= 48 and numTrophy  < 60 then
+
+					spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW4])
+
+				elseif numTrophy  >= 60 and numTrophy  < 72 then
+
+					spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW5])
+
+				elseif numTrophy  >= 72 and numTrophy  < 84 then
+
+					spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW6])
+
+				elseif numTrophy  >= 84 and numTrophy  < 96 then
+
+					spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PW7])
+
+				elseif numTrophy >= 96 then
+
+					spriteDraw(posxGAUGE,1.16*OVLH/2+2*h3,sprite[PWFULL])
+
+				end
+
+				if iTemp <50 then
+
+					fontPrint(mb53,1.16*OVLH/2+2*h3+GAUH, "YOU NEED MORE TRAINING!")
+
+				elseif iTemp >=50 and iTemp <60 then
+
+					fontPrint(mb54,1.16*OVLH/2+2*h3+GAUH, "STILL LEARNING!")
+
+				elseif iTemp >=60 and iTemp <70 then
+
+					fontPrint(mb55,1.16*OVLH/2+2*h3+GAUH, "NOT BAD!")
+
+				elseif iTemp >=70 and iTemp <80 then
+
+					fontPrint(mb56,1.16*OVLH/2+2*h3+GAUH, "YOUR SKILLS IMPROVE!")
+				
+				elseif iTemp >=80 and iTemp <90 then
+
+					fontPrint(mb57,1.16*OVLH/2+2*h3+GAUH, "YOU'RE ALMOST THERE!")
+
+				elseif iTemp >=90 and iTemp <100 then
+
+					fontPrint(mb58,1.16*OVLH/2+2*h3+GAUH, "AMAZING! NOW TRY FOR PERFECT.")
+
+				elseif iTemp == 100 then
+
+					fontPrint(mb59,1.16*OVLH/2+2*h3+GAUH, "PERFECT!")	
+
+				end
+				fontSelect(fontLCD)
+				setFontColor(mycolor1)
+				fontPrint(ml22, 5*OVLH/6, "Button 1 to QUIT, Button 2 to REPLAY")
+				fontPrint(ml23, 6*OVLH/7+3*LINEH, "Button 3 for Another Level.")
+
+				if p1BUTTON1 then
+
+					iScoreTemp = 0
+					iBonus = 0
+					numTrophy = 0
+
+					bNoScreen = false
+
+					soundPlay(sndcredit)
+					
+					lvlState = lvlSetup
+					currentLevel = levelIntro
+
+				elseif p1BUTTON2 then
+
+					iScoreTemp = 0
+					iBonus = 0
+					numTrophy = 0
+
+					bNoScreen = true
+
+					soundPlay(sndcredit)
+					
+					startGame()
+
+				elseif p1BUTTON3 then
+
+					iScoreTemp = 0
+					iBonus = 0
+					numTrophy = 0
+
+					bNoScreen = false
+
+					soundPlay(sndcredit)
+					
+					if dip_StartLevel < finalstage then
+
+						dip_StartLevel = dip_StartLevel + 1
+
+					else
+
+						dip_StartLevel = 1
+
+					end	
+
+					startGame()
+
+				end	
+
+			end
+
+		end
+
+	end
+
+end
+
+function doGameOver()     -- Process game over
+
+	if (lvlState == lvlSetup) then
+
+		bShowLives = false
+		bShowLvl = false
+		bShowScore = false
+		bShowCredits = false
+		bShowAction = false	
+		bShowNext = false
+		bOneDiff = true
+		iTilt = 0
+		bShowWarnTilt = false
+		bShowTilt = false
+				
+		if bGOAlt == true then
+
+			setupClip(offsetGameOverAlt, offsetGameOverAltend)
+			bGOAlt = false
+
+		else
+
+			setupClip(offsetGameOver, offsetGameOverend)
+
+		end	
+
+		
+		lvlState = lvlRunning
+	
+	elseif (lvlState == lvlRunning) then
+	
+		if (currentFrame == iFrameEnd) then
+			
+			bShowScore = false
+			lvlState = lvlEnd		
+
+		end	
+	
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		currentLevel = levelIntro	
+	
+	end
+
+end
+
+function doIntro()     -- Process attract mode
+	
+	if (lvlState == lvlSetup) then     -- Show Intro 1
+		
+		setupClip(offsetIntro01, offsetIntro01end)  
+		initLCD()
+		lvlState = branch01		
+		
+		bShowCredits = true
+		bShowLCD = true
+		bShowLives = false
+		bCheckForCredits = true
+
+	elseif (lvlState == branch01) then     -- Show Controls
+
+		if (currentFrame == iFrameEnd or p1BUTTON1) then
+			
+			p1BUTTON1 = false
+			discSkipToFrame(frameControls)
+			discPause()
+			bShowLCD = false
+			bShowCredits = false			
+			timerON(10)
+			
+
+			if frameSpecial ~= frameControls then
+
+				lvlState = branch02
+
+			else
+
+				lvlState = branch03
+
+			end
+
+			elseif (p1BUTTON2 and p1BUTTON3 and p1UP and p1RIGHT and AllowSecret) then
+
+			p1BUTTON2 = false
+			p1BUTTON3 = false
+			p1UP = false
+			p1RIGHT = false
+				
+			bExtendedPlay = true
+			startGame()
+			bShowCredits = false
+
+		end
+	
+	elseif (lvlState == branch02) then     -- Show special moves
+		
+		if timerDue() or p1BUTTON1 then	
+
+			p1BUTTON1 = false
+			discSkipToFrame(frameSpecial)
+			discPause()
+			bShowLCD = false
+			bShowCredits = false			
+			timerON(10)			
+			lvlState = branch03
+
+		else
+
+			spriteDraw(OVLW-KIMW-LINEH,LINEH,sprite[KIMMY])
+
+		end
+
+	elseif (lvlState == branch03) then     -- Show Intro 2
+		
+		if timerDue() or p1BUTTON1 then	
+
+			p1BUTTON1 = false
+			initLCD()
+			bShowLCD = true
+			bShowCredits = true
+			setupClip(offsetIntro02, offsetIntro02end)
+			
+			lvlState = branch04
+        
+        end	
+
+	elseif (lvlState == branch04) then     -- Show Rankings ALL
+		
+		if (currentFrame == iFrameEnd or p1BUTTON1) then
+
+			p1BUTTON1 = false
+			bShowLCD = false
+			bShowCredits = false
+			local k = 0
+			fontSelect(fontGame)	
+			setFontColor(mycolor1)
+			discSkipToFrame(frameRankings)
+			timerON(15)
+			discPause()
+							
+			lvlState = branch05
+
+		elseif (p1BUTTON2 and p1BUTTON3 and p1UP and p1RIGHT and AllowSecret) then
+
+			p1BUTTON2 = false
+			p1BUTTON3 = false
+			p1UP = false
+			p1RIGHT = false
+				
+			bExtendedPlay = true
+			startGame()
+			bShowCredits = false
+	
+		end	
+	
+	elseif (lvlState == branch05) then     -- Show Intro 3
+		
+		if timerDue() or p1BUTTON1 then	
+
+			p1BUTTON1 = false
+			initLCD()			
+			bShowLCD = true
+			bShowCredits = true
+			setupClip(offsetIntro03, offsetIntro03end)
+
+			if LvlTrophy3 ~= 0 then 
+				
+				lvlState = branch06
+
+			else
+
+				lvlState = branch09
+
+			end
+
+		elseif (p1BUTTON2 and p1BUTTON3 and p1UP and p1RIGHT and AllowSecret) then
+
+			p1BUTTON2 = false
+			p1BUTTON3 = false
+			p1UP = false
+			p1RIGHT = false
+				
+			bExtendedPlay = true
+			startGame()
+			bShowCredits = false
+
+		else
+				
+			drawHSAll()	
+					
+		end	
+
+	elseif (lvlState == branch06) then     -- Show Trophy
+		
+		if (currentFrame == iFrameEnd or p1BUTTON1) then
+
+			p1BUTTON1 = false
+			bShowLCD = false
+			bShowCredits = false
+			local k = 0
+			fontSelect(fontGame)	
+			setFontColor(mycolor1)
+			discSkipToFrame(frameTrophy)
+			timerON(10)
+			discPause()
+							
+			lvlState = branch07
+
+		elseif (p1BUTTON2 and p1BUTTON3 and p1UP and p1RIGHT and AllowSecret) then
+
+			p1BUTTON2 = false
+			p1BUTTON3 = false
+			p1UP = false
+			p1RIGHT = false
+				
+			bExtendedPlay = true
+			startGame()
+			bShowCredits = false
+	
+		end	
+		
+	elseif (lvlState == branch07) then     -- Show Trophy LB
+		
+		if timerDue() or p1BUTTON1 then	
+
+			p1BUTTON1 = false
+			bShowLCD = false
+			bShowCredits = false
+			local k = 0
+			fontSelect(fontGame)	
+			setFontColor(mycolor1)
+			discSkipToFrame(frameTrophy)
+			timerON(10)
+			discPause()
+
+			lvlState = branch08
+
+		else
+				
+			drawTrophy()
+			spriteDraw(OVLW-KIMW-LINEH,LINEH,sprite[KIMMY])		
+		
+		end
+
+	elseif (lvlState == branch08) then     -- Show Title
+		
+		if timerDue() or p1BUTTON1 then	
+
+			p1BUTTON1 = false
+			initLCD()			
+			bShowLCD = true
+			bShowCredits = true
+			setupClip(offsetTitle, offsetTitleend)
+			lvlState = branch09
+
+		elseif (p1BUTTON2 and p1BUTTON3 and p1UP and p1RIGHT and AllowSecret) then
+
+			p1BUTTON2 = false
+			p1BUTTON3 = false
+			p1UP = false
+			p1RIGHT = false
+				
+			bExtendedPlay = true
+			startGame()
+			bShowCredits = false
+
+		else
+				
+			drawTrophyLB()
+					
+		end	
+
+	elseif (lvlState == branch09) then     -- Show Percent
+		
+		if (currentFrame == iFrameEnd or p1BUTTON1) then
+
+			p1BUTTON1 = false
+			bShowLCD = false
+			bShowCredits = false
+			local k = 0
+			fontSelect(fontGame)	
+			setFontColor(mycolor1)
+			discSkipToFrame(frameRankingsAlt)
+			timerON(15)
+			discPause()
+							
+			lvlState = branch10
+
+		elseif (p1BUTTON2 and p1BUTTON3 and p1UP and p1RIGHT and AllowSecret) then
+
+			p1BUTTON2 = false
+			p1BUTTON3 = false
+			p1UP = false
+			p1RIGHT = false
+				
+			bExtendedPlay = true
+			startGame()
+			bShowCredits = false
+	
+		end	
+
+	elseif (lvlState == branch10) then     -- Back to start
+		
+		if timerDue() or p1BUTTON1 then	
+
+			p1BUTTON1 = false
+			bShowLCD = false
+			bShowCredits = false
+			
+			lvlState = lvlSetup
+
+		else
+				
+			drawPercent()	
+					
+		end
+
+	end
+	
+	if (dip_CoinsPerCredit == DOPT_FREEPLAY) or (dip_CoinsPerCredit ~= DOPT_FREEPLAY and iCredits > 0) then
+	
+		if (p1START1 and (dip_GameType == 2 or dip_GameType == 3)) then
+		
+			p1START1 = false
+			bShowCredits = false
+			i2P = 0				
+			startGame()	
+
+		elseif (p1START1 and dip_GameType == 6) then
+
+			p1START1 = false
+			lvlState = lvlSetup 
+			bShowCredits = false				
+			currentLevel = levelMovie
+
+		elseif (p1START1 and dip_GameType  ~= 2 and dip_GameType  ~= 3 and dip_GameType ~= 6 and dip_PlayStyle~=4 and dip_CoinsPerCredit == DOPT_FREEPLAY) then
+
+			p1START1 = false
+			lvlState = lvlSetup 
+			bShowCredits = false
+			i2P = 0					
+			currentLevel = levelNG
+
+		elseif (p1START1 and dip_GameType  ~= 2 and dip_GameType  ~= 3 and dip_GameType ~= 6 and (dip_PlayStyle==4 or dip_CoinsPerCredit ~= DOPT_FREEPLAY)) then
+
+			p1START1 = false
+			lvlState = lvlSetup 
+			bShowCredits = false
+			i2P = 0					
+			startGame()
+	
+		end
+
+	end
+	
+	if (dip_CoinsPerCredit == DOPT_FREEPLAY) or (dip_CoinsPerCredit ~= DOPT_FREEPLAY and iCredits > 1) then
+
+		if (p1START2) then
+
+			p1START2 = false
+			if dip_GameType == 0 or dip_GameType == 3 then
+
+				if not (dip_CoinsPerCredit == DOPT_FREEPLAY) then
+					iCredits = iCredits - 2
+				end
+
+				if scoreBezelGetState() then
+					scoreBezelTwinScoreOn(true)
+					scoreBezelCredits(iCredits)
+					for i = 1, 2 do
+						scoreBezelScore(i, 0)
+						scoreBezelLives(i, dip_LivesPerCredit)
+					end
+				end
+			end
+
+			lvlState = lvlSetup
+			i2P = 1
+			b1PStart = false
+			b2PStart = false
+			b1PEnd = false 
+			b2PEnd = false
+			i1PScore = 0
+			i2PScore = 0 
+			bShowCredits = false
+			currentLevel = level2P
+
+		end	
+
+	end
+
+end
+
+function doLevel()     -- Big process for level play
+	
+	local thisLevel = iLevel
+
+	if (lvlState == lvlSetup) then     		-- Setup
+		
+		bShuffleOrder = true
+		bPlayPrompt = true	
+		bPlayRight = true
+		bShowLvl = false
+		bShowAction = false
+		bShowNext = false
+		bLvlJump = false
+		bScnJump = false
+ 	
+		bPath = true
+		bTime = true
+		bCalc = true
+
+		if dip_GameType ~= 1 or iScene == 0 then
+
+			iTilt = 0
+			bShowWarnTilt = false
+			bShowTilt = false
+
+		end
+
+		resetVar()
+
+		if dip_GameType == 2 then
+
+			bShowScore = false
+			bShowLives = false
+	
+		else
+
+			if dip_Display == 0 then
+
+				bShowScore = true
+				bShowLives = true
+				bShowLvl = true
+			
+				if ShowTop then 
+
+					bShowTop = true 
+
+				else
+
+					bShowTop = false
+
+				end
+				
+			else
+
+				bShowScore = false
+				bShowLives = false
+				bShowLvl = false
+				bShowTop = false
+
+			end
+
+		end
+
+		resetArrows()
+					
+		if bSave == false then currentMove = 1 end
+		
+		setupLevel(thisLevel) 
+	
+		if Level[iLevel][INTROCLIPEND] - Level[iLevel][INTROCLIP] < 2 then bSkipIntroClip = true end 
+
+		if ShowResurrect and bRes and dip_GameType ~= 3 and i2P == 0 then
+			
+			bShowTop = false
+			setupClip(offsetGetReady, offsetGetReadyEnd)
+			
+			if dip_Display == 1 or dip_Display == 2 then
+
+				bShowScore = true
+				bShowLives = true
+				bShowLvl = true
+
+			else
+
+				bShowScore = false
+				bShowLives = false
+				bShowLvl = false
+				bShowTop = false
+				
+			end
+			
+			bShowGet = true
+			
+			lvlState = branch08  -- Treatment if there is a resurrect movie
+						
+			bRes = false
+			
+		else
+
+			if bSave == true and currentMove ~= 1 then 
+
+				currentFrame = move[currentMove-1][inputFrmEnd]+1
+				discSkipToFrame(currentFrame)
+				bSave = false
+				lvlState = lvlRunning
+
+										
+			elseif bSkipIntroClip == false and iScene == 1 then
+
+				if bFlip then 
+
+					setupClip(Level[iLevel][INTROCLIP]+Level[iLevel][MIRROR], Level[iLevel][INTROCLIPEND]+Level[iLevel][MIRROR]) 
+
+				else
+
+					setupClip(Level[iLevel][INTROCLIP], Level[iLevel][INTROCLIPEND]) 
+
+				end	
+			
+				bShowSkip = true				
+				lvlState = branch01	
+
+			else
+
+				if currentFrame + 2 <= sceneStart then	--due to the new frame system	
+			
+					discSkipToFrame(sceneStart)
+
+				elseif currentFrame > sceneStart then
+
+					discSkipToFrame(sceneStart)						
+				
+				end
+				
+				lvlState = lvlRunning
+
+			end
+
+		end
+		
+	elseif (lvlState == branch01) then     	-- Management for the intro clip of the level
+			
+		if (currentFrame == iFrameEnd or p1BUTTON1 or p1BUTTON2 or p1BUTTON3 or p1UP or p1DOWN or p1LEFT or p1RIGHT) then 
+			
+			p1BUTTON1 = false
+			p1BUTTON2 = false
+			p1BUTTON3 = false
+			p1UP = false
+			p1DOWN = false
+			p1LEFT = false
+			p1RIGHT = false
+			bShowSkip = false
+			bSkipIntroClip = true
+			
+			
+			if currentFrame ~= iFrameEnd then
+
+				discSkipToFrame(sceneStart)					
+			
+			end
+						
+			lvlState = lvlRunning
+		
+		end
+	
+	elseif (lvlState == branch02) then     	-- Hints	(or setupDeathClip)
+
+		resetVar()
+
+		if dip_Hints and dip_GameType ~= 1 and dip_GameType ~= 2 and move[currentMove][moveDeath] >= 0 then
+
+			soundPlay(sndwrong)
+			bShowLvl = false
+			bShowScore = false
+			bShowLives = false
+			bShowNext = false
+			bShowWarnTilt = false
+			setFontColor(mycolor2) 
+			discSkipToFrame(frameHints)
+			timerON(2)
+			discPause()
+			lvlState = branch03
+
+		else
+
+			if iPath > 1000 then iPath = 0 end
+
+			iWrongMv = iWrongMv +1
+			iScDeath = iScDeath + 1
+
+			if dip_GameType == 2 then 
+
+				soundPlay(sndwrong)
+				lvlState = lvlPlayRest
+
+			elseif dip_GameType == 1 then
+
+				iLifeBar = iLifeBar - BarMinT
+				iRightMv = 0
+				soundPlay(sndwrong)
+				lvlState = lvlPlayRest
+
+				if iLifeBar <= 0 then
+
+					setupDeathClip(thisMove)
+
+				end
+
+			else
+				
+				setupDeathClip(thisMove) 
+
+			end
+			
+		end	
+
+	elseif (lvlState == branch03) then     	-- Process the Hints
+		
+		if timerDue() then
+
+			iPath = 0
+			iWrongMv = iWrongMv +1
+			iScDeath = iScDeath + 1
+			setupDeathClip(thisMove)
+
+		else
+
+			getHints()
+
+		end
+
+	elseif (lvlState == branch04) then 		-- Process Good Moves
+	
+		bShowAction = false
+		bShowNext = false
+		bTime = true
+		
+		resetVar()
+
+		lvlState = lvlPlayRest
+
+		if thisMove ~= NOTHING or (thisMove==NOTHING and move[currentMove][5]==nil) then
+
+			if bPlayRight then 
+						
+				soundPlay(sndright)
+				bPlayRight = false
+
+			end
+
+			iRightMv = iRightMv +1
+			addPoints(SCOREMOVE + dip_Difficulty * BUFFMOVE,currentMove) 
+			iScoreTemp = iScoreTemp+(SCOREMOVE + dip_Difficulty * BUFFMOVE)
+
+		end		
+		
+	elseif (lvlState == branch05) then     	-- Flags for the end of the game (unlock secret level)
+		
+		if timerDue() then
+
+			bGOAlt = true
+		
+			if BeatGameWithOneLife() and thisLevel ~= levelSecret and AllowSecret and dip_GameType~=4 then
+				
+				soundPlay(sndvictory)
+				discSkipToFrame(frameSecret)
+				discPause()
+				timerON(4)
+				lvlState = branch06  -- Start secret level
+
+			elseif BeatGameWithOneCredit() and thisLevel ~= levelSecret and AllowSecret and dip_GameType~=4 then
+
+				soundPlay(sndvictory)
+				discSkipToFrame(frameSecret)
+				discPause()
+				timerON(4)
+				
+				lvlState = branch06  -- Start secret level
+		
+			elseif newScore(iScore) and dip_GameType~=4 then -- Has player achieved a high score?			
+			
+				lvlState = lvlSetup  
+				currentLevel = levelHighScore	
+
+			elseif newScore(iTotDeath+iScDeath) and dip_GameType == 4 and not bUnlockSel then -- Has player achieved a high score?			
+		
+				lvlState = lvlSetup  
+				currentLevel = levelHighScore
+			
+			else			
+			
+				lvlState = lvlSetup
+				currentLevel = levelGameOver		
+			
+			end
+			
+		end
+		
+	elseif (lvlState == branch06) then     	-- Start secret level
+		
+		if timerDue() then 
+				
+			bExtendedPlay = true
+			iScene = 0
+			startGame()
+			
+		end
+
+	elseif (lvlState == branch07) then	 	-- Death treatment if there is a Sup Death movie
+
+		if (currentFrame == iFrameEnd) or p1BUTTON1 then
+			
+			stage[thisLevel][DEATHCOUNT] = stage[thisLevel][DEATHCOUNT] + 1
+			
+			if iLives > 0 then
+
+				if dip_Rewind == 0  then --Scene
+
+					bRes = true
+					bPath = true
+					bTime = true
+					lvlState = lvlEnd
+					
+				elseif dip_Rewind == 2 then --Level
+					
+					bRes = true
+					iScene = 0
+					bPath = true
+					bTime = true
+					bSwap = true
+
+					for i = 1,Level[thisLevel][TOTALSCENES] do
+
+						scene[thisLevel][i] = {}; scene[thisLevel][i] = {i, false}
+
+					end 
+
+					lvlState= lvlSetup
+								
+				elseif dip_Rewind == 3 and (currentMove == totalMoves or (move[currentMove+1][correctMove] == CHOOSE and currentMove+1 == totalMoves)) then --Next Move
+
+					bSwap = true
+					scene[iLevel][iScene][SCENECOMPLETE] = true
+					lvlState = lvlEnd
+
+				elseif dip_Rewind == 3 and (currentMove == totalMoves  or (move[currentMove+1][correctMove] == LETGO and currentMove+1 == totalMoves)) then --Next Move
+					
+					bSwap = true	
+					scene[iLevel][iScene][SCENECOMPLETE] = true
+					lvlState = lvlEnd
+
+				elseif dip_Rewind == 3 and (currentMove == totalMoves  or (move[currentMove+1][correctMove] == PATH and currentMove+1 == totalMoves)) then --Next Move
+					
+					bSwap = true	
+					scene[iLevel][iScene][SCENECOMPLETE] = true
+					lvlState = lvlEnd
+
+				elseif dip_Rewind == 3 and (currentMove == totalMoves  or (move[currentMove+1][correctMove] == YESNO and currentMove+1 == totalMoves)) then --Next Move
+					
+					bSwap = true	
+					scene[iLevel][iScene][SCENECOMPLETE] = true
+					lvlState = lvlEnd
+
+				else
+					
+					if ShowResurrect and dip_GameType ~= 3 and i2P == 0 then
+
+						setupClip(offsetGetReady, offsetGetReadyEnd)
+						bShowGet = true
+						bShowTop = false
+						
+						if dip_Display == 1 or dip_Display == 2 then
+
+							bShowScore = true
+							bShowLives = true
+							bShowLvl = true
+
+						else
+
+							bShowScore = false
+							bShowLives = false
+							bShowLvl = false
+							bShowTop = false
+
+						end
+
+						lvlState = branch09  -- Treatment if there is a resurrect movie (last and next move)
+						
+					else
+
+						resetArrows()
+						discSkipToFrame(iPauseFrame)
+
+						if dip_Display == 0 then
+
+							bShowScore = true
+							bShowLives = true
+							bShowLvl = true
+							
+							if ShowTop then 
+
+								bShowTop = true 
+
+							else
+
+								bShowTop = false
+
+							end
+
+						else
+
+							bShowScore = false
+							bShowLives = false
+							bShowLvl = false
+							bShowTop = false
+
+						end
+
+						if dip_Rewind == 3 and (move[currentMove+1][correctMove] == LETGO) then	--Next Move
+							
+							bSwap = true
+							currentMove = currentMove + 2
+
+						elseif dip_Rewind == 3 and move[currentMove][correctMove] == PATH then
+								
+							iPathAend = path[currentMove][4] -1
+							iPathAjmp = path[currentMove][9]
+							currentMove = currentMove + 1
+
+						else	
+							
+							currentMove = currentMove + 1
+	
+						end
+					
+						lvlState = lvlRunning
+					
+					end
+				
+				end	
+
+			else
+
+				lvlState = lvlEnd
+			
+			end
+					
+		end
+
+	elseif (lvlState == branch08) then      -- Treatment if there is a resurrect movie (rewind scene or level)
+
+		if (currentFrame == iFrameEnd) then
+			
+			bShowGet = false
+
+			if dip_GameType == 2 then
+
+				bShowLives = false
+				bShowScore = false
+
+			else
+
+				if dip_Display == 0 then
+
+					bShowScore = true
+					bShowLives = true
+					bShowLvl = true
+					if ShowTop then 
+
+						bShowTop = true 
+
+					else
+
+						bShowTop = false
+
+					end
+
+				else
+
+					bShowScore = false
+					bShowLives = false
+					bShowLvl = false
+					bShowTop = false
+
+				end
+
+			end
+			
+			if bSave == true and currentMove ~= 1 then 
+
+				currentFrame = move[currentMove-1][inputFrmEnd]+1
+				discSkipToFrame(currentFrame)
+				bSave = false
+				lvlState = lvlRunning
+						
+			elseif bSkipIntroClip == false and iScene == 1 then
+
+				if bFlip then 
+
+					setupClip(Level[iLevel][INTROCLIP]+Level[iLevel][MIRROR], Level[iLevel][INTROCLIPEND]+Level[iLevel][MIRROR]) 
+
+				else
+
+					setupClip(Level[iLevel][INTROCLIP], Level[iLevel][INTROCLIPEND]) 
+
+				end	 
+			
+				bShowSkip = true
+				lvlState = branch01	   -- Management for the intro clip of the level
+
+			else
+							
+				if currentFrame + 2 <= sceneStart then	--due to the new frame system	
+			
+					discSkipToFrame(sceneStart)
+
+				elseif currentFrame > sceneStart then
+
+					discSkipToFrame(sceneStart)						
+				
+				end
+				
+				lvlState = lvlRunning
+
+			end
+
+		end	
+	
+	elseif (lvlState == branch09) then 		-- Treatment if there is a resurrect movie (rewind last or next move)
+
+		if (currentFrame == iFrameEnd) then
+
+			lvlState = lvlRunning
+
+			bShowGet = false
+			
+			
+			resetArrows()
+			discSkipToFrame(iPauseFrame)
+
+			if dip_GameType == 2 then
+
+				bShowLives = false
+				bShowScore = false
+
+			else
+			
+				if dip_Display == 0 then
+
+					bShowScore = true
+					bShowLives = true
+					bShowLvl = true
+			
+					if ShowTop then 
+
+						bShowTop = true 
+
+					else
+
+						bShowTop = false
+
+					end
+
+				else
+
+					bShowScore = false
+					bShowLives = false
+					bShowLvl = false
+					bShowTop = false
+
+				end
+
+			end
+
+			if dip_Rewind == 3 and (move[currentMove+1][correctMove] == LETGO) then	--Next Move
+				
+				bSwap = true			
+				currentMove = currentMove + 2
+
+			elseif dip_Rewind == 3 and move[currentMove][correctMove] == PATH then
+								
+				iPathAend = path[currentMove][4] -1
+				iPathAjmp = path[currentMove][9]
+				currentMove = currentMove + 1
+
+			else	
+								
+				currentMove = currentMove + 1
+		
+			end
+				
+		end
+
+	elseif (lvlState == branch10) then 		-- Process Choose action
+	
+		doChoose()
+
+	elseif (lvlState == branch11) then 		-- Process Game Intro
+
+		if currentFrame == iFrameEnd then lvlState = lvlSetup end
+
+	elseif (lvlState == branch12) then 		-- Process WAYOUT, TOSCENE and TOLEVEL
+	
+		scene[thisLevel][iScene][SCENECOMPLETE] = true 	
+					
+		if (thisLevel == finalstage and BeatLevel(finalstage)) or (thisLevel == levelSecret and BeatLevel(levelSecret)) then
+			
+			if thisLevel == finalstage then stage[thisLevel][BEATSTATUS] = true end
+			
+				if dip_GameType ~= 2 then 
+
+					doTrophy() 
+
+					if BeatGame() then
+
+						if (SCORESCENE - (iScDeath * DEATHPENALTY)) > 0 then addPoints(SCORESCENE - (iScDeath * DEATHPENALTY),0) end
+						addPoints(SCOREGAME,0)
+						if BeatGameWithOneLife() then addPoints(SCORESECRET,0) end
+						
+					else
+
+						if (SCORESCENE - (iScDeath * DEATHPENALTY)) > 0 then addPoints(SCORESCENE - (iScDeath * DEATHPENALTY),0) end
+						addPoints(SCORELEVEL,0)
+
+					end
+
+					if thisLevel == levelSecret then
+
+						discPause()
+						timerON(0.1)
+						lvlState = branch05	 -- Flags for the end of the game (unlock secret level)
+
+					else
+						
+						soundPlay(sndvictory)
+						discSkipToFrame(frameVictory)
+						discPause()
+						timerON(3)
+						lvlState = branch05	 -- Flags for the end of the game (unlock secret level)
+					
+					end
+
+				else
+				
+					lvlState = lvlEnd		
+
+				end	
+
+		else
+			
+			if (SCORESCENE - (iScDeath * DEATHPENALTY)) > 0 then 
+			
+				addPoints(SCORESCENE - (iScDeath * DEATHPENALTY),0)
+				iBonus = iBonus+SCORESCENE - (iScDeath * DEATHPENALTY)
+
+			end
+
+			iTotDeath = iTotDeath + iScDeath
+			iScPlayed = iScPlayed + 1
+			iScDeath = 0					
+			lvlState = lvlEnd			
+			
+		end	
+
+	elseif (lvlState == branch13) then  	-- Score/Lives Panel
+
+		if timerDue() then
+
+			stage[thisLevel][DEATHCOUNT] = stage[thisLevel][DEATHCOUNT] + 1
+			
+			if iLives > 0 then
+
+				if dip_Rewind == 0  then --Scene
+
+					bRes = true
+					bPath = true
+					bTime = true
+					lvlState = lvlEnd
+					
+				elseif dip_Rewind == 2 then --Level
+					
+					bRes = true
+					iScene = 0
+					bPath = true
+					bTime = true
+					bSwap = true
+
+					for i = 1,Level[thisLevel][TOTALSCENES] do
+
+						scene[thisLevel][i] = {}; scene[thisLevel][i] = {i, false}
+
+					end 
+
+					lvlState= lvlSetup
+								
+				elseif dip_Rewind == 3 and (currentMove == totalMoves or (move[currentMove+1][correctMove] == CHOOSE and currentMove+1 == totalMoves)) then --Next Move
+
+					bSwap = true
+					scene[iLevel][iScene][SCENECOMPLETE] = true
+					lvlState = lvlEnd
+
+				elseif dip_Rewind == 3 and (currentMove == totalMoves  or (move[currentMove+1][correctMove] == LETGO and currentMove+1 == totalMoves)) then --Next Move
+					
+					bSwap = true	
+					scene[iLevel][iScene][SCENECOMPLETE] = true
+					lvlState = lvlEnd
+
+				elseif dip_Rewind == 3 and (currentMove == totalMoves  or (move[currentMove+1][correctMove] == PATH and currentMove+1 == totalMoves)) then --Next Move
+					
+					bSwap = true	
+					scene[iLevel][iScene][SCENECOMPLETE] = true
+					lvlState = lvlEnd
+
+				elseif dip_Rewind == 3 and (currentMove == totalMoves  or (move[currentMove+1][correctMove] == YESNO and currentMove+1 == totalMoves)) then --Next Move
+					
+					bSwap = true	
+					scene[iLevel][iScene][SCENECOMPLETE] = true
+					lvlState = lvlEnd
+
+				else
+					
+					resetArrows()
+					discSkipToFrame(iPauseFrame)
+
+					if dip_Display == 0 then
+
+						bShowScore = true
+						bShowLives = true
+						bShowLvl = true
+						
+						if ShowTop then 
+
+							bShowTop = true 
+
+						else
+
+							bShowTop = false
+
+						end
+
+					else
+
+						bShowScore = false
+						bShowLives = false
+						bShowLvl = false
+						bShowTop = false
+
+					end
+
+					if dip_Rewind == 3 and (move[currentMove+1][correctMove] == LETGO) then	--Next Move
+							
+						bSwap = true
+						currentMove = currentMove + 2
+
+					elseif dip_Rewind == 3 and move[currentMove][correctMove] == PATH then
+								
+						iPathAend = path[currentMove][4] -1
+						iPathAjmp = path[currentMove][9]
+						currentMove = currentMove + 1
+
+					else	
+							
+						currentMove = currentMove + 1
+	
+					end
+					
+					lvlState = lvlRunning
+					
+				
+				end	
+
+			else
+
+				lvlState = lvlEnd
+			
+			end
+
+		else
+
+			fontSelect(fontBig)
+			blinkTimer(0.5)
+				
+			if heartbeat then fontPrint(mb47, OVLH/2, "GET READY!") end
+			fontSelect(fontGame)
+
+			bShowScore = true
+			bShowLives = true
+
+		end	
+		
+	elseif (lvlState == lvlPlayRest) then   -- Game in between moves
+
+  		bPlayRight = true
+		
+		if (currentMove < totalMoves) then	bCheckMove = true end
+		
+		thisMove = scanInput()
+
+		if (currentFrame >= move[currentMove][moveFrmEnd]) then
+
+			bCheckMove = false
+						
+			if iPathAjmp == OUT then
+
+				currentMove = iPathAjmp
+				iPathAend = 0
+				iPathAjmp = 0
+				lvlState = branch12
+
+			elseif	(iPathAend ~=0 and currentMove == iPathAend) then
+				
+				currentMove = iPathAjmp
+				iPathAend = 0
+				iPathAjmp = 0
+
+			elseif iPath ~= 0 and currentMove <= totalMoves then
+				
+				currentMove = iPath
+				iPath = 0
+				bPath = true
+
+			else	
+
+				currentMove = currentMove + 1
+			
+			end
+
+	
+			if (currentMove <= totalMoves) then			
+				
+				if ((currentFrame + 2) <= move[currentMove][moveFrmStart]) then	--due to the new frame system	
+			
+					discSkipToFrame(move[currentMove][moveFrmStart])
+
+				elseif currentFrame > move[currentMove][moveFrmStart] then
+
+					discSkipToFrame(move[currentMove][moveFrmStart])
+				
+				end
+				
+				bShowAction = false
+				bPlayPrompt = true
+				
+				resetArrows()	
+
+				if (move[currentMove][correctMove] == CHOOSE) then
+					
+					altState = lvlSetup
+					lvlState = branch10
+					
+				else
+						
+					lvlState = lvlRunning	
+
+				end	
+				
+			else
+				
+				bShowNext = false
+
+				-- scene beat! do some logic. move on to next scene.
+				scene[thisLevel][iScene][SCENECOMPLETE] = true	
+				
+				if (thisLevel == finalstage and BeatLevel(finalstage)) or (thisLevel == levelSecret and BeatLevel(levelSecret)) then
+					
+					if thisLevel == finalstage then stage[thisLevel][BEATSTATUS] = true end
+					
+						if dip_GameType ~= 2 then 
+
+							doTrophy() 
+
+							if BeatGame() then
+
+								if (SCORESCENE - (iScDeath * DEATHPENALTY)) > 0 then addPoints(SCORESCENE - (iScDeath * DEATHPENALTY),0) end
+								addPoints(SCOREGAME,0)
+								if BeatGameWithOneLife() then addPoints(SCORESECRET,0) end
+								
+							else
+
+								if (SCORESCENE - (iScDeath * DEATHPENALTY)) > 0 then addPoints(SCORESCENE - (iScDeath * DEATHPENALTY),0) end
+								addPoints(SCORELEVEL,0)
+
+							end
+
+							if thisLevel == levelSecret then
+
+								discPause()
+								timerON(0.1)
+								lvlState = branch05	 -- Flags for the end of the game (unlock secret level)
+
+							else
+								
+								soundPlay(sndvictory)
+								discSkipToFrame(frameVictory)
+								discPause()
+								timerON(3)
+								lvlState = branch05	 -- Flags for the end of the game (unlock secret level)
+							
+							end
+
+						else
+						
+							lvlState = lvlEnd		
+
+						end	
+
+				else
+					
+					if (SCORESCENE - (iScDeath * DEATHPENALTY)) > 0 then 
+					
+						addPoints(SCORESCENE - (iScDeath * DEATHPENALTY),0)
+						iBonus = iBonus+SCORESCENE - (iScDeath * DEATHPENALTY)
+
+					end
+
+					iTotDeath = iTotDeath + iScDeath
+					iScPlayed = iScPlayed + 1
+					iScDeath = 0					
+					if currentFrame >= sceneEnd then lvlState = lvlEnd end				
+					
+				end
+					
+			end
+			
+		end
+
+	elseif (lvlState == lvlRunning) then    -- Game waiting for a move
+
+		if dip_GameType <=2 and dip_Next then bShowNext = true end
+
+		if currentFrame < move[currentMove][inputFrmStart] then
+
+			thisMove = scanInput()
+
+			if thisMove ~= NOMOVE and move[currentMove][correctMove] < 25 and dip_Tilt > 0 and dip_GameType < 5 then 
+
+				iTilt = iTilt +1 
+				iTrigTilt = 50 - 10*dip_Tilt
+
+				if iTilt >= iTrigTilt  then 
+
+					iPauseFrame = move[currentMove][inputFrmEnd]
+
+					if  dip_GameType == 0 or dip_GameType == 3 or dip_GameType == 4 then
+
+						lvlState = branch02
+						
+					elseif dip_GameType == 1 then
+
+						iLifeBar = iLifeBar - BarMinT
+						iRightMv = 0
+						iTilt = 0
+						soundPlay(sndwrong)
+						altState = branch01
+											
+						if iLifeBar <= 0 then
+
+							setupDeathClip(thisMove)
+							
+						end
+
+					elseif dip_GameType == 2 then
+
+						iTiltMv = iTiltMv + 1
+						iTilt = 0
+						soundPlay(sndwrong)
+						altState = branch01
+
+
+					end
+					
+					bShowTilt = true
+
+				elseif iTilt > iTrigTilt/2 and iTilt < iTrigTilt and dip_GameType~= 5 and dip_GameType~= 6 then
+					
+					bShowWarnTilt = true
+
+				end 
+
+			end
+
+		
+		elseif (currentFrame >= move[currentMove][inputFrmStart] and currentFrame <= move[currentMove][inputFrmEnd]) then 
+			
+			bShowAction = true
+											
+			if bPlayPrompt and (dip_ShowAction == 1 or dip_ShowAction == 5) and move[currentMove][correctMove] < 50 then
+
+				soundPlay(sndcoin)
+				bPlayPrompt = false
+				
+			end
+			
+			doMove()
+
+		elseif (currentFrame > move[currentMove][inputFrmEnd] and (thisMove == NOMOVE or thisMove == MOVEPENDING) and (move[currentMove][moveDeath] == -1 or move[currentMove][moveDeath] == -3)) then -- Optional Move
+
+			bShowAction = false
+			lvlState = lvlPlayRest
+
+		elseif (currentFrame > move[currentMove][inputFrmEnd] and (thisMove == NOMOVE or thisMove == MOVEPENDING) and move[currentMove][moveDeath] == -2) then -- Optional Move With Score
+
+			bShowAction = false
+			lvlState = branch04
+
+		elseif (currentFrame > move[currentMove][inputFrmEnd] and (move[currentMove][correctMove] ~= SKIP and move[currentMove][correctMove] ~= WAY and move[currentMove][correctMove] ~= WAYOUT and move[currentMove][correctMove] ~= TOSCENE and move[currentMove][correctMove] ~= TOLEVEL)) then -- Too late!
+
+			iPauseFrame = move[currentMove][inputFrmEnd] --currentFrame			
+			bShowAction = false
+			lvlState = branch02  -- Hints (or setupDeathClip)
+
+		elseif (currentFrame > move[currentMove][inputFrmEnd] and (move[currentMove][correctMove] == SKIP or move[currentMove][correctMove] == WAY or move[currentMove][correctMove] == WAYOUT or move[currentMove][correctMove] == TOSCENE or move[currentMove][correctMove] == TOLEVEL)) then -- SKIP and WAY
+
+			bShowAction = false
+			addPoints(0,currentMove)
+
+			if move[currentMove][correctMove] == WAY and move[currentMove][moveDeath] > 0 then
+
+				iPath = move[currentMove][moveDeath]
+				lvlState = lvlPlayRest
+
+			elseif move[currentMove][correctMove] == WAYOUT then
+					
+				iPath = move[currentMove][moveDeath]
+				lvlState = branch12
+
+			elseif move[currentMove][correctMove] == TOSCENE then
+
+				bScnJump = true	
+				iPath = move[currentMove][moveDeath]
+				lvlState = branch12
+
+			elseif move[currentMove][correctMove] == TOLEVEL then
+				
+				bLvlJump = true	
+		
+				iPath = move[currentMove][moveDeath]
+				lvlState = branch12
+
+			else
+
+				lvlState = lvlPlayRest
+
+			end
+			
+		else 
+
+			resetVar()
+		
+		end
+		
+	elseif (lvlState == lvlPlayDeath) then  -- Play death scene
+
+		if dip_Display == 1 then
+
+			bShowScore = true
+			bShowLives = true
+
+		elseif dip_Display == 2 then
+
+			bShowScore = false
+			bShowLives = false
+
+		else
+
+			bShowScore = false
+			bShowLives = false
+		
+		end
+		
+		if (currentFrame == iFrameEnd) then
+
+			iTilt = 0
+			bShowWarnTilt = false
+			bShowTilt = false
+
+			if i2P > 0 then 
+
+					if i2P == 1 then i2P = 2
+					else i2P = 1 end
+					
+					if b1PEnd and b2PEnd then 
+
+						lvlState = lvlSetup
+						currentLevel = level2PEnd
+
+					else	
+
+						lvlState = lvlSetup
+						currentLevel = level2P
+					
+					end
+
+
+			elseif dip_Display == 2 and iLives>0 and not ShowSupDeath and dip_Extravid ~= 1 and dip_Extravid ~= 4 and dip_Extravid ~= 5 and dip_Extravid ~= 7 then
+
+				discSkipToFrame(frameHints)
+				discPause()		
+				timerON(3)
+
+				lvlState = branch13 	-- Score/Lives Panel
+			
+			elseif ShowSupDeath and dip_GameType ~= 3 then
+
+				setupClip(offsetSupDeath,offsetSupDeathEnd)
+				lvlState = branch07  -- Death treatment if there is a Sup Death movie
+
+			else
+
+				stage[thisLevel][DEATHCOUNT] = stage[thisLevel][DEATHCOUNT] + 1
+
+				if iLives > 0 then
+
+					if dip_Rewind == 0  then --Scene
+
+						bRes = true
+						bPath = true
+						bTime = true
+						lvlState = lvlEnd
+
+					elseif dip_Rewind == 2 then --Level
+						
+						bRes = true
+						iScene = 0
+						bPath = true
+						bTime = true
+						bSwap = true
+
+						for i = 1,Level[thisLevel][TOTALSCENES] do
+
+							scene[thisLevel][i] = {}; scene[thisLevel][i] = {i, false}
+
+						end 
+						
+						lvlState= lvlSetup
+									
+					elseif dip_Rewind == 3 and (currentMove == totalMoves  or (move[currentMove+1][correctMove] == CHOOSE and currentMove+1 == totalMoves)) then --Next Move
+						
+						bSwap = true
+						scene[iLevel][iScene][SCENECOMPLETE] = true
+						lvlState = lvlEnd
+
+					elseif dip_Rewind == 3 and (currentMove == totalMoves  or (move[currentMove+1][correctMove] == LETGO and currentMove+1 == totalMoves)) then --Next Move
+						
+						bSwap = true
+						scene[iLevel][iScene][SCENECOMPLETE] = true
+						lvlState = lvlEnd
+
+					elseif dip_Rewind == 3 and (currentMove == totalMoves  or (move[currentMove+1][correctMove] == PATH and currentMove+1 == totalMoves)) then --Next Move
+						
+						bSwap = true
+						scene[iLevel][iScene][SCENECOMPLETE] = true
+						lvlState = lvlEnd
+
+					elseif dip_Rewind == 3 and (currentMove == totalMoves  or (move[currentMove+1][correctMove] == YESNO and currentMove+1 == totalMoves)) then --Next Move
+						
+						bSwap = true
+						scene[iLevel][iScene][SCENECOMPLETE] = true
+						lvlState = lvlEnd
+					
+					else
+						
+						if ShowResurrect and dip_GameType ~= 3 and i2P == 0 then
+
+							setupClip(offsetGetReady, offsetGetReadyEnd)
+							bShowGet = true
+							bShowTop = false
+
+							if dip_Display == 1 then
+
+								bShowScore = true
+								bShowLives = true
+								bShowLvl = true
+
+							elseif dip_Display == 2 then
+
+								bShowScore = false
+								bShowLives = false
+
+							else
+
+								bShowScore = false
+								bShowLives = false
+								bShowLvl = false
+								bShowTop = false
+								
+							end
+
+							lvlState = branch09  -- Treatment if there is a resurrect movie (last and next move - not going through Setuplevel)
+						
+						else
+
+							lvlState = lvlRunning
+							resetArrows()
+							discSkipToFrame(iPauseFrame)
+
+							if dip_Display == 0 then
+
+								bShowScore = true
+								bShowLives = true
+								bShowLvl = true
+								
+								if ShowTop then 
+
+									bShowTop = true 
+
+								else
+
+									bShowTop = false
+
+								end
+
+							else
+
+								bShowScore = false
+								bShowLives = false
+								bShowLvl = false
+								bShowTop = false
+								
+							end
+						
+							if dip_Rewind == 3 and (move[currentMove+1][correctMove] == LETGO) then	--Next Move
+								
+								bSwap = true
+								currentMove = currentMove + 2
+
+							elseif dip_Rewind == 3 and move[currentMove][correctMove] == PATH then
+								
+								iPathAend = path[currentMove][4] -1
+								iPathAjmp = path[currentMove][9]
+								currentMove = currentMove + 1
+
+							else	
+								
+								currentMove = currentMove + 1
+		
+							end
+											
+						end
+
+					end	
+
+				else
+
+					lvlState = lvlEnd
+				
+				end
+
+			end
+					
+		end
+		
+	elseif (lvlState == lvlEnd) then  		-- Level or scene finished (end or dead)
+		
+		lvlState = lvlSetup
+
+		bPath = true
+		bTime = true
+				
+		if (iLives == 0) then      -- game over			
+			
+			if dip_GameType ~=3 and (dip_LimitContinue > 0 and ((iContinues < dip_LimitContinue) or (dip_LimitContinue == DOPT_INFINITE_CONTINUES)))  then
+				
+				iTempLevel = currentLevel	
+				currentLevel = levelContinue			
+				iContinues = iContinues + 1
+				
+			else
+
+				dip_StartLevel = 1
+				dip_StartScene = 1
+				
+				if newScore(iScore) then     -- Has player achieved a high score?							
+					
+					currentLevel = levelHighScore	
+				
+				else							
+					
+					currentLevel = levelGameOver		
+				
+				end				
+				
+			end		
+			
+		else		
+			
+			if BeatLevel(thisLevel) and not bScnJump then
+				
+				if dip_GameType ~= 2 then doTrophy() end
+
+				stage[thisLevel][BEATSTATUS] = true
+				
+				iScene = 0
+								
+				addPoints(SCORELEVEL,0)
+				iBonus = iBonus+SCORELEVEL
+
+				if dip_GameType == 1 then
+
+					if iTotDeath == 0 then
+
+						addPoints(PERFECTBONUS,0)
+						iBonus = iBonus+PERFECTBONUS
+
+					end	
+
+				else
+
+					if stage[thisLevel][DEATHCOUNT] == 0 then
+
+						addPoints(PERFECTBONUS,0)
+						iBonus = iBonus+PERFECTBONUS
+
+					end
+
+				end
+
+				bSkipIntroClip = false
+				iLiveSave = iLives
+				iScoreSave = iScore
+				bAllowSave = true
+				bRes = true
+								
+				if (ShowLvlClear or dip_GameType == 2) and dip_GameType ~= 3 and dip_GameType ~= 4 then
+
+					soundPlay(sndclear) 
+					lvlState = lvlSetup
+					currentLevel = levelFinish 
+					
+				else
+				
+					iScoreTemp = 0
+					iBonus = 0
+					
+					if dip_PlayStyle == 3 then
+
+						lvlState = lvlSetup
+						currentLevel = levelMap	
+
+					else
+						
+						if dip_PlayStyle == 4 then
+
+							dip_StartLevel = dip_StartLevel+1
+						    iScene = 0	
+							altState = lvlSetup
+							currentLevel = levelSelect	
+					
+						else 
+
+							if bLvlJump then
+
+								nextLevel(iLevel)
+								lvlState = lvlSetup
+								currentLevel = levelNormal
+
+							else
+
+								nextLevel(iLevel)
+								lvlState = lvlSetup
+								currentLevel = levelNormal
+
+							end 
+
+						end 		
+
+					end	
+
+				end
+
+			else
+
+				if iPath ~= 0 and not bLvlJump then
+				
+					iScene = iPath - 1
+									
+				end
+
+				if not scene[thisLevel][iScene][SCENECOMPLETE] and iPath == 0 then
+					
+					if dip_Rewind == 0 then bSwap = true end
+
+					if iScene > 0 then iScene = iScene - 1 end
+					
+				else
+					
+					iLiveSave = iLives
+					iScoreSave = iScore
+					bAllowSave = true
+					bSave = false 
+
+					if bLvlJump then
+						
+						nextLevel(iLevel)
+						lvlState = lvlSetup
+						currentLevel = levelNormal	
+
+					end 
+															
+				end
+
+				iPath = 0
+
+				if dip_Rewind == 0 or dip_Rewind == 2 then levelReplay() end		
+			
+			end
+			
+			bShowLives = false
+			bShowLvl = false
+			bShowAction = false
+			bShowNext = false
+			
+			resetVar()
+
+		end
+	
+	end
+	
+end
+
+function doLvlSelect() -- Ingame selection for the Level  
+
+	if (altState == lvlSetup) then
+		
+		bShowScore = false
+		bShowLives = false
+		bIgnoreJoy = false
+		local titLen = 0
+		local titH = 0
+
+		if finalstage > 1 then
+
+			if Level[dip_StartLevel][8]~=nil then
+
+				if not RelativeFrames then 
+
+					discSkipToFrame(Level[dip_StartLevel][8])
+
+				else
+
+					discSkipToFrame(Level[dip_StartLevel][2]+Level[dip_StartLevel][8])
+
+				end
+
+			else
+			 	
+				discSkipToFrame(Level[dip_StartLevel][2]+100)
+				
+			end
+
+			discPause()
+			timerON(60)
+			altState = lvlRunning
+
+		else
+
+			fontSelect(fontGame)
+
+			if offsetIntroGame ~= 0 and dip_StartScene == 1 then
+
+				setupClip(offsetIntroGame, offsetIntroGameend)
+				lvlState = branch11
+
+			else
+
+				lvlState = lvlSetup
+				currentLevel = levelNormal
+			
+			end	
+
+		end
+		
+	elseif (altState == lvlRunning) then
+		
+		if timerDue() then
+			
+			altState = lvlEnd
+		
+		else
+			
+			fontSelect(fontBig)
+			setFontColor(mycolor1)
+			fontPrint(mb48,LINEH*2, "Choose Level")
+			setFontColor(mycolor2)
+			fontPrint(LINEW*2, OVLH-h2*2-LINEH, dip_StartLevel..". "..Level[dip_StartLevel][1])
+			spriteDraw(mb48 - SELCW - LINEW,LINEH*2+(2*h2-SELCH)/2,sprite[ARROWSELL]) 
+			spriteDraw(OVLW/2 + (OVLW/2 - mb48) + LINEW,LINEH*2+(2*h2-SELCH)/2,sprite[ARROWSELR])
+
+
+			if stage[dip_StartLevel][BEATSTATUS] == true and dip_GameType~=2 then fontPrint(mb49, OVLH/2, "Finished!") end
+
+			
+			if (p1BUTTON1) then
+
+				if stage[dip_StartLevel][BEATSTATUS] == false then
+
+					soundPlay(sndcredit)
+					p1BUTTON1 = false			
+					altState = lvlEnd
+
+				else
+
+					soundPlay(sndwrong)
+
+				end
+
+			elseif (p1LEFT) or (p1RIGHT) then 
+				
+				moveFrameLevel()			
+				
+			end
+			
+		end
+ 
+	elseif (altState == lvlEnd) then	
+
+		fontSelect(fontGame)
+		iLevel = dip_StartLevel
+		lvlState = lvlSetup
+		currentLevel = levelNormal
+			
+
+	end
+
+end
+
+function doMixSEQ()     -- Order the levels (Sequence play)
+	
+	local i = 0
+
+	LvlOrder = nil; LvlOrder = {}
+	
+	for i=1,finalstage do
+
+		LvlOrder[i] = PlayOrder[i]
+
+	end
+	
+end	
+
+function doMixTIE()     -- Mix the tiers (Tiered play)
+
+	local arraysize = 0
+	local q = 0	
+	local k = 0
+	local stagecount = 1
+	local tiercount = 0
+	local b1 = false
+	local tier = nil
+	local bExit = false
+	local i = 0
+	
+	LvlOrder = nil; LvlOrder = {}
+	
+	LvlOrder[finalstage] = nil; LvlOrder[finalstage] = finalstage
+	
+	for i = 1,Tiers[0][1] do
+		
+		tiercount = 1	
+		bExit = false
+
+		arraysize = Tiers[0][i+1]
+		tier = Tiers[i]
+		
+		repeat
+		
+			b1 = false	
+
+			q = math.random(arraysize)
+			
+			for k = 1, finalstage do
+			
+				if LvlOrder[k] == tier[q] then
+					
+					b1 = true
+					break
+				
+				end
+			
+			end	
+
+			if not b1 then			
+				
+				LvlOrder[stagecount] = tier[q]				
+				stagecount = stagecount + 1
+				tiercount = tiercount + 1
+				if tiercount > (arraysize) then bExit = true end
+			
+			end			
+		
+		until bExit
+	
+	end
+
+end
+
+function doMixRND()     -- Mix the levels (Random play)
+	
+	local arraysize = 0
+	local q = 0	
+	local k = 0
+	local w = 0
+	local b1 = false
+	local bExit = false
+		
+	LvlOrder = nil; LvlOrder = {}
+	
+	LvlOrder[finalstage] = nil; LvlOrder[finalstage] = finalstage
+
+	for w=1,(finalstage-1) do
+	
+		bExit = false		
+		repeat
+		
+			b1 = false	
+			q = math.random(finalstage-1)
+						
+			for k = 1, (finalstage-1) do
+			
+				if (LvlOrder[k] == q) then
+					b1 = true
+					break
+				end
+			
+			end	
+
+			if not b1 then			
+				
+				LvlOrder[w] = q				
+				bExit = true
+			
+			end			
+		
+		until bExit
+	
+	end
+
+end
+
+function drawCredits()     -- Draw the credits
+
+	blinkTimer(0.3)
+	
+	if heartbeat then	
+		
+		if (dip_CoinsPerCredit == DOPT_FREEPLAY) then					
+			
+			spriteDraw(OVLW/2-FREEW/2,ycoinpos,sprite[FREEPLAY])
+		
+		else
+
+			if not scoreBezelGetState() then
+		
+				if (iCredits > 0) then
+				
+					spriteDraw((OVLW/2)-CRDW/2-NUMW,ycoinpos,sprite[CREDIT])
+					drawSpriteNumber((OVLW/2)-CRDW/2+CRDW,ycoinpos,iCredits)
+				
+				else
+				
+					spriteDraw(OVLW/2-INSW/2,ycoinpos,sprite[INSERTCOIN])
+				
+				end
+			end
+			
+		end
+
+	end
+
+end
+
+function drawDisk1()      -- Draw disk slot 1
+
+	if altState == branch01 then
+
+	timerON(2)
+	altState = branch02
+
+	elseif altState == branch02 then
+
+		if timerDue() then
+
+			bShowDisk1 = false 
+
+		else
+
+			spriteDraw((OVLW/2)-DISKW/2, ydskpos, sprite[D1])
+
+		end
+
+	end
+
+end
+
+function drawDisk2()      -- Draw disk slot 2
+
+	if altState == branch01 then
+
+	timerON(2)
+	altState = branch02
+
+	elseif altState == branch02 then
+
+		if timerDue() then
+
+			bShowDisk2 = false 
+
+		else
+
+			spriteDraw((OVLW/2)-DISKW/2, ydskpos, sprite[D2])
+
+		end
+
+	end
+
+end
+
+function drawDisk3()      -- Draw disk slot 3
+
+	if altState == branch01 then
+
+	timerON(2)
+	altState = branch02
+
+	elseif altState == branch02 then
+
+		if timerDue() then
+
+			bShowDisk3 = false 
+
+		else
+
+			spriteDraw((OVLW/2)-DISKW/2, ydskpos, sprite[D3])
+
+		end
+
+	end
+
+end
+
+function drawDiskA()      -- Draw disk autosave
+
+	if dip_Display == 0 then
+	
+		if altState == branch01 then
+
+		timerON(2)
+		altState = branch02
+
+		elseif altState == branch02 then
+
+			if timerDue() then
+
+				bShowDiskA = false 
+
+			else
+
+				spriteDraw((OVLW/2)-DISKW/2, ydskpos, sprite[DA])
+
+			end
+
+		end
+
+	end
+
+end
+
+function drawGauge()  -- Draw the Gauge for MASH, HOLD 
+
+	if posGauge  < 1 then
+
+		spriteDraw(posxGAUGE,posyBUTTONS+BUTH,sprite[PW0])
+
+	elseif posGauge  >= 1 and posGauge  < 2 then
+
+		spriteDraw(posxGAUGE,posyBUTTONS+BUTH,sprite[PW1])
+
+	elseif posGauge  >= 2 and posGauge  < 3 then
+
+		spriteDraw(posxGAUGE,posyBUTTONS+BUTH,sprite[PW2])
+
+	elseif posGauge  >= 3 and posGauge  < 4 then
+
+		spriteDraw(posxGAUGE,posyBUTTONS+BUTH,sprite[PW3])
+
+	elseif posGauge  >= 4 and posGauge  < 5 then
+
+		spriteDraw(posxGAUGE,posyBUTTONS+BUTH,sprite[PW4])
+
+	elseif posGauge  >= 5 and posGauge  < 6 then
+
+		spriteDraw(posxGAUGE,posyBUTTONS+BUTH,sprite[PW5])
+
+	elseif posGauge  >= 6 and posGauge  < 7 then
+
+		spriteDraw(posxGAUGE,posyBUTTONS+BUTH,sprite[PW6])
+
+	elseif posGauge  >= 7 and posGauge  < 7.8 then
+
+		spriteDraw(posxGAUGE,posyBUTTONS+BUTH,sprite[PW7])
+
+	elseif posGauge >= 7.8 then
+
+		spriteDraw(posxGAUGE,posyBUTTONS+BUTH,sprite[PWFULL])
+
+	end
+
+end
+
+function drawGet()       -- Draw get ready
+
+	blinkTimer(0.3)
+
+	if heartbeat then				
+				
+		spriteDraw(OVLW/2-GRW/2,posyBUTTONS,sprite[GETREADY])
+				
+	end
+	
+end
+
+function drawLCD()      -- Draw LCD (intro)
+
+	if ShowLCD then
+
+		if altState == lvlSetup then
+		
+			timerON(iLCDwait)
+			iLCDpointer = 1
+			iLCDline = 1
+			iLCDx = ml24 
+			altState = lvlRunning
+		
+		elseif altState == lvlRunning then	
+			
+			if timerDue() then
+			
+				if iLCDpointer < string.len(sLCD[iLCDline]) then 
+
+					iLCDpointer = iLCDpointer + 1 
+					timerON(iLCDwait)
+
+				else			
+					
+					timerON(1)
+					altState = branch01
+					
+				end		
+			
+			end
+			
+		elseif altState == branch01 then
+		
+			if timerDue() then
+			
+				if iLCDline < 8 then
+
+					iLCDline = iLCDline + 1
+
+				else
+
+					iLCDline = 1
+				
+				end
+				
+				iLCDpointer = 1
+				iLCDx = ml24
+				timerON(iLCDwait)
+				altState = lvlRunning
+			
+			end
+			
+		end
+		
+		textPrint(string.sub(sLCD[iLCDline],1,iLCDpointer),iLCDx,posyLCD,fontLCD,mycolor2,mycolor1)	
+
+	end
+
+end
+
+function drawPause() -- Draw things when game is paused
+
+
+	fontSelect(fontBig)
+
+	if bShowFrame then
+
+		bShowLvl = false
+
+		local pauseFrame = "Frame "
+		showFrame = discGetFrame()
+
+		if RelativeFrames == true then showFrame = discGetFrame() - Level[iLevel][2] end
+		
+		fontSelect(fontGame)
+		fontPrint(LINEW+shiftOVL, ylvlpos -LINEH, pauseFrame..showFrame)
+
+		spriteDraw(OVLW/2-PAUSW/2, OVLH/3, sprite[PAUSED])
+
+	else
+
+		spriteDraw(OVLW/2-PAUSW/2, OVLH/3, sprite[PAUSED])
+
+	end
+
+	fontSelect(fontGame)
+	setFontColor(mycolor2)
+	drawScore()	
+
+	if dip_GameType ~= 4 then 
+
+		drawLives()
+	
+	else
+
+		fontPrint(LINEW+shiftOVL, yscopos, "Death: "..iScDeath+iTotDeath)
+
+	end
+
+end
+
+function drawLifeBar() -- Life Bar
+
+	local k = 0
+
+	if iLifeBar > 0 then
+
+		spriteDraw(OVLW-(LINEW)-(BARW*(BarSize+1))-LIVW-10-shiftOVL,ylivpos,sprite[LIVES])
+
+		for k = 1,iLifeBar do
+
+			spriteDraw(OVLW-(LINEW*(2+dip_Res))-(BARW*(BarSize+1))+((BARW+2)*k)-shiftOVL,ylivpos+(LIVH-BARH)/2,sprite[BARFULL])
+
+		end
+
+		if iLifeBar < BarSize then
+
+			for k = iLifeBar,BarSize do
+
+				spriteDraw(OVLW-(LINEW*(2+dip_Res))-(BARW*(BarSize+1))+((BARW+2)*k)-shiftOVL,ylivpos+(LIVH-BARH)/2,sprite[BARNONE])
+
+			end
+
+		end
+
+	end
+
+end
+
+function drawLives()       -- Draw Lives
+
+	if scoreBezelGetState() then
+
+		local PlayerNum
+
+		if (i2P == 0) then PlayerNum = 1
+		else PlayerNum = i2P end
+
+		if not (iLives == LivesPrev) then
+
+			scoreBezelLives(PlayerNum, iLives)
+			LivesPrev = iLives
+		end
+
+		if dip_GameType == 1 then drawLifeBar() end
+
+	else
+
+		local k = 0
+
+		if dip_GameType == 1 then drawLifeBar()
+
+		else 
+
+			if dip_GameType ~= 4 then
+
+				if dip_LivType == 0 and (iLives > 0) then
+
+					for k = 1,iLives do
+
+						spriteDraw(OVLW-LINEW-(LIVW*k)-shiftOVL,ylivpos,sprite[LIVES])
+							
+					end
+
+				elseif dip_LivType == 1 and (iLives > 0) then
+
+					spriteDraw(OVLW-LINEW-2*NUMW-LIVW-10-shiftOVL,ylivpos,sprite[LIVES])
+					spriteDraw(OVLW-LINEW-(2*NUMW)-shiftOVL,ylivpos+(LIVH-NUMH)/2,sprite[NUMX])
+					spriteDraw(OVLW-LINEW-NUMW-shiftOVL,ylivpos+(LIVH-NUMH)/2,sprNUM[iLives+1])
+
+				elseif dip_LivType == 2 then
+
+					if iLives > 0 then
+
+						spriteDraw(OVLW-(LINEW)-(BARW*6)-LIVW-10-shiftOVL,ylivpos,sprite[LIVES])
+				
+						for k = 1,iLives do
+
+							spriteDraw(OVLW-(LINEW*(2+dip_Res))-(BARW*6)+((BARW+2)*k)-shiftOVL,ylivpos+(LIVH-BARH)/2,sprite[BARFULL])
+
+						end
+
+						if iLives < 5 then
+
+							for k = iLives,5 do
+
+								spriteDraw(OVLW-(LINEW*(2+dip_Res))-(BARW*6)+((BARW+2)*k)-shiftOVL,ylivpos+(LIVH-BARH)/2,sprite[BARNONE])
+
+							end
+
+						end
+
+					end
+										
+				end
+
+			end
+
+		end
+
+	end
+end
+
+function drawLvl()       -- Draw current level
+	
+	if currentFrame == Tlimit or currentMove > 1 then
+
+		bShowLvl = false
+		
+	else
+
+		fontSelect(fontGame)
+
+		if iScene == 1 and iLevel == levelSecret then
+
+			fontPrint(LINEW+shiftOVL,ylvlpos, Level[iLevel][TITLE])
+
+		elseif iScene == 1 and iLevel ~= levelSecret then
+				
+			fontPrint(LINEW+shiftOVL,ylvlpos, iLevel .. ". " .. Level[iLevel][TITLE])
+		
+		else
+
+			spriteDraw(LINEW+shiftOVL,ylvlpos,sprite[SCENES])
+			drawSpriteNumber(LINEW+SCNW+NUMW+shiftOVL,ylvlpos,iScene)
+
+		end
+					
+	end
+		
+end
+
+function drawScore()       -- Draw score
+
+	if scoreBezelGetState() then
+
+		local PlayerNum
+
+		if (i2P == 0) then PlayerNum = 1
+		else PlayerNum = i2P end
+
+		if not (iScore == ScorePrev) then
+
+			scoreBezelScore(PlayerNum, iScore)
+			ScorePrev = iScore
+		end
+	else
+
+		if dip_GameType ~= 4 then
+
+			drawSpriteNumber(LINEW+shiftOVL,yscopos,iScore)
+
+			if (bShowTop and not bShowWarnTilt and not bShowTilt) or bPause then
+
+				spriteDraw(OVLW/2-TOPW/2,LINEH/2,sprite[TOPSCORE])
+			
+				if dip_GameType == 3 then
+
+					drawSpriteNumber((OVLW/2)-NUMW, TOPH+LINEH/2, iTop)
+
+				else
+
+					drawSpriteNumber((OVLW/2)-NUMW*3, TOPH+LINEH/2, iTop)
+
+				end
+
+			end
+
+		else
+
+			fontSelect(fontGame)
+			setFontColor(mycolor2)
+			fontPrint(LINEW+shiftOVL,yscopos, "Death: "..iScDeath+iTotDeath)
+
+			if (bShowTop and not bShowWarnTilt and not bShowTilt) or bPause then
+
+				spriteDraw(OVLW/2-TOPW/2,LINEH/2,sprite[TOPSCORE])
+				drawSpriteNumber((OVLW/2)-NUMW*1.5, TOPH+LINEH/2, iTop)
+
+			end
+
+		end
+	end
+		
+end
+
+function drawSkip()       -- Draw skip parts of movie
+
+	blinkTimer(0.4)
+	
+	if heartbeat then	
+	
+		spriteDraw(OVLW/2-SKIPW/2,OVLH-TEXTH-LINEH,sprite[SKIPINTRO])
+						
+	end
+
+end
+
+function drawSpriteNumber(thisx, thisy, thisAmt)    -- Draw the several numbers with sprites
+
+	local j = 0
+	local k = 0
+	local s1 = ""
+	
+	s1 = tostring(thisAmt)
+
+	for k=1,(string.len(s1)) do
+			
+		j = tonumber(string.sub(s1,k,k)) + 1	
+		spriteDraw((thisx + ((k-1) * NUMW)), thisy, sprNUM[j])
+		
+	end
+
+end
+
+function drawTilt()		-- Draw TILT
+
+	bShowWarnTilt = false 
+
+	if dip_GameType == 0 or dip_GameType == 3 or dip_GameType == 4 then
+
+		blinkTimer(0.1)
+	
+		if heartbeat then
+
+			spriteDraw(OVLW/2-TILTW/2, OVLH/2, sprite[TILT])
+						
+		 end
+
+	elseif dip_GameType == 1 or dip_GameType == 2 then
+
+		if altState == branch01 then
+
+		timerON(2)
+		altState = branch02
+
+		elseif altState == branch02 then
+
+			if timerDue() then
+
+				bShowTilt = false
+
+			else  
+
+				blinkTimer(0.1)
+
+				if heartbeat then
+
+					spriteDraw(OVLW/2-TILTW/2, LINEH, sprite[TILT])
+					
+				end
+
+			end
+
+		end
+
+	end
+
+end
+
+function drawWarning()	--Draw TILT Warning
+
+	blinkTimer(0.2)
+	fontSelect(fontGame)
+	
+	if heartbeat then
+
+		spriteDraw(OVLW/2-WARW/2, LINEH, sprite[WARNING])
+
+	end
+
+end
+
+function fillOVL(thisSprite, thisItem)	--Load or create Main Sprites for OVL
+
+	if dip_ScType == 0 then 
+
+		if dip_Res ~= 2 then
+
+			for file in lfs.dir(MYDIR..MIDIRES) do
+
+				if file == thisItem then
+
+					sprite[thisSprite] = spriteLoad(MYDIR..MIDIRES..thisItem)
+					break
+
+				end
+
+			end
+
+			if sprite[thisSprite] == nil then sprite[thisSprite] = spriteLoad(BASEDIR .. "/FrameworkKimmy/Skin/DEFAULT"..MIDIRES..thisItem) end
+
+		else
+
+			sprite[thisSprite] = spriteLoad(BASEDIR .. "/FrameworkKimmy/Skin/DEFAULT"..MIDIRES..thisItem)
+
+		end
+
+	else
+
+		sprite[thisSprite] = spriteLoad(BASEDIR .. "/FrameworkKimmy/Skin"..SKINDIR..MIDIRES..thisItem)
+
+	end
+
+end
+
+function fillOVLlo(thisSprite, thisItem)	--Load or create Lores Sprites for OVL
+		
+	if dip_ScType == 0 then 
+
+		if dip_Res ~= 2 then
+
+			for file in lfs.dir(MYDIR.."/Overlay/Lores/") do
+
+				if file == thisItem then
+
+					sprite[thisSprite] = spriteLoad(MYDIR.."/Overlay/Lores/"..thisItem)
+					break
+
+				end
+
+			end
+
+			if sprite[thisSprite] == nil then sprite[thisSprite] = spriteLoad(BASEDIR .. "/FrameworkKimmy/Skin/DEFAULT".."/Overlay/Lores/"..thisItem)	end
+
+		else
+
+			sprite[thisSprite] = spriteLoad(BASEDIR .. "/FrameworkKimmy/Skin/DEFAULT/Overlay/Ultralo/"..thisItem)
+
+		end
+
+	else
+
+		sprite[thisSprite] = spriteLoad(BASEDIR .. "/FrameworkKimmy/Skin"..SKINDIR.."/Overlay/Lores/"..thisItem)
+
+	end
+
+end
+
+function fillOVLnum(thisSprite, thisItem)	--Load or create Numbers Sprites for OVL
+
+	if dip_ScType == 0 then 
+
+		if dip_Res ~= 2 then
+
+			for file in lfs.dir(MYDIR..MIDIRES) do
+
+				if file == thisItem then
+
+					sprNUM[thisSprite] = spriteLoad(MYDIR..MIDIRES..thisItem)
+					break
+
+				end
+
+			end
+
+			if sprNUM[thisSprite] == nil then sprNUM[thisSprite] = fontToSprite(thisSprite-1) end
+
+		else
+
+			sprNUM[thisSprite] = fontToSprite(thisSprite-1)
+
+		end
+
+	else
+
+		sprNUM[thisSprite] = fontToSprite(thisSprite-1)	
+	
+	end
+
+end
+
+function fillOVLtxt(thisSprite, thisItem, thatValue)	--Load or create Text Sprites for OVL
+
+	if dip_ScType == 0 then 
+
+		if dip_Res ~= 2 then
+
+			for file in lfs.dir(MYDIR..MIDIRES) do
+
+				if file == thisItem then
+
+					sprite[thisSprite] = spriteLoad(MYDIR..MIDIRES..thisItem)
+					break
+
+				end
+
+			end
+
+			if sprite[thisSprite] == nil then sprite[thisSprite] = fontToSprite(thatValue) end
+
+		else
+
+			sprite[thisSprite] = fontToSprite(thatValue)
+
+		end
+
+	else
+
+		sprite[thisSprite] = fontToSprite(thatValue)	
+	
+	end
+
+end
+
+function getFont()		--Manage Fonts 
+
+	if dip_Res == 0 then
+
+		fontSizeNew = (fontSize+OVLH/90)
+
+	elseif dip_Res == 1 then 
+
+		fontSizeNew = (fontSize/2+OVLH/90)
+
+	elseif dip_Res == 2 then 
+		
+		fontSizeNew = (fontSize/4+OVLH/90)
+
+	end	
+
+	if dip_ScType == 0 then
+
+		if dip_Res == 2 then 
+
+			fontpath = BASEDIR .. "/FrameworkKimmy/Skin/DEFAULT/fontul.ttf"
+			
+		else
+
+			if fontType == 1 then
+
+				fontpath = MYDIR.."/Fonts/font.ttf"
+
+			else
+
+				fontpath = MYDIR.."/Fonts/font2.ttf"
+
+			end
+
+		end	
+
+	else
+
+		if dip_Res == 2 then 
+
+			fontpath = BASEDIR .. "/FrameworkKimmy/Skin/DEFAULT/fontul.ttf"
+	
+		else
+
+			if fontType == 1 then 
+
+				fontpath = BASEDIR .. "/FrameworkKimmy/Skin"..SKINDIR.."/font.ttf"
+
+			else
+
+				fontpath = BASEDIR .. "/FrameworkKimmy/Skin"..SKINDIR.."/font2.ttf"
+
+			end
+
+		end
+
+	end 
+
+    fontInfo = fontLoad(fontpath, fontSizeNew*3)
+	fontGame = fontLoad(fontpath, fontSizeNew*4)
+	fontLCD = fontLoad(fontpath, fontSizeNew*5)
+	fontBig = fontLoad(fontpath, fontSizeNew*6)
+	fontTit = fontLoad(fontpath, fontSizeNew*8)
+
+end
+
+function getRes()		-- Manage Resolution and Sprites
+
+	if dip_Res == 0 then
+
+		MIDIRES = "/Overlay/"
+		overlaySetResolution(vldpGetWidth(), vldpGetHeight())
+		OVLW = vldpGetWidth()
+		OVLH = vldpGetHeight()
+		shiftOVL = 0
+		LINEH = OVLH/80
+		LINEW = OVLW/80
+		
+	elseif dip_Res == 1 then 
+
+		MIDIRES = "/Overlay/Lores/"
+		overlaySetResolution(vldpGetWidth()/2, vldpGetHeight()/2)
+		OVLW = vldpGetWidth()/2
+		OVLH = vldpGetHeight()/2
+		shiftOVL = 0
+		LINEH = OVLH/80
+		LINEW = OVLW/80
+
+	else 
+
+		MIDIRES = "/Overlay/Ultralo/"
+		overlaySetResolution(vldpGetWidth()/4, vldpGetHeight()/4)
+		OVLW = vldpGetWidth()/4
+		OVLH = vldpGetHeight()/4
+		shiftOVL = 0
+		LINEH = OVLH/80
+		LINEW = OVLW/80
+
+		fontpath = BASEDIR .. "/FrameworkKimmy/Skin/DEFAULT/fontul.ttf"
+
+		fontSizeNew = (fontSize/4+OVLH/90)
+		fontInfo = fontLoad(fontpath, fontSizeNew*3)
+		fontGame = fontLoad(fontpath, fontSizeNew*4)
+		fontLCD = fontLoad(fontpath, fontSizeNew*5)
+		fontBig = fontLoad(fontpath, fontSizeNew*6)
+		fontTit = fontLoad(fontpath, fontSizeNew*8)
+
+						
+	end
+
+	if dip_OVLS == 1 then
+
+		shiftOVL = OVLW/8
+
+	elseif dip_OVLS == 2 then
+
+		shiftOVL = OVLW/12.8
+
+	end 
+
+
+	sprNUM = nil; sprNUM = {}
+	sprite = nil; sprite = {}
+	sprite = nil; sprite = {}	
+
+	fillOVL(BUTTON1,"action.png")
+	fillOVL(BUTTON2,"action2.png")
+	fillOVL(BUTTON3,"action3.png")
+	fillOVL(UP,"arrowup.png")
+	fillOVL(DOWN,"arrowdown.png")
+	fillOVL(LEFT,"arrowleft.png")
+	fillOVL(RIGHT,"arrowright.png")
+	fillOVL(UPLEFT,"arrowul.png")
+	fillOVL(UPRIGHT,"arrowur.png")
+	fillOVL(DOWNLEFT,"arrowdl.png")
+	fillOVL(DOWNRIGHT,"arrowdr.png")
+	fillOVL(MASH,"mash.png")
+	fillOVL(PW0,"m0.png")
+	fillOVL(PW1,"m1.png")
+	fillOVL(PW2,"m2.png")
+	fillOVL(PW3,"m3.png")
+	fillOVL(PW4,"m4.png")
+	fillOVL(PW5,"m5.png")
+	fillOVL(PW6,"m6.png")
+	fillOVL(PW7,"m7.png")
+	fillOVL(PWFULL,"mfull.png")
+	fillOVL(MASH2,"mash2.png")
+	fillOVL(MASH3,"mash3.png")
+	fillOVL(HOLD,"hold.png")
+	fillOVL(SELMAP,"arrowsel.png")
+	fillOVL(HUP,"hup.png")
+	fillOVL(HDOWN,"hdown.png")
+	fillOVL(HLEFT,"hleft.png")
+	fillOVL(HRIGHT,"hright.png")
+	fillOVL(LETGO,"shoot.png")
+	fillOVL(OKMAP,"ok.png")
+	fillOVL(TIME,"time.png")
+	fillOVL(LIVES,"live.png")
+	fillOVL(D1,"disk1.png")
+	fillOVL(D2,"disk2.png")
+	fillOVL(D3,"disk3.png")
+	fillOVL(DA,"diskA.png")
+	fillOVL(ARROWSELL,"arrowsel1.png")
+	fillOVL(ARROWSELR,"arrowsel2.png")
+	fillOVL(BARFULL,"barfull.png")
+	fillOVL(BARNONE,"barnone.png")
+	fillOVL(TN,"tno.png")
+	fillOVL(TB,"tbronze.png")
+	fillOVL(TS,"tsilver.png")
+	fillOVL(TG,"tgold.png")
+	fillOVL(TP,"tplat.png")
+	fillOVL(KIMMY,"Kimmy.png")
+	fillOVL(ANYTHING,"anything.png")
+	fillOVL(NOTHING,"nothing.png")
+
+	fillOVLlo(NB1,"action.png")
+	fillOVLlo(NB2,"action2.png")
+	fillOVLlo(NB3,"action3.png")
+	fillOVLlo(NUP,"arrowup.png")
+	fillOVLlo(NDOWN,"arrowdown.png")
+	fillOVLlo(NLEFT,"arrowleft.png")
+	fillOVLlo(NRIGHT,"arrowright.png")
+	fillOVLlo(NUL,"arrowul.png")
+	fillOVLlo(NUR,"arrowur.png")
+	fillOVLlo(NDL,"arrowdl.png")
+	fillOVLlo(NDR,"arrowdr.png")
+	fillOVLlo(NHUP,"hup.png")
+	fillOVLlo(NHDOWN,"hdown.png")
+	fillOVLlo(NHLEFT,"hleft.png")
+	fillOVLlo(NHRIGHT,"hright.png")
+	fillOVLlo(NEMPTY,"empty.png")
+	
+
+
+	LOOPDIR = BASEDIR .. "/FrameworkKimmy/Skin"..SKINDIR..MIDIRES
+
+	if dip_Res ~= 2 then
+
+		for file in lfs.dir(MYDIR..MIDIRES) do
+
+			if file == "getready.png" then 
+
+				sprite[GETREADY]  	= spriteLoad(MYDIR..MIDIRES.."getready.png") 
+				GRW = spriteGetWidth(sprite[GETREADY])
+				bGR = true
+				break
+				
+			else 
+
+				bGR = false
+
+			end
+
+		end
+
+	end
+	
+	if dip_Res ~= 2 then
+
+		for file in lfs.dir(MYDIR..MIDIRES) do
+
+			if file == "loopuc.png" then 
+									
+				LOOPDIR = MYDIR..MIDIRES
+				break
+
+			else 
+
+				LOOPDIR = BASEDIR .. "/FrameworkKimmy/Skin"..SKINDIR..MIDIRES 
+						
+			end
+			
+		end
+
+	else
+
+		LOOPDIR = BASEDIR .. "/FrameworkKimmy/Skin"..SKINDIR..MIDIRES
+
+	end
+
+	sprite[LOOP] = spriteLoad(LOOPDIR.."loopuc.png")
+
+	getFont()
+	theMiddle()
+
+	setFontColor(mycolor3)
+	fontSelect(fontGame)
+	fillOVLnum(1,"num00.png")
+	fillOVLnum(2,"num01.png")
+	fillOVLnum(3,"num02.png")
+	fillOVLnum(4,"num03.png")
+	fillOVLnum(5,"num04.png")
+	fillOVLnum(6,"num05.png")
+	fillOVLnum(7,"num06.png")
+	fillOVLnum(8,"num07.png")
+	fillOVLnum(9,"num08.png")
+	fillOVLnum(10,"num09.png")
+	fillOVLtxt(MINUS,"minus.png","-")
+	fillOVLtxt(NUMX,"numx.png", "X")
+
+	setFontColor(mycolor1)
+	fontSelect(fontGame)
+	fillOVLtxt(BONUS,"bonus.png","BONUS")
+	fillOVLtxt(CREDIT,"credit.png","CREDIT")
+	fillOVLtxt(DEATH,"death.png","DEATH COUNT")
+	fillOVLtxt(FREEPLAY,"freeplay.png","FREE PLAY")
+	fillOVLtxt(INSERTCOIN,"insertcoin.png","INSERT COIN")
+	fillOVLtxt(LEVEL,"level.png","LEVEL")
+	fillOVLtxt(PERFECT,"perfect.png","PERFECT")
+	fillOVLtxt(SCENES,"scene.png","SCENE")	
+	fillOVLtxt(SCORE,"score.png","SCORE")
+	fillOVLtxt(SKIPINTRO,"skip.png","SKIP !!!")
+	fillOVLtxt(TOPSCORE,"topscore.png","Top Score")
+	fillOVLtxt(TOTAL,"total.png","TOTAL")
+
+	setFontColor(mycolor2)
+	fontSelect(fontTit)
+	fillOVLtxt(BUTTONS,"buttons.png","BUTTON")
+	fillOVLtxt(NOMOVES,"nomoves.png","???")
+	fillOVLtxt(SPECIALS,"special.png","SPECIAL")
+	fillOVLtxt(STICK,"stick.png","STICK")
+	fillOVLtxt(WAIT,"wait.png","WAIT!!!")
+
+	fontSelect(fontBig)
+	sprite[TILT] = fontToSprite("TILT!")
+	sprite[PAUSED] = fontToSprite("PAUSED")
+	fontSelect(fontGame)
+	sprite[WARNING] = fontToSprite("Warning!")
+	
+	iRatio = OVLW/OVLH
+	fontSelect(fontGame)
+
+	fontSelect(fontGame)
+	BARW = spriteGetWidth(sprite[BARFULL])
+	BARH = spriteGetHeight(sprite[BARFULL])
+	RENDH = spriteGetHeight(sprNUM[1])
+	LIVW = spriteGetWidth(sprite[LIVES])
+	LIVH = spriteGetHeight(sprite[LIVES])
+	NUMW = spriteGetWidth(sprNUM[1])
+	NUMH = spriteGetHeight(sprNUM[1])
+	TEXTH = spriteGetHeight(sprite[SKIPINTRO])
+	BUTW = spriteGetWidth(sprite[BUTTON1])
+	BUTH = spriteGetHeight(sprite[BUTTON1])
+	SKIPW = spriteGetWidth(sprite[SKIPINTRO])
+	SCNW = spriteGetWidth(sprite[SCENES])
+	CRDW = spriteGetWidth(sprite[CREDIT])
+	ARUW = spriteGetWidth(sprite[UP])
+	ARUH = spriteGetHeight(sprite[UP])
+	ARLW = spriteGetWidth(sprite[LEFT])
+	ARLH = spriteGetHeight(sprite[LEFT])
+	LEVELW = spriteGetWidth(sprite[LEVEL])
+	SELCW = spriteGetWidth(sprite[ARROWSELR])
+	SELCH = spriteGetHeight(sprite[ARROWSELR])
+	DISKW = spriteGetWidth(sprite[D1])
+	DISKH = spriteGetHeight(sprite[D1])	
+	TEXW = spriteGetWidth(sprite[NOMOVES])
+	WARW = spriteGetWidth(sprite[WARNING])
+	TILTW = spriteGetWidth(sprite[TILT])
+	TOPW = spriteGetWidth(sprite[TOPSCORE])
+	TOPH = spriteGetHeight(sprite[TOPSCORE])
+	FREEW = spriteGetWidth(sprite[FREEPLAY])
+	INSW = spriteGetWidth(sprite[INSERTCOIN])
+	PAUSW = spriteGetWidth(sprite[PAUSED]) 
+	ARDW = spriteGetWidth(sprite[UPLEFT])
+	GAUW = spriteGetWidth(sprite[PW0])
+	GAUH = spriteGetHeight(sprite[PW0])
+	LOOPW = spriteGetWidth(sprite[LOOP])
+	HOLDW = spriteGetWidth(sprite[HOLD])
+	HOLDH = spriteGetHeight(sprite[HOLD])
+	SELW = spriteGetWidth(sprite[SELMAP])
+	WAITW = spriteGetWidth(sprite[WAIT])
+	KIMW = spriteGetWidth(sprite[KIMMY])
+
+	posxBUTTONS = (OVLW/2)-(BUTW/2)								-- Coordinates for the buttons
+	posyBUTTONS = (OVLH/2)-(BUTH/2)
+
+	posxTEXT = (OVLW/2)-(TEXW/2)
+	
+	posxUDARROWS = (OVLW/2)-(ARUW/2)
+	posyLRARROWS = (OVLH/2)-(ARLH/2)
+	startyUARROW = LINEH*28
+	startyDARROW = OVLH-ARUH-(LINEH*28)
+	endyUARROW = LINEH*8
+	endyDARROW = OVLH-ARUH-(LINEH*8)
+
+	startxLARROW = LINEW*32
+	startxRARROW = OVLW-ARLW-(LINEW*32)
+	endxLARROW = LINEW*12
+	endxRARROW = OVLW-ARLW-(LINEW*12)
+
+	posxGAUGE = (OVLW/2)-(GAUW/2)
+	posyLCD = LINEH	
+
+	if CoinPos == 1 then
+
+		ycoinpos = OVLH/2-TEXTH/2
+
+	else 
+
+		ycoinpos = OVLH-TEXTH-LINEH
+
+	end
+
+	ydskpos = OVLH-DISKH-LINEH
+
+	if LivPos == 1 then
+
+		ylivpos = LINEH
+		
+		if dip_Res == 0 then 	
+
+			YNEXT = OVLH-4*LINEW
+
+		else
+
+			YNEXT = OVLH-7*LINEW
+
+		end
+
+	else 
+
+		ylivpos = OVLH-LIVH-LINEH
+		YNEXT = LINEH
+
+	end
+
+	if ScorePos == 1 or ScorePos == 3 then
+
+		yscopos = LINEH
+		ylvlpos = OVLH-RENDH-LINEH
+
+	else 
+
+		yscopos = OVLH-NUMH-LINEH	
+		ylvlpos = LINEH
+
+	end	
+
+end
+
+function initJob()      -- Initialization process
+
+	gameflow = flow_GameRunning
+	currentLevel = levelIntro
+	lvlState = lvlSetup
+	iCoins = 0
+	iScore = 0
+	iScoreTemp = 0
+	iBonus = 0
+	iScene = 0
+	bShowCredits = true
+	bShowScore = false
+	bShowLives = false
+	bShowAction = false
+	bShowNext = false
+	bShowNext = false
+	bShowLvl = false
+	bShowSkip = false  
+	bShowDisk1 = false
+	bShowDisk2 = false
+	bShowDisk3 = false
+	bShowDiskA = false
+	BarMinT = BarMin
+	BarBonusT = BarBonus
+
+	if frameRankingsAlt == nil then frameRankingsAlt = frameRankings end
+	if frameQuit == nil then frameQuit = frameHints end
+	if frameNewGame == nil then frameNewGame = frameHints end
+	if offsetQuit == nil then
+
+		offsetQuit = 0
+		offsetQuitend = 1
+
+	end
+
+	setFontColor(mycolor1)
+
+	readConfig()
+	readScore()
+	setLang()
+ 
+ 	getRes()
+
+	if dip_Difficulty == 0 then
+
+		iPenal = 0
+
+	elseif dip_Difficulty == 1 then
+	
+		iPenal = PenalNormal	
+
+	elseif dip_Difficulty == 2 then
+	
+		iPenal = PenalHard
+
+	elseif dip_Difficulty == 3 then
+	
+		iPenal = PenalExtreme
+
+	end
+	
+	initLCD()
+	
+end
+
+function initLCD()       -- LCD content
+
+	sLCD = nil; sLCD = {}
+	setFontColor(mycolor2)
+				  
+	if dip_GameType == 5 then
+
+		sLCD[1] = "MOVIE MODE"
+		sLCD[2] = "PRESS 1P TO START"
+
+	elseif dip_CoinsPerCredit == DOPT_FREEPLAY then
+	
+		sLCD[1] = "FREE PLAY MODE"
+		sLCD[2] = "PRESS 1P TO START"
+		
+	else
+
+		if bShowCredits and iCredits > 0 then
+
+			sLCD[1] = "PRESS 1P TO START"
+			
+			if dip_LivesPerCredit == 1 then
+
+				sLCD[2] = string.format("FOR   %d   LIFE", dip_LivesPerCredit)	
+
+			else
+
+				sLCD[2] = string.format("FOR   %d   LIVES", dip_LivesPerCredit)		
+			
+			end
+
+		else
+
+			if dip_CoinsPerCredit == 1 then
+
+				sLCD[1] = string.format("INSERT  %d  COIN", dip_CoinsPerCredit)	
+
+			else
+
+				sLCD[1] = string.format("INSERT  %d  COINS", dip_CoinsPerCredit)		
+			
+			end
+
+			if dip_LivesPerCredit == 1 then
+
+				sLCD[2] = string.format("FOR   %d   LIFE", dip_LivesPerCredit)	
+
+			else
+
+				sLCD[2] = string.format("FOR   %d   LIVES", dip_LivesPerCredit)		
+			
+			end
+			
+		end	
+		
+	end
+	
+	sLCD[3] = "----------------------"
+	sLCD[4] = "GRAND CHAMPION"	          	
+	sLCD[5] = string.format("%d.%s      %d", 1, highscore[1][1], highscore[1][2])
+	sLCD[6] = "----------------------"
+	sLCD[7] = "Info : Press Button"
+	sLCD[8] = "----------------------"
+	
+	iLCDline = 1; iLCDpointer = 1; iLCDx = 0; iLCDwait = 0.075
+	altState = lvlSetup 
+
+end
+
+function initStages()      -- Init the scenes for each level
+
+	local k = 0	
+	local i = 0
+
+	stage = nil; stage = {}	
+	scene = nil; scene = {}
+	for k=1,finalstage do
+		
+		scene[k] = {}
+		stage[k] = {false, false, 0}
+		LvlOrder[k] = k
+	
+		for i = 1,Level[k][TOTALSCENES] do
+
+			scene[k][i] = {}; scene[k][i] = {i, false}
+
+		end 
+		
+	end
+
+	if AllowSecret == true then
+
+		stage[levelSecret] = {false, false, 0}
+		scene[levelSecret] = {}
+
+		for i = 1,Level[levelSecret][TOTALSCENES] do
+
+			scene[levelSecret][i] = {}; scene[levelSecret][i] = {i, false}
+
+		end 
+
+	end
+
+end
+
+function initVLDP()      -- Start of the loop	
+ 
+	-- VLDP has to run before any sprite drawing takes place.
+
+	if (dip_MinimalOverlay == 1) then
+		setOverlaySize(3)
+	end
+
+
+	if (lvlState == lvlSetup) then
+
+		discSetFPS(MovieFPS)				
+		setupClip(offsetTitle, offsetTitleend)
+		
+		bPause = true
+		lvlState = lvlRunning
+	
+	elseif (lvlState == lvlRunning) then
+
+		if (currentFrame == iFrameEnd) then
+		
+			lvlState = lvlEnd
+		
+		end
+	
+	elseif (lvlState == lvlEnd) then
+		
+		bPause = false
+		gameflow = flow_GameInit
+		lvlState = lvlSetup
+	
+	end
+
+end
+
+function levelReplay()	-- Manage the next level in case of death, depending on the replay setting.
+	
+	if Level[iLevel][LVLREPLAY] == 0 then -- No replay. Go to next level.
+
+		bSkipIntroClip = false
+		iLiveSave = iLives
+		iScoreSave = iScore
+		bAllowSave = true
+		bRes = true
+
+		iScoreTemp = 0
+		iBonus = 0
+		
+		if dip_PlayStyle == 3 then
+
+			lvlState = lvlSetup
+			currentLevel = levelMap	
+
+		else
+			
+			if dip_PlayStyle == 4 then
+
+				dip_StartLevel = dip_StartLevel+1
+			    iScene = 0	
+				altState = lvlSetup
+				currentLevel = levelSelect	
+		
+			else 
+				
+				nextLevel(iLevel)
+				lvlState = lvlSetup
+				currentLevel = levelNormal	
+
+			end 		
+
+		end	
+
+	elseif Level[iLevel][LVLREPLAY] == 1 then -- One replay now or go to next level.
+
+		if stage[iLevel][LEVELSTARTED] == false then
+
+			stage[iLevel][LEVELSTARTED] = true
+
+		else	
+
+			bSkipIntroClip = false
+			iLiveSave = iLives
+			iScoreSave = iScore
+			bAllowSave = true
+			bRes = true
+
+			iScoreTemp = 0
+			iBonus = 0
+			
+			if dip_PlayStyle == 3 then
+
+				lvlState = lvlSetup
+				currentLevel = levelMap	
+
+			else
+				
+				if dip_PlayStyle == 4 then
+
+					dip_StartLevel = dip_StartLevel+1
+				    iScene = 0	
+					altState = lvlSetup
+					currentLevel = levelSelect	
+			
+				else 
+					
+					nextLevel(iLevel)
+					lvlState = lvlSetup
+					currentLevel = levelNormal	
+
+				end 		
+
+			end	
+		
+		end
+
+	elseif Level[iLevel][LVLREPLAY] > 1 or Level[iLevel][LVLREPLAY] <-1 then -- One replay later or infinite replay later. Go to next level.
+
+		bSkipIntroClip = false
+		iLiveSave = iLives
+		iScoreSave = iScore
+		bAllowSave = true
+		bRes = true
+
+		iScoreTemp = 0
+		iBonus = 0
+
+		if stage[iLevel][LEVELSTARTED] == false then
+
+			stage[iLevel][LEVELSTARTED] = true
+
+			if dip_PlayStyle == 3 then
+
+				lvlState = lvlSetup
+				currentLevel = levelMap	
+
+			else
+				
+				reOrder(iLevel)
+				lvlState = lvlSetup
+				currentLevel = levelNormal		
+
+			end	
+
+		else	
+
+			if dip_PlayStyle == 3 then
+
+				lvlState = lvlSetup
+				currentLevel = levelMap	
+
+			else
+				
+				if dip_PlayStyle == 4 then
+
+					dip_StartLevel = dip_StartLevel+1
+				    iScene = 0	
+					altState = lvlSetup
+					currentLevel = levelSelect	
+			
+				else 
+					
+					nextLevel(iLevel)
+					lvlState = lvlSetup
+					currentLevel = levelNormal	
+
+				end 		
+
+			end	
+
+		end
+	
+	end	
+
+end
+
+function moveFrameDiff(overHere)  -- Handles the difficulty video menu
+		
+	if (currentFrame == frameEasy) then 
+	
+		if (p1RIGHT) then	
+
+			soundPlay(sndcoin)
+			discSkipToFrame(frameNormal)
+			discPause()
+			p1RIGHT   = false
+			dip_Difficulty = 1
+							
+		end	
+		
+	elseif (currentFrame == frameNormal) then 
+	
+		if (p1LEFT) then
+
+			soundPlay(sndcoin)
+			discSkipToFrame(frameEasy)
+			discPause()
+			p1LEFT = false
+			dip_Difficulty = 0			
+		
+		elseif (p1RIGHT) then
+
+			soundPlay(sndcoin)
+			discSkipToFrame(frameHard)
+			discPause()
+			p1RIGHT   = false
+			dip_Difficulty = 2
+
+		end
+
+	elseif (currentFrame == frameHard) then 
+	
+		if (p1LEFT) then
+
+			soundPlay(sndcoin)
+			discSkipToFrame(frameNormal)
+			discPause()
+			p1LEFT = false
+			dip_Difficulty = 1
+		
+		elseif (p1RIGHT) and (frameExtreme ~= nil) then
+
+			soundPlay(sndcoin)
+			discSkipToFrame(frameExtreme)
+			discPause()
+			p1RIGHT   = false
+			dip_Difficulty = 3
+
+		end
+
+	elseif (currentFrame == frameExtreme) then 
+	
+		if (p1LEFT) then
+
+			soundPlay(sndcoin)
+			discSkipToFrame(frameHard)
+			discPause()
+			p1LEFT = false
+			dip_Difficulty = 2
+			
+		end
+				
+	end
+
+end
+
+function moveFrameLevel()  -- Handles the difficulty video menu
+	
+	if (p1LEFT) then
+
+		dip_StartLevel=dip_StartLevel-1
+		if dip_StartLevel < 1 then dip_StartLevel = finalstage end
+		soundPlay(sndcoin)
+		p1LEFT = false
+				
+	elseif (p1RIGHT) then
+
+		dip_StartLevel=dip_StartLevel+1
+		if dip_StartLevel > finalstage then dip_StartLevel = 1 end
+		soundPlay(sndcoin)
+		p1RIGHT   = false
+		
+	end
+
+	if Level[dip_StartLevel][8]~=nil then
+
+		if not RelativeFrames then 
+
+			discSkipToFrame(Level[dip_StartLevel][8])
+
+		else
+
+			discSkipToFrame(Level[dip_StartLevel][2]+Level[dip_StartLevel][8])
+
+		end
+
+	else
+	 	
+		discSkipToFrame(Level[dip_StartLevel][2]+100)
+		
+	end
+	discPause()
+
+end
+
+function nextLevel(thisLevel)      -- Define next level
+
+	local k = 0
+	iScPlayed = 0
+	bLvlJump = false
+
+	if not MazeGame then iScDeath = 0 end
+
+	if dip_GameType ~= 4 then iTotDeath = 0 end
+
+	if dip_PlayStyle == 3 then
+
+		lvlState = lvlSetup
+		currentLevel = levelMap
+		iScene = 0
+
+	else	
+
+		if iPath ~= 0 then
+		
+			iLevel = iPath
+			iPath = 0
+			iScene = 0	
+					
+		else
+
+			if not MazeGame then
+	
+				for k = 1,finalstage-1 do
+
+					if LvlOrder[k] == thisLevel then
+
+						iLevel = LvlOrder[k+1]
+						iScene = 0	
+						break
+
+					end	
+
+				end
+
+			end
+
+		end
+
+	end
+
+	if swapLevel ~= nil then swapLevel() end
+
+end
+
+function onMouseMoved(intX, intY, intXrel, intYrel)
+
+	-- leave empty
+
+end
+
+function onOverlayUpdate()     -- Manage the game and look for any given situation
+
+	overlayClear()
+	
+	currentFrame = discGetFrame()
+
+	if (gameflow == flow_VLDPStart) then
+	
+		initVLDP()
+	
+	elseif (gameflow == flow_GameInit) then
+	
+		initJob()				
+				
+	elseif (gameflow == flow_GameRunning) then	
+
+		if (currentLevel == levelIntro) then
+		
+			doIntro()		
+			
+		elseif (currentLevel == levelNormal) then
+		
+			doLevel()			
+			
+		elseif (currentLevel == levelMap) then
+		
+			if doLevelSelect ~= nil then doLevelSelect() end
+	
+		elseif (currentLevel == levelDiffScreen) then
+		
+			doDiffSelect()
+
+		elseif (currentLevel == levelSelect) then
+		
+			doLvlSelect()
+			
+		elseif (currentLevel == levelContinue) then
+		
+			doContinue()
+			
+		elseif (currentLevel == levelGameOver) then
+		
+			doGameOver()
+			
+		elseif (currentLevel == levelHighScore) then
+		
+			doHighScore()
+
+		elseif (currentLevel == levelService) then
+		
+			doServiceMenu()
+
+		elseif (currentLevel == levelGraphic) then
+		
+			doServiceMenuG()
+
+		elseif (currentLevel == levelPerf) then
+		
+			doServiceMenuP()
+
+		elseif (currentLevel == levelMovie) then
+		
+			startMovie()
+
+		elseif (currentLevel == levelFinish) then
+		
+			if dip_GameType == 2 then
+
+				doFinish()
+
+			else
+
+				doClear()
+
+			end
+
+		elseif (currentLevel == levelSave) then
+		
+			doSave()
+
+		elseif (currentLevel == levelNG) then
+		
+			doNG()
+
+		elseif (currentLevel == level2P) then
+		
+			do2P()
+
+		elseif (currentLevel == level2PEnd) then
+		
+			do2PEnd()
+
+		elseif (currentLevel == levelExit) then
+		
+			doExit() 
+			
+		end
+	
+		if bShowAction    then drawAction()     end
+		if bShowNext	  then drawNext()     end
+		if bShowScore 	  then drawScore() 		end
+		if bShowLives 	  then drawLives() 		end
+		if bShowCredits   then drawCredits() 	end	
+		if bShowLCD       then drawLCD() 	    end	
+		if bShowSkip      then drawSkip() 	    end	
+		if bShowDisk1     then drawDisk1() 	    end	
+		if bShowDisk2     then drawDisk2() 	    end	
+		if bShowDisk3     then drawDisk3() 	    end	
+		if bShowDiskA     then drawDiskA() 	    end	
+		if bShowChoices   then drawChoose()     end
+		if bPause         then drawPause()      end
+		if bShowGet and bGR then drawGet() 	    end	
+		if bShowLvl and ShowLevel then drawLvl() end
+		if bShowWarnTilt then drawWarning() end
+		if bShowTilt then drawTilt() end
+			
+	end
+
+	return(OVERLAY_UPDATED)
+	
+end
+
+function onShutdown()      -- Stop the disc
+	
+	discStop()	
+	
+end
+
+function reOrder(thisLevel) 	-- Reorder Levels (when levels are not finished) 
+
+	local k = 0
+	local i = 0
+	local j = 0
+	local n = 0
+	local bState = false
+
+	if Level[thisLevel][LVLREPLAY] <-1 then
+
+		Level[thisLevel][LVLREPLAY] =  Level[thisLevel][LVLREPLAY]*-1
+		bState = true
+
+	end
+
+
+	for k = 1,finalstage-1 do
+
+		if LvlOrder[k] == thisLevel then
+
+			n = LvlOrder[k+1]
+
+			for i = k, Level[thisLevel][LVLREPLAY] -1 do
+
+				LvlOrder[i] = LvlOrder[i+1]
+
+			end
+
+			LvlOrder[Level[thisLevel][LVLREPLAY]] = thisLevel
+
+			break
+
+		end	
+
+	end
+
+	if bState then Level[thisLevel][LVLREPLAY] = -1 end 
+
+	iLevel = n
+	iScene = 0
+
+	if swapLevel ~= nil then swapLevel() end
+
+end
+
+function resetArrows()     -- Reset arrows position in  between moves
+
+	posxUDARROWS = (OVLW/2)-(ARUW/2)
+	posyLRARROWS = (OVLH/2)-(ARLH/2)
+	posyUARROW = startyUARROW
+	posyDARROW = startyDARROW
+	posxLARROW = startxLARROW
+	posxRARROW = startxRARROW
+	
+end	
+
+function resetVar() -- reset the moves related things
+
+	resetArrows()	
+
+	bTestMash = false
+	bTestMashL = false
+	bTestMashR = false
+	bTestRunL = false
+	bTestRunR = false
+	bTestRunU = false
+	bTestRunD = false
+	bTestHold = false
+	bTestCombo = false
+	bTestMulti = false
+
+	iMash = 0
+	iLenHold = 0
+	iMulti = 1
+
+	bCalc = true
+
+	acombo = nil
+	acombo = {0,0,0,0,0,0,0}
+	
+end
+
+function resultMove()	  -- Process most of the moves result (good or bad)
+
+	if (thisMove == move[currentMove][correctMove]) then									
+			
+		lvlState = branch04 -- Process Good Moves
+						
+	elseif (thisMove ~= MOVEPENDING) then
+		
+		iPauseFrame = move[currentMove][inputFrmEnd] --currentFrame			
+		bShowAction = false				
+		lvlState = branch02  -- Hints	(or setupDeathClip)			
+	
+	end
+
+end
+
+function setupDeathClip(playerMove)      -- Play the clip for each death (with mirror)
+
+	local q
+	local bPlayBuzzer = true 
+	curDeath = move[currentMove][moveDeath]									
+	
+	if swapDeath ~= nil then swapDeath() end
+	
+	bShowLvl = false
+	bShowNext = false
+	bShowWarnTilt = false
+
+	resetVar()
+
+	if curDeath < 0 then
+
+		lvlState = lvlPlayRest
+
+	else	
+
+		lvlState = lvlPlayDeath
+
+		if dip_GameType ~= 4 then 
+
+			iLives = iLives - 1 
+
+		end
+
+		if i2P == 1 then
+
+			if iLives == 0 then 
+
+				b1PEnd = true
+				i1PScore = iScore
+
+			else
+
+				autoSave(5)
+
+			end
+
+		elseif i2P == 2 then 
+
+			if iLives == 0 then 
+
+				b2PEnd = true
+				i2PScore = iScore
+
+			else
+
+				autoSave(6)
+
+			end
+
+		end
+		
+		if move[currentMove][moveDeath] == 0 then -- 0 = random death
+
+			q = math.random(totalDeath)
+			curDeath = q
+
+		end
+		
+		if bFlip then
+
+			setupClip(Death[curDeath][curDeathStart]+Level[iLevel][DTHMIRROR], Death[curDeath][curDeathEnd]+Level[iLevel][DTHMIRROR])
+
+		else
+
+			setupClip(Death[curDeath][curDeathStart], Death[curDeath][curDeathEnd])
+
+		end	
+
+		if not dip_Hints and dip_GameType ~= 1 then soundPlay(sndwrong) end   
+
+		if dip_Rewind == 1 then --Last Move
+			
+			if currentMove == 1 then
+
+				iPauseFrame = move[currentMove][inputFrmStart]-15
+				currentMove= 0
+
+			else
+				
+				if move[currentMove][correctMove] == CHOOSE then
+
+					move[currentMove][moveDeath] = numChoice
+					iPauseFrame = move[currentMove-2][inputFrmEnd] + 1
+					currentMove=currentMove-2
+
+				elseif move[currentMove][correctMove] == LETGO then
+
+					iPauseFrame = move[currentMove-1][inputFrmStart]-15
+					currentMove=currentMove-2
+
+				elseif move[currentMove][correctMove] == PATH or move[currentMove][correctMove] == YESNO then 
+
+					iPauseFrame = move[currentMove][inputFrmStart]-15
+					currentMove=currentMove-1
+
+				else	
+
+					iPauseFrame = move[currentMove][inputFrmStart]-15
+					currentMove=currentMove-1
+
+				end
+			
+			end	
+		
+		end
+
+	end
+
+end
+
+function setupFrames(thisLevel)       -- Set the frames for each level + mirror things
+
+	local k = 0	
+	local q = 0
+	local p = 1
+	local w = 1
+	offsetFlip = 0
+
+	if not RelativeFrames then w = 0 end
+	if bFlip then offsetFlip = Level[thisLevel][MIRROR] end
+	
+	sceneStart = sceneStart + w*(Level[thisLevel][INTROCLIP])+offsetFlip
+	sceneEnd = sceneEnd + w*(Level[thisLevel][INTROCLIP])+offsetFlip
+	
+	Tlimit = sceneStart + 50
+
+	for k=1,totalMoves do
+
+		move[k][1] = move[k][1] + w*(Level[thisLevel][INTROCLIP])+offsetFlip + iPenal
+		move[k][2] = move[k][2] + w*(Level[thisLevel][INTROCLIP])+offsetFlip 
+		
+	end
+
+	setupFramesMoves()
+
+end
+
+function setupLevel(thisLevel)      -- Setup each level (including mirrors)
+	
+	local thisScene = 0
+	local bSegFound = false
+	local q =0
+	
+	iScene	= iScene + 1
+	iPath = 0
+	iPathAjmp = 0
+	iPathAend = 0 
+	
+	if swapScene ~= nil then swapScene() end
+		
+	bFlip = false
+	offDth = 0
+
+	if iScene > Level[thisLevel][TOTALSCENES] then iScene = iScene - 1 end	
+	
+	if Level[thisLevel][MIRROR] >0 then	
+
+		q = math.random(100)
+	
+		if (q <= 50) then bFlip = true end
+
+	end
+
+	move = nil; move = {}
+	path = nil; path = {}
+	choice = nil; choice = {}
+				
+	setupMoves(thisLevel, iScene)		
+	setupFrames(thisLevel)
+				
+	if bAllowSave == true and dip_GameType ~= 2 and dip_GameType ~= 3 and i2P == 0 then
+
+		autoSave(4) 
+		bShowDiskA = true
+		altState = branch01		
+		bAllowSave = false
+
+	end
+
+end
+
+function sprUnload()	  -- Unloads all the sprite to avoid multiple 
+
+	for i = 1, 10 do
+
+		if sprNUM[i] ~= nil then spriteUnload(sprNUM[i]) end
+		i = i +1
+
+	end
+
+	for i = 1, 279 do
+
+		if sprite[i] ~= nil then spriteUnload(sprite[i]) end
+		i = i +1
+
+	end
+
+end
+
+function startGame()      -- Starts the game according to each option
+	
+	math.randomseed(os.time())
+	math.random(100)
+	bLvlJump = false
+	
+	if bExtendedPlay then 
+
+		initStages()
+		currentLevel = levelNormal
+		iLevel = levelSecret
+			
+	else
+		
+		if iCredits > 0 and i2P == 0 then
+
+			iCredits = iCredits - 1
+
+			if scoreBezelGetState() then
+				scoreBezelCredits(iCredits)
+				scoreBezelScore(1, 0)
+				scoreBezelLives(1, dip_LivesPerCredit)
+				scoreBezelLives(2, -1)
+				scoreBezelScore(2, -1)
+			end
+		end
+
+		iScore = 0	
+		iScoreTemp = 0
+		iBonus = 0
+		iScPlayed = 0
+		iScDeath = 0
+		iTotDeath = 0
+		iRightMv = 0
+		iWrongMv = 0
+		iTiltMv = 0
+		numTrophy = 0
+				
+		if (currentLevel == levelContinue) then	
+	        
+			currentLevel = iTempLevel
+			iLifeBar = BarSize
+			
+			if dip_Rewind == 0 then --Scene
+
+				bSwap = true
+
+				levelReplay()
+
+			elseif dip_Rewind == 1 then --Last Move
+
+				currentMove = currentMove+1
+				bSave = true
+				discSkipToFrame(iPauseFrame)
+				
+				lvlState = lvlRunning
+
+			elseif dip_Rewind == 2 then --Level
+
+				bRes = true
+				bPath = true
+				bTime = true
+				bSwap = true
+				local i = 0
+
+				iScene = 0	
+
+				levelReplay()
+
+			elseif dip_Rewind == 3  then  --Next Move
+
+				if currentMove == totalMoves  then
+
+					bSwap = true
+					scene[iLevel][iScene][SCENECOMPLETE] = true
+					iScene = iScene + 1
+					currentMove = 1
+					bSave = true
+
+				elseif (move[currentMove+1][correctMove] == CHOOSE and currentMove+1 == totalMoves) then --Next Move
+
+					bSwap = true
+					scene[iLevel][iScene][SCENECOMPLETE] = true
+					iScene = iScene + 1
+					currentMove = 1
+					
+				elseif (move[currentMove+1][correctMove] == LETGO and currentMove+1 == totalMoves) then --Next Move
+			
+					bSwap = true	
+					scene[iLevel][iScene][SCENECOMPLETE] = true
+					iScene = iScene + 1
+					currentMove = 1
+			
+				elseif (move[currentMove+1][correctMove] == PATH and currentMove+1 == totalMoves) then --Next Move
+					
+					bSwap = true	
+					scene[iLevel][iScene][SCENECOMPLETE] = true
+					iScene = iScene + 1
+					currentMove = 1
+					
+				elseif (move[currentMove+1][correctMove] == YESNO and currentMove+1 == totalMoves) then --Next Move
+					
+					bSwap = true	
+					scene[iLevel][iScene][SCENECOMPLETE] = true
+					iScene = iScene + 1
+					currentMove = 1
+								
+				else
+
+					currentMove = currentMove+1
+					bSave = true
+				
+				end	
+
+			end
+				
+		else	
+
+			initStages()
+			bSkipIntroClip = false
+			iPath = 0
+			iPathAend = 0
+			iPathAjmp = 0
+			iContinues = 0
+			iScene = 0
+			currentMove = 1
+			setFontColor(mycolor2)
+			fontSelect(fontGame)
+		
+			if dip_GameType == 0  or dip_GameType == 1 or dip_GameType == 4 then
+				
+				iLifeBar = BarSize
+				
+				if dip_GameType == 1 then 
+
+					iTop = iTopLB
+
+				elseif dip_GameType == 4 then
+
+					dip_PlayStyle = 0
+
+					if not bUnlockSel then 
+						
+						dip_StartLevel = 1
+						dip_StartScene = 1
+					
+					end
+					iTop = hsDR[dip_Difficulty+1][2]
+
+				else
+
+					iTop = iTopN
+
+				end
+				
+				if dip_PlayStyle == 0 then	
+					
+					doMixSEQ()
+					iLevel = dip_StartLevel				
+					iScene = dip_StartScene -1					
+					currentLevel = levelNormal
+
+				elseif dip_PlayStyle == 1 then
+
+					doMixRND()
+					iLevel	= LvlOrder[1]
+					currentLevel = levelNormal
+
+				elseif dip_PlayStyle == 2 then
+
+					doMixTIE()
+					iLevel	= LvlOrder[1]
+					currentLevel = levelNormal
+
+				elseif dip_PlayStyle == 3 then
+
+					if MapStart == 1 then
+
+						iLevel = PlayOrder[1]
+						lvlState = lvlSetup
+						currentLevel = levelNormal
+
+					elseif MapStart == 0 then
+
+						iLevel = PlayOrder[1]
+						currentLevel = levelMap	
+
+					end
+
+				elseif dip_PlayStyle == 4 then
+
+					iLevel = dip_StartLevel				
+					iScene = 0
+					altState = lvlSetup
+					currentLevel = levelSelect
+
+				end	
+
+			elseif dip_GameType == 2 then
+
+				bShowLives = false
+				bShowScore = false
+				iLevel = dip_StartLevel				
+				iScene = 0
+
+				if not bNoScreen then 
+
+					altState = lvlSetup
+					currentLevel = levelSelect
+
+				else 
+				
+					currentLevel = levelNormal		
+
+				end	
+
+			elseif dip_GameType == 3 then
+
+				doMixSEQ()
+				iLevel = 1				
+				iScene = 0
+				iTop = iTopS					
+				currentLevel = levelNormal
+			
+			elseif dip_GameType == 5 then
+
+				iLevel = dip_StartLevel				
+				iScene = 0	
+				altState = lvlSetup
+				currentLevel = levelSelect					
+
+			end
+
+			if startConf ~= nil then startConf() end
+	
+		end	
+		
+	end
+
+	if (IngameDiffchoice == true and dip_Diffshow == 4 and bOneDiff and not bNoScreen) then 
+
+		altState = lvlSetup
+		currentLevel = levelDiffScreen
+		if i2P>0 then bOneDiff = false end
+
+	end
+
+	
+	if offsetIntroGame ~= 0 and iContinues == 0 and dip_StartScene == 1 then
+
+		setupClip(offsetIntroGame, offsetIntroGameend)
+		lvlState = branch11
+
+	else
+
+		lvlState = lvlSetup
+	
+	end	
+
+	bShowAction = true
+	bShowScore = false
+	bRes = true
+
+	if dip_GameType == 1 then
+
+		iLives = 1	
+
+		if dip_Difficulty == 0 then
+
+			BarMinT = BarMin
+			if BarBonus > 0 then BarBonusT = BarBonus - 1 end
+
+		elseif dip_Difficulty == 1 then	
+
+			BarMinT = BarMin
+			BarBonusT = BarBonus
+		
+		elseif dip_Difficulty == 2 then
+
+			BarMinT = BarMin + 1
+			BarBonusT = BarBonus								
+		
+		elseif dip_Difficulty == 3 then
+
+			BarMinT = BarMin + 1
+			BarBonusT = BarBonus + 1
+
+		end
+
+	elseif dip_GameType == 3 then
+
+		iLives = 1
+
+	else
+
+		iLives = dip_LivesPerCredit	
+
+	end	
+
+	bShowAction = false
+	bShowNext = false
+	bShowCredits = false
+	bShowLCD = false
+	bResetContinue = false	
+	bExtendedPlay = false	
+	
+end
+
+function startSave()      -- Start saved game according to content of the save
+
+	if currentMove ~= 1 then bSave = true end
+
+	iContinues = 0
+	bLvlJump = false
+
+	if i2P == 0 then
+
+		iScene = 0
+		iLevel = dip_StartLevel				
+		iScene = dip_StartScene -1
+
+	else
+
+		iScene = iScene -1
+
+	end	
+
+	iScoreTemp = iScore
+
+	if dip_GameType == 1 then
+
+		iLives = 1	
+
+		if dip_Difficulty == 0 then
+
+			BarMinT = BarMin
+			if BarBonus > 0 then BarBonusT = BarBonus - 1 end
+
+		elseif dip_Difficulty == 1 then	
+
+			BarMinT = BarMin
+			BarBonusT = BarBonus
+		
+		elseif dip_Difficulty == 2 then
+
+			BarMinT = BarMin + 1
+			BarBonusT = BarBonus								
+		
+		elseif dip_Difficulty == 3 then
+
+			BarMinT = BarMin + 1
+			BarBonusT = BarBonus + 1
+
+		end	
+
+	end	
+
+	if dip_GameType == 1 then 
+
+		iTop = iTopLB
+
+	elseif dip_GameType == 3 then 
+
+		iTop = iTopS
+
+	elseif dip_GameType == 4 then
+
+		iTop = hsDR[dip_Difficulty+1][2]
+
+	else 
+
+		iTop = iTopN
+
+	end
+	
+	currentLevel = levelNormal		
+	lvlState = lvlSetup
+
+	if dip_Display == 0 then
+
+		bShowScore = true
+		bShowLives = true
+		bShowLvl = true
+		
+		if ShowTop then 
+
+			bShowTop = true 
+
+		else
+
+			bShowTop = false
+
+		end
+		
+
+	else
+
+		bShowScore = false
+		bShowLives = false
+		bShowLvl = false
+		bShowTop = false
+		
+	end
+
+	bShowGet = false
+	bShowSkip = false 	
+	bShowAction = false
+	bShowNext = false
+	bShowNext = false
+	bShowCredits = false
+	bShowLCD = false
+	bResetContinue = false	
+	bExtendedPlay = false	
+
+end
+
+function startMap()      -- Start Map game according to content of the save
+
+	iContinues = 0
+	iScene = 0
+
+	iLevel = dip_StartLevel				
+	iScene = 0
+	
+	iScoreTemp = iScore
+	iScPlayed = 0
+	iScDeath = 0
+	iTotDeath = 0
+
+	if dip_GameType == 1 then
+
+		iLives = 1	
+
+		if dip_Difficulty == 0 then
+
+			BarMinT = BarMin
+			if BarBonus > 0 then BarBonusT = BarBonus - 1 end
+
+		elseif dip_Difficulty == 1 then	
+
+			BarMinT = BarMin
+			BarBonusT = BarBonus
+		
+		elseif dip_Difficulty == 2 then
+
+			BarMinT = BarMin + 1
+			BarBonusT = BarBonus								
+		
+		elseif dip_Difficulty == 3 then
+
+			BarMinT = BarMin + 1
+			BarBonusT = BarBonus + 1
+
+		end	
+
+	else
+
+		iLives = dip_LivesPerCredit	
+
+	end	
+
+	if dip_GameType == 1 then 
+
+		iTop = iTopLB
+
+	elseif dip_GameType == 3 then 
+
+		iTop = iTopS
+
+	elseif dip_GameType == 4 then
+
+		iTop = hsDR[dip_Difficulty+1][2]
+
+	else
+
+		iTop = iTopN
+
+	end
+	
+	currentLevel = levelMap		
+	lvlState = lvlSetup
+
+	bShowScore = false
+	bShowLives = false
+	bShowLvl = false
+	bShowTop = false
+	bShowAction = false
+	bShowNext = false
+	bShowGet = false
+	bShowSkip = false 	
+	bShowCredits = false
+	bShowLCD = false
+	bResetContinue = false	
+	bExtendedPlay = false	
+
+end
+
+function startMovie()      -- Start the movie (no play)
+
+	if (lvlState == lvlSetup) then
+				
+		iScore = 0	
+		iScoreTemp = 0
+		iBonus = 0
+		iContinues = 0
+		iScene = 0
+		iMovie = 1
+	
+		setupClip(Level[1][INTROCLIP], offsetMovieEnd)					
+		
+		bShowLives = false
+		bShowAction = false
+		bShowNext = false
+		bShowScore = false
+		bShowLvl = false
+		bShowCredits = false
+		bShowLCD = false
+
+		lvlState = lvlRunning
+	
+	elseif (lvlState == lvlRunning) then
+	
+		if (currentFrame == iFrameEnd) then
+			
+			p1RIGHT = true
+			lvlState = lvlRunning
+			
+		elseif p1START1 then
+
+			p1START1 = false
+			lvlState = lvlSetup
+			currentLevel = levelIntro
+		
+		elseif p1RIGHT then
+
+			p1RIGHT = false
+			
+			if iMovie + 1 <= finalstage then
+
+				iMovie = iMovie + 1
+				
+			else
+
+				iMovie = 1
+
+			end
+
+			setupClip(Level[iMovie][INTROCLIP], offsetMovieEnd)
+			
+
+		elseif p1LEFT then
+
+			p1LEFT = false
+
+			if iMovie - 1 == 0 then
+
+				iMovie = finalstage
+
+			else
+
+				iMovie = iMovie - 1
+
+			end
+
+			setupClip(Level[iMovie][INTROCLIP], offsetMovieEnd)	
+
+		end	
+	
+	elseif (lvlState == lvlEnd) then
+	
+		lvlState = lvlSetup
+		currentLevel = levelIntro	
+
+	end
+
+end
+
+function theMiddle()
+
+	fontSelect(fontTit)
+	mt1 = getMiddle("OPTIONS")
+	mt2 = getMiddle("QUIT GAME ?")
+	mt3 = getMiddle("LOAD/SAVE MENU")
+	mt4 = getMiddle("HIGH SCORE!!!")
+	mt5 = getMiddle("RANKINGS")
+	mt6 = getMiddle("TROPHIES")
+	mt7 = getMiddle("LEVEL CLEARED")
+	mt8 = getMiddle("HYPSEUS SINGE MAX70")
+
+	fontSelect(fontBig)
+	mb1 = getMiddle("QUIT")
+	mb2 = getMiddle("BACK")
+	mb3 = getMiddle("INTRO")
+	mb4 = getMiddle("OPTIONS")
+	mb5 = getMiddle("YOU BEGIN YOUR MOVES TOO EARLY")
+	mb6 = getMiddle("YOU SHOULD HAVE GONE UP")
+	mb7 = getMiddle("YOU SHOULD HAVE GONE DOWN")
+	mb8 = getMiddle("YOU SHOULD HAVE GONE LEFT")
+	mb9 = getMiddle("YOU SHOULD HAVE GONE RIGHT")
+	mb10 = getMiddle("YOU SHOULD HAVE HIT BUTTON 1")
+	mb11 = getMiddle("YOU SHOULD HAVE HIT BUTTON 2")
+	mb12 = getMiddle("YOU SHOULD HAVE HIT BUTTON 3")
+	mb13 = getMiddle("YOU SHOULD HAVE GONE UP + LEFT")
+	mb14 = getMiddle("YOU SHOULD HAVE GONE UP + RIGHT")
+	mb15 = getMiddle("YOU SHOULD HAVE GONE DOWN + LEFT")
+	mb16 = getMiddle("YOU SHOULD HAVE GONE DOWN + RIGHT")
+	mb17 = getMiddle("YOU SHOULD HAVE MASHED UP FASTER")
+	mb18 = getMiddle("YOU SHOULD HAVE MASHED DOWN FASTER")
+	mb19 = getMiddle("YOU SHOULD HAVE MASHED LEFT FASTER")
+	mb20 = getMiddle("YOU SHOULD HAVE MASHED RIGHT FASTER")
+	mb21 = getMiddle("YOU SHOULD HAVE MASHED BUTTON 1 FASTER")
+	mb22 = getMiddle("YOU SHOULD HAVE MASHED BUTTON 2 FASTER")
+	mb23 = getMiddle("YOU SHOULD HAVE MASHED BUTTON 3 FASTER")
+	mb24 = getMiddle("YOU SHOULD HAVE MASHED UP + LEFT FASTER")
+	mb25 = getMiddle("YOU SHOULD HAVE MASHED UP + RIGHT FASTER")
+	mb26 = getMiddle("YOU SHOULD HAVE MASHED DOWN + LEFT FASTER")
+	mb27 = getMiddle("YOU SHOULD HAVE MASHED DOWN + RIGHT FASTER")
+	mb28 = getMiddle("YOU SHOULD HAVE MASHED UP/DOWN FASTER")
+	mb29 = getMiddle("YOU SHOULD HAVE MASHED LEFT/RIGHT FASTER")
+	mb30 = getMiddle("YOU SHOULD HAVE MASHED B1/B2 FASTER")
+	mb31 = getMiddle("YOU SHOULD HAVE RELEASED THE KEY AT SHOOT")
+	mb32 = getMiddle("YOU SHOULD HAVE HOLD")
+	mb33 = getMiddle("YOU SHOULD HAVE ENTERED THE SEQUENCE")
+	mb34 = getMiddle("YOU SHOULD HAVE ENTERED UP + DOWNRIGHT")
+	mb35 = getMiddle("YOU SHOULD HAVE MADE A LOOP")
+	mb36 = getMiddle("YOU SHOULD CHOOSE A DIRECTION")
+	mb37 = getMiddle("THIS CHOICE IS A DEAD END")
+	mb38 = getMiddle("YOU SHOULD FIND THE GOOD TIMING")
+	mb39 = getMiddle("Player 2 Get Ready!")
+	mb40 = getMiddle("Game Over")
+	mb41 = getMiddle("Player 1 Score")
+	mb42 = getMiddle("Player 2 Score")
+	mb43 = getMiddle("Player 1 is the winner!")
+	mb44 = getMiddle("Player 2 is the winner!")
+	mb45 = getMiddle("It's a Tie")
+	mb46 = getMiddle("99 completed move out of 99 (2 Tilt: - 10%")
+	mb47 = getMiddle("GET READY!")
+	mb48 = getMiddle("Choose Level")
+	mb49 = getMiddle("Finished!")
+	mb50 = getMiddle("NEW GAME")
+	mb51 = getMiddle("CONTINUE")
+	mb52 = getMiddle("99/100")
+	mb53 = getMiddle("YOU NEED MORE TRAINING!")
+	mb54 = getMiddle("STILL LEARNING!")
+	mb55 = getMiddle("NOT BAD!")
+	mb56 = getMiddle("YOUR SKILLS IMPROVE!")
+	mb57 = getMiddle("YOU'RE ALMOST THERE!")
+	mb58 = getMiddle("AMAZING! NOW TRY FOR PERFECT.")
+	mb59 = getMiddle("PERFECT!")
+	mb60 = getMiddle("NEW HIGH SCORE!")
+	h2 = getFontHeight("Choose Level")
+	h3 = getFontHeight("1234567890/")
+	
+
+	fontSelect(fontLCD)
+	ml1 = getMiddle("Game Options")
+	ml2 = getMiddle("Graphic Options")
+	ml3 = getMiddle("Extra Options")
+	ml4 = getMiddle("PROCEED")
+	ml5 = getMiddle("LOAD")
+	ml6 = getMiddle("SAVE")
+	ml7 = getMiddle("SLOT #1")
+	ml8 = getMiddle("SLOT #2")
+	ml9 = getMiddle("SLOT #3")
+	ml10 = getMiddle("AUTOSAVE")
+	ml11 = getMiddle("BACK TO GAME")
+	ml12 = getMiddle("EXIT")
+	ml13 = getMiddle("NORMAL MODE")
+	ml14 = getMiddle("LIFE BAR MODE")
+	ml15 = getMiddle("SURVIVOR MODE")
+	ml16 = getMiddle("BEST PERCENT")
+	ml17 = getMiddle("AAA")
+	ml18 = getMiddle("2 Players Game only")
+	ml19 = getMiddle("for Normal or Survivor mode!")
+	ml20 = getMiddle("TIMESTOP")
+	ml21 = getMiddle("TIMESTOP")
+	ml22 = getMiddle("Button 1 to QUIT, Button 2 to REPLAY")
+	ml23 = getMiddle("Button 3 for Another Level.")
+	ml24 = getMiddle("GRAND CHAMPION")
+	ml25 = getMiddle("DIE AND RETRY DIFFICULTY CHAMPS")
+	h1 = getFontHeight("Game Options")
+
+	fontSelect(fontGame)
+	mg1 = getMiddle("EXIT")
+	mg2 = getMiddle("Default")
+	mg3 = getMiddle("PLEASE ENTER YOUR NAME")
+	mg4 = getMiddle("NORMAL")
+	mg5 = getMiddle("L2: BAB 99 (E)    L2: BAB 99 (E)    L2: BAB 99 (E)")
+	mg6 = getMiddle("L2: BAB 99 (E)    L2: BAB 99 (E)")
+	mg7 = getMiddle("L2: BAB 99 (E)")
+	mg8 = getMiddle("Easy: BAB 100   Norm: BAB 100   Diff: BAB 100   Ext: BAB 100")
+	mg9 = getMiddle("BACK TO GAME")
+	mg10 = getMiddle("B1 for Level 1, B2 for Menu Level: 8")
+	mg11 = getMiddle("L2: BAB 99 (E)    L2: BAB 99 (E)    L2: BAB 99 (E)    L2: BAB 99 (E)")
+
+end
