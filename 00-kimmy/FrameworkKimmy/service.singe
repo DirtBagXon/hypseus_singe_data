@@ -6063,6 +6063,11 @@ function setSkin()
 	elseif dip_ScType == 2 then
 
 		SKINDIR = "/WOOD"
+
+		if (lfs.attributes(BASEDIR .. "/FrameworkKimmy/Skin"..SKINDIR, "mode") ~= "directory") then
+			SKINDIR = "/DEFAULT"
+			return
+		end
 		mycolor1 = 1
 		mycolor2 = 6
 		mycolor3 = 4
@@ -6073,6 +6078,11 @@ function setSkin()
 	elseif dip_ScType == 3 then
 
 		SKINDIR = "/COMICS"
+
+		if (lfs.attributes(BASEDIR .. "/FrameworkKimmy/Skin"..SKINDIR, "mode") ~= "directory") then
+			SKINDIR = "/DEFAULT"
+			return
+		end
 		mycolor1 = 1
 		mycolor2 = 4
 		mycolor3 = 2
@@ -6083,6 +6093,11 @@ function setSkin()
 	elseif dip_ScType == 4 then
 
 		SKINDIR = "/STEAM"
+
+		if (lfs.attributes(BASEDIR .. "/FrameworkKimmy/Skin"..SKINDIR, "mode") ~= "directory") then
+			SKINDIR = "/DEFAULT"
+			return
+		end
 		mycolor1 = 1
 		mycolor2 = 5
 		mycolor3 = 5
@@ -6093,6 +6108,11 @@ function setSkin()
 	elseif dip_ScType == 5 then
 
 		SKINDIR = "/GAL"
+
+		if (lfs.attributes(BASEDIR .. "/FrameworkKimmy/Skin"..SKINDIR, "mode") ~= "directory") then
+			SKINDIR = "/DEFAULT"
+			return
+		end
 		mycolor1 = 1
 		mycolor2 = 7
 		mycolor3 = 8
@@ -6103,6 +6123,11 @@ function setSkin()
 	elseif dip_ScType == 6 then
 
 		SKINDIR = "/TITAN"
+
+		if (lfs.attributes(BASEDIR .. "/FrameworkKimmy/Skin"..SKINDIR, "mode") ~= "directory") then
+			SKINDIR = "/DEFAULT"
+			return
+		end
 		mycolor1 = 1
 		mycolor2 = 9
 		mycolor3 = 9
@@ -6113,6 +6138,11 @@ function setSkin()
 	elseif dip_ScType == 7 then
 
 		SKINDIR = "/CLIFF"
+
+		if (lfs.attributes(BASEDIR .. "/FrameworkKimmy/Skin"..SKINDIR, "mode") ~= "directory") then
+			SKINDIR = "/DEFAULT"
+			return
+		end
 		mycolor1 = 1
 		mycolor2 = 5
 		mycolor3 = 4
@@ -6123,6 +6153,11 @@ function setSkin()
 	elseif dip_ScType == 8 then
 
 		SKINDIR = "/SCIFI"
+
+		if (lfs.attributes(BASEDIR .. "/FrameworkKimmy/Skin"..SKINDIR, "mode") ~= "directory") then
+			SKINDIR = "/DEFAULT"
+			return
+		end
 		mycolor1 = 1
 		mycolor2 = 9
 		mycolor3 = 3
@@ -6132,6 +6167,11 @@ function setSkin()
 	elseif dip_ScType == 9 then
 
 		SKINDIR = "/CUSTOM"
+
+		if (lfs.attributes(BASEDIR .. "/FrameworkKimmy/Skin"..SKINDIR, "mode") ~= "directory") then
+			SKINDIR = "/DEFAULT"
+			return
+		end
 		mycolor1 = 1
 		mycolor2 = 2
 		mycolor3 = 4
