@@ -1,6 +1,6 @@
 # Hypseus Singe
 
-## Zipped Singe ROMS (Require v2.11.2)
+## Zipped LUA ROMS (Require v2.11.2)
 
 These `.zip` files can be used to replace existing Singe folder structures.
 
@@ -50,6 +50,13 @@ vldp
 │   └── sonicfury.txt
 │   └── ...
 ```
+
+## Zipped Framework ROM Packages _(v2.11.6)_
+
+These behave in exactly the same manner as the standard Zip LUA packages, but contain a separate `Framework` folder within the zip.
+
+For usage examples, see above. Both single and multi-game formats are supported.
+
 
 ## Zipped ROM Packages
 

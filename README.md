@@ -25,6 +25,7 @@ Paste the relevant repo _folder_ URL into the tool, it will allow you to downloa
 
 From version **2.11.2**, Hypseus Singe supports zipped LUA _(zlua)_ ROMS.  
 From version **2.11.3**, Hypseus Singe supports multi-game zipped ROMS with `-usealt`
+From version **2.11.6**, Hypseus Singe supports zipped ROMS using `Framework` _Lua LFS_.
 
 ### Zipped ROMs
 
