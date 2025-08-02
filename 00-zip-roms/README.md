@@ -8,7 +8,7 @@ The _zip_ name relates to the current _game_ folder structure name.
 
 As detailed on the main repo page, zipped ROM files are not bound to the _singe/_ subfolder and can be placed in any convenient location. The _.txt_ framefile is still required to locate video and audio data, however, as with the _.zip_, this is no longer bound to the _singe/_ subfolder.
 
-A typical argument set using zip ROMS may begin:
+A typical argument set using zip ROMs may begin:
 
 ```
 hypseus singe vldp -zlua roms/timegal.zip -framefile vldp/timegal/timegal.txt ...
@@ -64,9 +64,9 @@ hypseus singe vldp -zlua roms/Chantze_HD.zip -usealt Triad_HD -framefile vldp/Ch
 ## Creating (or Converting) a Zip ROM game
 
 Create a standard _zip_ file with an internal folder structure beginning with a sub-folder called `singe`
-* Use the standard zip _deflate_ algoritm.
+* Use the standard zip _deflate_ algorithm.
 
-Within that sub-folder copy the `<game>` folder with all files **except** video and audio files.
+Within that sub-folder copy the `<game>` folder with all files **except** video `.m2v` and audio `.ogg` files.
 * No changes to any LUA should be required. It's a simple _drag'n'drop_.
 * The _framefile_ is optional. However, if stored in the zip creates an archive for future users.
 
@@ -79,9 +79,22 @@ If the game requires a _'Framework'_, simply copy the relevant framework folder 
 
 **Note**: The _Kimmy_ Framework contains (_by default_) a large sub-folder of optional _SKIN_ folders, which can bloat the overall zip. You can remove optional _SKIN_ folders from the `FrameworkKimmy/Skin` folder in the zip, leaving just `DEFAULT` + any others you deem relevant.
 
+```
+timegal.zip
+|
+├── singe
+|   |
+|   ├── timegal
+|   |   ├── timegal.singe
+|   |   └── *.*   [Other file and/or folder structures]
+|   |
+|   ├── Framework [folder if required]
+```
+
 See existing Zip ROM examples (_in repo_) for further details on structure.
 
-**Final Note:**  Ensure the _zip_ file itself is named the same name as the default `.singe` file within the game. i.e. `timegal.zip` holds `timegal.singe` as it's main `.singe` file. Multi-Game Zipped ROM's are the exception here. Watch the `hypseus.log` for clues to issues when the game does not run as expected.
+**Final Note:**  
+Ensure the _zip_ file itself is named the same as the default `.singe` file within the game. _i.e._ `timegal.zip` holds `timegal.singe` as its main `.singe` file. Multi-Game Zipped ROMs are the exception here. Watch the `hypseus.log` for clues to issues when the game does not run as expected.
 
 ## Zipped ROM Packages
 
