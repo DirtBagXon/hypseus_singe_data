@@ -55,8 +55,33 @@ vldp
 
 These behave in exactly the same manner as the standard Zip LUA packages, but contain a separate `Framework` folder within the zip.
 
-For usage examples, see above. Both single and multi-game formats are supported.
+For usage examples, see below and above. Both single and multi-game formats are supported.
 
+```
+hypseus singe vldp -zlua roms/Chantze_HD.zip -usealt Triad_HD -framefile vldp/Chantze_HD/Chantze_HD.txt ...
+```
+
+## Creating (or Converting) a Zip ROM game
+
+Create a standard _zip_ file with an internal folder structure beginning with a sub-folder called `singe`
+* Use the standard zip _deflate_ algoritm.
+
+Within that sub-folder copy the `<game>` folder with all files **except** video and audio files.
+* No changes to any LUA should be required. It's a simple _drag'n'drop_.
+* The _framefile_ is optional. However, if stored in the zip creates an archive for future users.
+
+**Important Note:**  
+When storing `.cfg` files for configuration and hi-scores within the zip, ensure that the files are _'generic'_ and do not contain _your_ personal High Scores or _your_ personal configuration preferences. These configurations will be used, as default, on first use of the zip by a new user.
+* Also ensure `default.cfg` mirrors `game.cfg`
+
+**Frameworks:**  
+If the game requires a _'Framework'_, simply copy the relevant framework folder alongside the `<game>` folder, within the `singe` sub-folder.
+
+**Note**: The _Kimmy_ Framework contains (_by default_) a large sub-folder of optional _SKIN_ folders, which can bloat the overall zip. You can remove optional _SKIN_ folders from the `FrameworkKimmy/Skin` folder in the zip, leaving just `DEFAULT` + any others you deem relevant.
+
+See existing Zip ROM examples (_in repo_) for further details on structure.
+
+**Final Note:**  Ensure the _zip_ file itself is named the same name as the default `.singe` file within the game. i.e. `timegal.zip` holds `timegal.singe` as it's main `.singe` file. Multi-Game Zipped ROM's are the exception here. Watch the `hypseus.log` for clues to issues when the game does not run as expected.
 
 ## Zipped ROM Packages
 
@@ -64,9 +89,10 @@ Some zipped ROM games are packaged with extra files, these will be bundled to en
 
 The filename will include the `rompack` phrase to indicate it is not the direct zipped ROM and should be examined for installation instructions within the first level of the compressed bundle file.
 
-#### Annotations:
+### Annotations:
 
 ```
 'ML' signifies multi-language/audio
 'MP' signifies multi-player
 ```
+
