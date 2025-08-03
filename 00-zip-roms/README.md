@@ -63,19 +63,19 @@ hypseus singe vldp -zlua roms/Chantze_HD.zip -usealt Triad_HD -framefile vldp/Ch
 
 ## Creating (or Converting) a Zip ROM game
 
-Create a standard _zip_ file with an internal folder structure beginning with a sub-folder called `singe`
+Ensure any new zip file has an internal folder structure beginning with a sub-folder called `singe`.
 * Use the standard zip _deflate_ algorithm.
 
-Within that sub-folder copy the `<game>` folder with all files **except** video `.m2v` and audio `.ogg` files.
+Within the `singe` sub-folder place the `<game>` folder with all files **except** video `.m2v` and audio `.ogg` files.
 * No changes to any LUA should be required. It's a simple _drag'n'drop_.
-* The _framefile_ is optional. However, if stored in the zip creates an archive for future users.
+* The _framefile.txt_ is optional. However, if stored, serves as an archive for future users.
 
 **Important Note:**  
-When storing `.cfg` files for configuration and hi-scores within the zip, ensure that the files are _'generic'_ and do not contain _your_ personal High Scores or _your_ personal configuration preferences. These configurations will be used, as default, on first use of the zip by a new user.
+When storing `.cfg` files (_configuration and hi-scores_) within the zip, ensure that the files are _'generic'_ and do not contain _your_ personal High Scores or _your_ personal configuration preferences. These configurations will be used as defaults, on the first use of the zip, by a new user.
 * Also ensure `default.cfg` mirrors `game.cfg`
 
 **Frameworks:**  
-If the game requires a _'Framework'_, simply copy the relevant framework folder alongside the `<game>` folder, within the `singe` sub-folder.
+If the game requires a helper _'Framework'_ sub-folder, simply copy the relevant folder alongside the `<game>` folder, within the `singe` sub-folder.
 
 **Note**: The _Kimmy_ Framework contains (_by default_) a large sub-folder of optional _SKIN_ folders, which can bloat the overall zip. You can remove optional _SKIN_ folders from the `FrameworkKimmy/Skin` folder in the zip, leaving just `DEFAULT` + any others you deem relevant.
 
@@ -88,13 +88,13 @@ timegal.zip
 |   |   ├── timegal.singe
 |   |   └── *.*   [Other file and/or folder structures]
 |   |
-|   ├── Framework [folder if required]
+|   ├── Framework [Folder: As required]
 ```
 
-See existing Zip ROM examples (_in repo_) for further details on structure.
+Examine existing Zip ROM examples (_in this repo_) for further details on structure.
 
 **Final Note:**  
-Ensure the _zip_ file itself is named the same as the default `.singe` file within the game. _i.e._ `timegal.zip` holds `timegal.singe` as its main `.singe` file. Multi-Game Zipped ROMs are the exception here. Watch the `hypseus.log` for clues to issues when the game does not run as expected.
+Make sure that the zip file itself is named the same as the default `.singe` file within the game. _i.e._ `timegal.zip` holds `timegal.singe` as its main `.singe` startup file. Multi-Game Zipped ROMs are the exception here. Watch the `hypseus.log` for clues to issues when the game does not run as expected.
 
 ## Zipped ROM Packages
 
