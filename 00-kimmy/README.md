@@ -1,4 +1,16 @@
 # Hypseus Singe
+
+## <sup> Note: Framework Zip ROM support [v2.11.6]</sup>
+
+New games requiring this _Framework_ will now be released as `zlua` Zipped ROMs.
+
+Check the [Framework Zip ROMs](https://github.com/DirtBagXon/hypseus_singe_data/tree/master/00-zip-roms/00-Framework-zip-rom) folder.
+
+The _LUA_ files contained in the Zip ROM are the same files as within this repository folder.
+
+Refer to ["How to create Zip ROMs"](https://github.com/DirtBagXon/hypseus_singe_data/tree/master/00-zip-roms#creating-or-converting-a-zip-rom-game) documention for details on their creation.
+
+# Framework Descripton
   
 ## 'Kimmy Framework _(v4)_' Folder
 
