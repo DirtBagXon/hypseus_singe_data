@@ -5,8 +5,6 @@ Singe version by poiu
 Hypseus version by Gig71 (2024) 
 framework VERSION:		3.32b
 
-Short version 
-
 
 ]]--
 
@@ -24,13 +22,11 @@ BASEDIR = "singe"                                  -- This should be 'singe'
 
 BASEOVERLAY = OVERLAY_FULL                       -- Set the default Overlay
 
-MYDIR = BASEDIR .."/".. "SDQ"                      -- This is the directory where your game is
+MYDIR = BASEDIR .."/".. "SuperDQ"                -- This is the directory where your game is
 
 MovieFPS = 29.970    -- Number of frames per second of your movies (used for timed actions).
 
 dip_MinimalOverlay = 0  -- Start/Enable the Ultralo Overlay
-
--- scoreBezelEnable(true, BEZEL_LAIR)
 
 -- End Hypseus Game Setup --
 
@@ -279,23 +275,23 @@ finalstage = 13
 PlayOrder = {1,2,3,4,5,6,7,8,9,10,11,12,13}  
 
 AllowSecret = false
-RelativeFrames = false
+RelativeFrames = true 
 
 -- livelli editati tutti
 
-Level[1] = {"Bats", 1937, 1938, 1, 0, 0, -11}	-- short
-Level[2] = {"Salaman", 2944, 2945, 1, 0, 0, -11}-- short
-Level[3] = {"Geyser e Snakes", 3810, 3811, 1, 0, 0, -11}-- short 
-Level[4] = {"Mummy", 5268, 5269, 1, 0, 0, -11}-- short
-Level[5] = {"Totem Pole", 6204, 6205, 1, 0, 0, -11}-- short
-Level[6] = {"Witch", 7497, 7498, 1, 0, 0, -11}-- short
-Level[7] = {"Earthquake", 8175, 8176, 1, 0, 0, -11}-- short
-Level[8] = {"Skeletons e Arms", 8802, 8803, 1, 0, 0, -11}--shot
-Level[9] = {"Tornado", 11107, 11108, 1, 0, 0, -11}--short
-Level[10] = {"Jellyfish", 12645, 12646, 1, 0, 0, -11}--short
-Level[11] = {"Anaconda", 13791, 13792, 1, 0, 0, -11}--short
-Level[12] = {"Raft", 14576, 14577, 1, 0, 0, -12} -- short cosi come è
-Level[13] = {"Final", 18478, 18479, 5, 0, 0, -1}--short
+Level[1] = {"Bats", 1671, 1672, 1, 0, 0, -11}
+Level[2] = {"Salaman", 2720, 2721, 1, 0, 0,-11}
+Level[3] = {"Geyser e Snakes", 3667, 3668, 1, 0, 0, -11}
+Level[4] = {"Mummy", 5123, 5124, 1, 0, 0, -11}
+Level[5] = {"Totem Pole", 6072, 6073, 1, 0, 0, -11}
+Level[6] = {"Witch", 7293, 7294, 1, 0, 0, -11}
+Level[7] = {"Earthquake", 8076, 8077, 1, 0, 0, -11}
+Level[8] = {"Skeletons e Arms", 8744, 8745, 1, 0, 0, -11}
+Level[9] = {"Tornado", 10989, 10990, 1, 0, 0, -11}
+Level[10] = {"Jellyfish", 12542, 12543, 1, 0, 0, -11}
+Level[11] = {"Anaconda", 13731, 13732, 1, 0, 0, -11}
+Level[12] = {"Raft", 14576, 14577, 1, 0, 0, -12}
+Level[13] = {"Final", 18299, 18300, 5, 0, 0, -1}
 
 ------------------------------------------------------------------------------------------
 -- 3. List of moves for each level, by scene (StartFrame, EndFrame, MOVE, Death#, 0, 0) --
@@ -306,48 +302,48 @@ function setupMoves(thisLevel, thisScene)
 	if thisLevel == 1 then												-- LEVEL 1 Bats
 
 		if thisScene == 1 then 
-			f = 1671
-			sceneStart = 1937
-			sceneEnd   = 2649 --f+1038
+
+			sceneStart = 2
+			sceneEnd   = 1038
 			totalMoves   = 7
-		
-		move[1] = {f+362, f+380, RIGHT, 1}
-		move[2] = {f+463, f+481, RIGHT, 1}
-		move[3] = {f+539, f+557, RIGHT, 1}
-		move[4] = {f+601, f+619, LEFT, 2}
-		move[5] = {f+698, f+716, BUTTON1, 3}
-		move[6] = {f+768, f+786, BUTTON1, 3}
-		move[7] = {f+880, f+898, BUTTON1, 4}
+
+		move[1] = {362, 380, RIGHT, 1}
+		move[2] = {463, 481, RIGHT, 1}
+		move[3] = {539, 557, RIGHT, 1}
+		move[4] = {601, 619, LEFT, 2}
+		move[5] = {698, 716, BUTTON1, 3}
+		move[6] = {768, 786, BUTTON1, 3}
+		move[7] = {880, 898, BUTTON1, 4}
 
 		end
 
 	elseif thisLevel == 2 then											-- LEVEL 2 Salaman
 
 		if thisScene == 1 then  
-			f = 2720
-			sceneStart = 2944
-			sceneEnd   = 3609 --f+936
+
+			sceneStart = 2
+			sceneEnd   = 936
 			totalMoves   = 8
 
-		move[1] = {f+331, f+349, BUTTON1, 5}
-		move[2] = {f+388, f+406, BUTTON1, 6}
-		move[3] = {f+477, f+495, BUTTON1, 7}
-		move[4] = {f+521, f+539, RIGHT, 8}
-		move[5] = {f+569, f+587, BUTTON1, 9}
-		move[6] = {f+651, f+669, BUTTON1, 9}
+		move[1] = {331, 349, BUTTON1, 5}
+		move[2] = {388, 406, BUTTON1, 6}
+		move[3] = {477, 495, BUTTON1, 7}
+		move[4] = {521, 539, RIGHT, 8}
+		move[5] = {569, 587, BUTTON1, 9}
+		move[6] = {651, 669, BUTTON1, 9}
 		
 		local t = math.random(1,2)
 		
 		if (t == 1) then
 		
-		move[7] = {f+699, f+717, RIGHT, 9}
+		move[7] = {699, 717, RIGHT, 9}
 		
 		elseif (t == 2) then
 		
-		move[7] = {f+699, f+717, RIGHT, 9}
+		move[7] = {699, 717, RIGHT, 9}
 		
 		end
-		move[8] = {f+736, f+754, BUTTON1, 9}
+		move[8] = {736, 754, BUTTON1, 9}
 
 		end
 
@@ -356,33 +352,29 @@ function setupMoves(thisLevel, thisScene)
 	elseif thisLevel == 3 then											-- Level 3 Geyser e Snakes
 
 		if thisScene == 1 then  
-			f = 3667
-			sceneStart = 3810 
-			sceneEnd   = 5057 --f+1445
-			totalMoves   = 11
 
-		move[1] = {f+394, f+412, LEFT, 10}
-		
-		move[2] = {f+412, 4092, WAY, 0}
-		move[3] = {4334, 4335, WAY, 0}
-		
-		move[4] = {f+830, f+848, BUTTON1, 11}
-		move[5] = {f+872, f+890, BUTTON1, 12}
-		move[6] = {f+916, f+934, BUTTON1, 12}
-		move[7] = {f+1045, f+1063, RIGHT, 13}
-		move[8] = {f+1093, f+1111, LEFT, 14}
-		move[9] = {f+1163, f+1181, BUTTON1, 15}
-		move[10] = {f+1209, f+1227, BUTTON1, 16}
+			sceneStart = 2
+			sceneEnd   = 1445
+			totalMoves   = 9
+
+		move[1] = {394, 412, LEFT, 10}
+		move[2] = {830, 848, BUTTON1, 11}
+		move[3] = {872, 890, BUTTON1, 12}
+		move[4] = {916, 934, BUTTON1, 12}
+		move[5] = {1045, 1063, RIGHT, 13}
+		move[6] = {1093, 1111, LEFT, 14}
+		move[7] = {1163, 1181, BUTTON1, 15}
+		move[8] = {1209, 1227, BUTTON1, 16}
 		
 		local t = math.random(1,2)
 		
 		if (t == 1) then
 		
-		move[11] = {f+1285, f+1303, DOWN, 17}
+		move[9] = {1285, 1303, DOWN, 17}
 		
 		elseif (t == 2) then
 		
-		move[11] = {f+1285, f+1303, LEFT, 17}
+		move[9] = {1285, 1303, LEFT, 17}
 		
 		end
 
@@ -392,40 +384,40 @@ function setupMoves(thisLevel, thisScene)
 	elseif thisLevel == 4 then											-- Level 4 Mummy
 
 		if thisScene == 1 then  
-			f = 5123
-			sceneStart = 5268
-			sceneEnd   = f+938
+
+			sceneStart = 2
+			sceneEnd   = 938
 			totalMoves   = 5
 
-		move[1] = {f+355, f+373, RIGHT, 18}
+		move[1] = {355, 373, RIGHT, 18}
 		
 		local t = math.random(1,2)
 		
 		if (t == 1) then
 		
-		move[2] = {f+448, f+466, UP, 19}
+		move[2] = {448, 466, UP, 19}
 		
 		elseif (t == 2) then
 		
-		move[2] = {f+448, f+466, LEFT, 19}
+		move[2] = {448, 466, LEFT, 19}
 		
 		end
 		
-		move[3] = {f+586, f+604, BUTTON1, 19}
+		move[3] = {586, 604, BUTTON1, 19}
 		
 		local t = math.random(1,2)
 		
 		if (t == 1) then
 		
-		move[4] = {f+775, f+793, RIGHT, 20}
+		move[4] = {775, 793, RIGHT, 20}
 		
 		elseif (t == 2) then
 		
-		move[4] = {f+775, f+793, BUTTON1, 20}
+		move[4] = {775, 793, BUTTON1, 20}
 		
 		end
 		
-		move[5] = {f+824, f+842, BUTTON1, 19}
+		move[5] = {824, 842, BUTTON1, 19}
 
 end
 
@@ -435,29 +427,29 @@ end
 	elseif thisLevel == 5 then											-- Level 5 Totem Pole
 
 		if thisScene == 1 then   										
-			f = 6072
-			sceneStart = 6204
-			sceneEnd   = f+1210
+
+			sceneStart = 2
+			sceneEnd   = 1210
 			totalMoves = 6
 
-		move[1] = {f+402, f+420, LEFT, 21}
-		move[2] = {f+462, f+480, RIGHT, 22}
-		move[3] = {f+604, f+622, LEFT, 24}
+		move[1] = {402, 420, LEFT, 21}
+		move[2] = {462, 480, RIGHT, 22}
+		move[3] = {604, 622, LEFT, 24}
 		
 		local t = math.random(1,2)
 		
 		if (t == 1) then
 		
-		move[4] = {f+683, f+701, RIGHT, 25}
+		move[4] = {683, 701, RIGHT, 25}
 		
 		elseif (t == 2) then
 		
-		move[4] = {f+683, f+701, BUTTON1, 25}
+		move[4] = {683, 701, BUTTON1, 25}
 		
 		end
 		
-		move[5] = {f+918, f+936, DOWN, 26}
-		move[6] = {f+977, f+995, UP, 27}
+		move[5] = {918, 936, DOWN, 26}
+		move[6] = {977, 995, UP, 27}
 		
 
 		end
@@ -467,30 +459,30 @@ end
 	elseif thisLevel == 6 then											-- Level 6 Witch
 
 		if thisScene == 1 then  
-			f = 7293
-			sceneStart = 7497
-			sceneEnd   = 8017 --f+772
+
+			sceneStart = 2
+			sceneEnd   = 772
 			totalMoves = 6
 		
 		
-		move[1] = {f+221, f+239, RIGHT, 28}
-		move[2] = {f+267, f+285, LEFT, 28}
-		move[3] = {f+300, f+318, UP, 28}
-		move[4] = {f+426, f+444, BUTTON1, 29}
+		move[1] = {221, 239, RIGHT, 28}
+		move[2] = {267, 285, LEFT, 28}
+		move[3] = {300, 318, UP, 28}
+		move[4] = {426, 444, BUTTON1, 29}
 		
 		local t = math.random(1,2)
 		
 		if (t == 1) then
 		
-		move[5] = {f+523, f+541, UP, 29}
+		move[5] = {523, 541, UP, 29}
 		
 		elseif (t == 2) then
 		
-		move[5] = {f+523, f+541, LEFT, 29}
+		move[5] = {523, 541, LEFT, 29}
 		
 		end
 		
-		move[6] = {f+583, f+601, BUTTON1, 29}
+		move[6] = {583, 601, BUTTON1, 29}
 		
 		
 
@@ -501,17 +493,17 @@ end
 	elseif thisLevel == 7 then											-- Level 7 Earthquake
 
 		if thisScene == 1 then  
-			f = 8076
-			sceneStart = 8175
-			sceneEnd   = 8685 -- f+657
+
+			sceneStart = 2
+			sceneEnd   = 657
 		totalMoves = 6
 		
-		move[1] = {f+183, f+198, DOWN, 30}
-		move[2] = {f+236, f+254, LEFT, 31}
-		move[3] = {f+354, f+372, RIGHT, 32}
-		move[4] = {f+418, f+436, LEFT, 33}
-		move[5] = {f+469, f+487, LEFT, 34}
-		move[6] = {f+513, f+531, LEFT, 34}
+		move[1] = {183, 198, DOWN, 30}
+		move[2] = {236, 254, LEFT, 31}
+		move[3] = {354, 372, RIGHT, 32}
+		move[4] = {418, 436, LEFT, 33}
+		move[5] = {469, 487, LEFT, 34}
+		move[6] = {513, 531, LEFT, 34}
 
 	end
 
@@ -519,110 +511,106 @@ end
 	elseif thisLevel == 8 then											-- Level 8 Skeletons e Arms
 
 		if thisScene == 1 then  
-			f = 8744
-			sceneStart = 8802
-			sceneEnd   = f+2234
-		totalMoves = 29
+
+			sceneStart = 2
+			sceneEnd   = 2234
+		totalMoves = 27
 		
-		move[1] = {f+139, f+157, RIGHT, 35}
-		move[2] = {f+190, f+208, BUTTON1, 36}
-		move[3] = {f+228, f+246, BUTTON1, 37}
-		move[4] = {f+289, f+307, BUTTON1, 38}
-		move[5] = {f+332, f+350, BUTTON1, 38}
-		move[6] = {f+459, f+477, RIGHT, 39}
-		move[7] = {f+605, f+623, BUTTON1, 44}
-		move[8] = {f+735, f+753, BUTTON1, 40}
-		move[9] = {f+784, f+802, BUTTON1, 41}
-		move[10] = {f+812, f+830, BUTTON1, 42}
-		move[11] = {f+940, f+958, BUTTON1, 43}
-		move[12] = {f+972, f+990, BUTTON1, 44}
-		move[13] = {f+1014, f+1032, BUTTON1, 44}
-		move[14] = {f+1065, f+1083, RIGHT, 45}
-		move[15] = {f+1112, f+1130, BUTTON1, 44}
-		move[16] = {f+1180, f+1198, BUTTON1, 44}
-
-		move[17] = {9943, 10039, WAY, 0}
-		move[18] = {10100, 10101, WAY, 0}
-
+		move[1] = {139, 157, RIGHT, 35}
+		move[2] = {190, 208, BUTTON1, 36}
+		move[3] = {228, 246, BUTTON1, 37}
+		move[4] = {289, 307, BUTTON1, 38}
+		move[5] = {332, 350, BUTTON1, 38}
+		move[6] = {459, 477, RIGHT, 39}
+		move[7] = {605, 623, BUTTON1, 44}
+		move[8] = {735, 753, BUTTON1, 40}
+		move[9] = {784, 802, BUTTON1, 41}
+		move[10] = {812, 830, BUTTON1, 42}
+		move[11] = {940, 958, BUTTON1, 43}
+		move[12] = {972, 990, BUTTON1, 44}
+		move[13] = {1014, 1032, BUTTON1, 44}
+		move[14] = {1065, 1083, RIGHT, 45}
+		move[15] = {1112, 1130, BUTTON1, 44}
+		move[16] = {1180, 1198, BUTTON1, 44}
 -- arms
-		move[19] = {f+1485, f+1503, RIGHT, 46}
-		move[20] = {f+1581, f+1599, UP, 47}
-		move[21] = {f+1638, f+1656, BUTTON1, 48}
-		move[22] = {f+1686, f+1704, LEFT, 49}
-		move[23] = {f+1710, f+1727, BUTTON1, 50}
-		move[24] = {f+1773, f+1791, BUTTON1, 51}
-		move[25] = {f+1805, f+1823, LEFT, 52}
-		move[26] = {f+1878, f+1896, BUTTON1, 53}
-		move[27] = {f+1924, f+1942, BUTTON1, 54}
-		move[28] = {f+2012, f+2030, BUTTON1, 54}
-		move[29] = {f+2081, f+2099, BUTTON1, 54}
+		move[17] = {1485, 1503, RIGHT, 46}
+		move[18] = {1581, 1599, UP, 47}
+		move[19] = {1638, 1656, BUTTON1, 48}
+		move[20] = {1686, 1704, LEFT, 49}
+		move[21] = {1710, 1727, BUTTON1, 50}
+		move[22] = {1773, 1791, BUTTON1, 51}
+		move[23] = {1805, 1823, LEFT, 52}
+		move[24] = {1878, 1896, BUTTON1, 53}
+		move[25] = {1924, 1942, BUTTON1, 54}
+		move[26] = {2012, 2030, BUTTON1, 54}
+		move[27] = {2081, 2099, BUTTON1, 54}
 
 		end
 
 	elseif thisLevel == 9 then											-- Level 9 Tornado
 
 		if thisScene == 1 then  
-			f = 10989
-			sceneStart = 11107
-			sceneEnd   = 12381 -- f+1542
+
+			sceneStart = 2
+			sceneEnd   = 1542
 		totalMoves = 11
 		
-		move[1] = {f+220, f+238, RIGHT, 55}
-		move[2] = {f+367, f+385, LEFT, 56}
-	    move[3] = {f+529, f+547, DOWN, 57}
+		move[1] = {220, 238, RIGHT, 55}
+		move[2] = {367, 385, LEFT, 56}
+	    move[3] = {529, 547, DOWN, 57}
 		
 		local t = math.random(1,2)
 		
 		if (t == 1) then
 		
-		move[4] = {f+609, f+627, RIGHT, 57}
+		move[4] = {609, 627, RIGHT, 57}
 		
 		elseif (t == 2) then
 		
-		move[4] = {f+609, f+627, DOWN, 57}
+		move[4] = {609, 627, DOWN, 57}
 		
 		end
 		
-		move[5] = {f+678, f+696, UP, 58}
-		move[6] = {f+729, f+747, LEFT, 59}
-		move[7] = {f+805, f+823, LEFT, 59}
-		move[8] = {f+861, f+879, LEFT, 60}
+		move[5] = {678, 696, UP, 58}
+		move[6] = {729, 747, LEFT, 59}
+		move[7] = {805, 823, LEFT, 59}
+		move[8] = {861, 879, LEFT, 60}
 		
 		local t = math.random(1,2)
 		
 		if (t == 1) then
 		
-		move[9] = {f+915, f+933, UP, 60}
+		move[9] = {915, 933, UP, 60}
 		
 		elseif (t == 2) then
 		
-		move[9] = {f+915, f+933, LEFT, 60}
+		move[9] = {915, 933, LEFT, 60}
 		
 		end
 		
-		move[10] = {f+1099, f+1117, RIGHT, 61}
-		move[11] = {f+1131, f+1149, BUTTON1, 61}
+		move[10] = {1099, 1117, RIGHT, 61}
+		move[11] = {1131, 1149, BUTTON1, 61}
 
 		end
 
 	elseif thisLevel == 10 then											-- Level 10 Jellyfish
 
 		if thisScene == 1 then  
-			f = 12542
-			sceneStart = 12645
-			sceneEnd   = 13666 --f+1178
+
+			sceneStart = 2
+			sceneEnd   = 1178
 		totalMoves = 10
 		
-		move[1] = {f+244, f+262, BUTTON1, 62}
-		move[2] = {f+294, f+312, BUTTON1, 62}
-		move[3] = {f+382, f+400, BUTTON1, 62}
-		move[4] = {f+416, f+434, BUTTON1, 62}
-		move[5] = {f+525, f+543, BUTTON1, 63}
-		move[6] = {f+571, f+589, BUTTON1, 62}
-		move[7] = {f+679, f+697, BUTTON1, 64}
-		move[8] = {f+723, f+741, BUTTON1, 64}
-		move[9] = {f+894, f+912, UP, 65}
-		move[10] = {f+932, f+950, BUTTON1, 64}
+		move[1] = {244, 262, BUTTON1, 62}
+		move[2] = {294, 312, BUTTON1, 62}
+		move[3] = {382, 400, BUTTON1, 62}
+		move[4] = {416, 434, BUTTON1, 62}
+		move[5] = {525, 543, BUTTON1, 63}
+		move[6] = {571, 589, BUTTON1, 62}
+		move[7] = {679, 697, BUTTON1, 64}
+		move[8] = {723, 741, BUTTON1, 64}
+		move[9] = {894, 912, UP, 65}
+		move[10] = {932, 950, BUTTON1, 64}
 
 		end
 
@@ -631,75 +619,67 @@ end
 	elseif thisLevel == 11 then											-- Level 11 Anaconda
 
 		if thisScene == 1 then  
-			f = 13731
-			sceneStart = 13791
-			sceneEnd   = 14511 -- f+836
+
+			sceneStart = 2
+			sceneEnd   = 836
 		totalMoves = 7
 		
-		move[1] = {f+186, f+216, LEFT, 66} -- OK
-		move[2] = {f+314, f+334, UP, 67} --OK
-		move[3] = {f+329, f+349, UP, 67} --OK
-		move[4] = {f+442, f+462, LEFT, 66} -- OK
-		move[5] = {f+507, f+527, UP, 66}  -- OK
-		move[6] = {f+616, f+636, LEFT, 68} -- OK
-		move[7] = {f+655, f+670, RIGHT, 69}	-- OK	
+		move[1] = {186, 216, LEFT, 66} -- OK
+		move[2] = {314, 334, UP, 67} --OK
+		move[3] = {329, 349, UP, 67} --OK
+		move[4] = {442, 462, LEFT, 66} -- OK
+		move[5] = {507, 527, UP, 66}  -- OK
+		move[6] = {616, 636, LEFT, 68} -- OK
+		move[7] = {655, 670, RIGHT, 69}	-- OK	
 				
 		end
 
 	elseif thisLevel == 12 then											-- Level 12 Raft
 
 		if thisScene == 1 then  
-			f = 14576
-			sceneStart = 14576
-			sceneEnd   = 18222 -- f+3712
-		totalMoves = 26
+
+			sceneStart = 2
+			sceneEnd   = 3712 --719
+		totalMoves = 24
 		
-		move[1] = {f+89, f+107, DOWN, 70}
-		move[2] = {f+223, f+241, UP, 71}
-		move[3] = {f+334, f+352, RIGHT, 72}
+		move[1] = {89, 107, DOWN, 70}
+		move[2] = {223, 241, UP, 71}
+		move[3] = {334, 352, RIGHT, 72}
 		
 		local t = math.random(1,2)
 		
 		if (t == 1) then
 		
-		move[4] = {f+378, f+396, DOWN, 72}
+		move[4] = {378, 396, DOWN, 72}
 		
 		elseif (t == 2) then
 		
-		move[4] = {f+378, f+396, LEFT, 72}
+		move[4] = {378, 396, LEFT, 72}
 		
 		end
 		
-		move[5] = {f+517, f+535, RIGHT, 72}
-		move[6] = {f+563, f+581, UP, 73}
+		move[5] = {517, 535, RIGHT, 72}
+		move[6] = {563, 581, UP, 73}
 
+		move[7] = {947, 965, RIGHT, 74}								-- Rapide
+		move[8] = {1111, 1129, LEFT, 75}
+		move[9] = {1168, 1186, RIGHT, 75}
+		move[10] = {1218, 1236, LEFT, 75}
+		move[11] = {1372, 1390, LEFT, 75}
+		move[12] = {1429, 1447, UP, 76}
+		move[13] = {1618, 1636, DOWN, 78}
+		move[14] = {1688, 1706, LEFT, 78}
+		move[15] = {1856, 1874, RIGHT, 78}
 
-		move[7] = {f+581, 15245, WAY, 0}
-		move[8] = {15306, 15307, WAY, 0}
-
-
-
-
-
-		move[9] = {f+947, f+965, RIGHT, 74}								-- Rapide
-		move[10] = {f+1111, f+1129, LEFT, 75}
-		move[11] = {f+1168, f+1186, RIGHT, 75}
-		move[12] = {f+1218, f+1236, LEFT, 75}
-		move[13] = {f+1372, f+1390, LEFT, 75}
-		move[14] = {f+1429, f+1447, UP, 76}
-		move[15] = {f+1618, f+1636, DOWN, 78}
-		move[16] = {f+1688, f+1706, LEFT, 78}
-		move[17] = {f+1856, f+1874, RIGHT, 78}
-
-	    move[18] = {f+2089, f+2107, UP, 79}								-- zattera
-	    move[19] = {f+2450, f+2468, RIGHT, 80}
-	    move[20] = {f+2506, f+2524, RIGHT, 80}
-	    move[21] = {f+2564, f+2582, UP, 80}
-	    move[22] = {f+2668, f+2686, RIGHT, 81}
-	    move[23] = {f+2738, f+2756, LEFT, 81}
-	    move[24] = {f+2890, f+2908, LEFT, 82}
-	    move[25] = {f+2990, f+3008, DOWN, 83}
-	    move[26] = {f+3459, f+3477, RIGHT, 84}
+	    move[16] = {2089, 2107, UP, 79}								-- zattera
+	    move[17] = {2450, 2468, RIGHT, 80}
+	    move[18] = {2506, 2524, RIGHT, 80}
+	    move[19] = {2564, 2582, UP, 80}
+	    move[20] = {2668, 2686, RIGHT, 81}
+	    move[21] = {2738, 2756, LEFT, 81}
+	    move[22] = {2890, 2908, LEFT, 82}
+	    move[23] = {2990, 3008, DOWN, 83}
+	    move[24] = {3459, 3477, RIGHT, 84}
 
 
 
@@ -708,24 +688,24 @@ end
 	elseif thisLevel == 13 then											-- Level 13 Final    
 
 		if thisScene == 1 then 											-- gigante su mulino a vento							
-			f = 18299
-			sceneStart = 18478
-			sceneEnd   = f+856
+
+			sceneStart = 2
+			sceneEnd   = 856
 		totalMoves = 5
 		
-		move[1] = {f+250, f+268, LEFT, 85}
-		move[2] = {f+309, f+327, UP, 86}
-		move[3] = {f+391, f+409, BUTTON1, 86}
+		move[1] = {250, 268, LEFT, 85}
+		move[2] = {309, 327, UP, 86}
+		move[3] = {391, 409, BUTTON1, 86}
 		
 		local t = math.random(1,2)
 		
 		if (t == 1) then
 		
-		move[4] = {f+443, f+461, RIGHT, 85}
+		move[4] = {443, 461, RIGHT, 85}
 		
 		elseif (t == 2) then
 		
-		move[4] = {f+443, f+461, BUTTON1, 85}
+		move[4] = {443, 461, BUTTON1, 85}
 		
 		end
 		
@@ -733,66 +713,66 @@ end
 		
 		if (t == 1) then
 		
-		move[5] = {f+603, f+621, UP, 87}
+		move[5] = {603, 621, UP, 87}
 		
 		elseif (t == 2) then
 		
-		move[5] = {f+603, f+621, LEFT, 87}
+		move[5] = {603, 621, LEFT, 87}
 		
 		end 
 		
 	elseif thisScene == 2 then											-- teleferica e karts
 	
-		sceneStart = f+857
-		sceneEnd   = f+1410
+		sceneStart = 857
+		sceneEnd   = 1410
 		totalMoves   = 6
 		
-		move[1] = {f+1100, f+1118, UP, 88}
-		move[2] = {f+1142, f+1160, UP, 88}
-		move[3] = {f+1184, f+1202, UP, 88}
-		move[4] = {f+1234, f+1252, UP, 88}
-		move[5] = {f+1274, f+1292, UP, 89}
-		move[6] = {f+1318, f+1336, UP, 89}
+		move[1] = {1100, 1118, UP, 88}
+		move[2] = {1142, 1160, UP, 88}
+		move[3] = {1184, 1202, UP, 88}
+		move[4] = {1234, 1252, UP, 88}
+		move[5] = {1274, 1292, UP, 89}
+		move[6] = {1318, 1336, UP, 89}
 		
 	elseif thisScene == 3 then											-- scala scivolo
 	
-		sceneStart = f+1421
-		sceneEnd   = f+2148
+		sceneStart = 1421
+		sceneEnd   = 2148
 		totalMoves   = 2
 		
-	    move[1] = {f+1600, f+1618, LEFT, 90}
-		move[2] = {f+2081, f+2099, UP, 91}
+	    move[1] = {1600, 1618, LEFT, 90}
+		move[2] = {2081, 2099, UP, 91}
 	
 	elseif thisScene == 4 then											-- mostri alati
 	
-		sceneStart = f+2149
-		sceneEnd   = f+3594
+		sceneStart = 2149
+		sceneEnd   = 3594
 		totalMoves   = 6
 		
-	    move[1] = {f+2650, f+2668, BUTTON1, 92}
-		move[2] = {f+2680, f+2698, BUTTON1, 92}
-		move[3] = {f+3069, f+3087, LEFT, 93}
-		move[4] = {f+3128, f+3146, RIGHT, 93}
-		move[5] = {f+3168, f+3186, UP, 93}
-		move[6] = {f+3412, f+3430, LEFT, 94}
+	    move[1] = {2650, 2668, BUTTON1, 92}
+		move[2] = {2680, 2698, BUTTON1, 92}
+		move[3] = {3069, 3087, LEFT, 93}
+		move[4] = {3128, 3146, RIGHT, 93}
+		move[5] = {3168, 3186, UP, 93}
+		move[6] = {3412, 3430, LEFT, 94}
 		
 	elseif thisScene == 5 then											-- strega finale
 	
-		sceneStart = f+3605
-		sceneEnd   = f+6906
+		sceneStart = 3605
+		sceneEnd   = 6906
 		totalMoves   = 11
 		
-	    move[1] = {f+3763, f+3781, RIGHT, 95}
-		move[2] = {f+3803, f+3821, BUTTON1, 95}
-		move[3] = {f+4097, f+4115, LEFT, 96}
-		move[4] = {f+4122, f+4140, UP, 97}
-		move[5] = {f+4205, f+4223, RIGHT, 97}
-		move[6] = {f+4292, f+4310, LEFT, 98}
-		move[7] = {f+4406, f+4424, BUTTON1, 98}
-		move[8] = {f+4445, f+4463, BUTTON1, 98}
-		move[9] = {f+4509, f+4527, RIGHT, 97}
-		move[10] = {f+4533, f+4551, LEFT, 97}
-		move[11] = {f+4643, f+4661, BUTTON1, 97}
+	    move[1] = {3763, 3781, RIGHT, 95}
+		move[2] = {3803, 3821, BUTTON1, 95}
+		move[3] = {4097, 4115, LEFT, 96}
+		move[4] = {4122, 4140, UP, 97}
+		move[5] = {4205, 4223, RIGHT, 97}
+		move[6] = {4292, 4310, LEFT, 98}
+		move[7] = {4406, 4424, BUTTON1, 98}
+		move[8] = {4445, 4463, BUTTON1, 98}
+		move[9] = {4509, 4527, RIGHT, 97}
+		move[10] = {4533, 4551, LEFT, 97}
+		move[11] = {4643, 4661, BUTTON1, 97}
 			
 		end
 
