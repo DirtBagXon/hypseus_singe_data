@@ -80,12 +80,13 @@ If the game requires a helper _'Framework'_ sub-folder, simply copy the relevant
 **Note**: The _Kimmy_ Framework contains (_by default_) a large sub-folder of optional _SKIN_ folders, which can bloat the overall zip. You can remove optional _SKIN_ folders from the `FrameworkKimmy/Skin` folder in the zip, leaving just `DEFAULT` + any others you deem relevant.
 
 ```
-timegal.zip
+Chantze_HD.zip
 |
 ├── singe
 |   |
-|   ├── timegal
-|   |   ├── timegal.singe
+|   ├── Chantze_HD
+|   |   ├── Chantze_HD.singe
+|   |   ├── Triad_HD.singe [Optional: Secondary game startup file]
 |   |   └── *.*   [Other file and/or folder structures]
 |   |
 |   ├── Framework [Folder: As required]
