@@ -64,7 +64,7 @@ hypseus singe vldp -zlua roms/Chantze_HD.zip -usealt Triad_HD -framefile vldp/Ch
 ## Creating (or Converting) a Zip ROM game
 
 Ensure any new zip file has an internal folder structure beginning with a sub-folder called `singe`.
-* Use the standard zip _deflate_ algorithm.
+* **NOTE: You must use the standard zip _'deflate'_ algorithm for universal platform support.**
 
 Within the `singe` sub-folder place the `<game>` folder with all files **except** video `.m2v` and audio `.ogg` files.
 * No changes to any LUA should be required. It's a simple _drag'n'drop_.
