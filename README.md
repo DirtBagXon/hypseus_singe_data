@@ -1,7 +1,7 @@
 # Hypseus Singe
 ## Support for Singe 1, 2 and Hypseus fan made LUA games
 
-Hypseus Singe game demos on [Youtube](https://www.youtube.com/playlist?list=PLRLuhkf2c3OeRoXydn0upKyIBUXNMK13x)
+Hypseus Singe game demos on [Youtube](https://www.youtube.com/@DirtBagXon)
 
 #### Firstly, ensure you are running the latest version of Hypseus Singe.
 
