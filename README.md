@@ -42,28 +42,27 @@ hypseus singe vldp -zlua roms/timegal.zip -framefile vldp/timegal/timegal.txt ..
 
 ### Categorizations
 
-New `sbc` games will utilize the `Minimal` overlay switching within the `00-singe2/Framework`. Some games have been left within the `sbc` categories as they do not utilize the `Framework` and remain to allow running on the lower spec hardware. The `00-singe2-ports-gungames` being the most obvious. These games should still update LUA from the repo to ensure overlays are aligned correctly moving forward.
+Legacy ported games, which were created to run on lower powered single-board computer  
+devices, such as the _Raspberry Pi_ and _RK3328_, used minimalist overlays. These will remain  
+within the `00-singe2-ports-sbc` folder.  
 
-Categorization of currently ported games which were created to run on lower  
-powered single-board computer devices, such as the _Raspberry Pi_ and _RK3328_, used  
-minimalist overlays. These will now be part of the `00-singe2-ports-sbc` folder.  
-**Note:** This format is now deprecated in favor of the new _Minimal Overlay_ within the `00-singe2`  
-games folder.
+**Note:** This format is deprecated in favor of the new _Minimal Overlay_ within the `00-singe2`  
+games _Framework_ structure, which can now be contained in zip-rom format.
 
-A subsection of the above ports were **gun games**, used by communities such as Sinden Gun  
-owners. These also use minimalist overlays, but continue to simulate the 8bit '_American Laser  
-Games_' (_ALG_) games, from which they derive, using upscaled (_AI enhanced_) video. These will  
-be now within `00-singe2-ports-gungames`. However, many of these games are now deprecated  
-in favor of [zip rom](https://github.com/DirtBagXon/hypseus_singe_data/tree/master/00-zip-roms) versions.
+Games within `00-singe2-ports-gungames` are considered legacy.  
+The hugely improved 2 Player versions within [zip rom](https://github.com/DirtBagXon/hypseus_singe_data/tree/master/00-zip-roms) are now the maintained variants.
 
-The `00-singe1` folder will contain original Daphne era Singe games that have received updates and bugfixes..  
+The `00-singe1` folder will contain original Daphne era Singe games that have received updates and bugfixes.  
+These games now have many [zip rom](https://github.com/DirtBagXon/hypseus_singe_data/tree/master/00-zip-roms/00-Elder-Modernized-zip-rom/) counterparts.  
 
-The `00-singe2` folder contains games using the new engine with higher resolution assets and full overlays.  
+The `00-singe2` folder contains games using the new engine features with higher resolution assets and full overlays.  
+These games also have [zip rom](https://github.com/DirtBagXon/hypseus_singe_data/tree/master/00-zip-roms/00-Framework-zip-rom/) counterparts. 
 
-`00-non-qte` contains any game formats that move away from the Dragon's Lair _QTE_ format.
+`00-non-qte` identifies any games that move away from the Dragon's Lair quick time event _(QTE)_ format.
 
-`00-kimmy` contains games that were created using the newer, extended feature: _FrameworkKimmy_.  
-_Note_: Earlier _Framework_ games can be easily ported to use the new framework via the Singe header files.
+`00-kimmy` identifies games that were specifically created using the newer, extended feature: _FrameworkKimmy_.  
+**_Note_**: Earlier _Framework_ games can be easily ported to use the new framework via the Singe header files.  
+**_Note_**: These games also have [zip rom](https://github.com/DirtBagXon/hypseus_singe_data/tree/master/00-zip-roms/00-Framework-zip-rom/) counterparts. 
 
 `00-zip-roms` are detailed above.  
 
@@ -76,8 +75,8 @@ This repo does not contain Copyrighted &copy; material, purely fan made graphics
 Data in this repository has been created from several _Fan Made_ sources, including Singe, Singe 2 and original  
 creations specifically for Hypseus.
 
-You should not **need** to alter any of the peripheral data in these subdirectories. However, these \
-are customizable games. If you make improvements, please consider contributing back to the repository.
+You should not **need** to alter any of the peripheral data in these subdirectories. However, these are\
+customizable games. If you make improvements, please consider contributing back to the repository.
 
 If you are porting Singe 2 games, the **only required step** is to obtain the video files from Singe 2  
 for your required game and perform a video conversion as detailed **below** using *ffmpeg*. This can  
@@ -85,7 +84,7 @@ be performed on any PC including Windows: https://ffmpeg.org/download.html
 
 Once you have the new **.m2v** and **.ogg** video and audio files: 
 
-* Check the duration and frame numbers match ``FRAMEINFO.md`` (*see below*).
+* ``FRAMEINFO.md`` is mostly deprecated (*however see below*).
 * Move them into the relevant subdirectory from this repository.
 * Install the subdirectory into your Hypseus Singe ROM folder location.
 * Play the game.
@@ -104,10 +103,10 @@ For Singe 2 video/audio recoding follow the instructions below:
 
 ### Recoding Singe 2 mp4 video files for Hypseus Singe
 
-Singe 2 game files in this repository are based around various releases of Singe 2 games. \
-Check ``FRAMEINFO.md`` for the required video size for each game.
+Singe 2 game files in this repository are based around various releases of Singe 2 games.
 
-Always check ``FRAMEINFO.md``.
+Check ``FRAMEINFO.md`` for the required video size for each game.\
+``FRAMEINFO.md`` _is now deprecated but the following 'mediinfo' methods remain useful_.
 
 Frame information from ``mediainfo`` will be provided for the Singe 2 video files in a file called ``FRAMEINFO.md`` in each folder:
 
