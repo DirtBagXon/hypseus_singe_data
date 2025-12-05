@@ -50,13 +50,12 @@ within the `00-singe2-ports-sbc` folder.
 games _Framework_ structure, which can now be contained in zip-rom format.
 
 Games within `00-singe2-ports-gungames` are considered legacy.  
-The hugely improved 2 Player versions within [zip rom](https://github.com/DirtBagXon/hypseus_singe_data/tree/master/00-zip-roms) are now the maintained variants.
+The hugely improved 2 Player versions, within [zip rom](https://github.com/DirtBagXon/hypseus_singe_data/tree/master/00-zip-roms), are now the maintained variants.
 
 The `00-singe1` folder will contain original Daphne era Singe games that have received updates and bugfixes.  
 These games now have many [zip rom](https://github.com/DirtBagXon/hypseus_singe_data/tree/master/00-zip-roms/00-Elder-Modernized-zip-rom/) counterparts.  
 
-The `00-singe2` folder contains games using the new engine features with higher resolution assets and full overlays.  
-These games also have [zip rom](https://github.com/DirtBagXon/hypseus_singe_data/tree/master/00-zip-roms/00-Framework-zip-rom/) counterparts. 
+The `00-singe2` folder contains games using the new engine features with higher resolution assets and full overlays. These games also have [zip rom](https://github.com/DirtBagXon/hypseus_singe_data/tree/master/00-zip-roms/00-Framework-zip-rom/) counterparts. 
 
 `00-non-qte` identifies any games that move away from the Dragon's Lair quick time event _(QTE)_ format.
 
