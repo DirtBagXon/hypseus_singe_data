@@ -34,3 +34,7 @@ For an AI cleanup of `hayate` use the video from: https://youtu.be/7k5KMbzxX0o
 Replace existing `hayate.m2v` with the new video and use `.singe` _LUA_, from the `hayate` folder, in this repository.
 
 ![hayate](hayate.png)
+
+An enhanced version of `hayate` video has now been created by _Video Juegos Clasicos (HVG)_:
+
+![HVG](hvg.png)
