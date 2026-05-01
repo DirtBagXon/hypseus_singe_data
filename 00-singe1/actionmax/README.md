@@ -2,8 +2,6 @@
 
 ## ActionMax install for RetroPie
 
-Ensure you have setup [singe](https://github.com/DirtBagXon/hypseus-singe/blob/master/src/3rdparty/retropie/RETROPIE.md) or [actionmax](https://github.com/DirtBagXon/actionmax-pi/blob/main/README.md)
-
 Obtain ActionMax from: [Archive.org](https://archive.org/details/singev1-actionmax)  
 
 Using the multigame _ZipROM_ with `-usealt` is now the preferred method of setup, the below instructions are now legacy: 
