@@ -6,6 +6,8 @@ Ensure you have setup [singe](https://github.com/DirtBagXon/hypseus-singe/blob/m
 
 Obtain ActionMax from: [Archive.org](https://archive.org/details/singev1-actionmax)  
 
+Using the multigame _ZipROM_ with `-usealt` is now the preferred method of setup, the below instructions are now legacy: 
+
 Place the `actionmax` folder as `~/RetroPie/roms/daphne/actionmax` <sub>_- (**Note:** no .daphne extension)_</sub>  
 
 Within your rom folders, symlink actionmax folders:  
@@ -24,25 +26,4 @@ Enjoy **VHS** fun
 
 ## Current ActionMax Status (SDL2)
 
-These games read specific pixels from the YUV/YV12 video overlay in an SDL_Texture.
-
-Reading information from SDL_Textures is problematic as it is contained in GPU memory.
-
-This can be achieved using SetRenderTarget and RenderReadPixels but is a 'slow' _read()_ call.  
-
-<strike>Currently SDL2 on _arm64/armhf_ Linux for the Raspberry Pi doesn't support this action.</strike>
-
-ActionMax works as expected on _x86_64/i386_ Linux and with the **SDL 2.0.16** library on Windows..
-
-As of **SDL 2.0.20** ActionMax games have been confirmed as working on a Raspberry Pi4 (_aarch64_). However there is a regression bug that causes high CPU utilisation. There is therfore now an alternate **ActionMax** emulator, based around **_Singe SDL1.2_**, this can be used on SBC's that are experiencing resource exhaustion due to the **SDL2** regression bug.
-
-Use the '_actionmax_' emulator on **ActionMax** specific ROM entries in RetroPie, or other distribution, in Emulation Station:
-
-The emulator repo is here: https://github.com/DirtBagXon/actionmax-pi
-
-As _YUV_ was better supported in **_SDL1_**, the performance hit on conversion is not experienced.
-
-
-
-
-
+All SDL issues have been resolved in Hypseus version `2.12.0`

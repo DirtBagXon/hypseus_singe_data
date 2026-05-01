@@ -21,7 +21,7 @@ https://download-directory.github.io/
 
 Paste the relevant repo _folder_ URL into the tool, it will allow you to download just that _folder_ content, as a zip.
 
-# Version 2.11.x
+# Version 2.11+
 
 From version **2.11.2**, Hypseus Singe supports zipped LUA _(zlua)_ ROMS.  
 From version **2.11.3**, Hypseus Singe supports multi-game zipped ROMS with `-usealt`  
