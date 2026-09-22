@@ -1562,7 +1562,7 @@ function doIntro()     -- Process attract mode
 			p1BUTTON3 = false
 			p1UP = false
 			p1RIGHT = false
-				
+
 			bExtendedPlay = true
 			startGame()
 			bShowCredits = false
@@ -1618,7 +1618,7 @@ function doIntro()     -- Process attract mode
 			p1BUTTON3 = false
 			p1UP = false
 			p1RIGHT = false
-				
+
 			bExtendedPlay = true
 			startGame()
 			bShowCredits = false
@@ -1651,7 +1651,7 @@ function doIntro()     -- Process attract mode
 			p1BUTTON3 = false
 			p1UP = false
 			p1RIGHT = false
-				
+
 			bExtendedPlay = true
 			startGame()
 			bShowCredits = false
@@ -1684,15 +1684,15 @@ function doIntro()     -- Process attract mode
 			p1BUTTON3 = false
 			p1UP = false
 			p1RIGHT = false
-				
+
 			bExtendedPlay = true
 			startGame()
 			bShowCredits = false
-	
+
 		end	
-		
+
 	elseif (lvlState == branch07) then     -- Show Trophy LB
-		
+
 		if timerDue() or p1BUTTON1 then	
 
 			p1BUTTON1 = false
@@ -1708,10 +1708,11 @@ function doIntro()     -- Process attract mode
 			lvlState = branch08
 
 		else
-				
+
 			drawTrophy()		
-		
+
 		end
+
 
 	elseif (lvlState == branch08) then     -- Show Title
 		
@@ -2591,6 +2592,7 @@ function doLevel()     -- Big process for level play
 	elseif (lvlState == lvlPlayRest) then   -- Game in between moves
 
 		bPlayRight = true
+		iDeath = nil
 		
 		if (currentMove < totalMoves) then	bCheckMove = true end
 		
@@ -3157,7 +3159,7 @@ function doLevel()     -- Big process for level play
 
 						if iPath > 1000 then 
 							
-							move[currentMove][moveDeath] = iPath - 1000
+							iDeath = iPath - 1000
 							bShowAction = false	
 							iPath = 0
 							lvlState = branch02	 -- Hints	(or setupDeathClip)		
@@ -3178,7 +3180,7 @@ function doLevel()     -- Big process for level play
 
 						if iPath > 1000 then 
 							
-							move[currentMove][moveDeath] = iPath - 1000
+							iDeath = iPath - 1000
 							bShowAction = false	
 							iPath = 0
 							lvlState = branch02	 -- Hints	(or setupDeathClip)		
@@ -3218,7 +3220,7 @@ function doLevel()     -- Big process for level play
 
 						if iPath > 1000 then 
 							
-							move[currentMove][moveDeath] = iPath - 1000
+							iDeath = iPath - 1000
 							bShowAction = false	
 							iPath = 0
 							lvlState = branch02	 -- Hints	(or setupDeathClip)		
@@ -3257,7 +3259,7 @@ function doLevel()     -- Big process for level play
 
 						if iPath > 1000 then 
 							
-							move[currentMove][moveDeath] = iPath - 1000
+							iDeath = iPath - 1000
 							bShowAction = false	
 							iPath = 0
 							lvlState = branch02	 -- Hints	(or setupDeathClip)		
@@ -3303,7 +3305,7 @@ function doLevel()     -- Big process for level play
 
 						if iPath > 1000 then 
 
-							move[currentMove][moveDeath] = iPath - 1000
+							iDeath = iPath - 1000
 							bShowAction = false	
 							iPath = 0
 							lvlState = branch02	 -- Hints	(or setupDeathClip)		
@@ -3330,7 +3332,7 @@ function doLevel()     -- Big process for level play
 
 					if iPath > 1000 then 
 						
-						move[currentMove][moveDeath] = iPath - 1000
+						iDeath = iPath - 1000
 						bShowAction = false	
 						iPath = 0
 						lvlState = branch02	 -- Hints	(or setupDeathClip)		
@@ -6257,7 +6259,15 @@ function setupDeathClip(playerMove)      -- Play the clip for each death (with m
 
 	local q
 	local bPlayBuzzer = true 
-	local curDeath = move[currentMove][moveDeath]									
+	local curDeath = iDeath
+
+	bBranchDeath = iDeath ~= nil
+
+	if curDeath == nil then
+		curDeath = move[currentMove][moveDeath]
+	end
+
+	iDeath = nil
 	
 	if swapDeath ~= nil then swapDeath() end
 	
@@ -6320,8 +6330,8 @@ function setupDeathClip(playerMove)      -- Play the clip for each death (with m
 			end
 
 		end
-		
-		if move[currentMove][moveDeath] == 0 then -- 0 = random death
+
+		if not bBranchDeath and move[currentMove][moveDeath] == 0 then -- 0 = random death
 
 			q = math.random(totalDeath)
 			curDeath = q

@@ -18,7 +18,7 @@ This file is part of LUA SINGE ENGINE.
 
 ]]--
 
-dofile(BASEDIR .. "/Framework/framework.singe")		
+dofile(BASEDIR .. "/Framework/framework.singe")
 dofile(BASEDIR .. "/Framework/main.singe")
 dofile(BASEDIR .. "/Framework/hscore.singe")
 dofile(BASEDIR .. "/Framework/service.singe")
@@ -397,6 +397,9 @@ OUT = 1000
 sLCD = ""
 iLCDline = 1; iLCDpointer = 1; iLCDx = 0; iLCDwait = 0.250
 bShowLCD = true
+
+iDeath = nil
+bBranchDeath = false
 
 choice = nil 
 optorder = nil
